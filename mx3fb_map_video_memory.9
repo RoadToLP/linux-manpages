@@ -1,0 +1,22 @@
+.TH "mx3fb_map_video_memory" 9 "mx3fb_map_video_memory" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mx3fb_map_video_memory \- allocates the DRAM memory for the frame buffer.
+.SH SYNOPSIS
+.B "int" mx3fb_map_video_memory
+.BI "(struct fb_info *fbi "  ","
+.BI "unsigned int mem_len "  ","
+.BI "bool lock "  ");"
+.SH ARGUMENTS
+.IP "fbi" 12
+framebuffer information pointer
+.IP "mem_len" 12
+length of mapped memory
+.IP "lock" 12
+do not lock during initialisation
+.SH "RETURN"
+Error code indicating success or failure
+.SH "DESCRIPTION"
+This buffer is remapped into a non-cached, non-buffered, memory region to
+allow palette and pixel writes to occur without flushing the cache. Once this
+area is remapped, all virtual memory access to the video memory should occur
+at the new region.

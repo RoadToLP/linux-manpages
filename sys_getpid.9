@@ -1,0 +1,16 @@
+.TH "sys_getpid" 9 "sys_getpid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_getpid \- return the thread group id of the current process
+.SH SYNOPSIS
+.B "long" sys_getpid
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Note, despite the name, this returns the tgid not the pid.  The tgid and
+the pid are identical unless CLONE_THREAD was specified on \fBclone\fP in
+which case the tgid is the same in all threads of the same group.
+
+This is SMP safe as current->tgid does not change.

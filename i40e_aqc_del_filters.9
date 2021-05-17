@@ -1,0 +1,26 @@
+.TH "i40e_aqc_del_filters" 9 "i40e_aqc_del_filters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_aqc_del_filters \- Request firmware to delete a set of filters
+.SH SYNOPSIS
+.B "void" i40e_aqc_del_filters
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "const char *vsi_name "  ","
+.BI "struct i40e_aqc_remove_macvlan_element_data *list "  ","
+.BI "int num_del "  ","
+.BI "int *retval "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+ptr to the VSI
+.IP "vsi_name" 12
+name to display in messages
+.IP "list" 12
+the list of filters to send to firmware
+.IP "num_del" 12
+the number of filters to delete
+.IP "retval" 12
+Set to -EIO on failure to delete
+.SH "DESCRIPTION"
+Send a request to firmware via AdminQ to delete a set of filters. Uses
+*retval instead of a return value so that success does not force ret_val to
+be set to 0. This ensures that a sequence of calls to this function
+preserve the previous value of *retval on successful delete.

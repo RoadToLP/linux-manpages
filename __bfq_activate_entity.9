@@ -1,0 +1,19 @@
+.TH "__bfq_activate_entity" 9 "__bfq_activate_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bfq_activate_entity \- handle activation of entity.
+.SH SYNOPSIS
+.B "void" __bfq_activate_entity
+.BI "(struct bfq_entity *entity "  ","
+.BI "bool non_blocking_wait_rq "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+the entity being activated.
+.IP "non_blocking_wait_rq" 12
+true if entity was waiting for a request
+.SH "DESCRIPTION"
+Called for a 'true' activation, i.e., if entity is not active and
+one of its children receives a new request.
+
+Basically, this function updates the timestamps of entity and
+inserts entity into its active tree, after possibly extracting it
+from its idle tree.

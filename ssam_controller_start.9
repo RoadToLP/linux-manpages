@@ -1,0 +1,16 @@
+.TH "ssam_controller_start" 9 "ssam_controller_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_controller_start \- Start the receiver and transmitter threads of the controller.
+.SH SYNOPSIS
+.B "int" ssam_controller_start
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller.
+.SH "NOTE"
+When this function is called, the controller should be properly
+hooked up to the serdev core via \fIstruct serdev_device_ops\fP. Please refer
+to \fBssam_controller_init\fP for more details on controller initialization.
+.SH "DESCRIPTION"
+This function must be called with the main controller lock held (i.e. by
+calling \fBssam_controller_lock\fP).

@@ -1,0 +1,40 @@
+.TH "drm_plane_create_zpos_property" 9 "drm_plane_create_zpos_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_plane_create_zpos_property \- create mutable zpos property
+.SH SYNOPSIS
+.B "int" drm_plane_create_zpos_property
+.BI "(struct drm_plane *plane "  ","
+.BI "unsigned int zpos "  ","
+.BI "unsigned int min "  ","
+.BI "unsigned int max "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+drm plane
+.IP "zpos" 12
+initial value of zpos property
+.IP "min" 12
+minimal possible value of zpos property
+.IP "max" 12
+maximal possible value of zpos property
+.SH "DESCRIPTION"
+This function initializes generic mutable zpos property and enables support
+for it in drm core. Drivers can then attach this property to planes to enable
+support for configurable planes arrangement during blending operation.
+Drivers that attach a mutable zpos property to any plane should call the
+\fBdrm_atomic_normalize_zpos\fP helper during their implementation of
+\fIdrm_mode_config_funcs\fP.\fBatomic_check\fP, which will update the normalized zpos
+values and store them in \fIdrm_plane_state.normalized_zpos\fP. Usually min
+should be set to 0 and max to maximal number of planes for given crtc - 1.
+
+If zpos of some planes cannot be changed (like fixed background or
+cursor/topmost planes), drivers shall adjust the min/max values and assign
+those planes immutable zpos properties with lower or higher values (for more
+information, see \fBdrm_plane_create_zpos_immutable_property\fP function). In such
+case drivers shall also assign proper initial zpos values for all planes in
+its \fBplane_reset\fP callback, so the planes will be always sorted properly.
+
+See also \fBdrm_atomic_normalize_zpos\fP.
+
+The property exposed to userspace is called "zpos".
+.SH "RETURN"
+Zero on success, negative errno on failure.

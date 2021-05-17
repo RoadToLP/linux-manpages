@@ -1,0 +1,25 @@
+.TH "sdio_set_block_size" 9 "sdio_set_block_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_set_block_size \- set the block size of an SDIO function
+.SH SYNOPSIS
+.B "int" sdio_set_block_size
+.BI "(struct sdio_func *func "  ","
+.BI "unsigned blksz "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function to change
+.IP "blksz" 12
+new block size or 0 to use the default.
+
+The default block size is the largest supported by both the function
+and the host, with a maximum of 512 to ensure that arbitrarily sized
+data transfer use the optimal (least) number of commands.
+
+A driver may call this to override the default block size set by the
+core. This can be used to set a block size greater than the maximum
+that reported by the card; it is the driver's responsibility to ensure
+it uses a value that the card supports.
+
+Returns 0 on success, -EINVAL if the host does not support the
+requested block size, or -EIO (etc.) if one of the resultant FBR block
+size register writes failed.

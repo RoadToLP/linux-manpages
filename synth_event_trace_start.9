@@ -1,0 +1,35 @@
+.TH "synth_event_trace_start" 9 "synth_event_trace_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_trace_start \- Start piecewise synthetic event trace
+.SH SYNOPSIS
+.B "int" synth_event_trace_start
+.BI "(struct trace_event_file *file "  ","
+.BI "struct synth_event_trace_state *trace_state "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace_event_file representing the synthetic event
+.IP "trace_state" 12
+A pointer to object tracking the piecewise trace state
+.SH "DESCRIPTION"
+Start the trace of a synthetic event field-by-field rather than all
+at once.
+
+This function 'opens' an event trace, which means space is reserved
+for the event in the trace buffer, after which the event's
+individual field values can be set through either
+\fBsynth_event_add_next_val\fP or \fBsynth_event_add_val\fP.
+
+A pointer to a trace_state object is passed in, which will keep
+track of the current event trace state until the event trace is
+closed (and the event finally traced) using
+\fBsynth_event_trace_end\fP.
+
+Note that \fBsynth_event_trace_end\fP must be called after all values
+have been added for each event trace, regardless of whether adding
+all field values succeeded or not.
+
+Note also that for a given event trace, all fields must be added
+using either \fBsynth_event_add_next_val\fP or \fBsynth_event_add_val\fP
+but not both together or interleaved.
+.SH "RETURN"
+0 on success, err otherwise.

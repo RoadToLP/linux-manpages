@@ -1,0 +1,20 @@
+.TH "request_firmware_direct" 9 "request_firmware_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_firmware_direct \- load firmware directly without usermode helper
+.SH SYNOPSIS
+.B "int" request_firmware_direct
+.BI "(const struct firmware **firmware_p "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ");"
+.SH ARGUMENTS
+.IP "firmware_p" 12
+pointer to firmware image
+.IP "name" 12
+name of firmware file
+.IP "device" 12
+device for which firmware is being loaded
+.SH "DESCRIPTION"
+This function works pretty much like \fBrequest_firmware\fP, but this doesn't
+fall back to usermode helper even if the firmware couldn't be loaded
+directly from fs.  Hence it's useful for loading optional firmwares, which
+aren't always present, without extra long timeouts of udev.

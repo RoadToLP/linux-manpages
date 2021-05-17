@@ -1,0 +1,36 @@
+.TH "dwc2_hc_halt" 9 "dwc2_hc_halt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hc_halt \- Attempts to halt a host channel
+.SH SYNOPSIS
+.B "void" dwc2_hc_halt
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ","
+.BI "enum dwc2_halt_status halt_status "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Controller register interface
+.IP "chan" 12
+Host channel to halt
+.IP "halt_status" 12
+Reason for halting the channel
+.SH "DESCRIPTION"
+This function should only be called in Slave mode or to abort a transfer in
+either Slave mode or DMA mode. Under normal circumstances in DMA mode, the
+controller halts the channel when the transfer is complete or a condition
+occurs that requires application intervention.
+
+In slave mode, checks for a free request queue entry, then sets the Channel
+Enable and Channel Disable bits of the Host Channel Characteristics
+register of the specified channel to intiate the halt. If there is no free
+request queue entry, sets only the Channel Disable bit of the HCCHARn
+register to flush requests for this channel. In the latter case, sets a
+flag to indicate that the host channel needs to be halted when a request
+queue slot is open.
+
+In DMA mode, always sets the Channel Enable and Channel Disable bits of the
+HCCHARn register. The controller ensures there is space in the request
+queue before submitting the halt request.
+
+Some time may elapse before the core flushes any posted requests for this
+host channel and halts. The Channel Halted interrupt handler completes the
+deactivation of the host channel.

@@ -1,0 +1,18 @@
+.TH "__labelset_update" 9 "__labelset_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__labelset_update \- update labels in @ns
+.SH SYNOPSIS
+.B "void" __labelset_update
+.BI "(struct aa_ns *ns "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+namespace to update labels in  (NOT NULL)
+.SH "DESCRIPTION"
+Requires: \fIns\fP lock be held
+
+Walk the labelset ensuring that all labels are up to date and valid
+Any label that has a stale component is marked stale and replaced and
+by an updated version.
+
+If failures happen due to memory pressures then stale labels will
+be left in place until the next pass.

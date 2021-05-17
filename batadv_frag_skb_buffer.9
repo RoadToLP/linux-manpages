@@ -1,0 +1,21 @@
+.TH "batadv_frag_skb_buffer" 9 "batadv_frag_skb_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_frag_skb_buffer \- buffer fragment for later merge
+.SH SYNOPSIS
+.B "bool" batadv_frag_skb_buffer
+.BI "(struct sk_buff **skb "  ","
+.BI "struct batadv_orig_node *orig_node_src "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb to buffer
+.IP "orig_node_src" 12
+originator that the skb is received from
+.SH "DESCRIPTION"
+Add fragment to buffer and merge fragments if possible.
+
+There are three possible outcomes: 1) Packet is merged: Return true and
+set *skb to merged packet; 2) Packet is buffered: Return true and set *skb
+to NULL; 3) Error: Return false and free skb.
+.SH "RETURN"
+true when the packet is merged or buffered, false when skb is not
+used.

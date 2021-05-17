@@ -1,0 +1,24 @@
+.TH "kvm_vz_badvaddr_to_gpa" 9 "kvm_vz_badvaddr_to_gpa" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_vz_badvaddr_to_gpa \- Convert GVA BadVAddr from root exception to GPA.
+.SH SYNOPSIS
+.B "int" kvm_vz_badvaddr_to_gpa
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned long badvaddr "  ","
+.BI "unsigned long *gpa "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+KVM VCPU state.
+.IP "badvaddr" 12
+Root BadVAddr.
+.IP "gpa" 12
+Output guest physical address.
+.SH "DESCRIPTION"
+VZ implementations are permitted to report guest virtual addresses (GVA) in
+BadVAddr on a root exception during guest execution, instead of the more
+convenient guest physical addresses (GPA). When we get a GVA, this function
+converts it to a GPA, taking into account guest segmentation and guest TLB
+state.
+.SH "RETURN"
+0 on success.
+-errno on failure.

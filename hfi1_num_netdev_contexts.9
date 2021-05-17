@@ -1,0 +1,21 @@
+.TH "hfi1_num_netdev_contexts" 9 "hfi1_num_netdev_contexts" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_num_netdev_contexts \- Count of netdev recv contexts to use.
+.SH SYNOPSIS
+.B "u32" hfi1_num_netdev_contexts
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "u32 available_contexts "  ","
+.BI "struct cpumask *cpu_mask "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+device on which to allocate netdev contexts
+.IP "available_contexts" 12
+count of available receive contexts
+.IP "cpu_mask" 12
+mask of possible cpus to include for contexts
+.SH "RETURN"
+count of physical cores on a node or the remaining available recv
+contexts for netdev recv context usage up to the maximum of
+HFI1_MAX_NETDEV_CTXTS.
+A value of 0 can be returned when acceleration is explicitly turned off,
+a memory allocation error occurs or when there are no available contexts.

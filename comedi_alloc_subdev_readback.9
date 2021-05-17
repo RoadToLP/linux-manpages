@@ -1,0 +1,23 @@
+.TH "comedi_alloc_subdev_readback" 9 "comedi_alloc_subdev_readback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_alloc_subdev_readback \- Allocate memory for the subdevice readback
+.SH SYNOPSIS
+.B "int" comedi_alloc_subdev_readback
+.BI "(struct comedi_subdevice *s "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.SH "DESCRIPTION"
+This is called by low-level COMEDI drivers to allocate an array to record
+the last values written to a subdevice's analog output channels (at least
+by the INSN_WRITE instruction), to allow them to be read back by an
+INSN_READ instruction.  It also provides a default handler for the
+INSN_READ instruction unless one has already been set.
+
+On success, \fIs->readback\fP points to the first element of the array, which
+is zero-filled.  The low-level driver is responsible for updating its
+contents.  \fIs->insn_read\fP will be set to \fBcomedi_readback_insn_read\fP
+unless it is already non-NULL.
+
+Returns 0 on success, -EINVAL if the subdevice has no channels, or
+-ENOMEM on allocation failure.

@@ -1,0 +1,27 @@
+.TH "nilfs_ioctl_free_vblocknrs" 9 "nilfs_ioctl_free_vblocknrs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_free_vblocknrs \- free virtual block numbers
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_free_vblocknrs
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct nilfs_argv *argv "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "argv" 12
+vector of arguments from userspace
+.IP "buf" 12
+array of virtual block numbers
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_free_vblocknrs\fP function frees
+the virtual block numbers specified by \fIbuf\fP and \fIargv->v_nmembs\fP.
+
+Return Value: Number of processed virtual block numbers or
+error code, otherwise.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOENT - The virtual block number have not been allocated.

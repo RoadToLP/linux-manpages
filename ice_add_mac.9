@@ -1,0 +1,18 @@
+.TH "ice_add_mac" 9 "ice_add_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_mac \- Add a MAC address based filter rule
+.SH SYNOPSIS
+.B "enum ice_status" ice_add_mac
+.BI "(struct ice_hw *hw "  ","
+.BI "struct list_head *m_list "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "m_list" 12
+list of MAC addresses and forwarding information
+.SH "DESCRIPTION"
+IMPORTANT: When the ucast_shared flag is set to false and m_list has
+multiple unicast addresses, the function assumes that all the
+addresses are unique in a given add_mac call. It doesn't
+check for duplicates in this case, removing duplicates from a given
+list should be taken care of in the caller of this function.

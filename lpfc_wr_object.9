@@ -1,0 +1,30 @@
+.TH "lpfc_wr_object" 9 "lpfc_wr_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_wr_object \- write an object to the firmware
+.SH SYNOPSIS
+.B "int" lpfc_wr_object
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct list_head *dmabuf_list "  ","
+.BI "uint32_t size "  ","
+.BI "uint32_t *offset "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "dmabuf_list" 12
+list of dmabufs to write to the port.
+.IP "size" 12
+the total byte value of the objects to write to the port.
+.IP "offset" 12
+the current offset to be used to start the transfer.
+.SH "DESCRIPTION"
+This routine will create a wr_object mailbox command to send to the port.
+the mailbox command will be constructed using the dma buffers described in
+\fIdmabuf_list\fP to create a list of BDEs. This routine will fill in as many
+BDEs that the imbedded mailbox can support. The \fIoffset\fP variable will be
+used to indicate the starting offset of the transfer and will also return
+the offset after the write object mailbox has completed. \fIsize\fP is used to
+determine the end of the object and whether the eof bit should be set.
+
+Return 0 is successful and offset will contain the the new offset to use
+for the next write.
+Return negative value for error cases.

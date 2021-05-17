@@ -1,0 +1,23 @@
+.TH "audit_log_n_untrustedstring" 9 "audit_log_n_untrustedstring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_log_n_untrustedstring \- log a string that may contain random characters
+.SH SYNOPSIS
+.B "void" audit_log_n_untrustedstring
+.BI "(struct audit_buffer *ab "  ","
+.BI "const char *string "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "ab" 12
+audit_buffer
+.IP "string" 12
+string to be logged
+.IP "len" 12
+length of string (not including trailing null)
+.SH "DESCRIPTION"
+This code will escape a string that is passed to it if the string
+contains a control character, unprintable character, double quote mark,
+or a space. Unescaped strings will start and end with a double quote mark.
+Strings that are escaped are printed in hex (2 digits per char).
+
+The caller specifies the number of characters in the string to log, which may
+or may not be the entire string.

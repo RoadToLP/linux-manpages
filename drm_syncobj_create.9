@@ -1,0 +1,21 @@
+.TH "drm_syncobj_create" 9 "drm_syncobj_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_syncobj_create \- create a new syncobj
+.SH SYNOPSIS
+.B "int" drm_syncobj_create
+.BI "(struct drm_syncobj **out_syncobj "  ","
+.BI "uint32_t flags "  ","
+.BI "struct dma_fence *fence "  ");"
+.SH ARGUMENTS
+.IP "out_syncobj" 12
+returned syncobj
+.IP "flags" 12
+DRM_SYNCOBJ_* flags
+.IP "fence" 12
+if non-NULL, the syncobj will represent this fence
+.SH "DESCRIPTION"
+This is the first function to create a sync object. After creating, drivers
+probably want to make it available to userspace, either through
+\fBdrm_syncobj_get_handle\fP or \fBdrm_syncobj_get_fd\fP.
+
+Returns 0 on success or a negative error value on failure.

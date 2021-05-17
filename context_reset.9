@@ -1,0 +1,18 @@
+.TH "context_reset" 9 "context_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+context_reset \- reset context via specified register
+.SH SYNOPSIS
+.B "int" context_reset
+.BI "(struct hwq *hwq "  ","
+.BI "__be64 __iomem *reset_reg "  ");"
+.SH ARGUMENTS
+.IP "hwq" 12
+Hardware queue owning the context to be reset.
+.IP "reset_reg" 12
+MMIO register to perform reset.
+.SH "DESCRIPTION"
+When the reset is successful, the SISLite specification guarantees that
+the AFU has aborted all currently pending I/O. Accordingly, these commands
+must be flushed.
+.SH "RETURN"
+0 on success, -errno on failure

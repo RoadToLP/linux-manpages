@@ -1,0 +1,27 @@
+.TH "cgroup_migrate" 9 "cgroup_migrate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_migrate \- migrate a process or task to a cgroup
+.SH SYNOPSIS
+.B "int" cgroup_migrate
+.BI "(struct task_struct *leader "  ","
+.BI "bool threadgroup "  ","
+.BI "struct cgroup_mgctx *mgctx "  ");"
+.SH ARGUMENTS
+.IP "leader" 12
+the leader of the process or the task to migrate
+.IP "threadgroup" 12
+whether \fIleader\fP points to the whole process or a single task
+.IP "mgctx" 12
+migration context
+.SH "DESCRIPTION"
+Migrate a process or task denoted by \fIleader\fP.  If migrating a process,
+the caller must be holding cgroup_threadgroup_rwsem.  The caller is also
+responsible for invoking \fBcgroup_migrate_add_src\fP and
+\fBcgroup_migrate_prepare_dst\fP on the targets before invoking this
+function and following up with \fBcgroup_migrate_finish\fP.
+
+As long as a controller's ->\fBcan_attach\fP doesn't fail, this function is
+guaranteed to succeed.  This means that, excluding ->\fBcan_attach\fP
+failure, when migrating multiple targets, the success or failure can be
+decided for all targets by invoking \fBgroup_migrate_prepare_dst\fP before
+actually starting migrating.

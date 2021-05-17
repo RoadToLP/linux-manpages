@@ -1,0 +1,22 @@
+.TH "is_aligned" 9 "is_aligned" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_aligned \- is this pointer & size okay for word-wide copying?
+.SH SYNOPSIS
+.B "__attribute_const__ __always_inline static bool" is_aligned
+.BI "(const void *base "  ","
+.BI "size_t size "  ","
+.BI "unsigned char align "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+pointer to data
+.IP "size" 12
+size of each element
+.IP "align" 12
+required alignment (typically 4 or 8)
+.SH "DESCRIPTION"
+Returns true if elements can be copied using word loads and stores.
+The size must be a multiple of the alignment, and the base address must
+be if we do not have CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS.
+
+For some reason, gcc doesn't know to optimize "if (a & mask || b & mask)"
+to "if ((a | b) & mask)", so we do that by hand.

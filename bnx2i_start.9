@@ -1,0 +1,17 @@
+.TH "bnx2i_start" 9 "bnx2i_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_start \- cnic callback to initialize & start adapter instance
+.SH SYNOPSIS
+.B "void" bnx2i_start
+.BI "(void *handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+transparent handle pointing to adapter structure
+.SH "DESCRIPTION"
+This function maps adapter structure to pcidev structure and initiates
+firmware handshake to enable/initialize on chip iscsi components
+This bnx2i - cnic interface api callback is issued after following
+2 conditions are met -
+a) underlying network interface is up (marked by event 'NETDEV_UP'
+from netdev
+b) bnx2i adapter instance is registered

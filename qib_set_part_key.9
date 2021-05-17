@@ -1,0 +1,23 @@
+.TH "qib_set_part_key" 9 "qib_set_part_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_set_part_key \- set a partition key
+.SH SYNOPSIS
+.B "int" qib_set_part_key
+.BI "(struct qib_ctxtdata *rcd "  ","
+.BI "u16 key "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the context
+.IP "key" 12
+the key
+.SH "DESCRIPTION"
+We can have up to 4 active at a time (other than the default, which is
+always allowed).  This is somewhat tricky, since multiple contexts may set
+the same key, so we reference count them, and clean up at exit.  All 4
+partition keys are packed into a single qlogic_ib register.  It's an
+error for a process to set the same pkey multiple times.  We provide no
+mechanism to de-allocate a pkey at this time, we may eventually need to
+do that.  I've used the atomic operations, and no locking, and only make
+a single pass through what's available.  This should be more than
+adequate for some time. I'll think about spinlocks or the like if and as
+it's necessary.

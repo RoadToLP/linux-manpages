@@ -1,0 +1,28 @@
+.TH "proc_dointvec_jiffies" 9 "proc_dointvec_jiffies" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_dointvec_jiffies \- read a vector of integers as seconds
+.SH SYNOPSIS
+.B "int" proc_dointvec_jiffies
+.BI "(struct ctl_table *table "  ","
+.BI "int write "  ","
+.BI "void *buffer "  ","
+.BI "size_t *lenp "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+the sysctl table
+.IP "write" 12
+TRUE if this is a write to the sysctl file
+.IP "buffer" 12
+the user buffer
+.IP "lenp" 12
+the size of the user buffer
+.IP "ppos" 12
+file position
+.SH "DESCRIPTION"
+Reads/writes up to table->maxlen/sizeof(unsigned int) integer
+values from/to the user buffer, treated as an ASCII string. 
+The values read are assumed to be in seconds, and are converted into
+jiffies.
+
+Returns 0 on success.

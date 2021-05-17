@@ -1,0 +1,31 @@
+.TH "usb_interface_id" 9 "usb_interface_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_interface_id \- allocate an unused interface ID
+.SH SYNOPSIS
+.B "int" usb_interface_id
+.BI "(struct usb_configuration *config "  ","
+.BI "struct usb_function *function "  ");"
+.SH ARGUMENTS
+.IP "config" 12
+configuration associated with the interface
+.IP "function" 12
+function handling the interface
+.SH "CONTEXT"
+single threaded during gadget setup
+.SH "DESCRIPTION"
+\fBusb_interface_id\fP is called from usb_function.\fBbind\fP callbacks to
+allocate new interface IDs.  The function driver will then store that
+ID in interface, association, CDC union, and other descriptors.  It
+will also handle any control requests targeted at that interface,
+particularly changing its altsetting via \fBset_alt\fP.  There may
+also be class-specific or vendor-specific requests to handle.
+
+All interface identifier should be allocated using this routine, to
+ensure that for example different functions don't wrongly assign
+different meanings to the same identifier.  Note that since interface
+identifiers are configuration-specific, functions used in more than
+one configuration (or more than once in a given configuration) need
+multiple versions of the relevant descriptors.
+
+Returns the interface ID which was allocated; or -ENODEV if no
+more interface IDs can be allocated.

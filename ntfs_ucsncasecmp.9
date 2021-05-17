@@ -1,0 +1,31 @@
+.TH "ntfs_ucsncasecmp" 9 "ntfs_ucsncasecmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_ucsncasecmp \- compare two little endian Unicode strings, ignoring case
+.SH SYNOPSIS
+.B "int" ntfs_ucsncasecmp
+.BI "(const ntfschar *s1 "  ","
+.BI "const ntfschar *s2 "  ","
+.BI "size_t n "  ","
+.BI "const ntfschar *upcase "  ","
+.BI "const u32 upcase_size "  ");"
+.SH ARGUMENTS
+.IP "s1" 12
+first string
+.IP "s2" 12
+second string
+.IP "n" 12
+maximum unicode characters to compare
+.IP "upcase" 12
+upcase table
+.IP "upcase_size" 12
+upcase table size in Unicode characters
+.SH "DESCRIPTION"
+Compare the first \fIn\fP characters of the Unicode strings \fIs1\fP and \fIs2\fP,
+ignoring case. The strings in little endian format and appropriate
+\fBle16_to_cpu\fP conversion is performed on non-little endian machines.
+
+Each character is uppercased using the \fIupcase\fP table before the comparison.
+
+The function returns an integer less than, equal to, or greater than zero
+if \fIs1\fP (or the first \fIn\fP Unicode characters thereof) is found, respectively,
+to be less than, to match, or be greater than \fIs2\fP.

@@ -1,0 +1,33 @@
+.TH "posix_acl_update_mode" 9 "posix_acl_update_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+posix_acl_update_mode \- update mode in set_acl
+.SH SYNOPSIS
+.B "int" posix_acl_update_mode
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "umode_t *mode_p "  ","
+.BI "struct posix_acl **acl "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount \fIinode\fP was found from
+.IP "inode" 12
+target inode
+.IP "mode_p" 12
+mode (pointer) for update
+.IP "acl" 12
+acl pointer
+.SH "DESCRIPTION"
+Update the file mode when setting an ACL: compute the new file permission
+bits based on the ACL.  In addition, if the ACL is equivalent to the new
+file mode, set *\fIacl\fP to NULL to indicate that no ACL should be set.
+
+As with chmod, clear the setgid bit if the caller is not in the owning group
+or capable of CAP_FSETID (see inode_change_ok).
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.
+
+Called from set_acl inode operations.

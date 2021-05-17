@@ -1,0 +1,17 @@
+.TH "stm32f4_adc_start_conv" 9 "stm32f4_adc_start_conv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32f4_adc_start_conv \- Start conversions for regular channels.
+.SH SYNOPSIS
+.B "void" stm32f4_adc_start_conv
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "bool dma "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device instance
+.IP "dma" 12
+use dma to transfer conversion result
+.SH "DESCRIPTION"
+Start conversions for regular channels.
+Also take care of normal or DMA mode. Circular DMA may be used for regular
+conversions, in IIO buffer modes. Otherwise, use ADC interrupt with direct
+DR read instead (e.g. read_raw, or triggered buffer mode without DMA).

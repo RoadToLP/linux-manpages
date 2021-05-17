@@ -1,0 +1,20 @@
+.TH "megasas_alloc_cmds_fusion" 9 "megasas_alloc_cmds_fusion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_alloc_cmds_fusion \- Allocates the command packets
+.SH SYNOPSIS
+.B "int" megasas_alloc_cmds_fusion
+.BI "(struct megasas_instance *instance "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Adapter soft state
+.SH "DESCRIPTION"
+Each frame has a 32-bit field called context. This context is used to get
+back the megasas_cmd_fusion from the frame when a frame gets completed
+In this driver, the 32 bit values are the indices into an array cmd_list.
+This array is used only to look up the megasas_cmd_fusion given the context.
+The free commands themselves are maintained in a linked list called cmd_pool.
+
+cmds are formed in the io_request and sg_frame members of the
+megasas_cmd_fusion. The context field is used to get a request descriptor
+and is used as SMID of the cmd.
+SMID value range is from 1 to max_fw_cmds.

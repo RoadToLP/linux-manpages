@@ -1,0 +1,20 @@
+.TH "regulator_get" 9 "regulator_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_get \- lookup and obtain a reference to a regulator.
+.SH SYNOPSIS
+.B "struct regulator *" regulator_get
+.BI "(struct device *dev "  ","
+.BI "const char *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for regulator "consumer"
+.IP "id" 12
+Supply name or regulator ID.
+.SH "DESCRIPTION"
+Returns a struct regulator corresponding to the regulator producer,
+or \fBIS_ERR\fP condition containing errno.
+
+Use of supply names configured via \fBset_consumer_device_supply\fP is
+strongly encouraged.  It is recommended that the supply name used
+should match the name used for the supply and/or the relevant
+device pins in the datasheet.

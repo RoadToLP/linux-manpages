@@ -1,0 +1,26 @@
+.TH "ide_write_setting" 9 "ide_write_setting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_write_setting \- read an IDE setting
+.SH SYNOPSIS
+.B "int" ide_write_setting
+.BI "(ide_drive_t *drive "  ","
+.BI "const struct ide_proc_devset *setting "  ","
+.BI "int val "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive to read from
+.IP "setting" 12
+drive setting
+.IP "val" 12
+value
+
+Write a drive setting if it is possible. The caller
+must hold the ide_setting_mtx when making this call.
+
+BUGS: the data return and error are the same return value
+so an error -EINVAL and true return of the same value cannot
+be told apart
+
+FIXME:  This should be changed to enqueue a special request
+to the driver to change settings, and then wait on a sema for completion.
+The current scheme of polling is kludgy, though safe enough.

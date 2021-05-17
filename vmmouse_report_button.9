@@ -1,0 +1,28 @@
+.TH "vmmouse_report_button" 9 "vmmouse_report_button" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmmouse_report_button \- report button state on the correct input device
+.SH SYNOPSIS
+.B "void" vmmouse_report_button
+.BI "(struct psmouse *psmouse "  ","
+.BI "struct input_dev *abs_dev "  ","
+.BI "struct input_dev *rel_dev "  ","
+.BI "struct input_dev *pref_dev "  ","
+.BI "unsigned int code "  ","
+.BI "int value "  ");"
+.SH ARGUMENTS
+.IP "psmouse" 12
+Pointer to the psmouse struct
+.IP "abs_dev" 12
+The absolute input device
+.IP "rel_dev" 12
+The relative input device
+.IP "pref_dev" 12
+The preferred device for reporting
+.IP "code" 12
+Button code
+.IP "value" 12
+Button value
+.SH "DESCRIPTION"
+Report \fIvalue\fP and \fIcode\fP on \fIpref_dev\fP, unless the button is already
+pressed on the other device, in which case the state is reported on that
+device.

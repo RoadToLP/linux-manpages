@@ -1,0 +1,29 @@
+.TH "cap_convert_nscap" 9 "cap_convert_nscap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_convert_nscap \- check vfs caps
+.SH SYNOPSIS
+.B "int" cap_convert_nscap
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "const void **ivalue "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dentry" 12
+used to retrieve inode to check permissions on
+.IP "ivalue" 12
+vfs caps value which may be modified by this function
+.IP "size" 12
+size of \fIivalue\fP
+.SH "DESCRIPTION"
+User requested a write of security.capability.  If needed, update the
+xattr to change from v2 to v3, or to fixup the v3 rootid.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.
+
+If all is ok, we return the new size, on error return < 0.

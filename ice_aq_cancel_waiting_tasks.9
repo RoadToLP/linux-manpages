@@ -1,0 +1,12 @@
+.TH "ice_aq_cancel_waiting_tasks" 9 "ice_aq_cancel_waiting_tasks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_cancel_waiting_tasks \- Immediately cancel all waiting tasks
+.SH SYNOPSIS
+.B "void" ice_aq_cancel_waiting_tasks
+.BI "(struct ice_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+the PF private structure
+.SH "DESCRIPTION"
+Set all waiting tasks to ICE_AQ_TASK_CANCELED, and wake up their threads.
+This will then cause ice_aq_wait_for_event to exit with -ECANCELED.

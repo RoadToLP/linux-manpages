@@ -1,0 +1,30 @@
+.TH "drm_atomic_helper_wait_for_fences" 9 "drm_atomic_helper_wait_for_fences" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_wait_for_fences \- wait for fences stashed in plane state
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_wait_for_fences
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ","
+.BI "bool pre_swap "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+atomic state object with old state structures
+.IP "pre_swap" 12
+If true, do an interruptible wait, and \fIstate\fP is the new state.
+Otherwise \fIstate\fP is the old state.
+.SH "DESCRIPTION"
+For implicit sync, driver should fish the exclusive fence out from the
+incoming fb's and stash it in the drm_plane_state.  This is called after
+\fBdrm_atomic_helper_swap_state\fP so it uses the current plane state (and
+just uses the atomic state to find the changed planes)
+
+Note that \fIpre_swap\fP is needed since the point where we block for fences moves
+around depending upon whether an atomic commit is blocking or
+non-blocking. For non-blocking commit all waiting needs to happen after
+\fBdrm_atomic_helper_swap_state\fP is called, but for blocking commits we want
+to wait **before** we do anything that can't be easily rolled back. That is
+before we call \fBdrm_atomic_helper_swap_state\fP.
+
+Returns zero if success or < 0 if \fBdma_fence_wait\fP fails.

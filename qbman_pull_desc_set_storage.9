@@ -1,0 +1,24 @@
+.TH "qbman_pull_desc_set_storage" 9 "qbman_pull_desc_set_storage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qbman_pull_desc_set_storage \- Set the pull dequeue storage
+.SH SYNOPSIS
+.B "void" qbman_pull_desc_set_storage
+.BI "(struct qbman_pull_desc *d "  ","
+.BI "struct dpaa2_dq *storage "  ","
+.BI "dma_addr_t storage_phys "  ","
+.BI "int stash "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+the pull dequeue descriptor to be set
+.IP "storage" 12
+the pointer of the memory to store the dequeue result
+.IP "storage_phys" 12
+the physical address of the storage memory
+.IP "stash" 12
+to indicate whether write allocate is enabled
+.SH "DESCRIPTION"
+If not called, or if called with 'storage' as NULL, the result pull dequeues
+will produce results to DQRR. If 'storage' is non-NULL, then results are
+produced to the given memory location (using the DMA address which
+the caller provides in 'storage_phys'), and 'stash' controls whether or not
+those writes to main-memory express a cache-warming attribute.

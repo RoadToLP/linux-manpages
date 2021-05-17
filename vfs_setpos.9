@@ -1,0 +1,21 @@
+.TH "vfs_setpos" 9 "vfs_setpos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_setpos \- update the file offset for lseek
+.SH SYNOPSIS
+.B "loff_t" vfs_setpos
+.BI "(struct file *file "  ","
+.BI "loff_t offset "  ","
+.BI "loff_t maxsize "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file structure in question
+.IP "offset" 12
+file offset to seek to
+.IP "maxsize" 12
+maximum file size
+.SH "DESCRIPTION"
+This is a low-level filesystem helper for updating the file offset to
+the value specified by \fIoffset\fP if the given offset is valid and it is
+not equal to the current file offset.
+
+Return the specified offset on success and -EINVAL on invalid offset.

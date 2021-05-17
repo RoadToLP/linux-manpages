@@ -1,0 +1,22 @@
+.TH "batadv_mcast_forw_want_all_ipv6" 9 "batadv_mcast_forw_want_all_ipv6" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_mcast_forw_want_all_ipv6 \- forward to nodes with want-all-ipv6
+.SH SYNOPSIS
+.B "int" batadv_mcast_forw_want_all_ipv6
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+The multicast packet to transmit
+.IP "vid" 12
+the vlan identifier
+.SH "DESCRIPTION"
+Sends copies of a frame with multicast destination to any node with a
+BATADV_MCAST_WANT_ALL_IPV6 flag set. A transmission is performed via a
+batman-adv unicast packet for each such destination node.
+.SH "RETURN"
+NET_XMIT_DROP on memory allocation failure, NET_XMIT_SUCCESS
+otherwise.

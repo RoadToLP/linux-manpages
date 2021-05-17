@@ -1,0 +1,21 @@
+.TH "lpfc_els_free_data" 9 "lpfc_els_free_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_free_data \- Free lpfc dma buffer and data structure with an iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_free_data
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_dmabuf *buf_ptr1 "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "buf_ptr1" 12
+pointer to the lpfc DMA buffer data structure.
+.SH "DESCRIPTION"
+This routine releases the lpfc DMA (Direct Memory Access) buffer(s)
+associated with a command IOCB back to the lpfc DMA buffer pool. It first
+checks to see whether there is a lpfc DMA buffer associated with the
+response of the command IOCB. If so, it will be released before releasing
+the lpfc DMA buffer associated with the IOCB itself.
+
+Return code
+0 - Successfully released lpfc DMA buffer (currently, always return 0)

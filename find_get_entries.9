@@ -1,0 +1,39 @@
+.TH "find_get_entries" 9 "find_get_entries" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_get_entries \- gang pagecache lookup
+.SH SYNOPSIS
+.B "unsigned" find_get_entries
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t end "  ","
+.BI "struct pagevec *pvec "  ","
+.BI "pgoff_t *indices "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address_space to search
+.IP "start" 12
+The starting page cache index
+.IP "end" 12
+The final page index (inclusive).
+.IP "pvec" 12
+Where the resulting entries are placed.
+.IP "indices" 12
+The cache indices corresponding to the entries in \fIentries\fP
+.SH "DESCRIPTION"
+\fBfind_get_entries\fP will search for and return a batch of entries in
+the mapping.  The entries are placed in \fIpvec\fP.  \fBfind_get_entries\fP
+takes a reference on any actual pages it returns.
+
+The search returns a group of mapping-contiguous page cache entries
+with ascending indexes.  There may be holes in the indices due to
+not-present pages.
+
+Any shadow entries of evicted pages, or swap entries from
+shmem/tmpfs, are included in the returned array.
+
+If it finds a Transparent Huge Page, head or tail, \fBfind_get_entries\fP
+stops at that page: the caller is likely to have a better way to handle
+the compound page as a whole, and then skip its extent, than repeatedly
+calling \fBfind_get_entries\fP to return all its tails.
+.SH "RETURN"
+the number of pages and shadow entries which were found.

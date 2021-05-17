@@ -1,0 +1,21 @@
+.TH "randomize_page" 9 "randomize_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+randomize_page \- Generate a random, page aligned address
+.SH SYNOPSIS
+.B "unsigned long" randomize_page
+.BI "(unsigned long start "  ","
+.BI "unsigned long range "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+The smallest acceptable address the caller will take.
+.IP "range" 12
+The size of the area, starting at \fIstart\fP, within which the
+random address must fall.
+.SH "DESCRIPTION"
+If \fIstart\fP + \fIrange\fP would overflow, \fIrange\fP is capped.
+.SH "NOTE"
+Historical use of randomize_range, which this replaces, presumed that
+\fIstart\fP was already page aligned.  We now align it regardless.
+.SH "RETURN"
+A page aligned address within [start, start + range).  On error,
+\fIstart\fP is returned.

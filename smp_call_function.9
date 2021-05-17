@@ -1,0 +1,24 @@
+.TH "smp_call_function" 9 "smp_call_function" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smp_call_function \- Run a function on all other CPUs.
+.SH SYNOPSIS
+.B "void" smp_call_function
+.BI "(smp_call_func_t func "  ","
+.BI "void *info "  ","
+.BI "int wait "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+The function to run. This must be fast and non-blocking.
+.IP "info" 12
+An arbitrary pointer to pass to the function.
+.IP "wait" 12
+If true, wait (atomically) until function has completed
+on other CPUs.
+.SH "DESCRIPTION"
+Returns 0.
+
+If \fIwait\fP is true, then returns once \fIfunc\fP has returned; otherwise
+it returns just before the target cpu calls \fIfunc\fP.
+
+You must not call this function with disabled interrupts or from a
+hardware interrupt handler or from a bottom half handler.

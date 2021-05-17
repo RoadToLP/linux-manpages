@@ -1,0 +1,22 @@
+.TH "llc_build_and_send_pkt" 9 "llc_build_and_send_pkt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_build_and_send_pkt \- Connection data sending for upper layers.
+.SH SYNOPSIS
+.B "int" llc_build_and_send_pkt
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+connection
+.IP "skb" 12
+packet to send
+
+This function is called when upper layer wants to send data using
+connection oriented communication mode. During sending data, connection
+will be locked and received frames and expired timers will be queued.
+Returns 0 for success, -ECONNABORTED when the connection already
+closed and -EBUSY when sending data is not permitted in this state or
+LLC has send an I pdu with p bit set to 1 and is waiting for it's
+response.
+
+This function always consumes a reference to the skb.

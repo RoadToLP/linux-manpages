@@ -1,0 +1,40 @@
+.TH "ntfs_get_size_for_mapping_pairs" 9 "ntfs_get_size_for_mapping_pairs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_get_size_for_mapping_pairs \- get bytes needed for mapping pairs array
+.SH SYNOPSIS
+.B "int" ntfs_get_size_for_mapping_pairs
+.BI "(const ntfs_volume *vol "  ","
+.BI "const runlist_element *rl "  ","
+.BI "const VCN first_vcn "  ","
+.BI "const VCN last_vcn "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume (needed for the ntfs version)
+.IP "rl" 12
+locked runlist to determine the size of the mapping pairs of
+.IP "first_vcn" 12
+first vcn which to include in the mapping pairs array
+.IP "last_vcn" 12
+last vcn which to include in the mapping pairs array
+.SH "DESCRIPTION"
+Walk the locked runlist \fIrl\fP and calculate the size in bytes of the mapping
+pairs array corresponding to the runlist \fIrl\fP, starting at vcn \fIfirst_vcn\fP and
+finishing with vcn \fIlast_vcn\fP.
+
+A \fIlast_vcn\fP of -1 means end of runlist and in that case the size of the
+mapping pairs array corresponding to the runlist starting at vcn \fIfirst_vcn\fP
+and finishing at the end of the runlist is determined.
+
+This for example allows us to allocate a buffer of the right size when
+building the mapping pairs array.
+
+If \fIrl\fP is NULL, just return 1 (for the single terminator byte).
+
+Return the calculated size in bytes on success.  On error, return -errno.
+The following error codes are defined:
+-EINVAL - Run list contains unmapped elements.  Make sure to only pass
+fully mapped runlists to this function.
+-EIO    - The runlist is corrupt.
+
+Locking: \fIrl\fP must be locked on entry (either for reading or writing), it
+remains locked throughout, and is left locked upon return.

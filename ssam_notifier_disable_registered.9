@@ -1,0 +1,25 @@
+.TH "ssam_notifier_disable_registered" 9 "ssam_notifier_disable_registered" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_notifier_disable_registered \- Disable events for all registered notifiers.
+.SH SYNOPSIS
+.B "int" ssam_notifier_disable_registered
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller for which to disable the notifiers/events.
+.SH "DESCRIPTION"
+Disables events for all currently registered notifiers. In case of an error
+(EC command failing), all previously disabled events will be restored and
+the error code returned.
+
+This function is intended to disable all events prior to hibernation entry.
+See \fBssam_notifier_restore_registered\fP to restore/re-enable all events
+disabled with this function.
+
+Note that this function will not disable events for notifiers registered
+after calling this function. It should thus be made sure that no new
+notifiers are going to be added after this call and before the corresponding
+call to \fBssam_notifier_restore_registered\fP.
+.SH "RETURN"
+Returns zero on success. In case of failure returns the error code
+returned by the failed EC command to disable an event.

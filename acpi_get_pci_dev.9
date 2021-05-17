@@ -1,0 +1,17 @@
+.TH "acpi_get_pci_dev" 9 "acpi_get_pci_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_get_pci_dev \- convert ACPI CA handle to struct pci_dev
+.SH SYNOPSIS
+.B "struct pci_dev *" acpi_get_pci_dev
+.BI "(acpi_handle handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+the handle in question
+.SH "DESCRIPTION"
+Given an ACPI CA handle, the desired PCI device is located in the
+list of PCI devices.
+
+If the device is found, its reference count is increased and this
+function returns a pointer to its data structure.  The caller must
+decrement the reference count by calling \fBpci_dev_put\fP.
+If no device is found, NULL is returned.

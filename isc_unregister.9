@@ -1,0 +1,18 @@
+.TH "isc_unregister" 9 "isc_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isc_unregister \- unregister an I/O interruption subclass.
+.SH SYNOPSIS
+.B "void" isc_unregister
+.BI "(unsigned int isc "  ");"
+.SH ARGUMENTS
+.IP "isc" 12
+I/O interruption subclass to unregister
+.SH "DESCRIPTION"
+The number of users for \fIisc\fP is decreased. If this is the last user to
+unregister \fIisc\fP, the corresponding I/O interruption subclass mask is
+disabled.
+.SH "NOTE"
+This function must not be called if \fBisc_register\fP hasn't been called
+before by the driver for \fIisc\fP.
+.SH "CONTEXT"
+This function must not be called in interrupt context.

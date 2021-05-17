@@ -1,0 +1,23 @@
+.TH "ib_drain_sq" 9 "ib_drain_sq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_drain_sq \- Block until all SQ CQEs have been consumed by the application.
+.SH SYNOPSIS
+.B "void" ib_drain_sq
+.BI "(struct ib_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+queue pair to drain
+.SH "DESCRIPTION"
+If the device has a provider-specific drain function, then
+call that.  Otherwise call the generic drain function
+\fB__ib_drain_sq\fP.
+
+The caller must:
+
+ensure there is room in the CQ and SQ for the drain work request and
+completion.
+
+allocate the CQ using \fBib_alloc_cq\fP.
+
+ensure that there are no other contexts that are posting WRs concurrently.
+Otherwise the drain is not guaranteed.

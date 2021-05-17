@@ -1,0 +1,23 @@
+.TH "drm_helper_disable_unused_functions" 9 "drm_helper_disable_unused_functions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_helper_disable_unused_functions \- disable unused objects
+.SH SYNOPSIS
+.B "void" drm_helper_disable_unused_functions
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+This function walks through the entire mode setting configuration of \fIdev\fP. It
+will remove any CRTC links of unused encoders and encoder links of
+disconnected connectors. Then it will disable all unused encoders and CRTCs
+either by calling their disable callback if available or by calling their
+dpms callback with DRM_MODE_DPMS_OFF.
+
+This function is part of the legacy modeset helper library and will cause
+major confusion with atomic drivers. This is because atomic helpers guarantee
+to never call ->\fBdisable\fP hooks on a disabled function, or ->\fBenable\fP hooks
+on an enabled functions. \fBdrm_helper_disable_unused_functions\fP on the other
+hand throws such guarantees into the wind and calls disable hooks
+unconditionally on unused functions.
+.SH "NOTE"

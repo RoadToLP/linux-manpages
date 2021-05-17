@@ -1,0 +1,29 @@
+.TH "drm_gem_vram_pin" 9 "drm_gem_vram_pin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_vram_pin \- Pins a GEM VRAM object in a region.
+.SH SYNOPSIS
+.B "int" drm_gem_vram_pin
+.BI "(struct drm_gem_vram_object *gbo "  ","
+.BI "unsigned long pl_flag "  ");"
+.SH ARGUMENTS
+.IP "gbo" 12
+the GEM VRAM object
+.IP "pl_flag" 12
+a bitmask of possible memory regions
+.SH "DESCRIPTION"
+Pinning a buffer object ensures that it is not evicted from
+a memory region. A pinned buffer object has to be unpinned before
+it can be pinned to another region. If the pl_flag argument is 0,
+the buffer is pinned at its current location (video RAM or system
+memory).
+
+Small buffer objects, such as cursor images, can lead to memory
+fragmentation if they are pinned in the middle of video RAM. This
+is especially a problem on devices with only a small amount of
+video RAM. Fragmentation can prevent the primary framebuffer from
+fitting in, even though there's enough memory overall. The modifier
+DRM_GEM_VRAM_PL_FLAG_TOPDOWN marks the buffer object to be pinned
+at the high end of the memory region to avoid fragmentation.
+.SH "RETURN"
+0 on success, or
+a negative error code otherwise.

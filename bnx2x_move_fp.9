@@ -1,0 +1,21 @@
+.TH "bnx2x_move_fp" 9 "bnx2x_move_fp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_move_fp \- move content of the fastpath structure.
+.SH SYNOPSIS
+.B "void" bnx2x_move_fp
+.BI "(struct bnx2x *bp "  ","
+.BI "int from "  ","
+.BI "int to "  ");"
+.SH ARGUMENTS
+.IP "bp" 12
+driver handle
+.IP "from" 12
+source FP index
+.IP "to" 12
+destination FP index
+.SH "DESCRIPTION"
+Makes sure the contents of the bp->fp[to].napi is kept
+intact. This is done by first copying the napi struct from
+the target to the source, and then mem copying the entire
+source onto the target. Update txdata pointers and related
+content.

@@ -1,0 +1,21 @@
+.TH "rdma_set_ack_timeout" 9 "rdma_set_ack_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_set_ack_timeout \- Set the ack timeout of QP associated with a connection identifier.
+.SH SYNOPSIS
+.B "int" rdma_set_ack_timeout
+.BI "(struct rdma_cm_id *id "  ","
+.BI "u8 timeout "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+Communication identifier to associated with service type.
+.IP "timeout" 12
+Ack timeout to set a QP, expressed as 4.096 * 2^(timeout) usec.
+.SH "DESCRIPTION"
+This function should be called before \fBrdma_connect\fP on active side,
+and on passive side before \fBrdma_accept\fP. It is applicable to primary
+path only. The timeout will affect the local side of the QP, it is not
+negotiated with remote side and zero disables the timer. In case it is
+set before rdma_resolve_route, the value will also be used to determine
+PacketLifeTime for RoCE.
+.SH "RETURN"
+0 for success

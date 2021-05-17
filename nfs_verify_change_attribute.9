@@ -1,0 +1,16 @@
+.TH "nfs_verify_change_attribute" 9 "nfs_verify_change_attribute" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_verify_change_attribute \- Detects NFS remote directory changes
+.SH SYNOPSIS
+.B "bool" nfs_verify_change_attribute
+.BI "(struct inode *dir "  ","
+.BI "unsigned long verf "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+pointer to parent directory inode
+.IP "verf" 12
+previously saved change attribute
+.SH "DESCRIPTION"
+Return "false" if the verifiers doesn't match the change attribute.
+This would usually indicate that the directory contents have changed on
+the server, and that any dentries need revalidating.

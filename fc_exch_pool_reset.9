@@ -1,0 +1,23 @@
+.TH "fc_exch_pool_reset" 9 "fc_exch_pool_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_exch_pool_reset \- Reset a per cpu exchange pool
+.SH SYNOPSIS
+.B "void" fc_exch_pool_reset
+.BI "(struct fc_lport *lport "  ","
+.BI "struct fc_exch_pool *pool "  ","
+.BI "u32 sid "  ","
+.BI "u32 did "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port that the exchange pool is on
+.IP "pool" 12
+The exchange pool to be reset
+.IP "sid" 12
+The source ID
+.IP "did" 12
+The destination ID
+.SH "DESCRIPTION"
+Resets a per cpu exches pool, releasing all of its sequences
+and exchanges. If sid is non-zero then reset only exchanges
+we sourced from the local port's FID. If did is non-zero then
+only reset exchanges destined for the local port's FID.

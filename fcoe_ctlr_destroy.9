@@ -1,0 +1,17 @@
+.TH "fcoe_ctlr_destroy" 9 "fcoe_ctlr_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_destroy \- Disable and tear down a FCoE controller
+.SH SYNOPSIS
+.B "void" fcoe_ctlr_destroy
+.BI "(struct fcoe_ctlr *fip "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller to tear down
+.SH "DESCRIPTION"
+This is called by FCoE drivers before freeing the \fIfcoe_ctlr\fP.
+
+The receive handler will have been deleted before this to guarantee
+that no more recv_work will be scheduled.
+
+The timer routine will simply return once we set FIP_ST_DISABLED.
+This guarantees that no further timeouts or work will be scheduled.

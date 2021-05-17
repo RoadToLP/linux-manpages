@@ -1,0 +1,17 @@
+.TH "mpol_shared_policy_init" 9 "mpol_shared_policy_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpol_shared_policy_init \- initialize shared policy for inode
+.SH SYNOPSIS
+.B "void" mpol_shared_policy_init
+.BI "(struct shared_policy *sp "  ","
+.BI "struct mempolicy *mpol "  ");"
+.SH ARGUMENTS
+.IP "sp" 12
+pointer to inode shared policy
+.IP "mpol" 12
+struct mempolicy to install
+.SH "DESCRIPTION"
+Install non-NULL \fImpol\fP in inode's shared policy rb-tree.
+On entry, the current task has a reference on a non-NULL \fImpol\fP.
+This must be released on exit.
+This is called at \fBget_inode\fP calls and we can use GFP_KERNEL.

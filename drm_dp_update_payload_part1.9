@@ -1,0 +1,18 @@
+.TH "drm_dp_update_payload_part1" 9 "drm_dp_update_payload_part1" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_update_payload_part1 \- Execute payload update part 1
+.SH SYNOPSIS
+.B "int" drm_dp_update_payload_part1
+.BI "(struct drm_dp_mst_topology_mgr *mgr "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+manager to use.
+.SH "DESCRIPTION"
+This iterates over all proposed virtual channels, and tries to
+allocate space in the link for them. For 0->slots transitions,
+this step just writes the VCPI to the MST device. For slots->0
+transitions, this writes the updated VCPIs and removes the
+remote VC payloads.
+
+after calling this the driver should generate ACT and payload
+packets.

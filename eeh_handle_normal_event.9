@@ -1,0 +1,26 @@
+.TH "eeh_handle_normal_event" 9 "eeh_handle_normal_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_handle_normal_event \- Handle EEH events on a specific PE
+.SH SYNOPSIS
+.B "void" eeh_handle_normal_event
+.BI "(struct eeh_pe *pe "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+EEH PE - which should not be used after we return, as it may
+have been invalidated.
+.SH "DESCRIPTION"
+Attempts to recover the given PE.  If recovery fails or the PE has failed
+too many times, remove the PE.
+
+While PHB detects address or data parity errors on particular PCI
+slot, the associated PE will be frozen. Besides, DMA's occurring
+to wild addresses (which usually happen due to bugs in device
+drivers or in PCI adapter firmware) can cause EEH error. #SERR,
+#PERR or other misc PCI-related errors also can trigger EEH errors.
+
+Recovery process consists of unplugging the device driver (which
+generated hotplug events to userspace), then issuing a PCI #RST to
+the device, then reconfiguring the PCI config space for all bridges
+& devices under this slot, and then finally restarting the device
+drivers (which cause a second set of hotplug events to go out to
+userspace).

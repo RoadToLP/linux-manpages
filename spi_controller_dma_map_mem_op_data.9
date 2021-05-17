@@ -1,0 +1,25 @@
+.TH "spi_controller_dma_map_mem_op_data" 9 "spi_controller_dma_map_mem_op_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_controller_dma_map_mem_op_data \- DMA-map the buffer attached to a memory operation
+.SH SYNOPSIS
+.B "int" spi_controller_dma_map_mem_op_data
+.BI "(struct spi_controller *ctlr "  ","
+.BI "const struct spi_mem_op *op "  ","
+.BI "struct sg_table *sgt "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+the SPI controller requesting this \fBdma_map\fP
+.IP "op" 12
+the memory operation containing the buffer to map
+.IP "sgt" 12
+a pointer to a non-initialized sg_table that will be filled by this
+function
+.SH "DESCRIPTION"
+Some controllers might want to do DMA on the data buffer embedded in \fIop\fP.
+This helper prepares everything for you and provides a ready-to-use
+sg_table. This function is not intended to be called from spi drivers.
+Only SPI controller drivers should use it.
+Note that the caller must ensure the memory region pointed by
+op->data.buf.{in,out} is DMA-able before calling this function.
+.SH "RETURN"
+0 in case of success, a negative error code otherwise.

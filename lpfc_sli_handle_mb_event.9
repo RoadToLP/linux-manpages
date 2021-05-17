@@ -1,0 +1,18 @@
+.TH "lpfc_sli_handle_mb_event" 9 "lpfc_sli_handle_mb_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_handle_mb_event \- Handle mailbox completions from firmware
+.SH SYNOPSIS
+.B "int" lpfc_sli_handle_mb_event
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is called with no lock held. This function processes all
+the completed mailbox commands and gives it to upper layers. The interrupt
+service routine processes mailbox completion interrupt and adds completed
+mailbox commands to the mboxq_cmpl queue and signals the worker thread.
+Worker thread call lpfc_sli_handle_mb_event, which will return the
+completed mailbox commands in mboxq_cmpl queue to the upper layers. This
+function returns the mailbox commands to the upper layer by calling the
+completion handler function of each mailbox.

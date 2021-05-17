@@ -1,0 +1,34 @@
+.TH "ufshcd_issue_devman_upiu_cmd" 9 "ufshcd_issue_devman_upiu_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_issue_devman_upiu_cmd \- API for sending "utrd" type requests
+.SH SYNOPSIS
+.B "int" ufshcd_issue_devman_upiu_cmd
+.BI "(struct ufs_hba *hba "  ","
+.BI "struct utp_upiu_req *req_upiu "  ","
+.BI "struct utp_upiu_req *rsp_upiu "  ","
+.BI "u8 *desc_buff "  ","
+.BI "int *buff_len "  ","
+.BI "enum dev_cmd_type cmd_type "  ","
+.BI "enum query_opcode desc_op "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per-adapter instance
+.IP "req_upiu" 12
+upiu request
+.IP "rsp_upiu" 12
+upiu reply
+.IP "desc_buff" 12
+pointer to descriptor buffer, NULL if NA
+.IP "buff_len" 12
+descriptor size, 0 if NA
+.IP "cmd_type" 12
+specifies the type (NOP, Query...)
+.IP "desc_op" 12
+descriptor operation
+.SH "DESCRIPTION"
+Those type of requests uses UTP Transfer Request Descriptor - utrd.
+Therefore, it "rides" the device management infrastructure: uses its tag and
+tasks work queues.
+
+Since there is only one available tag for device management commands,
+the caller is expected to hold the hba->dev_cmd.lock mutex.

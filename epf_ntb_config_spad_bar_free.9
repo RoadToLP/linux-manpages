@@ -1,0 +1,28 @@
+.TH "epf_ntb_config_spad_bar_free" 9 "epf_ntb_config_spad_bar_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_config_spad_bar_free \- Free the physical memory associated with config + scratchpad region
+.SH SYNOPSIS
+.B "void" epf_ntb_config_spad_bar_free
+.BI "(struct epf_ntb *ntb "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device that facilitates communication between HOST1 and HOST2
+.SH "DESCRIPTION"
++-----------------+------->+------------------+        +-----------------+
+|       BAR0      |        |  CONFIG REGION   |        |       BAR0      |
++-----------------+----+   +------------------+<-------+-----------------+
+|       BAR1      |    |   |SCRATCHPAD REGION |        |       BAR1      |
++-----------------+    +-->+------------------+<-------+-----------------+
+|       BAR2      |            Local Memory            |       BAR2      |
++-----------------+                                    +-----------------+
+|       BAR3      |                                    |       BAR3      |
++-----------------+                                    +-----------------+
+|       BAR4      |                                    |       BAR4      |
++-----------------+                                    +-----------------+
+|       BAR5      |                                    |       BAR5      |
++-----------------+                                    +-----------------+
+EP CONTROLLER 1                                        EP CONTROLLER 2
+
+Free the Local Memory mentioned in the above diagram. After invoking this
+function, any of config + self scratchpad region of HOST1 or peer scratchpad
+region of HOST2 should not be accessed.

@@ -1,0 +1,28 @@
+.TH "ice_check_component_response" 9 "ice_check_component_response" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_check_component_response \- Report firmware response to a component
+.SH SYNOPSIS
+.B "int" ice_check_component_response
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 id "  ","
+.BI "u8 response "  ","
+.BI "u8 code "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+device private data structure
+.IP "id" 12
+component id being checked
+.IP "response" 12
+indicates whether this component can be updated
+.IP "code" 12
+code indicating reason for response
+.IP "extack" 12
+netlink extended ACK structure
+.SH "DESCRIPTION"
+Check whether firmware indicates if this component can be updated. Report
+a suitable error message over the netlink extended ACK if the component
+cannot be updated.
+.SH "RETURN"
+zero if the component can be updated, or -ECANCELED of the
+firmware indicates the component cannot be updated.

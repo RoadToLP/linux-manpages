@@ -1,0 +1,20 @@
+.TH "arm_iommu_attach_device" 9 "arm_iommu_attach_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_iommu_attach_device \- 
+.SH SYNOPSIS
+.B "int" arm_iommu_attach_device
+.BI "(struct device *dev "  ","
+.BI "struct dma_iommu_mapping *mapping "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+valid struct device pointer
+.IP "mapping" 12
+io address space mapping structure (returned from
+arm_iommu_create_mapping)
+.SH "DESCRIPTION"
+Attaches specified io address space mapping to the provided device.
+This replaces the dma operations (dma_map_ops pointer) with the
+IOMMU aware version.
+
+More than one client might be attached to the same io address space
+mapping.

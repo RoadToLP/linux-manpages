@@ -1,0 +1,30 @@
+.TH "fscrypt_prepare_new_inode" 9 "fscrypt_prepare_new_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_prepare_new_inode \- prepare to create a new inode in a directory
+.SH SYNOPSIS
+.B "int" fscrypt_prepare_new_inode
+.BI "(struct inode *dir "  ","
+.BI "struct inode *inode "  ","
+.BI "bool *encrypt_ret "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+a possibly-encrypted directory
+.IP "inode" 12
+the new inode.  ->i_mode must be set already.
+->i_ino doesn't need to be set yet.
+.IP "encrypt_ret" 12
+(output) set to true if the new inode will be encrypted
+.SH "DESCRIPTION"
+If the directory is encrypted, set up its ->i_crypt_info in preparation for
+encrypting the name of the new file.  Also, if the new inode will be
+encrypted, set up its ->i_crypt_info and set *encrypt_ret=true.
+
+This isn't GFP_NOFS-safe, and therefore it should be called before starting
+any filesystem transaction to create the inode.  For this reason, ->i_ino
+isn't required to be set yet, as the filesystem may not have set it yet.
+
+This doesn't persist the new inode's encryption context.  That still needs to
+be done later by calling \fBfscrypt_set_context\fP.
+.SH "RETURN"
+0 on success, -ENOKEY if the encryption key is missing, or another
+-errno code

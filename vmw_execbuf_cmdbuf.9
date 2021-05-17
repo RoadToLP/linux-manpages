@@ -1,0 +1,36 @@
+.TH "vmw_execbuf_cmdbuf" 9 "vmw_execbuf_cmdbuf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_execbuf_cmdbuf \- Prepare, if possible, a user-space command batch for submission using a command buffer.
+.SH SYNOPSIS
+.B "void *" vmw_execbuf_cmdbuf
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "void __user *user_commands "  ","
+.BI "void *kernel_commands "  ","
+.BI "u32 command_size "  ","
+.BI "struct vmw_cmdbuf_header **header "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a device private structure.
+.IP "user_commands" 12
+User-space pointer to the commands to be submitted.
+.IP "kernel_commands" 12
+-- undescribed --
+.IP "command_size" 12
+Size of the unpatched command batch.
+.IP "header" 12
+Out parameter returning the opaque pointer to the command buffer.
+.SH "DESCRIPTION"
+This function checks whether we can use the command buffer manager for
+submission and if so, creates a command buffer of suitable size and copies
+the user data into that buffer.
+
+On successful return, the function returns a pointer to the data in the
+command buffer and *\fIheader\fP is set to non-NULL.
+
+If command buffers could not be used, the function will return the value of
+\fIkernel_commands\fP on function call. That value may be NULL. In that case, the
+value of *\fIheader\fP will be set to NULL.
+
+If an error is encountered, the function will return a pointer error value.
+If the function is interrupted by a signal while sleeping, it will return
+-ERESTARTSYS casted to a pointer error value.

@@ -1,0 +1,25 @@
+.TH "tpm_transmit" 9 "tpm_transmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_transmit \- Internal kernel interface to transmit TPM commands.
+.SH SYNOPSIS
+.B "ssize_t" tpm_transmit
+.BI "(struct tpm_chip *chip "  ","
+.BI "u8 *buf "  ","
+.BI "size_t bufsiz "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+a TPM chip to use
+.IP "buf" 12
+a TPM command buffer
+.IP "bufsiz" 12
+length of the TPM command buffer
+.SH "DESCRIPTION"
+A wrapper around \fBtpm_try_transmit\fP that handles TPM2_RC_RETRY returns from
+the TPM and retransmits the command after a delay up to a maximum wait of
+TPM2_DURATION_LONG.
+
+Note that TPM 1.x never returns TPM2_RC_RETRY so the retry logic is TPM 2.0
+only.
+.SH "RETURN"
+* The response length        - OK
+* -errno                     - A system error

@@ -1,0 +1,14 @@
+.TH "napi_schedule_prep" 9 "napi_schedule_prep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+napi_schedule_prep \- check if napi can be scheduled
+.SH SYNOPSIS
+.B "bool" napi_schedule_prep
+.BI "(struct napi_struct *n "  ");"
+.SH ARGUMENTS
+.IP "n" 12
+napi context
+.SH "DESCRIPTION"
+Test if NAPI routine is already running, and if not mark
+it as running.  This is used as a condition variable to
+insure only one NAPI poll instance runs.  We also make
+sure there is no pending NAPI disable.

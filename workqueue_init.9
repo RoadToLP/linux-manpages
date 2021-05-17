@@ -1,0 +1,16 @@
+.TH "workqueue_init" 9 "workqueue_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+workqueue_init \- bring workqueue subsystem fully online
+.SH SYNOPSIS
+.B "void" workqueue_init
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is the latter half of two-staged workqueue subsystem initialization
+and invoked as soon as kthreads can be created and scheduled.
+Workqueues have been created and work items queued on them, but there
+are no kworkers executing the work items yet.  Populate the worker pools
+with the initial workers and enable future kworker creations.

@@ -1,0 +1,30 @@
+.TH "gen9_set_dc_state" 9 "gen9_set_dc_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen9_set_dc_state \- set target display C power state
+.SH SYNOPSIS
+.B "void" gen9_set_dc_state
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "u32 state "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "state" 12
+target DC power state
+- DC_STATE_DISABLE
+- DC_STATE_EN_UPTO_DC5
+- DC_STATE_EN_UPTO_DC6
+- DC_STATE_EN_DC9
+.SH "DESCRIPTION"
+Signal to DMC firmware/HW the target DC power state passed in \fIstate\fP.
+DMC/HW can turn off individual display clocks and power rails when entering
+a deeper DC power state (higher in number) and turns these back when exiting
+that state to a shallower power state (lower in number). The HW will decide
+when to actually enter a given state on an on-demand basis, for instance
+depending on the active state of display pipes. The state of display
+registers backed by affected power rails are saved/restored as needed.
+
+Based on the above enabling a deeper DC power state is asynchronous wrt.
+enabling it. Disabling a deeper power state is synchronous: for instance
+setting DC_STATE_DISABLE won't complete until all HW resources are turned
+back on and register state is restored. This is guaranteed by the MMIO write
+to DC_STATE_EN blocking until the state is restored.

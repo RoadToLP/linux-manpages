@@ -1,0 +1,18 @@
+.TH "xilinx_dpdma_synchronize" 9 "xilinx_dpdma_synchronize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xilinx_dpdma_synchronize \- Synchronize callback execution
+.SH SYNOPSIS
+.B "void" xilinx_dpdma_synchronize
+.BI "(struct dma_chan *dchan "  ");"
+.SH ARGUMENTS
+.IP "dchan" 12
+DMA channel
+.SH "DESCRIPTION"
+Synchronizing callback execution ensures that all previously issued
+transfers have completed and all associated callbacks have been called and
+have returned.
+
+This function waits for the DMA channel to stop. It assumes it has been
+paused by a previous call to \fBdmaengine_terminate_async\fP, and that no new
+pending descriptors have been issued with \fBdma_async_issue_pending\fP. The
+behaviour is undefined otherwise.

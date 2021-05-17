@@ -1,0 +1,22 @@
+.TH "grow_dpa_allocation" 9 "grow_dpa_allocation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+grow_dpa_allocation \- for each dimm allocate n bytes for @label_id
+.SH SYNOPSIS
+.B "int" grow_dpa_allocation
+.BI "(struct nd_region *nd_region "  ","
+.BI "struct nd_label_id *label_id "  ","
+.BI "resource_size_t n "  ");"
+.SH ARGUMENTS
+.IP "nd_region" 12
+the set of dimms to allocate \fIn\fP more bytes from
+.IP "label_id" 12
+unique identifier for the namespace consuming this dpa range
+.IP "n" 12
+number of bytes per-dimm to add to the existing allocation
+.SH "DESCRIPTION"
+Assumes resources are ordered.  For BLK regions, first consume
+BLK-only available DPA free space, then consume PMEM-aliased DPA
+space starting at the highest DPA.  For PMEM regions start
+allocations from the start of an interleave set and end at the first
+BLK allocation or the end of the interleave set, whichever comes
+first.

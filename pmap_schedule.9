@@ -1,0 +1,107 @@
+.TH "pmap_schedule" 9 "pmap_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmap_schedule \- Schedule time in a periodic bitmap (pmap).
+.SH SYNOPSIS
+.B "int" pmap_schedule
+.BI "(unsigned long *map "  ","
+.BI "int bits_per_period "  ","
+.BI "int periods_in_map "  ","
+.BI "int num_bits "  ","
+.BI "int interval "  ","
+.BI "int start "  ","
+.BI "bool only_one_period "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The bitmap representing the schedule; will be updated
+upon success.
+.IP "bits_per_period" 12
+The schedule represents several periods.  This is how many
+bits are in each period.  It's assumed that the beginning
+of the schedule will repeat after its end.
+.IP "periods_in_map" 12
+The number of periods in the schedule.
+.IP "num_bits" 12
+The number of bits we need per period we want to reserve
+in this function call.
+.IP "interval" 12
+How often we need to be scheduled for the reservation this
+time.  1 means every period.  2 means every other period.
+\&...you get the picture?
+.IP "start" 12
+The bit number to start at.  Normally 0.  Must be within
+the interval or we return failure right away.
+.IP "only_one_period" 12
+Normally we'll allow picking a start anywhere within the
+first interval, since we can still make all repetition
+requirements by doing that.  However, if you pass true
+here then we'll return failure if we can't fit within
+the period that "start" is in.
+.SH "DESCRIPTION"
+The idea here is that we want to schedule time for repeating events that all
+want the same resource.  The resource is divided into fixed-sized periods
+and the events want to repeat every "interval" periods.  The schedule
+granularity is one bit.
+
+To keep things "simple", we'll represent our schedule with a bitmap that
+contains a fixed number of periods.  This gets rid of a lot of complexity
+but does mean that we need to handle things specially (and non-ideally) if
+the number of the periods in the schedule doesn't match well with the
+intervals that we're trying to schedule.
+
+Here's an explanation of the scheme we'll implement, assuming 8 periods.
+- If interval is 1, we need to take up space in each of the 8
+periods we're scheduling.  Easy.
+- If interval is 2, we need to take up space in half of the
+periods.  Again, easy.
+- If interval is 3, we actually need to fall back to interval 1.
+Why?  Because we might need time in any period.  AKA for the
+first 8 periods, we'll be in slot 0, 3, 6.  Then we'll be
+in slot 1, 4, 7.  Then we'll be in 2, 5.  Then we'll be back to
+0, 3, and 6.  Since we could be in any frame we need to reserve
+for all of them.  Sucks, but that's what you gotta do.  Note that
+if we were instead scheduling 8 * 3 = 24 we'd do much better, but
+then we need more memory and time to do scheduling.
+- If interval is 4, easy.
+- If interval is 5, we again need interval 1.  The schedule will be
+0, 5, 2, 7, 4, 1, 6, 3, 0
+- If interval is 6, we need interval 2.  0, 6, 4, 2.
+- If interval is 7, we need interval 1.
+- If interval is 8, we need interval 8.
+
+If you do the math, you'll see that we need to pretend that interval is
+equal to the greatest_common_divisor(interval, periods_in_map).
+
+Note that at the moment this function tends to front-pack the schedule.
+In some cases that's really non-ideal (it's hard to schedule things that
+need to repeat every period).  In other cases it's perfect (you can easily
+schedule bigger, less often repeating things).
+
+Here's the algorithm in action (8 periods, 5 bits per period):
+|**   |     |**   |     |**   |     |**   |     |   OK 2 bits, intv 2 at 0
+|*****|  ***|*****|  ***|*****|  ***|*****|  ***|   OK 3 bits, intv 3 at 2
+|*****|* ***|*****|  ***|*****|* ***|*****|  ***|   OK 1 bits, intv 4 at 5
+|**   |*    |**   |     |**   |*    |**   |     | Remv 3 bits, intv 3 at 2
+|***  |*    |***  |     |***  |*    |***  |     |   OK 1 bits, intv 6 at 2
+|**** |*  * |**** |   * |**** |*  * |**** |   * |   OK 1 bits, intv 1 at 3
+|**** |**** |**** | *** |**** |**** |**** | *** |   OK 2 bits, intv 2 at 6
+|*****|*****|*****| ****|*****|*****|*****| ****|   OK 1 bits, intv 1 at 4
+|*****|*****|*****| ****|*****|*****|*****| ****| FAIL 1 bits, intv 1
+|  ***|*****|  ***| ****|  ***|*****|  ***| ****| Remv 2 bits, intv 2 at 0
+|  ***| ****|  ***| ****|  ***| ****|  ***| ****| Remv 1 bits, intv 4 at 5
+|   **| ****|   **| ****|   **| ****|   **| ****| Remv 1 bits, intv 6 at 2
+|    *| ** *|    *| ** *|    *| ** *|    *| ** *| Remv 1 bits, intv 1 at 3
+|    *|    *|    *|    *|    *|    *|    *|    *| Remv 2 bits, intv 2 at 6
+|     |     |     |     |     |     |     |     | Remv 1 bits, intv 1 at 4
+|**   |     |**   |     |**   |     |**   |     |   OK 2 bits, intv 2 at 0
+|***  |     |**   |     |***  |     |**   |     |   OK 1 bits, intv 4 at 2
+|*****|     |** **|     |*****|     |** **|     |   OK 2 bits, intv 2 at 3
+|*****|*    |** **|     |*****|*    |** **|     |   OK 1 bits, intv 4 at 5
+|*****|***  |** **| **  |*****|***  |** **| **  |   OK 2 bits, intv 2 at 6
+|*****|*****|** **| ****|*****|*****|** **| ****|   OK 2 bits, intv 2 at 8
+|*****|*****|*****| ****|*****|*****|*****| ****|   OK 1 bits, intv 4 at 12
+
+This function is pretty generic and could be easily abstracted if anything
+needed similar scheduling.
+
+Returns either -ENOSPC or a >= 0 start bit which should be passed to the
+unschedule routine.  The map bitmap will be updated on a non-error result.

@@ -1,0 +1,36 @@
+.TH "lookup_level0_dirty" 9 "lookup_level0_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lookup_level0_dirty \- search for zero-level znode dirtying.
+.SH SYNOPSIS
+.B "int" lookup_level0_dirty
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "struct ubifs_znode **zn "  ","
+.BI "int *n "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key to lookup
+.IP "zn" 12
+znode is returned here
+.IP "n" 12
+znode branch slot number is returned here
+.SH "DESCRIPTION"
+This function looks up the TNC tree and search for zero-level znode which
+refers key \fIkey\fP. The found zero-level znode is returned in \fIzn\fP. There are 3
+cases:
+o exact match, i.e. the found zero-level znode contains key \fIkey\fP, then 1
+is returned and slot number of the matched branch is stored in \fIn\fP;
+o not exact match, which means that zero-level znode does not contain \fIkey\fP
+then 0 is returned and slot number of the closed branch is stored in
+\fIn\fP;
+o \fIkey\fP is so small that it is even less than the lowest key of the
+leftmost zero-level node, then 0 is returned and -1 is stored in \fIn\fP.
+
+Additionally all znodes in the path from the root to the located zero-level
+znode are marked as dirty.
+
+Note, when the TNC tree is traversed, some znodes may be absent, then this
+function reads corresponding indexing nodes and inserts them to TNC. In
+case of failure, a negative error code is returned.

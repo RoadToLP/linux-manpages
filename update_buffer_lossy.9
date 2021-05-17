@@ -1,0 +1,37 @@
+.TH "update_buffer_lossy" 9 "update_buffer_lossy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_buffer_lossy \- Update buffer configuration based on pfc
+.SH SYNOPSIS
+.B "int" update_buffer_lossy
+.BI "(unsigned int max_mtu "  ","
+.BI "u8 pfc_en "  ","
+.BI "u8 *buffer "  ","
+.BI "u32 xoff "  ","
+.BI "u16 port_buff_cell_sz "  ","
+.BI "struct mlx5e_port_buffer *port_buffer "  ","
+.BI "bool *change "  ");"
+.SH ARGUMENTS
+.IP "max_mtu" 12
+netdev's max_mtu
+.IP "pfc_en" 12
+<input> current pfc configuration
+.IP "buffer" 12
+<input> current prio to buffer mapping
+.IP "xoff" 12
+<input> xoff value
+.IP "port_buff_cell_sz" 12
+<input> port buffer cell_size
+.IP "port_buffer" 12
+<output> port receive buffer configuration
+.IP "change" 12
+<output>
+
+Update buffer configuration based on pfc configuration and
+priority to buffer mapping.
+Buffer's lossy bit is changed to:
+lossless if there is at least one PFC enabled priority
+mapped to this buffer lossy if all priorities mapped to
+this buffer are PFC disabled
+.SH "RETURN"
+0 if no error,
+sets change to true if buffer configuration was modified.

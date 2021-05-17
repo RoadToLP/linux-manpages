@@ -1,0 +1,30 @@
+.TH "iommu_dma_alloc_remap" 9 "iommu_dma_alloc_remap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_dma_alloc_remap \- Allocate and map a buffer contiguous in IOVA space
+.SH SYNOPSIS
+.B "void *" iommu_dma_alloc_remap
+.BI "(struct device *dev "  ","
+.BI "size_t size "  ","
+.BI "dma_addr_t *dma_handle "  ","
+.BI "gfp_t gfp "  ","
+.BI "pgprot_t prot "  ","
+.BI "unsigned long attrs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to allocate memory for. Must be a real device
+attached to an iommu_dma_domain
+.IP "size" 12
+Size of buffer in bytes
+.IP "dma_handle" 12
+Out argument for allocated DMA handle
+.IP "gfp" 12
+Allocation flags
+.IP "prot" 12
+pgprot_t to use for the remapped mapping
+.IP "attrs" 12
+DMA attributes for this allocation
+.SH "DESCRIPTION"
+If \fIsize\fP is less than PAGE_SIZE, then a full CPU page will be allocated,
+but an IOMMU which supports smaller pages might not map the whole thing.
+.SH "RETURN"
+Mapped virtual address, or NULL on failure.

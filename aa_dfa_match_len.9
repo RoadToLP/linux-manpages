@@ -1,0 +1,27 @@
+.TH "aa_dfa_match_len" 9 "aa_dfa_match_len" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_dfa_match_len \- traverse @dfa to find state @str stops at
+.SH SYNOPSIS
+.B "unsigned int" aa_dfa_match_len
+.BI "(struct aa_dfa *dfa "  ","
+.BI "unsigned int start "  ","
+.BI "const char *str "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "dfa" 12
+the dfa to match \fIstr\fP against  (NOT NULL)
+.IP "start" 12
+the state of the dfa to start matching in
+.IP "str" 12
+the string of bytes to match against the dfa  (NOT NULL)
+.IP "len" 12
+length of the string of bytes to match
+.SH "DESCRIPTION"
+aa_dfa_match_len will match \fIstr\fP against the dfa and return the state it
+finished matching in. The final state can be used to look up the accepting
+label, or as the start state of a continuing match.
+
+This function will happily match again the 0 byte and only finishes
+when \fIlen\fP input is consumed.
+.SH "RETURN"
+final state reached after input is consumed

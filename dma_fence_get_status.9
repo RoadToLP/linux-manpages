@@ -1,0 +1,17 @@
+.TH "dma_fence_get_status" 9 "dma_fence_get_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_get_status \- returns the status upon completion
+.SH SYNOPSIS
+.B "int" dma_fence_get_status
+.BI "(struct dma_fence *fence "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the dma_fence to query
+.SH "DESCRIPTION"
+This wraps \fBdma_fence_get_status_locked\fP to return the error status
+condition on a signaled fence. See \fBdma_fence_get_status_locked\fP for more
+details.
+
+Returns 0 if the fence has not yet been signaled, 1 if the fence has
+been signaled without an error condition, or a negative error code
+if the fence has been completed in err.

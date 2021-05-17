@@ -1,0 +1,29 @@
+.TH "cgroup_destroy_locked" 9 "cgroup_destroy_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_destroy_locked \- the first stage of cgroup destruction
+.SH SYNOPSIS
+.B "int" cgroup_destroy_locked
+.BI "(struct cgroup *cgrp "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+cgroup to be destroyed
+.SH "DESCRIPTION"
+css's make use of percpu refcnts whose killing latency shouldn't be
+exposed to userland and are RCU protected.  Also, cgroup core needs to
+guarantee that \fBcss_tryget_online\fP won't succeed by the time
+->\fBcss_offline\fP is invoked.  To satisfy all the requirements,
+destruction is implemented in the following two steps.
+
+s1. Verify \fIcgrp\fP can be destroyed and mark it dying.  Remove all
+userland visible parts and start killing the percpu refcnts of
+css's.  Set up so that the next stage will be kicked off once all
+the percpu refcnts are confirmed to be killed.
+
+s2. Invoke ->\fBcss_offline\fP, mark the cgroup dead and proceed with the
+rest of destruction.  Once all cgroup references are gone, the
+cgroup is RCU-freed.
+
+This function implements s1.  After this step, \fIcgrp\fP is gone as far as
+the userland is concerned and a new cgroup with the same name may be
+created.  As cgroup doesn't care about the names internally, this
+doesn't cause any problem.

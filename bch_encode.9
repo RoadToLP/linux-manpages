@@ -1,0 +1,25 @@
+.TH "bch_encode" 9 "bch_encode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bch_encode \- calculate BCH ecc parity of data
+.SH SYNOPSIS
+.B "void" bch_encode
+.BI "(struct bch_control *bch "  ","
+.BI "const uint8_t *data "  ","
+.BI "unsigned int len "  ","
+.BI "uint8_t *ecc "  ");"
+.SH ARGUMENTS
+.IP "bch" 12
+BCH control structure
+.IP "data" 12
+data to encode
+.IP "len" 12
+data length in bytes
+.IP "ecc" 12
+ecc parity data, must be initialized by caller
+.SH "DESCRIPTION"
+The \fIecc\fP parity array is used both as input and output parameter, in order to
+allow incremental computations. It should be of the size indicated by member
+\fIecc_bytes\fP of \fIbch\fP, and should be initialized to 0 before the first call.
+
+The exact number of computed ecc parity bits is given by member \fIecc_bits\fP of
+\fIbch\fP; it may be less than m*t for large values of t.

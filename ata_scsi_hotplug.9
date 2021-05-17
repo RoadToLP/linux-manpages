@@ -1,0 +1,17 @@
+.TH "ata_scsi_hotplug" 9 "ata_scsi_hotplug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_hotplug \- SCSI part of hotplug
+.SH SYNOPSIS
+.B "void" ata_scsi_hotplug
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+Pointer to ATA port to perform SCSI hotplug on
+
+Perform SCSI part of hotplug.  It's executed from a separate
+workqueue after EH completes.  This is necessary because SCSI
+hot plugging requires working EH and hot unplugging is
+synchronized with hot plugging with a mutex.
+
+LOCKING:
+Kernel thread context (may sleep).

@@ -1,0 +1,18 @@
+.TH "evm_inode_post_setattr" 9 "evm_inode_post_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evm_inode_post_setattr \- update 'security.evm' after modifying metadata
+.SH SYNOPSIS
+.B "void" evm_inode_post_setattr
+.BI "(struct dentry *dentry "  ","
+.BI "int ia_valid "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+pointer to the affected dentry
+.IP "ia_valid" 12
+for the UID and GID status
+.SH "DESCRIPTION"
+For now, update the HMAC stored in 'security.evm' to reflect UID/GID
+changes.
+
+This function is called from \fBnotify_change\fP, which expects the caller
+to lock the inode's i_mutex.

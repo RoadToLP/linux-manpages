@@ -1,0 +1,14 @@
+.TH "blk_cleanup_queue" 9 "blk_cleanup_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_cleanup_queue \- shutdown a request queue
+.SH SYNOPSIS
+.B "void" blk_cleanup_queue
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request queue to shutdown
+.SH "DESCRIPTION"
+Mark \fIq\fP DYING, drain all pending requests, mark \fIq\fP DEAD, destroy and
+put it.  All future requests will be failed immediately with -ENODEV.
+.SH "CONTEXT"
+can sleep

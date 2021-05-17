@@ -1,0 +1,16 @@
+.TH "parport_claim" 9 "parport_claim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_claim \- claim access to a parallel port device
+.SH SYNOPSIS
+.B "int" parport_claim
+.BI "(struct pardevice *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to structure representing a device on the port
+
+This function will not block and so can be used from interrupt
+context.  If \fBparport_claim\fP succeeds in claiming access to
+the port it returns zero and the port is available to use.  It
+may fail (returning non-zero) if the port is in use by another
+driver and that driver is not willing to relinquish control of
+the port.

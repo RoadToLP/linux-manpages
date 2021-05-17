@@ -1,0 +1,19 @@
+.TH "dwc2_hc_start_transfer_ddma" 9 "dwc2_hc_start_transfer_ddma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hc_start_transfer_ddma \- Does the setup for a data transfer for a host channel and starts the transfer in Descriptor DMA mode
+.SH SYNOPSIS
+.B "void" dwc2_hc_start_transfer_ddma
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of DWC_otg controller
+.IP "chan" 12
+Information needed to initialize the host channel
+.SH "DESCRIPTION"
+Initializes HCTSIZ register. For a PING transfer the Do Ping bit is set.
+Sets PID and NTD values. For periodic transfers initializes SCHED_INFO field
+with micro-frame bitmap.
+
+Initializes HCDMA register with descriptor list address and CTD value then
+starts the transfer via enabling the channel.

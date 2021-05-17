@@ -1,0 +1,28 @@
+.TH "vidtv_memset" 9 "vidtv_memset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vidtv_memset \- wrapper routine to be used by MPEG-TS generator, in order to avoid going past the output buffer.
+.SH SYNOPSIS
+.B "u32" vidtv_memset
+.BI "(void *to "  ","
+.BI "size_t to_offset "  ","
+.BI "size_t to_size "  ","
+.BI "const int c "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+Starting element to set
+.IP "to_offset" 12
+Starting position of the \fIto\fP buffer to be filled.
+.IP "to_size" 12
+Size of the \fIto\fP buffer.
+.IP "c" 12
+The value to set the memory to.
+.IP "len" 12
+Number of elements to be copy from \fIfrom\fP buffer
+into \fIto\fP+ \fIto_offset\fP buffer.
+.SH "NOTE"
+Real digital TV demod drivers should not have memset
+wrappers. We use it here because emulating MPEG-TS
+generation at kernelspace requires some extra care.
+.SH "RETURN"
+Returns the number of bytes written

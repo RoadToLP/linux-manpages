@@ -1,0 +1,17 @@
+.TH "zd_mac_tx_to_dev" 9 "zd_mac_tx_to_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zd_mac_tx_to_dev \- callback for USB layer
+.SH SYNOPSIS
+.B "void" zd_mac_tx_to_dev
+.BI "(struct sk_buff *skb "  ","
+.BI "int error "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+a \fIsk_buff\fP pointer
+.IP "error" 12
+error value, 0 if transmission successful
+.SH "DESCRIPTION"
+Informs the MAC layer that the frame has successfully transferred to the
+device. If an ACK is required and the transfer to the device has been
+successful, the packets are put on the \fIack_wait_queue\fP with
+the control set removed.

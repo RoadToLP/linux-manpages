@@ -1,0 +1,39 @@
+.TH "__vmalloc_node_range" 9 "__vmalloc_node_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vmalloc_node_range \- allocate virtually contiguous memory
+.SH SYNOPSIS
+.B "void *" __vmalloc_node_range
+.BI "(unsigned long size "  ","
+.BI "unsigned long align "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long end "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "pgprot_t prot "  ","
+.BI "unsigned long vm_flags "  ","
+.BI "int node "  ","
+.BI "const void *caller "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+allocation size
+.IP "align" 12
+desired alignment
+.IP "start" 12
+vm area range start
+.IP "end" 12
+vm area range end
+.IP "gfp_mask" 12
+flags for the page level allocator
+.IP "prot" 12
+protection mask for the allocated pages
+.IP "vm_flags" 12
+additional vm area flags (e.g. VM_NO_GUARD)
+.IP "node" 12
+node to use for allocation or NUMA_NO_NODE
+.IP "caller" 12
+caller's return address
+.SH "DESCRIPTION"
+Allocate enough pages to cover \fIsize\fP from the page level
+allocator with \fIgfp_mask\fP flags.  Map them into contiguous
+kernel virtual space, using a pagetable protection of \fIprot\fP.
+.SH "RETURN"
+the address of the area or NULL on failure

@@ -1,0 +1,21 @@
+.TH "drm_kms_helper_hotplug_event" 9 "drm_kms_helper_hotplug_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_kms_helper_hotplug_event \- fire off KMS hotplug events
+.SH SYNOPSIS
+.B "void" drm_kms_helper_hotplug_event
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm_device whose connector state changed
+.SH "DESCRIPTION"
+This function fires off the uevent for userspace and also calls the
+output_poll_changed function, which is most commonly used to inform the fbdev
+emulation code and allow it to update the fbcon output configuration.
+
+Drivers should call this from their hotplug handling code when a change is
+detected. Note that this function does not do any output detection of its
+own, like \fBdrm_helper_hpd_irq_event\fP does - this is assumed to be done by the
+driver already.
+
+This function must be called from process context with no mode
+setting locks held.

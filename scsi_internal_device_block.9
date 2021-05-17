@@ -1,0 +1,19 @@
+.TH "scsi_internal_device_block" 9 "scsi_internal_device_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_internal_device_block \- try to transition to the SDEV_BLOCK state
+.SH SYNOPSIS
+.B "int" scsi_internal_device_block
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+device to block
+.SH "DESCRIPTION"
+Pause SCSI command processing on the specified device and wait until all
+ongoing \fBscsi_request_fn\fP / \fBscsi_queue_rq\fP calls have finished. May sleep.
+
+Returns zero if successful or a negative error code upon failure.
+.SH "NOTE"
+This routine transitions the device to the SDEV_BLOCK state (which must be
+a legal transition). When the device is in this state, command processing
+is paused until the device leaves the SDEV_BLOCK state. See also
+\fBscsi_internal_device_unblock\fP.

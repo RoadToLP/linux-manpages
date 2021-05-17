@@ -1,0 +1,18 @@
+.TH "ti_sci_inta_alloc_irq" 9 "ti_sci_inta_alloc_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_inta_alloc_irq \- Allocate an irq within INTA domain
+.SH SYNOPSIS
+.B "struct ti_sci_inta_event_desc *" ti_sci_inta_alloc_irq
+.BI "(struct irq_domain *domain "  ","
+.BI "u32 hwirq "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+irq_domain pointer corresponding to INTA
+.IP "hwirq" 12
+hwirq of the input event
+.SH "NOTE"
+Allocation happens in the following manner:
+- Find a free bit available in any of the vints available in the list.
+- If not found, allocate a vint from the vint pool
+- Attach the free bit to input hwirq.
+Return event_desc if all went ok else appropriate error value.

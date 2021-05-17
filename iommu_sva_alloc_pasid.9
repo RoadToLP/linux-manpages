@@ -1,0 +1,22 @@
+.TH "iommu_sva_alloc_pasid" 9 "iommu_sva_alloc_pasid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_sva_alloc_pasid \- Allocate a PASID for the mm
+.SH SYNOPSIS
+.B "int" iommu_sva_alloc_pasid
+.BI "(struct mm_struct *mm "  ","
+.BI "ioasid_t min "  ","
+.BI "ioasid_t max "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+the mm
+.IP "min" 12
+minimum PASID value (inclusive)
+.IP "max" 12
+maximum PASID value (inclusive)
+.SH "DESCRIPTION"
+Try to allocate a PASID for this mm, or take a reference to the existing one
+provided it fits within the [\fImin\fP, \fImax\fP] range. On success the PASID is
+available in mm->pasid, and must be released with \fBiommu_sva_free_pasid\fP.
+\fImin\fP must be greater than 0, because 0 indicates an unused mm->pasid.
+
+Returns 0 on success and < 0 on error.

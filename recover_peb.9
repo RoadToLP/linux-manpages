@@ -1,0 +1,33 @@
+.TH "recover_peb" 9 "recover_peb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+recover_peb \- recover from write failure.
+.SH SYNOPSIS
+.B "int" recover_peb
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "int vol_id "  ","
+.BI "int lnum "  ","
+.BI "const void *buf "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+the physical eraseblock to recover
+.IP "vol_id" 12
+volume ID
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+data which was not written because of the write failure
+.IP "offset" 12
+offset of the failed write
+.IP "len" 12
+how many bytes should have been written
+.SH "DESCRIPTION"
+This function is called in case of a write failure and moves all good data
+from the potentially bad physical eraseblock to a good physical eraseblock.
+This function also writes the data which was not written due to the failure.
+Returns 0 in case of success, and a negative error code in case of failure.
+This function tries UBI_IO_RETRIES before giving up.

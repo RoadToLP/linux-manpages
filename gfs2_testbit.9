@@ -1,0 +1,17 @@
+.TH "gfs2_testbit" 9 "gfs2_testbit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_testbit \- test a bit in the bitmaps
+.SH SYNOPSIS
+.B "u8" gfs2_testbit
+.BI "(const struct gfs2_rbm *rbm "  ","
+.BI "bool use_clone "  ");"
+.SH ARGUMENTS
+.IP "rbm" 12
+The bit to test
+.IP "use_clone" 12
+If true, test the clone bitmap, not the official bitmap.
+.SH "DESCRIPTION"
+Some callers like gfs2_unaligned_extlen need to test the clone bitmaps,
+not the "real" bitmaps, to avoid allocating recently freed blocks.
+.SH "RETURN"
+The two bit block state of the requested bit

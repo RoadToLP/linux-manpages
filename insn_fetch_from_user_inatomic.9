@@ -1,0 +1,20 @@
+.TH "insn_fetch_from_user_inatomic" 9 "insn_fetch_from_user_inatomic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_fetch_from_user_inatomic \- Copy instruction bytes from user-space memory while in atomic code
+.SH SYNOPSIS
+.B "int" insn_fetch_from_user_inatomic
+.BI "(struct pt_regs *regs "  ","
+.BI "unsigned char buf[MAX_INSN_SIZE] "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Structure with register values as seen when entering kernel mode
+.IP "buf" 12
+Array to store the fetched instruction
+.SH "DESCRIPTION"
+Gets the linear address of the instruction and copies the instruction bytes
+to the buf. This function must be used in atomic context.
+
+Number of instruction bytes copied.
+
+0 if nothing was copied.
+.SH "RETURN"

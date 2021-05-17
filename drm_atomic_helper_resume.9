@@ -1,0 +1,22 @@
+.TH "drm_atomic_helper_resume" 9 "drm_atomic_helper_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_resume \- subsystem-level resume helper
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_resume
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+atomic state to resume to
+.SH "DESCRIPTION"
+Calls \fBdrm_mode_config_reset\fP to synchronize hardware and software states,
+grabs all modeset locks and commits the atomic state object. This can be
+used in conjunction with the \fBdrm_atomic_helper_suspend\fP helper to
+implement suspend/resume for drivers that support atomic mode-setting.
+
+See also:
+\fBdrm_atomic_helper_suspend\fP
+.SH "RETURN"
+0 on success or a negative error code on failure.

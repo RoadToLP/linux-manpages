@@ -1,0 +1,24 @@
+.TH "ath5k_setup_channel_powertable" 9 "ath5k_setup_channel_powertable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_setup_channel_powertable \- Set up power table for this channel
+.SH SYNOPSIS
+.B "int" ath5k_setup_channel_powertable
+.BI "(struct ath5k_hw *ah "  ","
+.BI "struct ieee80211_channel *channel "  ","
+.BI "u8 ee_mode "  ","
+.BI "u8 type "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "channel" 12
+The \fIstruct ieee80211_channel\fP
+.IP "ee_mode" 12
+One of enum ath5k_driver_mode
+.IP "type" 12
+One of enum ath5k_powertable_type (eeprom.h)
+.SH "DESCRIPTION"
+This is the main function that uses all of the above
+to set PCDAC/PDADC table on hw for the current channel.
+This table is used for tx power calibration on the baseband,
+without it we get weird tx power levels and in some cases
+distorted spectral mask

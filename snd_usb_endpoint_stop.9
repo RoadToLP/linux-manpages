@@ -1,0 +1,18 @@
+.TH "snd_usb_endpoint_stop" 9 "snd_usb_endpoint_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_usb_endpoint_stop \- stop an snd_usb_endpoint
+.SH SYNOPSIS
+.B "void" snd_usb_endpoint_stop
+.BI "(struct snd_usb_endpoint *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint to stop (may be NULL)
+.SH "DESCRIPTION"
+A call to this function will decrement the running count of the endpoint.
+In case the last user has requested the endpoint stop, the URBs will
+actually be deactivated.
+
+Must be balanced to calls of \fBsnd_usb_endpoint_start\fP.
+
+The caller needs to synchronize the pending stop operation via
+\fBsnd_usb_endpoint_sync_pending_stop\fP.

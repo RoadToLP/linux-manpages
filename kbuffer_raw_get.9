@@ -1,0 +1,22 @@
+.TH "kbuffer_raw_get" 9 "kbuffer_raw_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbuffer_raw_get \- get raw buffer info
+.SH SYNOPSIS
+.B "struct kbuffer_raw_info *" kbuffer_raw_get
+.BI "(struct kbuffer *kbuf "  ","
+.BI "void *subbuf "  ","
+.BI "struct kbuffer_raw_info *info "  ");"
+.SH ARGUMENTS
+.IP "kbuf" 12
+The kbuffer
+.IP "subbuf" 12
+Start of mapped subbuffer
+.IP "info" 12
+Info descriptor to fill in
+.SH "DESCRIPTION"
+For debugging. This can return internals of the ring buffer.
+Expects to have info->next set to what it will read.
+The type, length and timestamp delta will be filled in, and
+\fIinfo->next\fP will be updated to the next element.
+The \fIsubbuf\fP is used to know if the info is passed the end of
+data and NULL will be returned if it is.

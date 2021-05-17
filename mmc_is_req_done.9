@@ -1,0 +1,19 @@
+.TH "mmc_is_req_done" 9 "mmc_is_req_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_is_req_done \- Determine if a 'cap_cmd_during_tfr' request is done
+.SH SYNOPSIS
+.B "bool" mmc_is_req_done
+.BI "(struct mmc_host *host "  ","
+.BI "struct mmc_request *mrq "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+MMC host
+.IP "mrq" 12
+MMC request
+
+\fBmmc_is_req_done\fP is used with requests that have
+mrq->cap_cmd_during_tfr = true. \fBmmc_is_req_done\fP must be called after
+starting a request and before waiting for it to complete. That is,
+either in between calls to \fBmmc_start_req\fP, or after \fBmmc_wait_for_req\fP
+and before \fBmmc_wait_for_req_done\fP. If it is called at other times the
+result is not meaningful.

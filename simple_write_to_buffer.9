@@ -1,0 +1,27 @@
+.TH "simple_write_to_buffer" 9 "simple_write_to_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_write_to_buffer \- copy data from user space to the buffer
+.SH SYNOPSIS
+.B "ssize_t" simple_write_to_buffer
+.BI "(void *to "  ","
+.BI "size_t available "  ","
+.BI "loff_t *ppos "  ","
+.BI "const void __user *from "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+the buffer to write to
+.IP "available" 12
+the size of the buffer
+.IP "ppos" 12
+the current position in the buffer
+.IP "from" 12
+the user space buffer to read from
+.IP "count" 12
+the maximum number of bytes to read
+.SH "DESCRIPTION"
+The \fBsimple_write_to_buffer\fP function reads up to \fIcount\fP bytes from the user
+space address starting at \fIfrom\fP into the buffer \fIto\fP at offset \fIppos\fP.
+
+On success, the number of bytes written is returned and the offset \fIppos\fP is
+advanced by this number, or negative value is returned on error.

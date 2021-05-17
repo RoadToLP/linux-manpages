@@ -1,0 +1,22 @@
+.TH "alloc_pages_exact" 9 "alloc_pages_exact" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_pages_exact \- allocate an exact number physically-contiguous pages.
+.SH SYNOPSIS
+.B "void *" alloc_pages_exact
+.BI "(size_t size "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+the number of bytes to allocate
+.IP "gfp_mask" 12
+GFP flags for the allocation, must not contain __GFP_COMP
+.SH "DESCRIPTION"
+This function is similar to \fBalloc_pages\fP, except that it allocates the
+minimum number of pages to satisfy the request.  \fBalloc_pages\fP can only
+allocate memory in power-of-two pages.
+
+This function is also limited by MAX_ORDER.
+
+Memory allocated by this function must be released by \fBfree_pages_exact\fP.
+.SH "RETURN"
+pointer to the allocated area or NULL in case of error.

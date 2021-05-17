@@ -1,0 +1,21 @@
+.TH "merge_va_blocks_locked" 9 "merge_va_blocks_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+merge_va_blocks_locked \- merge a virtual block if possible.
+.SH SYNOPSIS
+.B "void" merge_va_blocks_locked
+.BI "(struct hl_device *hdev "  ","
+.BI "struct list_head *va_list "  ","
+.BI "struct hl_vm_va_block *va_block "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+pointer to the habanalabs device structure.
+.IP "va_list" 12
+pointer to the virtual addresses block list.
+.IP "va_block" 12
+virtual block to merge with adjacent blocks.
+.SH "DESCRIPTION"
+This function does the following:
+- Merge the given blocks with the adjacent blocks if their virtual ranges
+create a contiguous virtual range.
+
+This Function should be called only when va_list lock is taken.

@@ -1,0 +1,30 @@
+.TH "ntfs_writepage" 9 "ntfs_writepage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_writepage \- write a @page to the backing store
+.SH SYNOPSIS
+.B "int" ntfs_writepage
+.BI "(struct page *page "  ","
+.BI "struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page cache page to write out
+.IP "wbc" 12
+writeback control structure
+.SH "DESCRIPTION"
+This is called from the VM when it wants to have a dirty ntfs page cache
+page cleaned.  The VM has already locked the page and marked it clean.
+
+For non-resident attributes, \fBntfs_writepage\fP writes the \fIpage\fP by calling
+the ntfs version of the generic \fBblock_write_full_page\fP function,
+\fBntfs_write_block\fP, which in turn if necessary creates and writes the
+buffers associated with the page asynchronously.
+
+For resident attributes, OTOH, \fBntfs_writepage\fP writes the \fIpage\fP by copying
+the data to the mft record (which at this stage is most likely in memory).
+The mft record is then marked dirty and written out asynchronously via the
+vfs inode dirty code path for the inode the mft record belongs to or via the
+vm page dirty code path for the page the mft record is in.
+
+Based on \fBntfs_readpage\fP and fs/buffer.c::\fBblock_write_full_page\fP.
+
+Return 0 on success and -errno on error.

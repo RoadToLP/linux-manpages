@@ -1,0 +1,22 @@
+.TH "send_afu_cmd" 9 "send_afu_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+send_afu_cmd \- builds and sends an internal AFU command
+.SH SYNOPSIS
+.B "int" send_afu_cmd
+.BI "(struct afu *afu "  ","
+.BI "struct sisl_ioarcb *rcb "  ");"
+.SH ARGUMENTS
+.IP "afu" 12
+AFU associated with the host.
+.IP "rcb" 12
+Pre-populated IOARCB describing command to send.
+.SH "DESCRIPTION"
+The AFU can only take one internal AFU command at a time. This limitation is
+enforced by using a mutex to provide exclusive access to the AFU during the
+operation. This design point requires calling threads to not be on interrupt
+context due to the possibility of sleeping during concurrent AFU operations.
+
+The command status is optionally passed back to the caller when the caller
+populates the IOASA field of the IOARCB with a pointer to an IOASA structure.
+.SH "RETURN"
+0 on success, -errno on failure

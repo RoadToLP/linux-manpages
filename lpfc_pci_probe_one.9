@@ -1,0 +1,25 @@
+.TH "lpfc_pci_probe_one" 9 "lpfc_pci_probe_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_pci_probe_one \- lpfc PCI probe func to reg dev to PCI subsystem
+.SH SYNOPSIS
+.B "int" lpfc_pci_probe_one
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *pid "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pointer to PCI device
+.IP "pid" 12
+pointer to PCI device identifier
+.SH "DESCRIPTION"
+This routine is to be registered to the kernel's PCI subsystem. When an
+Emulex HBA device is presented on PCI bus, the kernel PCI subsystem looks
+at PCI device-specific information of the device and driver to see if the
+driver state that it can support this kind of device. If the match is
+successful, the driver core invokes this routine. This routine dispatches
+the action to the proper SLI-3 or SLI-4 device probing routine, which will
+do all the initialization that it needs to do to handle the HBA device
+properly.
+
+Return code
+0 - driver can claim the device
+negative value - driver can not claim the device

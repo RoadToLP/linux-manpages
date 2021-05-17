@@ -1,0 +1,34 @@
+.TH "mptscsih_IssueTaskMgmt" 9 "mptscsih_IssueTaskMgmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptscsih_IssueTaskMgmt \- Generic send Task Management function.
+.SH SYNOPSIS
+.B "int" mptscsih_IssueTaskMgmt
+.BI "(MPT_SCSI_HOST *hd "  ","
+.BI "u8 type "  ","
+.BI "u8 channel "  ","
+.BI "u8 id "  ","
+.BI "u64 lun "  ","
+.BI "int ctx2abort "  ","
+.BI "ulong timeout "  ");"
+.SH ARGUMENTS
+.IP "hd" 12
+Pointer to MPT_SCSI_HOST structure
+.IP "type" 12
+Task Management type
+.IP "channel" 12
+channel number for task management
+.IP "id" 12
+Logical Target ID for reset (if appropriate)
+.IP "lun" 12
+Logical Unit for reset (if appropriate)
+.IP "ctx2abort" 12
+Context for the task to be aborted (if appropriate)
+.IP "timeout" 12
+timeout for task management control
+
+Remark: _HardResetHandler can be invoked from an interrupt thread (timer)
+or a non-interrupt thread.  In the former, must not call \fBschedule\fP.
+
+Not all fields are meaningfull for all task types.
+
+Returns 0 for SUCCESS, or FAILED.

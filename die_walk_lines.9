@@ -1,0 +1,21 @@
+.TH "die_walk_lines" 9 "die_walk_lines" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+die_walk_lines \- Walk on lines inside given DIE
+.SH SYNOPSIS
+.B "int" die_walk_lines
+.BI "(Dwarf_Die *rt_die "  ","
+.BI "line_walk_callback_t callback "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "rt_die" 12
+a root DIE (CU, subprogram or inlined_subroutine)
+.IP "callback" 12
+callback routine
+.IP "data" 12
+user data
+.SH "DESCRIPTION"
+Walk on all lines inside given \fIrt_die\fP and call \fIcallback\fP on each line.
+If the \fIrt_die\fP is a function, walk only on the lines inside the function,
+otherwise \fIrt_die\fP must be a CU DIE.
+Note that this walks not only dwarf line list, but also function entries
+and inline call-site.

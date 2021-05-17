@@ -1,0 +1,20 @@
+.TH "pcpu_next_md_free_region" 9 "pcpu_next_md_free_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_next_md_free_region \- finds the next hint free area
+.SH SYNOPSIS
+.B "void" pcpu_next_md_free_region
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int *bit_off "  ","
+.BI "int *bits "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "bit_off" 12
+chunk offset
+.IP "bits" 12
+size of free area
+.SH "DESCRIPTION"
+Helper function for pcpu_for_each_md_free_region.  It checks
+block->contig_hint and performs aggregation across blocks to find the
+next hint.  It modifies bit_off and bits in-place to be consumed in the
+loop.

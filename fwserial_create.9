@@ -1,0 +1,20 @@
+.TH "fwserial_create" 9 "fwserial_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwserial_create \- init everything to create TTYs for a specific fw_card
+.SH SYNOPSIS
+.B "int" fwserial_create
+.BI "(struct fw_unit *unit "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+fw_unit for first 'serial' unit device probed for this fw_card
+.SH "DESCRIPTION"
+This function inits the aggregate structure (an fw_serial instance)
+used to manage the TTY ports registered by a specific fw_card. Also, the
+unit device is added as the first 'peer'.
+
+This unit device may represent a local unit device (as specified by the
+config ROM unit directory) or it may represent a remote unit device
+(as specified by the reading of the remote node's config ROM).
+
+Returns 0 to indicate "ownership" of the unit device, or a negative errno
+value to indicate which error.

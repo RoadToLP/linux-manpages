@@ -1,0 +1,31 @@
+.TH "lpfc_match_fcf_conn_list" 9 "lpfc_match_fcf_conn_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_match_fcf_conn_list \- Check if the FCF record can be used for discovery.
+.SH SYNOPSIS
+.B "int" lpfc_match_fcf_conn_list
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct fcf_record *new_fcf_record "  ","
+.BI "uint32_t *boot_flag "  ","
+.BI "uint32_t *addr_mode "  ","
+.BI "uint16_t *vlan_id "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "new_fcf_record" 12
+pointer to fcf record.
+.IP "boot_flag" 12
+Indicates if this record used by boot bios.
+.IP "addr_mode" 12
+The address mode to be used by this FCF
+.IP "vlan_id" 12
+The vlan id to be used as vlan tagging by this FCF.
+.SH "DESCRIPTION"
+This routine compare the fcf record with connect list obtained from the
+config region to decide if this FCF can be used for SAN discovery. It returns
+1 if this record can be used for SAN discovery else return zero. If this FCF
+record can be used for SAN discovery, the boot_flag will indicate if this FCF
+is used by boot bios and addr_mode will indicate the addressing mode to be
+used for this FCF when the function returns.
+If the FCF record need to be used with a particular vlan id, the vlan is
+set in the vlan_id on return of the function. If not VLAN tagging need to
+be used with the FCF vlan_id will be set to LPFC_FCOE_NULL_VID;

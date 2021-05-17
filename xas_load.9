@@ -1,0 +1,21 @@
+.TH "xas_load" 9 "xas_load" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_load \- Load an entry from the XArray (advanced).
+.SH SYNOPSIS
+.B "void *" xas_load
+.BI "(struct xa_state *xas "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.SH "DESCRIPTION"
+Usually walks the \fIxas\fP to the appropriate state to load the entry
+stored at xa_index.  However, it will do nothing and return NULL if
+\fIxas\fP is in an error state.  \fBxas_load\fP will never expand the tree.
+
+If the xa_state is set up to operate on a multi-index entry, \fBxas_load\fP
+may return NULL or an internal entry, even if there are entries
+present within the range specified by \fIxas\fP.
+.SH "CONTEXT"
+Any context.  The caller should hold the xa_lock or the RCU lock.
+.SH "RETURN"
+Usually an entry in the XArray, but see description for exceptions.

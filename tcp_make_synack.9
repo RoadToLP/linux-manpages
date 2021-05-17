@@ -1,0 +1,25 @@
+.TH "tcp_make_synack" 9 "tcp_make_synack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcp_make_synack \- Allocate one skb and build a SYNACK packet.
+.SH SYNOPSIS
+.B "struct sk_buff *" tcp_make_synack
+.BI "(const struct sock *sk "  ","
+.BI "struct dst_entry *dst "  ","
+.BI "struct request_sock *req "  ","
+.BI "struct tcp_fastopen_cookie *foc "  ","
+.BI "enum tcp_synack_type synack_type "  ","
+.BI "struct sk_buff *syn_skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+listener socket
+.IP "dst" 12
+dst entry attached to the SYNACK. It is consumed and caller
+should not use it again.
+.IP "req" 12
+request_sock pointer
+.IP "foc" 12
+cookie for tcp fast open
+.IP "synack_type" 12
+Type of synack to prepare
+.IP "syn_skb" 12
+SYN packet just received.  It could be NULL for rtx case.

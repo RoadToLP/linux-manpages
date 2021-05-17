@@ -1,0 +1,22 @@
+.TH "of_find_compatible_node" 9 "of_find_compatible_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_compatible_node \- Find a node based on type and one of the tokens in its "compatible" property
+.SH SYNOPSIS
+.B "struct device_node *" of_find_compatible_node
+.BI "(struct device_node *from "  ","
+.BI "const char *type "  ","
+.BI "const char *compatible "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+The node to start searching from or NULL, the node
+you pass will not be searched, only the next one
+will; typically, you pass what the previous call
+returned. \fBof_node_put\fP will be called on it
+.IP "type" 12
+The type string to match "device_type" or NULL to ignore
+.IP "compatible" 12
+The string to match to one of the tokens in the device
+"compatible" list.
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.

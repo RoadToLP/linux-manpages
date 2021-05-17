@@ -1,0 +1,19 @@
+.TH "dwc2_hsotg_ep0_zlp" 9 "dwc2_hsotg_ep0_zlp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_ep0_zlp \- send/receive zero-length packet on control endpoint
+.SH SYNOPSIS
+.B "void" dwc2_hsotg_ep0_zlp
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "bool dir_in "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The device instance
+.IP "dir_in" 12
+If IN zlp
+.SH "DESCRIPTION"
+Generate a zero-length IN packet request for terminating a SETUP
+transaction.
+
+Note, since we don't write any data to the TxFIFO, then it is
+currently believed that we do not need to wait for any space in
+the TxFIFO.

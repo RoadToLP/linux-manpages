@@ -1,0 +1,20 @@
+.TH "fm10k_mbx_connect" 9 "fm10k_mbx_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_connect \- Start mailbox connection
+.SH SYNOPSIS
+.B "s32" fm10k_mbx_connect
+.BI "(struct fm10k_hw *hw "  ","
+.BI "struct fm10k_mbx_info *mbx "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mbx" 12
+pointer to mailbox
+
+This function will initiate a mailbox connection.  It will populate the
+mailbox with a broadcast connect message and then initialize the lock.
+This is safe since the connect message is a single DWORD so the mailbox
+transaction is guaranteed to be atomic.
+
+This function will return an error if the mailbox has not been initiated
+or is currently in use.

@@ -1,0 +1,22 @@
+.TH "lpfc_sli_async_event_handler" 9 "lpfc_sli_async_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_async_event_handler \- ASYNC iocb handler function
+.SH SYNOPSIS
+.B "void" lpfc_sli_async_event_handler
+.BI "(struct lpfc_hba * phba "  ","
+.BI "struct lpfc_sli_ring * pring "  ","
+.BI "struct lpfc_iocbq * iocbq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "iocbq" 12
+Pointer to iocb object.
+.SH "DESCRIPTION"
+This function is called by the slow ring event handler
+function when there is an ASYNC event iocb in the ring.
+This function is called with no lock held.
+Currently this function handles only temperature related
+ASYNC events. The function decodes the temperature sensor
+event message and posts events for the management applications.

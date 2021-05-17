@@ -1,0 +1,38 @@
+.TH "e1000_access_phy_wakeup_reg_bm" 9 "e1000_access_phy_wakeup_reg_bm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_access_phy_wakeup_reg_bm \- Read/write BM PHY wakeup register
+.SH SYNOPSIS
+.B "s32" e1000_access_phy_wakeup_reg_bm
+.BI "(struct e1000_hw *hw "  ","
+.BI "u32 offset "  ","
+.BI "u16 *data "  ","
+.BI "bool read "  ","
+.BI "bool page_set "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+register offset to be read or written
+.IP "data" 12
+pointer to the data to read or write
+.IP "read" 12
+determines if operation is read or write
+.IP "page_set" 12
+BM_WUC_PAGE already set and access enabled
+
+Read the PHY register at offset and store the retrieved information in
+data, or write data to PHY register at offset.  Note the procedure to
+access the PHY wakeup registers is different than reading the other PHY
+registers. It works as such:
+1) Set 769.17.2 (page 769, register 17, bit 2) = 1
+2) Set page to 800 for host (801 if we were manageability)
+3) Write the address using the address opcode (0x11)
+4) Read or write the data using the data opcode (0x12)
+5) Restore 769.17.2 to its original value
+
+Steps 1 and 2 are done by \fBe1000_enable_phy_wakeup_reg_access_bm\fP and
+step 5 is done by \fBe1000_disable_phy_wakeup_reg_access_bm\fP.
+
+Assumes semaphore is already acquired.  When page_set==true, assumes
+the PHY page is set to BM_WUC_PAGE (i.e. a function in the call stack
+is responsible for calls to e1000_[enable|disable]\fB_phy_wakeup_reg_bm\fP).

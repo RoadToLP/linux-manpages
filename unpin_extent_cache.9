@@ -1,0 +1,22 @@
+.TH "unpin_extent_cache" 9 "unpin_extent_cache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unpin_extent_cache \- unpin an extent from the cache
+.SH SYNOPSIS
+.B "int" unpin_extent_cache
+.BI "(struct extent_map_tree *tree "  ","
+.BI "u64 start "  ","
+.BI "u64 len "  ","
+.BI "u64 gen "  ");"
+.SH ARGUMENTS
+.IP "tree" 12
+tree to unpin the extent in
+.IP "start" 12
+logical offset in the file
+.IP "len" 12
+length of the extent
+.IP "gen" 12
+generation that this extent has been modified in
+.SH "DESCRIPTION"
+Called after an extent has been written to disk properly.  Set the generation
+to the generation that actually added the file item to the inode so we know
+we need to sync this extent when we call \fBfsync\fP.

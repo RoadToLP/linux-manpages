@@ -1,0 +1,36 @@
+.TH "tb_xdomain_request" 9 "tb_xdomain_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_xdomain_request \- Send a XDomain request
+.SH SYNOPSIS
+.B "int" tb_xdomain_request
+.BI "(struct tb_xdomain *xd "  ","
+.BI "const void *request "  ","
+.BI "size_t request_size "  ","
+.BI "enum tb_cfg_pkg_type request_type "  ","
+.BI "void *response "  ","
+.BI "size_t response_size "  ","
+.BI "enum tb_cfg_pkg_type response_type "  ","
+.BI "unsigned int timeout_msec "  ");"
+.SH ARGUMENTS
+.IP "xd" 12
+XDomain to send the request
+.IP "request" 12
+Request to send
+.IP "request_size" 12
+Size of the request in bytes
+.IP "request_type" 12
+PDF type of the request
+.IP "response" 12
+Response is copied here
+.IP "response_size" 12
+Expected size of the response in bytes
+.IP "response_type" 12
+Expected PDF type of the response
+.IP "timeout_msec" 12
+Timeout in milliseconds to wait for the response
+.SH "DESCRIPTION"
+This function can be used to send XDomain control channel messages to
+the other domain. The function waits until the response is received
+or when timeout triggers. Whichever comes first.
+.SH "RETURN"
+0 in case of success and negative errno in case of failure

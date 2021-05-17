@@ -1,0 +1,42 @@
+.TH "vxge_hw_ring_rxd_next_completed" 9 "vxge_hw_ring_rxd_next_completed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxge_hw_ring_rxd_next_completed \- Get the _next_ completed descriptor.
+.SH SYNOPSIS
+.B "enum vxge_hw_status" vxge_hw_ring_rxd_next_completed
+.BI "(struct __vxge_hw_ring *ring "  ","
+.BI "void **rxdh "  ","
+.BI "u8 *t_code "  ");"
+.SH ARGUMENTS
+.IP "ring" 12
+Handle to the ring object used for receive
+.IP "rxdh" 12
+Descriptor handle. Returned by HW.
+.IP "t_code" 12
+Transfer code, as per Titan User Guide,
+Receive Descriptor Format. Returned by HW.
+.SH "DESCRIPTION"
+Retrieve the _next_ completed descriptor.
+HW uses ring callback (*vxge_hw_ring_callback_f) to notifiy
+driver of new completed descriptors. After that
+the driver can use vxge_hw_ring_rxd_next_completed to retrieve the rest
+completions (the very first completion is passed by HW via
+vxge_hw_ring_callback_f).
+
+Implementation-wise, the driver is free to call
+vxge_hw_ring_rxd_next_completed either immediately from inside the
+ring callback, or in a deferred fashion and separate (from HW)
+context.
+
+Non-zero \fIt_code\fP means failure to fill-in receive buffer(s)
+of the descriptor.
+For instance, parity error detected during the data transfer.
+In this case Titan will complete the descriptor and indicate
+for the host that the received data is not to be used.
+For details please refer to Titan User Guide.
+
+See also: vxge_hw_ring_callback_f{},
+\fBvxge_hw_fifo_rxd_next_completed\fP, enum vxge_hw_status{}.
+.SH "RETURN"
+VXGE_HW_OK - success.
+VXGE_HW_INF_NO_MORE_COMPLETED_DESCRIPTORS - No completed descriptors
+are currently available for processing.

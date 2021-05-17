@@ -1,0 +1,28 @@
+.TH "dma_mmap_attrs" 9 "dma_mmap_attrs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_mmap_attrs \- map a coherent DMA allocation into user space
+.SH SYNOPSIS
+.B "int" dma_mmap_attrs
+.BI "(struct device *dev "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "void *cpu_addr "  ","
+.BI "dma_addr_t dma_addr "  ","
+.BI "size_t size "  ","
+.BI "unsigned long attrs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+valid struct device pointer, or NULL for ISA and EISA-like devices
+.IP "vma" 12
+vm_area_struct describing requested user mapping
+.IP "cpu_addr" 12
+kernel CPU-view address returned from dma_alloc_attrs
+.IP "dma_addr" 12
+device-view address returned from dma_alloc_attrs
+.IP "size" 12
+size of memory originally requested in dma_alloc_attrs
+.IP "attrs" 12
+attributes of mapping properties requested in dma_alloc_attrs
+.SH "DESCRIPTION"
+Map a coherent DMA buffer previously allocated by dma_alloc_attrs into user
+space.  The coherent DMA buffer must not be freed by the driver until the
+user space mapping has been released.

@@ -1,0 +1,26 @@
+.TH "rpmh_write_batch" 9 "rpmh_write_batch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmh_write_batch \- Write multiple sets of RPMH commands and wait for the batch to finish.
+.SH SYNOPSIS
+.B "int" rpmh_write_batch
+.BI "(const struct device *dev "  ","
+.BI "enum rpmh_state state "  ","
+.BI "const struct tcs_cmd *cmd "  ","
+.BI "u32 *n "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device making the request
+.IP "state" 12
+Active/sleep set
+.IP "cmd" 12
+The payload data
+.IP "n" 12
+The array of count of elements in each batch, 0 terminated.
+.SH "DESCRIPTION"
+Write a request to the RSC controller without caching. If the request
+state is ACTIVE, then the requests are treated as completion request
+and sent to the controller immediately. The function waits until all the
+commands are complete. If the request was to SLEEP or WAKE_ONLY, then the
+request is sent as fire-n-forget and no ack is expected.
+
+May sleep. Do not call from atomic contexts for ACTIVE_ONLY requests.

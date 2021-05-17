@@ -1,0 +1,19 @@
+.TH "gpiod_get" 9 "gpiod_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiod_get \- obtain a GPIO for a given GPIO function
+.SH SYNOPSIS
+.B "struct gpio_desc *" gpiod_get
+.BI "(struct device *dev "  ","
+.BI "const char *con_id "  ","
+.BI "enum gpiod_flags flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+GPIO consumer, can be NULL for system-global GPIOs
+.IP "con_id" 12
+function within the GPIO consumer
+.IP "flags" 12
+optional GPIO initialization flags
+.SH "DESCRIPTION"
+Return the GPIO descriptor corresponding to the function con_id of device
+dev, -ENOENT if no GPIO has been assigned to the requested function, or
+another \fBIS_ERR\fP code if an error occurred while trying to acquire the GPIO.

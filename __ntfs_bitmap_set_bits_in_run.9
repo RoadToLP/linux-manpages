@@ -1,0 +1,29 @@
+.TH "__ntfs_bitmap_set_bits_in_run" 9 "__ntfs_bitmap_set_bits_in_run" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_bitmap_set_bits_in_run \- set a run of bits in a bitmap to a value
+.SH SYNOPSIS
+.B "int" __ntfs_bitmap_set_bits_in_run
+.BI "(struct inode *vi "  ","
+.BI "const s64 start_bit "  ","
+.BI "const s64 count "  ","
+.BI "const u8 value "  ","
+.BI "const bool is_rollback "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+vfs inode describing the bitmap
+.IP "start_bit" 12
+first bit to set
+.IP "count" 12
+number of bits to set
+.IP "value" 12
+value to set the bits to (i.e. 0 or 1)
+.IP "is_rollback" 12
+if 'true' this is a rollback operation
+.SH "DESCRIPTION"
+Set \fIcount\fP bits starting at bit \fIstart_bit\fP in the bitmap described by the
+vfs inode \fIvi\fP to \fIvalue\fP, where \fIvalue\fP is either 0 or 1.
+
+\fIis_rollback\fP should always be 'false', it is for internal use to rollback
+errors.  You probably want to use \fBntfs_bitmap_set_bits_in_run\fP instead.
+
+Return 0 on success and -errno on error.

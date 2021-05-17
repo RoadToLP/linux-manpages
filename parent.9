@@ -1,0 +1,27 @@
+.TH "parent" 9 "parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parent \- given the offset of the child, find the offset of the parent.
+.SH SYNOPSIS
+.B "__attribute_const__ __always_inline static size_t" parent
+.BI "(size_t i "  ","
+.BI "unsigned int lsbit "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "i" 12
+the offset of the heap element whose parent is sought.  Non-zero.
+.IP "lsbit" 12
+a precomputed 1-bit mask, equal to "size & -size"
+.IP "size" 12
+size of each element
+.SH "DESCRIPTION"
+In terms of array indexes, the parent of element j = \fIi\fP/\fIsize\fP is simply
+(j-1)/2.  But when working in byte offsets, we can't use implicit
+truncation of integer divides.
+
+Fortunately, we only need one bit of the quotient, not the full divide.
+\fIsize\fP has a least significant bit.  That bit will be clear if \fIi\fP is
+an even multiple of \fIsize\fP, and set if it's an odd multiple.
+
+Logically, we're doing "if (i & lsbit) i -= size;", but since the
+branch is unpredictable, it's done with a bit of clever branch-free
+code instead.

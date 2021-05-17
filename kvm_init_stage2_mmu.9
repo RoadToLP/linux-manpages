@@ -1,0 +1,16 @@
+.TH "kvm_init_stage2_mmu" 9 "kvm_init_stage2_mmu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_init_stage2_mmu \- Initialise a S2 MMU strucrure
+.SH SYNOPSIS
+.B "int" kvm_init_stage2_mmu
+.BI "(struct kvm *kvm "  ","
+.BI "struct kvm_s2_mmu *mmu "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+The pointer to the KVM structure
+.IP "mmu" 12
+The pointer to the s2 MMU structure
+.SH "DESCRIPTION"
+Allocates only the stage-2 HW PGD level table(s).
+Note we don't need locking here as this is only called when the VM is
+created, which can only be done once.

@@ -1,0 +1,22 @@
+.TH "snd_lookup_minor_data" 9 "snd_lookup_minor_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_lookup_minor_data \- get user data of a registered device
+.SH SYNOPSIS
+.B "void *" snd_lookup_minor_data
+.BI "(unsigned int minor "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "minor" 12
+the minor number
+.IP "type" 12
+device type (SNDRV_DEVICE_TYPE_XXX)
+.SH "DESCRIPTION"
+Checks that a minor device with the specified type is registered, and returns
+its user data pointer.
+
+This function increments the reference counter of the card instance
+if an associated instance with the given minor number and type is found.
+The caller must call \fBsnd_card_unref\fP appropriately later.
+.SH "RETURN"
+The user data pointer if the specified device is found. NULL
+otherwise.

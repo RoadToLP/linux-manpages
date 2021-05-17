@@ -1,0 +1,23 @@
+.TH "try_lookup_one_len" 9 "try_lookup_one_len" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_lookup_one_len \- filesystem helper to lookup single pathname component
+.SH SYNOPSIS
+.B "struct dentry *" try_lookup_one_len
+.BI "(const char *name "  ","
+.BI "struct dentry *base "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+pathname component to lookup
+.IP "base" 12
+base directory to lookup from
+.IP "len" 12
+maximum length \fIlen\fP should be interpreted to
+.SH "DESCRIPTION"
+Look up a dentry by name in the dcache, returning NULL if it does not
+currently exist.  The function does not try to create a dentry.
+
+Note that this routine is purely a helper for filesystem usage and should
+not be called by generic code.
+
+The caller must hold base->i_mutex.

@@ -1,0 +1,21 @@
+.TH "alloc_session" 9 "alloc_session" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_session \- Allocate a session structure
+.SH SYNOPSIS
+.B "struct amdtee_session *" alloc_session
+.BI "(struct amdtee_context_data *ctxdata "  ","
+.BI "u32 session "  ");"
+.SH ARGUMENTS
+.IP "ctxdata" 12
+TEE Context data structure
+.IP "session" 12
+Session ID for which 'struct amdtee_session' structure is to be
+allocated.
+.SH "DESCRIPTION"
+Scans the TEE context's session list to check if TA is already loaded in to
+TEE. If yes, returns the 'session' structure for that TA. Else allocates,
+initializes a new 'session' structure and adds it to context's session list.
+
+The caller must hold a mutex.
+.SH "RETURN"
+'struct amdtee_session *' on success and NULL on failure.

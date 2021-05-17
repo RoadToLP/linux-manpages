@@ -1,0 +1,18 @@
+.TH "usb_serial_register_drivers" 9 "usb_serial_register_drivers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_serial_register_drivers \- register drivers for a usb-serial module
+.SH SYNOPSIS
+.B "int" usb_serial_register_drivers
+.BI "(struct usb_serial_driver *const serial_drivers[] "  ","
+.BI "const char *name "  ","
+.BI "const struct usb_device_id *id_table "  ");"
+.SH ARGUMENTS
+.IP "serial_drivers" 12
+NULL-terminated array of pointers to drivers to be registered
+.IP "name" 12
+name of the usb_driver for this set of \fIserial_drivers\fP
+.IP "id_table" 12
+list of all devices this \fIserial_drivers\fP set binds to
+.SH "DESCRIPTION"
+Registers all the drivers in the \fIserial_drivers\fP array, and dynamically
+creates a struct usb_driver with the name \fIname\fP and id_table of \fIid_table\fP.

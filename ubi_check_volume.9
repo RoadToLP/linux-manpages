@@ -1,0 +1,17 @@
+.TH "ubi_check_volume" 9 "ubi_check_volume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_check_volume \- check the contents of a static volume.
+.SH SYNOPSIS
+.B "int" ubi_check_volume
+.BI "(struct ubi_device *ubi "  ","
+.BI "int vol_id "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol_id" 12
+ID of the volume to check
+.SH "DESCRIPTION"
+This function checks if static volume \fIvol_id\fP is corrupted by fully reading
+it and checking data CRC. This function returns 0 if the volume is not
+corrupted, 1 if it is corrupted and a negative error code in case of
+failure. Dynamic volumes are not checked and zero is returned immediately.

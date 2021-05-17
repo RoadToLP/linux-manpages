@@ -1,0 +1,14 @@
+.TH "sr_kref_release" 9 "sr_kref_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sr_kref_release \- Called to free the scsi_cd structure
+.SH SYNOPSIS
+.B "void" sr_kref_release
+.BI "(struct kref *kref "  ");"
+.SH ARGUMENTS
+.IP "kref" 12
+pointer to embedded kref
+
+sr_ref_mutex must be held entering this routine.  Because it is
+called on last put, you should always use the \fBscsi_cd_get\fP
+\fBscsi_cd_put\fP helpers which manipulate the semaphore directly
+and never do a direct \fBkref_put\fP.

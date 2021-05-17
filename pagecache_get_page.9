@@ -1,0 +1,45 @@
+.TH "pagecache_get_page" 9 "pagecache_get_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pagecache_get_page \- Find and get a reference to a page.
+.SH SYNOPSIS
+.B "struct page *" pagecache_get_page
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t index "  ","
+.BI "int fgp_flags "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address_space to search.
+.IP "index" 12
+The page index.
+.IP "fgp_flags" 12
+FGP flags modify how the page is returned.
+.IP "gfp_mask" 12
+Memory allocation flags to use if FGP_CREAT is specified.
+.SH "DESCRIPTION"
+Looks up the page cache entry at \fImapping\fP & \fIindex\fP.
+
+\fIfgp_flags\fP can be zero or more of these flags:
+
+* FGP_ACCESSED - The page will be marked accessed.
+* FGP_LOCK - The page is returned locked.
+* FGP_HEAD - If the page is present and a THP, return the head page
+rather than the exact page specified by the index.
+* FGP_ENTRY - If there is a shadow / swap / DAX entry, return it
+instead of allocating a new page to replace it.
+* FGP_CREAT - If no page is present then a new page is allocated using
+\fIgfp_mask\fP and added to the page cache and the VM's LRU list.
+The page is returned locked and with an increased refcount.
+* FGP_FOR_MMAP - The caller wants to do its own locking dance if the
+page is already in cache.  If the page was allocated, unlock it before
+returning so the caller can do the same dance.
+* FGP_WRITE - The page will be written
+* FGP_NOFS - __GFP_FS will get cleared in gfp mask
+* FGP_NOWAIT - Don't get blocked by page lock
+
+If FGP_LOCK or FGP_CREAT are specified then the function may sleep even
+if the GFP flags specified for FGP_CREAT are atomic.
+
+If there is a page cache page, it is returned with an increased refcount.
+.SH "RETURN"
+The found page or NULL otherwise.

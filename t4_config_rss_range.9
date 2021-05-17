@@ -1,0 +1,34 @@
+.TH "t4_config_rss_range" 9 "t4_config_rss_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_config_rss_range \- configure a portion of the RSS mapping table
+.SH SYNOPSIS
+.B "int" t4_config_rss_range
+.BI "(struct adapter *adapter "  ","
+.BI "int mbox "  ","
+.BI "unsigned int viid "  ","
+.BI "int start "  ","
+.BI "int n "  ","
+.BI "const u16 *rspq "  ","
+.BI "unsigned int nrspq "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "mbox" 12
+mbox to use for the FW command
+.IP "viid" 12
+virtual interface whose RSS subtable is to be written
+.IP "start" 12
+start entry in the table to write
+.IP "n" 12
+how many table entries to write
+.IP "rspq" 12
+values for the response queue lookup table
+.IP "nrspq" 12
+number of values in \fIrspq\fP
+
+Programs the selected part of the VI's RSS mapping table with the
+provided values.  If \fInrspq\fP < \fIn\fP the supplied values are used repeatedly
+until the full table range is populated.
+
+The caller must ensure the values in \fIrspq\fP are in the range allowed for
+\fIviid\fP.

@@ -1,0 +1,17 @@
+.TH "bcm2835_wr_fifo_count" 9 "bcm2835_wr_fifo_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm2835_wr_fifo_count \- blindly write exactly @count bytes to TX FIFO
+.SH SYNOPSIS
+.B "void" bcm2835_wr_fifo_count
+.BI "(struct bcm2835_spi *bs "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "bs" 12
+BCM2835 SPI controller
+.IP "count" 12
+bytes to write to TX FIFO
+.SH "DESCRIPTION"
+The caller must ensure that \fIbs->tx_len\fP is greater than or equal to \fIcount\fP,
+that the TX FIFO can accommodate \fIcount\fP bytes and that the DMA Enable flag
+in the CS register is set (such that a write to the FIFO register transmits
+32-bit instead of just 8-bit).

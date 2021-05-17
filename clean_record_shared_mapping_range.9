@@ -1,0 +1,51 @@
+.TH "clean_record_shared_mapping_range" 9 "clean_record_shared_mapping_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clean_record_shared_mapping_range \- Clean and record all ptes in an address space range
+.SH SYNOPSIS
+.B "unsigned long" clean_record_shared_mapping_range
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t first_index "  ","
+.BI "pgoff_t nr "  ","
+.BI "pgoff_t bitmap_pgoff "  ","
+.BI "unsigned long *bitmap "  ","
+.BI "pgoff_t *start "  ","
+.BI "pgoff_t *end "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address_space we want to clean
+.IP "first_index" 12
+The first page offset in the range
+.IP "nr" 12
+Number of incremental page offsets to cover
+.IP "bitmap_pgoff" 12
+The page offset of the first bit in \fIbitmap\fP
+.IP "bitmap" 12
+Pointer to a bitmap of at least \fInr\fP bits. The bitmap needs to
+cover the whole range \fIfirst_index\fP..\fIfirst_index\fP + \fInr\fP.
+.IP "start" 12
+Pointer to number of the first set bit in \fIbitmap\fP.
+is modified as new bits are set by the function.
+.IP "end" 12
+Pointer to the number of the last set bit in \fIbitmap\fP.
+none set. The value is modified as new bits are set by the function.
+.SH "NOTE"
+When this function returns there is no guarantee that a CPU has
+not already dirtied new ptes. However it will not clean any ptes not
+reported in the bitmap. The guarantees are as follows:
+a) All ptes dirty when the function starts executing will end up recorded
+in the bitmap.
+b) All ptes dirtied after that will either remain dirty, be recorded in the
+bitmap or both.
+
+This function currently skips transhuge page-table entries, since
+it's intended for dirty-tracking on the PTE level. It will warn on
+encountering transhuge dirty entries, though, and can easily be extended
+to handle them as well.
+.SH "DESCRIPTION"
+If a caller needs to make sure all dirty ptes are picked up and none
+additional are added, it first needs to write-protect the address-space
+range and make sure new writers are blocked in \fBpage_mkwrite\fP or
+\fBpfn_mkwrite\fP. And then after a TLB flush following the write-protection
+pick up all dirty bits.
+.SH "RETURN"
+The number of dirty ptes actually cleaned.

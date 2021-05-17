@@ -1,0 +1,23 @@
+.TH "ata_pci_sff_prepare_host" 9 "ata_pci_sff_prepare_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_pci_sff_prepare_host \- helper to prepare PCI PIO-only SFF ATA host
+.SH SYNOPSIS
+.B "int" ata_pci_sff_prepare_host
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct ata_port_info * const *ppi "  ","
+.BI "struct ata_host **r_host "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+target PCI device
+.IP "ppi" 12
+array of port_info, must be enough for two ports
+.IP "r_host" 12
+out argument for the initialized ATA host
+
+Helper to allocate PIO-only SFF ATA host for \fIpdev\fP, acquire
+all PCI resources and initialize it accordingly in one go.
+
+LOCKING:
+Inherited from calling layer (may sleep).
+.SH "RETURN"
+0 on success, -errno otherwise.

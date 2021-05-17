@@ -1,0 +1,16 @@
+.TH "scsi_prep_async_scan" 9 "scsi_prep_async_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_prep_async_scan \- prepare for an async scan
+.SH SYNOPSIS
+.B "struct async_scan_data *" scsi_prep_async_scan
+.BI "(struct Scsi_Host *shost "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+the host which will be scanned
+.SH "RETURN"
+a cookie to be passed to \fBscsi_finish_async_scan\fP
+.SH "DESCRIPTION"
+Tells the midlayer this host is going to do an asynchronous scan.
+It reserves the host's position in the scanning list and ensures
+that other asynchronous scans started after this one won't affect the
+ordering of the discovered devices.

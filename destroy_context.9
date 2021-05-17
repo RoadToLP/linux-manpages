@@ -1,0 +1,20 @@
+.TH "destroy_context" 9 "destroy_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+destroy_context \- releases a context
+.SH SYNOPSIS
+.B "void" destroy_context
+.BI "(struct cxlflash_cfg *cfg "  ","
+.BI "struct ctx_info *ctxi "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.IP "ctxi" 12
+Context to release.
+.SH "DESCRIPTION"
+This routine is safe to be called with a a non-initialized context.
+Also note that the routine conditionally checks for the existence
+of the context control map before clearing the RHT registers and
+context capabilities because it is possible to destroy a context
+while the context is in the error state (previous mapping was
+removed [so there is no need to worry about clearing] and context
+is waiting for a new mapping).

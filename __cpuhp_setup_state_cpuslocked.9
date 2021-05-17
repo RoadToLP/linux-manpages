@@ -1,0 +1,33 @@
+.TH "__cpuhp_setup_state_cpuslocked" 9 "__cpuhp_setup_state_cpuslocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cpuhp_setup_state_cpuslocked \- Setup the callbacks for an hotplug machine state
+.SH SYNOPSIS
+.B "int" __cpuhp_setup_state_cpuslocked
+.BI "(enum cpuhp_state state "  ","
+.BI "const char *name "  ","
+.BI "bool invoke "  ","
+.BI "int (*startup)(unsigned int cpu) "  ","
+.BI "int (*teardown)(unsigned int cpu) "  ","
+.BI "bool multi_instance "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+The state to setup
+.IP "name" 12
+-- undescribed --
+.IP "invoke" 12
+If true, the startup function is invoked for cpus where
+cpu state >= \fIstate\fP
+.IP "startup" 12
+startup callback function
+.IP "teardown" 12
+teardown callback function
+.IP "multi_instance" 12
+State is set up for multiple instances which get
+added afterwards.
+.SH "DESCRIPTION"
+The caller needs to hold cpus read locked while calling this function.
+.SH "RETURN"
+On success:
+Positive state number if \fIstate\fP is CPUHP_AP_ONLINE_DYN
+0 for all other states
+On failure: proper (negative) error code

@@ -1,0 +1,25 @@
+.TH "qib_tid_free" 9 "qib_tid_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_tid_free \- free a context TID
+.SH SYNOPSIS
+.B "int" qib_tid_free
+.BI "(struct qib_ctxtdata *rcd "  ","
+.BI "unsigned subctxt "  ","
+.BI "const struct qib_tid_info *ti "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the context
+.IP "subctxt" 12
+the subcontext
+.IP "ti" 12
+the TID info
+.SH "DESCRIPTION"
+right now we are unlocking one page at a time, but since
+the intended use of this routine is for a single group of
+virtually contiguous pages, that should change to improve
+performance.  We check that the TID is in range for this context
+but otherwise don't check validity; if user has an error and
+frees the wrong tid, it's only their own data that can thereby
+be corrupted.  We do check that the TID was in use, for sanity
+We always use our idea of the saved address, not the address that
+they pass in to us.

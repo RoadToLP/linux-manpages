@@ -1,0 +1,70 @@
+.TH "ntfs_attr_extend_allocation" 9 "ntfs_attr_extend_allocation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_extend_allocation \- extend the allocated space of an attribute
+.SH SYNOPSIS
+.B "s64" ntfs_attr_extend_allocation
+.BI "(ntfs_inode *ni "  ","
+.BI "s64 new_alloc_size "  ","
+.BI "const s64 new_data_size "  ","
+.BI "const s64 data_start "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode of the attribute whose allocation to extend
+.IP "new_alloc_size" 12
+new size in bytes to which to extend the allocation to
+.IP "new_data_size" 12
+new size in bytes to which to extend the data to
+.IP "data_start" 12
+beginning of region which is required to be non-sparse
+.SH "DESCRIPTION"
+Extend the allocated space of an attribute described by the ntfs inode \fIni\fP
+to \fInew_alloc_size\fP bytes.  If \fIdata_start\fP is -1, the whole extension may be
+implemented as a hole in the file (as long as both the volume and the ntfs
+inode \fIni\fP have sparse support enabled).  If \fIdata_start\fP is >= 0, then the
+region between the old allocated size and \fIdata_start\fP - 1 may be made sparse
+but the regions between \fIdata_start\fP and \fInew_alloc_size\fP must be backed by
+actual clusters.
+
+If \fInew_data_size\fP is -1, it is ignored.  If it is >= 0, then the data size
+of the attribute is extended to \fInew_data_size\fP.  Note that the i_size of the
+vfs inode is not updated.  Only the data size in the base attribute record
+is updated.  The caller has to update i_size separately if this is required.
+WARNING: It is a \fBBUG\fP for \fInew_data_size\fP to be smaller than the old data
+size as well as for \fInew_data_size\fP to be greater than \fInew_alloc_size\fP.
+
+For resident attributes this involves resizing the attribute record and if
+necessary moving it and/or other attributes into extent mft records and/or
+converting the attribute to a non-resident attribute which in turn involves
+extending the allocation of a non-resident attribute as described below.
+
+For non-resident attributes this involves allocating clusters in the data
+zone on the volume (except for regions that are being made sparse) and
+extending the run list to describe the allocated clusters as well as
+updating the mapping pairs array of the attribute.  This in turn involves
+resizing the attribute record and if necessary moving it and/or other
+attributes into extent mft records and/or splitting the attribute record
+into multiple extent attribute records.
+
+Also, the attribute list attribute is updated if present and in some of the
+above cases (the ones where extent mft records/attributes come into play),
+an attribute list attribute is created if not already present.
+
+Return the new allocated size on success and -errno on error.  In the case
+that an error is encountered but a partial extension at least up to
+\fIdata_start\fP (if present) is possible, the allocation is partially extended
+and this is returned.  This means the caller must check the returned size to
+determine if the extension was partial.  If \fIdata_start\fP is -1 then partial
+allocations are not performed.
+
+WARNING: Do not call \fBntfs_attr_extend_allocation\fP for $MFT/$DATA.
+
+Locking: This function takes the runlist lock of \fIni\fP for writing as well as
+locking the mft record of the base ntfs inode.  These locks are maintained
+throughout execution of the function.  These locks are required so that the
+attribute can be resized safely and so that it can for example be converted
+from resident to non-resident safely.
+
+TODO: At present attribute list attribute handling is not implemented.
+
+TODO: At present it is not safe to call this function for anything other
+than the $DATA attribute(s) of an uncompressed and unencrypted file.

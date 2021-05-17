@@ -1,0 +1,23 @@
+.TH "mark_bbt_block_bad" 9 "mark_bbt_block_bad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mark_bbt_block_bad \- Mark one of the block reserved for BBT bad
+.SH SYNOPSIS
+.B "void" mark_bbt_block_bad
+.BI "(struct nand_chip *this "  ","
+.BI "struct nand_bbt_descr *td "  ","
+.BI "int chip "  ","
+.BI "int block "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+the NAND device
+.IP "td" 12
+the BBT description
+.IP "chip" 12
+the CHIP selector
+.IP "block" 12
+the BBT block to mark
+.SH "DESCRIPTION"
+Blocks reserved for BBT can become bad. This functions is an helper to mark
+such blocks as bad. It takes care of updating the in-memory BBT, marking the
+block as bad using a bad block marker and invalidating the associated
+td->pages[] entry.

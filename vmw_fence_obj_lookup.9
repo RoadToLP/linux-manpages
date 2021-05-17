@@ -1,0 +1,20 @@
+.TH "vmw_fence_obj_lookup" 9 "vmw_fence_obj_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_fence_obj_lookup \- Look up a user-space fence object
+.SH SYNOPSIS
+.B "struct ttm_base_object *" vmw_fence_obj_lookup
+.BI "(struct ttm_object_file *tfile "  ","
+.BI "u32 handle "  ");"
+.SH ARGUMENTS
+.IP "tfile" 12
+A struct ttm_object_file identifying the caller.
+.IP "handle" 12
+A handle identifying the fence object.
+.SH "RETURN"
+A struct vmw_user_fence base ttm object on success or
+an error pointer on failure.
+.SH "DESCRIPTION"
+The fence object is looked up and type-checked. The caller needs
+to have opened the fence object first, but since that happens on
+creation and fence objects aren't shareable, that's not an
+issue currently.

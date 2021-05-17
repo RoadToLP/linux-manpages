@@ -1,0 +1,16 @@
+.TH "init_mmio_iops_siimage" 9 "init_mmio_iops_siimage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_mmio_iops_siimage \- set up the iops for MMIO
+.SH SYNOPSIS
+.B "void" init_mmio_iops_siimage
+.BI "(ide_hwif_t *hwif "  ");"
+.SH ARGUMENTS
+.IP "hwif" 12
+interface to set up
+
+The basic setup here is fairly simple, we can use standard MMIO
+operations. However we do have to set the taskfile register offsets
+by hand as there isn't a standard defined layout for them this time.
+
+The hardware supports buffered taskfiles and also some rather nice
+extended PRD tables. For better SI3112 support use the libata driver

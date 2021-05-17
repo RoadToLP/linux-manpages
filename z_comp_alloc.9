@@ -1,0 +1,21 @@
+.TH "z_comp_alloc" 9 "z_comp_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z_comp_alloc \- allocate space for a compressor.
+.SH SYNOPSIS
+.B "void *" z_comp_alloc
+.BI "(unsigned char *options "  ","
+.BI "int opt_len "  ");"
+.SH ARGUMENTS
+.IP "options" 12
+pointer to CCP option data
+.IP "opt_len" 12
+length of the CCP option at \fIoptions\fP.
+
+The \fIoptions\fP pointer points to the a buffer containing the
+CCP option data for the compression being negotiated.  It is
+formatted according to RFC1979, and describes the window
+size that the peer is requesting that we use in compressing
+data to be sent to it.
+
+Returns the pointer to the private state for the compressor,
+or NULL if we could not allocate enough memory.

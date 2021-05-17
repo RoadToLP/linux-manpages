@@ -1,0 +1,22 @@
+.TH "ssam_cplt_flush" 9 "ssam_cplt_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_cplt_flush \- Flush the completion system.
+.SH SYNOPSIS
+.B "void" ssam_cplt_flush
+.BI "(struct ssam_cplt *cplt "  ");"
+.SH ARGUMENTS
+.IP "cplt" 12
+The completion system.
+.SH "DESCRIPTION"
+Flush the completion system by waiting until all currently submitted work
+items have been completed.
+
+This operation is only intended to, during normal operation prior to
+shutdown, try to complete most events and requests to get them out of the
+system while the system is still fully operational. It does not aim to
+provide any guarantee that all of them have been handled.
+.SH "NOTE"
+This function does not guarantee that all events will have been
+handled once this call terminates. In case of a larger number of
+to-be-completed events, the event queue work function may re-schedule its
+work item, which this flush operation will ignore.

@@ -1,0 +1,18 @@
+.TH "ixgbe_atr_compute_sig_hash_82599" 9 "ixgbe_atr_compute_sig_hash_82599" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_atr_compute_sig_hash_82599 \- Compute the signature hash
+.SH SYNOPSIS
+.B "u32" ixgbe_atr_compute_sig_hash_82599
+.BI "(union ixgbe_atr_hash_dword input "  ","
+.BI "union ixgbe_atr_hash_dword common "  ");"
+.SH ARGUMENTS
+.IP "input" 12
+input bitstream to compute the hash on
+.IP "common" 12
+compressed common input dword
+
+This function is almost identical to the function above but contains
+several optimizations such as unwinding all of the loops, letting the
+compiler work out all of the conditional ifs since the keys are static
+defines, and computing two keys at once since the hashed dword stream
+will be the same for both keys.

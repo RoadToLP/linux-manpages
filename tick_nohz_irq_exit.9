@@ -1,0 +1,15 @@
+.TH "tick_nohz_irq_exit" 9 "tick_nohz_irq_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tick_nohz_irq_exit \- update next tick event from interrupt exit
+.SH SYNOPSIS
+.B "void" tick_nohz_irq_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+When an interrupt fires while we are idle and it doesn't cause
+a reschedule, it may still add, modify or delete a timer, enqueue
+an RCU callback, etc...
+So we need to re-calculate and reprogram the next tick event.

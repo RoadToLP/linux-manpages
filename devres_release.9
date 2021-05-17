@@ -1,0 +1,25 @@
+.TH "devres_release" 9 "devres_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devres_release \- Find a device resource and destroy it, calling release
+.SH SYNOPSIS
+.B "int" devres_release
+.BI "(struct device *dev "  ","
+.BI "dr_release_t release "  ","
+.BI "dr_match_t match "  ","
+.BI "void *match_data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to find resource from
+.IP "release" 12
+Look for resources associated with this release function
+.IP "match" 12
+Match function (optional)
+.IP "match_data" 12
+Data for the match function
+.SH "DESCRIPTION"
+Find the latest devres of \fIdev\fP associated with \fIrelease\fP and for
+which \fImatch\fP returns 1.  If \fImatch\fP is NULL, it's considered to
+match all.  If found, the resource is removed atomically, the
+release function called and the resource freed.
+.SH "RETURN"
+0 if devres is found and freed, -ENOENT if not found.

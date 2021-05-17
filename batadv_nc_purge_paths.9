@@ -1,0 +1,18 @@
+.TH "batadv_nc_purge_paths" 9 "batadv_nc_purge_paths" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_nc_purge_paths \- traverse all nc paths part of the hash and remove unused ones
+.SH SYNOPSIS
+.B "void" batadv_nc_purge_paths
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_hashtable *hash "  ","
+.BI "bool (*to_purge)(struct batadv_priv *, struct batadv_nc_path *) "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "hash" 12
+hash table containing the nc paths to check
+.IP "to_purge" 12
+function in charge to decide whether an entry has to be purged or
+not. This function takes the nc node as argument and has to return
+a boolean value: true is the entry has to be deleted, false
+otherwise

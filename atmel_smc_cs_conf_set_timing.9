@@ -1,0 +1,23 @@
+.TH "atmel_smc_cs_conf_set_timing" 9 "atmel_smc_cs_conf_set_timing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atmel_smc_cs_conf_set_timing \- set the SMC CS conf Txx parameter to a specific value
+.SH SYNOPSIS
+.B "int" atmel_smc_cs_conf_set_timing
+.BI "(struct atmel_smc_cs_conf *conf "  ","
+.BI "unsigned int shift "  ","
+.BI "unsigned int ncycles "  ");"
+.SH ARGUMENTS
+.IP "conf" 12
+SMC CS conf descriptor
+.IP "shift" 12
+the position of the Txx field in the TIMINGS register
+.IP "ncycles" 12
+value (expressed in MCK clk cycles) to assign to this Txx
+parameter
+.SH "DESCRIPTION"
+This function encodes the \fIncycles\fP value as described in the datasheet
+(section "SMC Timings Register"), and then stores the result in the
+\fIconf->timings\fP field at \fIshift\fP position.
+
+Returns -EINVAL if shift is invalid, -ERANGE if ncycles does not fit in
+the field, and 0 otherwise.

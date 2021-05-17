@@ -1,0 +1,24 @@
+.TH "thermtrip_program" 9 "thermtrip_program" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+thermtrip_program \- Configures the hardware to shut down the system if a given sensor group reaches a given temperature
+.SH SYNOPSIS
+.B "int" thermtrip_program
+.BI "(struct device *dev "  ","
+.BI "const struct tegra_tsensor_group *sg "  ","
+.BI "int trip_temp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ptr to the struct device for the SOC_THERM IP block
+.IP "sg" 12
+pointer to the sensor group to set the thermtrip temperature for
+.IP "trip_temp" 12
+the temperature in millicelsius to trigger the thermal trip at
+.SH "DESCRIPTION"
+Sets the thermal trip threshold of the given sensor group to be the
+\fItrip_temp\fP.  If this threshold is crossed, the hardware will shut
+down.
+
+Note that, although \fItrip_temp\fP is specified in millicelsius, the
+hardware is programmed in degrees Celsius.
+.SH "RETURN"
+0 upon success, or -EINVAL upon failure.

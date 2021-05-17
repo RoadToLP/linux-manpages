@@ -1,0 +1,22 @@
+.TH "dma_fence_signal_timestamp" 9 "dma_fence_signal_timestamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_signal_timestamp \- signal completion of a fence
+.SH SYNOPSIS
+.B "int" dma_fence_signal_timestamp
+.BI "(struct dma_fence *fence "  ","
+.BI "ktime_t timestamp "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the fence to signal
+.IP "timestamp" 12
+fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+.SH "DESCRIPTION"
+Signal completion for software callbacks on a fence, this will unblock
+\fBdma_fence_wait\fP calls and run all the callbacks added with
+\fBdma_fence_add_callback\fP. Can be called multiple times, but since a fence
+can only go from the unsignaled to the signaled state and not back, it will
+only be effective the first time. Set the timestamp provided as the fence
+signal timestamp.
+
+Returns 0 on success and a negative error value when \fIfence\fP has been
+signalled already.

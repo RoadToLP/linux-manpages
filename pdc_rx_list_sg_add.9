@@ -1,0 +1,19 @@
+.TH "pdc_rx_list_sg_add" 9 "pdc_rx_list_sg_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_rx_list_sg_add \- Add the buffers in a scatterlist to the receive descriptors for a given SPU. The caller must have already DMA mapped the scatterlist.
+.SH SYNOPSIS
+.B "int" pdc_rx_list_sg_add
+.BI "(struct pdc_state *pdcs "  ","
+.BI "struct scatterlist *sg "  ");"
+.SH ARGUMENTS
+.IP "pdcs" 12
+-- undescribed --
+.IP "sg" 12
+Scatterlist whose buffers are added to the receive ring
+.SH "DESCRIPTION"
+If a receive buffer in the scatterlist is larger than PDC_DMA_BUF_MAX,
+multiple receive descriptors are written, each with a buffer <=
+PDC_DMA_BUF_MAX.
+.SH "RETURN"
+PDC_SUCCESS if successful
+< 0 otherwise (e.g., receive ring is full)

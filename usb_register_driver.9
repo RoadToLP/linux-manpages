@@ -1,0 +1,25 @@
+.TH "usb_register_driver" 9 "usb_register_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_register_driver \- register a USB interface driver
+.SH SYNOPSIS
+.B "int" usb_register_driver
+.BI "(struct usb_driver *new_driver "  ","
+.BI "struct module *owner "  ","
+.BI "const char *mod_name "  ");"
+.SH ARGUMENTS
+.IP "new_driver" 12
+USB operations for the interface driver
+.IP "owner" 12
+module owner of this driver.
+.IP "mod_name" 12
+module name string
+.SH "DESCRIPTION"
+Registers a USB interface driver with the USB core.  The list of
+unattached interfaces will be rescanned whenever a new driver is
+added, allowing the new driver to attach to any recognized interfaces.
+.SH "RETURN"
+A negative error code on failure and 0 on success.
+.SH "NOTE"
+if you want your driver to use the USB major number, you must call
+\fBusb_register_dev\fP to enable that functionality.  This function no longer
+takes care of that.

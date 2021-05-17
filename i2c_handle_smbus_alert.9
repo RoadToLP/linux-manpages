@@ -1,0 +1,18 @@
+.TH "i2c_handle_smbus_alert" 9 "i2c_handle_smbus_alert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_handle_smbus_alert \- Handle an SMBus alert
+.SH SYNOPSIS
+.B "int" i2c_handle_smbus_alert
+.BI "(struct i2c_client *ara "  ");"
+.SH ARGUMENTS
+.IP "ara" 12
+the ARA client on the relevant adapter
+.SH "CONTEXT"
+can't sleep
+.SH "DESCRIPTION"
+Helper function to be called from an I2C bus driver's interrupt
+handler. It will schedule the alert work, in turn calling the
+corresponding I2C device driver's alert function.
+
+It is assumed that ara is a valid i2c client previously returned by
+\fBi2c_new_smbus_alert_device\fP.

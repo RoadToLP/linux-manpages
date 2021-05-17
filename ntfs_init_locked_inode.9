@@ -1,0 +1,25 @@
+.TH "ntfs_init_locked_inode" 9 "ntfs_init_locked_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_init_locked_inode \- initialize an inode
+.SH SYNOPSIS
+.B "int" ntfs_init_locked_inode
+.BI "(struct inode *vi "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+vfs inode to initialize
+.IP "data" 12
+data which to initialize \fIvi\fP to
+.SH "DESCRIPTION"
+Initialize the vfs inode \fIvi\fP with the values from the ntfs attribute \fIdata\fP in
+order to enable \fBntfs_test_inode\fP to do its work.
+
+If initializing the normal file/directory inode, set \fIna->type\fP to AT_UNUSED.
+In that case, \fIna->name\fP and \fIna->name_len\fP should be set to NULL and 0,
+respectively. Although that is not strictly necessary as
+\fBntfs_read_locked_inode\fP will fill them in later.
+
+Return 0 on success and -errno on error.
+.SH "NOTE"
+This function runs with the inode->i_lock spin lock held so it is not
+allowed to sleep. (Hence the GFP_ATOMIC allocation.)

@@ -1,0 +1,18 @@
+.TH "cgroup_apply_control_enable" 9 "cgroup_apply_control_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_apply_control_enable \- enable or show csses according to control
+.SH SYNOPSIS
+.B "int" cgroup_apply_control_enable
+.BI "(struct cgroup *cgrp "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+root of the target subtree
+.SH "DESCRIPTION"
+Walk \fIcgrp\fP's subtree and create new csses or make the existing ones
+visible.  A css is created invisible if it's being implicitly enabled
+through dependency.  An invisible css is made visible when the userland
+explicitly enables it.
+
+Returns 0 on success, -errno on failure.  On failure, csses which have
+been processed already aren't cleaned up.  The caller is responsible for
+cleaning up with \fBcgroup_apply_control_disable\fP.

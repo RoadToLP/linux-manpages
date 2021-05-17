@@ -1,0 +1,15 @@
+.TH "ecryptfs_acquire_free_msg_ctx" 9 "ecryptfs_acquire_free_msg_ctx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_acquire_free_msg_ctx \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_acquire_free_msg_ctx
+.BI "(struct ecryptfs_msg_ctx **msg_ctx "  ");"
+.SH ARGUMENTS
+.IP "msg_ctx" 12
+The context that was acquired from the free list
+.SH "DESCRIPTION"
+Acquires a context element from the free list and locks the mutex
+on the context.  Sets the msg_ctx task to current.  Returns zero on
+success; non-zero on error or upon failure to acquire a free
+context element.  Must be called with ecryptfs_msg_ctx_lists_mux
+held.

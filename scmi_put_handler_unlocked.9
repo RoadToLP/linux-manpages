@@ -1,0 +1,19 @@
+.TH "scmi_put_handler_unlocked" 9 "scmi_put_handler_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_put_handler_unlocked \- Put an event handler
+.SH SYNOPSIS
+.B "void" scmi_put_handler_unlocked
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "struct scmi_event_handler *hndl "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "hndl" 12
+The event handler to act upon
+.SH "DESCRIPTION"
+After having got exclusive access to the registered handlers hashtable,
+update the refcount and if \fIhndl\fP is no more in use by anyone:
+* ask for events' generation disabling
+* unregister and free the handler itself
+.SH "CONTEXT"
+Assumes all the proper locking has been managed by the caller.

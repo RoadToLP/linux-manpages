@@ -1,0 +1,25 @@
+.TH "__cgroup_bpf_run_filter_sock_ops" 9 "__cgroup_bpf_run_filter_sock_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_run_filter_sock_ops \- Run a program on a sock
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_run_filter_sock_ops
+.BI "(struct sock *sk "  ","
+.BI "struct bpf_sock_ops_kern *sock_ops "  ","
+.BI "enum bpf_attach_type type "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to get cgroup from
+.IP "sock_ops" 12
+bpf_sock_ops_kern struct to pass to program. Contains
+sk with connection information (IP addresses, etc.) May not contain
+cgroup info if it is a req sock.
+.IP "type" 12
+The type of program to be exectuted
+.SH "DESCRIPTION"
+socket passed is expected to be of type INET or INET6.
+
+The program type passed in via \fItype\fP must be suitable for sock_ops
+filtering. No further check is performed to assert that.
+
+This function will return -EPERM if any if an attached program was found
+and if it returned != 1 during execution. In all other cases, 0 is returned.

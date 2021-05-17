@@ -1,0 +1,13 @@
+.TH "klist_next" 9 "klist_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klist_next \- Ante up next node in list.
+.SH SYNOPSIS
+.B "struct klist_node *" klist_next
+.BI "(struct klist_iter *i "  ");"
+.SH ARGUMENTS
+.IP "i" 12
+Iterator structure.
+.SH "DESCRIPTION"
+First grab list lock. Decrement the reference count of the previous
+node, if there was one. Grab the next node, increment its reference
+count, drop the lock, and return that next node.

@@ -1,0 +1,16 @@
+.TH "exynos5_dmc_get_status" 9 "exynos5_dmc_get_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_dmc_get_status \- Read current DMC performance statistics.
+.SH SYNOPSIS
+.B "int" exynos5_dmc_get_status
+.BI "(struct device *dev "  ","
+.BI "struct devfreq_dev_status *stat "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which the statistics are requested
+.IP "stat" 12
+structure which has statistic fields
+.SH "DESCRIPTION"
+Function reads the DMC performance counters and calculates 'busy_time'
+and 'total_time'. To protect from overflow, the values are shifted right
+by 10. After read out the counters are setup to count again.

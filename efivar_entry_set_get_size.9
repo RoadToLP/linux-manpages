@@ -1,0 +1,35 @@
+.TH "efivar_entry_set_get_size" 9 "efivar_entry_set_get_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_set_get_size \- call set_variable() and get new size (atomic)
+.SH SYNOPSIS
+.B "int" efivar_entry_set_get_size
+.BI "(struct efivar_entry *entry "  ","
+.BI "u32 attributes "  ","
+.BI "unsigned long *size "  ","
+.BI "void *data "  ","
+.BI "bool *set "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+entry containing variable to set and get
+.IP "attributes" 12
+attributes of variable to be written
+.IP "size" 12
+size of data buffer
+.IP "data" 12
+buffer containing data to write
+.IP "set" 12
+did the \fBset_variable\fP call succeed?
+.SH "DESCRIPTION"
+This is a pretty special (complex) function. See \fBefivarfs_file_write\fP.
+
+Atomically call \fBset_variable\fP for \fIentry\fP and if the call is
+successful, return the new size of the variable from \fBget_variable\fP
+in \fIsize\fP. The success of \fBset_variable\fP is indicated by \fIset\fP.
+
+Returns 0 on success, -EINVAL if the variable data is invalid,
+-ENOSPC if the firmware does not have enough available space, or a
+converted EFI status code if either of \fBset_variable\fP or
+\fBget_variable\fP fail.
+
+If the EFI variable does not exist when calling \fBset_variable\fP
+(EFI_NOT_FOUND), \fIentry\fP is removed from the variable list.

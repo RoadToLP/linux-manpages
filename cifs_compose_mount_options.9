@@ -1,0 +1,24 @@
+.TH "cifs_compose_mount_options" 9 "cifs_compose_mount_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cifs_compose_mount_options \- creates mount options for referral
+.SH SYNOPSIS
+.B "char *" cifs_compose_mount_options
+.BI "(const char *sb_mountdata "  ","
+.BI "const char *fullpath "  ","
+.BI "const struct dfs_info3_param *ref "  ","
+.BI "char **devname "  ");"
+.SH ARGUMENTS
+.IP "sb_mountdata" 12
+parent/root DFS mount options (template)
+.IP "fullpath" 12
+full path in UNC format
+.IP "ref" 12
+optional server's referral
+.IP "devname" 12
+-- undescribed --
+.SH "DESCRIPTION"
+creates mount options for submount based on template options sb_mountdata
+and replacing unc,ip,prefixpath options with ones we've got form ref_unc.
+.SH "RETURN"
+pointer to new mount options or ERR_PTR.
+Caller is responsible for freeing returned value if it is not error.

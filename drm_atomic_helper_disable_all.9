@@ -1,0 +1,29 @@
+.TH "drm_atomic_helper_disable_all" 9 "drm_atomic_helper_disable_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_disable_all \- disable all currently active outputs
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_disable_all
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+Loops through all connectors, finding those that aren't turned off and then
+turns them off by setting their DPMS mode to OFF and deactivating the CRTC
+that they are connected to.
+
+This is used for example in suspend/resume to disable all currently active
+functions when suspending. If you just want to shut down everything at e.g.
+driver unload, look at \fBdrm_atomic_helper_shutdown\fP.
+
+Note that if callers haven't already acquired all modeset locks this might
+return -EDEADLK, which must be handled by calling \fBdrm_modeset_backoff\fP.
+
+See also:
+\fBdrm_atomic_helper_suspend\fP, \fBdrm_atomic_helper_resume\fP and
+\fBdrm_atomic_helper_shutdown\fP.
+.SH "RETURN"
+0 on success or a negative error code on failure.

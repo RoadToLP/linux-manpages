@@ -1,0 +1,18 @@
+.TH "ds1685_rtc_begin_data_access" 9 "ds1685_rtc_begin_data_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ds1685_rtc_begin_data_access \- prepare the rtc for data access.
+.SH SYNOPSIS
+.B "void" ds1685_rtc_begin_data_access
+.BI "(struct ds1685_priv *rtc "  ");"
+.SH ARGUMENTS
+.IP "rtc" 12
+pointer to the ds1685 rtc structure.
+.SH "DESCRIPTION"
+This takes several steps to prepare the rtc for access to get/set time
+and alarm values from the rtc registers:
+- Sets the SET bit in Control Register B.
+- Reads Ext Control Register 4A and checks the INCR bit.
+- If INCR is active, a short delay is added before Ext Control Register 4A
+is read again in a loop until INCR is inactive.
+- Switches the rtc to bank 1.  This allows access to all relevant
+data for normal rtc operation, as bank 0 contains only the nvram.

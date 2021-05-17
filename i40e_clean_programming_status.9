@@ -1,0 +1,21 @@
+.TH "i40e_clean_programming_status" 9 "i40e_clean_programming_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_clean_programming_status \- clean the programming status descriptor
+.SH SYNOPSIS
+.B "void" i40e_clean_programming_status
+.BI "(struct i40e_ring *rx_ring "  ","
+.BI "u64 qword0_raw "  ","
+.BI "u64 qword1 "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+the rx ring that has this descriptor
+.IP "qword0_raw" 12
+qword0
+.IP "qword1" 12
+qword1 representing status_error_len in CPU ordering
+.SH "DESCRIPTION"
+Flow director should handle FD_FILTER_STATUS to check its filter programming
+status being successful or not and take actions accordingly. FCoE should
+handle its context/filter programming/invalidation status and take actions.
+
+Returns an i40e_rx_buffer to reuse if the cleanup occurred, otherwise NULL.

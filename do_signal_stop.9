@@ -1,0 +1,25 @@
+.TH "do_signal_stop" 9 "do_signal_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_signal_stop \- handle group stop for SIGSTOP and other stop signals
+.SH SYNOPSIS
+.B "bool" do_signal_stop
+.BI "(int signr "  ");"
+.SH ARGUMENTS
+.IP "signr" 12
+signr causing group stop if initiating
+.SH "DESCRIPTION"
+If JOBCTL_STOP_PENDING is not set yet, initiate group stop with \fIsignr\fP
+and participate in it.  If already set, participate in the existing
+group stop.  If participated in a group stop (and thus slept), true is
+returned with siglock released.
+
+If ptraced, this function doesn't handle stop itself.  Instead,
+JOBCTL_TRAP_STOP is scheduled and false is returned with siglock
+untouched.  The caller must ensure that INTERRUPT trap handling takes
+places afterwards.
+.SH "CONTEXT"
+Must be called with \fIcurrent->sighand->siglock\fP held, which is released
+on true return.
+.SH "RETURN"
+false if group stop is already cancelled or ptrace trap is scheduled.
+true if participated in group stop.

@@ -1,0 +1,28 @@
+.TH "drm_panel_bridge_add" 9 "drm_panel_bridge_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_panel_bridge_add \- Creates a &drm_bridge and &drm_connector that just calls the appropriate functions from &drm_panel.
+.SH SYNOPSIS
+.B "struct drm_bridge *" drm_panel_bridge_add
+.BI "(struct drm_panel *panel "  ");"
+.SH ARGUMENTS
+.IP "panel" 12
+The drm_panel being wrapped.  Must be non-NULL.
+.SH "DESCRIPTION"
+For drivers converting from directly using drm_panel: The expected
+usage pattern is that during either encoder module probe or DSI
+host attach, a drm_panel will be looked up through
+\fBdrm_of_find_panel_or_bridge\fP.  \fBdrm_panel_bridge_add\fP is used to
+wrap that panel in the new bridge, and the result can then be
+passed to \fBdrm_bridge_attach\fP.  The \fBdrm_panel_prepare\fP and related
+functions can be dropped from the encoder driver (they're now
+called by the KMS helpers before calling into the encoder), along
+with connector creation.  When done with the bridge (after
+\fBdrm_mode_config_cleanup\fP if the bridge has already been attached), then
+\fBdrm_panel_bridge_remove\fP to free it.
+
+The connector type is set to \fIpanel->connector_type\fP, which must be set to a
+known type. Calling this function with a panel whose connector type is
+DRM_MODE_CONNECTOR_Unknown will return ERR_PTR(-EINVAL).
+
+See \fBdevm_drm_panel_bridge_add\fP for an automatically managed version of this
+function.

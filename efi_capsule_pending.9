@@ -1,0 +1,23 @@
+.TH "efi_capsule_pending" 9 "efi_capsule_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_pending \- has a capsule been passed to the firmware?
+.SH SYNOPSIS
+.B "bool" efi_capsule_pending
+.BI "(int *reset_type "  ");"
+.SH ARGUMENTS
+.IP "reset_type" 12
+store the type of EFI reset if capsule is pending
+.SH "DESCRIPTION"
+To ensure that the registered capsule is processed correctly by the
+firmware we need to perform a specific type of reset. If a capsule is
+pending return the reset type in \fIreset_type\fP.
+
+This function will race with callers of \fBefi_capsule_update\fP, for
+example, calling this function while somebody else is in
+\fBefi_capsule_update\fP but hasn't reached \fBefi_capsue_update_locked\fP
+will miss the updates to capsule_pending and efi_reset_type after
+\fBefi_capsule_update_locked\fP completes.
+
+A non-racy use is from platform reboot code because we use
+system_state to ensure no capsules can be sent to the firmware once
+we're at SYSTEM_RESTART. See \fBefi_capsule_update_locked\fP.

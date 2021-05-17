@@ -1,0 +1,22 @@
+.TH "page_add_new_anon_rmap" 9 "page_add_new_anon_rmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_add_new_anon_rmap \- add pte mapping to a new anonymous page
+.SH SYNOPSIS
+.B "void" page_add_new_anon_rmap
+.BI "(struct page *page "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long address "  ","
+.BI "bool compound "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to add the mapping to
+.IP "vma" 12
+the vm area in which the mapping is added
+.IP "address" 12
+the user virtual address mapped
+.IP "compound" 12
+charge the page as compound or small page
+.SH "DESCRIPTION"
+Same as page_add_anon_rmap but must only be called on *new* pages.
+This means the inc-and-test can be bypassed.
+Page does not have to be locked.

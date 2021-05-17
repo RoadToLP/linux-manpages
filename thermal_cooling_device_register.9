@@ -1,0 +1,22 @@
+.TH "thermal_cooling_device_register" 9 "thermal_cooling_device_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+thermal_cooling_device_register \- register a new thermal cooling device
+.SH SYNOPSIS
+.B "struct thermal_cooling_device *" thermal_cooling_device_register
+.BI "(const char *type "  ","
+.BI "void *devdata "  ","
+.BI "const struct thermal_cooling_device_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+the thermal cooling device type.
+.IP "devdata" 12
+device private data.
+.IP "ops" 12
+standard thermal cooling devices callbacks.
+.SH "DESCRIPTION"
+This interface function adds a new thermal cooling device (fan/processor/...)
+to /sys/class/thermal/ folder as cooling_device[0-*]. It tries to bind itself
+to all the thermal zone devices registered at the same time.
+.SH "RETURN"
+a pointer to the created struct thermal_cooling_device or an
+ERR_PTR. Caller must check return value with IS_ERR*() helpers.

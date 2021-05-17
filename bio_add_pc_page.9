@@ -1,0 +1,28 @@
+.TH "bio_add_pc_page" 9 "bio_add_pc_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_add_pc_page \- attempt to add page to passthrough bio
+.SH SYNOPSIS
+.B "int" bio_add_pc_page
+.BI "(struct request_queue *q "  ","
+.BI "struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offset "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the target queue
+.IP "bio" 12
+destination bio
+.IP "page" 12
+page to add
+.IP "len" 12
+vec entry length
+.IP "offset" 12
+vec entry offset
+.SH "DESCRIPTION"
+Attempt to add a page to the bio_vec maplist. This can fail for a
+number of reasons, such as the bio being full or target block device
+limitations. The target block device must allow bio's up to PAGE_SIZE,
+so it is always possible to add a single page to an empty bio.
+
+This should only be used by passthrough bios.

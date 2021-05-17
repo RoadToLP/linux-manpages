@@ -1,0 +1,28 @@
+.TH "hv_pci_protocol_negotiation" 9 "hv_pci_protocol_negotiation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_pci_protocol_negotiation \- Set up protocol
+.SH SYNOPSIS
+.B "int" hv_pci_protocol_negotiation
+.BI "(struct hv_device *hdev "  ","
+.BI "enum pci_protocol_version_t version[] "  ","
+.BI "int num_version "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+VMBus's tracking struct for this root PCI bus.
+.IP "version" 12
+Array of supported channel protocol versions in
+the order of probing - highest go first.
+.IP "num_version" 12
+Number of elements in the version array.
+.SH "DESCRIPTION"
+This driver is intended to support running on Windows 10
+(server) and later versions. It will not run on earlier
+versions, as they assume that many of the operations which
+Linux needs accomplished with a spinlock held were done via
+asynchronous messaging via VMBus.  Windows 10 increases the
+surface area of PCI emulation so that these actions can take
+place by suspending a virtual processor for their duration.
+
+This function negotiates the channel protocol version,
+failing if the host doesn't support the necessary protocol
+level.

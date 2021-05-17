@@ -1,0 +1,20 @@
+.TH "phy_register_fixup" 9 "phy_register_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_register_fixup \- creates a new phy_fixup and adds it to the list
+.SH SYNOPSIS
+.B "int" phy_register_fixup
+.BI "(const char *bus_id "  ","
+.BI "u32 phy_uid "  ","
+.BI "u32 phy_uid_mask "  ","
+.BI "int (*run)(struct phy_device *) "  ");"
+.SH ARGUMENTS
+.IP "bus_id" 12
+A string which matches phydev->mdio.dev.bus_id (or PHY_ANY_ID)
+.IP "phy_uid" 12
+Used to match against phydev->phy_id (the UID of the PHY)
+It can also be PHY_ANY_UID
+.IP "phy_uid_mask" 12
+Applied to phydev->phy_id and fixup->phy_uid before
+comparison
+.IP "run" 12
+The actual code to be run when a matching PHY is found

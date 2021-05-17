@@ -1,0 +1,17 @@
+.TH "omap2_dflt_clk_enable" 9 "omap2_dflt_clk_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_dflt_clk_enable \- enable a clock in the hardware
+.SH SYNOPSIS
+.B "int" omap2_dflt_clk_enable
+.BI "(struct clk_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+struct clk_hw * of the clock to enable
+.SH "DESCRIPTION"
+Enable the clock \fIhw\fP in the hardware.  We first call into the OMAP
+clockdomain code to "enable" the corresponding clockdomain if this
+is the first enabled user of the clockdomain.  Then program the
+hardware to enable the clock.  Then wait for the IP block that uses
+this clock to leave idle (if applicable).  Returns the error value
+from \fBclkdm_clk_enable\fP if it terminated with an error, or -EINVAL
+if \fIhw\fP has a null clock enable_reg, or zero upon success.

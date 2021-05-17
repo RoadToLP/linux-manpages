@@ -1,0 +1,24 @@
+.TH "pldm_parse_header" 9 "pldm_parse_header" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pldm_parse_header \- Validate and extract details about the PLDM header
+.SH SYNOPSIS
+.B "int" pldm_parse_header
+.BI "(struct pldmfw_priv *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+pointer to private data
+.SH "DESCRIPTION"
+Performs initial basic verification of the PLDM image, up to the first
+firmware record.
+
+This includes the following checks and extractions
+
+* Verify that the UUID at the start of the header matches the expected
+value as defined in the DSP0267 PLDM specification
+* Check that the revision is 0x01
+* Extract the total header_size and verify that the image is large enough
+to contain at least the length of this header
+* Extract the size of the component bitmap length
+* Extract a pointer to the start of the record area
+.SH "RETURN"
+zero on success, or a negative error code on failure.

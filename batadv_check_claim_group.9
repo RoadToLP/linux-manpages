@@ -1,0 +1,29 @@
+.TH "batadv_check_claim_group" 9 "batadv_check_claim_group" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_check_claim_group \- check for claim group membership
+.SH SYNOPSIS
+.B "int" batadv_check_claim_group
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_hard_iface *primary_if "  ","
+.BI "u8 *hw_src "  ","
+.BI "u8 *hw_dst "  ","
+.BI "struct ethhdr *ethhdr "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "primary_if" 12
+the primary interface of this batman interface
+.IP "hw_src" 12
+the Hardware source in the ARP Header
+.IP "hw_dst" 12
+the Hardware destination in the ARP Header
+.IP "ethhdr" 12
+pointer to the Ethernet header of the claim frame
+.SH "DESCRIPTION"
+checks if it is a claim packet and if it's on the same group.
+This function also applies the group ID of the sender
+if it is in the same mesh.
+.SH "RETURN"
+2  - if it is a claim packet and on the same group
+1  - if is a claim packet from another group
+0  - if it is not a claim packet

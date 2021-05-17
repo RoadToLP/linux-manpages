@@ -1,0 +1,24 @@
+.TH "kvm_s390_gisc_unregister" 9 "kvm_s390_gisc_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_s390_gisc_unregister \- unregister a guest ISC
+.SH SYNOPSIS
+.B "int" kvm_s390_gisc_unregister
+.BI "(struct kvm *kvm "  ","
+.BI "u32 gisc "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+the kernel vm to work with
+.IP "gisc" 12
+the guest interruption sub class to register
+.SH "DESCRIPTION"
+The function reduces the vm specific alert mask to use.
+The effective IAM mask in the GISA is updated as well
+in case the GISA is not part of the GIB alert list.
+It will be updated latest when the IAM gets restored
+by \fBgisa_get_ipm_or_restore_iam\fP.
+.SH "RETURN"
+the nonspecific ISC (NISC) the gib alert mechanism
+has registered with the channel subsystem.
+-ENODEV in case the vm uses no GISA
+-ERANGE in case the guest ISC is invalid
+-EINVAL in case the guest ISC is not registered

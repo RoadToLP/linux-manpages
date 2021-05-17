@@ -1,0 +1,33 @@
+.TH "sis630_set_eq" 9 "sis630_set_eq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sis630_set_eq \- set phy equalizer value for 630 LAN
+.SH SYNOPSIS
+.B "void" sis630_set_eq
+.BI "(struct net_device *net_dev "  ","
+.BI "u8 revision "  ");"
+.SH ARGUMENTS
+.IP "net_dev" 12
+the net device to set equalizer value
+.IP "revision" 12
+630 LAN revision number
+
+630E equalizer workaround rule(Cyrus Huang 08/15)
+PHY register 14h(Test)
+Bit 14: 0 -- Automatically detect (default)
+1 -- Manually set Equalizer filter
+Bit 13: 0 -- (Default)
+1 -- Speed up convergence of equalizer setting
+Bit 9 : 0 -- (Default)
+1 -- Disable Baseline Wander
+Bit 3~7   -- Equalizer filter setting
+Link ON: Set Bit 9, 13 to 1, Bit 14 to 0
+Then calculate equalizer value
+Then set equalizer value, and set Bit 14 to 1, Bit 9 to 0
+Link Off:Set Bit 13 to 1, Bit 14 to 0
+Calculate Equalizer value:
+When Link is ON and Bit 14 is 0, SIS900PHY will auto-detect proper equalizer value.
+When the equalizer is stable, this value is not a fixed value. It will be within
+a small range(eg. 7~9). Then we get a minimum and a maximum value(eg. min=7, max=9)
+0 <= max <= 4  --> set equalizer to max
+5 <= max <= 14 --> set equalizer to max+1 or set equalizer to max+2 if max == min
+max >= 15      --> set equalizer to max+5 or set equalizer to max+6 if max == min

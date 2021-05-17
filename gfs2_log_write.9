@@ -1,0 +1,28 @@
+.TH "gfs2_log_write" 9 "gfs2_log_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_log_write \- write to log
+.SH SYNOPSIS
+.B "void" gfs2_log_write
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct gfs2_jdesc *jd "  ","
+.BI "struct page *page "  ","
+.BI "unsigned size "  ","
+.BI "unsigned offset "  ","
+.BI "u64 blkno "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+the filesystem
+.IP "jd" 12
+-- undescribed --
+.IP "page" 12
+the page to write
+.IP "size" 12
+the size of the data to write
+.IP "offset" 12
+the offset within the page 
+.IP "blkno" 12
+block number of the log entry
+.SH "DESCRIPTION"
+Try and add the page segment to the current bio. If that fails,
+submit the current bio to the device and create a new one, and
+then add the page segment to that.

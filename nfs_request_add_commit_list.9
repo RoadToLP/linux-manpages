@@ -1,0 +1,19 @@
+.TH "nfs_request_add_commit_list" 9 "nfs_request_add_commit_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_request_add_commit_list \- add request to a commit list
+.SH SYNOPSIS
+.B "void" nfs_request_add_commit_list
+.BI "(struct nfs_page *req "  ","
+.BI "struct nfs_commit_info *cinfo "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+pointer to a struct nfs_page
+.IP "cinfo" 12
+holds list lock and accounting info
+.SH "DESCRIPTION"
+This sets the PG_CLEAN bit, updates the cinfo count of
+number of outstanding requests requiring a commit as well as
+the MM page stats.
+
+The caller must _not_ hold the cinfo->lock, but must be
+holding the nfs_page lock.

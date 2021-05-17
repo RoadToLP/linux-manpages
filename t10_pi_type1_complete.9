@@ -1,0 +1,19 @@
+.TH "t10_pi_type1_complete" 9 "t10_pi_type1_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t10_pi_type1_complete \- prepare PI prior returning request to the blk layer
+.SH SYNOPSIS
+.B "void" t10_pi_type1_complete
+.BI "(struct request *rq "  ","
+.BI "unsigned int nr_bytes "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+request with PI that should be prepared
+.IP "nr_bytes" 12
+total bytes to prepare
+.SH "DESCRIPTION"
+For Type 1/Type 2, the virtual start sector is the one that was
+originally submitted by the block layer for the ref_tag usage. Due to
+partitioning, MD/DM cloning, etc. the actual physical start sector is
+likely to be different. Since the physical start sector was submitted
+to the device, we should remap it back to virtual values expected by the
+block layer.

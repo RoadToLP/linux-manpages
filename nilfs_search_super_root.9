@@ -1,0 +1,25 @@
+.TH "nilfs_search_super_root" 9 "nilfs_search_super_root" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_search_super_root \- search the latest valid super root
+.SH SYNOPSIS
+.B "int" nilfs_search_super_root
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct nilfs_recovery_info *ri "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+the_nilfs
+.IP "ri" 12
+pointer to a nilfs_recovery_info struct to store search results.
+.SH "DESCRIPTION"
+\fBnilfs_search_super_root\fP looks for the latest super-root from a partial
+segment pointed by the superblock.  It sets up struct the_nilfs through
+this search. It fills nilfs_recovery_info (ri) required for recovery.
+
+Return Value: On success, 0 is returned.  On error, one of the following
+negative error code is returned.
+
+-EINVAL - No valid segment found
+
+-EIO - I/O error
+
+-ENOMEM - Insufficient memory available.

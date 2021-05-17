@@ -1,0 +1,26 @@
+.TH "fbtft_framebuffer_alloc" 9 "fbtft_framebuffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fbtft_framebuffer_alloc \- creates a new frame buffer info structure
+.SH SYNOPSIS
+.B "struct fb_info *" fbtft_framebuffer_alloc
+.BI "(struct fbtft_display *display "  ","
+.BI "struct device *dev "  ","
+.BI "struct fbtft_platform_data *pdata "  ");"
+.SH ARGUMENTS
+.IP "display" 12
+pointer to structure describing the display
+.IP "dev" 12
+pointer to the device for this fb, this can be NULL
+.IP "pdata" 12
+platform data for the display in use
+.SH "DESCRIPTION"
+Creates a new frame buffer info structure.
+
+Also creates and populates the following structures:
+info->fbops
+info->fbdefio
+info->pseudo_palette
+par->fbtftops
+par->txbuf
+
+Returns the new structure, or NULL if an error occurred.

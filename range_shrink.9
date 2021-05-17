@@ -1,0 +1,21 @@
+.TH "range_shrink" 9 "range_shrink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+range_shrink \- Shrinks an ashmem_range
+.SH SYNOPSIS
+.B "void" range_shrink
+.BI "(struct ashmem_range *range "  ","
+.BI "size_t start "  ","
+.BI "size_t end "  ");"
+.SH ARGUMENTS
+.IP "range" 12
+The associated ashmem_range being shrunk
+.IP "start" 12
+The starting byte of the new range
+.IP "end" 12
+The ending byte of the new range
+.SH "DESCRIPTION"
+This does not modify the data inside the existing range in any way - It
+simply shrinks the boundaries of the range.
+
+Theoretically, with a little tweaking, this could eventually be changed
+to range_resize, and expand the lru_count if the new range is larger.

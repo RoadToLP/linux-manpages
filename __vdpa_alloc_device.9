@@ -1,0 +1,24 @@
+.TH "__vdpa_alloc_device" 9 "__vdpa_alloc_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vdpa_alloc_device \- allocate and initilaize a vDPA device This allows driver to some prepartion after device is initialized but before registered.
+.SH SYNOPSIS
+.B "struct vdpa_device *" __vdpa_alloc_device
+.BI "(struct device *parent "  ","
+.BI "const struct vdpa_config_ops *config "  ","
+.BI "size_t size "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+the parent device
+.IP "config" 12
+the bus operations that is supported by this device
+.IP "size" 12
+size of the parent structure that contains private data
+.IP "name" 12
+name of the vdpa device; optional.
+.SH "DESCRIPTION"
+Driver should use \fBvdpa_alloc_device\fP wrapper macro instead of
+using this directly.
+
+Returns an error when parent/config/dma_dev is not set or fail to get
+ida.

@@ -1,0 +1,18 @@
+.TH "ep_del_request" 9 "ep_del_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep_del_request \- removes a request from the endpoint's queue
+.SH SYNOPSIS
+.B "void" ep_del_request
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+usb endpoint
+.IP "req" 12
+usb request
+.SH "CONTEXT"
+ep->lock held
+.SH "DESCRIPTION"
+Unqueue the request from the endpoint's queue. If there are no more requests
+on the endpoint, and if it's not the control endpoint, interrupts are
+disabled on the endpoint.

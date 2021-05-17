@@ -1,0 +1,25 @@
+.TH "num_hwqs_store" 9 "num_hwqs_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+num_hwqs_store \- sets the number of hardware queues for the host
+.SH SYNOPSIS
+.B "ssize_t" num_hwqs_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Generic device associated with the host.
+.IP "attr" 12
+Device attribute representing the number of hardware queues.
+.IP "buf" 12
+Buffer of length PAGE_SIZE containing the number of hardware
+queues in ASCII.
+.IP "count" 12
+Length of data resizing in \fIbuf\fP.
+.SH "DESCRIPTION"
+n > 0: num_hwqs = n
+n = 0: num_hwqs = \fBnum_online_cpus\fP
+n < 0: \fBnum_online_cpus\fP / abs(n)
+.SH "RETURN"
+The size of the ASCII string returned in \fIbuf\fP.

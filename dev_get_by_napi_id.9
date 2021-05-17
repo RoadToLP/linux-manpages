@@ -1,0 +1,14 @@
+.TH "dev_get_by_napi_id" 9 "dev_get_by_napi_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_get_by_napi_id \- find a device by napi_id
+.SH SYNOPSIS
+.B "struct net_device *" dev_get_by_napi_id
+.BI "(unsigned int napi_id "  ");"
+.SH ARGUMENTS
+.IP "napi_id" 12
+ID of the NAPI struct
+
+Search for an interface by NAPI ID. Returns NULL if the device
+is not found or a pointer to the device. The device has not had
+its reference counter increased so the caller must be careful
+about locking. The caller must hold RCU lock.

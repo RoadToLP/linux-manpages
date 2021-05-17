@@ -1,0 +1,26 @@
+.TH "iio_dummy_write_raw" 9 "iio_dummy_write_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_dummy_write_raw \- data write function.
+.SH SYNOPSIS
+.B "int" iio_dummy_write_raw
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "struct iio_chan_spec const *chan "  ","
+.BI "int val "  ","
+.BI "int val2 "  ","
+.BI "long mask "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+the struct iio_dev associated with this device instance
+.IP "chan" 12
+the channel whose data is to be written
+.IP "val" 12
+first element of value to set (typically INT)
+.IP "val2" 12
+second element of value to set (typically MICRO)
+.IP "mask" 12
+what we actually want to write as per the info_mask_*
+in iio_chan_spec.
+.SH "DESCRIPTION"
+Note that all raw writes are assumed IIO_VAL_INT and info mask elements
+are assumed to be IIO_INT_PLUS_MICRO unless the callback write_raw_get_fmt
+in struct iio_info is provided by the driver.

@@ -1,0 +1,47 @@
+.TH "drm_universal_plane_init" 9 "drm_universal_plane_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_universal_plane_init \- Initialize a new universal plane object
+.SH SYNOPSIS
+.B "int" drm_universal_plane_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_plane *plane "  ","
+.BI "uint32_t possible_crtcs "  ","
+.BI "const struct drm_plane_funcs *funcs "  ","
+.BI "const uint32_t *formats "  ","
+.BI "unsigned int format_count "  ","
+.BI "const uint64_t *format_modifiers "  ","
+.BI "enum drm_plane_type type "  ","
+.BI "const char *name "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "plane" 12
+plane object to init
+.IP "possible_crtcs" 12
+bitmask of possible CRTCs
+.IP "funcs" 12
+callbacks for the new plane
+.IP "formats" 12
+array of supported formats (DRM_FORMAT\_\*)
+.IP "format_count" 12
+number of elements in \fIformats\fP
+.IP "format_modifiers" 12
+array of struct drm_format modifiers terminated by
+DRM_FORMAT_MOD_INVALID
+.IP "type" 12
+type of plane (overlay, primary, cursor)
+.IP "name" 12
+printf style format string for the plane name, or NULL for default name
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Initializes a plane object of type \fItype\fP. The \fIdrm_plane_funcs.destroy\fP hook
+should call \fBdrm_plane_cleanup\fP and \fBkfree\fP the plane structure. The plane
+structure should not be allocated with \fBdevm_kzalloc\fP.
+.SH "NOTE"
+consider using \fBdrmm_universal_plane_alloc\fP instead of
+\fBdrm_universal_plane_init\fP to let the DRM managed resource infrastructure
+take care of cleanup and deallocation.
+.SH "RETURN"
+Zero on success, error code on failure.

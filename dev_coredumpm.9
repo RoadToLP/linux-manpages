@@ -1,0 +1,32 @@
+.TH "dev_coredumpm" 9 "dev_coredumpm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_coredumpm \- create device coredump with read/free methods
+.SH SYNOPSIS
+.B "void" dev_coredumpm
+.BI "(struct device *dev "  ","
+.BI "struct module *owner "  ","
+.BI "void *data "  ","
+.BI "size_t datalen "  ","
+.BI "gfp_t gfp "  ","
+.BI "ssize_t (*read)(char *buffer, loff_t offset, size_t count, void *data, size_t datalen) "  ","
+.BI "void (*free)(void *data) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct device for the crashed device
+.IP "owner" 12
+the module that contains the read/free functions, use THIS_MODULE
+.IP "data" 12
+data cookie for the \fIread\fP/\fIfree\fP functions
+.IP "datalen" 12
+length of the data
+.IP "gfp" 12
+allocation flags
+.IP "read" 12
+function to read from the given buffer
+.IP "free" 12
+function to free the given buffer
+.SH "DESCRIPTION"
+Creates a new device coredump for the given device. If a previous one hasn't
+been read yet, the new coredump is discarded. The data lifetime is determined
+by the device coredump framework and when it is no longer needed the \fIfree\fP
+function will be called to free the data.

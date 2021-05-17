@@ -1,0 +1,23 @@
+.TH "csio_shost_init" 9 "csio_shost_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+csio_shost_init \- Create and initialize the lnode module.
+.SH SYNOPSIS
+.B "struct csio_lnode *" csio_shost_init
+.BI "(struct csio_hw *hw "  ","
+.BI "struct device *dev "  ","
+.BI "bool probe "  ","
+.BI "struct csio_lnode *pln "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+The HW module.
+.IP "dev" 12
+The device associated with this invocation.
+.IP "probe" 12
+Called from probe context or not?
+.IP "pln" 12
+Parent lnode if any.
+.SH "DESCRIPTION"
+Allocates lnode structure via scsi_host_alloc, initializes
+shost, initializes lnode module and registers with SCSI ML
+via scsi_host_add. This function is shared between physical and
+virtual node ports.

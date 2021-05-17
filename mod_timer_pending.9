@@ -1,0 +1,17 @@
+.TH "mod_timer_pending" 9 "mod_timer_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mod_timer_pending \- modify a pending timer's timeout
+.SH SYNOPSIS
+.B "int" mod_timer_pending
+.BI "(struct timer_list *timer "  ","
+.BI "unsigned long expires "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+the pending timer to be modified
+.IP "expires" 12
+new timeout in jiffies
+.SH "DESCRIPTION"
+\fBmod_timer_pending\fP is the same for pending timers as \fBmod_timer\fP,
+but will not re-activate and modify already deleted timers.
+
+It is useful for unserialized use of timers.

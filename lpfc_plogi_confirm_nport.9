@@ -1,0 +1,40 @@
+.TH "lpfc_plogi_confirm_nport" 9 "lpfc_plogi_confirm_nport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_plogi_confirm_nport \- Confirm plogi wwpn matches stored ndlp
+.SH SYNOPSIS
+.B "struct lpfc_nodelist *" lpfc_plogi_confirm_nport
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t *prsp "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "prsp" 12
+pointer to response IOCB payload.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine checks and indicates whether the WWPN of an N_Port, retrieved
+from a PLOGI, matches the WWPN that is stored in the \fIndlp\fP for that N_POrt.
+The following cases are considered N_Port confirmed:
+1) The N_Port is a Fabric ndlp; 2) The \fIndlp\fP is on vport list and matches
+the WWPN of the N_Port logged into; 3) The \fIndlp\fP is not on vport list but
+it does not have WWPN assigned either. If the WWPN is confirmed, the
+pointer to the \fIndlp\fP will be returned. If the WWPN is not confirmed:
+1) if there is a node on vport list other than the \fIndlp\fP with the same
+WWPN of the N_Port PLOGI logged into, the \fBlpfc_unreg_rpi\fP will be invoked
+on that node to release the RPI associated with the node; 2) if there is
+no node found on vport list with the same WWPN of the N_Port PLOGI logged
+into, a new node shall be allocated (or activated). In either case, the
+parameters of the \fIndlp\fP shall be copied to the new_ndlp, the \fIndlp\fP shall
+be released and the new_ndlp shall be put on to the vport node list and
+its pointer returned as the confirmed node.
+
+Note that before the \fIndlp\fP got "released", the keepDID from not-matching
+or inactive "new_ndlp" on the vport node list is assigned to the nlp_DID
+of the \fIndlp\fP. This is because the release of \fIndlp\fP is actually to put it
+into an inactive state on the vport node list and the vport node list
+management algorithm does not allow two node with a same DID.
+
+Return code
+pointer to the PLOGI N_Port \fIndlp\fP

@@ -1,0 +1,14 @@
+.TH "blk_abort_request" 9 "blk_abort_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_abort_request \- Request recovery for the specified command
+.SH SYNOPSIS
+.B "void" blk_abort_request
+.BI "(struct request *req "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+pointer to the request of interest
+.SH "DESCRIPTION"
+This function requests that the block layer start recovery for the
+request by deleting the timer and calling the q's timeout function.
+LLDDs who implement their own error recovery MAY ignore the timeout
+event if they generated blk_abort_request.

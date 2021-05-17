@@ -1,0 +1,25 @@
+.TH "nfs_find_best_sec" 9 "nfs_find_best_sec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_find_best_sec \- Find a security mechanism supported locally
+.SH SYNOPSIS
+.B "struct rpc_clnt *" nfs_find_best_sec
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "struct nfs_server *server "  ","
+.BI "struct nfs4_secinfo_flavors *flavors "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+pointer to rpc_clnt
+.IP "server" 12
+NFS server struct
+.IP "flavors" 12
+List of security tuples returned by SECINFO procedure
+.SH "DESCRIPTION"
+Return an rpc client that uses the first security mechanism in
+"flavors" that is locally supported.  The "flavors" array
+is searched in the order returned from the server, per RFC 3530
+recommendation and each flavor is checked for membership in the
+sec= mount option list if it exists.
+
+Return -EPERM if no matching flavor is found in the array.
+
+Please call \fBrpc_shutdown_client\fP when you are done with this rpc client.

@@ -1,0 +1,20 @@
+.TH "pinctrl_register" 9 "pinctrl_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pinctrl_register \- register a pin controller device
+.SH SYNOPSIS
+.B "struct pinctrl_dev *" pinctrl_register
+.BI "(struct pinctrl_desc *pctldesc "  ","
+.BI "struct device *dev "  ","
+.BI "void *driver_data "  ");"
+.SH ARGUMENTS
+.IP "pctldesc" 12
+descriptor for this pin controller
+.IP "dev" 12
+parent device for this pin controller
+.IP "driver_data" 12
+private pin controller data for this pin controller
+.SH "DESCRIPTION"
+Note that \fBpinctrl_register\fP is known to have problems as the pin
+controller driver functions are called before the driver has a
+struct pinctrl_dev handle. To avoid issues later on, please use the
+new \fBpinctrl_register_and_init\fP below instead.

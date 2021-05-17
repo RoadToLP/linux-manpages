@@ -1,0 +1,22 @@
+.TH "pmcraid_reset_reload" 9 "pmcraid_reset_reload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_reset_reload \- utility routine for doing IOA reset either to bringup or bringdown IOA
+.SH SYNOPSIS
+.B "int" pmcraid_reset_reload
+.BI "(struct pmcraid_instance *pinstance "  ","
+.BI "u8 shutdown_type "  ","
+.BI "u8 target_state "  ");"
+.SH ARGUMENTS
+.IP "pinstance" 12
+pointer adapter instance structure
+.IP "shutdown_type" 12
+shutdown type to be used NONE, NORMAL or ABRREV
+.IP "target_state" 12
+expected target state after reset
+.SH "NOTE"
+This command initiates reset and waits for its completion. Hence this
+should not be called from isr/timer/tasklet functions (timeout handlers,
+error response handlers and interrupt handlers).
+.SH "DESCRIPTION"
+Return Value
+1 in case ioa_state is not target_state, 0 otherwise.

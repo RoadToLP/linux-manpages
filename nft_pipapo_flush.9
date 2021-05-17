@@ -1,0 +1,27 @@
+.TH "nft_pipapo_flush" 9 "nft_pipapo_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_flush \- Call pipapo_deactivate() to make element inactive
+.SH SYNOPSIS
+.B "bool" nft_pipapo_flush
+.BI "(const struct net *net "  ","
+.BI "const struct nft_set *set "  ","
+.BI "void *elem "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace
+.IP "set" 12
+nftables API set representation
+.IP "elem" 12
+nftables API element representation containing key data
+.SH "DESCRIPTION"
+This is functionally the same as \fBnft_pipapo_deactivate\fP, with a slightly
+different interface, and it's also called once for each element in a set
+being flushed, so we can't implement, strictly speaking, a flush operation,
+which would otherwise be as simple as allocating an empty copy of the
+matching data.
+
+Note that we could in theory do that, mark the set as flushed, and ignore
+subsequent calls, but we would leak all the elements after the first one,
+because they wouldn't then be freed as result of API calls.
+.SH "RETURN"
+true if element was found and deactivated.

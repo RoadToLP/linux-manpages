@@ -1,0 +1,25 @@
+.TH "lpfc_els_rsp_rls_acc" 9 "lpfc_els_rsp_rls_acc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rsp_rls_acc \- Completion callbk func for MBX_READ_LNK_STAT mbox cmd
+.SH SYNOPSIS
+.B "void" lpfc_els_rsp_rls_acc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+This routine is the completion callback function for the MBX_READ_LNK_STAT
+mailbox command. This callback function is to actually send the Accept
+(ACC) response to a Read Port Status (RPS) unsolicited IOCB event. It
+collects the link statistics from the completion of the MBX_READ_LNK_STAT
+mailbox command, constructs the RPS response with the link statistics
+collected, and then invokes the \fBlpfc_sli_issue_iocb\fP routine to send ACC
+response to the RPS.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the RPS Accept Response ELS IOCB command.

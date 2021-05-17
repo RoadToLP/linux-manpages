@@ -1,0 +1,21 @@
+.TH "v3d_submit_cl_ioctl" 9 "v3d_submit_cl_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v3d_submit_cl_ioctl \- Submits a job (frame) to the V3D.
+.SH SYNOPSIS
+.B "int" v3d_submit_cl_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "data" 12
+ioctl argument
+.IP "file_priv" 12
+DRM file for this fd
+.SH "DESCRIPTION"
+This is the main entrypoint for userspace to submit a 3D frame to
+the GPU.  Userspace provides the binner command list (if
+applicable), and the kernel sets up the render command list to draw
+to the framebuffer described in the ioctl, using the command lists
+that the 3D engine's binner will produce.

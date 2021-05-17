@@ -1,0 +1,22 @@
+.TH "svc_rdma_read_data_item" 9 "svc_rdma_read_data_item" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_read_data_item \- Construct RDMA Reads to pull data item Read chunks
+.SH SYNOPSIS
+.B "int" svc_rdma_read_data_item
+.BI "(struct svc_rdma_read_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.SH "DESCRIPTION"
+The chunk data lands in the page list of head->rc_arg.pages.
+
+Currently NFSD does not look at the head->rc_arg.tail[0] iovec.
+Therefore, XDR round-up of the Read chunk and trailing
+inline content must both be added at the end of the pagelist.
+
+Return values:
+0: RDMA Read WQEs were successfully built
+-EINVAL: client provided too many chunks or segments,
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

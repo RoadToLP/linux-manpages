@@ -1,0 +1,23 @@
+.TH "i40e_get_ethtool_stats" 9 "i40e_get_ethtool_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_get_ethtool_stats \- copy stat values into supplied buffer
+.SH SYNOPSIS
+.B "void" i40e_get_ethtool_stats
+.BI "(struct net_device *netdev "  ","
+.BI "struct ethtool_stats *stats "  ","
+.BI "u64 *data "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the netdev to collect stats for
+.IP "stats" 12
+ethtool stats command structure
+.IP "data" 12
+ethtool supplied buffer
+.SH "DESCRIPTION"
+Copy the stats values for this netdev into the buffer. Expects data to be
+pre-allocated to the size returned by i40e_get_stats_count.. Note that all
+statistics must be copied in a static order, and the count must not change
+for a given netdev. See i40e_get_stats_count for more details.
+
+If a statistic is not currently valid (such as a disabled queue), this
+function reports its value as zero.

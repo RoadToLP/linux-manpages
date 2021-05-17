@@ -1,0 +1,17 @@
+.TH "regulator_is_enabled" 9 "regulator_is_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_is_enabled \- is the regulator output enabled
+.SH SYNOPSIS
+.B "int" regulator_is_enabled
+.BI "(struct regulator *regulator "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.SH "DESCRIPTION"
+Returns positive if the regulator driver backing the source/client
+has requested that the device be enabled, zero if it hasn't, else a
+negative errno code.
+
+Note that the device backing this regulator handle can have multiple
+users, so it might be enabled even if \fBregulator_enable\fP was never
+called for this particular source.

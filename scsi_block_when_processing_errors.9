@@ -1,0 +1,15 @@
+.TH "scsi_block_when_processing_errors" 9 "scsi_block_when_processing_errors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_block_when_processing_errors \- Prevent cmds from being queued.
+.SH SYNOPSIS
+.B "int" scsi_block_when_processing_errors
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+Device on which we are performing recovery.
+.SH "DESCRIPTION"
+We block until the host is out of error recovery, and then check to
+see whether the host or the device is offline.
+
+Return value:
+0 when dev was taken offline by error recovery. 1 OK to proceed.

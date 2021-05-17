@@ -1,0 +1,29 @@
+.TH "cg3_setcolreg" 9 "cg3_setcolreg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cg3_setcolreg \- Optional function. Sets a color register.
+.SH SYNOPSIS
+.B "int" cg3_setcolreg
+.BI "(unsigned regno "  ","
+.BI "unsigned red "  ","
+.BI "unsigned green "  ","
+.BI "unsigned blue "  ","
+.BI "unsigned transp "  ","
+.BI "struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "regno" 12
+boolean, 0 copy local, 1 \fBget_user\fP function
+.IP "red" 12
+frame buffer colormap structure
+.IP "green" 12
+The green value which can be up to 16 bits wide
+.IP "blue" 12
+The blue value which can be up to 16 bits wide.
+.IP "transp" 12
+If supported the alpha value which can be up to 16 bits wide.
+.IP "info" 12
+frame buffer info structure
+.SH "DESCRIPTION"
+The cg3 palette is loaded with 4 color values at each time
+so you end up with: (rgb)(r), (gb)(rg), (b)(rgb), and so on.
+We keep a sw copy of the hw cmap to assist us in this esoteric
+loading procedure.

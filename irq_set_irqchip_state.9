@@ -1,0 +1,21 @@
+.TH "irq_set_irqchip_state" 9 "irq_set_irqchip_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_set_irqchip_state \- set the state of a forwarded interrupt.
+.SH SYNOPSIS
+.B "int" irq_set_irqchip_state
+.BI "(unsigned int irq "  ","
+.BI "enum irqchip_irq_state which "  ","
+.BI "bool val "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line that is forwarded to a VM
+.IP "which" 12
+State to be restored (one of IRQCHIP_STATE_*)
+.IP "val" 12
+Value corresponding to \fIwhich\fP
+
+This call sets the internal irqchip state of an interrupt,
+depending on the value of \fIwhich\fP.
+
+This function should be called with preemption disabled if the
+interrupt controller has per-cpu registers.

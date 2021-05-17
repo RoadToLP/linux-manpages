@@ -1,0 +1,35 @@
+.TH "tipc_crypto_xmit" 9 "tipc_crypto_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_xmit \- Build & encrypt TIPC message for xmit
+.SH SYNOPSIS
+.B "int" tipc_crypto_xmit
+.BI "(struct net *net "  ","
+.BI "struct sk_buff **skb "  ","
+.BI "struct tipc_bearer *b "  ","
+.BI "struct tipc_media_addr *dst "  ","
+.BI "struct tipc_node *__dnode "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+struct net
+.IP "skb" 12
+input/output message skb pointer
+.IP "b" 12
+bearer used for xmit later
+.IP "dst" 12
+destination media address
+.IP "__dnode" 12
+destination node for reference if any
+.SH "DESCRIPTION"
+First, build an encryption message header on the top of the message, then
+encrypt the original TIPC message by using the pending, master or active
+key with this preference order.
+If the encryption is successful, the encrypted skb is returned directly or
+via the callback.
+Otherwise, the skb is freed!
+.SH "RETURN"
+* 0                   : the encryption has succeeded (or no encryption)
+* -EINPROGRESS/-EBUSY : the encryption is ongoing, a callback will be made
+* -ENOKEK             : the encryption has failed due to no key
+* -EKEYREVOKED        : the encryption has failed due to key revoked
+* -ENOMEM             : the encryption has failed due to no memory
+* < 0                 : the encryption has failed due to other reasons

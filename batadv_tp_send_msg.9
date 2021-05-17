@@ -1,0 +1,36 @@
+.TH "batadv_tp_send_msg" 9 "batadv_tp_send_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tp_send_msg \- send a single message
+.SH SYNOPSIS
+.B "int" batadv_tp_send_msg
+.BI "(struct batadv_tp_vars *tp_vars "  ","
+.BI "const u8 *src "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "u32 seqno "  ","
+.BI "size_t len "  ","
+.BI "const u8 *session "  ","
+.BI "int uid "  ","
+.BI "u32 timestamp "  ");"
+.SH ARGUMENTS
+.IP "tp_vars" 12
+the private TP meter data for this session
+.IP "src" 12
+source mac address
+.IP "orig_node" 12
+the originator of the destination
+.IP "seqno" 12
+sequence number of this packet
+.IP "len" 12
+length of the entire packet
+.IP "session" 12
+session identifier
+.IP "uid" 12
+local ICMP "socket" index
+.IP "timestamp" 12
+timestamp in jiffies which is replied in ack
+.SH "DESCRIPTION"
+Create and send a single TP Meter message.
+.SH "RETURN"
+0 on success, BATADV_TP_REASON_DST_UNREACHABLE if the destination is
+not reachable, BATADV_TP_REASON_MEMORY_ERROR if the packet couldn't be
+allocated

@@ -1,0 +1,17 @@
+.TH "bpf_prog_create" 9 "bpf_prog_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_prog_create \- create an unattached filter
+.SH SYNOPSIS
+.B "int" bpf_prog_create
+.BI "(struct bpf_prog **pfp "  ","
+.BI "struct sock_fprog_kern *fprog "  ");"
+.SH ARGUMENTS
+.IP "pfp" 12
+the unattached filter that is created
+.IP "fprog" 12
+the filter program
+.SH "DESCRIPTION"
+Create a filter independent of any socket. We first run some
+sanity checks on it to make sure it does not explode on us later.
+If an error occurs or there is insufficient memory for the filter
+a negative errno code is returned. On success the return is zero.

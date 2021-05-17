@@ -1,0 +1,34 @@
+.TH "prb_reserve" 9 "prb_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prb_reserve \- Reserve space in the ringbuffer.
+.SH SYNOPSIS
+.B "bool" prb_reserve
+.BI "(struct prb_reserved_entry *e "  ","
+.BI "struct printk_ringbuffer *rb "  ","
+.BI "struct printk_record *r "  ");"
+.SH ARGUMENTS
+.IP "e" 12
+The entry structure to setup.
+.IP "rb" 12
+The ringbuffer to reserve data in.
+.IP "r" 12
+The record structure to allocate buffers for.
+.SH "DESCRIPTION"
+This is the public function available to writers to reserve data.
+
+The writer specifies the text size to reserve by setting the
+\fItext_buf_size\fP field of \fIr\fP. To ensure proper initialization of \fIr\fP,
+\fBprb_rec_init_wr\fP should be used.
+
+On success, the fields \fIinfo\fP and \fItext_buf\fP of \fIr\fP will be set by this
+function and should be filled in by the writer before committing. Also
+on success, \fBprb_record_text_space\fP can be used on \fIe\fP to query the actual
+space used for the text data block.
+
+Important: \fIinfo->text_len\fP needs to be set correctly by the writer in
+order for data to be readable and/or extended. Its value
+is initialized to 0.
+.SH "CONTEXT"
+Any context. Disables local interrupts on success.
+.SH "RETURN"
+true if at least text data could be allocated, otherwise false.

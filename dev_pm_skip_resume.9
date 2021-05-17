@@ -1,0 +1,14 @@
+.TH "dev_pm_skip_resume" 9 "dev_pm_skip_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_skip_resume \- System-wide device resume optimization check.
+.SH SYNOPSIS
+.B "bool" dev_pm_skip_resume
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Target device.
+.SH "RETURN"
+- false if the transition under way is RESTORE.
+- Return value of \fBdev_pm_skip_suspend\fP if the transition under way is THAW.
+- The logical negation of power.must_resume otherwise (that is, when the
+transition under way is RESUME).

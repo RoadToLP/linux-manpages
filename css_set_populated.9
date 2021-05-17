@@ -1,0 +1,14 @@
+.TH "css_set_populated" 9 "css_set_populated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_set_populated \- does a css_set contain any tasks?
+.SH SYNOPSIS
+.B "bool" css_set_populated
+.BI "(struct css_set *cset "  ");"
+.SH ARGUMENTS
+.IP "cset" 12
+target css_set
+.SH "DESCRIPTION"
+\fBcss_set_populated\fP should be the same as !!cset->nr_tasks at steady
+state. However, \fBcss_set_populated\fP can be called while a task is being
+added to or removed from the linked list before the nr_tasks is
+properly updated. Hence, we can't just look at ->nr_tasks here.

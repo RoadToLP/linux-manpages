@@ -1,0 +1,15 @@
+.TH "_ensure_mpu_hwmod_is_setup" 9 "_ensure_mpu_hwmod_is_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_ensure_mpu_hwmod_is_setup \- ensure the MPU SS hwmod is init'ed and set up
+.SH SYNOPSIS
+.B "void" _ensure_mpu_hwmod_is_setup
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+pointer to the hwmod currently being set up (usually not the MPU)
+.SH "DESCRIPTION"
+If the hwmod data corresponding to the MPU subsystem IP block
+hasn't been initialized and set up yet, do so now.  This must be
+done first since sleep dependencies may be added from other hwmods
+to the MPU.  Intended to be called only by omap_hwmod_setup*().  No
+return value.

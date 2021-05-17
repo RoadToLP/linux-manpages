@@ -1,0 +1,34 @@
+.TH "gfs2_inode_lookup" 9 "gfs2_inode_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_inode_lookup \- Lookup an inode
+.SH SYNOPSIS
+.B "struct inode *" gfs2_inode_lookup
+.BI "(struct super_block *sb "  ","
+.BI "unsigned int type "  ","
+.BI "u64 no_addr "  ","
+.BI "u64 no_formal_ino "  ","
+.BI "unsigned int blktype "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+The super block
+.IP "type" 12
+The type of the inode
+.IP "no_addr" 12
+The inode number
+.IP "no_formal_ino" 12
+The inode generation number
+.IP "blktype" 12
+Requested block type (GFS2_BLKST_DINODE or GFS2_BLKST_UNLINKED;
+GFS2_BLKST_FREE to indicate not to verify)
+.SH "DESCRIPTION"
+If \fItype\fP is DT_UNKNOWN, the inode type is fetched from disk.
+
+If \fIblktype\fP is anything other than GFS2_BLKST_FREE (which is used as a
+placeholder because it doesn't otherwise make sense), the on-disk block type
+is verified to be \fIblktype\fP.
+
+When \fIno_formal_ino\fP is non-zero, this function will return ERR_PTR(-ESTALE)
+if it detects that \fIno_formal_ino\fP doesn't match the actual inode generation
+number.  However, it doesn't always know unless \fItype\fP is DT_UNKNOWN.
+.SH "RETURN"
+A VFS inode, or an error

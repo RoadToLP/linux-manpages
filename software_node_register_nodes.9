@@ -1,0 +1,15 @@
+.TH "software_node_register_nodes" 9 "software_node_register_nodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+software_node_register_nodes \- Register an array of software nodes
+.SH SYNOPSIS
+.B "int" software_node_register_nodes
+.BI "(const struct software_node *nodes "  ");"
+.SH ARGUMENTS
+.IP "nodes" 12
+Zero terminated array of software nodes to be registered
+.SH "DESCRIPTION"
+Register multiple software nodes at once. If any node in the array
+has its .parent pointer set (which can only be to another software_node),
+then its parent **must** have been registered before it is; either outside
+of this function or by ordering the array such that parent comes before
+child.

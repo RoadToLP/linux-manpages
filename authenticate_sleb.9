@@ -1,0 +1,27 @@
+.TH "authenticate_sleb" 9 "authenticate_sleb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+authenticate_sleb \- authenticate one scan LEB
+.SH SYNOPSIS
+.B "int" authenticate_sleb
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_scan_leb *sleb "  ","
+.BI "struct shash_desc *log_hash "  ","
+.BI "int is_last "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "sleb" 12
+the scan LEB to authenticate
+.IP "log_hash" 12
+-- undescribed --
+.IP "is_last" 12
+if true, this is the last LEB
+.SH "DESCRIPTION"
+This function iterates over the buds of a single LEB authenticating all buds
+with the authentication nodes on this LEB. Authentication nodes are written
+after some buds and contain a HMAC covering the authentication node itself
+and the buds between the last authentication node and the current
+authentication node. It can happen that the last buds cannot be authenticated
+because a powercut happened when some nodes were written but not the
+corresponding authentication node. This function returns the number of nodes
+that could be authenticated or a negative error code.

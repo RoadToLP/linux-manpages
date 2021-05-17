@@ -1,0 +1,21 @@
+.TH "drm_noop" 9 "drm_noop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_noop \- DRM no-op ioctl implemntation
+.SH SYNOPSIS
+.B "int" drm_noop
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device for the ioctl
+.IP "data" 12
+data pointer for the ioctl
+.IP "file_priv" 12
+DRM file for the ioctl call
+.SH "DESCRIPTION"
+This no-op implementation for drm ioctls is useful for deprecated
+functionality where we can't return a failure code because existing userspace
+checks the result of the ioctl, but doesn't care about the action.
+
+Always returns successfully with 0.

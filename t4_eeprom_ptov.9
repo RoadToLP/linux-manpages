@@ -1,0 +1,26 @@
+.TH "t4_eeprom_ptov" 9 "t4_eeprom_ptov" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_eeprom_ptov \- translate a physical EEPROM address to virtual
+.SH SYNOPSIS
+.B "int" t4_eeprom_ptov
+.BI "(unsigned int phys_addr "  ","
+.BI "unsigned int fn "  ","
+.BI "unsigned int sz "  ");"
+.SH ARGUMENTS
+.IP "phys_addr" 12
+the physical EEPROM address
+.IP "fn" 12
+the PCI function number
+.IP "sz" 12
+size of function-specific area
+.SH "DESCRIPTION"
+Translate a physical EEPROM address to virtual.  The first 1K is
+accessed through virtual addresses starting at 31K, the rest is
+accessed through virtual addresses starting at 0.
+
+The mapping is as follows:
+[0..1K) -> [31K..32K)
+[1K..1K+A) -> [31K-A..31K)
+[1K+A..ES) -> [0..ES-A-1K)
+
+where A = \fIfn\fP * \fIsz\fP, and ES = EEPROM size.

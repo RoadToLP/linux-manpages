@@ -1,0 +1,18 @@
+.TH "mpi_ssp_completion" 9 "mpi_ssp_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpi_ssp_completion \- process the event that FW response to the SSP request.
+.SH SYNOPSIS
+.B "void" mpi_ssp_completion
+.BI "(struct pm8001_hba_info *pm8001_ha "  ","
+.BI "void *piomb "  ");"
+.SH ARGUMENTS
+.IP "pm8001_ha" 12
+our hba card information
+.IP "piomb" 12
+the message contents of this outbound message.
+.SH "DESCRIPTION"
+When FW has completed a ssp request for example a IO request, after it has
+filled the SG data with the data, it will trigger this event represent
+that he has finished the job,please check the coresponding buffer.
+So we will tell the caller who maybe waiting the result to tell upper layer
+that the task has been finished.

@@ -1,0 +1,17 @@
+.TH "clear_tasks_mm_cpumask" 9 "clear_tasks_mm_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clear_tasks_mm_cpumask \- Safely clear tasks' mm_cpumask for a CPU
+.SH SYNOPSIS
+.B "void" clear_tasks_mm_cpumask
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+a CPU id
+.SH "DESCRIPTION"
+This function walks all processes, finds a valid mm struct for each one and
+then clears a corresponding bit in mm's cpumask.  While this all sounds
+trivial, there are various non-obvious corner cases, which this function
+tries to solve in a safe manner.
+
+Also note that the function uses a somewhat relaxed locking scheme, so it may
+be called only for an already offlined CPU.

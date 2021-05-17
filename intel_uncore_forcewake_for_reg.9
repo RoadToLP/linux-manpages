@@ -1,0 +1,22 @@
+.TH "intel_uncore_forcewake_for_reg" 9 "intel_uncore_forcewake_for_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_uncore_forcewake_for_reg \- which forcewake domains are needed to access a register
+.SH SYNOPSIS
+.B "enum forcewake_domains" intel_uncore_forcewake_for_reg
+.BI "(struct intel_uncore *uncore "  ","
+.BI "i915_reg_t reg "  ","
+.BI "unsigned int op "  ");"
+.SH ARGUMENTS
+.IP "uncore" 12
+pointer to struct intel_uncore
+.IP "reg" 12
+register in question
+.IP "op" 12
+operation bitmask of FW_REG_READ and/or FW_REG_WRITE
+.SH "DESCRIPTION"
+Returns a set of forcewake domains required to be taken with for example
+intel_uncore_forcewake_get for the specified register to be accessible in the
+specified mode (read, write or read/write) with raw mmio accessors.
+.SH "NOTE"
+On Gen6 and Gen7 write forcewake domain (FORCEWAKE_RENDER) requires the
+callers to do FIFO management on their own or risk losing writes.

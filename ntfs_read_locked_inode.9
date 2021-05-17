@@ -1,0 +1,31 @@
+.TH "ntfs_read_locked_inode" 9 "ntfs_read_locked_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_locked_inode \- read an inode from its device
+.SH SYNOPSIS
+.B "int" ntfs_read_locked_inode
+.BI "(struct inode *vi "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+inode to read
+.SH "DESCRIPTION"
+\fBntfs_read_locked_inode\fP is called from \fBntfs_iget\fP to read the inode
+described by \fIvi\fP into memory from the device.
+
+The only fields in \fIvi\fP that we need to/can look at when the function is
+called are i_sb, pointing to the mounted device's super block, and i_ino,
+the number of the inode to load.
+
+\fBntfs_read_locked_inode\fP maps, pins and locks the mft record number i_ino
+for reading and sets up the necessary \fIvi\fP fields as well as initializing
+the ntfs inode.
+
+Q: What locks are held when the function is called?
+A: i_state has I_NEW set, hence the inode is locked, also
+i_count is set to 1, so it is not going to go away
+i_flags is set to 0 and we have no business touching it.  Only an \fBioctl\fP
+is allowed to write to them. We should of course be honouring them but
+we need to do that using the IS_* macros defined in include/linux/fs.h.
+In any case \fBntfs_read_locked_inode\fP has nothing to do with i_flags.
+
+Return 0 on success and -errno on error.  In the error case, the inode will
+have had \fBmake_bad_inode\fP executed on it.

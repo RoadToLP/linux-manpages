@@ -1,0 +1,17 @@
+.TH "of_mdio_find_bus" 9 "of_mdio_find_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_mdio_find_bus \- Given an mii_bus node, find the mii_bus.
+.SH SYNOPSIS
+.B "struct mii_bus *" of_mdio_find_bus
+.BI "(struct device_node *mdio_bus_np "  ");"
+.SH ARGUMENTS
+.IP "mdio_bus_np" 12
+Pointer to the mii_bus.
+.SH "DESCRIPTION"
+Returns a reference to the mii_bus, or NULL if none found.  The
+embedded struct device will have its reference count incremented,
+and this must be put once the bus is finished with.
+
+Because the association of a device_node and mii_bus is made via
+\fBof_mdiobus_register\fP, the mii_bus cannot be found before it is
+registered with \fBof_mdiobus_register\fP.

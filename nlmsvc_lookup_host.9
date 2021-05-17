@@ -1,0 +1,27 @@
+.TH "nlmsvc_lookup_host" 9 "nlmsvc_lookup_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nlmsvc_lookup_host \- Find an NLM host handle matching a remote client
+.SH SYNOPSIS
+.B "struct nlm_host *" nlmsvc_lookup_host
+.BI "(const struct svc_rqst *rqstp "  ","
+.BI "const char *hostname "  ","
+.BI "const size_t hostname_len "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+incoming NLM request
+.IP "hostname" 12
+name of client host
+.IP "hostname_len" 12
+length of client hostname
+.SH "DESCRIPTION"
+Returns an nlm_host structure that matches the [client address,
+transport protocol, NLM version, client hostname] of the passed-in
+NLM request.  If one doesn't already exist in the host cache, a
+new handle is created and returned.
+
+Before possibly creating a new nlm_host, construct a sockaddr
+for a specific source address in case the local system has
+multiple network addresses.  The family of the address in
+rq_daddr is guaranteed to be the same as the family of the
+address in rq_addr, so it's safe to use the same family for
+the source address.

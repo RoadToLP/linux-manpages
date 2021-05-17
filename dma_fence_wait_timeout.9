@@ -1,0 +1,26 @@
+.TH "dma_fence_wait_timeout" 9 "dma_fence_wait_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_wait_timeout \- sleep until the fence gets signaled or until timeout elapses
+.SH SYNOPSIS
+.B "signed long" dma_fence_wait_timeout
+.BI "(struct dma_fence *fence "  ","
+.BI "bool intr "  ","
+.BI "signed long timeout "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the fence to wait on
+.IP "intr" 12
+if true, do an interruptible wait
+.IP "timeout" 12
+timeout value in jiffies, or MAX_SCHEDULE_TIMEOUT
+.SH "DESCRIPTION"
+Returns -ERESTARTSYS if interrupted, 0 if the wait timed out, or the
+remaining timeout in jiffies on success. Other error values may be
+returned on custom implementations.
+
+Performs a synchronous wait on this fence. It is assumed the caller
+directly or indirectly (buf-mgr between reservation and committing)
+holds a reference to the fence, otherwise the fence might be
+freed before return, resulting in undefined behavior.
+
+See also \fBdma_fence_wait\fP and \fBdma_fence_wait_any_timeout\fP.

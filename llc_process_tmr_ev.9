@@ -1,0 +1,18 @@
+.TH "llc_process_tmr_ev" 9 "llc_process_tmr_ev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_process_tmr_ev \- timer backend
+.SH SYNOPSIS
+.B "void" llc_process_tmr_ev
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+active connection
+.IP "skb" 12
+occurred event
+
+This function is called from timer callback functions. When connection
+is busy (during sending a data frame) timer expiration event must be
+queued. Otherwise this event can be sent to connection state machine.
+Queued events will process by llc_backlog_rcv function after sending
+data frame.

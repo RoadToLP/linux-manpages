@@ -1,0 +1,16 @@
+.TH "handle_percpu_devid_irq" 9 "handle_percpu_devid_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_percpu_devid_irq \- Per CPU local irq handler with per cpu dev ids
+.SH SYNOPSIS
+.B "void" handle_percpu_devid_irq
+.BI "(struct irq_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+the interrupt description structure for this irq
+.SH "DESCRIPTION"
+Per CPU interrupts on SMP machines without locking requirements. Same as
+\fBhandle_percpu_irq\fP above but with the following extras:
+
+action->percpu_dev_id is a pointer to percpu variables which
+contain the real device id for the cpu on which this handler is
+called

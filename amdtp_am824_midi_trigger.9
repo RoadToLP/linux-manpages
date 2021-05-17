@@ -1,0 +1,19 @@
+.TH "amdtp_am824_midi_trigger" 9 "amdtp_am824_midi_trigger" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdtp_am824_midi_trigger \- start/stop playback/capture with a MIDI device
+.SH SYNOPSIS
+.B "void" amdtp_am824_midi_trigger
+.BI "(struct amdtp_stream *s "  ","
+.BI "unsigned int port "  ","
+.BI "struct snd_rawmidi_substream *midi "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the AMDTP stream
+.IP "port" 12
+index of MIDI port
+.IP "midi" 12
+the MIDI device to be started, or NULL to stop the current device
+.SH "DESCRIPTION"
+Call this function on a running isochronous stream to enable the actual
+transmission of MIDI data.  This function should be called from the MIDI
+device's .trigger callback.

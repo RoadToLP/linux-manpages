@@ -1,0 +1,50 @@
+.TH "ata_slave_link_init" 9 "ata_slave_link_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_slave_link_init \- initialize slave link
+.SH SYNOPSIS
+.B "int" ata_slave_link_init
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port to initialize slave link for
+
+Create and initialize slave link for \fIap\fP.  This enables slave
+link handling on the port.
+
+In libata, a port contains links and a link contains devices.
+There is single host link but if a PMP is attached to it,
+there can be multiple fan-out links.  On SATA, there's usually
+a single device connected to a link but PATA and SATA
+controllers emulating TF based interface can have two - master
+and slave.
+
+However, there are a few controllers which don't fit into this
+abstraction too well - SATA controllers which emulate TF
+interface with both master and slave devices but also have
+separate SCR register sets for each device.  These controllers
+need separate links for physical link handling
+(e.g. onlineness, link speed) but should be treated like a
+traditional M/S controller for everything else (e.g. command
+issue, softreset).
+
+slave_link is libata's way of handling this class of
+controllers without impacting core layer too much.  For
+anything other than physical link handling, the default host
+link is used for both master and slave.  For physical link
+handling, separate \fIap->slave_link\fP is used.  All dirty details
+are implemented inside libata core layer.  From LLD's POV, the
+only difference is that prereset, hardreset and postreset are
+called once more for the slave link, so the reset sequence
+looks like the following.
+
+prereset(M) -> prereset(S) -> hardreset(M) -> hardreset(S) ->
+softreset(M) -> postreset(M) -> postreset(S)
+
+Note that softreset is called only for the master.  Softreset
+resets both M/S by definition, so SRST on master should handle
+both (the standard method will work just fine).
+
+LOCKING:
+Should be called before host is registered.
+.SH "RETURN"
+0 on success, -errno on failure.

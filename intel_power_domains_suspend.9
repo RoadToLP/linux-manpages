@@ -1,0 +1,18 @@
+.TH "intel_power_domains_suspend" 9 "intel_power_domains_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_power_domains_suspend \- suspend power domain state
+.SH SYNOPSIS
+.B "void" intel_power_domains_suspend
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "enum i915_drm_suspend_mode suspend_mode "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device instance
+.IP "suspend_mode" 12
+specifies the target suspend state (idle, mem, hibernation)
+.SH "DESCRIPTION"
+This function prepares the hardware power domain state before entering
+system suspend.
+
+It must be called with power domains already disabled (after a call to
+\fBintel_power_domains_disable\fP) and paired with \fBintel_power_domains_resume\fP.

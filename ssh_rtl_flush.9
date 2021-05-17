@@ -1,0 +1,35 @@
+.TH "ssh_rtl_flush" 9 "ssh_rtl_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_rtl_flush \- Flush the request transport layer.
+.SH SYNOPSIS
+.B "int" ssh_rtl_flush
+.BI "(struct ssh_rtl *rtl "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "rtl" 12
+request transport layer
+.IP "timeout" 12
+timeout for the flush operation in jiffies
+.SH "DESCRIPTION"
+Queue a special flush request and wait for its completion. This request
+will be completed after all other currently queued and pending requests
+have been completed. Instead of a normal data packet, this request submits
+a special flush packet, meaning that upon completion, also the underlying
+packet transport layer has been flushed.
+
+Flushing the request layer guarantees that all previously submitted
+requests have been fully completed before this call returns. Additionally,
+flushing blocks execution of all later submitted requests until the flush
+has been completed.
+
+If the caller ensures that no new requests are submitted after a call to
+this function, the request transport layer is guaranteed to have no
+remaining requests when this call returns. The same guarantee does not hold
+for the packet layer, on which control packets may still be queued after
+this call.
+.SH "RETURN"
+Returns zero on success, -ETIMEDOUT if the flush timed out and has
+been canceled as a result of the timeout, or -ESHUTDOWN if the packet
+and/or request transport layer has been shut down before this call. May
+also return -EINTR if the underlying packet transmission has been
+interrupted.

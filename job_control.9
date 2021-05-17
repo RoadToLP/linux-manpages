@@ -1,0 +1,20 @@
+.TH "job_control" 9 "job_control" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+job_control \- check job control
+.SH SYNOPSIS
+.B "int" job_control
+.BI "(struct tty_struct *tty "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty
+.IP "file" 12
+file handle
+
+Perform job control management checks on this file/tty descriptor
+and if appropriate send any needed signals and return a negative
+error code if action should be taken.
+
+Locking: redirected write test is safe
+current->signal->tty check is safe
+ctrl_lock to safely reference tty->pgrp

@@ -1,0 +1,17 @@
+.TH "sk_attach_filter" 9 "sk_attach_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sk_attach_filter \- attach a socket filter
+.SH SYNOPSIS
+.B "int" sk_attach_filter
+.BI "(struct sock_fprog *fprog "  ","
+.BI "struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "fprog" 12
+the filter program
+.IP "sk" 12
+the socket to use
+.SH "DESCRIPTION"
+Attach the user's filter code. We first run some sanity checks on
+it to make sure it does not explode on us later. If an error
+occurs or there is insufficient memory for the filter a negative
+errno code is returned. On success the return is zero.

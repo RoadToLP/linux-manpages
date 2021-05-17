@@ -1,0 +1,17 @@
+.TH "btrfs_discard_check_filter" 9 "btrfs_discard_check_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_check_filter \- updates a block groups filters
+.SH SYNOPSIS
+.B "void" btrfs_discard_check_filter
+.BI "(struct btrfs_block_group *block_group "  ","
+.BI "u64 bytes "  ");"
+.SH ARGUMENTS
+.IP "block_group" 12
+block group of interest
+.IP "bytes" 12
+recently freed region size after coalescing
+.SH "DESCRIPTION"
+Async discard maintains multiple lists with progressively smaller filters
+to prioritize discarding based on size.  Should a free space that matches
+a larger filter be returned to the free_space_cache, prioritize that discard
+by moving \fIblock_group\fP to the proper filter.

@@ -1,0 +1,21 @@
+.TH "drm_dp_aux_register" 9 "drm_dp_aux_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_aux_register \- initialise and register aux channel
+.SH SYNOPSIS
+.B "int" drm_dp_aux_register
+.BI "(struct drm_dp_aux *aux "  ");"
+.SH ARGUMENTS
+.IP "aux" 12
+DisplayPort AUX channel
+.SH "DESCRIPTION"
+Automatically calls \fBdrm_dp_aux_init\fP if this hasn't been done yet.
+This should only be called when the underlying \fIstruct drm_connector\fP is
+initialiazed already. Therefore the best place to call this is from
+\fIdrm_connector_funcs.late_register\fP. Not that drivers which don't follow this
+will Oops when CONFIG_DRM_DP_AUX_CHARDEV is enabled.
+
+Drivers which need to use the aux channel before that point (e.g. at driver
+load time, before \fBdrm_dev_register\fP has been called) need to call
+\fBdrm_dp_aux_init\fP.
+
+Returns 0 on success or a negative error code on failure.

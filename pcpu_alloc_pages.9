@@ -1,0 +1,25 @@
+.TH "pcpu_alloc_pages" 9 "pcpu_alloc_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_alloc_pages \- allocates pages for @chunk
+.SH SYNOPSIS
+.B "int" pcpu_alloc_pages
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "struct page **pages "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+target chunk
+.IP "pages" 12
+array to put the allocated pages into, indexed by \fBpcpu_page_idx\fP
+.IP "page_start" 12
+page index of the first page to be allocated
+.IP "page_end" 12
+page index of the last page to be allocated + 1
+.IP "gfp" 12
+allocation flags passed to the underlying allocator
+.SH "DESCRIPTION"
+Allocate pages [\fIpage_start\fP,\fIpage_end\fP) into \fIpages\fP for all units.
+The allocation is for \fIchunk\fP.  Percpu core doesn't care about the
+content of \fIpages\fP and will pass it verbatim to \fBpcpu_map_pages\fP.

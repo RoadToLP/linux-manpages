@@ -1,0 +1,33 @@
+.TH "dev_pm_qos_add_request" 9 "dev_pm_qos_add_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_qos_add_request \- inserts new qos request into the list
+.SH SYNOPSIS
+.B "int" dev_pm_qos_add_request
+.BI "(struct device *dev "  ","
+.BI "struct dev_pm_qos_request *req "  ","
+.BI "enum dev_pm_qos_req_type type "  ","
+.BI "s32 value "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device for the constraint
+.IP "req" 12
+pointer to a preallocated handle
+.IP "type" 12
+type of the request
+.IP "value" 12
+defines the qos request
+.SH "DESCRIPTION"
+This function inserts a new entry in the device constraints list of
+requested qos performance characteristics. It recomputes the aggregate
+QoS expectations of parameters and initializes the dev_pm_qos_request
+handle.  Caller needs to save this handle for later use in updates and
+removal.
+
+Returns 1 if the aggregated constraint value has changed,
+0 if the aggregated constraint value has not changed,
+-EINVAL in case of wrong parameters, -ENOMEM if there's not enough memory
+to allocate for data structures, -ENODEV if the device has just been removed
+from the system.
+
+Callers should ensure that the target device is not RPM_SUSPENDED before
+using this function for requests of type DEV_PM_QOS_FLAGS.

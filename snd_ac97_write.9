@@ -1,0 +1,21 @@
+.TH "snd_ac97_write" 9 "snd_ac97_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ac97_write \- write a value on the given register
+.SH SYNOPSIS
+.B "void" snd_ac97_write
+.BI "(struct snd_ac97 *ac97 "  ","
+.BI "unsigned short reg "  ","
+.BI "unsigned short value "  ");"
+.SH ARGUMENTS
+.IP "ac97" 12
+the ac97 instance
+.IP "reg" 12
+the register to change
+.IP "value" 12
+the value to set
+.SH "DESCRIPTION"
+Writes a value on the given register.  This will invoke the write
+callback directly after the register check.
+This function doesn't change the register cache unlike
+#\fBsnd_ca97_write_cache\fP, so use this only when you don't want to
+reflect the change to the suspend/resume state.

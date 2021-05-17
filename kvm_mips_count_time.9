@@ -1,0 +1,15 @@
+.TH "kvm_mips_count_time" 9 "kvm_mips_count_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_count_time \- Get effective current time.
+.SH SYNOPSIS
+.B "ktime_t" kvm_mips_count_time
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.SH "DESCRIPTION"
+Get effective monotonic ktime. This is usually a straightforward \fBktime_get\fP,
+except when the master disable bit is set in count_ctl, in which case it is
+count_resume, i.e. the time that the count was disabled.
+.SH "RETURN"
+Effective monotonic ktime for CP0_Count.

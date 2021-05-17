@@ -1,0 +1,32 @@
+.TH "ata_format_dsm_trim_descr" 9 "ata_format_dsm_trim_descr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_format_dsm_trim_descr \- SATL Write Same to DSM Trim
+.SH SYNOPSIS
+.B "size_t" ata_format_dsm_trim_descr
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "u32 trmax "  ","
+.BI "u64 sector "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+SCSI command being translated
+.IP "trmax" 12
+Maximum number of entries that will fit in sector_size bytes.
+.IP "sector" 12
+Starting sector
+.IP "count" 12
+Total Range of request in logical sectors
+.SH "DESCRIPTION"
+Rewrite the WRITE SAME descriptor to be a DSM TRIM little-endian formatted
+descriptor.
+
+Upto 64 entries of the format:
+63:48 Range Length
+47:0  LBA
+
+Range Length of 0 is ignored.
+LBA's should be sorted order and not overlap.
+.SH "NOTE"
+this is the same format as ADD LBA(S) TO NV CACHE PINNED SET
+.SH "RETURN"
+Number of bytes copied into sglist.

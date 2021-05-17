@@ -1,0 +1,30 @@
+.TH "vringh_getdesc_iotlb" 9 "vringh_getdesc_iotlb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vringh_getdesc_iotlb \- get next available descriptor from ring with IOTLB.
+.SH SYNOPSIS
+.B "int" vringh_getdesc_iotlb
+.BI "(struct vringh *vrh "  ","
+.BI "struct vringh_kiov *riov "  ","
+.BI "struct vringh_kiov *wiov "  ","
+.BI "u16 *head "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "vrh" 12
+the kernelspace vring.
+.IP "riov" 12
+where to put the readable descriptors (or NULL)
+.IP "wiov" 12
+where to put the writable descriptors (or NULL)
+.IP "head" 12
+head index we received, for passing to \fBvringh_complete_iotlb\fP.
+.IP "gfp" 12
+flags for allocating larger riov/wiov.
+.SH "DESCRIPTION"
+Returns 0 if there was no descriptor, 1 if there was, or -errno.
+
+Note that on error return, you can tell the difference between an
+invalid ring and a single invalid descriptor: in the former case,
+*head will be vrh->vring.num.  You may be able to ignore an invalid
+descriptor, but there's not much you can do with an invalid ring.
+
+Note that you may need to clean up riov and wiov, even on error!

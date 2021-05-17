@@ -1,0 +1,19 @@
+.TH "idt_setup_early_pf" 9 "idt_setup_early_pf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idt_setup_early_pf \- Initialize the idt table with early pagefault handler
+.SH SYNOPSIS
+.B "void" idt_setup_early_pf
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+On X8664 this does not use interrupt stacks as they can't work before
+\fBcpu_init\fP is invoked and sets up TSS. The IST variant is installed
+after that.
+
+Note, that X86_64 cannot install the real #PF handler in
+\fBidt_setup_early_traps\fP because the memory intialization needs the #PF
+handler from the early_idt_handler_array to initialize the early page
+tables.

@@ -1,0 +1,31 @@
+.TH "btrfs_get_extent" 9 "btrfs_get_extent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_get_extent \- Lookup the first extent overlapping a range in a file.
+.SH SYNOPSIS
+.B "struct extent_map *" btrfs_get_extent
+.BI "(struct btrfs_inode *inode "  ","
+.BI "struct page *page "  ","
+.BI "size_t pg_offset "  ","
+.BI "u64 start "  ","
+.BI "u64 len "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+file to search in
+.IP "page" 12
+page to read extent data into if the extent is inline
+.IP "pg_offset" 12
+offset into \fIpage\fP to copy to
+.IP "start" 12
+file offset
+.IP "len" 12
+length of range starting at \fIstart\fP
+.SH "DESCRIPTION"
+This returns the first \fIstruct extent_map\fP which overlaps with the given
+range, reading it from the B-tree and caching it if necessary. Note that
+there may be more extents which overlap the given range after the returned
+extent_map.
+
+If \fIpage\fP is not NULL and the extent is inline, this also reads the extent
+data directly into the page and marks the extent up to date in the io_tree.
+.SH "RETURN"
+ERR_PTR on error, non-NULL extent_map on success.

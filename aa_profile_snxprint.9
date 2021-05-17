@@ -1,0 +1,29 @@
+.TH "aa_profile_snxprint" 9 "aa_profile_snxprint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_profile_snxprint \- print a profile name to a buffer
+.SH SYNOPSIS
+.B "int" aa_profile_snxprint
+.BI "(char *str "  ","
+.BI "size_t size "  ","
+.BI "struct aa_ns *view "  ","
+.BI "struct aa_profile *profile "  ","
+.BI "int flags "  ","
+.BI "struct aa_ns **prev_ns "  ");"
+.SH ARGUMENTS
+.IP "str" 12
+buffer to write to. (MAY BE NULL if \fIsize\fP == 0)
+.IP "size" 12
+size of buffer
+.IP "view" 12
+namespace profile is being viewed from
+.IP "profile" 12
+profile to view (NOT NULL)
+.IP "flags" 12
+whether to include the mode string
+.IP "prev_ns" 12
+last ns printed when used in compound print
+.SH "RETURN"
+size of name written or would be written if larger than
+available buffer
+.SH "NOTE"
+will not print anything if the profile is not visible

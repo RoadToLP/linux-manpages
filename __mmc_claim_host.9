@@ -1,0 +1,21 @@
+.TH "__mmc_claim_host" 9 "__mmc_claim_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__mmc_claim_host \- exclusively claim a host
+.SH SYNOPSIS
+.B "int" __mmc_claim_host
+.BI "(struct mmc_host *host "  ","
+.BI "struct mmc_ctx *ctx "  ","
+.BI "atomic_t *abort "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+mmc host to claim
+.IP "ctx" 12
+context that claims the host or NULL in which case the default
+context will be used
+.IP "abort" 12
+whether or not the operation should be aborted
+
+Claim a host for a set of operations.  If \fIabort\fP is non null and
+dereference a non-zero value then this will return prematurely with
+that non-zero value without acquiring the lock.  Returns zero
+with the lock held otherwise.

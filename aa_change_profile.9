@@ -1,0 +1,20 @@
+.TH "aa_change_profile" 9 "aa_change_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_change_profile \- perform a one-way profile transition
+.SH SYNOPSIS
+.B "int" aa_change_profile
+.BI "(const char *fqname "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "fqname" 12
+name of profile may include namespace (NOT NULL)
+.IP "flags" 12
+flags affecting change behavior
+.SH "DESCRIPTION"
+Change to new profile \fIname\fP.  Unlike with hats, there is no way
+to change back.  If \fIname\fP isn't specified the current profile name is
+used.
+If \fIonexec\fP then the transition is delayed until
+the next exec.
+
+Returns 0 on success, error otherwise.

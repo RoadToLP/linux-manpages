@@ -1,0 +1,21 @@
+.TH "_ocp_softreset" 9 "_ocp_softreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_ocp_softreset \- reset an omap_hwmod via the OCP_SYSCONFIG bit
+.SH SYNOPSIS
+.B "int" _ocp_softreset
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Resets an omap_hwmod \fIoh\fP via the OCP_SYSCONFIG bit.  hwmod must be
+enabled for this to work.  Returns -ENOENT if the hwmod cannot be
+reset this way, -EINVAL if the hwmod is in the wrong state,
+-ETIMEDOUT if the module did not reset in time, or 0 upon success.
+
+In OMAP3 a specific SYSSTATUS register is used to get the reset status.
+Starting in OMAP4, some IPs do not have SYSSTATUS registers and instead
+use the SYSCONFIG softreset bit to provide the status.
+
+Note that some IP like McBSP do have reset control but don't have
+reset status.

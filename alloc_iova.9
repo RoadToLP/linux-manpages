@@ -1,0 +1,22 @@
+.TH "alloc_iova" 9 "alloc_iova" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_iova \- allocates an iova
+.SH SYNOPSIS
+.B "struct iova *" alloc_iova
+.BI "(struct iova_domain *iovad "  ","
+.BI "unsigned long size "  ","
+.BI "unsigned long limit_pfn "  ","
+.BI "bool size_aligned "  ");"
+.SH ARGUMENTS
+.IP "iovad" 12
+- iova domain in question
+.IP "size" 12
+- size of page frames to allocate
+.IP "limit_pfn" 12
+- max limit address
+.IP "size_aligned" 12
+- set if size_aligned address range is required
+This function allocates an iova in the range iovad->start_pfn to limit_pfn,
+searching top-down from limit_pfn to iovad->start_pfn. If the size_aligned
+flag is set then the allocated address iova->pfn_lo will be naturally
+aligned on roundup_power_of_two(size).

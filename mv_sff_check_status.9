@@ -1,0 +1,18 @@
+.TH "mv_sff_check_status" 9 "mv_sff_check_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_sff_check_status \- fetch device status, if valid
+.SH SYNOPSIS
+.B "u8" mv_sff_check_status
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to fetch status from
+
+When using command issue via \fBmv_qc_issue_fis\fP,
+the initial ATA_BUSY state does not show up in the
+ATA status (shadow) register.  This can confuse libata!
+
+So we have a hook here to fake ATA_BUSY for that situation,
+until the first time a BUSY, DRQ, or ERR bit is seen.
+
+The rest of the time, it simply returns the ATA status register.

@@ -1,0 +1,29 @@
+.TH "ata_sff_dev_classify" 9 "ata_sff_dev_classify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_dev_classify \- Parse returned ATA device signature
+.SH SYNOPSIS
+.B "unsigned int" ata_sff_dev_classify
+.BI "(struct ata_device *dev "  ","
+.BI "int present "  ","
+.BI "u8 *r_err "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ATA device to classify (starting at zero)
+.IP "present" 12
+device seems present
+.IP "r_err" 12
+Value of error register on completion
+
+After an event -- SRST, E.D.D., or SATA COMRESET -- occurs,
+an ATA/ATAPI-defined set of values is placed in the ATA
+shadow registers, indicating the results of device detection
+and diagnostics.
+
+Select the ATA device, and read the values from the ATA shadow
+registers.  Then parse according to the Error register value,
+and the spec-defined values examined by \fBata_dev_classify\fP.
+
+LOCKING:
+caller.
+.SH "RETURN"
+Device type - ATA_DEV_ATA, ATA_DEV_ATAPI or ATA_DEV_NONE.

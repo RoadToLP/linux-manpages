@@ -1,0 +1,15 @@
+.TH "get_task_cred" 9 "get_task_cred" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_task_cred \- Get another task's objective credentials
+.SH SYNOPSIS
+.B "const struct cred *" get_task_cred
+.BI "(struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+The task to query
+.SH "DESCRIPTION"
+Get the objective credentials of a task, pinning them so that they can't go
+away.  Accessing a task's credentials directly is not permitted.
+
+The caller must also make sure task doesn't get deleted, either by holding a
+ref on task or by holding tasklist_lock to prevent it from being unlinked.

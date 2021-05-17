@@ -1,0 +1,27 @@
+.TH "security_change_sid" 9 "security_change_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_change_sid \- Compute the SID for object relabeling.
+.SH SYNOPSIS
+.B "int" security_change_sid
+.BI "(struct selinux_state *state "  ","
+.BI "u32 ssid "  ","
+.BI "u32 tsid "  ","
+.BI "u16 tclass "  ","
+.BI "u32 *out_sid "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "ssid" 12
+source security identifier
+.IP "tsid" 12
+target security identifier
+.IP "tclass" 12
+target security class
+.IP "out_sid" 12
+security identifier for selected member
+.SH "DESCRIPTION"
+Compute a SID to use for relabeling an object of class \fItclass\fP
+based on a SID pair (\fIssid\fP, \fItsid\fP).
+Return -EINVAL if any of the parameters are invalid, -ENOMEM
+if insufficient memory is available, or 0 if the SID was
+computed successfully.

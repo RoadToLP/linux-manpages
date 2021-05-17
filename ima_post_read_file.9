@@ -1,0 +1,24 @@
+.TH "ima_post_read_file" 9 "ima_post_read_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_post_read_file \- in memory collect/appraise/audit measurement
+.SH SYNOPSIS
+.B "int" ima_post_read_file
+.BI "(struct file *file "  ","
+.BI "void *buf "  ","
+.BI "loff_t size "  ","
+.BI "enum kernel_read_file_id read_id "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+pointer to the file to be measured/appraised/audit
+.IP "buf" 12
+pointer to in memory file contents
+.IP "size" 12
+size of in memory file contents
+.IP "read_id" 12
+caller identifier
+.SH "DESCRIPTION"
+Measure/appraise/audit in memory file based on policy.  Policy rules
+are written in terms of a policy identifier.
+
+On success return 0.  On integrity appraisal error, assuming the file
+is in policy and IMA-appraisal is in enforcing mode, return -EACCES.

@@ -1,0 +1,22 @@
+.TH "enqueue_events" 9 "enqueue_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enqueue_events \- Place EC events in queue to be read by userspace.
+.SH SYNOPSIS
+.B "int" enqueue_events
+.BI "(struct acpi_device *adev "  ","
+.BI "const u8 *buf "  ","
+.BI "u32 length "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+Device the events came from.
+.IP "buf" 12
+Buffer of event data.
+.IP "length" 12
+Length of event data buffer.
+.SH "DESCRIPTION"
+buf contains a number of ec_event's, packed one after the other.
+Each ec_event is of variable length. Start with the first event, copy it
+into a persistent ec_event, store that entry in the queue, move on
+to the next ec_event in buf, and repeat.
+.SH "RETURN"
+0 on success or negative error code on failure.

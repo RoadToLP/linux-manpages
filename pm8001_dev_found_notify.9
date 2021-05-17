@@ -1,0 +1,17 @@
+.TH "pm8001_dev_found_notify" 9 "pm8001_dev_found_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm8001_dev_found_notify \- libsas notify a device is found.
+.SH SYNOPSIS
+.B "int" pm8001_dev_found_notify
+.BI "(struct domain_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device structure which sas layer used.
+.SH "DESCRIPTION"
+when libsas find a sas domain device, it should tell the LLDD that
+device is found, and then LLDD register this device to HBA firmware
+by the command "OPC_INB_REG_DEV", after that the HBA will assign a
+device ID(according to device's sas address) and returned it to LLDD. From
+now on, we communicate with HBA FW with the device ID which HBA assigned
+rather than sas address. it is the necessary step for our HBA but it is
+the optional for other HBA driver.

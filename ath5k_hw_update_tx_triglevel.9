@@ -1,0 +1,23 @@
+.TH "ath5k_hw_update_tx_triglevel" 9 "ath5k_hw_update_tx_triglevel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_update_tx_triglevel \- Update tx trigger level
+.SH SYNOPSIS
+.B "int" ath5k_hw_update_tx_triglevel
+.BI "(struct ath5k_hw *ah "  ","
+.BI "bool increase "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "increase" 12
+Flag to force increase of trigger level
+.SH "DESCRIPTION"
+This function increases/decreases the tx trigger level for the tx fifo
+buffer (aka FIFO threshold) that is used to indicate when PCU flushes
+the buffer and transmits its data. Lowering this results sending small
+frames more quickly but can lead to tx underruns, raising it a lot can
+result other problems. Right now we start with the lowest possible
+(64Bytes) and if we get tx underrun we increase it using the increase
+flag. Returns -EIO if we have reached maximum/minimum.
+
+XXX: Link this with tx DMA size ?
+XXX2: Use it to save interrupts ?

@@ -1,0 +1,26 @@
+.TH "skb_cow_data" 9 "skb_cow_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_cow_data \- Check that a socket buffer's data buffers are writable
+.SH SYNOPSIS
+.B "int" skb_cow_data
+.BI "(struct sk_buff *skb "  ","
+.BI "int tailbits "  ","
+.BI "struct sk_buff **trailer "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+The socket buffer to check.
+.IP "tailbits" 12
+Amount of trailing space to be added
+.IP "trailer" 12
+Returned pointer to the skb where the \fItailbits\fP space begins
+
+Make sure that the data buffers attached to a socket buffer are
+writable. If they are not, private copies are made of the data buffers
+and the socket buffer is set to use these instead.
+
+If \fItailbits\fP is given, make sure that there is space to write \fItailbits\fP
+bytes of data beyond current end of socket buffer.  \fItrailer\fP will be
+set to point to the skb in which this space begins.
+
+The number of scatterlist elements required to completely map the
+COW'd and extended socket buffer will be returned.

@@ -1,0 +1,19 @@
+.TH "update_num_rd_atomic" 9 "update_num_rd_atomic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_num_rd_atomic \- update the qp->s_num_rd_atomic
+.SH SYNOPSIS
+.B "void" update_num_rd_atomic
+.BI "(struct rvt_qp *qp "  ","
+.BI "u32 psn "  ","
+.BI "struct rvt_swqe *wqe "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP
+.IP "psn" 12
+the packet sequence number to restart at
+.IP "wqe" 12
+the wqe
+.SH "DESCRIPTION"
+This is called from \fBreset_psn\fP to update qp->s_num_rd_atomic
+for the current wqe.
+Called at interrupt level with the QP s_lock held.

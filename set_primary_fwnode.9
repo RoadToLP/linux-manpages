@@ -1,0 +1,21 @@
+.TH "set_primary_fwnode" 9 "set_primary_fwnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_primary_fwnode \- Change the primary firmware node of a given device.
+.SH SYNOPSIS
+.B "void" set_primary_fwnode
+.BI "(struct device *dev "  ","
+.BI "struct fwnode_handle *fwnode "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "fwnode" 12
+New primary firmware node of the device.
+.SH "DESCRIPTION"
+Set the device's firmware node pointer to \fIfwnode\fP, but if a secondary
+firmware node of the device is present, preserve it.
+
+Valid fwnode cases are:
+- primary --> secondary --> -ENODEV
+- primary --> NULL
+- secondary --> -ENODEV
+- NULL

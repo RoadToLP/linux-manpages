@@ -1,0 +1,29 @@
+.TH "dwarf_cfa_execute_insns" 9 "dwarf_cfa_execute_insns" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwarf_cfa_execute_insns \- execute instructions to calculate a CFA
+.SH SYNOPSIS
+.B "int" dwarf_cfa_execute_insns
+.BI "(unsigned char *insn_start "  ","
+.BI "unsigned char *insn_end "  ","
+.BI "struct dwarf_cie *cie "  ","
+.BI "struct dwarf_fde *fde "  ","
+.BI "struct dwarf_frame *frame "  ","
+.BI "unsigned long pc "  ");"
+.SH ARGUMENTS
+.IP "insn_start" 12
+address of the first instruction
+.IP "insn_end" 12
+address of the last instruction
+.IP "cie" 12
+the CIE for this function
+.IP "fde" 12
+the FDE for this function
+.IP "frame" 12
+the instructions calculate the CFA for this frame
+.IP "pc" 12
+the program counter of the address we're interested in
+
+Execute the Call Frame instruction sequence starting at
+\fIinsn_start\fP and ending at \fIinsn_end\fP. The instructions describe
+how to calculate the Canonical Frame Address of a stackframe.
+Store the results in \fIframe\fP.

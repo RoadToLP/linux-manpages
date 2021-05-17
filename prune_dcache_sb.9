@@ -1,0 +1,19 @@
+.TH "prune_dcache_sb" 9 "prune_dcache_sb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prune_dcache_sb \- shrink the dcache
+.SH SYNOPSIS
+.B "long" prune_dcache_sb
+.BI "(struct super_block *sb "  ","
+.BI "struct shrink_control *sc "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+.IP "sc" 12
+shrink control, passed to \fBlist_lru_shrink_walk\fP
+.SH "DESCRIPTION"
+Attempt to shrink the superblock dcache LRU by \fIsc->nr_to_scan\fP entries. This
+is done when we need more memory and called from the superblock shrinker
+function.
+
+This function may fail to free any resources if all the dentries are in
+use.

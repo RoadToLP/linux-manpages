@@ -1,0 +1,19 @@
+.TH "self_check_eba" 9 "self_check_eba" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+self_check_eba \- run a self check on the EBA table constructed by fastmap.
+.SH SYNOPSIS
+.B "int" self_check_eba
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai_fastmap "  ","
+.BI "struct ubi_attach_info *ai_scan "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai_fastmap" 12
+UBI attach info object created by fastmap
+.IP "ai_scan" 12
+UBI attach info object created by scanning
+.SH "DESCRIPTION"
+Returns < 0 in case of an internal error, 0 otherwise.
+If a bad EBA table entry was found it will be printed out and
+\fBubi_assert\fP triggers.

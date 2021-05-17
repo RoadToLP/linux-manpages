@@ -1,0 +1,28 @@
+.TH "of_parse_own_gpio" 9 "of_parse_own_gpio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_parse_own_gpio \- Get a GPIO hog descriptor, names and flags for GPIO API
+.SH SYNOPSIS
+.B "struct gpio_desc *" of_parse_own_gpio
+.BI "(struct device_node *np "  ","
+.BI "struct gpio_chip *chip "  ","
+.BI "unsigned int idx "  ","
+.BI "const char **name "  ","
+.BI "unsigned long *lflags "  ","
+.BI "enum gpiod_flags *dflags "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node to get GPIO from
+.IP "chip" 12
+GPIO chip whose hog is parsed
+.IP "idx" 12
+Index of the GPIO to parse
+.IP "name" 12
+GPIO line name
+.IP "lflags" 12
+bitmask of gpio_lookup_flags GPIO_* values - returned from
+\fBof_find_gpio\fP or \fBof_parse_own_gpio\fP
+.IP "dflags" 12
+gpiod_flags - optional GPIO initialization flags
+.SH "DESCRIPTION"
+Returns GPIO descriptor to use with Linux GPIO API, or one of the errno
+value on the error condition.

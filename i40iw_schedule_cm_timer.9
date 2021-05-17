@@ -1,0 +1,26 @@
+.TH "i40iw_schedule_cm_timer" 9 "i40iw_schedule_cm_timer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_schedule_cm_timer \- 
+.SH SYNOPSIS
+.B "int" i40iw_schedule_cm_timer
+.BI "(struct i40iw_cm_node *cm_node "  ","
+.BI "struct i40iw_puda_buf *sqbuf "  ","
+.BI "enum i40iw_timer_type type "  ","
+.BI "int send_retrans "  ","
+.BI "int close_when_complete "  ");"
+.SH ARGUMENTS
+.IP "cm_node" 12
+connection's node
+.IP "sqbuf" 12
+buffer to send
+.IP "type" 12
+if it is send or close
+.IP "send_retrans" 12
+if rexmits to be done
+.IP "close_when_complete" 12
+is cm_node to be removed
+.SH "DESCRIPTION"
+note - cm_node needs to be protected before calling this. Encase in:
+i40iw_rem_ref_cm_node(cm_core, cm_node);
+i40iw_schedule_cm_timer(...)
+atomic_inc(\fIcm_node->ref_count\fP);

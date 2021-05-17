@@ -1,0 +1,26 @@
+.TH "match_exception" 9 "match_exception" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+match_exception \- iterates the exception list trying to find a complete match
+.SH SYNOPSIS
+.B "bool" match_exception
+.BI "(struct list_head *exceptions "  ","
+.BI "short type "  ","
+.BI "u32 major "  ","
+.BI "u32 minor "  ","
+.BI "short access "  ");"
+.SH ARGUMENTS
+.IP "exceptions" 12
+list of exceptions
+.IP "type" 12
+device type (DEVCG_DEV_BLOCK or DEVCG_DEV_CHAR)
+.IP "major" 12
+device file major number, ~0 to match all
+.IP "minor" 12
+device file minor number, ~0 to match all
+.IP "access" 12
+permission mask (DEVCG_ACC_READ, DEVCG_ACC_WRITE, DEVCG_ACC_MKNOD)
+.SH "DESCRIPTION"
+It is considered a complete match if an exception is found that will
+contain the entire range of provided parameters.
+.SH "RETURN"
+true in case it matches an exception completely

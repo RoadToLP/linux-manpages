@@ -1,0 +1,17 @@
+.TH "llc_backlog_rcv" 9 "llc_backlog_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_backlog_rcv \- Processes rx frames and expired timers.
+.SH SYNOPSIS
+.B "int" llc_backlog_rcv
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+LLC sock (p8022 connection)
+.IP "skb" 12
+queued rx frame or event
+
+This function processes frames that has received and timers that has
+expired during sending an I pdu (refer to data_req_handler).  frames
+queue by llc_rcv function (llc_mac.c) and timers queue by timer
+callback functions(llc_c_ac.c).

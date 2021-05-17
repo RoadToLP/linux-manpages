@@ -1,0 +1,29 @@
+.TH "t4_bar2_sge_qregs" 9 "t4_bar2_sge_qregs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_bar2_sge_qregs \- return BAR2 SGE Queue register information
+.SH SYNOPSIS
+.B "int" t4_bar2_sge_qregs
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int qid "  ","
+.BI "enum t4_bar2_qtype qtype "  ","
+.BI "int user "  ","
+.BI "u64 *pbar2_qoffset "  ","
+.BI "unsigned int *pbar2_qid "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "qid" 12
+the Queue ID
+.IP "qtype" 12
+the Ingress or Egress type for \fIqid\fP
+.IP "user" 12
+true if this request is for a user mode queue
+.IP "pbar2_qoffset" 12
+the BAR2 Offset of the \fIqid\fP Registers
+.IP "pbar2_qid" 12
+the BAR2 SGE Queue ID or 0 of \fIqid\fP
+
+If the returned BAR2 Queue ID is 0, then BAR2 SGE registers which
+require the "Inferred Queue ID" ability may be used.  E.g. the
+Write Combining Doorbell Buffer. If the BAR2 Queue ID is not 0,
+then these "Inferred Queue ID" register may not be used.

@@ -1,0 +1,18 @@
+.TH "disk_flush_events" 9 "disk_flush_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disk_flush_events \- schedule immediate event checking and flushing
+.SH SYNOPSIS
+.B "void" disk_flush_events
+.BI "(struct gendisk *disk "  ","
+.BI "unsigned int mask "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+disk to check and flush events for
+.IP "mask" 12
+events to flush
+.SH "DESCRIPTION"
+Schedule immediate event checking on \fIdisk\fP if not blocked.  Events in
+\fImask\fP are scheduled to be cleared from the driver.  Note that this
+doesn't clear the events from \fIdisk->ev\fP.
+.SH "CONTEXT"
+If \fImask\fP is non-zero must be called with bdev->bd_mutex held.

@@ -1,0 +1,21 @@
+.TH "sf_pdma_irq_init" 9 "sf_pdma_irq_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sf_pdma_irq_init \- Init PDMA IRQ Handlers
+.SH SYNOPSIS
+.B "int" sf_pdma_irq_init
+.BI "(struct platform_device *pdev "  ","
+.BI "struct sf_pdma *pdma "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pointer of platform_device
+.IP "pdma" 12
+pointer of PDMA engine. Caller should check NULL
+.SH "DESCRIPTION"
+Initialize DONE and ERROR interrupt handler for 4 channels. Caller should
+make sure the pointer passed in are non-NULL. This function should be called
+only one time during the device probe.
+.SH "CONTEXT"
+Any context.
+.SH "RETURN"
+* 0          - OK to init all IRQ handlers
+* -EINVAL    - Fail to request IRQ

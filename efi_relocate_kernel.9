@@ -1,0 +1,36 @@
+.TH "efi_relocate_kernel" 9 "efi_relocate_kernel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_relocate_kernel \- copy memory area
+.SH SYNOPSIS
+.B "efi_status_t" efi_relocate_kernel
+.BI "(unsigned long *image_addr "  ","
+.BI "unsigned long image_size "  ","
+.BI "unsigned long alloc_size "  ","
+.BI "unsigned long preferred_addr "  ","
+.BI "unsigned long alignment "  ","
+.BI "unsigned long min_addr "  ");"
+.SH ARGUMENTS
+.IP "image_addr" 12
+pointer to address of memory area to copy
+.IP "image_size" 12
+size of memory area to copy
+.IP "alloc_size" 12
+minimum size of memory to allocate, must be greater or
+equal to image_size
+.IP "preferred_addr" 12
+preferred target address
+.IP "alignment" 12
+minimum alignment of the allocated memory area. It
+should be a power of two.
+.IP "min_addr" 12
+minimum target address
+.SH "DESCRIPTION"
+Copy a memory area to a newly allocated memory area aligned according
+to \fIalignment\fP but at least EFI_ALLOC_ALIGN. If the preferred address
+is not available, the allocated address will not be below \fImin_addr\fP.
+On exit, \fIimage_addr\fP is updated to the target copy address that was used.
+
+This function is used to copy the Linux kernel verbatim. It does not apply
+any relocation changes.
+.SH "RETURN"
+status code

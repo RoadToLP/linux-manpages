@@ -1,0 +1,17 @@
+.TH "gsm_dlci_data_sweep" 9 "gsm_dlci_data_sweep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_dlci_data_sweep \- look for data to send
+.SH SYNOPSIS
+.B "void" gsm_dlci_data_sweep
+.BI "(struct gsm_mux *gsm "  ");"
+.SH ARGUMENTS
+.IP "gsm" 12
+the GSM mux
+
+Sweep the GSM mux channels in priority order looking for ones with
+data to send. We could do with optimising this scan a bit. We aim
+to fill the queue totally or up to TX_THRESH_HI bytes. Once we hit
+TX_THRESH_LO we get called again
+
+FIXME: We should round robin between groups and in theory you can
+renegotiate DLCI priorities with optional stuff. Needs optimising.

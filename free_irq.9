@@ -1,0 +1,23 @@
+.TH "free_irq" 9 "free_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+free_irq \- free an interrupt allocated with request_irq
+.SH SYNOPSIS
+.B "const void *" free_irq
+.BI "(unsigned int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to free
+.IP "dev_id" 12
+Device identity to free
+
+Remove an interrupt handler. The handler is removed and if the
+interrupt line is no longer in use by any driver it is disabled.
+On a shared IRQ the caller must ensure the interrupt is disabled
+on the card it drives before calling this function. The function
+does not return until any executing interrupts for this IRQ
+have completed.
+
+This function must not be called from interrupt context.
+
+Returns the devname argument passed to request_irq.

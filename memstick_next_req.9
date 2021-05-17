@@ -1,0 +1,18 @@
+.TH "memstick_next_req" 9 "memstick_next_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memstick_next_req \- called by host driver to obtain next request to process @host - host to use @mrq - pointer to stick the request to
+.SH SYNOPSIS
+.B "int" memstick_next_req
+.BI "(struct memstick_host *host "  ","
+.BI "struct memstick_request **mrq "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+-- undescribed --
+.IP "mrq" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Host calls this function from idle state (*mrq == NULL) or after finishing
+previous request (*mrq should point to it). If previous request was
+unsuccessful, it is retried for predetermined number of times. Return value
+of 0 means that new request was assigned to the host.

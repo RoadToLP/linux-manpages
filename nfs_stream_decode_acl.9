@@ -1,0 +1,21 @@
+.TH "nfs_stream_decode_acl" 9 "nfs_stream_decode_acl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_stream_decode_acl \- Decode an NFSv3 ACL
+.SH SYNOPSIS
+.B "bool" nfs_stream_decode_acl
+.BI "(struct xdr_stream *xdr "  ","
+.BI "unsigned int *aclcnt "  ","
+.BI "struct posix_acl **pacl "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+an xdr_stream positioned at an encoded ACL
+.IP "aclcnt" 12
+OUT: count of ACEs in decoded posix_acl
+.IP "pacl" 12
+OUT: a dynamically-allocated buffer containing the decoded posix_acl
+.SH "DESCRIPTION"
+Return values:
+false: The encoded ACL is not valid
+true: \fIpacl\fP contains a decoded ACL, and \fIxdr\fP is advanced
+
+On a successful return, caller must release *pacl using \fBposix_acl_release\fP.

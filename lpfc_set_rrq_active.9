@@ -1,0 +1,28 @@
+.TH "lpfc_set_rrq_active" 9 "lpfc_set_rrq_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_set_rrq_active \- set RRQ active bit in xri_bitmap.
+.SH SYNOPSIS
+.B "int" lpfc_set_rrq_active
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "uint16_t xritag "  ","
+.BI "uint16_t rxid "  ","
+.BI "uint16_t send_rrq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "ndlp" 12
+nodelist pointer for this target.
+.IP "xritag" 12
+xri used in this exchange.
+.IP "rxid" 12
+Remote Exchange ID.
+.IP "send_rrq" 12
+Flag used to determine if we should send rrq els cmd.
+.SH "DESCRIPTION"
+This function takes the hbalock.
+The active bit is always set in the active rrq xri_bitmap even
+if there is no slot avaiable for the other rrq information.
+
+returns 0 rrq actived for this xri
+< 0 No memory or invalid ndlp.

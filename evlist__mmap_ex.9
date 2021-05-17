@@ -1,0 +1,39 @@
+.TH "evlist__mmap_ex" 9 "evlist__mmap_ex" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evlist__mmap_ex \- Create mmaps to receive events.
+.SH SYNOPSIS
+.B "int" evlist__mmap_ex
+.BI "(struct evlist *evlist "  ","
+.BI "unsigned int pages "  ","
+.BI "unsigned int auxtrace_pages "  ","
+.BI "bool auxtrace_overwrite "  ","
+.BI "int nr_cblocks "  ","
+.BI "int affinity "  ","
+.BI "int flush "  ","
+.BI "int comp_level "  ");"
+.SH ARGUMENTS
+.IP "evlist" 12
+list of events
+.IP "pages" 12
+map length in pages
+.IP "auxtrace_pages" 12
+-- undescribed --
+.IP "auxtrace_overwrite" 12
+-- undescribed --
+.IP "nr_cblocks" 12
+-- undescribed --
+.IP "affinity" 12
+-- undescribed --
+.IP "flush" 12
+-- undescribed --
+.IP "comp_level" 12
+-- undescribed --
+.SH "DESCRIPTION"
+If \fIoverwrite\fP is false the user needs to signal event consumption using
+\fBperf_mmap__write_tail\fP.  Using \fBevlist__mmap_read\fP does this
+automatically.
+
+Similarly, if \fIauxtrace_overwrite\fP is false the user needs to signal data
+consumption using \fBauxtrace_mmap__write_tail\fP.
+.SH "RETURN"
+0 on success, negative error code otherwise.

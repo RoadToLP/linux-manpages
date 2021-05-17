@@ -1,0 +1,20 @@
+.TH "i40e_add_vlan_all_mac" 9 "i40e_add_vlan_all_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_add_vlan_all_mac \- Add a MAC/VLAN filter for each existing MAC address
+.SH SYNOPSIS
+.B "int" i40e_add_vlan_all_mac
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "s16 vid "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the vsi being configured
+.IP "vid" 12
+vlan id to be added (0 = untagged only , -1 = any)
+.SH "DESCRIPTION"
+This is a helper function for adding a new MAC/VLAN filter with the
+specified VLAN for each existing MAC address already in the hash table.
+This function does *not* perform any accounting to update filters based on
+VLAN mode.
+.SH "NOTE"
+this function expects to be called while under the
+mac_filter_hash_lock

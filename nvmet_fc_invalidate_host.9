@@ -1,0 +1,36 @@
+.TH "nvmet_fc_invalidate_host" 9 "nvmet_fc_invalidate_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmet_fc_invalidate_host \- transport entry point called by an LLDD to remove references to a hosthandle for LS's.
+.SH SYNOPSIS
+.B "void" nvmet_fc_invalidate_host
+.BI "(struct nvmet_fc_target_port *target_port "  ","
+.BI "void *hosthandle "  ");"
+.SH ARGUMENTS
+.IP "target_port" 12
+pointer to the (registered) target port that a prior
+LS was received on and which supplied the transport the
+hosthandle.
+.IP "hosthandle" 12
+the handle (pointer) that represents the host port
+that no longer has connectivity and that LS's should
+no longer be directed to.
+.SH "DESCRIPTION"
+
+The nvmet-fc layer ensures that any references to the hosthandle
+on the targetport are forgotten (set to NULL).  The LLDD will
+typically call this when a login with a remote host port has been
+lost, thus LS's for the remote host port are no longer possible.
+
+If an LS request is outstanding to the targetport/hosthandle (or
+issued concurrently with the call to invalidate the host), the
+LLDD is responsible for terminating/aborting the LS and completing
+the LS request. It is recommended that these terminations/aborts
+occur after calling to invalidate the host handle to avoid additional
+retries by the nvmet-fc transport. The nvmet-fc transport may
+continue to reference host handle while it cleans up outstanding
+NVME associations. The nvmet-fc transport will call the
+ops->\fBhost_release\fP callback to notify the LLDD that all references
+are complete and the related host handle can be recovered.
+.SH "NOTE"
+if there are no references, the callback may be called before
+the invalidate host call returns.

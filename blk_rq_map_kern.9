@@ -1,0 +1,25 @@
+.TH "blk_rq_map_kern" 9 "blk_rq_map_kern" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_rq_map_kern \- map kernel data to a request, for passthrough requests
+.SH SYNOPSIS
+.B "int" blk_rq_map_kern
+.BI "(struct request_queue *q "  ","
+.BI "struct request *rq "  ","
+.BI "void *kbuf "  ","
+.BI "unsigned int len "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request queue where request should be inserted
+.IP "rq" 12
+request to fill
+.IP "kbuf" 12
+the kernel buffer
+.IP "len" 12
+length of user data
+.IP "gfp_mask" 12
+memory allocation flags
+.SH "DESCRIPTION"
+Data will be mapped directly if possible. Otherwise a bounce
+buffer is used. Can be called multiple times to append multiple
+buffers.

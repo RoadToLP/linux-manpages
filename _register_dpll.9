@@ -1,0 +1,16 @@
+.TH "_register_dpll" 9 "_register_dpll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_register_dpll \- low level registration of a DPLL clock
+.SH SYNOPSIS
+.B "void" _register_dpll
+.BI "(void *user "  ","
+.BI "struct device_node *node "  ");"
+.SH ARGUMENTS
+.IP "user" 12
+pointer to the hardware clock definition for the clock
+.IP "node" 12
+device node for the clock
+.SH "DESCRIPTION"
+Finalizes DPLL registration process. In case a failure (clk-ref or
+clk-bypass is missing), the clock is added to retry list and
+the initialization is retried on later stage.

@@ -1,0 +1,25 @@
+.TH "intel_set_cpu_fifo_underrun_reporting" 9 "intel_set_cpu_fifo_underrun_reporting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_set_cpu_fifo_underrun_reporting \- set cpu fifo underrrun reporting state
+.SH SYNOPSIS
+.B "bool" intel_set_cpu_fifo_underrun_reporting
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum pipe pipe "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "pipe" 12
+(CPU) pipe to set state for
+.IP "enable" 12
+whether underruns should be reported or not
+.SH "DESCRIPTION"
+This function sets the fifo underrun state for \fIpipe\fP. It is used in the
+modeset code to avoid false positives since on many platforms underruns are
+expected when disabling or enabling the pipe.
+
+Notice that on some platforms disabling underrun reports for one pipe
+disables for all due to shared interrupts. Actual reporting is still per-pipe
+though.
+
+Returns the previous state of underrun reporting.

@@ -1,0 +1,24 @@
+.TH "wake_up_bit" 9 "wake_up_bit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wake_up_bit \- wake up a waiter on a bit
+.SH SYNOPSIS
+.B "void" wake_up_bit
+.BI "(void *word "  ","
+.BI "int bit "  ");"
+.SH ARGUMENTS
+.IP "word" 12
+the word being waited on, a kernel virtual address
+.IP "bit" 12
+the bit of the word being waited on
+.SH "DESCRIPTION"
+There is a standard hashed waitqueue table for generic use. This
+is the part of the hashtable's accessor API that wakes up waiters
+on a bit. For instance, if one were to have waiters on a bitflag,
+one would call \fBwake_up_bit\fP after clearing the bit.
+
+In order for this to function properly, as it uses \fBwaitqueue_active\fP
+internally, some kind of memory barrier must be done prior to calling
+this. Typically, this will be \fBsmp_mb__after_atomic\fP, but in some
+cases where bitflags are manipulated non-atomically under a lock, one
+may need to use a less regular barrier, such fs/inode.c's \fBsmp_mb\fP,
+because \fBspin_unlock\fP does not guarantee a memory barrier.

@@ -1,0 +1,30 @@
+.TH "__ntfs_warning" 9 "__ntfs_warning" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_warning \- output a warning to the syslog
+.SH SYNOPSIS
+.B "void" __ntfs_warning
+.BI "(const char *function "  ","
+.BI "const struct super_block *sb "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "function" 12
+name of function outputting the warning
+.IP "sb" 12
+super block of mounted ntfs filesystem
+.IP "fmt" 12
+warning string containing format specifications
+.IP "..." 12
+a variable number of arguments specified in \fIfmt\fP
+.SH "DESCRIPTION"
+Outputs a warning to the syslog for the mounted ntfs filesystem described
+by \fIsb\fP.
+
+\fIfmt\fP and the corresponding \fI...\fP is printf style format string containing
+the warning string and the corresponding format arguments, respectively.
+
+\fIfunction\fP is the name of the function from which __ntfs_warning is being
+called.
+
+Note, you should be using debug.h::ntfs_warning(\fIsb\fP, \fIfmt\fP, \fI...\fP) instead
+as this provides the \fIfunction\fP parameter automatically.

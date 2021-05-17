@@ -1,0 +1,17 @@
+.TH "blk_queue_alignment_offset" 9 "blk_queue_alignment_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_alignment_offset \- set physical block alignment offset
+.SH SYNOPSIS
+.B "void" blk_queue_alignment_offset
+.BI "(struct request_queue *q "  ","
+.BI "unsigned int offset "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the request queue for the device
+.IP "offset" 12
+alignment offset in bytes
+.SH "DESCRIPTION"
+Some devices are naturally misaligned to compensate for things like
+the legacy DOS partition table 63-sector offset.  Low-level drivers
+should call this function for devices whose first sector is not
+naturally aligned.

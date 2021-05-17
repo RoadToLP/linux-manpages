@@ -1,0 +1,19 @@
+.TH "telemetry_update_events" 9 "telemetry_update_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+telemetry_update_events \- Update telemetry Configuration
+.SH SYNOPSIS
+.B "int" telemetry_update_events
+.BI "(struct telemetry_evtconfig pss_evtconfig "  ","
+.BI "struct telemetry_evtconfig ioss_evtconfig "  ");"
+.SH ARGUMENTS
+.IP "pss_evtconfig" 12
+IOSS related config. No change if num_evts = 0.
+.IP "ioss_evtconfig" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This API updates the IOSS & PSS Telemetry configuration. Old config
+is overwritten. Call telemetry_reset_events when logging is over
+All sample period values should be in the form of:
+bits[6:3] -> value; bits [0:2]-> Exponent; Period = (Value *16^Exponent)
+.SH "RETURN"
+0 success, < 0 for failure

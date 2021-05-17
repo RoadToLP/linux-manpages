@@ -1,0 +1,30 @@
+.TH "vxge_hw_fifo_txdl_free" 9 "vxge_hw_fifo_txdl_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxge_hw_fifo_txdl_free \- Free descriptor.
+.SH SYNOPSIS
+.B "void" vxge_hw_fifo_txdl_free
+.BI "(struct __vxge_hw_fifo *fifo "  ","
+.BI "void *txdlh "  ");"
+.SH ARGUMENTS
+.IP "fifo" 12
+Handle to the fifo object used for non offload send
+.IP "txdlh" 12
+Descriptor handle.
+.SH "DESCRIPTION"
+Free the reserved descriptor. This operation is "symmetrical" to
+vxge_hw_fifo_txdl_reserve. The "free-ing" completes the descriptor's
+lifecycle.
+
+After free-ing (see \fBvxge_hw_fifo_txdl_free\fP) the descriptor again can
+be:
+
+- reserved (vxge_hw_fifo_txdl_reserve);
+
+- posted (vxge_hw_fifo_txdl_post);
+
+- completed (vxge_hw_fifo_txdl_next_completed);
+
+- and recycled again (vxge_hw_fifo_txdl_free).
+
+For alternative state transitions and more details please refer to
+the design doc.

@@ -1,0 +1,25 @@
+.TH "fcoe_ctlr_send_keep_alive" 9 "fcoe_ctlr_send_keep_alive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_send_keep_alive \- Send a keep-alive to the selected FCF
+.SH SYNOPSIS
+.B "void" fcoe_ctlr_send_keep_alive
+.BI "(struct fcoe_ctlr *fip "  ","
+.BI "struct fc_lport *lport "  ","
+.BI "int ports "  ","
+.BI "u8 *sa "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller to send the FKA on
+.IP "lport" 12
+libfc fc_lport to send from
+.IP "ports" 12
+0 for controller keep-alive, 1 for port keep-alive
+.IP "sa" 12
+The source MAC address
+.SH "DESCRIPTION"
+A controller keep-alive is sent every fka_period (typically 8 seconds).
+The source MAC is the native MAC address.
+
+A port keep-alive is sent every 90 seconds while logged in.
+The source MAC is the assigned mapped source address.
+The destination is the FCF's F-port.

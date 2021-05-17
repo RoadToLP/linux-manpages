@@ -1,0 +1,36 @@
+.TH "idr_alloc_u32" 9 "idr_alloc_u32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_alloc_u32 \- Allocate an ID.
+.SH SYNOPSIS
+.B "int" idr_alloc_u32
+.BI "(struct idr *idr "  ","
+.BI "void *ptr "  ","
+.BI "u32 *nextid "  ","
+.BI "unsigned long max "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "ptr" 12
+Pointer to be associated with the new ID.
+.IP "nextid" 12
+Pointer to an ID.
+.IP "max" 12
+The maximum ID to allocate (inclusive).
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Allocates an unused ID in the range specified by \fInextid\fP and \fImax\fP.
+Note that \fImax\fP is inclusive whereas the \fIend\fP parameter to \fBidr_alloc\fP
+is exclusive.  The new ID is assigned to \fInextid\fP before the pointer
+is inserted into the IDR, so if \fInextid\fP points into the object pointed
+to by \fIptr\fP, a concurrent lookup will not find an uninitialised ID.
+
+The caller should provide their own locking to ensure that two
+concurrent modifications to the IDR are not possible.  Read-only
+accesses to the IDR may be done under the RCU read lock or may
+exclude simultaneous writers.
+.SH "RETURN"
+0 if an ID was allocated, -ENOMEM if memory allocation failed,
+or -ENOSPC if no free IDs could be found.  If an error occurred,
+\fInextid\fP is unchanged.

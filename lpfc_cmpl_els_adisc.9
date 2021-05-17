@@ -1,0 +1,25 @@
+.TH "lpfc_cmpl_els_adisc" 9 "lpfc_cmpl_els_adisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_adisc \- Completion callback function for adisc
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_adisc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion function for issuing the Address Discover
+(ADISC) command. It first checks to see whether link went down during
+the discovery process. If so, the node will be marked as node port
+recovery for issuing discover IOCB by the link attention handler and
+exit. Otherwise, the response status is checked. If error was reported
+in the response status, the ADISC command shall be retried by invoking
+the \fBlpfc_els_retry\fP routine. Otherwise, if no error was reported in
+the response status, the state machine is invoked to set transition
+with respect to NLP_EVT_CMPL_ADISC event.

@@ -1,0 +1,16 @@
+.TH "tcf_em_register" 9 "tcf_em_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcf_em_register \- register an extended match
+.SH SYNOPSIS
+.B "int" tcf_em_register
+.BI "(struct tcf_ematch_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+ematch operations lookup table
+.SH "DESCRIPTION"
+This function must be called by ematches to announce their presence.
+The given \fIops\fP must have kind set to a unique identifier and the
+callback \fBmatch\fP must be implemented. All other callbacks are optional
+and a fallback implementation is used instead.
+
+Returns -EEXISTS if an ematch of the same kind has already registered.

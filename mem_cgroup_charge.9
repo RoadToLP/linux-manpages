@@ -1,0 +1,20 @@
+.TH "mem_cgroup_charge" 9 "mem_cgroup_charge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_charge \- charge a newly allocated page to a cgroup
+.SH SYNOPSIS
+.B "int" mem_cgroup_charge
+.BI "(struct page *page "  ","
+.BI "struct mm_struct *mm "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page to charge
+.IP "mm" 12
+mm context of the victim
+.IP "gfp_mask" 12
+reclaim mode
+.SH "DESCRIPTION"
+Try to charge \fIpage\fP to the memcg that \fImm\fP belongs to, reclaiming
+pages according to \fIgfp_mask\fP if necessary.
+
+Returns 0 on success. Otherwise, an error code is returned.

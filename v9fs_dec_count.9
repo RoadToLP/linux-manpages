@@ -1,0 +1,17 @@
+.TH "v9fs_dec_count" 9 "v9fs_dec_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v9fs_dec_count \- helper functon to drop i_nlink.
+.SH SYNOPSIS
+.B "void" v9fs_dec_count
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode whose nlink is being dropped
+.SH "DESCRIPTION"
+
+If a directory had nlink <= 2 (including . and ..), then we should not drop
+the link count, which indicates the underlying exported fs doesn't maintain
+nlink accurately. e.g.
+- overlayfs sets nlink to 1 for merged dir
+- ext4 (with dir_nlink feature enabled) sets nlink to 1 if a dir has more
+than EXT4_LINK_MAX (65000) links.

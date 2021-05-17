@@ -1,0 +1,24 @@
+.TH "pipapo_get" 9 "pipapo_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_get \- Get matching element reference given key data
+.SH SYNOPSIS
+.B "struct nft_pipapo_elem *" pipapo_get
+.BI "(const struct net *net "  ","
+.BI "const struct nft_set *set "  ","
+.BI "const u8 *data "  ","
+.BI "u8 genmask "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace
+.IP "set" 12
+nftables API set representation
+.IP "data" 12
+Key data to be matched against existing elements
+.IP "genmask" 12
+If set, check that element is active in given genmask
+.SH "DESCRIPTION"
+This is essentially the same as the lookup function, except that it matches
+key data against the uncommitted copy and doesn't use preallocated maps for
+bitmap results.
+.SH "RETURN"
+pointer to \fIstruct nft_pipapo_elem\fP on match, error pointer otherwise.

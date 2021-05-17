@@ -1,0 +1,27 @@
+.TH "__cgroup_bpf_run_filter_sock_addr" 9 "__cgroup_bpf_run_filter_sock_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_run_filter_sock_addr \- Run a program on a sock and provided by user sockaddr
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_run_filter_sock_addr
+.BI "(struct sock *sk "  ","
+.BI "struct sockaddr *uaddr "  ","
+.BI "enum bpf_attach_type type "  ","
+.BI "void *t_ctx "  ","
+.BI "u32 *flags "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+sock struct that will use sockaddr
+.IP "uaddr" 12
+sockaddr struct provided by user
+.IP "type" 12
+The type of program to be exectuted
+.IP "t_ctx" 12
+Pointer to attach type specific context
+.IP "flags" 12
+Pointer to u32 which contains higher bits of BPF program
+return value (OR'ed together).
+.SH "DESCRIPTION"
+socket is expected to be of type INET or INET6.
+
+This function will return -EPERM if an attached program is found and
+returned value != 1 during execution. In all other cases, 0 is returned.

@@ -1,0 +1,23 @@
+.TH "get_req_from_tcs" 9 "get_req_from_tcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_req_from_tcs \- Get a stashed request that was xfering on the given TCS.
+.SH SYNOPSIS
+.B "const struct tcs_request *" get_req_from_tcs
+.BI "(struct rsc_drv *drv "  ","
+.BI "int tcs_id "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The RSC controller.
+.IP "tcs_id" 12
+The global ID of this TCS.
+.SH "DESCRIPTION"
+For ACTIVE_ONLY transfers we want to call back into the client when the
+transfer finishes. To do this we need the "request" that the client
+originally provided us. This function grabs the request that we stashed
+when we started the transfer.
+
+This only makes sense for ACTIVE_ONLY transfers since those are the only
+ones we track sending (the only ones we enable interrupts for and the only
+ones we call back to the client for).
+.SH "RETURN"
+The stashed request.

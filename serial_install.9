@@ -1,0 +1,21 @@
+.TH "serial_install" 9 "serial_install" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serial_install \- install tty
+.SH SYNOPSIS
+.B "int" serial_install
+.BI "(struct tty_driver *driver "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the driver (USB in our case)
+.IP "tty" 12
+the tty being created
+.SH "DESCRIPTION"
+Initialise the termios structure for this tty.  We use the default
+USB serial settings but permit them to be overridden by
+serial->type->init_termios on first open.
+
+This is the first place a new tty gets used.  Hence this is where we
+acquire references to the usb_serial structure and the driver module,
+where we store a pointer to the port, and where we do an autoresume.
+All these actions are reversed in \fBserial_cleanup\fP.

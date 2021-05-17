@@ -1,0 +1,19 @@
+.TH "netlink_ns_capable" 9 "netlink_ns_capable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlink_ns_capable \- General netlink message capability test
+.SH SYNOPSIS
+.B "bool" netlink_ns_capable
+.BI "(const struct sk_buff *skb "  ","
+.BI "struct user_namespace *user_ns "  ","
+.BI "int cap "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+socket buffer holding a netlink command from userspace
+.IP "user_ns" 12
+The user namespace of the capability to use
+.IP "cap" 12
+The capability to use
+.SH "DESCRIPTION"
+Test to see if the opener of the socket we received the message
+from had when the netlink socket was created and the sender of the
+message has the capability \fIcap\fP in the user namespace \fIuser_ns\fP.

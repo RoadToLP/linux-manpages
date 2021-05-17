@@ -1,0 +1,17 @@
+.TH "_set_dmadisable" 9 "_set_dmadisable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_set_dmadisable \- set OCP_SYSCONFIG.DMADISABLE bit in @v
+.SH SYNOPSIS
+.B "int" _set_dmadisable
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+The DMADISABLE bit is a semi-automatic bit present in sysconfig register
+of some modules. When the DMA must perform read/write accesses, the
+DMADISABLE bit is cleared by the hardware. But when the DMA must stop
+for power management, software must set the DMADISABLE bit back to 1.
+
+Set the DMADISABLE bit in \fIv\fP for hwmod \fIoh\fP.  Returns -EINVAL upon
+error or 0 upon success.

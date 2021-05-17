@@ -1,0 +1,32 @@
+.TH "qeth_add_hw_header" 9 "qeth_add_hw_header" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qeth_add_hw_header \- add a HW header to an skb.
+.SH SYNOPSIS
+.B "int" qeth_add_hw_header
+.BI "(struct qeth_qdio_out_q *queue "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct qeth_hdr **hdr "  ","
+.BI "unsigned int hdr_len "  ","
+.BI "unsigned int proto_len "  ","
+.BI "unsigned int *elements "  ");"
+.SH ARGUMENTS
+.IP "queue" 12
+-- undescribed --
+.IP "skb" 12
+skb that the HW header should be added to.
+.IP "hdr" 12
+double pointer to a qeth_hdr. When returning with >= 0,
+it contains a valid pointer to a qeth_hdr.
+.IP "hdr_len" 12
+length of the HW header.
+.IP "proto_len" 12
+length of protocol headers that need to be in same page as the
+HW header.
+.IP "elements" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Returns the pushed length. If the header can't be pushed on
+(eg. because it would cross a page boundary), it is allocated from
+the cache instead and 0 is returned.
+The number of needed buffer elements is returned in \fIelements\fP.
+Error to create the hdr is indicated by returning with < 0.

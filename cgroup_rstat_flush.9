@@ -1,0 +1,18 @@
+.TH "cgroup_rstat_flush" 9 "cgroup_rstat_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_rstat_flush \- flush stats in @cgrp's subtree
+.SH SYNOPSIS
+.B "void" cgroup_rstat_flush
+.BI "(struct cgroup *cgrp "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+target cgroup
+.SH "DESCRIPTION"
+Collect all per-cpu stats in \fIcgrp\fP's subtree into the global counters
+and propagate them upwards.  After this function returns, all cgroups in
+the subtree have up-to-date ->stat.
+
+This also gets all cgroups in the subtree including \fIcgrp\fP off the
+->updated_children lists.
+
+This function may block.

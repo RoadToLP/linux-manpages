@@ -1,0 +1,26 @@
+.TH "intel_idle" 9 "intel_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_idle \- Ask the processor to enter the given idle state.
+.SH SYNOPSIS
+.B "__cpuidle int" intel_idle
+.BI "(struct cpuidle_device *dev "  ","
+.BI "struct cpuidle_driver *drv "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+cpuidle device of the target CPU.
+.IP "drv" 12
+cpuidle driver (assumed to point to intel_idle_driver).
+.IP "index" 12
+Target idle state index.
+.SH "DESCRIPTION"
+Use the MWAIT instruction to notify the processor that the CPU represented by
+\fIdev\fP is idle and it can try to enter the idle state corresponding to \fIindex\fP.
+
+If the local APIC timer is not known to be reliable in the target idle state,
+enable one-shot tick broadcasting for the target CPU before executing MWAIT.
+
+Optionally call \fBleave_mm\fP for the target CPU upfront to avoid wakeups due to
+flushing user TLBs.
+
+Must be called under \fBlocal_irq_disable\fP.

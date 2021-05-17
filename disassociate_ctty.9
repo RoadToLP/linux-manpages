@@ -1,0 +1,29 @@
+.TH "disassociate_ctty" 9 "disassociate_ctty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disassociate_ctty \- disconnect controlling tty
+.SH SYNOPSIS
+.B "void" disassociate_ctty
+.BI "(int on_exit "  ");"
+.SH ARGUMENTS
+.IP "on_exit" 12
+true if exiting so need to "hang up" the session
+
+This function is typically called only by the session leader, when
+it wants to disassociate itself from its controlling tty.
+
+It performs the following functions:
+(1)  Sends a SIGHUP and SIGCONT to the foreground process group
+(2)  Clears the tty from being controlling the session
+(3)  Clears the controlling tty for all processes in the
+session group.
+
+The argument on_exit is set to 1 if called when a process is
+exiting; it is 0 if called by the ioctl TIOCNOTTY.
+
+Locking:
+BTM is taken for hysterical raisons, and held when
+called from \fBno_tty\fP.
+tty_mutex is taken to protect tty
+->siglock is taken to protect ->signal/->sighand
+tasklist_lock is taken to walk process list for sessions
+->siglock is taken to protect ->signal/->sighand

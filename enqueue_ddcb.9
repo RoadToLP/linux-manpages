@@ -1,0 +1,27 @@
+.TH "enqueue_ddcb" 9 "enqueue_ddcb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enqueue_ddcb \- Enqueue a DDCB
+.SH SYNOPSIS
+.B "int" enqueue_ddcb
+.BI "(struct genwqe_dev *cd "  ","
+.BI "struct ddcb_queue *queue "  ","
+.BI "struct ddcb *pddcb "  ","
+.BI "int ddcb_no "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+pointer to genwqe device descriptor
+.IP "queue" 12
+queue this operation should be done on
+.IP "pddcb" 12
+pointer to ddcb structure
+.IP "ddcb_no" 12
+pointer to ddcb number being tapped
+.SH "DESCRIPTION"
+Start execution of DDCB by tapping or append to queue via NEXT
+bit. This is done by an atomic 'compare and swap' instruction and
+checking SHI and HSI of the previous DDCB.
+
+This function must only be called with ddcb_lock held.
+.SH "RETURN"
+1 if new DDCB is appended to previous
+2 if DDCB queue is tapped via register/simulation

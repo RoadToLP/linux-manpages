@@ -1,0 +1,18 @@
+.TH "sys_sched_rr_get_interval" 9 "sys_sched_rr_get_interval" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_sched_rr_get_interval \- return the default timeslice of a process.
+.SH SYNOPSIS
+.B "long" sys_sched_rr_get_interval
+.BI "(pid_t pid "  ","
+.BI "struct __kernel_timespec __user * interval "  ");"
+.SH ARGUMENTS
+.IP "pid" 12
+pid of the process.
+.IP "interval" 12
+userspace pointer to the timeslice value.
+.SH "DESCRIPTION"
+this syscall writes the default timeslice value of a given process
+into the user-space timespec buffer. A value of '0' means infinity.
+.SH "RETURN"
+On success, 0 and the timeslice is in \fIinterval\fP. Otherwise,
+an error code.

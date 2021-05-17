@@ -1,0 +1,23 @@
+.TH "batadv_gw_dhcp_recipient_get" 9 "batadv_gw_dhcp_recipient_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_gw_dhcp_recipient_get \- check if a packet is a DHCP message
+.SH SYNOPSIS
+.B "enum batadv_dhcp_recipient" batadv_gw_dhcp_recipient_get
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int *header_len "  ","
+.BI "u8 *chaddr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet to check
+.IP "header_len" 12
+a pointer to the batman-adv header size
+.IP "chaddr" 12
+buffer where the client address will be stored. Valid
+only if the function returns BATADV_DHCP_TO_CLIENT
+.SH "DESCRIPTION"
+This function may re-allocate the data buffer of the skb passed as argument.
+.SH "RETURN"
+- BATADV_DHCP_NO if the packet is not a dhcp message or if there was an error
+while parsing it
+- BATADV_DHCP_TO_SERVER if this is a message going to the DHCP server
+- BATADV_DHCP_TO_CLIENT if this is a message going to a DHCP client

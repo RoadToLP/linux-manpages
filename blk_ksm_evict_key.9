@@ -1,0 +1,22 @@
+.TH "blk_ksm_evict_key" 9 "blk_ksm_evict_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_ksm_evict_key \- Evict a key from the lower layer device.
+.SH SYNOPSIS
+.B "int" blk_ksm_evict_key
+.BI "(struct blk_keyslot_manager *ksm "  ","
+.BI "const struct blk_crypto_key *key "  ");"
+.SH ARGUMENTS
+.IP "ksm" 12
+The keyslot manager to evict from
+.IP "key" 12
+The key to evict
+.SH "DESCRIPTION"
+Find the keyslot that the specified key was programmed into, and evict that
+slot from the lower layer device. The slot must not be in use by any
+in-flight IO when this function is called.
+.SH "CONTEXT"
+Process context. Takes and releases ksm->lock.
+.SH "RETURN"
+0 on success or if there's no keyslot with the specified key, -EBUSY
+if the keyslot is still in use, or another -errno value on other
+error.

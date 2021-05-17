@@ -1,0 +1,21 @@
+.TH "complete_all" 9 "complete_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+complete_all \- - signals all threads waiting on this completion
+.SH SYNOPSIS
+.B "void" complete_all
+.BI "(struct completion *x "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+holds the state of this particular completion
+.SH "DESCRIPTION"
+This will wake up all threads waiting on this particular completion event.
+
+If this function wakes up a task, it executes a full memory barrier before
+accessing the task state.
+
+Since \fBcomplete_all\fP sets the completion of \fIx\fP permanently to done
+to allow multiple waiters to finish, a call to \fBreinit_completion\fP
+must be used on \fIx\fP if \fIx\fP is to be used again. The code must make
+sure that all waiters have woken and finished before reinitializing
+\fIx\fP. Also note that the function \fBcompletion_done\fP can not be used
+to know if there are still waiters after \fBcomplete_all\fP has been called.

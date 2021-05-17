@@ -1,0 +1,24 @@
+.TH "spi_nor_read_sfdp" 9 "spi_nor_read_sfdp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_read_sfdp \- read Serial Flash Discoverable Parameters.
+.SH SYNOPSIS
+.B "int" spi_nor_read_sfdp
+.BI "(struct spi_nor *nor "  ","
+.BI "u32 addr "  ","
+.BI "size_t len "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "nor" 12
+pointer to a 'struct spi_nor'
+.IP "addr" 12
+offset in the SFDP area to start reading data from
+.IP "len" 12
+number of bytes to read
+.IP "buf" 12
+buffer where the SFDP data are copied into (dma-safe memory)
+.SH "DESCRIPTION"
+Whatever the actual numbers of bytes for address and dummy cycles are
+for (Fast) Read commands, the Read SFDP (5Ah) instruction is always
+followed by a 3-byte address and 8 dummy clock cycles.
+.SH "RETURN"
+0 on success, -errno otherwise.

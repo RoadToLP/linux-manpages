@@ -1,0 +1,31 @@
+.TH "rdma_user_mmap_io" 9 "rdma_user_mmap_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_io \- Map IO memory into a process
+.SH SYNOPSIS
+.B "int" rdma_user_mmap_io
+.BI "(struct ib_ucontext *ucontext "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long pfn "  ","
+.BI "unsigned long size "  ","
+.BI "pgprot_t prot "  ","
+.BI "struct rdma_user_mmap_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "ucontext" 12
+associated user context
+.IP "vma" 12
+the vma related to the current mmap call
+.IP "pfn" 12
+pfn to map
+.IP "size" 12
+size to map
+.IP "prot" 12
+pgprot to use in remap call
+.IP "entry" 12
+mmap_entry retrieved from \fBrdma_user_mmap_entry_get\fP, or NULL
+if mmap_entry is not used by the driver
+.SH "DESCRIPTION"
+This is to be called by drivers as part of their \fBmmap\fP functions if they
+wish to send something like PCI-E BAR memory to userspace.
+
+Return -EINVAL on wrong flags or size, -EAGAIN on failure to map. 0 on
+success.

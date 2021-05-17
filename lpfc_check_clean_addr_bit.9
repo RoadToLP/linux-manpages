@@ -1,0 +1,24 @@
+.TH "lpfc_check_clean_addr_bit" 9 "lpfc_check_clean_addr_bit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_check_clean_addr_bit \- Check whether assigned FCID is clean.
+.SH SYNOPSIS
+.B "uint8_t" lpfc_check_clean_addr_bit
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct serv_parm *sp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "sp" 12
+pointer to service parameter data structure.
+.SH "DESCRIPTION"
+This routine is called from FLOGI/FDISC completion handler functions.
+lpfc_check_clean_addr_bit return 1 when FCID/Fabric portname/ Fabric
+node nodename is changed in the completion service parameter else return
+0. This function also set flag in the vport data structure to delay
+NP_Port discovery after the FLOGI/FDISC completion if Clean address bit
+in FLOGI/FDISC response is cleared and FCID/Fabric portname/ Fabric
+node nodename is changed in the completion service parameter.
+
+Return code
+0 - FCID and Fabric Nodename and Fabric portname is not changed.
+1 - FCID or Fabric Nodename or Fabric portname is changed.

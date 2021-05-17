@@ -1,0 +1,52 @@
+.TH "drm_atomic_helper_setup_commit" 9 "drm_atomic_helper_setup_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_setup_commit \- setup possibly nonblocking commit
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_setup_commit
+.BI "(struct drm_atomic_state *state "  ","
+.BI "bool nonblock "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+new modeset state to be committed
+.IP "nonblock" 12
+whether nonblocking behavior is requested.
+.SH "DESCRIPTION"
+This function prepares \fIstate\fP to be used by the atomic helper's support for
+nonblocking commits. Drivers using the nonblocking commit infrastructure
+should always call this function from their
+\fIdrm_mode_config_funcs.atomic_commit\fP hook.
+
+Drivers that need to extend the commit setup to private objects can use the
+\fIdrm_mode_config_helper_funcs.atomic_commit_setup\fP hook.
+
+To be able to use this support drivers need to use a few more helper
+functions. \fBdrm_atomic_helper_wait_for_dependencies\fP must be called before
+actually committing the hardware state, and for nonblocking commits this call
+must be placed in the async worker. See also \fBdrm_atomic_helper_swap_state\fP
+and its stall parameter, for when a driver's commit hooks look at the
+\fIdrm_crtc.state\fP, \fIdrm_plane.state\fP or \fIdrm_connector.state\fP pointer directly.
+
+Completion of the hardware commit step must be signalled using
+\fBdrm_atomic_helper_commit_hw_done\fP. After this step the driver is not allowed
+to read or change any permanent software or hardware modeset state. The only
+exception is state protected by other means than \fIdrm_modeset_lock\fP locks.
+Only the free standing \fIstate\fP with pointers to the old state structures can
+be inspected, e.g. to clean up old buffers using
+\fBdrm_atomic_helper_cleanup_planes\fP.
+
+At the very end, before cleaning up \fIstate\fP drivers must call
+\fBdrm_atomic_helper_commit_cleanup_done\fP.
+
+This is all implemented by in \fBdrm_atomic_helper_commit\fP, giving drivers a
+complete and easy-to-use default implementation of the \fBatomic_commit\fP hook.
+
+The tracking of asynchronously executed and still pending commits is done
+using the core structure \fIdrm_crtc_commit\fP.
+
+By default there's no need to clean up resources allocated by this function
+explicitly: \fBdrm_atomic_state_default_clear\fP will take care of that
+automatically.
+
+0 on success. -EBUSY when userspace schedules nonblocking commits too fast,
+-ENOMEM on allocation failures and -EINTR when a signal is pending.
+.SH "RETURN"

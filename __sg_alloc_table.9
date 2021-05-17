@@ -1,0 +1,36 @@
+.TH "__sg_alloc_table" 9 "__sg_alloc_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__sg_alloc_table \- Allocate and initialize an sg table with given allocator
+.SH SYNOPSIS
+.B "int" __sg_alloc_table
+.BI "(struct sg_table *table "  ","
+.BI "unsigned int nents "  ","
+.BI "unsigned int max_ents "  ","
+.BI "struct scatterlist *first_chunk "  ","
+.BI "unsigned int nents_first_chunk "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "sg_alloc_fn *alloc_fn "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+The sg table header to use
+.IP "nents" 12
+Number of entries in sg list
+.IP "max_ents" 12
+The maximum number of entries the allocator returns per call
+.IP "first_chunk" 12
+-- undescribed --
+.IP "nents_first_chunk" 12
+Number of entries int the (preallocated) first
+scatterlist chunk, 0 means no such preallocated chunk provided by user
+.IP "gfp_mask" 12
+GFP allocation mask
+.IP "alloc_fn" 12
+Allocator to use
+.SH "DESCRIPTION"
+This function returns a \fItable\fP \fInents\fP long. The allocator is
+defined to return scatterlist chunks of maximum size \fImax_ents\fP.
+Thus if \fInents\fP is bigger than \fImax_ents\fP, the scatterlists will be
+chained in units of \fImax_ents\fP.
+.SH "NOTES"
+If this function returns non-0 (eg failure), the caller must call
+\fB__sg_free_table\fP to cleanup any leftover allocations.

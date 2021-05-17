@@ -1,0 +1,24 @@
+.TH "clk_set_parent" 9 "clk_set_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_set_parent \- switch the parent of a mux clk
+.SH SYNOPSIS
+.B "int" clk_set_parent
+.BI "(struct clk *clk "  ","
+.BI "struct clk *parent "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+the mux clk whose input we are switching
+.IP "parent" 12
+the new input to clk
+.SH "DESCRIPTION"
+Re-parent clk to use parent as its new input source.  If clk is in
+prepared state, the clk will get enabled for the duration of this call. If
+that's not acceptable for a specific clk (Eg: the consumer can't handle
+that, the reparenting is glitchy in hardware, etc), use the
+CLK_SET_PARENT_GATE flag to allow reparenting only when clk is unprepared.
+
+After successfully changing clk's parent clk_set_parent will update the
+clk topology, sysfs topology and propagate rate recalculation via
+__clk_recalc_rates.
+
+Returns 0 on success, -EERROR otherwise.

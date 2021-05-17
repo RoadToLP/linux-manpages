@@ -1,0 +1,27 @@
+.TH "clk_set_phase" 9 "clk_set_phase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_set_phase \- adjust the phase shift of a clock signal
+.SH SYNOPSIS
+.B "int" clk_set_phase
+.BI "(struct clk *clk "  ","
+.BI "int degrees "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+clock signal source
+.IP "degrees" 12
+number of degrees the signal is shifted
+.SH "DESCRIPTION"
+Shifts the phase of a clock signal by the specified
+degrees. Returns 0 on success, -EERROR otherwise.
+
+This function makes no distinction about the input or reference
+signal that we adjust the clock signal phase against. For example
+phase locked-loop clock signal generators we may shift phase with
+respect to feedback clock signal input, but for other cases the
+clock phase may be shifted with respect to some other, unspecified
+signal.
+
+Additionally the concept of phase shift does not propagate through
+the clock tree hierarchy, which sets it apart from clock rates and
+clock accuracy. A parent clock phase attribute does not have an
+impact on the phase attribute of a child clock.

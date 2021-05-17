@@ -1,0 +1,27 @@
+.TH "dmam_pool_create" 9 "dmam_pool_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dmam_pool_create \- Managed dma_pool_create()
+.SH SYNOPSIS
+.B "struct dma_pool *" dmam_pool_create
+.BI "(const char *name "  ","
+.BI "struct device *dev "  ","
+.BI "size_t size "  ","
+.BI "size_t align "  ","
+.BI "size_t allocation "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of pool, for diagnostics
+.IP "dev" 12
+device that will be doing the DMA
+.IP "size" 12
+size of the blocks in this pool.
+.IP "align" 12
+alignment requirement for blocks; must be a power of two
+.IP "allocation" 12
+returned blocks won't cross this boundary (or zero)
+.SH "DESCRIPTION"
+Managed \fBdma_pool_create\fP.  DMA pool created with this function is
+automatically destroyed on driver detach.
+.SH "RETURN"
+a managed dma allocation pool with the requested
+characteristics, or NULL if one can't be created.

@@ -1,0 +1,27 @@
+.TH "cap_inode_setxattr" 9 "cap_inode_setxattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_inode_setxattr \- Determine whether an xattr may be altered
+.SH SYNOPSIS
+.B "int" cap_inode_setxattr
+.BI "(struct dentry *dentry "  ","
+.BI "const char *name "  ","
+.BI "const void *value "  ","
+.BI "size_t size "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+The inode/dentry being altered
+.IP "name" 12
+The name of the xattr to be changed
+.IP "value" 12
+The value that the xattr will be changed to
+.IP "size" 12
+The size of value
+.IP "flags" 12
+The replacement flag
+.SH "DESCRIPTION"
+Determine whether an xattr may be altered or set on an inode, returning 0 if
+permission is granted, -ve if denied.
+
+This is used to make sure security xattrs don't get updated or set by those
+who aren't privileged to do so.

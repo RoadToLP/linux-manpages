@@ -1,0 +1,22 @@
+.TH "ntfs_mft_bitmap_extend_allocation_nolock" 9 "ntfs_mft_bitmap_extend_allocation_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_mft_bitmap_extend_allocation_nolock \- extend mft bitmap by a cluster
+.SH SYNOPSIS
+.B "int" ntfs_mft_bitmap_extend_allocation_nolock
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+volume on which to extend the mft bitmap attribute
+.SH "DESCRIPTION"
+Extend the mft bitmap attribute on the ntfs volume \fIvol\fP by one cluster.
+
+Return 0 on success and -errno on error.
+
+Locking: - Caller must hold vol->mftbmp_lock for writing.
+- This function takes NTFS_I(vol->mftbmp_ino)->runlist.lock for
+writing and releases it before returning.
+- This function takes vol->lcnbmp_lock for writing and releases it
+before returning.
+.SH "NOTE"
+Only changes allocated_size, i.e. does not touch initialized_size or
+data_size.

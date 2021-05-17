@@ -1,0 +1,31 @@
+.TH "zpool_map_handle" 9 "zpool_map_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_map_handle \- Map a previously allocated handle into memory
+.SH SYNOPSIS
+.B "void *" zpool_map_handle
+.BI "(struct zpool *zpool "  ","
+.BI "unsigned long handle "  ","
+.BI "enum zpool_mapmode mapmode "  ");"
+.SH ARGUMENTS
+.IP "zpool" 12
+The zpool that the handle was allocated from
+.IP "handle" 12
+The handle to map
+.IP "mapmode" 12
+How the memory should be mapped
+.SH "DESCRIPTION"
+This maps a previously allocated handle into memory.  The \fImapmode\fP
+param indicates to the implementation how the memory will be
+used, i.e. read-only, write-only, read-write.  If the
+implementation does not support it, the memory will be treated
+as read-write.
+
+This may hold locks, disable interrupts, and/or preemption,
+and the \fBzpool_unmap_handle\fP must be called to undo those
+actions.  The code that uses the mapped handle should complete
+its operatons on the mapped handle memory quickly and unmap
+as soon as possible.  As the implementation may use per-cpu
+data, multiple handles should not be mapped concurrently on
+any cpu.
+.SH "RETURN"
+A pointer to the handle's mapped memory area.

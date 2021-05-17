@@ -1,0 +1,25 @@
+.TH "lpfc_els_rcv_rpl" 9 "lpfc_els_rcv_rpl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rpl \- Process an unsolicited rpl iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_rpl
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Read Port List (RPL) IOCB received as an ELS
+unsolicited event. It first checks the remote port state. If the remote
+port is not in NLP_STE_UNMAPPED_NODE and NLP_STE_MAPPED_NODE states, it
+invokes the \fBlpfc_els_rsp_reject\fP routine to send reject response.
+Otherwise, this routine then invokes the \fBlpfc_els_rsp_rpl_acc\fP routine
+to accept the RPL.
+
+Return code
+0 - Successfully processed rpl iocb (currently always return 0)

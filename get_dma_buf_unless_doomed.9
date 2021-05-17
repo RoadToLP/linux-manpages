@@ -1,0 +1,17 @@
+.TH "get_dma_buf_unless_doomed" 9 "get_dma_buf_unless_doomed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_dma_buf_unless_doomed \- get a dma_buf reference if possible.
+.SH SYNOPSIS
+.B "bool" get_dma_buf_unless_doomed
+.BI "(struct dma_buf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "dmabuf" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Obtain a file reference from a lookup structure that doesn't refcount
+the file, but synchronizes with its release method to make sure it has
+not been freed yet. See for example kref_get_unless_zero documentation.
+Returns true if refcounting succeeds, false otherwise.
+
+Nobody really wants this as a public API yet, so let it mature here
+for some time...

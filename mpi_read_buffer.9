@@ -1,0 +1,26 @@
+.TH "mpi_read_buffer" 9 "mpi_read_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpi_read_buffer \- read MPI to a bufer provided by user (msb first)
+.SH SYNOPSIS
+.B "int" mpi_read_buffer
+.BI "(MPI a "  ","
+.BI "uint8_t *buf "  ","
+.BI "unsigned buf_len "  ","
+.BI "unsigned *nbytes "  ","
+.BI "int *sign "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+a multi precision integer
+.IP "buf" 12
+bufer to which the output will be written to. Needs to be at
+leaset mpi_get_size(a) long.
+.IP "buf_len" 12
+size of the buf.
+.IP "nbytes" 12
+receives the actual length of the data written on success and
+the data to-be-written on -EOVERFLOW in case buf_len was too
+small.
+.IP "sign" 12
+if not NULL, it will be set to the sign of a.
+.SH "RETURN"
+0 on success or error code in case of error

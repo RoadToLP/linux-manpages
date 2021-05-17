@@ -1,0 +1,31 @@
+.TH "ntfs_sync_mft_mirror_umount" 9 "ntfs_sync_mft_mirror_umount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_sync_mft_mirror_umount \- synchronise an mft record to the mft mirror
+.SH SYNOPSIS
+.B "int" ntfs_sync_mft_mirror_umount
+.BI "(ntfs_volume *vol "  ","
+.BI "const unsigned long mft_no "  ","
+.BI "MFT_RECORD *m "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume on which the mft record to synchronize resides
+.IP "mft_no" 12
+mft record number of mft record to synchronize
+.IP "m" 12
+mapped, mst protected (extent) mft record to synchronize
+.SH "DESCRIPTION"
+Write the mapped, mst protected (extent) mft record \fIm\fP with mft record
+number \fImft_no\fP to the mft mirror ($MFTMirr) of the ntfs volume \fIvol\fP,
+bypassing the page cache and the $MFTMirr inode itself.
+
+This function is only for use at umount time when the mft mirror inode has
+already been disposed off.  We \fBBUG\fP if we are called while the mft mirror
+inode is still attached to the volume.
+
+On success return 0.  On error return -errno.
+.SH "NOTE"
+This function is not implemented yet as I am not convinced it can
+actually be triggered considering the sequence of commits we do in super.c::
+\fBntfs_put_super\fP.  But just in case we provide this place holder as the
+alternative would be either to \fBBUG\fP or to get a NULL pointer dereference
+and Oops.

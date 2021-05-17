@@ -1,0 +1,19 @@
+.TH "sba_search_bitmap" 9 "sba_search_bitmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sba_search_bitmap \- find free space in IO PDIR resource bitmap
+.SH SYNOPSIS
+.B "SBA_INLINE unsigned long" sba_search_bitmap
+.BI "(struct ioc *ioc "  ","
+.BI "struct device *dev "  ","
+.BI "unsigned long bits_wanted "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+IO MMU structure which owns the pdir we are interested in.
+.IP "dev" 12
+-- undescribed --
+.IP "bits_wanted" 12
+number of entries we need.
+.SH "DESCRIPTION"
+Find consecutive free bits in resource bitmap.
+Each bit represents one entry in the IO Pdir.
+Cool perf optimization: search for log2(size) bits at a time.

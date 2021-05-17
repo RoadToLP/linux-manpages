@@ -1,0 +1,21 @@
+.TH "audit_seccomp" 9 "audit_seccomp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_seccomp \- record information about a seccomp action
+.SH SYNOPSIS
+.B "void" audit_seccomp
+.BI "(unsigned long syscall "  ","
+.BI "long signr "  ","
+.BI "int code "  ");"
+.SH ARGUMENTS
+.IP "syscall" 12
+syscall number
+.IP "signr" 12
+signal value
+.IP "code" 12
+the seccomp action
+.SH "DESCRIPTION"
+Record the information associated with a seccomp action. Event filtering for
+seccomp actions that are not to be logged is done in \fBseccomp_log\fP.
+Therefore, this function forces auditing independent of the audit_enabled
+and dummy context state because seccomp actions should be logged even when
+audit is not in use.

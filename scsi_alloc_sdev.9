@@ -1,0 +1,22 @@
+.TH "scsi_alloc_sdev" 9 "scsi_alloc_sdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_alloc_sdev \- allocate and setup a scsi_Device
+.SH SYNOPSIS
+.B "struct scsi_device *" scsi_alloc_sdev
+.BI "(struct scsi_target *starget "  ","
+.BI "u64 lun "  ","
+.BI "void *hostdata "  ");"
+.SH ARGUMENTS
+.IP "starget" 12
+which target to allocate a \fIscsi_device\fP for
+.IP "lun" 12
+which lun
+.IP "hostdata" 12
+usually NULL and set by ->slave_alloc instead
+.SH "DESCRIPTION"
+Allocate, initialize for io, and return a pointer to a scsi_Device.
+Stores the \fIshost\fP, \fIchannel\fP, \fIid\fP, and \fIlun\fP in the scsi_Device, and
+adds scsi_Device to the appropriate list.
+
+Return value:
+scsi_Device pointer, or NULL on failure.

@@ -1,0 +1,18 @@
+.TH "device_init_wakeup" 9 "device_init_wakeup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_init_wakeup \- Device wakeup initialization.
+.SH SYNOPSIS
+.B "int" device_init_wakeup
+.BI "(struct device *dev "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "enable" 12
+Whether or not to enable \fIdev\fP as a wakeup device.
+.SH "DESCRIPTION"
+By default, most devices should leave wakeup disabled.  The exceptions are
+devices that everyone expects to be wakeup sources: keyboards, power buttons,
+possibly network interfaces, etc.  Also, devices that don't generate their
+own wakeup requests but merely forward requests from one bus to another
+(like PCI bridges) should have wakeup enabled by default.

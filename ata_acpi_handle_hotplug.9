@@ -1,0 +1,26 @@
+.TH "ata_acpi_handle_hotplug" 9 "ata_acpi_handle_hotplug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_handle_hotplug \- ACPI event handler backend
+.SH SYNOPSIS
+.B "void" ata_acpi_handle_hotplug
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *dev "  ","
+.BI "u32 event "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port ACPI event occurred
+.IP "dev" 12
+ATA device ACPI event occurred (can be NULL)
+.IP "event" 12
+ACPI event which occurred
+.SH "DESCRIPTION"
+All ACPI bay / device realted events end up in this function.  If
+the event is port-wide \fIdev\fP is NULL.  If the event is specific to a
+device, \fIdev\fP points to it.
+
+Hotplug (as opposed to unplug) notification is always handled as
+port-wide while unplug only kills the target device on device-wide
+event.
+
+LOCKING:
+ACPI notify handler context.  May sleep.

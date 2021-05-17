@@ -1,0 +1,24 @@
+.TH "gmap_shadow_r3t" 9 "gmap_shadow_r3t" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_shadow_r3t \- create a shadow region 3 table
+.SH SYNOPSIS
+.B "int" gmap_shadow_r3t
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long saddr "  ","
+.BI "unsigned long r3t "  ","
+.BI "int fake "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "saddr" 12
+faulting address in the shadow gmap
+.IP "r3t" 12
+parent gmap address of the region 3 table to get shadowed
+.IP "fake" 12
+r3t references contiguous guest memory block, not a r3t
+.SH "DESCRIPTION"
+Returns 0 if successfully shadowed or already shadowed, -EAGAIN if the
+shadow table structure is incomplete, -ENOMEM if out of memory and
+-EFAULT if an address in the parent gmap could not be resolved.
+
+Called with sg->mm->mmap_lock in read.

@@ -1,0 +1,41 @@
+.TH "ntfs_attr_make_non_resident" 9 "ntfs_attr_make_non_resident" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_make_non_resident \- convert a resident to a non-resident attribute
+.SH SYNOPSIS
+.B "int" ntfs_attr_make_non_resident
+.BI "(ntfs_inode *ni "  ","
+.BI "const u32 data_size "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode describing the attribute to convert
+.IP "data_size" 12
+size of the resident data to copy to the non-resident attribute
+.SH "DESCRIPTION"
+Convert the resident ntfs attribute described by the ntfs inode \fIni\fP to a
+non-resident one.
+
+\fIdata_size\fP must be equal to the attribute value size.  This is needed since
+we need to know the size before we can map the mft record and our callers
+always know it.  The reason we cannot simply read the size from the vfs
+inode i_size is that this is not necessarily uptodate.  This happens when
+\fBntfs_attr_make_non_resident\fP is called in the ->truncate call path(s).
+
+Return 0 on success and -errno on error.  The following error return codes
+are defined:
+-EPERM  - The attribute is not allowed to be non-resident.
+-ENOMEM - Not enough memory.
+-ENOSPC - Not enough disk space.
+-EINVAL - Attribute not defined on the volume.
+-EIO    - I/o error or other error.
+Note that -ENOSPC is also returned in the case that there is not enough
+space in the mft record to do the conversion.  This can happen when the mft
+record is already very full.  The caller is responsible for trying to make
+space in the mft record and trying again.  FIXME: Do we need a separate
+error return code for this kind of -ENOSPC or is it always worth trying
+again in case the attribute may then fit in a resident state so no need to
+make it non-resident at all?  Ho-hum...  (AIA)
+
+NOTE to self: No changes in the attribute list are required to move from
+a resident to a non-resident attribute.
+
+Locking: - The caller must hold i_mutex on the inode.

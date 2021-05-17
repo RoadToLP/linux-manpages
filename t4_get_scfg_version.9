@@ -1,0 +1,30 @@
+.TH "t4_get_scfg_version" 9 "t4_get_scfg_version" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_get_scfg_version \- return the Serial Configuration version
+.SH SYNOPSIS
+.B "int" t4_get_scfg_version
+.BI "(struct adapter *adapter "  ","
+.BI "u32 *vers "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "vers" 12
+where to place the version
+
+Reads the Serial Configuration Version via the Firmware interface
+(thus this can only be called once we're ready to issue Firmware
+commands).  The format of the Serial Configuration version is
+adapter specific.  Returns 0 on success, an error on failure.
+
+Note that early versions of the Firmware didn't include the ability
+to retrieve the Serial Configuration version, so we zero-out the
+return-value parameter in that case to avoid leaving it with
+garbage in it.
+
+Also note that the Firmware will return its cached copy of the Serial
+Initialization Revision ID, not the actual Revision ID as written in
+the Serial EEPROM.  This is only an issue if a new VPD has been written
+and the Firmware/Chip haven't yet gone through a RESET sequence.  So
+it's best to defer calling this routine till after a FW_RESET_CMD has
+been issued if the Host Driver will be performing a full adapter
+initialization.

@@ -1,0 +1,28 @@
+.TH "lpfc_sli_sp_intr_handler" 9 "lpfc_sli_sp_intr_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_sp_intr_handler \- Slow-path interrupt handler to SLI-3 device
+.SH SYNOPSIS
+.B "irqreturn_t" lpfc_sli_sp_intr_handler
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number.
+.IP "dev_id" 12
+The device context pointer.
+.SH "DESCRIPTION"
+This function is directly called from the PCI layer as an interrupt
+service routine when device with SLI-3 interface spec is enabled with
+MSI-X multi-message interrupt mode and there are slow-path events in
+the HBA. However, when the device is enabled with either MSI or Pin-IRQ
+interrupt mode, this function is called as part of the device-level
+interrupt handler. When the PCI slot is in error recovery or the HBA
+is undergoing initialization, the interrupt handler will not process
+the interrupt. The link attention and ELS ring attention events are
+handled by the worker thread. The interrupt handler signals the worker
+thread and returns for these events. This function is called without
+any lock held. It gets the hbalock to access and update SLI data
+structures.
+
+This function returns IRQ_HANDLED when interrupt is handled else it
+returns IRQ_NONE.

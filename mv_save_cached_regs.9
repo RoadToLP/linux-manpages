@@ -1,0 +1,15 @@
+.TH "mv_save_cached_regs" 9 "mv_save_cached_regs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_save_cached_regs \- (re-)initialize cached port registers
+.SH SYNOPSIS
+.B "void" mv_save_cached_regs
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+the port whose registers we are caching
+
+Initialize the local cache of port registers,
+so that reading them over and over again can
+be avoided on the hotter paths of this driver.
+This saves a few microseconds each time we switch
+to/from EDMA mode to perform (eg.) a drive cache flush.

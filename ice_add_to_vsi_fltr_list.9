@@ -1,0 +1,24 @@
+.TH "ice_add_to_vsi_fltr_list" 9 "ice_add_to_vsi_fltr_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_to_vsi_fltr_list \- Add VSI filters to the list
+.SH SYNOPSIS
+.B "enum ice_status" ice_add_to_vsi_fltr_list
+.BI "(struct ice_hw *hw "  ","
+.BI "u16 vsi_handle "  ","
+.BI "struct list_head *lkup_list_head "  ","
+.BI "struct list_head *vsi_list_head "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "vsi_handle" 12
+VSI handle to remove filters from
+.IP "lkup_list_head" 12
+pointer to the list that has certain lookup type filters
+.IP "vsi_list_head" 12
+pointer to the list pertaining to VSI with vsi_handle
+.SH "DESCRIPTION"
+Locates all filters in lkup_list_head that are used by the given VSI,
+and adds COPIES of those entries to vsi_list_head (intended to be used
+to remove the listed filters).
+Note that this means all entries in vsi_list_head must be explicitly
+deallocated by the caller when done with list.

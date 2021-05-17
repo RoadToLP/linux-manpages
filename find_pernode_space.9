@@ -1,0 +1,37 @@
+.TH "find_pernode_space" 9 "find_pernode_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_pernode_space \- allocate memory for memory map and per-node structures
+.SH SYNOPSIS
+.B "int" find_pernode_space
+.BI "(unsigned long start "  ","
+.BI "unsigned long len "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+physical start of range
+.IP "len" 12
+length of range
+.IP "node" 12
+node where this range resides
+.SH "DESCRIPTION"
+This routine reserves space for the per-cpu data struct, the list of
+pg_data_ts and the per-node data struct.  Each node will have something like
+the following in the first chunk of addr. space large enough to hold it.
+
+________________________
+|                        |
+|~~~~~~~~~~~~~~~~~~~~~~~~| <-- NODEDATA_ALIGN(start, node) for the first
+|    PERCPU_PAGE_SIZE *  |     start and length big enough
+|    cpus_on_this_node   | Node 0 will also have entries for all non-existent cpus.
+|------------------------|
+|   local pg_data_t *    |
+|------------------------|
+|  local ia64_node_data  |
+|------------------------|
+|          ???           |
+|________________________|
+
+Once this space has been set aside, the bootmem maps are initialized.  We
+could probably move the allocation of the per-cpu and ia64_node_data space
+outside of this function and use \fBalloc_bootmem_node\fP, but doing it here
+is straightforward and we get the alignments we want so...

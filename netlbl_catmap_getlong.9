@@ -1,0 +1,21 @@
+.TH "netlbl_catmap_getlong" 9 "netlbl_catmap_getlong" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_catmap_getlong \- Export an unsigned long bitmap
+.SH SYNOPSIS
+.B "int" netlbl_catmap_getlong
+.BI "(struct netlbl_lsm_catmap *catmap "  ","
+.BI "u32 *offset "  ","
+.BI "unsigned long *bitmap "  ");"
+.SH ARGUMENTS
+.IP "catmap" 12
+pointer to the category bitmap
+.IP "offset" 12
+pointer to the requested offset
+.IP "bitmap" 12
+the exported bitmap
+.SH "DESCRIPTION"
+Export a bitmap with an offset greater than or equal to \fIoffset\fP and return
+it in \fIbitmap\fP.  The \fIoffset\fP must be aligned to an unsigned long and will be
+updated on return if different from what was requested; if the catmap is
+empty at the requested offset and beyond, the \fIoffset\fP is set to (u32)-1.
+Returns zero on sucess, negative values on failure.

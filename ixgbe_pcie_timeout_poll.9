@@ -1,0 +1,15 @@
+.TH "ixgbe_pcie_timeout_poll" 9 "ixgbe_pcie_timeout_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_pcie_timeout_poll \- Return number of times to poll for completion
+.SH SYNOPSIS
+.B "u32" ixgbe_pcie_timeout_poll
+.BI "(struct ixgbe_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.SH "DESCRIPTION"
+System-wide timeout range is encoded in PCIe Device Control2 register.
+
+Add 10% to specified maximum and return the number of times to poll for
+completion timeout, in units of 100 microsec.  Never return less than
+800 = 80 millisec.

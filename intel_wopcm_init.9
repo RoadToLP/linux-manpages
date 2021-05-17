@@ -1,0 +1,15 @@
+.TH "intel_wopcm_init" 9 "intel_wopcm_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_wopcm_init \- Initialize the WOPCM structure.
+.SH SYNOPSIS
+.B "void" intel_wopcm_init
+.BI "(struct intel_wopcm *wopcm "  ");"
+.SH ARGUMENTS
+.IP "wopcm" 12
+pointer to intel_wopcm.
+.SH "DESCRIPTION"
+This function will partition WOPCM space based on GuC and HuC firmware sizes
+and will allocate max remaining for use by GuC. This function will also
+enforce platform dependent hardware restrictions on GuC WOPCM offset and
+size. It will fail the WOPCM init if any of these checks fail, so that the
+following WOPCM registers setup and GuC firmware uploading would be aborted.

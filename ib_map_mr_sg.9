@@ -1,0 +1,38 @@
+.TH "ib_map_mr_sg" 9 "ib_map_mr_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_map_mr_sg \- Map the largest prefix of a dma mapped SG list and set it the memory region.
+.SH SYNOPSIS
+.B "int" ib_map_mr_sg
+.BI "(struct ib_mr *mr "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "int sg_nents "  ","
+.BI "unsigned int *sg_offset "  ","
+.BI "unsigned int page_size "  ");"
+.SH ARGUMENTS
+.IP "mr" 12
+memory region
+.IP "sg" 12
+dma mapped scatterlist
+.IP "sg_nents" 12
+number of entries in sg
+.IP "sg_offset" 12
+offset in bytes into sg
+.IP "page_size" 12
+page vector desired page size
+.SH "DESCRIPTION"
+Constraints:
+
+- The first sg element is allowed to have an offset.
+- Each sg element must either be aligned to page_size or virtually
+contiguous to the previous element. In case an sg element has a
+non-contiguous offset, the mapping prefix will not include it.
+- The last sg element is allowed to have length less than page_size.
+- If sg_nents total byte length exceeds the mr max_num_sge * page_size
+then only max_num_sg entries will be mapped.
+- If the MR was allocated with type IB_MR_TYPE_SG_GAPS, none of these
+constraints holds and the page_size argument is ignored.
+
+Returns the number of sg elements that were mapped to the memory region.
+
+After this completes successfully, the  memory region
+is ready for registration.

@@ -1,0 +1,20 @@
+.TH "irq_domain_disconnect_hierarchy" 9 "irq_domain_disconnect_hierarchy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_domain_disconnect_hierarchy \- Mark the first unused level of a hierarchy
+.SH SYNOPSIS
+.B "int" irq_domain_disconnect_hierarchy
+.BI "(struct irq_domain *domain "  ","
+.BI "unsigned int virq "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+IRQ domain from which the hierarchy is to be disconnected
+.IP "virq" 12
+IRQ number where the hierarchy is to be trimmed
+.SH "DESCRIPTION"
+Marks the \fIvirq\fP level belonging to \fIdomain\fP as disconnected.
+Returns -EINVAL if \fIvirq\fP doesn't have a valid irq_data pointing
+to \fIdomain\fP.
+
+Its only use is to be able to trim levels of hierarchy that do not
+have any real meaning for this interrupt, and that the driver marks
+as such from its .\fBalloc\fP callback.

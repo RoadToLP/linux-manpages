@@ -1,0 +1,23 @@
+.TH "strnlen_user_nofault" 9 "strnlen_user_nofault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strnlen_user_nofault \- - Get the size of a user string INCLUDING final NUL.
+.SH SYNOPSIS
+.B "long" strnlen_user_nofault
+.BI "(const void __user *unsafe_addr "  ","
+.BI "long count "  ");"
+.SH ARGUMENTS
+.IP "unsafe_addr" 12
+The string to measure.
+.IP "count" 12
+Maximum count (including NUL)
+.SH "DESCRIPTION"
+Get the size of a NUL-terminated string in user space without pagefault.
+
+Returns the size of the string INCLUDING the terminating NUL.
+
+If the string is too long, returns a number larger than \fIcount\fP. User
+has to check the return value against "> count".
+On exception (or invalid count), returns 0.
+
+Unlike strnlen_user, this can be used from IRQ handler etc. because
+it disables pagefaults.

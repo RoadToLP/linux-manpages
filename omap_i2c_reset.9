@@ -1,0 +1,18 @@
+.TH "omap_i2c_reset" 9 "omap_i2c_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_i2c_reset \- reset the omap i2c module.
+.SH SYNOPSIS
+.B "int" omap_i2c_reset
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+The i2c moudle in omap2, omap3 had a special sequence to reset. The
+sequence is:
+- Disable the I2C.
+- Write to SOFTRESET bit.
+- Enable the I2C.
+- Poll on the RESETDONE bit.
+The sequence is implemented in below function. This is called for 2420,
+2430 and omap3.

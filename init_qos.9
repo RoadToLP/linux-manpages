@@ -1,0 +1,21 @@
+.TH "init_qos" 9 "init_qos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_qos \- init RX qos
+.SH SYNOPSIS
+.B "void" init_qos
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "struct rsm_map_table *rmt "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+device data
+.IP "rmt" 12
+RSM map table
+.SH "DESCRIPTION"
+This routine initializes Rule 0 and the RSM map table to implement
+quality of service (qos).
+
+If all of the limit tests succeed, qos is applied based on the array
+interpretation of krcvqs where entry 0 is VL0.
+
+The number of vl bits (n) and the number of qpn bits (m) are computed to
+feed both the RSM map table and the single rule.

@@ -1,0 +1,19 @@
+.TH "update_tg_load_avg" 9 "update_tg_load_avg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_tg_load_avg \- update the tg's load avg
+.SH SYNOPSIS
+.B "void" update_tg_load_avg
+.BI "(struct cfs_rq *cfs_rq "  ");"
+.SH ARGUMENTS
+.IP "cfs_rq" 12
+the cfs_rq whose avg changed
+.SH "DESCRIPTION"
+This function 'ensures': tg->load_avg := \Sum tg->cfs_rq[]->avg.load.
+However, because tg->load_avg is a global value there are performance
+considerations.
+
+In order to avoid having to look at the other cfs_rq's, we use a
+differential update where we store the last value we propagated. This in
+turn allows skipping updates if the differential is 'small'.
+
+Updating tg's load_avg is necessary before \fBupdate_cfs_share\fP.

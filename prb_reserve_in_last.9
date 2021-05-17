@@ -1,0 +1,54 @@
+.TH "prb_reserve_in_last" 9 "prb_reserve_in_last" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prb_reserve_in_last \- Re-reserve and extend the space in the ringbuffer used by the newest record.
+.SH SYNOPSIS
+.B "bool" prb_reserve_in_last
+.BI "(struct prb_reserved_entry *e "  ","
+.BI "struct printk_ringbuffer *rb "  ","
+.BI "struct printk_record *r "  ","
+.BI "u32 caller_id "  ","
+.BI "unsigned int max_size "  ");"
+.SH ARGUMENTS
+.IP "e" 12
+The entry structure to setup.
+.IP "rb" 12
+The ringbuffer to re-reserve and extend data in.
+.IP "r" 12
+The record structure to allocate buffers for.
+.IP "caller_id" 12
+The caller ID of the caller (reserving writer).
+.IP "max_size" 12
+Fail if the extended size would be greater than this.
+.SH "DESCRIPTION"
+This is the public function available to writers to re-reserve and extend
+data.
+
+The writer specifies the text size to extend (not the new total size) by
+setting the \fItext_buf_size\fP field of \fIr\fP. To ensure proper initialization
+of \fIr\fP, \fBprb_rec_init_wr\fP should be used.
+
+This function will fail if \fIcaller_id\fP does not match the caller ID of the
+newest record. In that case the caller must reserve new data using
+\fBprb_reserve\fP.
+
+On success:
+
+- \fIr->text_buf\fP points to the beginning of the entire text buffer.
+
+- \fIr->text_buf_size\fP is set to the new total size of the buffer.
+
+- \fIr->info\fP is not touched so that \fIr->info->text_len\fP could be used
+to append the text.
+
+- \fBprb_record_text_space\fP can be used on \fIe\fP to query the new
+actually used space.
+
+Important: All \fIr->info\fP fields will already be set with the current values
+for the record. I.e. \fIr->info->text_len\fP will be less than
+\fItext_buf_size\fP. Writers can use \fIr->info->text_len\fP to know
+where concatenation begins and writers should update
+\fIr->info->text_len\fP after concatenating.
+.SH "CONTEXT"
+Any context. Disables local interrupts on success.
+.SH "RETURN"
+true if text data could be extended, otherwise false.

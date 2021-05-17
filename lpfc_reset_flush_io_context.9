@@ -1,0 +1,27 @@
+.TH "lpfc_reset_flush_io_context" 9 "lpfc_reset_flush_io_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_reset_flush_io_context \- 
+.SH SYNOPSIS
+.B "int" lpfc_reset_flush_io_context
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint16_t tgt_id "  ","
+.BI "uint64_t lun_id "  ","
+.BI "lpfc_ctx_cmd context "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The virtual port (scsi_host) for the flush context
+.IP "tgt_id" 12
+If aborting by Target contect - specifies the target id
+.IP "lun_id" 12
+If aborting by Lun context - specifies the lun id
+.IP "context" 12
+specifies the context level to flush at.
+.SH "DESCRIPTION"
+After a reset condition via TMF, we need to flush orphaned i/o
+contexts from the adapter. This routine aborts any contexts
+outstanding, then waits for their completions. The wait is
+bounded by devloss_tmo though.
+
+Return code :
+0x2003 - Error
+0x2002 - Success

@@ -1,0 +1,35 @@
+.TH "ice_flow_set_fld" 9 "ice_flow_set_fld" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_flow_set_fld \- specifies locations of field from entry's input buffer
+.SH SYNOPSIS
+.B "void" ice_flow_set_fld
+.BI "(struct ice_flow_seg_info *seg "  ","
+.BI "enum ice_flow_field fld "  ","
+.BI "u16 val_loc "  ","
+.BI "u16 mask_loc "  ","
+.BI "u16 last_loc "  ","
+.BI "bool range "  ");"
+.SH ARGUMENTS
+.IP "seg" 12
+packet segment the field being set belongs to
+.IP "fld" 12
+field to be set
+.IP "val_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of the value to match from
+entry's input buffer
+.IP "mask_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of mask value from entry's
+input buffer
+.IP "last_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of last/upper value from
+entry's input buffer
+.IP "range" 12
+indicate if field being matched is to be in a range
+.SH "DESCRIPTION"
+This function specifies the locations, in the form of byte offsets from the
+start of the input buffer for a flow entry, from where the value to match,
+the mask value, and upper value can be extracted. These locations are then
+stored in the flow profile. When adding a flow entry associated with the
+flow profile, these locations will be used to quickly extract the values and
+create the content of a match entry. This function should only be used for
+fixed-size data structures.

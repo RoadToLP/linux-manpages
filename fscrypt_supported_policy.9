@@ -1,0 +1,19 @@
+.TH "fscrypt_supported_policy" 9 "fscrypt_supported_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_supported_policy \- check whether an encryption policy is supported
+.SH SYNOPSIS
+.B "bool" fscrypt_supported_policy
+.BI "(const union fscrypt_policy *policy_u "  ","
+.BI "const struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "policy_u" 12
+the encryption policy
+.IP "inode" 12
+the inode on which the policy will be used
+.SH "DESCRIPTION"
+Given an encryption policy, check whether all its encryption modes and other
+settings are supported by this kernel on the given inode.  (But we don't
+currently don't check for crypto API support here, so attempting to use an
+algorithm not configured into the crypto API will still fail later.)
+.SH "RETURN"
+true if supported, else false

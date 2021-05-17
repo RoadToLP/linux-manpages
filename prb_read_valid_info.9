@@ -1,0 +1,34 @@
+.TH "prb_read_valid_info" 9 "prb_read_valid_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prb_read_valid_info \- Non-blocking read of meta data for a requested record or (if gone) the next available record.
+.SH SYNOPSIS
+.B "bool" prb_read_valid_info
+.BI "(struct printk_ringbuffer *rb "  ","
+.BI "u64 seq "  ","
+.BI "struct printk_info *info "  ","
+.BI "unsigned int *line_count "  ");"
+.SH ARGUMENTS
+.IP "rb" 12
+The ringbuffer to read from.
+.IP "seq" 12
+The sequence number of the record to read.
+.IP "info" 12
+A buffer to store the read record meta data to.
+.IP "line_count" 12
+A buffer to store the number of lines in the record text.
+.SH "DESCRIPTION"
+This is the public function available to readers to read only the
+meta data of a record.
+
+The reader provides the \fIinfo\fP, \fIline_count\fP buffers to be filled in.
+Either of the buffer pointers can be set to NULL if the reader is not
+interested in that data.
+
+On success, the reader must check info->seq to see which record meta data
+was actually read. This allows the reader to detect dropped records.
+
+Failure means \fIseq\fP refers to a not yet written record.
+.SH "CONTEXT"
+Any context.
+.SH "RETURN"
+true if a record's meta data was read, otherwise false.

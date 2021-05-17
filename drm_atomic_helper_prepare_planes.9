@@ -1,0 +1,19 @@
+.TH "drm_atomic_helper_prepare_planes" 9 "drm_atomic_helper_prepare_planes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_prepare_planes \- prepare plane resources before commit
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_prepare_planes
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+atomic state object with new state structures
+.SH "DESCRIPTION"
+This function prepares plane state, specifically framebuffers, for the new
+configuration, by calling \fIdrm_plane_helper_funcs.prepare_fb\fP. If any failure
+is encountered this function will call \fIdrm_plane_helper_funcs.cleanup_fb\fP on
+any already successfully prepared framebuffer.
+.SH "RETURN"
+0 on success, negative error code on failure.

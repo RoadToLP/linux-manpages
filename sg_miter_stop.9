@@ -1,0 +1,17 @@
+.TH "sg_miter_stop" 9 "sg_miter_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sg_miter_stop \- stop mapping iteration
+.SH SYNOPSIS
+.B "void" sg_miter_stop
+.BI "(struct sg_mapping_iter *miter "  ");"
+.SH ARGUMENTS
+.IP "miter" 12
+sg mapping iter to be stopped
+.SH "DESCRIPTION"
+Stops mapping iterator \fImiter\fP.  \fImiter\fP should have been started
+using \fBsg_miter_start\fP.  A stopped iteration can be resumed by
+calling \fBsg_miter_next\fP on it.  This is useful when resources (kmap)
+need to be released during iteration.
+.SH "CONTEXT"
+Preemption disabled if the SG_MITER_ATOMIC is set.  Don't care
+otherwise.

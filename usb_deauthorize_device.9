@@ -1,0 +1,17 @@
+.TH "usb_deauthorize_device" 9 "usb_deauthorize_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_deauthorize_device \- deauthorize a device (usbcore-internal)
+.SH SYNOPSIS
+.B "int" usb_deauthorize_device
+.BI "(struct usb_device *usb_dev "  ");"
+.SH ARGUMENTS
+.IP "usb_dev" 12
+USB device
+.SH "DESCRIPTION"
+Move the USB device to a very basic state where interfaces are disabled
+and the device is in fact unconfigured and unusable.
+
+We share a lock (that we have) with \fBdevice_del\fP, so we need to
+defer its call.
+.SH "RETURN"
+0.

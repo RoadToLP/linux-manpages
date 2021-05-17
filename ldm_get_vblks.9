@@ -1,0 +1,21 @@
+.TH "ldm_get_vblks" 9 "ldm_get_vblks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_get_vblks \- Read the on-disk database of VBLKs into memory
+.SH SYNOPSIS
+.B "bool" ldm_get_vblks
+.BI "(struct parsed_partitions *state "  ","
+.BI "unsigned long base "  ","
+.BI "struct ldmdb *ldb "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Partition check state including device holding the LDM Database
+.IP "base" 12
+Offset, into \fIstate->bdev\fP, of the database
+.IP "ldb" 12
+Cache of the database structures
+.SH "DESCRIPTION"
+To use the information from the VBLKs, they need to be read from the disk,
+unpacked and validated.  We cache them in \fIldb\fP according to their type.
+.SH "RETURN"
+'true'   All the VBLKs were read successfully
+'false'  An error occurred

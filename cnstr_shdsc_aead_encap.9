@@ -1,0 +1,42 @@
+.TH "cnstr_shdsc_aead_encap" 9 "cnstr_shdsc_aead_encap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cnstr_shdsc_aead_encap \- IPSec ESP encapsulation shared descriptor (non-protocol).
+.SH SYNOPSIS
+.B "void" cnstr_shdsc_aead_encap
+.BI "(u32 * const desc "  ","
+.BI "struct alginfo *cdata "  ","
+.BI "struct alginfo *adata "  ","
+.BI "unsigned int ivsize "  ","
+.BI "unsigned int icvsize "  ","
+.BI "const bool is_rfc3686 "  ","
+.BI "u32 *nonce "  ","
+.BI "const u32 ctx1_iv_off "  ","
+.BI "const bool is_qi "  ","
+.BI "int era "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+pointer to buffer used for descriptor construction
+.IP "cdata" 12
+pointer to block cipher transform definitions
+Valid algorithm values - one of OP_ALG_ALGSEL_{AES, DES, 3DES} ANDed
+with OP_ALG_AAI_CBC or OP_ALG_AAI_CTR_MOD128.
+.IP "adata" 12
+pointer to authentication transform definitions.
+A split key is required for SEC Era < 6; the size of the split key
+is specified in this case. Valid algorithm values - one of
+OP_ALG_ALGSEL_{MD5, SHA1, SHA224, SHA256, SHA384, SHA512} ANDed
+with OP_ALG_AAI_HMAC_PRECOMP.
+.IP "ivsize" 12
+initialization vector size
+.IP "icvsize" 12
+integrity check value (ICV) size (truncated or full)
+.IP "is_rfc3686" 12
+true when ctr(aes) is wrapped by rfc3686 template
+.IP "nonce" 12
+pointer to rfc3686 nonce
+.IP "ctx1_iv_off" 12
+IV offset in CONTEXT1 register
+.IP "is_qi" 12
+true when called from caam/qi
+.IP "era" 12
+SEC Era

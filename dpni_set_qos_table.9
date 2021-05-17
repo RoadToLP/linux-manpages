@@ -1,0 +1,26 @@
+.TH "dpni_set_qos_table" 9 "dpni_set_qos_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_qos_table \- Set QoS mapping table
+.SH SYNOPSIS
+.B "int" dpni_set_qos_table
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "const struct dpni_qos_tbl_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "cfg" 12
+QoS table configuration
+.SH "DESCRIPTION"
+This function and all QoS-related functions require that
+'max_tcs > 1' was set at DPNI creation.
+
+warning: Before calling this function, call \fBdpkg_prepare_key_cfg\fP to
+prepare the key_cfg_iova parameter
+.SH "RETURN"
+'0' on Success; Error code otherwise.

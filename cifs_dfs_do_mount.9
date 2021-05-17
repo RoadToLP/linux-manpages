@@ -1,0 +1,20 @@
+.TH "cifs_dfs_do_mount" 9 "cifs_dfs_do_mount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cifs_dfs_do_mount \- mounts specified path using DFS full path
+.SH SYNOPSIS
+.B "struct vfsmount *" cifs_dfs_do_mount
+.BI "(struct dentry *mntpt "  ","
+.BI "struct cifs_sb_info *cifs_sb "  ","
+.BI "const char *fullpath "  ");"
+.SH ARGUMENTS
+.IP "mntpt" 12
+directory entry for the path we are trying to automount
+.IP "cifs_sb" 12
+parent/root superblock
+.IP "fullpath" 12
+full path in UNC format
+.SH "DESCRIPTION"
+
+Always pass down \fIfullpath\fP to \fBsmb3_do_mount\fP so we can use the root server
+to perform failover in case we failed to connect to the first target in the
+referral.

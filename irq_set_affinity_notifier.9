@@ -1,0 +1,18 @@
+.TH "irq_set_affinity_notifier" 9 "irq_set_affinity_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_set_affinity_notifier \- control notification of IRQ affinity changes
+.SH SYNOPSIS
+.B "int" irq_set_affinity_notifier
+.BI "(unsigned int irq "  ","
+.BI "struct irq_affinity_notify *notify "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt for which to enable/disable notification
+.IP "notify" 12
+Context for notification, or NULL to disable
+notification.  Function pointers must be initialised;
+the other fields will be initialised by this function.
+
+Must be called in process context.  Notification may only be enabled
+after the IRQ is allocated and must be disabled before the IRQ is
+freed using \fBfree_irq\fP.

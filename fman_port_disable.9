@@ -1,0 +1,19 @@
+.TH "fman_port_disable" 9 "fman_port_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fman_port_disable \- 
+.SH SYNOPSIS
+.B "int" fman_port_disable
+.BI "(struct fman_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+A pointer to a FM Port module.
+.SH "DESCRIPTION"
+Gracefully disable an FM port. The port will not start new   tasks after all
+tasks associated with the port are terminated.
+
+This is a blocking routine, it returns after port is gracefully stopped,
+i.e. the port will not except new frames, but it will finish all frames
+or tasks which were already began.
+Allowed only following \fBfman_port_init\fP.
+.SH "RETURN"
+0 on success; Error code otherwise.

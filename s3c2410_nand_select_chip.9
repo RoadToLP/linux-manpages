@@ -1,0 +1,20 @@
+.TH "s3c2410_nand_select_chip" 9 "s3c2410_nand_select_chip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c2410_nand_select_chip \- select the given nand chip
+.SH SYNOPSIS
+.B "void" s3c2410_nand_select_chip
+.BI "(struct nand_chip *this "  ","
+.BI "int chip "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+NAND chip object.
+.IP "chip" 12
+The chip number.
+.SH "DESCRIPTION"
+This is called by the MTD layer to either select a given chip for the
+\fImtd\fP instance, or to indicate that the access has finished and the
+chip can be de-selected.
+
+The routine ensures that the nFCE line is correctly setup, and any
+platform specific selection code is called to route nFCE to the specific
+chip.

@@ -1,0 +1,24 @@
+.TH "pwrdm_set_mem_onst" 9 "pwrdm_set_mem_onst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_set_mem_onst \- set memory power state while powerdomain ON
+.SH SYNOPSIS
+.B "int" pwrdm_set_mem_onst
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 bank "  ","
+.BI "u8 pwrst "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to set
+.IP "bank" 12
+memory bank number to set (0-3)
+.IP "pwrst" 12
+one of the PWRDM_POWER_* macros
+.SH "DESCRIPTION"
+Set the next power state \fIpwrst\fP that memory bank \fIbank\fP of the
+powerdomain \fIpwrdm\fP will enter when the powerdomain enters the ON
+state.  \fIbank\fP will be a number from 0 to 3, and represents different
+types of memory, depending on the powerdomain.  Returns -EINVAL if
+the powerdomain pointer is null or the target power state is not
+not supported for this memory bank, -EEXIST if the target memory
+bank does not exist or is not controllable, or returns 0 upon
+success.

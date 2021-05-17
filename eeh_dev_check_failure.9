@@ -1,0 +1,19 @@
+.TH "eeh_dev_check_failure" 9 "eeh_dev_check_failure" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_dev_check_failure \- Check if all 1's data is due to EEH slot freeze
+.SH SYNOPSIS
+.B "int" eeh_dev_check_failure
+.BI "(struct eeh_dev *edev "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+eeh device
+.SH "DESCRIPTION"
+Check for an EEH failure for the given device node.  Call this
+routine if the result of a read was all 0xff's and you want to
+find out if this is due to an EEH slot freeze.  This routine
+will query firmware for the EEH status.
+
+Returns 0 if there has not been an EEH error; otherwise returns
+a non-zero value and queues up a slot isolation event notification.
+
+It is safe to call this routine in an interrupt context.

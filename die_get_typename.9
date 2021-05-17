@@ -1,0 +1,17 @@
+.TH "die_get_typename" 9 "die_get_typename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+die_get_typename \- Get the name of given variable DIE
+.SH SYNOPSIS
+.B "int" die_get_typename
+.BI "(Dwarf_Die *vr_die "  ","
+.BI "struct strbuf *buf "  ");"
+.SH ARGUMENTS
+.IP "vr_die" 12
+a variable DIE
+.IP "buf" 12
+a strbuf for result type name
+.SH "DESCRIPTION"
+Get the name of \fIvr_die\fP and stores it to \fIbuf\fP. Return 0 if succeeded.
+and Return -ENOENT if failed to find type name.
+Note that the result will stores typedef name if possible, and stores
+"*(function_type)" if the type is a function pointer.

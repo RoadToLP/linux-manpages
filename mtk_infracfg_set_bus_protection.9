@@ -1,0 +1,21 @@
+.TH "mtk_infracfg_set_bus_protection" 9 "mtk_infracfg_set_bus_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtk_infracfg_set_bus_protection \- enable bus protection
+.SH SYNOPSIS
+.B "int" mtk_infracfg_set_bus_protection
+.BI "(struct regmap *infracfg "  ","
+.BI "u32 mask "  ","
+.BI "bool reg_update "  ");"
+.SH ARGUMENTS
+.IP "infracfg" 12
+The infracfg regmap
+.IP "mask" 12
+The mask containing the protection bits to be enabled.
+.IP "reg_update" 12
+The boolean flag determines to set the protection bits
+by regmap_update_bits with enable register(PROTECTEN) or
+by regmap_write with set register(PROTECTEN_SET).
+.SH "DESCRIPTION"
+This function enables the bus protection bits for disabled power
+domains so that the system does not hang when some unit accesses the
+bus while in power down.

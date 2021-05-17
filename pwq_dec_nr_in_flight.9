@@ -1,0 +1,17 @@
+.TH "pwq_dec_nr_in_flight" 9 "pwq_dec_nr_in_flight" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwq_dec_nr_in_flight \- decrement pwq's nr_in_flight
+.SH SYNOPSIS
+.B "void" pwq_dec_nr_in_flight
+.BI "(struct pool_workqueue *pwq "  ","
+.BI "int color "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+pwq of interest
+.IP "color" 12
+color of work which left the queue
+.SH "DESCRIPTION"
+A work either has completed or is removed from pending queue,
+decrement nr_in_flight of its pwq and handle workqueue flushing.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock).

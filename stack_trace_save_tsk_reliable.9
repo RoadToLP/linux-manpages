@@ -1,0 +1,21 @@
+.TH "stack_trace_save_tsk_reliable" 9 "stack_trace_save_tsk_reliable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stack_trace_save_tsk_reliable \- Save task stack with verification
+.SH SYNOPSIS
+.B "int" stack_trace_save_tsk_reliable
+.BI "(struct task_struct *tsk "  ","
+.BI "unsigned long *store "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+Pointer to the task to examine
+.IP "store" 12
+Pointer to storage array
+.IP "size" 12
+Size of the storage array
+.SH "RETURN"
+An error if it detects any unreliable features of the
+stack. Otherwise it guarantees that the stack trace is
+reliable and returns the number of entries stored.
+.SH "DESCRIPTION"
+If the task is not 'current', the caller *must* ensure the task is inactive.

@@ -1,0 +1,20 @@
+.TH "unlock_page" 9 "unlock_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unlock_page \- unlock a locked page
+.SH SYNOPSIS
+.B "void" unlock_page
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page
+.SH "DESCRIPTION"
+Unlocks the page and wakes up sleepers in \fBwait_on_page_locked\fP.
+Also wakes sleepers in \fBwait_on_page_writeback\fP because the wakeup
+mechanism between PageLocked pages and PageWriteback pages is shared.
+But that's OK - sleepers in \fBwait_on_page_writeback\fP just go back to sleep.
+
+Note that this depends on PG_waiters being the sign bit in the byte
+that contains PG_locked - thus the \fBBUILD_BUG_ON\fP. That allows us to
+clear the PG_locked bit and test PG_waiters at the same time fairly
+portably (architectures that do LL/SC can test any bit, while x86 can
+test the sign bit).

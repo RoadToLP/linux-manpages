@@ -1,0 +1,19 @@
+.TH "remove_conflicting_framebuffers" 9 "remove_conflicting_framebuffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+remove_conflicting_framebuffers \- remove firmware-configured framebuffers
+.SH SYNOPSIS
+.B "int" remove_conflicting_framebuffers
+.BI "(struct apertures_struct *a "  ","
+.BI "const char *name "  ","
+.BI "bool primary "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+memory range, users of which are to be removed
+.IP "name" 12
+requesting driver name
+.IP "primary" 12
+also kick vga16fb if present
+.SH "DESCRIPTION"
+This function removes framebuffer devices (initialized by firmware/bootloader)
+which use memory range described by \fIa\fP. If \fIa\fP is NULL all such devices are
+removed.

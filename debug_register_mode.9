@@ -1,0 +1,33 @@
+.TH "debug_register_mode" 9 "debug_register_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debug_register_mode \- creates and initializes debug area.
+.SH SYNOPSIS
+.B "debug_info_t *" debug_register_mode
+.BI "(const char *name "  ","
+.BI "int pages_per_area "  ","
+.BI "int nr_areas "  ","
+.BI "int buf_size "  ","
+.BI "umode_t mode "  ","
+.BI "uid_t uid "  ","
+.BI "gid_t gid "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+Name of debug log (e.g. used for debugfs entry)
+.IP "pages_per_area" 12
+Number of pages, which will be allocated per area
+.IP "nr_areas" 12
+Number of debug areas
+.IP "buf_size" 12
+Size of data area in each debug entry
+.IP "mode" 12
+File mode for debugfs files. E.g. S_IRWXUGO
+.IP "uid" 12
+User ID for debugfs files. Currently only 0 is supported.
+.IP "gid" 12
+Group ID for debugfs files. Currently only 0 is supported.
+.SH "RETURN"
+- Handle for generated debug area
+- NULL if register failed
+.SH "DESCRIPTION"
+Allocates memory for a debug log.
+Must not be called within an interrupt handler.

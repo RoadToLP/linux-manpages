@@ -1,0 +1,28 @@
+.TH "kauditd_send_queue" 9 "kauditd_send_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kauditd_send_queue \- Helper for kauditd_thread to flush skb queues
+.SH SYNOPSIS
+.B "int" kauditd_send_queue
+.BI "(struct sock *sk "  ","
+.BI "u32 portid "  ","
+.BI "struct sk_buff_head *queue "  ","
+.BI "unsigned int retry_limit "  ","
+.BI "void (*skb_hook)(struct sk_buff *skb) "  ","
+.BI "void (*err_hook)(struct sk_buff *skb) "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+the sending sock
+.IP "portid" 12
+the netlink destination
+.IP "queue" 12
+the skb queue to process
+.IP "retry_limit" 12
+limit on number of netlink unicast failures
+.IP "skb_hook" 12
+per-skb hook for additional processing
+.IP "err_hook" 12
+hook called if the skb fails the netlink unicast send
+.SH "DESCRIPTION"
+Run through the given queue and attempt to send the audit records to auditd,
+returns zero on success, negative values on failure.  It is up to the caller
+to ensure that the \fIsk\fP is valid for the duration of this function.

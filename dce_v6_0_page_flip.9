@@ -1,0 +1,24 @@
+.TH "dce_v6_0_page_flip" 9 "dce_v6_0_page_flip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dce_v6_0_page_flip \- pageflip callback.
+.SH SYNOPSIS
+.B "void" dce_v6_0_page_flip
+.BI "(struct amdgpu_device *adev "  ","
+.BI "int crtc_id "  ","
+.BI "u64 crtc_base "  ","
+.BI "bool async "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "crtc_id" 12
+crtc to cleanup pageflip on
+.IP "crtc_base" 12
+new address of the crtc (GPU MC address)
+.IP "async" 12
+asynchronous flip
+.SH "DESCRIPTION"
+Does the actual pageflip (evergreen+).
+During vblank we take the crtc lock and wait for the update_pending
+bit to go high, when it does, we release the lock, and allow the
+double buffered update to take place.
+Returns the current update pending status.

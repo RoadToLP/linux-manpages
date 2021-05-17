@@ -1,0 +1,26 @@
+.TH "vmw_execbuf_fence_commands" 9 "vmw_execbuf_fence_commands" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_execbuf_fence_commands \- create and submit a command stream fence
+.SH SYNOPSIS
+.B "int" vmw_execbuf_fence_commands
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct vmw_private *dev_priv "  ","
+.BI "struct vmw_fence_obj **p_fence "  ","
+.BI "uint32_t *p_handle "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+-- undescribed --
+.IP "dev_priv" 12
+-- undescribed --
+.IP "p_fence" 12
+-- undescribed --
+.IP "p_handle" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Creates a fence object and submits a command stream marker.
+If this fails for some reason, We sync the fifo and return NULL.
+It is then safe to fence buffers with a NULL pointer.
+
+If \fIp_handle\fP is not NULL \fIfile_priv\fP must also not be NULL. Creates a
+userspace handle if \fIp_handle\fP is not NULL, otherwise not.

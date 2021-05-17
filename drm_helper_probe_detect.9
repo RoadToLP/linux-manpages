@@ -1,0 +1,19 @@
+.TH "drm_helper_probe_detect" 9 "drm_helper_probe_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_helper_probe_detect \- probe connector status
+.SH SYNOPSIS
+.B "int" drm_helper_probe_detect
+.BI "(struct drm_connector *connector "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ","
+.BI "bool force "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+connector to probe
+.IP "ctx" 12
+acquire_ctx, or NULL to let this function handle locking.
+.IP "force" 12
+Whether destructive probe operations should be performed.
+.SH "DESCRIPTION"
+This function calls the detect callbacks of the connector.
+This function returns \fIdrm_connector_status\fP, or
+if \fIctx\fP is set, it might also return -EDEADLK.

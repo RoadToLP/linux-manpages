@@ -1,0 +1,44 @@
+.TH "xa_extract" 9 "xa_extract" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xa_extract \- Copy selected entries from the XArray into a normal array.
+.SH SYNOPSIS
+.B "unsigned int" xa_extract
+.BI "(struct xarray *xa "  ","
+.BI "void **dst "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long max "  ","
+.BI "unsigned int n "  ","
+.BI "xa_mark_t filter "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+The source XArray to copy from.
+.IP "dst" 12
+The buffer to copy entries into.
+.IP "start" 12
+The first index in the XArray eligible to be selected.
+.IP "max" 12
+The last index in the XArray eligible to be selected.
+.IP "n" 12
+The maximum number of entries to copy.
+.IP "filter" 12
+Selection criterion.
+.SH "DESCRIPTION"
+Copies up to \fIn\fP entries that match \fIfilter\fP from the XArray.  The
+copied entries will have indices between \fIstart\fP and \fImax\fP, inclusive.
+
+The \fIfilter\fP may be an XArray mark value, in which case entries which are
+marked with that mark will be copied.  It may also be XA_PRESENT, in
+which case all entries which are not NULL will be copied.
+
+The entries returned may not represent a snapshot of the XArray at a
+moment in time.  For example, if another thread stores to index 5, then
+index 10, calling \fBxa_extract\fP may return the old contents of index 5
+and the new contents of index 10.  Indices not modified while this
+function is running will not be skipped.
+
+If you need stronger guarantees, holding the xa_lock across calls to this
+function will prevent concurrent modification.
+.SH "CONTEXT"
+Any context.  Takes and releases the RCU lock.
+.SH "RETURN"
+The number of entries copied.

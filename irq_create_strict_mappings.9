@@ -1,0 +1,29 @@
+.TH "irq_create_strict_mappings" 9 "irq_create_strict_mappings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_create_strict_mappings \- Map a range of hw irqs to fixed linux irqs
+.SH SYNOPSIS
+.B "int" irq_create_strict_mappings
+.BI "(struct irq_domain *domain "  ","
+.BI "unsigned int irq_base "  ","
+.BI "irq_hw_number_t hwirq_base "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+domain owning the interrupt range
+.IP "irq_base" 12
+beginning of linux IRQ range
+.IP "hwirq_base" 12
+beginning of hardware IRQ range
+.IP "count" 12
+Number of interrupts to map
+.SH "DESCRIPTION"
+This routine is used for allocating and mapping a range of hardware
+irqs to linux irqs where the linux irq numbers are at pre-defined
+locations. For use by controllers that already have static mappings
+to insert in to the domain.
+
+Non-linear users can use \fBirq_create_identity_mapping\fP for IRQ-at-a-time
+domain insertion.
+
+0 is returned upon success, while any failure to establish a static
+mapping is treated as an error.

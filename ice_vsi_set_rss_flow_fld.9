@@ -1,0 +1,16 @@
+.TH "ice_vsi_set_rss_flow_fld" 9 "ice_vsi_set_rss_flow_fld" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_vsi_set_rss_flow_fld \- Sets RSS input set for different flows
+.SH SYNOPSIS
+.B "void" ice_vsi_set_rss_flow_fld
+.BI "(struct ice_vsi *vsi "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+VSI to be configured
+.SH "DESCRIPTION"
+This function will only be called after successful download package call
+during initialization of PF. Since the downloaded package will erase the
+RSS section, this function will configure RSS input sets for different
+flow types. The last profile added has the highest priority, therefore 2
+tuple profiles (i.e. IPv4 src/dst) are added before 4 tuple profiles
+(i.e. IPv4 src/dst TCP src/dst port).

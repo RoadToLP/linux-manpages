@@ -1,0 +1,24 @@
+.TH "frwr_query_device" 9 "frwr_query_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+frwr_query_device \- Prepare a transport for use with FRWR
+.SH SYNOPSIS
+.B "int" frwr_query_device
+.BI "(struct rpcrdma_ep *ep "  ","
+.BI "const struct ib_device *device "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+endpoint to fill in
+.IP "device" 12
+RDMA device to query
+.SH "DESCRIPTION"
+On success, sets:
+ep->re_attr
+ep->re_max_requests
+ep->re_max_rdma_segs
+ep->re_max_fr_depth
+ep->re_mrtype
+
+Return values:
+On success, returns zero.
+-EINVAL - the device does not support FRWR memory registration
+-ENOMEM - the device is not sufficiently capable for NFS/RDMA

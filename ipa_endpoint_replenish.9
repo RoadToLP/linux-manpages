@@ -1,0 +1,20 @@
+.TH "ipa_endpoint_replenish" 9 "ipa_endpoint_replenish" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_endpoint_replenish \- Replenish endpoint receive buffers
+.SH SYNOPSIS
+.B "void" ipa_endpoint_replenish
+.BI "(struct ipa_endpoint *endpoint "  ","
+.BI "bool add_one "  ");"
+.SH ARGUMENTS
+.IP "endpoint" 12
+Endpoint to be replenished
+.IP "add_one" 12
+Whether this is replacing a just-consumed buffer
+.SH "DESCRIPTION"
+The IPA hardware can hold a fixed number of receive buffers for an RX
+endpoint, based on the number of entries in the underlying channel ring
+buffer.  If an endpoint's "backlog" is non-zero, it indicates how many
+more receive buffers can be supplied to the hardware.  Replenishing for
+an endpoint can be disabled, in which case requests to replenish a
+buffer are "saved", and transferred to the backlog once it is re-enabled
+again.

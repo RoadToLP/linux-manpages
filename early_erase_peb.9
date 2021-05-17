@@ -1,0 +1,24 @@
+.TH "early_erase_peb" 9 "early_erase_peb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+early_erase_peb \- erase a physical eraseblock.
+.SH SYNOPSIS
+.B "int" early_erase_peb
+.BI "(struct ubi_device *ubi "  ","
+.BI "const struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "int ec "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+physical eraseblock number to erase;
+.IP "ec" 12
+erase counter value to write (UBI_UNKNOWN if it is unknown)
+.SH "DESCRIPTION"
+This function erases physical eraseblock 'pnum', and writes the erase
+counter header to it. This function should only be used on UBI device
+initialization stages, when the EBA sub-system had not been yet initialized.
+This function returns zero in case of success and a negative error code in
+case of failure.

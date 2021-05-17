@@ -1,0 +1,22 @@
+.TH "task_set_jobctl_pending" 9 "task_set_jobctl_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_set_jobctl_pending \- set jobctl pending bits
+.SH SYNOPSIS
+.B "bool" task_set_jobctl_pending
+.BI "(struct task_struct *task "  ","
+.BI "unsigned long mask "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+target task
+.IP "mask" 12
+pending bits to set
+.SH "DESCRIPTION"
+Clear \fImask\fP from \fItask->jobctl\fP.  \fImask\fP must be subset of
+JOBCTL_PENDING_MASK | JOBCTL_STOP_CONSUME | JOBCTL_STOP_SIGMASK |
+JOBCTL_TRAPPING.  If stop signo is being set, the existing signo is
+cleared.  If \fItask\fP is already being killed or exiting, this function
+becomes noop.
+.SH "CONTEXT"
+Must be called with \fItask->sighand->siglock\fP held.
+.SH "RETURN"
+true if \fImask\fP is set, false if made noop because \fItask\fP was dying.

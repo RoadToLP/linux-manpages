@@ -1,0 +1,23 @@
+.TH "e1000_access_phy_debug_regs_hv" 9 "e1000_access_phy_debug_regs_hv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_access_phy_debug_regs_hv \- Read HV PHY vendor specific high registers
+.SH SYNOPSIS
+.B "s32" e1000_access_phy_debug_regs_hv
+.BI "(struct e1000_hw *hw "  ","
+.BI "u32 offset "  ","
+.BI "u16 *data "  ","
+.BI "bool read "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+register offset to be read or written
+.IP "data" 12
+pointer to the data to be read or written
+.IP "read" 12
+determines if operation is read or write
+
+Reads the PHY register at offset and stores the retreived information
+in data.  Assumes semaphore already acquired.  Note that the procedure
+to access these regs uses the address port and data port to read/write.
+These accesses done with PHY address 2 and without using pages.

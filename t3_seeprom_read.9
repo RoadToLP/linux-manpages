@@ -1,0 +1,20 @@
+.TH "t3_seeprom_read" 9 "t3_seeprom_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_seeprom_read \- read a VPD EEPROM location
+.SH SYNOPSIS
+.B "int" t3_seeprom_read
+.BI "(struct adapter *adapter "  ","
+.BI "u32 addr "  ","
+.BI "__le32 *data "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+adapter to read
+.IP "addr" 12
+EEPROM address
+.IP "data" 12
+where to store the read data
+
+Read a 32-bit word from a location in VPD EEPROM using the card's PCI
+VPD ROM capability.  A zero is written to the flag bit when the
+address is written to the control register.  The hardware device will
+set the flag to 1 when 4 bytes have been read into the data register.

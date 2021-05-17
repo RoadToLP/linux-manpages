@@ -1,0 +1,16 @@
+.TH "lpfc_fabric_abort_hba" 9 "lpfc_fabric_abort_hba" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fabric_abort_hba \- Abort all iocbs on driver fabric iocb list
+.SH SYNOPSIS
+.B "void" lpfc_fabric_abort_hba
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine aborts all the IOCBs currently on the driver internal
+fabric IOCB list. The list contains fabric IOCBs to be issued to the ELS
+IOCB ring. This function takes the entire IOCB list off the fabric IOCB
+list, removes IOCBs off the list, set the status feild to
+IOSTAT_LOCAL_REJECT, and invokes the callback function associated with
+the IOCB.

@@ -1,0 +1,27 @@
+.TH "spum_create_request" 9 "spum_create_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spum_create_request \- Build a SPU request message header, up to and including the BD header. Construct the message starting at spu_hdr. Caller should allocate this buffer in DMA-able memory at least SPU_HEADER_ALLOC_LEN bytes long.
+.SH SYNOPSIS
+.B "u32" spum_create_request
+.BI "(u8 *spu_hdr "  ","
+.BI "struct spu_request_opts *req_opts "  ","
+.BI "struct spu_cipher_parms *cipher_parms "  ","
+.BI "struct spu_hash_parms *hash_parms "  ","
+.BI "struct spu_aead_parms *aead_parms "  ","
+.BI "unsigned int data_size "  ");"
+.SH ARGUMENTS
+.IP "spu_hdr" 12
+Start of buffer where SPU request header is to be written
+.IP "req_opts" 12
+SPU request message options
+.IP "cipher_parms" 12
+Parameters related to cipher algorithm
+.IP "hash_parms" 12
+Parameters related to hash algorithm
+.IP "aead_parms" 12
+Parameters related to AEAD operation
+.IP "data_size" 12
+Length of data to be encrypted or authenticated. If AEAD, does
+not include length of AAD.
+.SH "RETURN"
+the length of the SPU header in bytes. 0 if an error occurs.

@@ -1,0 +1,21 @@
+.TH "ptrace_trap_notify" 9 "ptrace_trap_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ptrace_trap_notify \- schedule trap to notify ptracer
+.SH SYNOPSIS
+.B "void" ptrace_trap_notify
+.BI "(struct task_struct *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+tracee wanting to notify tracer
+.SH "DESCRIPTION"
+This function schedules sticky ptrace trap which is cleared on the next
+TRAP_STOP to notify ptracer of an event.  \fIt\fP must have been seized by
+ptracer.
+
+If \fIt\fP is running, STOP trap will be taken.  If trapped for STOP and
+ptracer is listening for events, tracee is woken up so that it can
+re-trap for the new event.  If trapped otherwise, STOP trap will be
+eventually taken without returning to userland after the existing traps
+are finished by PTRACE_CONT.
+.SH "CONTEXT"
+Must be called with \fItask->sighand->siglock\fP held.

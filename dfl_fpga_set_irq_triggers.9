@@ -1,0 +1,25 @@
+.TH "dfl_fpga_set_irq_triggers" 9 "dfl_fpga_set_irq_triggers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfl_fpga_set_irq_triggers \- set eventfd triggers for dfl feature interrupts
+.SH SYNOPSIS
+.B "int" dfl_fpga_set_irq_triggers
+.BI "(struct dfl_feature *feature "  ","
+.BI "unsigned int start "  ","
+.BI "unsigned int count "  ","
+.BI "int32_t *fds "  ");"
+.SH ARGUMENTS
+.IP "feature" 12
+dfl sub feature.
+.IP "start" 12
+start of irq index in this dfl sub feature.
+.IP "count" 12
+number of irqs.
+.IP "fds" 12
+eventfds to bind with irqs. unbind related irq if fds[n] is negative.
+unbind "count" specified number of irqs if fds ptr is NULL.
+.SH "DESCRIPTION"
+Bind given eventfds with irqs in this dfl sub feature. Unbind related irq if
+fds[n] is negative. Unbind "count" specified number of irqs if fds ptr is
+NULL.
+.SH "RETURN"
+0 on success, negative error code otherwise.

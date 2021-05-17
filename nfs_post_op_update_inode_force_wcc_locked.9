@@ -1,0 +1,18 @@
+.TH "nfs_post_op_update_inode_force_wcc_locked" 9 "nfs_post_op_update_inode_force_wcc_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_post_op_update_inode_force_wcc_locked \- update the inode attribute cache
+.SH SYNOPSIS
+.B "int" nfs_post_op_update_inode_force_wcc_locked
+.BI "(struct inode *inode "  ","
+.BI "struct nfs_fattr *fattr "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pointer to inode
+.IP "fattr" 12
+updated attributes
+.SH "DESCRIPTION"
+After an operation that has changed the inode metadata, mark the
+attribute cache as being invalid, then try to update it. Fake up
+weak cache consistency data, if none exist.
+
+This function is mainly designed to be used by the ->\fBwrite_done\fP functions.

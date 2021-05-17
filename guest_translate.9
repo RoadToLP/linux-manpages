@@ -1,0 +1,36 @@
+.TH "guest_translate" 9 "guest_translate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+guest_translate \- translate a guest virtual into a guest absolute address
+.SH SYNOPSIS
+.B "unsigned long" guest_translate
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned long gva "  ","
+.BI "unsigned long *gpa "  ","
+.BI "const union asce asce "  ","
+.BI "enum gacc_mode mode "  ","
+.BI "enum prot_type *prot "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+virtual cpu
+.IP "gva" 12
+guest virtual address
+.IP "gpa" 12
+points to where guest physical (absolute) address should be stored
+.IP "asce" 12
+effective asce
+.IP "mode" 12
+indicates the access mode to be used
+.IP "prot" 12
+returns the type for protection exceptions
+.SH "DESCRIPTION"
+Translate a guest virtual address into a guest absolute address by means
+of dynamic address translation as specified by the architecture.
+If the resulting absolute address is not available in the configuration
+an addressing exception is indicated and \fIgpa\fP will not be changed.
+.SH "RETURN"
+- zero on success; \fIgpa\fP contains the resulting absolute address
+- a negative value if guest access failed due to e.g. broken
+guest mapping
+- a positve value if an access exception happened. In this case
+the returned value is the program interruption code as defined
+by the architecture

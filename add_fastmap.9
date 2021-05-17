@@ -1,0 +1,24 @@
+.TH "add_fastmap" 9 "add_fastmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_fastmap \- add a Fastmap related physical eraseblock.
+.SH SYNOPSIS
+.B "int" add_fastmap
+.BI "(struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "struct ubi_vid_hdr *vid_hdr "  ","
+.BI "int ec "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+physical eraseblock number the VID header came from
+.IP "vid_hdr" 12
+the volume identifier header
+.IP "ec" 12
+erase counter of the physical eraseblock
+.SH "DESCRIPTION"
+This function allocates a 'struct ubi_ainf_peb' object for a Fastamp
+physical eraseblock \fIpnum\fP and adds it to the 'fastmap' list.
+Such blocks can be Fastmap super and data blocks from both the most
+recent Fastmap we're attaching from or from old Fastmaps which will
+be erased.

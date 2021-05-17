@@ -1,0 +1,25 @@
+.TH "scmi_sensor_reading_get_timestamped" 9 "scmi_sensor_reading_get_timestamped" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_sensor_reading_get_timestamped \- Read multiple-axis timestamped values
+.SH SYNOPSIS
+.B "int" scmi_sensor_reading_get_timestamped
+.BI "(const struct scmi_handle *handle "  ","
+.BI "u32 sensor_id "  ","
+.BI "u8 count "  ","
+.BI "struct scmi_sensor_reading *readings "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Platform handle
+.IP "sensor_id" 12
+Sensor ID
+.IP "count" 12
+The length of the provided \fIreadings\fP array
+.IP "readings" 12
+An array of elements each representing a timestamped per-axis
+reading of type \fIstruct\fP scmi_sensor_reading.
+Returned readings are ordered as the \fIaxis\fP descriptors array
+included in \fIstruct\fP scmi_sensor_info and the max number of
+returned elements is min(\fIcount\fP, \fInum_axis\fP); ideally the provided
+array should be of length \fIcount\fP equal to \fInum_axis\fP.
+.SH "RETURN"
+0 on Success

@@ -1,0 +1,29 @@
+.TH "query_data" 9 "query_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+query_data \- queries a policy and writes its data to buf
+.SH SYNOPSIS
+.B "ssize_t" query_data
+.BI "(char *buf "  ","
+.BI "size_t buf_len "  ","
+.BI "char *query "  ","
+.BI "size_t query_len "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+the resulting data is stored here (NOT NULL)
+.IP "buf_len" 12
+size of buf
+.IP "query" 12
+query string used to retrieve data
+.IP "query_len" 12
+size of query including second NUL byte
+.SH "DESCRIPTION"
+The buffers pointed to by buf and query may overlap. The query buffer is
+parsed before buf is written to.
+
+The query should look like "<LABEL>\0<KEY>\0", where <LABEL> is the name of
+the security confinement context and <KEY> is the name of the data to
+retrieve. <LABEL> and <KEY> must not be NUL-terminated.
+
+Don't expect the contents of buf to be preserved on failure.
+.SH "RETURN"
+number of characters written to buf or -errno on failure

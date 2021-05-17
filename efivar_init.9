@@ -1,0 +1,23 @@
+.TH "efivar_init" 9 "efivar_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_init \- build the initial list of EFI variables
+.SH SYNOPSIS
+.B "int" efivar_init
+.BI "(int (*func)(efi_char16_t *, efi_guid_t, unsigned long, void *) "  ","
+.BI "void *data "  ","
+.BI "bool duplicates "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+callback function to invoke for every variable
+.IP "data" 12
+function-specific data to pass to \fIfunc\fP
+.IP "duplicates" 12
+error if we encounter duplicates on \fIhead\fP?
+.IP "head" 12
+initialised head of variable list
+.SH "DESCRIPTION"
+Get every EFI variable from the firmware and invoke \fIfunc\fP. \fIfunc\fP
+should call \fBefivar_entry_add\fP to build the list of variables.
+
+Returns 0 on success, or a kernel error code on failure.

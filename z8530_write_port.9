@@ -1,0 +1,21 @@
+.TH "z8530_write_port" 9 "z8530_write_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_write_port \- Architecture specific interface function
+.SH SYNOPSIS
+.B "void" z8530_write_port
+.BI "(unsigned long p "  ","
+.BI "u8 d "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+port to write
+.IP "d" 12
+value to write
+
+Write a value to a port with delays if need be. Note that the
+caller must hold locks to avoid read/writes from other contexts
+violating the 5uS rule
+
+In the longer term this should become an architecture specific
+section so that this can become a generic driver interface for all
+platforms. For now we only handle PC I/O ports with or without the
+dread 5uS sanity delay.

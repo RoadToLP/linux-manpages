@@ -1,0 +1,31 @@
+.TH "regmap_raw_write_async" 9 "regmap_raw_write_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_raw_write_async \- Write raw values to one or more registers asynchronously
+.SH SYNOPSIS
+.B "int" regmap_raw_write_async
+.BI "(struct regmap *map "  ","
+.BI "unsigned int reg "  ","
+.BI "const void *val "  ","
+.BI "size_t val_len "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to write to
+.IP "reg" 12
+Initial register to write to
+.IP "val" 12
+Block of data to be written, laid out for direct transmission to the
+device.  Must be valid until \fBregmap_async_complete\fP is called.
+.IP "val_len" 12
+Length of data pointed to by val.
+.SH "DESCRIPTION"
+This function is intended to be used for things like firmware
+download where a large block of data needs to be transferred to the
+device.  No formatting will be done on the data provided.
+
+If supported by the underlying bus the write will be scheduled
+asynchronously, helping maximise I/O speed on higher speed buses
+like SPI.  \fBregmap_async_complete\fP can be called to ensure that all
+asynchrnous writes have been completed.
+
+A value of zero will be returned on success, a negative errno will
+be returned in error cases.

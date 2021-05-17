@@ -1,0 +1,33 @@
+.TH "drm_crtc_legacy_gamma_set" 9 "drm_crtc_legacy_gamma_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_legacy_gamma_set \- set the legacy gamma correction table
+.SH SYNOPSIS
+.B "int" drm_crtc_legacy_gamma_set
+.BI "(struct drm_crtc *crtc "  ","
+.BI "u16 *red "  ","
+.BI "u16 *green "  ","
+.BI "u16 *blue "  ","
+.BI "u32 size "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC object
+.IP "red" 12
+red correction table
+.IP "green" 12
+green correction table
+.IP "blue" 12
+green correction table
+.IP "size" 12
+size of the tables
+.IP "ctx" 12
+lock acquire context
+.SH "DESCRIPTION"
+Implements support for legacy gamma correction table for drivers
+that have set drm_crtc_funcs.gamma_set or that support color management
+through the DEGAMMA_LUT/GAMMA_LUT properties. See
+\fBdrm_crtc_enable_color_mgmt\fP and the containing chapter for
+how the atomic color management and gamma tables work.
+
+This function sets the gamma using drm_crtc_funcs.gamma_set if set, or
+alternatively using crtc color management properties.

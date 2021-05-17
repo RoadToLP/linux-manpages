@@ -1,0 +1,24 @@
+.TH "lpfc_sli4_enable_intr" 9 "lpfc_sli4_enable_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_enable_intr \- Enable device interrupt to SLI-4 device
+.SH SYNOPSIS
+.B "uint32_t" lpfc_sli4_enable_intr
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t cfg_mode "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cfg_mode" 12
+Interrupt configuration mode (INTx, MSI or MSI-X).
+.SH "DESCRIPTION"
+This routine is invoked to enable device interrupt and associate driver's
+interrupt handler(s) to interrupt vector(s) to device with SLI-4
+interface spec. Depends on the interrupt mode configured to the driver,
+the driver will try to fallback from the configured interrupt mode to an
+interrupt mode which is supported by the platform, kernel, and device in
+the order of:
+MSI-X -> MSI -> IRQ.
+
+Return codes
+0 - successful
+other values - error

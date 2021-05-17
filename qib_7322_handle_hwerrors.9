@@ -1,0 +1,20 @@
+.TH "qib_7322_handle_hwerrors" 9 "qib_7322_handle_hwerrors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_7322_handle_hwerrors \- display hardware errors.
+.SH SYNOPSIS
+.B "void" qib_7322_handle_hwerrors
+.BI "(struct qib_devdata *dd "  ","
+.BI "char *msg "  ","
+.BI "size_t msgl "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.IP "msg" 12
+the output buffer
+.IP "msgl" 12
+the size of the output buffer
+.SH "DESCRIPTION"
+Use same msg buffer as regular errors to avoid excessive stack
+use.  Most hardware errors are catastrophic, but for right now,
+we'll print them and continue.  We reuse the same message buffer as
+\fBqib_handle_errors\fP to avoid excessive stack usage.

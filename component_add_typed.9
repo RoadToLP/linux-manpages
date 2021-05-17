@@ -1,0 +1,28 @@
+.TH "component_add_typed" 9 "component_add_typed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+component_add_typed \- register a component
+.SH SYNOPSIS
+.B "int" component_add_typed
+.BI "(struct device *dev "  ","
+.BI "const struct component_ops *ops "  ","
+.BI "int subcomponent "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+component device
+.IP "ops" 12
+component callbacks
+.IP "subcomponent" 12
+nonzero identifier for subcomponents
+.SH "DESCRIPTION"
+Register a new component for \fIdev\fP. Functions in \fIops\fP will be call when the
+aggregate driver is ready to bind the overall driver by calling
+\fBcomponent_bind_all\fP. See also \fIstruct component_ops\fP.
+
+\fIsubcomponent\fP must be nonzero and is used to differentiate between multiple
+components registerd on the same device \fIdev\fP. These components are match
+using \fBcomponent_match_add_typed\fP.
+
+The component needs to be unregistered at driver unload/disconnect by
+calling \fBcomponent_del\fP.
+
+See also \fBcomponent_add\fP.

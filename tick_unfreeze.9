@@ -1,0 +1,16 @@
+.TH "tick_unfreeze" 9 "tick_unfreeze" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tick_unfreeze \- Resume the local tick and (possibly) timekeeping.
+.SH SYNOPSIS
+.B "void" tick_unfreeze
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Check if this is the first CPU executing the function and if so, resume
+timekeeping.  Otherwise resume the local tick.
+
+Call with interrupts disabled.  Must be balanced with \fBtick_freeze\fP.
+Interrupts must not be enabled after the preceding \fBtick_freeze\fP.

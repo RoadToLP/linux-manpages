@@ -1,0 +1,27 @@
+.TH "afs_sillyrename" 9 "afs_sillyrename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+afs_sillyrename \- Perform a silly-rename of a dentry
+.SH SYNOPSIS
+.B "int" afs_sillyrename
+.BI "(struct afs_vnode *dvnode "  ","
+.BI "struct afs_vnode *vnode "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct key *key "  ");"
+.SH ARGUMENTS
+.IP "dvnode" 12
+-- undescribed --
+.IP "vnode" 12
+-- undescribed --
+.IP "dentry" 12
+-- undescribed --
+.IP "key" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+AFS is stateless and the server doesn't know when the client is holding a
+file open.  To prevent application problems when a file is unlinked while
+it's still open, the client performs a "silly-rename".  That is, it renames
+the file to a hidden file in the same directory, and only performs the
+unlink once the last reference to it is put.
+
+The final cleanup is done during dentry_iput.

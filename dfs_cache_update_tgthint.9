@@ -1,0 +1,33 @@
+.TH "dfs_cache_update_tgthint" 9 "dfs_cache_update_tgthint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfs_cache_update_tgthint \- update target hint of a DFS cache entry
+.SH SYNOPSIS
+.B "int" dfs_cache_update_tgthint
+.BI "(const unsigned int xid "  ","
+.BI "struct cifs_ses *ses "  ","
+.BI "const struct nls_table *nls_codepage "  ","
+.BI "int remap "  ","
+.BI "const char *path "  ","
+.BI "const struct dfs_cache_tgt_iterator *it "  ");"
+.SH ARGUMENTS
+.IP "xid" 12
+syscall id
+.IP "ses" 12
+smb session
+.IP "nls_codepage" 12
+charset conversion
+.IP "remap" 12
+type of character remapping for paths
+.IP "path" 12
+path to lookup in DFS referral cache.
+.IP "it" 12
+DFS target iterator
+.SH "DESCRIPTION"
+
+If it doesn't find the cache entry, then it will get a DFS referral for \fIpath\fP
+and create a new entry.
+
+In case the cache entry exists but expired, it will get a DFS referral
+for \fIpath\fP and then update the respective cache entry.
+
+Return zero if the target hint was updated successfully, otherwise non-zero.

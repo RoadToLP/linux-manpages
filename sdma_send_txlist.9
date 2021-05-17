@@ -1,0 +1,38 @@
+.TH "sdma_send_txlist" 9 "sdma_send_txlist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdma_send_txlist \- submit a list of tx req to ring
+.SH SYNOPSIS
+.B "int" sdma_send_txlist
+.BI "(struct sdma_engine *sde "  ","
+.BI "struct iowait_work *wait "  ","
+.BI "struct list_head *tx_list "  ","
+.BI "u16 *count_out "  ");"
+.SH ARGUMENTS
+.IP "sde" 12
+sdma engine to use
+.IP "wait" 12
+SE wait structure to use when full (may be NULL)
+.IP "tx_list" 12
+list of sdma_txreqs to submit
+.IP "count_out" 12
+pointer to a u16 which, after return will contain the total number of
+sdma_txreqs removed from the tx_list. This will include sdma_txreqs
+whose SDMA descriptors are submitted to the ring and the sdma_txreqs
+which are added to SDMA engine flush list if the SDMA engine state is
+not running.
+.SH "DESCRIPTION"
+The call submits the list into the ring.
+
+If the iowait structure is non-NULL and not equal to the iowait list
+the unprocessed part of the list  will be appended to the list in wait.
+
+In all cases, the tx_list will be updated so the head of the tx_list is
+the list of descriptors that have yet to be transmitted.
+
+The intent of this call is to provide a more efficient
+way of submitting multiple packets to SDMA while holding the tail
+side locking.
+.SH "RETURN"
+0 - Success,
+-EINVAL - sdma_txreq incomplete, -EBUSY - no space in ring (wait == NULL)
+-EIOCBQUEUED - tx queued to iowait, -ECOMM bad sdma state

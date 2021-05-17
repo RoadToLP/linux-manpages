@@ -1,0 +1,23 @@
+.TH "filemap_fdatawait_range_keep_errors" 9 "filemap_fdatawait_range_keep_errors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_fdatawait_range_keep_errors \- wait for writeback to complete
+.SH SYNOPSIS
+.B "int" filemap_fdatawait_range_keep_errors
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t start_byte "  ","
+.BI "loff_t end_byte "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space structure to wait for
+.IP "start_byte" 12
+offset in bytes where the range starts
+.IP "end_byte" 12
+offset in bytes where the range ends (inclusive)
+.SH "DESCRIPTION"
+Walk the list of under-writeback pages of the given address space in the
+given range and wait for all of them.  Unlike \fBfilemap_fdatawait_range\fP,
+this function does not clear error status of the address space.
+
+Use this function if callers don't handle errors themselves.  Expected
+call sites are system-wide / filesystem-wide data flushers: e.g. sync(2),
+fsfreeze(8)

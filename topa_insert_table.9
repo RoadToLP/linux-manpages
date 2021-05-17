@@ -1,0 +1,16 @@
+.TH "topa_insert_table" 9 "topa_insert_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+topa_insert_table \- insert a ToPA table into a buffer
+.SH SYNOPSIS
+.B "void" topa_insert_table
+.BI "(struct pt_buffer *buf "  ","
+.BI "struct topa *topa "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+PT buffer that's being extended.
+.IP "topa" 12
+New topa table to be inserted.
+.SH "DESCRIPTION"
+If it's the first table in this buffer, set up buffer's pointers
+accordingly; otherwise, add a END=1 link entry to \fItopa\fP to the current
+"last" table and adjust the last table pointer to \fItopa\fP.

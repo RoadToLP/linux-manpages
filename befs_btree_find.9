@@ -1,0 +1,29 @@
+.TH "befs_btree_find" 9 "befs_btree_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_btree_find \- Find a key in a befs B+tree
+.SH SYNOPSIS
+.B "int" befs_btree_find
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *ds "  ","
+.BI "const char *key "  ","
+.BI "befs_off_t * value "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "ds" 12
+Datastream containing btree
+.IP "key" 12
+Key string to lookup in btree
+.IP "value" 12
+Value stored with \fIkey\fP
+.SH "DESCRIPTION"
+On success, returns BEFS_OK and sets *\fIvalue\fP to the value stored
+with \fIkey\fP (usually the disk block number of an inode).
+
+On failure, returns BEFS_ERR or BEFS_BT_NOT_FOUND.
+
+Algorithm:
+Read the superblock and rootnode of the b+tree.
+Drill down through the interior nodes using \fBbefs_find_key\fP.
+Once at the correct leaf node, use \fBbefs_find_key\fP again to get the
+actual value stored with the key.

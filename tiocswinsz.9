@@ -1,0 +1,21 @@
+.TH "tiocswinsz" 9 "tiocswinsz" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tiocswinsz \- implement window size set ioctl
+.SH SYNOPSIS
+.B "int" tiocswinsz
+.BI "(struct tty_struct *tty "  ","
+.BI "struct winsize __user *arg "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty side of tty
+.IP "arg" 12
+user buffer for result
+
+Copies the user idea of the window size to the kernel. Traditionally
+this is just advisory information but for the Linux console it
+actually has driver level meaning and triggers a VC resize.
+
+Locking:
+Driver dependent. The default do_resize method takes the
+tty termios mutex and ctrl_lock. The console takes its own lock
+then calls into the default method.

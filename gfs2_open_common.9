@@ -1,0 +1,19 @@
+.TH "gfs2_open_common" 9 "gfs2_open_common" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_open_common \- This is common to open and atomic_open
+.SH SYNOPSIS
+.B "int" gfs2_open_common
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode being opened
+.IP "file" 12
+The file being opened
+.SH "DESCRIPTION"
+This maybe called under a glock or not depending upon how it has
+been called. We must always be called under a glock for regular
+files, however. For other file types, it does not matter whether
+we hold the glock or not.
+.SH "RETURN"
+Error code or 0 for success

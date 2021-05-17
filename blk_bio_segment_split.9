@@ -1,0 +1,30 @@
+.TH "blk_bio_segment_split" 9 "blk_bio_segment_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_bio_segment_split \- split a bio in two bios
+.SH SYNOPSIS
+.B "struct bio *" blk_bio_segment_split
+.BI "(struct request_queue *q "  ","
+.BI "struct bio *bio "  ","
+.BI "struct bio_set *bs "  ","
+.BI "unsigned *segs "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+[in] request queue pointer
+.IP "bio" 12
+[in] bio to be split
+.IP "bs" 12
+[in] bio set to allocate the clone from
+.IP "segs" 12
+[out] number of segments in the bio with the first half of the sectors
+.SH "DESCRIPTION"
+Clone \fIbio\fP, update the bi_iter of the clone to represent the first sectors
+of \fIbio\fP and update \fIbio->bi_iter\fP to represent the remaining sectors. The
+following is guaranteed for the cloned bio:
+- That it has at most get_max_io_size(\fIq\fP, \fIbio\fP) sectors.
+- That it has at most queue_max_segments(\fIq\fP) segments.
+
+Except for discard requests the cloned bio will point at the bi_io_vec of
+the original bio. It is the responsibility of the caller to ensure that the
+original bio is not freed before the cloned bio. The caller is also
+responsible for ensuring that \fIbs\fP is only destroyed after processing of the
+split bio has finished.

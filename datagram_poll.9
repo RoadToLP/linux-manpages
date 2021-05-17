@@ -1,0 +1,23 @@
+.TH "datagram_poll" 9 "datagram_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+datagram_poll \- generic datagram poll
+.SH SYNOPSIS
+.B "__poll_t" datagram_poll
+.BI "(struct file *file "  ","
+.BI "struct socket *sock "  ","
+.BI "poll_table *wait "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file struct
+.IP "sock" 12
+socket
+.IP "wait" 12
+poll table
+
+Datagram poll: Again totally generic. This also handles
+sequenced packet sockets providing the socket receive queue
+is only ever holding data ready to receive.
+.SH "NOTE"
+when you *don't* use this routine for this protocol,
+and you use a different write policy from \fBsock_writeable\fP
+then please supply your own write_space callback.

@@ -1,0 +1,18 @@
+.TH "bio_chain" 9 "bio_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_chain \- chain bio completions
+.SH SYNOPSIS
+.B "void" bio_chain
+.BI "(struct bio *bio "  ","
+.BI "struct bio *parent "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+the target bio
+.IP "parent" 12
+the parent bio of \fIbio\fP
+.SH "DESCRIPTION"
+The caller won't have a bi_end_io called when \fIbio\fP completes - instead,
+\fIparent\fP's bi_end_io won't be called until both \fIparent\fP and \fIbio\fP have
+completed; the chained bio will also be freed when it completes.
+
+The caller must not set bi_private or bi_end_io in \fIbio\fP.

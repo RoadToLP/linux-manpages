@@ -1,0 +1,20 @@
+.TH "poll_select_set_timeout" 9 "poll_select_set_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+poll_select_set_timeout \- helper function to setup the timeout value
+.SH SYNOPSIS
+.B "int" poll_select_set_timeout
+.BI "(struct timespec64 *to "  ","
+.BI "time64_t sec "  ","
+.BI "long nsec "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+pointer to timespec64 variable for the final timeout
+.IP "sec" 12
+seconds (from user space)
+.IP "nsec" 12
+nanoseconds (from user space)
+.SH "DESCRIPTION"
+Note, we do not use a timespec for the user space value here, That
+way we can use the function for timeval and compat interfaces as well.
+
+Returns -EINVAL if sec/nsec are not normalized. Otherwise 0.

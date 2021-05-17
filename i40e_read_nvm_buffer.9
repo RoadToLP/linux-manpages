@@ -1,0 +1,22 @@
+.TH "i40e_read_nvm_buffer" 9 "i40e_read_nvm_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_read_nvm_buffer \- Reads Shadow RAM buffer and acquire lock if necessary
+.SH SYNOPSIS
+.B "i40e_status" i40e_read_nvm_buffer
+.BI "(struct i40e_hw *hw "  ","
+.BI "u16 offset "  ","
+.BI "u16 *words "  ","
+.BI "u16 *data "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+offset of the Shadow RAM word to read (0x000000 - 0x001FFF).
+.IP "words" 12
+(in) number of words to read; (out) number of words actually read
+.IP "data" 12
+words read from the Shadow RAM
+.SH "DESCRIPTION"
+Reads 16 bit words (data buffer) from the SR using the \fBi40e_read_nvm_srrd\fP
+method. The buffer read is preceded by the NVM ownership take
+and followed by the release.

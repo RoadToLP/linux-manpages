@@ -1,0 +1,19 @@
+.TH "gpiochip_irq_domain_activate" 9 "gpiochip_irq_domain_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_irq_domain_activate \- Lock a GPIO to be used as an IRQ
+.SH SYNOPSIS
+.B "int" gpiochip_irq_domain_activate
+.BI "(struct irq_domain *domain "  ","
+.BI "struct irq_data *data "  ","
+.BI "bool reserve "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+The IRQ domain used by this IRQ chip
+.IP "data" 12
+Outermost irq_data associated with the IRQ
+.IP "reserve" 12
+If set, only reserve an interrupt vector instead of assigning one
+.SH "DESCRIPTION"
+This function is a wrapper that calls \fBgpiochip_lock_as_irq\fP and is to be
+used as the activate function for the \fIstruct irq_domain_ops\fP. The host_data
+for the IRQ domain must be the \fIstruct gpio_chip\fP.

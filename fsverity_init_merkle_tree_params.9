@@ -1,0 +1,29 @@
+.TH "fsverity_init_merkle_tree_params" 9 "fsverity_init_merkle_tree_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_init_merkle_tree_params \- initialize Merkle tree parameters
+.SH SYNOPSIS
+.B "int" fsverity_init_merkle_tree_params
+.BI "(struct merkle_tree_params *params "  ","
+.BI "const struct inode *inode "  ","
+.BI "unsigned int hash_algorithm "  ","
+.BI "unsigned int log_blocksize "  ","
+.BI "const u8 *salt "  ","
+.BI "size_t salt_size "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+the parameters struct to initialize
+.IP "inode" 12
+the inode for which the Merkle tree is being built
+.IP "hash_algorithm" 12
+number of hash algorithm to use
+.IP "log_blocksize" 12
+log base 2 of block size to use
+.IP "salt" 12
+pointer to salt (optional)
+.IP "salt_size" 12
+size of salt, possibly 0
+.SH "DESCRIPTION"
+Validate the hash algorithm and block size, then compute the tree topology
+(num levels, num blocks in each level, etc.) and initialize \fIparams\fP.
+.SH "RETURN"
+0 on success, -errno on failure

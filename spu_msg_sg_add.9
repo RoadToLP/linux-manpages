@@ -1,0 +1,33 @@
+.TH "spu_msg_sg_add" 9 "spu_msg_sg_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spu_msg_sg_add \- Copy scatterlist entries from one sg to another, up to a given length.
+.SH SYNOPSIS
+.B "u32" spu_msg_sg_add
+.BI "(struct scatterlist **to_sg "  ","
+.BI "struct scatterlist **from_sg "  ","
+.BI "u32 *from_skip "  ","
+.BI "u8 from_nents "  ","
+.BI "u32 length "  ");"
+.SH ARGUMENTS
+.IP "to_sg" 12
+scatterlist to copy to
+.IP "from_sg" 12
+scatterlist to copy from
+.IP "from_skip" 12
+number of bytes to skip in from_sg. Non-zero when previous
+request included part of the buffer in entry in from_sg.
+Assumes from_skip < from_sg->length.
+\fIfrom_nents\fP   number of entries in from_sg
+\fIlength\fP       number of bytes to copy. may reach this limit before exhausting
+from_sg.
+.IP "from_nents" 12
+-- undescribed --
+.IP "length" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Copies the entries themselves, not the data in the entries. Assumes to_sg has
+enough entries. Does not limit the size of an individual buffer in to_sg.
+
+to_sg, from_sg, skip are all updated to end of copy
+.SH "RETURN"
+Number of bytes copied

@@ -1,0 +1,13 @@
+.TH "pci_destroy_slot" 9 "pci_destroy_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_destroy_slot \- decrement refcount for physical PCI slot
+.SH SYNOPSIS
+.B "void" pci_destroy_slot
+.BI "(struct pci_slot *slot "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+struct pci_slot to decrement
+.SH "DESCRIPTION"
+struct pci_slot is refcounted, so destroying them is really easy; we
+just call kobject_put on its kobj and let our release methods do the
+rest.

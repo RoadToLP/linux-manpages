@@ -1,0 +1,29 @@
+.TH "of_pwm_get" 9 "of_pwm_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_pwm_get \- request a PWM via the PWM framework
+.SH SYNOPSIS
+.B "struct pwm_device *" of_pwm_get
+.BI "(struct device *dev "  ","
+.BI "struct device_node *np "  ","
+.BI "const char *con_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for PWM consumer
+.IP "np" 12
+device node to get the PWM from
+.IP "con_id" 12
+consumer name
+.SH "DESCRIPTION"
+Returns the PWM device parsed from the phandle and index specified in the
+"pwms" property of a device tree node or a negative error-code on failure.
+Values parsed from the device tree are stored in the returned PWM device
+object.
+
+If con_id is NULL, the first PWM device listed in the "pwms" property will
+be requested. Otherwise the "pwm-names" property is used to do a reverse
+lookup of the PWM index. This also means that the "pwm-names" property
+becomes mandatory for devices that look up the PWM device via the con_id
+parameter.
+.SH "RETURN"
+A pointer to the requested PWM device or an \fBERR_PTR\fP-encoded
+error code on failure.

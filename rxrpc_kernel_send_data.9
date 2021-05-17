@@ -1,0 +1,26 @@
+.TH "rxrpc_kernel_send_data" 9 "rxrpc_kernel_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rxrpc_kernel_send_data \- Allow a kernel service to send data on a call
+.SH SYNOPSIS
+.B "int" rxrpc_kernel_send_data
+.BI "(struct socket *sock "  ","
+.BI "struct rxrpc_call *call "  ","
+.BI "struct msghdr *msg "  ","
+.BI "size_t len "  ","
+.BI "rxrpc_notify_end_tx_t notify_end_tx "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+The socket the call is on
+.IP "call" 12
+The call to send data through
+.IP "msg" 12
+The data to send
+.IP "len" 12
+The amount of data to send
+.IP "notify_end_tx" 12
+Notification that the last packet is queued.
+.SH "DESCRIPTION"
+Allow a kernel service to send data on a call.  The call must be in an state
+appropriate to sending data.  No control data should be supplied in \fImsg\fP,
+nor should an address be supplied.  MSG_MORE should be flagged if there's
+more data to come, otherwise this data will end the transmission phase.

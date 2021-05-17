@@ -1,0 +1,16 @@
+.TH "cpuset_hotplug_update_tasks" 9 "cpuset_hotplug_update_tasks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuset_hotplug_update_tasks \- update tasks in a cpuset for hotunplug
+.SH SYNOPSIS
+.B "void" cpuset_hotplug_update_tasks
+.BI "(struct cpuset *cs "  ","
+.BI "struct tmpmasks *tmp "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+cpuset in interest
+.IP "tmp" 12
+the tmpmasks structure pointer
+.SH "DESCRIPTION"
+Compare \fIcs\fP's cpu and mem masks against top_cpuset and if some have gone
+offline, update \fIcs\fP accordingly.  If \fIcs\fP ends up with no CPU or memory,
+all its tasks are moved to the nearest ancestor with both resources.

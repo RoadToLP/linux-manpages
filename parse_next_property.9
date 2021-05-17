@@ -1,0 +1,25 @@
+.TH "parse_next_property" 9 "parse_next_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_next_property \- process the next property from raw input buffer
+.SH SYNOPSIS
+.B "char *" parse_next_property
+.BI "(char *buf "  ","
+.BI "char *end "  ","
+.BI "char **name "  ","
+.BI "int *length "  ","
+.BI "unsigned char **value "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+input buffer, must be nul-terminated
+.IP "end" 12
+end of the input buffer + 1, for validation
+.IP "name" 12
+return value; set to property name in buf
+.IP "length" 12
+return value; set to length of value
+.IP "value" 12
+return value; set to the property value in buf
+.SH "DESCRIPTION"
+Note that the caller must make copies of the name and value returned,
+this function does no allocation or copying of the data.  Return value
+is set to the next name in buf, or NULL on error.

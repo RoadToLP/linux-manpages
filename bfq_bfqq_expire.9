@@ -1,0 +1,37 @@
+.TH "bfq_bfqq_expire" 9 "bfq_bfqq_expire" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_bfqq_expire \- expire a queue.
+.SH SYNOPSIS
+.B "void" bfq_bfqq_expire
+.BI "(struct bfq_data *bfqd "  ","
+.BI "struct bfq_queue *bfqq "  ","
+.BI "bool compensate "  ","
+.BI "enum bfqq_expiration reason "  ");"
+.SH ARGUMENTS
+.IP "bfqd" 12
+device owning the queue.
+.IP "bfqq" 12
+the queue to expire.
+.IP "compensate" 12
+if true, compensate for the time spent idling.
+.IP "reason" 12
+the reason causing the expiration.
+.SH "DESCRIPTION"
+If the process associated with bfqq does slow I/O (e.g., because it
+issues random requests), we charge bfqq with the time it has been
+in service instead of the service it has received (see
+bfq_bfqq_charge_time for details on how this goal is achieved). As
+a consequence, bfqq will typically get higher timestamps upon
+reactivation, and hence it will be rescheduled as if it had
+received more service than what it has actually received. In the
+end, bfqq receives less service in proportion to how slowly its
+associated process consumes its budgets (and hence how seriously it
+tends to lower the throughput). In addition, this time-charging
+strategy guarantees time fairness among slow processes. In
+contrast, if the process associated with bfqq is not slow, we
+charge bfqq exactly with the service it has received.
+
+Charging time to the first type of queues and the exact service to
+the other has the effect of using the WF2Q+ policy to schedule the
+former on a timeslice basis, without violating service domain
+guarantees among the latter.

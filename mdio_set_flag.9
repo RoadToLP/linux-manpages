@@ -1,0 +1,27 @@
+.TH "mdio_set_flag" 9 "mdio_set_flag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mdio_set_flag \- set or clear flag in an MDIO register
+.SH SYNOPSIS
+.B "int" mdio_set_flag
+.BI "(const struct mdio_if_info *mdio "  ","
+.BI "int prtad "  ","
+.BI "int devad "  ","
+.BI "u16 addr "  ","
+.BI "int mask "  ","
+.BI "bool sense "  ");"
+.SH ARGUMENTS
+.IP "mdio" 12
+MDIO interface
+.IP "prtad" 12
+PHY address
+.IP "devad" 12
+MMD address
+.IP "addr" 12
+Register address
+.IP "mask" 12
+Mask for flag (single bit set)
+.IP "sense" 12
+New value of flag
+.SH "DESCRIPTION"
+This debounces changes: it does not write the register if the flag
+already has the proper value.  Returns 0 on success, negative on error.

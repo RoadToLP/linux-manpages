@@ -1,0 +1,20 @@
+.TH "scmi_process_event_header" 9 "scmi_process_event_header" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_process_event_header \- Dequeue and process an event header
+.SH SYNOPSIS
+.B "struct scmi_registered_event *" scmi_process_event_header
+.BI "(struct events_queue *eq "  ","
+.BI "struct scmi_registered_events_desc *pd "  ");"
+.SH ARGUMENTS
+.IP "eq" 12
+The queue to use
+.IP "pd" 12
+The protocol descriptor to use
+.SH "DESCRIPTION"
+Read an event header from the protocol queue into the dedicated scratch
+buffer and looks for a matching registered event; in case an anomalously
+sized read is detected just flush the queue.
+.SH "RETURN"
+* a reference to the matching registered event when found
+* ERR_PTR(-EINVAL) when NO registered event could be found
+* NULL when the queue is empty

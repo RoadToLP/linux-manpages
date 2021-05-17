@@ -1,0 +1,18 @@
+.TH "gmap_fault" 9 "gmap_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_fault \- resolve a fault on a guest address
+.SH SYNOPSIS
+.B "int" gmap_fault
+.BI "(struct gmap *gmap "  ","
+.BI "unsigned long gaddr "  ","
+.BI "unsigned int fault_flags "  ");"
+.SH ARGUMENTS
+.IP "gmap" 12
+pointer to guest mapping meta data structure
+.IP "gaddr" 12
+guest address
+.IP "fault_flags" 12
+flags to pass down to \fBhandle_mm_fault\fP
+.SH "DESCRIPTION"
+Returns 0 on success, -ENOMEM for out of memory conditions, and -EFAULT
+if the vm address is already mapped to a different guest segment.

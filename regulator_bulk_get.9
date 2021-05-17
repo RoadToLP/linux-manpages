@@ -1,0 +1,22 @@
+.TH "regulator_bulk_get" 9 "regulator_bulk_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_bulk_get \- get multiple regulator consumers
+.SH SYNOPSIS
+.B "int" regulator_bulk_get
+.BI "(struct device *dev "  ","
+.BI "int num_consumers "  ","
+.BI "struct regulator_bulk_data *consumers "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to supply
+.IP "num_consumers" 12
+Number of consumers to register
+.IP "consumers" 12
+Configuration of consumers; clients are stored here.
+.SH "DESCRIPTION"
+\fIreturn\fP 0 on success, an errno on failure.
+
+This helper function allows drivers to get several regulator
+consumers in one operation.  If any of the regulators cannot be
+acquired then any regulators that were allocated will be freed
+before returning to the caller.

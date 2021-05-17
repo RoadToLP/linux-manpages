@@ -1,0 +1,22 @@
+.TH "megaraid_sysfs_get_ldmap" 9 "megaraid_sysfs_get_ldmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_sysfs_get_ldmap \- get update logical drive map
+.SH SYNOPSIS
+.B "int" megaraid_sysfs_get_ldmap
+.BI "(adapter_t *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+controller's soft state
+.SH "DESCRIPTION"
+This routine will be called whenever user reads the logical drive
+attributes, go get the current logical drive mapping table from the
+firmware. We use the management API's to issue commands to the controller.
+
+Return 0 on success.
+Return -1 on failure.
+.SH "NOTE"
+The commands issuance functionality is not generalized and
+implemented in context of "get ld map" command only. If required, the
+command issuance logical can be trivially pulled out and implemented as a
+standalone library. For now, this should suffice since there is no other
+user of this interface.

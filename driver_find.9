@@ -1,0 +1,19 @@
+.TH "driver_find" 9 "driver_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+driver_find \- locate driver on a bus by its name.
+.SH SYNOPSIS
+.B "struct device_driver *" driver_find
+.BI "(const char *name "  ","
+.BI "struct bus_type *bus "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of the driver.
+.IP "bus" 12
+bus to scan for the driver.
+.SH "DESCRIPTION"
+Call \fBkset_find_obj\fP to iterate over list of drivers on
+a bus to find driver by name. Return driver if found.
+
+This routine provides no locking to prevent the driver it returns
+from being unregistered or unloaded while the caller is using it.
+The caller is responsible for preventing this.

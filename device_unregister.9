@@ -1,0 +1,16 @@
+.TH "device_unregister" 9 "device_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_unregister \- unregister device from system.
+.SH SYNOPSIS
+.B "void" device_unregister
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device going away.
+.SH "DESCRIPTION"
+We do this in two parts, like we do \fBdevice_register\fP. First,
+we remove it from all the subsystems with \fBdevice_del\fP, then
+we decrement the reference count via \fBput_device\fP. If that
+is the final reference count, the device will be cleaned up
+via \fBdevice_release\fP above. Otherwise, the structure will
+stick around until the final reference to the device is dropped.

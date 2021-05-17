@@ -1,0 +1,28 @@
+.TH "nand_read_data_op" 9 "nand_read_data_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_read_data_op \- Read data from the NAND
+.SH SYNOPSIS
+.B "int" nand_read_data_op
+.BI "(struct nand_chip *chip "  ","
+.BI "void *buf "  ","
+.BI "unsigned int len "  ","
+.BI "bool force_8bit "  ","
+.BI "bool check_only "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+The NAND chip
+.IP "buf" 12
+buffer used to store the data
+.IP "len" 12
+length of the buffer
+.IP "force_8bit" 12
+force 8-bit bus access
+.IP "check_only" 12
+do not actually run the command, only checks if the
+controller driver supports it
+.SH "DESCRIPTION"
+This function does a raw data read on the bus. Usually used after launching
+another NAND operation like \fBnand_read_page_op\fP.
+This function does not select/unselect the CS line.
+
+Returns 0 on success, a negative error code otherwise.

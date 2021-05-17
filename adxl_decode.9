@@ -1,0 +1,18 @@
+.TH "adxl_decode" 9 "adxl_decode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+adxl_decode \- ask BIOS to decode a system address to memory address
+.SH SYNOPSIS
+.B "int" adxl_decode
+.BI "(u64 addr "  ","
+.BI "u64 component_values[] "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+the address to decode
+.IP "component_values" 12
+pointer to array of values for each component
+Returns 0 on success, negative error code otherwise
+.SH "DESCRIPTION"
+The index of each value returned in the array matches the index of
+each component name returned by \fBadxl_get_component_names\fP.
+Components that are not defined for this address translation (e.g.
+mirror channel number for a non-mirrored address) are set to ~0ull.

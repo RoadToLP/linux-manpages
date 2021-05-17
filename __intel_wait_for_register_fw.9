@@ -1,0 +1,43 @@
+.TH "__intel_wait_for_register_fw" 9 "__intel_wait_for_register_fw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__intel_wait_for_register_fw \- wait until register matches expected state
+.SH SYNOPSIS
+.B "int" __intel_wait_for_register_fw
+.BI "(struct intel_uncore *uncore "  ","
+.BI "i915_reg_t reg "  ","
+.BI "u32 mask "  ","
+.BI "u32 value "  ","
+.BI "unsigned int fast_timeout_us "  ","
+.BI "unsigned int slow_timeout_ms "  ","
+.BI "u32 *out_value "  ");"
+.SH ARGUMENTS
+.IP "uncore" 12
+the struct intel_uncore
+.IP "reg" 12
+the register to read
+.IP "mask" 12
+mask to apply to register value
+.IP "value" 12
+expected value
+.IP "fast_timeout_us" 12
+fast timeout in microsecond for atomic/tight wait
+.IP "slow_timeout_ms" 12
+slow timeout in millisecond
+.IP "out_value" 12
+optional placeholder to hold registry value
+.SH "DESCRIPTION"
+This routine waits until the target register \fIreg\fP contains the expected
+\fIvalue\fP after applying the \fImask\fP, i.e. it waits until ::
+
+(intel_uncore_read_fw(uncore, reg) & mask) == value
+
+Otherwise, the wait will timeout after \fIslow_timeout_ms\fP milliseconds.
+For atomic context \fIslow_timeout_ms\fP must be zero and \fIfast_timeout_us\fP
+must be not larger than 20,0000 microseconds.
+
+Note that this routine assumes the caller holds forcewake asserted, it is
+not suitable for very long waits. See \fBintel_wait_for_register\fP if you
+wish to wait without holding forcewake for the duration (i.e. you expect
+the wait to be slow).
+.SH "RETURN"
+0 if the register matches the desired condition, or -ETIMEDOUT.

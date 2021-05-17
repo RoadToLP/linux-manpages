@@ -1,0 +1,36 @@
+.TH "asn1_ber_decoder" 9 "asn1_ber_decoder" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asn1_ber_decoder \- Decoder BER/DER/CER ASN.1 according to pattern
+.SH SYNOPSIS
+.B "int" asn1_ber_decoder
+.BI "(const struct asn1_decoder *decoder "  ","
+.BI "void *context "  ","
+.BI "const unsigned char *data "  ","
+.BI "size_t datalen "  ");"
+.SH ARGUMENTS
+.IP "decoder" 12
+The decoder definition (produced by asn1_compiler)
+.IP "context" 12
+The caller's context (to be passed to the action functions)
+.IP "data" 12
+The encoded data
+.IP "datalen" 12
+The size of the encoded data
+.SH "DESCRIPTION"
+Decode BER/DER/CER encoded ASN.1 data according to a bytecode pattern
+produced by asn1_compiler.  Action functions are called on marked tags to
+allow the caller to retrieve significant data.
+
+LIMITATIONS:
+
+To keep down the amount of stack used by this function, the following limits
+have been imposed:
+
+(1) This won't handle datalen > 65535 without increasing the size of the
+cons stack elements and length_too_long checking.
+
+(2) The stack of constructed types is 10 deep.  If the depth of non-leaf
+constructed types exceeds this, the decode will fail.
+
+(3) The SET type (not the SET OF type) isn't really supported as tracking
+what members of the set have been seen is a pain.

@@ -1,0 +1,40 @@
+.TH "write_mft_record_nolock" 9 "write_mft_record_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_mft_record_nolock \- write out a mapped (extent) mft record
+.SH SYNOPSIS
+.B "int" write_mft_record_nolock
+.BI "(ntfs_inode *ni "  ","
+.BI "MFT_RECORD *m "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode describing the mapped (extent) mft record
+.IP "m" 12
+mapped (extent) mft record to write
+.IP "sync" 12
+if true, wait for i/o completion
+.SH "DESCRIPTION"
+Write the mapped (extent) mft record \fIm\fP described by the (regular or extent)
+ntfs inode \fIni\fP to backing store.  If the mft record \fIm\fP has a counterpart in
+the mft mirror, that is also updated.
+
+We only write the mft record if the ntfs inode \fIni\fP is dirty and the first
+buffer belonging to its mft record is dirty, too.  We ignore the dirty state
+of subsequent buffers because we could have raced with
+fs/ntfs/aops.c::\fBmark_ntfs_record_dirty\fP.
+
+On success, clean the mft record and return 0.  On error, leave the mft
+record dirty and return -errno.
+
+TODO:  If \fIsync\fP is false, want to do truly asynchronous i/o, i.e. just
+schedule i/o via ->writepage or do it via kntfsd or whatever.
+.SH "NOTE"
+We always perform synchronous i/o and ignore the \fIsync\fP parameter.
+However, if the mft record has a counterpart in the mft mirror and \fIsync\fP is
+true, we write the mft record, wait for i/o completion, and only then write
+the mft mirror copy.  This ensures that if the system crashes either the mft
+or the mft mirror will contain a self-consistent mft record \fIm\fP.  If \fIsync\fP is
+false on the other hand, we start i/o on both and then wait for completion
+on them.  This provides a speedup but no longer guarantees that you will end
+up with a self-consistent mft record in the case of a crash but if you asked
+for asynchronous writing you probably do not care about that anyway.

@@ -1,0 +1,17 @@
+.TH "drm_bridge_hpd_disable" 9 "drm_bridge_hpd_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_hpd_disable \- disable hot plug detection for the bridge
+.SH SYNOPSIS
+.B "void" drm_bridge_hpd_disable
+.BI "(struct drm_bridge *bridge "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.SH "DESCRIPTION"
+Call \fIdrm_bridge_funcs.hpd_disable\fP if implemented and unregister the hot
+plug detection callback previously registered with \fBdrm_bridge_hpd_enable\fP.
+Once this function returns the callback will not be called by the bridge
+when an output status change occurs.
+
+Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
+bridge->ops. This function shall not be called when the flag is not set.

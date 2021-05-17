@@ -1,0 +1,20 @@
+.TH "dev_pm_genpd_set_performance_state" 9 "dev_pm_genpd_set_performance_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_genpd_set_performance_state \- Set performance state of device's power domain.
+.SH SYNOPSIS
+.B "int" dev_pm_genpd_set_performance_state
+.BI "(struct device *dev "  ","
+.BI "unsigned int state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which the performance-state needs to be set.
+.IP "state" 12
+Target performance state of the device. This can be set as 0 when the
+device doesn't have any performance state constraints left (And so
+the device wouldn't participate anymore to find the target
+performance state of the genpd).
+.SH "DESCRIPTION"
+It is assumed that the users guarantee that the genpd wouldn't be detached
+while this routine is getting called.
+
+Returns 0 on success and negative error values on failures.

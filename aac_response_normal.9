@@ -1,0 +1,14 @@
+.TH "aac_response_normal" 9 "aac_response_normal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aac_response_normal \- Handle command replies
+.SH SYNOPSIS
+.B "unsigned int" aac_response_normal
+.BI "(struct aac_queue * q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+Queue to read from
+
+This DPC routine will be run when the adapter interrupts us to let us
+know there is a response on our normal priority queue. We will pull off
+all QE there are and wake up all the waiters before exiting. We will
+take a spinlock out on the queue before operating on it.

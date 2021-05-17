@@ -1,0 +1,19 @@
+.TH "ice_conv_link_speed_to_virtchnl" 9 "ice_conv_link_speed_to_virtchnl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_conv_link_speed_to_virtchnl \- 
+.SH SYNOPSIS
+.B "u32" ice_conv_link_speed_to_virtchnl
+.BI "(bool adv_link_support "  ","
+.BI "u16 link_speed "  ");"
+.SH ARGUMENTS
+.IP "adv_link_support" 12
+determines the format of the returned link speed
+.IP "link_speed" 12
+variable containing the link_speed to be converted
+.SH "DESCRIPTION"
+Convert link speed supported by HW to link speed supported by virtchnl.
+If adv_link_support is true, then return link speed in Mbps. Else return
+link speed as a VIRTCHNL_LINK_SPEED_* casted to a u32. Note that the caller
+needs to cast back to an enum virtchnl_link_speed in the case where
+adv_link_support is false, but when adv_link_support is true the caller can
+expect the speed in Mbps.

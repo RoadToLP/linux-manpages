@@ -1,0 +1,23 @@
+.TH "fcoe_oem_match" 9 "fcoe_oem_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_oem_match \- The match routine for the offloaded exchange manager
+.SH SYNOPSIS
+.B "bool" fcoe_oem_match
+.BI "(struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "fp" 12
+The I/O frame
+.SH "DESCRIPTION"
+This routine will be associated with an exchange manager (EM). When
+the libfc exchange handling code is looking for an EM to use it will
+call this routine and pass it the frame that it wishes to send. This
+routine will return True if the associated EM is to be used and False
+if the echange code should continue looking for an EM.
+
+The offload EM that this routine is associated with will handle any
+packets that are for SCSI read requests.
+
+This has been enhanced to work when FCoE stack is operating in target
+mode.
+.SH "RETURN"
+True for read types I/O, otherwise returns false.

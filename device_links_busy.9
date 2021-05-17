@@ -1,0 +1,19 @@
+.TH "device_links_busy" 9 "device_links_busy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_links_busy \- Check if there are any busy links to consumers.
+.SH SYNOPSIS
+.B "bool" device_links_busy
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to check.
+.SH "DESCRIPTION"
+Check each consumer of the device and return 'true' if its link's status
+is one of "consumer probe" or "active" (meaning that the given consumer is
+probing right now or its driver is present).  Otherwise, change the link
+state to "supplier unbind" to prevent the consumer from being probed
+successfully going forward.
+
+Return 'false' if there are no probing or active consumers.
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

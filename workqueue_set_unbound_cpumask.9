@@ -1,0 +1,17 @@
+.TH "workqueue_set_unbound_cpumask" 9 "workqueue_set_unbound_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+workqueue_set_unbound_cpumask \- Set the low-level unbound cpumask
+.SH SYNOPSIS
+.B "int" workqueue_set_unbound_cpumask
+.BI "(cpumask_var_t cpumask "  ");"
+.SH ARGUMENTS
+.IP "cpumask" 12
+the cpumask to set
+
+The low-level workqueues cpumask is a global cpumask that limits
+the affinity of all unbound workqueues.  This function check the \fIcpumask\fP
+and apply it to all unbound workqueues and updates all pwqs of them.
+
+Retun:      0       - Success
+-EINVAL - Invalid \fIcpumask\fP
+-ENOMEM - Failed to allocate memory for attrs or pwqs.

@@ -1,0 +1,23 @@
+.TH "simple_get_link" 9 "simple_get_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_get_link \- generic helper to get the target of "fast" symlinks
+.SH SYNOPSIS
+.B "const char *" simple_get_link
+.BI "(struct dentry *dentry "  ","
+.BI "struct inode *inode "  ","
+.BI "struct delayed_call *done "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+not used here
+.IP "inode" 12
+the symlink inode
+.IP "done" 12
+not used here
+.SH "DESCRIPTION"
+Generic helper for filesystems to use for symlink inodes where a pointer to
+the symlink target is stored in ->i_link.  NOTE: this isn't normally called,
+since as an optimization the path lookup code uses any non-NULL ->i_link
+directly, without calling ->\fBget_link\fP.  But ->\fBget_link\fP still must be set,
+to mark the inode_operations as being for a symlink.
+.SH "RETURN"
+the symlink target

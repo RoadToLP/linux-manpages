@@ -1,0 +1,21 @@
+.TH "cp_update_scsw" 9 "cp_update_scsw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cp_update_scsw \- update scsw for a channel program.
+.SH SYNOPSIS
+.B "void" cp_update_scsw
+.BI "(struct channel_program *cp "  ","
+.BI "union scsw *scsw "  ");"
+.SH ARGUMENTS
+.IP "cp" 12
+channel_program on which to perform the operation
+.IP "scsw" 12
+I/O results of the channel program and also the target to be
+updated
+.SH "DESCRIPTION"
+\fIscsw\fP contains the I/O results of the channel program that pointed
+to by \fIcp\fP. However what \fIscsw->cpa\fP stores is a host physical
+address, which is meaningless for the guest, which is waiting for
+the I/O results.
+
+This function updates \fIscsw->cpa\fP to its coressponding guest physical
+address.

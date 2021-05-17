@@ -1,0 +1,17 @@
+.TH "ice_vsi_ctrl_all_rx_rings" 9 "ice_vsi_ctrl_all_rx_rings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_vsi_ctrl_all_rx_rings \- Start or stop a VSI's Rx rings
+.SH SYNOPSIS
+.B "int" ice_vsi_ctrl_all_rx_rings
+.BI "(struct ice_vsi *vsi "  ","
+.BI "bool ena "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the VSI being configured
+.IP "ena" 12
+start or stop the Rx rings
+.SH "DESCRIPTION"
+First enable/disable all of the Rx rings, flush any remaining writes, and
+then verify that they have all been enabled/disabled successfully. This will
+let all of the register writes complete when enabling/disabling the Rx rings
+before waiting for the change in hardware to complete.

@@ -1,0 +1,26 @@
+.TH "idr_for_each" 9 "idr_for_each" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_for_each \- Iterate through all stored pointers.
+.SH SYNOPSIS
+.B "int" idr_for_each
+.BI "(const struct idr *idr "  ","
+.BI "int (*fn)(int id, void *p, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "fn" 12
+Function to be called for each pointer.
+.IP "data" 12
+Data passed to callback function.
+.SH "DESCRIPTION"
+The callback function will be called for each entry in \fIidr\fP, passing
+the ID, the entry and \fIdata\fP.
+
+If \fIfn\fP returns anything other than 0, the iteration stops and that
+value is returned from this function.
+
+\fBidr_for_each\fP can be called concurrently with \fBidr_alloc\fP and
+\fBidr_remove\fP if protected by RCU.  Newly added entries may not be
+seen and deleted entries may be seen, but adding and removing entries
+will not cause other entries to be skipped, nor spurious ones to be seen.

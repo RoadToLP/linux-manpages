@@ -1,0 +1,19 @@
+.TH "ext2_free_data" 9 "ext2_free_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_free_data \- free a list of data blocks
+.SH SYNOPSIS
+.B "void" ext2_free_data
+.BI "(struct inode *inode "  ","
+.BI "__le32 *p "  ","
+.BI "__le32 *q "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode we are dealing with
+.IP "p" 12
+array of block numbers
+.IP "q" 12
+points immediately past the end of array
+
+We are freeing all blocks referred from that array (numbers are
+stored as little-endian 32-bit) and updating \fIinode->i_blocks\fP
+appropriately.

@@ -1,0 +1,45 @@
+.TH "program_rcvarray" 9 "program_rcvarray" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+program_rcvarray \- program an RcvArray group with receive buffers
+.SH SYNOPSIS
+.B "int" program_rcvarray
+.BI "(struct hfi1_filedata *fd "  ","
+.BI "struct tid_user_buf *tbuf "  ","
+.BI "struct tid_group *grp "  ","
+.BI "unsigned int start "  ","
+.BI "u16 count "  ","
+.BI "u32 *tidlist "  ","
+.BI "unsigned int *tididx "  ","
+.BI "unsigned int *pmapped "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+filedata pointer
+.IP "tbuf" 12
+pointer to struct tid_user_buf that has the user buffer starting
+virtual address, buffer length, page pointers, pagesets (array of
+struct tid_pageset holding information on physically contiguous
+chunks from the user buffer), and other fields.
+.IP "grp" 12
+RcvArray group
+.IP "start" 12
+starting index into sets array
+.IP "count" 12
+number of struct tid_pageset's to program
+.IP "tidlist" 12
+the array of u32 elements when the information about the
+programmed RcvArray entries is to be encoded.
+.IP "tididx" 12
+starting offset into tidlist
+.IP "pmapped" 12
+(output parameter) number of pages programmed into the RcvArray
+entries.
+.SH "DESCRIPTION"
+This function will program up to 'count' number of RcvArray entries from the
+group 'grp'. To make best use of write-combining writes, the function will
+perform writes to the unused RcvArray entries which will be ignored by the
+HW. Each RcvArray entry will be programmed with a physically contiguous
+buffer chunk from the user's virtual buffer.
+.SH "RETURN"
+-EINVAL if the requested count is larger than the size of the group,
+-ENOMEM or -EFAULT on error from \fBset_rcvarray_entry\fP, or
+number of RcvArray entries programmed.

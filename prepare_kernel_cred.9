@@ -1,0 +1,21 @@
+.TH "prepare_kernel_cred" 9 "prepare_kernel_cred" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_kernel_cred \- Prepare a set of credentials for a kernel service
+.SH SYNOPSIS
+.B "struct cred *" prepare_kernel_cred
+.BI "(struct task_struct *daemon "  ");"
+.SH ARGUMENTS
+.IP "daemon" 12
+A userspace daemon to be used as a reference
+.SH "DESCRIPTION"
+Prepare a set of credentials for a kernel service.  This can then be used to
+override a task's own credentials so that work can be done on behalf of that
+task that requires a different subjective context.
+
+\fIdaemon\fP is used to provide a base for the security record, but can be NULL.
+If \fIdaemon\fP is supplied, then the security data will be derived from that;
+otherwise they'll be set to 0 and no groups, full capabilities and no keys.
+
+The caller may change these controls afterwards if desired.
+
+Returns the new credentials or NULL if out of memory.

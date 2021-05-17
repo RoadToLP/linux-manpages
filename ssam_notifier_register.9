@@ -1,0 +1,23 @@
+.TH "ssam_notifier_register" 9 "ssam_notifier_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_notifier_register \- Register an event notifier.
+.SH SYNOPSIS
+.B "int" ssam_notifier_register
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "struct ssam_event_notifier *n "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller to register the notifier on.
+.IP "n" 12
+The event notifier to register.
+.SH "DESCRIPTION"
+Register an event notifier and increment the usage counter of the
+associated SAM event. If the event was previously not enabled, it will be
+enabled during this call.
+.SH "RETURN"
+Returns zero on success, -ENOSPC if there have already been
+INT_MAX notifiers for the event ID/type associated with the notifier block
+registered, -ENOMEM if the corresponding event entry could not be
+allocated. If this is the first time that a notifier block is registered
+for the specific associated event, returns the status of the event-enable
+EC-command.

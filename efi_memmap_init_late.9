@@ -1,0 +1,30 @@
+.TH "efi_memmap_init_late" 9 "efi_memmap_init_late" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_memmap_init_late \- Map efi.memmap with memremap()
+.SH SYNOPSIS
+.B "int" efi_memmap_init_late
+.BI "(phys_addr_t addr "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+-- undescribed --
+.IP "size" 12
+Size in bytes of the new EFI memory map
+.SH "DESCRIPTION"
+Setup a mapping of the EFI memory map using \fBioremap_cache\fP. This
+function should only be called once the vmalloc space has been
+setup and is therefore not suitable for calling during early EFI
+initialise, e.g. in \fBefi_init\fP. Additionally, it expects
+\fBefi_memmap_init_early\fP to have already been called.
+
+The reason there are two EFI memmap initialisation
+(\fBefi_memmap_init_early\fP and this late version) is because the
+early EFI memmap should be explicitly unmapped once EFI
+initialisation is complete as the fixmap space used to map the EFI
+memmap (via \fBearly_memremap\fP) is a scarce resource.
+
+This late mapping is intended to persist for the duration of
+runtime so that things like \fBefi_mem_desc_lookup\fP and
+\fBefi_mem_attributes\fP always work.
+
+Returns zero on success, a negative error code on failure.

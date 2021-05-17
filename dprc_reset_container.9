@@ -1,0 +1,42 @@
+.TH "dprc_reset_container" 9 "dprc_reset_container" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dprc_reset_container \- Reset child container.
+.SH SYNOPSIS
+.B "int" dprc_reset_container
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "int child_container_id "  ","
+.BI "u32 options "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPRC object
+.IP "child_container_id" 12
+ID of the container to reset
+.IP "options" 12
+32 bit options:
+- 0 (no bits set) - all the objects inside the container are
+reset. The child containers are entered recursively and the
+objects reset. All the objects (including the child containers)
+are closed.
+- bit 0 set - all the objects inside the container are reset.
+However the child containers are not entered recursively.
+This option is supported for API versions >= 6.5
+In case a software context crashes or becomes non-responsive, the parent
+may wish to reset its resources container before the software context is
+restarted.
+.SH "DESCRIPTION"
+This routine informs all objects assigned to the child container that the
+container is being reset, so they may perform any cleanup operations that are
+needed. All objects handles that were owned by the child container shall be
+closed.
+
+Note that such request may be submitted even if the child software context
+has not crashed, but the resulting object cleanup operations will not be
+aware of that.
+.SH "RETURN"
+'0' on Success; Error code otherwise.

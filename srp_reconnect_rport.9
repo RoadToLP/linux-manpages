@@ -1,0 +1,26 @@
+.TH "srp_reconnect_rport" 9 "srp_reconnect_rport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_reconnect_rport \- reconnect to an SRP target port
+.SH SYNOPSIS
+.B "int" srp_reconnect_rport
+.BI "(struct srp_rport *rport "  ");"
+.SH ARGUMENTS
+.IP "rport" 12
+SRP target port.
+.SH "DESCRIPTION"
+Blocks SCSI command queueing before invoking \fBreconnect\fP such that
+\fBqueuecommand\fP won't be invoked concurrently with \fBreconnect\fP from outside
+the SCSI EH. This is important since a \fBreconnect\fP implementation may
+reallocate resources needed by \fBqueuecommand\fP.
+.SH "NOTES"
+- This function neither waits until outstanding requests have finished nor
+tries to abort these. It is the responsibility of the \fBreconnect\fP
+function to finish outstanding commands before reconnecting to the target
+port.
+- It is the responsibility of the caller to ensure that the resources
+reallocated by the \fBreconnect\fP function won't be used while this function
+is in progress. One possible strategy is to invoke this function from
+the context of the SCSI EH thread only. Another possible strategy is to
+lock the rport mutex inside each SCSI LLD callback that can be invoked by
+the SCSI EH (the scsi_host_template.eh_*() functions and also the
+scsi_host_template.\fBqueuecommand\fP function).

@@ -1,0 +1,28 @@
+.TH "nsm_get_handle" 9 "nsm_get_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nsm_get_handle \- Find or create a cached nsm_handle
+.SH SYNOPSIS
+.B "struct nsm_handle *" nsm_get_handle
+.BI "(const struct net *net "  ","
+.BI "const struct sockaddr *sap "  ","
+.BI "const size_t salen "  ","
+.BI "const char *hostname "  ","
+.BI "const size_t hostname_len "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+network namespace
+.IP "sap" 12
+pointer to socket address of handle to find
+.IP "salen" 12
+length of socket address
+.IP "hostname" 12
+pointer to C string containing hostname to find
+.IP "hostname_len" 12
+length of C string
+.SH "DESCRIPTION"
+Behavior is modulated by the global nsm_use_hostnames variable.
+
+Returns a cached nsm_handle after bumping its ref count, or
+returns a fresh nsm_handle if a handle that matches \fIsap\fP and/or
+\fIhostname\fP cannot be found in the handle cache.  Returns NULL if
+an error occurs.

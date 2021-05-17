@@ -1,0 +1,32 @@
+.TH "get_eff_addr_modrm_16" 9 "get_eff_addr_modrm_16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_eff_addr_modrm_16 \- Obtain referenced effective address via ModRM
+.SH SYNOPSIS
+.B "int" get_eff_addr_modrm_16
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int *regoff "  ","
+.BI "short *eff_addr "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction. Must be valid.
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "regoff" 12
+Obtained operand offset, in pt_regs, associated with segment
+.IP "eff_addr" 12
+Obtained effective address
+.SH "DESCRIPTION"
+Obtain the 16-bit effective address referenced by the ModRM byte of \fIinsn\fP.
+After identifying the registers involved in the register-indirect memory
+reference, its value is obtained from the operands in \fIregs\fP. The computed
+address is stored \fIeff_addr\fP. Also, the register operand that indicates
+the associated segment is stored in \fIregoff\fP, this parameter can later be used
+to determine such segment.
+
+0 on success. \fIeff_addr\fP will have the referenced effective address. \fIregoff\fP
+will have a register, as an offset from the base of pt_regs, that can be used
+to resolve the associated segment.
+
+-EINVAL on error.
+.SH "RETURN"

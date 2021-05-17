@@ -1,0 +1,21 @@
+.TH "ubifs_get_free_space_nolock" 9 "ubifs_get_free_space_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_get_free_space_nolock \- return amount of free space.
+.SH SYNOPSIS
+.B "long long" ubifs_get_free_space_nolock
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function calculates amount of free space to report to user-space.
+
+Because UBIFS may introduce substantial overhead (the index, node headers,
+alignment, wastage at the end of LEBs, etc), it cannot report real amount of
+free flash space it has (well, because not all dirty space is reclaimable,
+UBIFS does not actually know the real amount). If UBIFS did so, it would
+bread user expectations about what free space is. Users seem to accustomed
+to assume that if the file-system reports N bytes of free space, they would
+be able to fit a file of N bytes to the FS. This almost works for
+traditional file-systems, because they have way less overhead than UBIFS.
+So, to keep users happy, UBIFS tries to take the overhead into account.

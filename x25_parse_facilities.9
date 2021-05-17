@@ -1,0 +1,23 @@
+.TH "x25_parse_facilities" 9 "x25_parse_facilities" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+x25_parse_facilities \- Parse facilities from skb into the facilities structs
+.SH SYNOPSIS
+.B "int" x25_parse_facilities
+.BI "(struct sk_buff *skb "  ","
+.BI "struct x25_facilities *facilities "  ","
+.BI "struct x25_dte_facilities *dte_facs "  ","
+.BI "unsigned long *vc_fac_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+sk_buff to parse
+.IP "facilities" 12
+Regular facilities, updated as facilities are found
+.IP "dte_facs" 12
+ITU DTE facilities, updated as DTE facilities are found
+.IP "vc_fac_mask" 12
+mask is updated with all facilities found
+.SH "DESCRIPTION"
+Return codes:
+-1 - Parsing error, caller should drop call and clean up
+0 - Parse OK, this skb has no facilities
+>0 - Parse OK, returns the length of the facilities header

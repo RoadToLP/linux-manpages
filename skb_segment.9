@@ -1,0 +1,16 @@
+.TH "skb_segment" 9 "skb_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_segment \- Perform protocol segmentation on skb.
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_segment
+.BI "(struct sk_buff *head_skb "  ","
+.BI "netdev_features_t features "  ");"
+.SH ARGUMENTS
+.IP "head_skb" 12
+buffer to segment
+.IP "features" 12
+features for the output path (see dev->features)
+
+This function performs segmentation on the given skb.  It returns
+a pointer to the first in a list of new skbs for the segments.
+In case of error it returns ERR_PTR(err).

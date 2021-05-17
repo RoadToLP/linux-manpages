@@ -1,0 +1,25 @@
+.TH "ext4_trim_extent" 9 "ext4_trim_extent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_trim_extent \- - function to TRIM one single free extent in the group
+.SH SYNOPSIS
+.B "int" ext4_trim_extent
+.BI "(struct super_block *sb "  ","
+.BI "int start "  ","
+.BI "int count "  ","
+.BI "ext4_group_t group "  ","
+.BI "struct ext4_buddy *e4b "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block for the file system
+.IP "start" 12
+starting block of the free extent in the alloc. group
+.IP "count" 12
+number of blocks to TRIM
+.IP "group" 12
+alloc. group we are working with
+.IP "e4b" 12
+ext4 buddy for the group
+.SH "DESCRIPTION"
+Trim "count" blocks starting at "start" in the "group". To assure that no
+one will allocate those blocks, mark it as used in buddy bitmap. This must
+be called with under the group lock.

@@ -1,0 +1,44 @@
+.TH "rvt_process_mad" 9 "rvt_process_mad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_process_mad \- process an incoming MAD packet
+.SH SYNOPSIS
+.B "int" rvt_process_mad
+.BI "(struct ib_device *ibdev "  ","
+.BI "int mad_flags "  ","
+.BI "u8 port_num "  ","
+.BI "const struct ib_wc *in_wc "  ","
+.BI "const struct ib_grh *in_grh "  ","
+.BI "const struct ib_mad_hdr *in "  ","
+.BI "size_t in_mad_size "  ","
+.BI "struct ib_mad_hdr *out "  ","
+.BI "size_t *out_mad_size "  ","
+.BI "u16 *out_mad_pkey_index "  ");"
+.SH ARGUMENTS
+.IP "ibdev" 12
+the infiniband device this packet came in on
+.IP "mad_flags" 12
+MAD flags
+.IP "port_num" 12
+the port number this packet came in on, 1 based from ib core
+.IP "in_wc" 12
+the work completion entry for this packet
+.IP "in_grh" 12
+the global route header for this packet
+.IP "in" 12
+the incoming MAD
+.IP "in_mad_size" 12
+size of the incoming MAD reply
+.IP "out" 12
+any outgoing MAD reply
+.IP "out_mad_size" 12
+size of the outgoing MAD reply
+.IP "out_mad_pkey_index" 12
+unused
+.SH "DESCRIPTION"
+Note that the verbs framework has already done the MAD sanity checks,
+and hop count/pointer updating for IB_MGMT_CLASS_SUBN_DIRECTED_ROUTE
+MADs.
+
+This is called by the ib_mad module.
+.SH "RETURN"
+IB_MAD_RESULT_SUCCESS or error

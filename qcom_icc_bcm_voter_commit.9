@@ -1,0 +1,17 @@
+.TH "qcom_icc_bcm_voter_commit" 9 "qcom_icc_bcm_voter_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_icc_bcm_voter_commit \- generates and commits tcs cmds based on bcms
+.SH SYNOPSIS
+.B "int" qcom_icc_bcm_voter_commit
+.BI "(struct bcm_voter *voter "  ");"
+.SH ARGUMENTS
+.IP "voter" 12
+voter that needs flushing
+.SH "DESCRIPTION"
+This function generates a set of AMC commands and flushes to the BCM device
+associated with the voter. It conditionally generate WAKE and SLEEP commands
+based on deltas between WAKE/SLEEP requirements. The ws_list persists
+through multiple commit requests and bcm nodes are removed only when the
+requirements for WAKE matches SLEEP.
+
+Returns 0 on success, or an appropriate error code otherwise.

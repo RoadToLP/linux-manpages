@@ -1,0 +1,28 @@
+.TH "aa_change_hat" 9 "aa_change_hat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_change_hat \- change hat to/from subprofile
+.SH SYNOPSIS
+.B "int" aa_change_hat
+.BI "(const char *hats[] "  ","
+.BI "int count "  ","
+.BI "u64 token "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "hats" 12
+vector of hat names to try changing into (MAYBE NULL if \fIcount\fP == 0)
+.IP "count" 12
+number of hat names in \fIhats\fP
+.IP "token" 12
+magic value to validate the hat change
+.IP "flags" 12
+flags affecting behavior of the change
+.SH "DESCRIPTION"
+Returns 0 on success, error otherwise.
+
+Change to the first profile specified in \fIhats\fP that exists, and store
+the \fIhat_magic\fP in the current task context.  If the count == 0 and the
+\fItoken\fP matches that stored in the current task context, return to the
+top level profile.
+
+change_hat only applies to profiles in the current ns, and each profile
+in the ns must make the same transition otherwise change_hat will fail.

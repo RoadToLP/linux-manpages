@@ -1,0 +1,19 @@
+.TH "percpu_ref_resurrect" 9 "percpu_ref_resurrect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_resurrect \- modify a percpu refcount from dead to live
+.SH SYNOPSIS
+.B "void" percpu_ref_resurrect
+.BI "(struct percpu_ref *ref "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+perpcu_ref to resurrect
+.SH "DESCRIPTION"
+Modify \fIref\fP so that it's in the same state as before \fBpercpu_ref_kill\fP was
+called. \fIref\fP must be dead but must not yet have exited.
+
+If \fIref\fP->\fBrelease\fP frees \fIref\fP then the caller is responsible for
+guaranteeing that \fIref\fP->\fBrelease\fP does not get called while this
+function is in progress.
+
+Note that percpu_ref_tryget[_live]() are safe to perform on \fIref\fP while
+this function is in progress.

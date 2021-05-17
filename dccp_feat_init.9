@@ -1,0 +1,17 @@
+.TH "dccp_feat_init" 9 "dccp_feat_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_feat_init \- Seed feature negotiation with host-specific defaults
+.SH SYNOPSIS
+.B "int" dccp_feat_init
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+Socket to initialize.
+.SH "DESCRIPTION"
+This initialises global defaults, depending on the value of the sysctls.
+These can later be overridden by registering changes via setsockopt calls.
+The last link in the chain is finalise_settings, to make sure that between
+here and the start of actual feature negotiation no inconsistencies enter.
+
+All features not appearing below use either defaults or are otherwise
+later adjusted through \fBdccp_feat_finalise_settings\fP.

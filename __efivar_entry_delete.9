@@ -1,0 +1,20 @@
+.TH "__efivar_entry_delete" 9 "__efivar_entry_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__efivar_entry_delete \- delete an EFI variable
+.SH SYNOPSIS
+.B "int" __efivar_entry_delete
+.BI "(struct efivar_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+entry containing EFI variable to delete
+.SH "DESCRIPTION"
+Delete the variable from the firmware but leave \fIentry\fP on the
+variable list.
+
+This function differs from \fBefivar_entry_delete\fP because it does
+not remove \fIentry\fP from the variable list. Also, it is safe to be
+called from within a \fBefivar_entry_iter_begin\fP and
+\fBefivar_entry_iter_end\fP region, unlike \fBefivar_entry_delete\fP.
+
+Returns 0 on success, or a converted EFI status code if
+\fBset_variable\fP fails.

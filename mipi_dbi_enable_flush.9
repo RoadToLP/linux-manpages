@@ -1,0 +1,22 @@
+.TH "mipi_dbi_enable_flush" 9 "mipi_dbi_enable_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mipi_dbi_enable_flush \- MIPI DBI enable helper
+.SH SYNOPSIS
+.B "void" mipi_dbi_enable_flush
+.BI "(struct mipi_dbi_dev *dbidev "  ","
+.BI "struct drm_crtc_state *crtc_state "  ","
+.BI "struct drm_plane_state *plane_state "  ");"
+.SH ARGUMENTS
+.IP "dbidev" 12
+MIPI DBI device structure
+.IP "crtc_state" 12
+CRTC state
+.IP "plane_state" 12
+Plane state
+.SH "DESCRIPTION"
+Flushes the whole framebuffer and enables the backlight. Drivers can use this
+in their \fIdrm_simple_display_pipe_funcs->enable\fP callback.
+.SH "NOTE"
+Drivers which don't use \fBmipi_dbi_pipe_update\fP because they have custom
+framebuffer flushing, can't use this function since they both use the same
+flushing code.

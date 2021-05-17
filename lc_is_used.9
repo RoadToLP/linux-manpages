@@ -1,0 +1,17 @@
+.TH "lc_is_used" 9 "lc_is_used" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lc_is_used \- find element by label
+.SH SYNOPSIS
+.B "bool" lc_is_used
+.BI "(struct lru_cache *lc "  ","
+.BI "unsigned int enr "  ");"
+.SH ARGUMENTS
+.IP "lc" 12
+The lru_cache object
+.IP "enr" 12
+element number
+.SH "DESCRIPTION"
+Returns true, if the element with the requested "label" or element number is
+present in the hash table, and is used (refcnt > 0).
+Also finds elements that are not _currently_ used but only "about to be
+used", i.e. on the "to_be_changed" list, pending transaction commit.

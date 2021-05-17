@@ -1,0 +1,24 @@
+.TH "vm_iomap_memory" 9 "vm_iomap_memory" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_iomap_memory \- remap memory to userspace
+.SH SYNOPSIS
+.B "int" vm_iomap_memory
+.BI "(struct vm_area_struct *vma "  ","
+.BI "phys_addr_t start "  ","
+.BI "unsigned long len "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "start" 12
+start of the physical memory to be mapped
+.IP "len" 12
+size of area
+.SH "DESCRIPTION"
+This is a simplified \fBio_remap_pfn_range\fP for common driver use. The
+driver just needs to give us the physical memory range to be mapped,
+we'll figure out the rest from the vma information.
+
+NOTE! Some drivers might want to tweak vma->vm_page_prot first to get
+whatever write-combining details or similar.
+.SH "RETURN"
+0 on success, negative error code otherwise.

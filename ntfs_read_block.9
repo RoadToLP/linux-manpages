@@ -1,0 +1,22 @@
+.TH "ntfs_read_block" 9 "ntfs_read_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_block \- fill a @page of an address space with data
+.SH SYNOPSIS
+.B "int" ntfs_read_block
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page cache page to fill with data
+.SH "DESCRIPTION"
+Fill the page \fIpage\fP of the address space belonging to the \fIpage->host\fP inode.
+We read each buffer asynchronously and when all buffers are read in, our io
+completion handler \fBntfs_end_buffer_read_async\fP, if required, automatically
+applies the mst fixups to the page before finally marking it uptodate and
+unlocking it.
+
+We only enforce allocated_size limit because i_size is checked for in
+\fBgeneric_file_read\fP.
+
+Return 0 on success and -errno on error.
+
+Contains an adapted version of fs/buffer.c::\fBblock_read_full_page\fP.

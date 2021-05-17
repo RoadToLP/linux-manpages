@@ -1,0 +1,14 @@
+.TH "sas_get_port_device" 9 "sas_get_port_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sas_get_port_device \- Discover devices which caused port creation
+.SH SYNOPSIS
+.B "int" sas_get_port_device
+.BI "(struct asd_sas_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+pointer to struct sas_port of interest
+.SH "DESCRIPTION"
+Devices directly attached to a HA port, have no parent.  This is
+how we know they are (domain) "root" devices.  All other devices
+do, and should have their "parent" pointer set appropriately as
+soon as a child device is discovered.

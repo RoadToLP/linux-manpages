@@ -1,0 +1,18 @@
+.TH "prepare_percpu_nmi" 9 "prepare_percpu_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_percpu_nmi \- performs CPU local setup for NMI delivery
+.SH SYNOPSIS
+.B "int" prepare_percpu_nmi
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to prepare for NMI delivery
+
+This call prepares an interrupt line to deliver NMI on the current CPU,
+before that interrupt line gets enabled with \fBenable_percpu_nmi\fP.
+
+As a CPU local operation, this should be called from non-preemptible
+context.
+
+If the interrupt line cannot be used to deliver NMIs, function
+will fail returning a negative value.

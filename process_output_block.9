@@ -1,0 +1,27 @@
+.TH "process_output_block" 9 "process_output_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_output_block \- block post processor
+.SH SYNOPSIS
+.B "ssize_t" process_output_block
+.BI "(struct tty_struct *tty "  ","
+.BI "const unsigned char *buf "  ","
+.BI "unsigned int nr "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal device
+.IP "buf" 12
+character buffer
+.IP "nr" 12
+number of bytes to output
+
+Output a block of characters with OPOST processing.
+Returns the number of characters output.
+
+This path is used to speed up block console writes, among other
+things when processing blocks of output data. It handles only
+the simple cases normally found and helps to generate blocks of
+symbols for the console driver and thus improve performance.
+
+Locking: output_lock to protect column state and space left
+(also, this is called from n_tty_write under the
+tty layer write lock)

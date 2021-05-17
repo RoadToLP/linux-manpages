@@ -1,0 +1,20 @@
+.TH "dccp_feat_activate" 9 "dccp_feat_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_feat_activate \- Activate feature value on socket
+.SH SYNOPSIS
+.B "int" dccp_feat_activate
+.BI "(struct sock *sk "  ","
+.BI "u8 feat_num "  ","
+.BI "bool local "  ","
+.BI "dccp_feat_val const *fval "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+fully connected DCCP socket (after handshake is complete)
+.IP "feat_num" 12
+feature to activate, one of dccp_feature_numbers
+.IP "local" 12
+whether local (1) or remote (0) \fIfeat_num\fP is meant
+.IP "fval" 12
+the value (SP or NN) to activate, or NULL to use the default value
+.SH "DESCRIPTION"
+For general use this function is preferable over \fB__dccp_feat_activate\fP.

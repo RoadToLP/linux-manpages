@@ -1,0 +1,24 @@
+.TH "usb_create_hcd" 9 "usb_create_hcd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_create_hcd \- create and initialize an HCD structure
+.SH SYNOPSIS
+.B "struct usb_hcd *" usb_create_hcd
+.BI "(const struct hc_driver *driver "  ","
+.BI "struct device *dev "  ","
+.BI "const char *bus_name "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+HC driver that will use this hcd
+.IP "dev" 12
+device for this HC, stored in hcd->self.controller
+.IP "bus_name" 12
+value to store in hcd->self.bus_name
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+Allocate a struct usb_hcd, with extra space at the end for the
+HC driver's private data.  Initialize the generic members of the
+hcd structure.
+.SH "RETURN"
+On success, a pointer to the created and initialized HCD
+structure. On failure (e.g. if memory is unavailable), NULL.

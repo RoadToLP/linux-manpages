@@ -1,0 +1,34 @@
+.TH "ib_umem_odp_map_dma_and_lock" 9 "ib_umem_odp_map_dma_and_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_umem_odp_map_dma_and_lock \- DMA map userspace memory in an ODP MR and lock it.
+.SH SYNOPSIS
+.B "int" ib_umem_odp_map_dma_and_lock
+.BI "(struct ib_umem_odp *umem_odp "  ","
+.BI "u64 user_virt "  ","
+.BI "u64 bcnt "  ","
+.BI "u64 access_mask "  ","
+.BI "bool fault "  ");"
+.SH ARGUMENTS
+.IP "umem_odp" 12
+the umem to map and pin
+.IP "user_virt" 12
+the address from which we need to map.
+.IP "bcnt" 12
+the minimal number of bytes to pin and map. The mapping might be
+bigger due to alignment, and may also be smaller in case of an error
+pinning or mapping a page. The actual pages mapped is returned in
+the return value.
+.IP "access_mask" 12
+bit mask of the requested access permissions for the given
+range.
+.IP "fault" 12
+is faulting required for the given range
+.SH "DESCRIPTION"
+
+Maps the range passed in the argument to DMA addresses.
+The DMA addresses of the mapped pages is updated in umem_odp->dma_list.
+Upon success the ODP MR will be locked to let caller complete its device
+page table update.
+
+Returns the number of pages mapped in success, negative error code
+for failure.

@@ -1,0 +1,24 @@
+.TH "sdio_retune_crc_disable" 9 "sdio_retune_crc_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_retune_crc_disable \- temporarily disable retuning on CRC errors
+.SH SYNOPSIS
+.B "void" sdio_retune_crc_disable
+.BI "(struct sdio_func *func "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function attached to host
+
+If the SDIO card is known to be in a state where it might produce
+CRC errors on the bus in response to commands (like if we know it is
+transitioning between power states), an SDIO function driver can
+call this function to temporarily disable the SD/MMC core behavior of
+triggering an automatic retuning.
+
+This function should be called while the host is claimed and the host
+should remain claimed until \fBsdio_retune_crc_enable\fP is called.
+Specifically, the expected sequence of calls is:
+- \fBsdio_claim_host\fP
+- \fBsdio_retune_crc_disable\fP
+- some number of calls like \fBsdio_writeb\fP and \fBsdio_readb\fP
+- \fBsdio_retune_crc_enable\fP
+- \fBsdio_release_host\fP

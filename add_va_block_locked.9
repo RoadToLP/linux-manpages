@@ -1,0 +1,24 @@
+.TH "add_va_block_locked" 9 "add_va_block_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_va_block_locked \- add a virtual block to the virtual addresses list.
+.SH SYNOPSIS
+.B "int" add_va_block_locked
+.BI "(struct hl_device *hdev "  ","
+.BI "struct list_head *va_list "  ","
+.BI "u64 start "  ","
+.BI "u64 end "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+pointer to the habanalabs device structure.
+.IP "va_list" 12
+pointer to the virtual addresses block list.
+.IP "start" 12
+start virtual address.
+.IP "end" 12
+end virtual address.
+.SH "DESCRIPTION"
+This function does the following:
+- Add the given block to the virtual blocks list and merge with other blocks
+if a contiguous virtual block can be created.
+
+This Function should be called only when va_list lock is taken.

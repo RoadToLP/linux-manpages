@@ -1,0 +1,18 @@
+.TH "fpga_region_program_fpga" 9 "fpga_region_program_fpga" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_region_program_fpga \- program FPGA
+.SH SYNOPSIS
+.B "int" fpga_region_program_fpga
+.BI "(struct fpga_region *region "  ");"
+.SH ARGUMENTS
+.IP "region" 12
+FPGA region
+.SH "DESCRIPTION"
+Program an FPGA using fpga image info (region->info).
+If the region has a get_bridges function, the exclusive reference for the
+bridges will be held if programming succeeds.  This is intended to prevent
+reprogramming the region until the caller considers it safe to do so.
+The caller will need to call \fBfpga_bridges_put\fP before attempting to
+reprogram the region.
+
+Return 0 for success or negative error code.

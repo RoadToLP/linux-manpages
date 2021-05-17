@@ -1,0 +1,19 @@
+.TH "legacy_set_mode" 9 "legacy_set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+legacy_set_mode \- mode setting
+.SH SYNOPSIS
+.B "int" legacy_set_mode
+.BI "(struct ata_link *link "  ","
+.BI "struct ata_device **unused "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+IDE link
+.IP "unused" 12
+Device that failed when error is returned
+
+Use a non standard set_mode function. We don't want to be tuned.
+
+The BIOS configured everything. Our job is not to fiddle. Just use
+whatever PIO the hardware is using and leave it at that. When we
+get some kind of nice user driven API for control then we can
+expand on this as per hdparm in the base kernel.

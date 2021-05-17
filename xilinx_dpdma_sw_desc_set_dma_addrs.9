@@ -1,0 +1,26 @@
+.TH "xilinx_dpdma_sw_desc_set_dma_addrs" 9 "xilinx_dpdma_sw_desc_set_dma_addrs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xilinx_dpdma_sw_desc_set_dma_addrs \- Set DMA addresses in the descriptor
+.SH SYNOPSIS
+.B "void" xilinx_dpdma_sw_desc_set_dma_addrs
+.BI "(struct xilinx_dpdma_device *xdev "  ","
+.BI "struct xilinx_dpdma_sw_desc *sw_desc "  ","
+.BI "struct xilinx_dpdma_sw_desc *prev "  ","
+.BI "dma_addr_t dma_addr[] "  ","
+.BI "unsigned int num_src_addr "  ");"
+.SH ARGUMENTS
+.IP "xdev" 12
+DPDMA device
+.IP "sw_desc" 12
+The software descriptor in which to set DMA addresses
+.IP "prev" 12
+The previous descriptor
+.IP "dma_addr" 12
+array of dma addresses
+.IP "num_src_addr" 12
+number of addresses in \fIdma_addr\fP
+.SH "DESCRIPTION"
+Set all the DMA addresses in the hardware descriptor corresponding to \fIdev\fP
+from \fIdma_addr\fP. If a previous descriptor is specified in \fIprev\fP, its next
+descriptor DMA address is set to the DMA address of \fIsw_desc\fP. \fIprev\fP may be
+identical to \fIsw_desc\fP for cyclic transfers.

@@ -1,0 +1,21 @@
+.TH "get_err_from_table" 9 "get_err_from_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_err_from_table \- Gets the error message from a table
+.SH SYNOPSIS
+.B "const char *" get_err_from_table
+.BI "(const char *table[] "  ","
+.BI "int size "  ","
+.BI "int pos "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+table name (array of char *)
+.IP "size" 12
+number of elements at the table
+.IP "pos" 12
+position of the element to be returned
+.SH "DESCRIPTION"
+This is a small routine that gets the pos-th element of a table. If the
+element doesn't exist (or it is empty), it returns "reserved".
+Instead of calling it directly, the better is to call via the macro
+\fBGET_ERR_FROM_TABLE\fP, that automatically checks the table size via
+\fBARRAY_SIZE\fP macro

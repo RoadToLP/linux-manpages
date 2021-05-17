@@ -1,0 +1,19 @@
+.TH "ext4_trim_fs" 9 "ext4_trim_fs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_trim_fs \- - trim ioctl handle function
+.SH SYNOPSIS
+.B "int" ext4_trim_fs
+.BI "(struct super_block *sb "  ","
+.BI "struct fstrim_range *range "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock for filesystem
+.IP "range" 12
+fstrim_range structure
+.SH "DESCRIPTION"
+start:       First Byte to trim
+len:         number of Bytes to trim from start
+minlen:      minimum extent length in Bytes
+ext4_trim_fs goes through all allocation groups containing Bytes from
+start to start+len. For each such a group ext4_trim_all_free function
+is invoked to trim all free space.

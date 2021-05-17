@@ -1,0 +1,15 @@
+.TH "msc_buffer_win_free" 9 "msc_buffer_win_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_win_free \- free a window from MSC's window list
+.SH SYNOPSIS
+.B "void" msc_buffer_win_free
+.BI "(struct msc *msc "  ","
+.BI "struct msc_window *win "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.IP "win" 12
+window to free
+.SH "DESCRIPTION"
+This modifies msc::win_list and msc::base, which requires msc::buf_mutex
+to serialize, so the caller is expected to hold it.

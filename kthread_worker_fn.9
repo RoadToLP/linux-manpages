@@ -1,0 +1,20 @@
+.TH "kthread_worker_fn" 9 "kthread_worker_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_worker_fn \- kthread function to process kthread_worker
+.SH SYNOPSIS
+.B "int" kthread_worker_fn
+.BI "(void *worker_ptr "  ");"
+.SH ARGUMENTS
+.IP "worker_ptr" 12
+pointer to initialized kthread_worker
+.SH "DESCRIPTION"
+This function implements the main cycle of kthread worker. It processes
+work_list until it is stopped with \fBkthread_stop\fP. It sleeps when the queue
+is empty.
+
+The works are not allowed to keep any locks, disable preemption or interrupts
+when they finish. There is defined a safe point for freezing when one work
+finishes and before a new one is started.
+
+Also the works must not be handled by more than one worker at the same time,
+see also \fBkthread_queue_work\fP.

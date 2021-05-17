@@ -1,0 +1,27 @@
+.TH "i40e_ndo_bridge_setlink" 9 "i40e_ndo_bridge_setlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ndo_bridge_setlink \- Set the hardware bridge mode
+.SH SYNOPSIS
+.B "int" i40e_ndo_bridge_setlink
+.BI "(struct net_device *dev "  ","
+.BI "struct nlmsghdr *nlh "  ","
+.BI "u16 flags "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the netdev being configured
+.IP "nlh" 12
+RTNL message
+.IP "flags" 12
+bridge flags
+.IP "extack" 12
+netlink extended ack
+.SH "DESCRIPTION"
+Inserts a new hardware bridge if not already created and
+enables the bridging mode requested (VEB or VEPA). If the
+hardware bridge has already been inserted and the request
+is to change the mode then that requires a PF reset to
+allow rebuild of the components with required hardware
+bridge mode enabled.
+.SH "NOTE"
+expects to be called while under \fBrtnl_lock\fP

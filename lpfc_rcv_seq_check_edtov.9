@@ -1,0 +1,17 @@
+.TH "lpfc_rcv_seq_check_edtov" 9 "lpfc_rcv_seq_check_edtov" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_rcv_seq_check_edtov \- Cleans up timed out receive sequences.
+.SH SYNOPSIS
+.B "void" lpfc_rcv_seq_check_edtov
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The vport that the received sequences were sent to.
+.SH "DESCRIPTION"
+This function determines whether any received sequences have timed out by
+first checking the vport's rcv_buffer_time_stamp. If this time_stamp
+indicates that there is at least one timed out sequence this routine will
+go through the received sequences one at a time from most inactive to most
+active to determine which ones need to be cleaned up. Once it has determined
+that a sequence needs to be cleaned up it will simply free up the resources
+without sending an abort.

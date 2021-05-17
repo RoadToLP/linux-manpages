@@ -1,0 +1,19 @@
+.TH "drmm_kstrdup" 9 "drmm_kstrdup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drmm_kstrdup \- &drm_device managed kstrdup()
+.SH SYNOPSIS
+.B "char *" drmm_kstrdup
+.BI "(struct drm_device *dev "  ","
+.BI "const char *s "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "s" 12
+0-terminated string to be duplicated
+.IP "gfp" 12
+GFP allocation flags
+.SH "DESCRIPTION"
+This is a \fIdrm_device\fP managed version of \fBkstrdup\fP. The allocated memory is
+automatically freed on the final \fBdrm_dev_put\fP and works exactly like a
+memory allocation obtained by \fBdrmm_kmalloc\fP.

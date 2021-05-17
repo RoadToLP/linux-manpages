@@ -1,0 +1,18 @@
+.TH "drm_sched_entity_push_job" 9 "drm_sched_entity_push_job" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_sched_entity_push_job \- Submit a job to the entity's job queue
+.SH SYNOPSIS
+.B "void" drm_sched_entity_push_job
+.BI "(struct drm_sched_job *sched_job "  ","
+.BI "struct drm_sched_entity *entity "  ");"
+.SH ARGUMENTS
+.IP "sched_job" 12
+job to submit
+.IP "entity" 12
+scheduler entity
+.SH "NOTE"
+To guarantee that the order of insertion to queue matches
+the job's fence sequence number this function should be
+called with drm_sched_job_init under common lock.
+.SH "DESCRIPTION"
+Returns 0 for success, negative error code otherwise.

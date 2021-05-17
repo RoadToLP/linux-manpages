@@ -1,0 +1,28 @@
+.TH "qib_uc_rcv" 9 "qib_uc_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_uc_rcv \- handle an incoming UC packet
+.SH SYNOPSIS
+.B "void" qib_uc_rcv
+.BI "(struct qib_ibport *ibp "  ","
+.BI "struct ib_header *hdr "  ","
+.BI "int has_grh "  ","
+.BI "void *data "  ","
+.BI "u32 tlen "  ","
+.BI "struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "ibp" 12
+the port the packet came in on
+.IP "hdr" 12
+the header of the packet
+.IP "has_grh" 12
+true if the packet has a GRH
+.IP "data" 12
+the packet data
+.IP "tlen" 12
+the length of the packet
+.IP "qp" 12
+the QP for this packet.
+.SH "DESCRIPTION"
+This is called from \fBqib_qp_rcv\fP to process an incoming UC packet
+for the given QP.
+Called at interrupt level.

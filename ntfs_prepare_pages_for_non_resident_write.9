@@ -1,0 +1,36 @@
+.TH "ntfs_prepare_pages_for_non_resident_write" 9 "ntfs_prepare_pages_for_non_resident_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_prepare_pages_for_non_resident_write \- prepare pages for receiving data
+.SH SYNOPSIS
+.B "int" ntfs_prepare_pages_for_non_resident_write
+.BI "(struct page **pages "  ","
+.BI "unsigned nr_pages "  ","
+.BI "s64 pos "  ","
+.BI "size_t bytes "  ");"
+.SH ARGUMENTS
+.IP "pages" 12
+array of destination pages
+.IP "nr_pages" 12
+number of pages in \fIpages\fP
+.IP "pos" 12
+byte position in file at which the write begins
+.IP "bytes" 12
+number of bytes to be written
+.SH "DESCRIPTION"
+This is called for non-resident attributes from \fBntfs_file_buffered_write\fP
+with i_mutex held on the inode (\fIpages\fP[0]->mapping->host).  There are
+\fInr_pages\fP pages in \fIpages\fP which are locked but not \fBkmap\fPped.  The source
+data has not yet been copied into the \fIpages\fP.
+
+Need to fill any holes with actual clusters, allocate buffers if necessary,
+ensure all the buffers are mapped, and bring uptodate any buffers that are
+only partially being written to.
+
+If \fInr_pages\fP is greater than one, we are guaranteed that the cluster size is
+greater than PAGE_SIZE, that all pages in \fIpages\fP are entirely inside
+the same cluster and that they are the entirety of that cluster, and that
+the cluster is sparse, i.e. we need to allocate a cluster to fill the hole.
+
+i_size is not to be modified yet.
+
+Return 0 on success or -errno on error.

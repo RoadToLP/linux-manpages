@@ -1,0 +1,40 @@
+.TH "ice_aq_get_sw_cfg" 9 "ice_aq_get_sw_cfg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_get_sw_cfg \- get switch configuration
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_get_sw_cfg
+.BI "(struct ice_hw *hw "  ","
+.BI "struct ice_aqc_get_sw_cfg_resp_elem *buf "  ","
+.BI "u16 buf_size "  ","
+.BI "u16 *req_desc "  ","
+.BI "u16 *num_elems "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "buf" 12
+pointer to the result buffer
+.IP "buf_size" 12
+length of the buffer available for response
+.IP "req_desc" 12
+pointer to requested descriptor
+.IP "num_elems" 12
+pointer to number of elements
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Get switch configuration (0x0200) to be placed in buf.
+This admin command returns information such as initial VSI/port number
+and switch ID it belongs to.
+
+*num_elems is output only parameter. This reflects the number of elements
+in response buffer. The caller of this function to use *num_elems while
+parsing the response buffer.
+.SH "NOTE"
+*req_desc is both an input/output parameter.
+The caller of this function first calls this function with *request_desc set
+to 0. If the response from f/w has *req_desc set to 0, all the switch
+configuration information has been returned; if non-zero (meaning not all
+the information was returned), the caller should call this function again
+with *req_desc set to the previous value returned by f/w to get the
+next block of switch configuration information.

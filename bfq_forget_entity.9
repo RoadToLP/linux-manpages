@@ -1,0 +1,24 @@
+.TH "bfq_forget_entity" 9 "bfq_forget_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_forget_entity \- do not consider entity any longer for scheduling
+.SH SYNOPSIS
+.B "void" bfq_forget_entity
+.BI "(struct bfq_service_tree *st "  ","
+.BI "struct bfq_entity *entity "  ","
+.BI "bool is_in_service "  ");"
+.SH ARGUMENTS
+.IP "st" 12
+the service tree.
+.IP "entity" 12
+the entity being removed.
+.IP "is_in_service" 12
+true if entity is currently the in-service entity.
+.SH "DESCRIPTION"
+Forget everything about \fIentity\fP. In addition, if entity represents
+a queue, and the latter is not in service, then release the service
+reference to the queue (the one taken through bfq_get_entity). In
+fact, in this case, there is really no more service reference to
+the queue, as the latter is also outside any service tree. If,
+instead, the queue is in service, then __bfq_bfqd_reset_in_service
+will take care of putting the reference when the queue finally
+stops being served.

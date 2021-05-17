@@ -1,0 +1,29 @@
+.TH "stop_machine_from_inactive_cpu" 9 "stop_machine_from_inactive_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stop_machine_from_inactive_cpu \- stop_machine() from inactive CPU
+.SH SYNOPSIS
+.B "int" stop_machine_from_inactive_cpu
+.BI "(cpu_stop_fn_t fn "  ","
+.BI "void *data "  ","
+.BI "const struct cpumask *cpus "  ");"
+.SH ARGUMENTS
+.IP "fn" 12
+the function to run
+.IP "data" 12
+the data ptr for the \fI\fP\fBfn\fP
+.IP "cpus" 12
+the cpus to run the \fI\fP\fBfn\fP on (NULL = any online cpu)
+.SH "DESCRIPTION"
+This is identical to \fBstop_machine\fP but can be called from a CPU which
+is not active.  The local CPU is in the process of hotplug (so no other
+CPU hotplug can start) and not marked active and doesn't have enough
+context to sleep.
+
+This function provides \fBstop_machine\fP functionality for such state by
+using busy-wait for synchronization and executing \fIfn\fP directly for local
+CPU.
+.SH "CONTEXT"
+Local CPU is inactive.  Temporarily stops all active CPUs.
+.SH "RETURN"
+0 if all executions of \fIfn\fP returned 0, any non zero return value if any
+returned non zero.

@@ -1,0 +1,21 @@
+.TH "__bio_add_page" 9 "__bio_add_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bio_add_page \- add page(s) to a bio in a new segment
+.SH SYNOPSIS
+.B "void" __bio_add_page
+.BI "(struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int off "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+destination bio
+.IP "page" 12
+start page to add
+.IP "len" 12
+length of the data to add, may cross pages
+.IP "off" 12
+offset of the data relative to \fIpage\fP, may cross pages
+.SH "DESCRIPTION"
+Add the data at \fIpage\fP + \fIoff\fP to \fIbio\fP as a new bvec.  The caller must ensure
+that \fIbio\fP has space for another bvec.

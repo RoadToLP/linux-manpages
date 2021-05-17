@@ -1,0 +1,17 @@
+.TH "tpm_chip_alloc" 9 "tpm_chip_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_chip_alloc \- allocate a new struct tpm_chip instance
+.SH SYNOPSIS
+.B "struct tpm_chip *" tpm_chip_alloc
+.BI "(struct device *pdev "  ","
+.BI "const struct tpm_class_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+device to which the chip is associated
+At this point pdev mst be initialized, but does not have to
+be registered
+.IP "ops" 12
+struct tpm_class_ops instance
+.SH "DESCRIPTION"
+Allocates a new struct tpm_chip instance and assigns a free
+device number for it. Must be paired with put_device(\fIchip->dev\fP).

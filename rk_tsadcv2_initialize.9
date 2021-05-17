@@ -1,0 +1,27 @@
+.TH "rk_tsadcv2_initialize" 9 "rk_tsadcv2_initialize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rk_tsadcv2_initialize \- initialize TASDC Controller.
+.SH SYNOPSIS
+.B "void" rk_tsadcv2_initialize
+.BI "(struct regmap *grf "  ","
+.BI "void __iomem *regs "  ","
+.BI "enum tshut_polarity tshut_polarity "  ");"
+.SH ARGUMENTS
+.IP "grf" 12
+the general register file will be used to do static set by software
+.IP "regs" 12
+the base address of tsadc controller
+.IP "tshut_polarity" 12
+the hardware-controlled active polarity (0:LOW 1:HIGH)
+.SH "DESCRIPTION"
+(1) Set TSADC_V2_AUTO_PERIOD:
+Configure the interleave between every two accessing of
+TSADC in normal operation.
+
+(2) Set TSADCV2_AUTO_PERIOD_HT:
+Configure the interleave between every two accessing of
+TSADC after the temperature is higher than COM_SHUT or COM_INT.
+
+(3) Set TSADCV2_HIGH_INT_DEBOUNCE and TSADC_HIGHT_TSHUT_DEBOUNCE:
+If the temperature is higher than COMP_INT or COMP_SHUT for
+"debounce" times, TSADC controller will generate interrupt or TSHUT.

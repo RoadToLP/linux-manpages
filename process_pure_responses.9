@@ -1,0 +1,23 @@
+.TH "process_pure_responses" 9 "process_pure_responses" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_pure_responses \- process pure responses from a response queue
+.SH SYNOPSIS
+.B "int" process_pure_responses
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_qset *qs "  ","
+.BI "struct rsp_desc *r "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "qs" 12
+the queue set owning the response queue
+.IP "r" 12
+the first pure response to process
+
+A simpler version of \fBprocess_responses\fP that handles only pure (i.e.,
+non data-carrying) responses.  Such respones are too light-weight to
+justify calling a softirq under NAPI, so we handle them specially in
+the interrupt handler.  The function is called with a pointer to a
+response, which the caller must ensure is a valid pure response.
+
+Returns 1 if it encounters a valid data-carrying response, 0 otherwise.

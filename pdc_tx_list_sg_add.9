@@ -1,0 +1,18 @@
+.TH "pdc_tx_list_sg_add" 9 "pdc_tx_list_sg_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_tx_list_sg_add \- Add the buffers in a scatterlist to the transmit descriptors for a given SPU. The scatterlist buffers contain the data for a SPU request message.
+.SH SYNOPSIS
+.B "int" pdc_tx_list_sg_add
+.BI "(struct pdc_state *pdcs "  ","
+.BI "struct scatterlist *sg "  ");"
+.SH ARGUMENTS
+.IP "pdcs" 12
+-- undescribed --
+.IP "sg" 12
+Scatterlist whose buffers contain part of the SPU request
+.SH "DESCRIPTION"
+If a scatterlist buffer is larger than PDC_DMA_BUF_MAX, multiple descriptors
+are written for that buffer, each <= PDC_DMA_BUF_MAX byte in length.
+.SH "RETURN"
+PDC_SUCCESS if successful
+< 0 otherwise

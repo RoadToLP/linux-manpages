@@ -1,0 +1,13 @@
+.TH "rpcrdma_buffer_destroy" 9 "rpcrdma_buffer_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_buffer_destroy \- Release all hw resources
+.SH SYNOPSIS
+.B "void" rpcrdma_buffer_destroy
+.BI "(struct rpcrdma_buffer *buf "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+root control block for resources
+.SH "DESCRIPTION"
+ORDERING: relies on a prior rpcrdma_xprt_drain :
+- No more Send or Receive completions can occur
+- All MRs, reps, and reqs are returned to their free lists

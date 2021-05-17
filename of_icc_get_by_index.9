@@ -1,0 +1,22 @@
+.TH "of_icc_get_by_index" 9 "of_icc_get_by_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_icc_get_by_index \- get a path handle from a DT node based on index
+.SH SYNOPSIS
+.B "struct icc_path *" of_icc_get_by_index
+.BI "(struct device *dev "  ","
+.BI "int idx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer for the consumer device
+.IP "idx" 12
+interconnect path index
+.SH "DESCRIPTION"
+This function will search for a path between two endpoints and return an
+icc_path handle on success. Use \fBicc_put\fP to release constraints when they
+are not needed anymore.
+If the interconnect API is disabled, NULL is returned and the consumer
+drivers will still build. Drivers are free to handle this specifically,
+but they don't have to.
+.SH "RETURN"
+icc_path pointer on success or \fBERR_PTR\fP on error. NULL is returned
+when the API is disabled or the "interconnects" DT property is missing.

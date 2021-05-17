@@ -1,0 +1,22 @@
+.TH "lpfc_sli4_sched_cq_work" 9 "lpfc_sli4_sched_cq_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_sched_cq_work \- Schedules cq work
+.SH SYNOPSIS
+.B "void" lpfc_sli4_sched_cq_work
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *cq "  ","
+.BI "uint16_t cqid "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "cq" 12
+Pointer to CQ
+.IP "cqid" 12
+CQ ID
+.SH "DESCRIPTION"
+This routine checks the poll mode of the CQ corresponding to
+cq->chann, then either schedules a softirq or queue_work to complete
+cq work.
+
+queue_work path is taken if in NVMET mode, or if poll_mode is in
+LPFC_QUEUE_WORK mode.  Otherwise, softirq path is taken.

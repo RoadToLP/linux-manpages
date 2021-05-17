@@ -1,0 +1,20 @@
+.TH "bnx2x_func_reset_port" 9 "bnx2x_func_reset_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_func_reset_port \- reset HW at port stage
+.SH SYNOPSIS
+.B "void" bnx2x_func_reset_port
+.BI "(struct bnx2x *bp "  ","
+.BI "const struct bnx2x_func_sp_drv_ops *drv "  ");"
+.SH ARGUMENTS
+.IP "bp" 12
+device handle
+.IP "drv" 12
+.SH "DESCRIPTION"
+Reset HW at FW_MSG_CODE_DRV_UNLOAD_PORT stage: reset
+FUNCTION-only and PORT-only HW blocks.
+
+!!!IMPORTANT!!!
+
+It's important to call reset_port before \fBreset_func\fP as the last thing
+reset_func does is \fBpf_disable\fP thus disabling PGLUE_B, which
+makes impossible any DMAE transactions.

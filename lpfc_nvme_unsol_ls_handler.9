@@ -1,0 +1,17 @@
+.TH "lpfc_nvme_unsol_ls_handler" 9 "lpfc_nvme_unsol_ls_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_unsol_ls_handler \- Process an unsolicited event data buffer containing a NVME LS request.
+.SH SYNOPSIS
+.B "void" lpfc_nvme_unsol_ls_handler
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *piocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "piocb" 12
+pointer to the iocbq struct representing the sequence starting
+frame.
+.SH "DESCRIPTION"
+This routine initially validates the NVME LS, validates there is a login
+with the port that sent the LS, and then calls the appropriate nvme host
+or target LS request handler.

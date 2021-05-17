@@ -1,0 +1,17 @@
+.TH "igc_is_non_eop" 9 "igc_is_non_eop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igc_is_non_eop \- process handling of non-EOP buffers
+.SH SYNOPSIS
+.B "bool" igc_is_non_eop
+.BI "(struct igc_ring *rx_ring "  ","
+.BI "union igc_adv_rx_desc *rx_desc "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx ring being processed
+.IP "rx_desc" 12
+Rx descriptor for current buffer
+.SH "DESCRIPTION"
+This function updates next to clean.  If the buffer is an EOP buffer
+this function exits returning false, otherwise it will place the
+sk_buff in the next buffer to be chained and return true indicating
+that this is in fact a non-EOP buffer.

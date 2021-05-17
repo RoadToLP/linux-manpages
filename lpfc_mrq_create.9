@@ -1,0 +1,37 @@
+.TH "lpfc_mrq_create" 9 "lpfc_mrq_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mrq_create \- Create MRQ Receive Queues on the HBA
+.SH SYNOPSIS
+.B "int" lpfc_mrq_create
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue **hrqp "  ","
+.BI "struct lpfc_queue **drqp "  ","
+.BI "struct lpfc_queue **cqp "  ","
+.BI "uint32_t subtype "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "hrqp" 12
+The queue structure array to use to create the header receive queues.
+.IP "drqp" 12
+The queue structure array to use to create the data receive queues.
+.IP "cqp" 12
+The completion queue array to bind these receive queues to.
+.IP "subtype" 12
+Functional purpose of the queue (MBOX, IO, ELS, NVMET, etc).
+.SH "DESCRIPTION"
+This function creates a receive buffer queue pair , as detailed in \fIhrq\fP and
+\fIdrq\fP, on a port, described by \fIphba\fP by sending a RQ_CREATE mailbox command
+to the HBA.
+
+The \fIphba\fP struct is used to send mailbox command to HBA. The \fIdrq\fP and \fIhrq\fP
+struct is used to get the entry count that is necessary to determine the
+number of pages to use for this queue. The \fIcq\fP is used to indicate which
+completion queue to bind received buffers that are posted to these queues to.
+This function will send the RQ_CREATE mailbox command to the HBA to setup the
+receive queue pair. This function is asynchronous and will wait for the
+mailbox command to finish before continuing.
+
+On success this function will return a zero. If unable to allocate enough
+memory this function will return -ENOMEM. If the queue create mailbox command
+fails this function will return -ENXIO.

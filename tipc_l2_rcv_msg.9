@@ -1,0 +1,22 @@
+.TH "tipc_l2_rcv_msg" 9 "tipc_l2_rcv_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_l2_rcv_msg \- handle incoming TIPC message from an interface
+.SH SYNOPSIS
+.B "int" tipc_l2_rcv_msg
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "struct packet_type *pt "  ","
+.BI "struct net_device *orig_dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the received message
+.IP "dev" 12
+the net device that the packet was received on
+.IP "pt" 12
+the packet_type structure which was used to register this handler
+.IP "orig_dev" 12
+the original receive net device in case the device is a bond
+.SH "DESCRIPTION"
+Accept only packets explicitly sent to this node, or broadcast packets;
+ignores packets sent using interface multicast, and traffic sent to other
+nodes (which can happen if interface is running in promiscuous mode).

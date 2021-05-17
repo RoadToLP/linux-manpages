@@ -1,0 +1,16 @@
+.TH "intel_power_domains_driver_remove" 9 "intel_power_domains_driver_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_power_domains_driver_remove \- deinitialize hw power domain state
+.SH SYNOPSIS
+.B "void" intel_power_domains_driver_remove
+.BI "(struct drm_i915_private *i915 "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device instance
+.SH "DESCRIPTION"
+De-initializes the display power domain HW state. It also ensures that the
+device stays powered up so that the driver can be reloaded.
+
+It must be called with power domains already disabled (after a call to
+\fBintel_power_domains_disable\fP) and must be paired with
+\fBintel_power_domains_init_hw\fP.

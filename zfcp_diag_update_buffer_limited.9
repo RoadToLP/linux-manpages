@@ -1,0 +1,31 @@
+.TH "zfcp_diag_update_buffer_limited" 9 "zfcp_diag_update_buffer_limited" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_diag_update_buffer_limited \- Collect diagnostics and update a diagnostics buffer rate limited.
+.SH SYNOPSIS
+.B "int" zfcp_diag_update_buffer_limited
+.BI "(struct zfcp_adapter *const adapter "  ","
+.BI "struct zfcp_diag_header *const hdr "  ","
+.BI "zfcp_diag_update_buffer_func buffer_update "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+Adapter to collect the diagnostics from.
+.IP "hdr" 12
+buffer-header for which to update with the collected diagnostics.
+.IP "buffer_update" 12
+Specific implementation for collecting and updating.
+.SH "DESCRIPTION"
+This function will cause an update of the given \fIhdr\fP by calling the also
+given \fIbuffer_update\fP function. If called by multiple sources at the same
+time, it will synchornize the update by only allowing one source to call
+\fIbuffer_update\fP and the others to wait for that source to complete instead
+(the wait is interruptible).
+
+Additionally this version is rate-limited and will only exit if either the
+buffer is fresh enough (within the limit) - it will do nothing if the buffer
+is fresh enough to begin with -, or if the source/thread that started this
+update is the one that made the update (to prevent endless loops).
+.SH "RETURN"
+* 0          - If the update was successfully published and/or the buffer is
+fresh enough
+* -EINTR     - If the thread went into the wait-state and was interrupted
+* whatever \fIbuffer_update\fP returns

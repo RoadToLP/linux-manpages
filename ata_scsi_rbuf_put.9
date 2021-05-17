@@ -1,0 +1,21 @@
+.TH "ata_scsi_rbuf_put" 9 "ata_scsi_rbuf_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_rbuf_put \- Unmap response buffer.
+.SH SYNOPSIS
+.B "void" ata_scsi_rbuf_put
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "bool copy_out "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+SCSI command containing buffer to be unmapped.
+.IP "copy_out" 12
+copy out result
+.IP "flags" 12
+\fIflags\fP passed to \fBata_scsi_rbuf_get\fP
+
+Returns rbuf buffer.  The result is copied to \fIcmd\fP's buffer if
+\fIcopy_back\fP is true.
+
+LOCKING:
+Unlocks ata_scsi_rbuf_lock.

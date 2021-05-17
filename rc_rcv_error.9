@@ -1,0 +1,33 @@
+.TH "rc_rcv_error" 9 "rc_rcv_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rc_rcv_error \- process an incoming duplicate or error RC packet
+.SH SYNOPSIS
+.B "int" rc_rcv_error
+.BI "(struct ib_other_headers *ohdr "  ","
+.BI "void *data "  ","
+.BI "struct rvt_qp *qp "  ","
+.BI "u32 opcode "  ","
+.BI "u32 psn "  ","
+.BI "int diff "  ","
+.BI "struct hfi1_ctxtdata *rcd "  ");"
+.SH ARGUMENTS
+.IP "ohdr" 12
+the other headers for this packet
+.IP "data" 12
+the packet data
+.IP "qp" 12
+the QP for this packet
+.IP "opcode" 12
+the opcode for this packet
+.IP "psn" 12
+the packet sequence number for this packet
+.IP "diff" 12
+the difference between the PSN and the expected PSN
+.IP "rcd" 12
+the receive context
+.SH "DESCRIPTION"
+This is called from \fBhfi1_rc_rcv\fP to process an unexpected
+incoming RC packet for the given QP.
+Called at interrupt level.
+Return 1 if no more processing is needed; otherwise return 0 to
+schedule a response to be sent.

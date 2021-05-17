@@ -1,0 +1,22 @@
+.TH "lpfc_mbuf_free" 9 "lpfc_mbuf_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbuf_free \- Free an mbuf from the lpfc_mbuf_pool PCI pool (unlocked)
+.SH SYNOPSIS
+.B "void" lpfc_mbuf_free
+.BI "(struct lpfc_hba * phba "  ","
+.BI "void *virt "  ","
+.BI "dma_addr_t dma "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA which owns the pool to return to
+.IP "virt" 12
+mbuf to free
+.IP "dma" 12
+the DMA-mapped address of the lpfc_mbuf_pool to be freed
+.SH "DESCRIPTION"
+Returns an mbuf lpfc_mbuf_pool to the lpfc_mbuf_safety_pool if
+it is below its max_count, frees the mbuf otherwise.
+.SH "NOTES"
+Takes phba->hbalock.  Can be called with or without other locks held.
+.SH "RETURN"
+None

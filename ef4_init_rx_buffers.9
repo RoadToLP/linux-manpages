@@ -1,0 +1,17 @@
+.TH "ef4_init_rx_buffers" 9 "ef4_init_rx_buffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ef4_init_rx_buffers \- create EF4_RX_BATCH page-based RX buffers
+.SH SYNOPSIS
+.B "int" ef4_init_rx_buffers
+.BI "(struct ef4_rx_queue *rx_queue "  ","
+.BI "bool atomic "  ");"
+.SH ARGUMENTS
+.IP "rx_queue" 12
+Efx RX queue
+.IP "atomic" 12
+control memory allocation flags
+.SH "DESCRIPTION"
+This allocates a batch of pages, maps them for DMA, and populates
+struct ef4_rx_buffers for each one. Return a negative error code or
+0 on success. If a single page can be used for multiple buffers,
+then the page will either be inserted fully, or not at all.

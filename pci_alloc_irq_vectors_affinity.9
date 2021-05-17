@@ -1,0 +1,31 @@
+.TH "pci_alloc_irq_vectors_affinity" 9 "pci_alloc_irq_vectors_affinity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_alloc_irq_vectors_affinity \- allocate multiple IRQs for a device
+.SH SYNOPSIS
+.B "int" pci_alloc_irq_vectors_affinity
+.BI "(struct pci_dev *dev "  ","
+.BI "unsigned int min_vecs "  ","
+.BI "unsigned int max_vecs "  ","
+.BI "unsigned int flags "  ","
+.BI "struct irq_affinity *affd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to operate on
+.IP "min_vecs" 12
+minimum number of vectors required (must be >= 1)
+.IP "max_vecs" 12
+maximum (desired) number of vectors
+.IP "flags" 12
+flags or quirks for the allocation
+.IP "affd" 12
+optional description of the affinity requirements
+.SH "DESCRIPTION"
+Allocate up to \fImax_vecs\fP interrupt vectors for \fIdev\fP, using MSI-X or MSI
+vectors if available, and fall back to a single legacy vector
+if neither is available.  Return the number of vectors allocated,
+(which might be smaller than \fImax_vecs\fP) if successful, or a negative
+error code on error. If less than \fImin_vecs\fP interrupt vectors are
+available for \fIdev\fP the function will fail with -ENOSPC.
+
+To get the Linux IRQ number used for a vector that can be passed to
+\fBrequest_irq\fP use the \fBpci_irq_vector\fP helper.

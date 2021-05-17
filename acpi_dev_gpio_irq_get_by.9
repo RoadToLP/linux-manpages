@@ -1,0 +1,27 @@
+.TH "acpi_dev_gpio_irq_get_by" 9 "acpi_dev_gpio_irq_get_by" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_gpio_irq_get_by \- Find GpioInt and translate it to Linux IRQ number
+.SH SYNOPSIS
+.B "int" acpi_dev_gpio_irq_get_by
+.BI "(struct acpi_device *adev "  ","
+.BI "const char *name "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+pointer to a ACPI device to get IRQ from
+.IP "name" 12
+optional name of GpioInt resource
+.IP "index" 12
+index of GpioInt resource (starting from 0)
+.SH "DESCRIPTION"
+If the device has one or more GpioInt resources, this function can be
+used to translate from the GPIO offset in the resource to the Linux IRQ
+number.
+
+The function is idempotent, though each time it runs it will configure GPIO
+pin direction according to the flags in GpioInt resource.
+
+The function takes optional \fIname\fP parameter. If the resource has a property
+name, then only those will be taken into account.
+.SH "RETURN"
+Linux IRQ number (> 0) on success, negative errno on failure.

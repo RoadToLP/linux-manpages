@@ -1,0 +1,37 @@
+.TH "find_next_reservable_window" 9 "find_next_reservable_window" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_next_reservable_window \-  find a reservable space within the given range. It does not allocate the reservation window for now: alloc_new_reservation() will do the work later.
+.SH SYNOPSIS
+.B "int" find_next_reservable_window
+.BI "(struct ext2_reserve_window_node *search_head "  ","
+.BI "struct ext2_reserve_window_node *my_rsv "  ","
+.BI "struct super_block * sb "  ","
+.BI "ext2_fsblk_t start_block "  ","
+.BI "ext2_fsblk_t last_block "  ");"
+.SH ARGUMENTS
+.IP "search_head" 12
+the head of the searching list;
+This is not necessarily the list head of the whole filesystem
+
+We have both head and start_block to assist the search
+for the reservable space. The list starts from head,
+but we will shift to the place where start_block is,
+then start from there, when looking for a reservable space.
+.IP "my_rsv" 12
+-- undescribed --
+.IP "sb" 12
+the super block.
+.IP "start_block" 12
+the first block we consider to start the real search from
+.IP "last_block" 12
+the maximum block number that our goal reservable space
+could start from. This is normally the last block in this
+group. The search will end when we found the start of next
+possible reservable space is out of this boundary.
+This could handle the cross boundary reservation window
+request.
+
+basically we search from the given range, rather than the whole
+reservation double linked list, (start_block, last_block)
+to find a free region that is of my size and has not
+been reserved.

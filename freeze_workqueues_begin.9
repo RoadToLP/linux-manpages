@@ -1,0 +1,16 @@
+.TH "freeze_workqueues_begin" 9 "freeze_workqueues_begin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freeze_workqueues_begin \- begin freezing workqueues
+.SH SYNOPSIS
+.B "void" freeze_workqueues_begin
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Start freezing workqueues.  After this function returns, all freezable
+workqueues will queue new works to their delayed_works list instead of
+pool->worklist.
+.SH "CONTEXT"
+Grabs and releases wq_pool_mutex, wq->mutex and pool->lock's.

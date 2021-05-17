@@ -1,0 +1,27 @@
+.TH "ilookup5_nowait" 9 "ilookup5_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ilookup5_nowait \- search for an inode in the inode cache
+.SH SYNOPSIS
+.B "struct inode *" ilookup5_nowait
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long hashval "  ","
+.BI "int (*test)(struct inode *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of file system to search
+.IP "hashval" 12
+hash value (usually inode number) to search for
+.IP "test" 12
+callback used for comparisons between inodes
+.IP "data" 12
+opaque data pointer to pass to \fItest\fP
+.SH "DESCRIPTION"
+Search for the inode specified by \fIhashval\fP and \fIdata\fP in the inode cache.
+If the inode is in the cache, the inode is returned with an incremented
+reference count.
+
+Note2: \fItest\fP is called with the inode_hash_lock held, so can't sleep.
+.SH "NOTE"
+I_NEW is not waited upon so you have to be very careful what you do
+with the returned inode.  You probably should be using \fBilookup5\fP instead.

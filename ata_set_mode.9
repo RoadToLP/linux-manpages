@@ -1,0 +1,21 @@
+.TH "ata_set_mode" 9 "ata_set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_set_mode \- Program timings and issue SET FEATURES - XFER
+.SH SYNOPSIS
+.B "int" ata_set_mode
+.BI "(struct ata_link *link "  ","
+.BI "struct ata_device **r_failed_dev "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link on which timings will be programmed
+.IP "r_failed_dev" 12
+out parameter for failed device
+
+Set ATA device disk transfer mode (PIO3, UDMA6, etc.).  If
+\fBata_set_mode\fP fails, pointer to the failing device is
+returned in \fIr_failed_dev\fP.
+
+LOCKING:
+PCI/etc. bus probe sem.
+.SH "RETURN"
+0 on success, negative errno otherwise

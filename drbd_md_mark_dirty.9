@@ -1,0 +1,13 @@
+.TH "drbd_md_mark_dirty" 9 "drbd_md_mark_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_md_mark_dirty \- Mark meta data super block as dirty
+.SH SYNOPSIS
+.B "void" drbd_md_mark_dirty
+.BI "(struct drbd_device *device "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.SH "DESCRIPTION"
+Call this function if you change anything that should be written to
+the meta-data super block. This function sets MD_DIRTY, and starts a
+timer that ensures that within five seconds you have to call \fBdrbd_md_sync\fP.

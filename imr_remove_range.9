@@ -1,0 +1,21 @@
+.TH "imr_remove_range" 9 "imr_remove_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+imr_remove_range \- delete an Isolated Memory Region by address
+.SH SYNOPSIS
+.B "int" imr_remove_range
+.BI "(phys_addr_t base "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+physical base address of region aligned to 1 KiB.
+.IP "size" 12
+physical size of region in bytes aligned to 1 KiB.
+.SH "DESCRIPTION"
+
+This function allows you to delete an IMR by an address range specified
+by base and size respectively.
+imr_remove_range(base, size); delete IMR from base to base+size.
+.SH "RETURN"
+-EINVAL on invalid range or out or range id
+-ENODEV if reg is valid but no IMR exists or is locked
+0 on success.

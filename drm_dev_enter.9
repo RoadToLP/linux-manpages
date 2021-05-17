@@ -1,0 +1,18 @@
+.TH "drm_dev_enter" 9 "drm_dev_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dev_enter \- Enter device critical section
+.SH SYNOPSIS
+.B "bool" drm_dev_enter
+.BI "(struct drm_device *dev "  ","
+.BI "int *idx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "idx" 12
+Pointer to index that will be passed to the matching \fBdrm_dev_exit\fP
+.SH "DESCRIPTION"
+This function marks and protects the beginning of a section that should not
+be entered after the device has been unplugged. The section end is marked
+with \fBdrm_dev_exit\fP. Calls to this function can be nested.
+.SH "RETURN"
+True if it is OK to enter the section, false otherwise.

@@ -1,0 +1,21 @@
+.TH "drm_gem_cma_vmap" 9 "drm_gem_cma_vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_vmap \- map a CMA GEM object into the kernel's virtual address space
+.SH SYNOPSIS
+.B "int" drm_gem_cma_vmap
+.BI "(struct drm_gem_object *obj "  ","
+.BI "struct dma_buf_map *map "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.IP "map" 12
+Returns the kernel virtual address of the CMA GEM object's backing
+store.
+.SH "DESCRIPTION"
+This function maps a buffer into the kernel's
+virtual address space. Since the CMA buffers are already mapped into the
+kernel virtual address space this simply returns the cached virtual
+address. Drivers using the CMA helpers should set this as their DRM
+driver's \fIdrm_gem_object_funcs.vmap\fP callback.
+.SH "RETURN"
+0 on success, or a negative error code otherwise.

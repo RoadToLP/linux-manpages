@@ -1,0 +1,21 @@
+.TH "batadv_dat_select_candidates" 9 "batadv_dat_select_candidates" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_select_candidates \- select the nodes which the DHT message has to be sent to
+.SH SYNOPSIS
+.B "struct batadv_dat_candidate *" batadv_dat_select_candidates
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "__be32 ip_dst "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "ip_dst" 12
+ipv4 to look up in the DHT
+.IP "vid" 12
+VLAN identifier
+.SH "DESCRIPTION"
+An originator O is selected if and only if its DHT_ID value is one of three
+closest values (from the LEFT, with wrap around if needed) then the hash
+value of the key. ip_dst is the key.
+.SH "RETURN"
+the candidate array of size BATADV_DAT_CANDIDATE_NUM.

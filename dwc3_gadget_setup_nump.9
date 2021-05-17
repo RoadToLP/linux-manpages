@@ -1,0 +1,26 @@
+.TH "dwc3_gadget_setup_nump" 9 "dwc3_gadget_setup_nump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc3_gadget_setup_nump \- calculate and initialize NUMP field of %DWC3_DCFG
+.SH SYNOPSIS
+.B "void" dwc3_gadget_setup_nump
+.BI "(struct dwc3 *dwc "  ");"
+.SH ARGUMENTS
+.IP "dwc" 12
+pointer to our context structure
+.SH "DESCRIPTION"
+The following looks like complex but it's actually very simple. In order to
+calculate the number of packets we can burst at once on OUT transfers, we're
+gonna use RxFIFO size.
+
+To calculate RxFIFO size we need two numbers:
+MDWIDTH = size, in bits, of the internal memory bus
+RAM2_DEPTH = depth, in MDWIDTH, of internal RAM2 (where RxFIFO sits)
+
+Given these two numbers, the formula is simple:
+
+RxFIFO Size = (RAM2_DEPTH * MDWIDTH / 8) - 24 - 16;
+
+24 bytes is for 3x SETUP packets
+16 bytes is a clock domain crossing tolerance
+
+Given RxFIFO Size, NUMP = RxFIFOSize / 1024;

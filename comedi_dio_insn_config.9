@@ -1,0 +1,39 @@
+.TH "comedi_dio_insn_config" 9 "comedi_dio_insn_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_dio_insn_config \- Boilerplate (*insn_config) for DIO subdevices
+.SH SYNOPSIS
+.B "int" comedi_dio_insn_config
+.BI "(struct comedi_device *dev "  ","
+.BI "struct comedi_subdevice *s "  ","
+.BI "struct comedi_insn *insn "  ","
+.BI "unsigned int *data "  ","
+.BI "unsigned int mask "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "s" 12
+COMEDI subdevice.
+.IP "insn" 12
+COMEDI instruction.
+.IP "data" 12
+Instruction parameters and return data.
+.IP "mask" 12
+io_bits mask for grouped channels, or 0 for single channel.
+.SH "DESCRIPTION"
+If \fImask\fP is 0, it is replaced with a single-bit mask corresponding to the
+channel number specified by \fIinsn->chanspec\fP.  Otherwise, \fImask\fP
+corresponds to a group of channels (which should include the specified
+channel) that are always configured together as inputs or outputs.
+
+Partially handles the INSN_CONFIG_DIO_INPUT, INSN_CONFIG_DIO_OUTPUTS,
+and INSN_CONFIG_DIO_QUERY instructions.  The first two update
+\fIs->io_bits\fP to record the directions of the masked channels.  The last
+one sets \fIdata\fP[1] to the current direction of the group of channels
+(COMEDI_INPUT) or COMEDI_OUTPUT) as recorded in \fIs->io_bits\fP.
+
+The caller is responsible for updating the DIO direction in the hardware
+registers if this function returns 0.
+
+Returns 0 for a INSN_CONFIG_DIO_INPUT or INSN_CONFIG_DIO_OUTPUT
+instruction, \fIinsn->n\fP (> 0) for a INSN_CONFIG_DIO_QUERY instruction, or
+-EINVAL for some other instruction.

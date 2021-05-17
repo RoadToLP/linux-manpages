@@ -1,0 +1,24 @@
+.TH "_cifsFileInfo_put" 9 "_cifsFileInfo_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_cifsFileInfo_put \- release a reference of file priv data
+.SH SYNOPSIS
+.B "void" _cifsFileInfo_put
+.BI "(struct cifsFileInfo *cifs_file "  ","
+.BI "bool wait_oplock_handler "  ","
+.BI "bool offload "  ");"
+.SH ARGUMENTS
+.IP "cifs_file" 12
+cifs/smb3 specific info (eg refcounts) for an open file
+.IP "wait_oplock_handler" 12
+must be false if called from oplock_break_handler
+.IP "offload" 12
+not offloaded on close and oplock breaks
+.SH "DESCRIPTION"
+
+This may involve closing the filehandle \fIcifs_file\fP out on the
+server. Must be called without holding tcon->open_file_lock,
+cinode->open_file_lock and cifs_file->file_info_lock.
+
+If \fIwait_for_oplock_handler\fP is true and we are releasing the last
+reference, wait for any running oplock break handler of the file
+and cancel any pending one.

@@ -1,0 +1,16 @@
+.TH "qib_get_7322_faststats" 9 "qib_get_7322_faststats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_get_7322_faststats \- get word counters from chip before they overflow
+.SH SYNOPSIS
+.B "void" qib_get_7322_faststats
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+contains a pointer to the qlogic_ib device qib_devdata
+.SH "DESCRIPTION"
+VESTIGIAL IBA7322 has no "small fast counters", so the only
+real purpose of this function is to maintain the notion of
+"active time", which in turn is only logged into the eeprom,
+which we don;t have, yet, for 7322-based boards.
+
+called from add_timer

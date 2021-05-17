@@ -1,0 +1,19 @@
+.TH "snd_ctl_notify" 9 "snd_ctl_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ctl_notify \- Send notification to user-space for a control change
+.SH SYNOPSIS
+.B "void" snd_ctl_notify
+.BI "(struct snd_card *card "  ","
+.BI "unsigned int mask "  ","
+.BI "struct snd_ctl_elem_id *id "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card to send notification
+.IP "mask" 12
+the event mask, SNDRV_CTL_EVENT_*
+.IP "id" 12
+the ctl element id to send notification
+.SH "DESCRIPTION"
+This function adds an event record with the given id and mask, appends
+to the list and wakes up the user-space for notification.  This can be
+called in the atomic context.

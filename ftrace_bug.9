@@ -1,0 +1,19 @@
+.TH "ftrace_bug" 9 "ftrace_bug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_bug \- report and shutdown function tracer
+.SH SYNOPSIS
+.B "void" ftrace_bug
+.BI "(int failed "  ","
+.BI "struct dyn_ftrace *rec "  ");"
+.SH ARGUMENTS
+.IP "failed" 12
+The failed type (EFAULT, EINVAL, EPERM)
+.IP "rec" 12
+The record that failed
+.SH "DESCRIPTION"
+The arch code that enables or disables the function tracing
+can call \fBftrace_bug\fP when it has detected a problem in
+modifying the code. \fIfailed\fP should be one of either:
+EFAULT - if the problem happens on reading the \fIip\fP address
+EINVAL - if what is read at \fIip\fP is not what was expected
+EPERM - if the problem happens on writing to the \fIip\fP address

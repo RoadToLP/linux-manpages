@@ -1,0 +1,22 @@
+.TH "intel_dp_init_lttpr_and_dprx_caps" 9 "intel_dp_init_lttpr_and_dprx_caps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_dp_init_lttpr_and_dprx_caps \- detect LTTPR and DPRX caps, init the LTTPR link training mode
+.SH SYNOPSIS
+.B "int" intel_dp_init_lttpr_and_dprx_caps
+.BI "(struct intel_dp *intel_dp "  ");"
+.SH ARGUMENTS
+.IP "intel_dp" 12
+Intel DP struct
+.SH "DESCRIPTION"
+Read the LTTPR common and DPRX capabilities and switch to non-transparent
+link training mode if any is detected and read the PHY capabilities for all
+detected LTTPRs. In case of an LTTPR detection error or if the number of
+LTTPRs is more than is supported (8), fall back to the no-LTTPR,
+transparent mode link training mode.
+.SH "RETURN"
+>0  if LTTPRs were detected and the non-transparent LT mode was set. The
+DPRX capabilities are read out.
+0  if no LTTPRs or more than 8 LTTPRs were detected or in case of a
+detection failure and the transparent LT mode was set. The DPRX
+capabilities are read out.
+<0  Reading out the DPRX capabilities failed.

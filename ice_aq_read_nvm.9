@@ -1,0 +1,32 @@
+.TH "ice_aq_read_nvm" 9 "ice_aq_read_nvm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_read_nvm \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_read_nvm
+.BI "(struct ice_hw *hw "  ","
+.BI "u16 module_typeid "  ","
+.BI "u32 offset "  ","
+.BI "u16 length "  ","
+.BI "void *data "  ","
+.BI "bool last_command "  ","
+.BI "bool read_shadow_ram "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "module_typeid" 12
+module pointer location in words from the NVM beginning
+.IP "offset" 12
+byte offset from the module beginning
+.IP "length" 12
+length of the section to be read (in bytes from the offset)
+.IP "data" 12
+command buffer (size [bytes] = length)
+.IP "last_command" 12
+tells if this is the last command in a series
+.IP "read_shadow_ram" 12
+tell if this is a shadow RAM read
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Read the NVM using the admin queue commands (0x0701)

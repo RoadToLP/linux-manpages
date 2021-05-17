@@ -1,0 +1,19 @@
+.TH "__ntfs_init_inode" 9 "__ntfs_init_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_init_inode \- initialize ntfs specific part of an inode
+.SH SYNOPSIS
+.B "void" __ntfs_init_inode
+.BI "(struct super_block *sb "  ","
+.BI "ntfs_inode *ni "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of mounted volume
+.IP "ni" 12
+freshly allocated ntfs inode which to initialize
+.SH "DESCRIPTION"
+Initialize an ntfs inode to defaults.
+
+Return zero on success and -ENOMEM on error.
+.SH "NOTE"
+ni->mft_no, ni->state, ni->type, ni->name, and ni->name_len are left
+untouched. Make sure to initialize them elsewhere.

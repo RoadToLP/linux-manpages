@@ -1,0 +1,18 @@
+.TH "NCR5380_maybe_reset_bus" 9 "NCR5380_maybe_reset_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_maybe_reset_bus \- Detect and correct bus wedge problems.
+.SH SYNOPSIS
+.B "int" NCR5380_maybe_reset_bus
+.BI "(struct Scsi_Host *instance "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+adapter to check
+.SH "DESCRIPTION"
+If the system crashed, it may have crashed with a connected target and
+the SCSI bus busy. Check for BUS FREE phase. If not, try to abort the
+currently established nexus, which we know nothing about. Failing that
+do a bus reset.
+
+Note that a bus reset will cause the chip to assert IRQ.
+
+Returns 0 if successful, otherwise -ENXIO.

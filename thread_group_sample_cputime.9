@@ -1,0 +1,18 @@
+.TH "thread_group_sample_cputime" 9 "thread_group_sample_cputime" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+thread_group_sample_cputime \- Sample cputime for a given task
+.SH SYNOPSIS
+.B "void" thread_group_sample_cputime
+.BI "(struct task_struct *tsk "  ","
+.BI "u64 *samples "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+Task for which cputime needs to be started
+.IP "samples" 12
+Storage for time samples
+.SH "DESCRIPTION"
+Called from \fBsys_getitimer\fP to calculate the expiry time of an active
+timer. That means group cputime accounting is already active. Called
+with task sighand lock held.
+
+Updates \fItimes\fP with an uptodate sample of the thread group cputimes.

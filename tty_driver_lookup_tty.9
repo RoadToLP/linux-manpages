@@ -1,0 +1,20 @@
+.TH "tty_driver_lookup_tty" 9 "tty_driver_lookup_tty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_driver_lookup_tty \- find an existing tty, if any
+.SH SYNOPSIS
+.B "struct tty_struct *" tty_driver_lookup_tty
+.BI "(struct tty_driver *driver "  ","
+.BI "struct file *file "  ","
+.BI "int idx "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the driver for the tty
+.IP "file" 12
+file object
+.IP "idx" 12
+the minor number
+
+Return the tty, if found. If not found, return NULL or \fBERR_PTR\fP if the
+driver \fBlookup\fP method returns an error.
+
+Locking: tty_mutex must be held. If the tty is found, bump the tty kref.

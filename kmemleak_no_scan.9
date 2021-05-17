@@ -1,0 +1,14 @@
+.TH "kmemleak_no_scan" 9 "kmemleak_no_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmemleak_no_scan \- do not scan an allocated object
+.SH SYNOPSIS
+.B "void __ref" kmemleak_no_scan
+.BI "(const void *ptr "  ");"
+.SH ARGUMENTS
+.IP "ptr" 12
+pointer to beginning of the object
+.SH "DESCRIPTION"
+This function notifies kmemleak not to scan the given memory block. Useful
+in situations where it is known that the given object does not contain any
+references to other objects. Kmemleak will not scan such objects reducing
+the number of false negatives.

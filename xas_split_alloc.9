@@ -1,0 +1,25 @@
+.TH "xas_split_alloc" 9 "xas_split_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_split_alloc \- Allocate memory for splitting an entry.
+.SH SYNOPSIS
+.B "void" xas_split_alloc
+.BI "(struct xa_state *xas "  ","
+.BI "void *entry "  ","
+.BI "unsigned int order "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.IP "entry" 12
+New entry which will be stored in the array.
+.IP "order" 12
+Current entry order.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+This function should be called before calling \fBxas_split\fP.
+If necessary, it will allocate new nodes (and fill them with \fIentry\fP)
+to prepare for the upcoming split of an entry of \fIorder\fP size into
+entries of the order stored in the \fIxas\fP.
+.SH "CONTEXT"
+May sleep if \fIgfp\fP flags permit.

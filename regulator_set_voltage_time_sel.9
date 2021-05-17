@@ -1,0 +1,21 @@
+.TH "regulator_set_voltage_time_sel" 9 "regulator_set_voltage_time_sel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_set_voltage_time_sel \- get raise/fall time
+.SH SYNOPSIS
+.B "int" regulator_set_voltage_time_sel
+.BI "(struct regulator_dev *rdev "  ","
+.BI "unsigned int old_selector "  ","
+.BI "unsigned int new_selector "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+regulator source device
+.IP "old_selector" 12
+selector for starting voltage
+.IP "new_selector" 12
+selector for target voltage
+.SH "DESCRIPTION"
+Provided with the starting and target voltage selectors, this function
+returns time in microseconds required to rise or fall to this new voltage
+
+Drivers providing ramp_delay in regulation_constraints can use this as their
+\fBset_voltage_time_sel\fP operation.

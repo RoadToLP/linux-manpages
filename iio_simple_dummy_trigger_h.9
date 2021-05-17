@@ -1,0 +1,17 @@
+.TH "iio_simple_dummy_trigger_h" 9 "iio_simple_dummy_trigger_h" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_simple_dummy_trigger_h \- the trigger handler function
+.SH SYNOPSIS
+.B "irqreturn_t" iio_simple_dummy_trigger_h
+.BI "(int irq "  ","
+.BI "void *p "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+the interrupt number
+.IP "p" 12
+private data - always a pointer to the poll func.
+.SH "DESCRIPTION"
+This is the guts of buffered capture. On a trigger event occurring,
+if the pollfunc is attached then this handler is called as a threaded
+interrupt (and hence may sleep). It is responsible for grabbing data
+from the device and pushing it into the associated buffer.

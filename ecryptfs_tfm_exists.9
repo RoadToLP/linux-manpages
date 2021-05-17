@@ -1,0 +1,17 @@
+.TH "ecryptfs_tfm_exists" 9 "ecryptfs_tfm_exists" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_tfm_exists \- Search for existing tfm for cipher_name.
+.SH SYNOPSIS
+.B "int" ecryptfs_tfm_exists
+.BI "(char *cipher_name "  ","
+.BI "struct ecryptfs_key_tfm **key_tfm "  ");"
+.SH ARGUMENTS
+.IP "cipher_name" 12
+the name of the cipher to search for
+.IP "key_tfm" 12
+set to corresponding tfm if found
+.SH "DESCRIPTION"
+Searches for cached key_tfm matching \fIcipher_name\fP
+Must be called with \fIkey_tfm_list_mutex\fP held
+Returns 1 if found, with \fIkey_tfm\fP set
+Returns 0 if not found, with \fIkey_tfm\fP set to NULL

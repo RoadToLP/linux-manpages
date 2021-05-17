@@ -1,0 +1,30 @@
+.TH "proc_dostring" 9 "proc_dostring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_dostring \- read a string sysctl
+.SH SYNOPSIS
+.B "int" proc_dostring
+.BI "(struct ctl_table *table "  ","
+.BI "int write "  ","
+.BI "void *buffer "  ","
+.BI "size_t *lenp "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+the sysctl table
+.IP "write" 12
+TRUE if this is a write to the sysctl file
+.IP "buffer" 12
+the user buffer
+.IP "lenp" 12
+the size of the user buffer
+.IP "ppos" 12
+file position
+.SH "DESCRIPTION"
+Reads/writes a string from/to the user buffer. If the kernel
+buffer provided is not large enough to hold the string, the
+string is truncated. The copied string is NULL-terminated.
+If the string is being read by the user process, it is copied
+and a newline '\n' is added. It is truncated if the buffer is
+not large enough.
+
+Returns 0 on success.

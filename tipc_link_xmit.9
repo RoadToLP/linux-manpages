@@ -1,0 +1,20 @@
+.TH "tipc_link_xmit" 9 "tipc_link_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_link_xmit \- enqueue buffer list according to queue situation
+.SH SYNOPSIS
+.B "int" tipc_link_xmit
+.BI "(struct tipc_link *l "  ","
+.BI "struct sk_buff_head *list "  ","
+.BI "struct sk_buff_head *xmitq "  ");"
+.SH ARGUMENTS
+.IP "l" 12
+link to use
+.IP "list" 12
+chain of buffers containing message
+.IP "xmitq" 12
+returned list of packets to be sent by caller
+.SH "DESCRIPTION"
+Consumes the buffer chain.
+Messages at TIPC_SYSTEM_IMPORTANCE are always accepted
+.SH "RETURN"
+0 if success, or errno: -ELINKCONG, -EMSGSIZE or -ENOBUFS

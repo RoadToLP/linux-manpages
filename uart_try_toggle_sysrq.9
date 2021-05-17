@@ -1,0 +1,18 @@
+.TH "uart_try_toggle_sysrq" 9 "uart_try_toggle_sysrq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_try_toggle_sysrq \- Enables SysRq from serial line
+.SH SYNOPSIS
+.B "bool" uart_try_toggle_sysrq
+.BI "(struct uart_port *port "  ","
+.BI "unsigned int ch "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+uart_port structure where char(s) after BREAK met
+.IP "ch" 12
+new character in the sequence after received BREAK
+
+Enables magic SysRq when the required sequence is met on port
+(see CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE).
+
+Returns false if \fIch\fP is out of enabling sequence and should be
+handled some other way, true if \fIch\fP was consumed.

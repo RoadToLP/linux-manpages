@@ -1,0 +1,22 @@
+.TH "lpfc_sli_iocbq_lookup" 9 "lpfc_sli_iocbq_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_iocbq_lookup \- Find command iocb for the given response iocb
+.SH SYNOPSIS
+.B "struct lpfc_iocbq *" lpfc_sli_iocbq_lookup
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *prspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "prspiocb" 12
+Pointer to response iocb object.
+.SH "DESCRIPTION"
+This function looks up the iocb_lookup table to get the command iocb
+corresponding to the given response iocb using the iotag of the
+response iocb. The driver calls this function with the hbalock held
+for SLI3 ports or the ring lock held for SLI4 ports.
+This function returns the command iocb object if it finds the command
+iocb else returns NULL.

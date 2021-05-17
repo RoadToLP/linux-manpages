@@ -1,0 +1,14 @@
+.TH "lpfc_els_timeout_handler" 9 "lpfc_els_timeout_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_timeout_handler \- Process an els timeout event
+.SH SYNOPSIS
+.B "void" lpfc_els_timeout_handler
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine is the actual handler function that processes an ELS timeout
+event. It walks the ELS ring to get and abort all the IOCBs (except the
+ABORT/CLOSE/FARP/FARPR/FDISC), which are associated with the \fIvport\fP by
+invoking the \fBlpfc_sli_issue_abort_iotag\fP routine.

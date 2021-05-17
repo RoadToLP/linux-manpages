@@ -1,0 +1,19 @@
+.TH "ib_drain_qp" 9 "ib_drain_qp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_drain_qp \- Block until all CQEs have been consumed by the application on both the RQ and SQ.
+.SH SYNOPSIS
+.B "void" ib_drain_qp
+.BI "(struct ib_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+queue pair to drain
+.SH "DESCRIPTION"
+The caller must:
+
+ensure there is room in the CQ(s), SQ, and RQ for drain work requests
+and completions.
+
+allocate the CQs using \fBib_alloc_cq\fP.
+
+ensure that there are no other contexts that are posting WRs concurrently.
+Otherwise the drain is not guaranteed.

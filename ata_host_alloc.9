@@ -1,0 +1,26 @@
+.TH "ata_host_alloc" 9 "ata_host_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_host_alloc \- allocate and init basic ATA host resources
+.SH SYNOPSIS
+.B "struct ata_host *" ata_host_alloc
+.BI "(struct device *dev "  ","
+.BI "int max_ports "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+generic device this host is associated with
+.IP "max_ports" 12
+maximum number of ATA ports associated with this host
+
+Allocate and initialize basic ATA host resources.  LLD calls
+this function to allocate a host, initializes it fully and
+attaches it using \fBata_host_register\fP.
+
+\fImax_ports\fP ports are allocated and host->n_ports is
+initialized to \fImax_ports\fP.  The caller is allowed to decrease
+host->n_ports before calling \fBata_host_register\fP.  The unused
+ports will be automatically freed on registration.
+.SH "RETURN"
+Allocate ATA host on success, NULL on failure.
+
+LOCKING:
+Inherited from calling layer (may sleep).

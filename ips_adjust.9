@@ -1,0 +1,29 @@
+.TH "ips_adjust" 9 "ips_adjust" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ips_adjust \- adjust power clamp based on thermal state
+.SH SYNOPSIS
+.B "int" ips_adjust
+.BI "(void *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ips driver structure
+.SH "DESCRIPTION"
+Wake up every 5s or so and check whether we should adjust the power clamp.
+Check CPU and GPU load to determine which needs adjustment.  There are
+several things to consider here:
+- do we need to adjust up or down?
+- is CPU busy?
+- is GPU busy?
+- is CPU in turbo?
+- is GPU in turbo?
+- is CPU or GPU preferred? (CPU is default)
+
+So, given the above, we do the following:
+- up (TDP available)
+- CPU not busy, GPU not busy - nothing
+- CPU busy, GPU not busy - adjust CPU up
+- CPU not busy, GPU busy - adjust GPU up
+- CPU busy, GPU busy - adjust preferred unit up, taking headroom from
+non-preferred unit if necessary
+- down (at TDP limit)
+- adjust both CPU and GPU down if possible

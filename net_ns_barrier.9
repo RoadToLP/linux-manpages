@@ -1,0 +1,16 @@
+.TH "net_ns_barrier" 9 "net_ns_barrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+net_ns_barrier \- wait until concurrent net_cleanup_work is done
+.SH SYNOPSIS
+.B "void" net_ns_barrier
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+cleanup_net runs from work queue and will first remove namespaces
+from the global list, then run net exit functions.
+
+Call this in module exit path to make sure that all netns
+->exit ops have been invoked before the function is removed.

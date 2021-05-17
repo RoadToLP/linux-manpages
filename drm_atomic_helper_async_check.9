@@ -1,0 +1,20 @@
+.TH "drm_atomic_helper_async_check" 9 "drm_atomic_helper_async_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_async_check \- check if state can be commited asynchronously
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_async_check
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+the driver state object
+.SH "DESCRIPTION"
+This helper will check if it is possible to commit the state asynchronously.
+Async commits are not supposed to swap the states like normal sync commits
+but just do in-place changes on the current state.
+
+It will return 0 if the commit can happen in an asynchronous fashion or error
+if not. Note that error just mean it can't be commited asynchronously, if it
+fails the commit should be treated like a normal synchronous commit.

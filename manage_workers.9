@@ -1,0 +1,25 @@
+.TH "manage_workers" 9 "manage_workers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+manage_workers \- manage worker pool
+.SH SYNOPSIS
+.B "bool" manage_workers
+.BI "(struct worker *worker "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+self
+.SH "DESCRIPTION"
+Assume the manager role and manage the worker pool \fIworker\fP belongs
+to.  At any given time, there can be only zero or one manager per
+pool.  The exclusion is handled automatically by this function.
+
+The caller can safely start processing works on false return.  On
+true return, it's guaranteed that \fBneed_to_create_worker\fP is false
+and \fBmay_start_working\fP is true.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock) which may be released and regrabbed
+multiple times.  Does GFP_KERNEL allocations.
+.SH "RETURN"
+false if the pool doesn't need management and the caller can safely
+start processing works, true if management function was performed and
+the conditions that the caller verified before calling the function may
+no longer be true.

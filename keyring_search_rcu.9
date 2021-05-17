@@ -1,0 +1,41 @@
+.TH "keyring_search_rcu" 9 "keyring_search_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+keyring_search_rcu \- Search a keyring tree for a matching key under RCU
+.SH SYNOPSIS
+.B "key_ref_t" keyring_search_rcu
+.BI "(key_ref_t keyring_ref "  ","
+.BI "struct keyring_search_context *ctx "  ");"
+.SH ARGUMENTS
+.IP "keyring_ref" 12
+A pointer to the keyring with possession indicator.
+.IP "ctx" 12
+The keyring search context.
+.SH "DESCRIPTION"
+Search the supplied keyring tree for a key that matches the criteria given.
+The root keyring and any linked keyrings must grant Search permission to the
+caller to be searchable and keys can only be found if they too grant Search
+to the caller. The possession flag on the root keyring pointer controls use
+of the possessor bits in permissions checking of the entire tree.  In
+addition, the LSM gets to forbid keyring searches and key matches.
+
+The search is performed as a breadth-then-depth search up to the prescribed
+limit (KEYRING_SEARCH_MAX_DEPTH).  The caller must hold the RCU read lock to
+prevent keyrings from being destroyed or rearranged whilst they are being
+searched.
+
+Keys are matched to the type provided and are then filtered by the match
+function, which is given the description to use in any way it sees fit.  The
+match function may use any attributes of a key that it wishes to
+determine the match.  Normally the match function from the key type would be
+used.
+
+RCU can be used to prevent the keyring key lists from disappearing without
+the need to take lots of locks.
+
+Returns a pointer to the found key and increments the key usage count if
+successful; -EAGAIN if no matching keys were found, or if expired or revoked
+keys were found; -ENOKEY if only negative keys were found; -ENOTDIR if the
+specified keyring wasn't a keyring.
+
+In the case of a successful return, the possession attribute from
+\fIkeyring_ref\fP is propagated to the returned key reference.

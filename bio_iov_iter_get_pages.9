@@ -1,0 +1,30 @@
+.TH "bio_iov_iter_get_pages" 9 "bio_iov_iter_get_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_iov_iter_get_pages \- add user or kernel pages to a bio
+.SH SYNOPSIS
+.B "int" bio_iov_iter_get_pages
+.BI "(struct bio *bio "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio to add pages to
+.IP "iter" 12
+iov iterator describing the region to be added
+.SH "DESCRIPTION"
+This takes either an iterator pointing to user memory, or one pointing to
+kernel pages (BVEC iterator). If we're adding user pages, we pin them and
+map them into the kernel. On IO completion, the caller should put those
+pages. For bvec based iterators \fBbio_iov_iter_get_pages\fP uses the provided
+bvecs rather than copying them. Hence anyone issuing kiocb based IO needs
+to ensure the bvecs and pages stay referenced until the submitted I/O is
+completed by a call to ->\fBki_complete\fP or returns with an error other than
+-EIOCBQUEUED. The caller needs to check if the bio is flagged BIO_NO_PAGE_REF
+on IO completion. If it isn't, then pages should be released.
+
+The function tries, but does not guarantee, to pin as many pages as
+fit into the bio, or are requested in \fIiter\fP, whatever is smaller. If
+MM encounters an error pinning the requested pages, it stops. Error
+is returned only if 0 pages could be pinned.
+
+It's intended for direct IO, so doesn't do PSI tracking, the caller is
+responsible for setting BIO_WORKINGSET if necessary.

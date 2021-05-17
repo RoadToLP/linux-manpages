@@ -1,0 +1,38 @@
+.TH "ntbm_msi_request_threaded_irq" 9 "ntbm_msi_request_threaded_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntbm_msi_request_threaded_irq \- allocate an MSI interrupt
+.SH SYNOPSIS
+.B "int" ntbm_msi_request_threaded_irq
+.BI "(struct ntb_dev *ntb "  ","
+.BI "irq_handler_t handler "  ","
+.BI "irq_handler_t thread_fn "  ","
+.BI "const char *name "  ","
+.BI "void *dev_id "  ","
+.BI "struct ntb_msi_desc *msi_desc "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device context
+.IP "handler" 12
+Function to be called when the IRQ occurs
+.IP "thread_fn" 12
+Function to be called in a threaded interrupt context. NULL
+for clients which handle everything in \fIhandler\fP
+.IP "name" 12
+-- undescribed --
+.IP "dev_id" 12
+A cookie passed back to the handler function
+.IP "msi_desc" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function assigns an interrupt handler to an unused
+MSI interrupt and returns the descriptor used to trigger
+it. The descriptor can then be sent to a peer to trigger
+the interrupt.
+
+The interrupt resource is managed with devres so it will
+be automatically freed when the NTB device is torn down.
+
+If an IRQ allocated with this function needs to be freed
+separately, \fBntbm_free_irq\fP must be used.
+.SH "RETURN"
+IRQ number assigned on success, otherwise a negative error number.

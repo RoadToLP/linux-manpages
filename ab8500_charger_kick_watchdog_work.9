@@ -1,0 +1,19 @@
+.TH "ab8500_charger_kick_watchdog_work" 9 "ab8500_charger_kick_watchdog_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ab8500_charger_kick_watchdog_work \- kick the watchdog
+.SH SYNOPSIS
+.B "void" ab8500_charger_kick_watchdog_work
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+pointer to the work_struct structure
+.SH "DESCRIPTION"
+Work queue function for kicking the charger watchdog.
+
+For ABB revision 1.0 and 1.1 there is a bug in the watchdog
+logic. That means we have to continuously kick the charger
+watchdog even when no charger is connected. This is only
+valid once the AC charger has been enabled. This is
+a bug that is not handled by the algorithm and the
+watchdog have to be kicked by the charger driver
+when the AC charger is disabled

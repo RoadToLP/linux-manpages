@@ -1,0 +1,29 @@
+.TH "mma9551_write_config_words" 9 "mma9551_write_config_words" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mma9551_write_config_words \- write multiple config words
+.SH SYNOPSIS
+.B "int" mma9551_write_config_words
+.BI "(struct i2c_client *client "  ","
+.BI "u8 app_id "  ","
+.BI "u16 reg "  ","
+.BI "u8 len "  ","
+.BI "u16 *buf "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+I2C client
+.IP "app_id" 12
+Application ID
+.IP "reg" 12
+Application register
+.IP "len" 12
+Length of array to write (in words)
+.IP "buf" 12
+Array of words to write
+.SH "DESCRIPTION"
+Write multiple configuration registers (word-sized registers).
+
+Locking note: This function must be called with the device lock held.
+Locking is not handled inside the function. Callers should ensure they
+serialize access to the HW.
+.SH "RETURN"
+0 on success, negative value on failure.

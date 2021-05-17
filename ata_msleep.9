@@ -1,0 +1,21 @@
+.TH "ata_msleep" 9 "ata_msleep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_msleep \- ATA EH owner aware msleep
+.SH SYNOPSIS
+.B "void" ata_msleep
+.BI "(struct ata_port *ap "  ","
+.BI "unsigned int msecs "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to attribute the sleep to
+.IP "msecs" 12
+duration to sleep in milliseconds
+
+Sleeps \fImsecs\fP.  If the current task is owner of \fIap\fP's EH, the
+ownership is released before going to sleep and reacquired
+after the sleep is complete.  IOW, other ports sharing the
+\fIap->host\fP will be allowed to own the EH while this task is
+sleeping.
+
+LOCKING:
+Might sleep.

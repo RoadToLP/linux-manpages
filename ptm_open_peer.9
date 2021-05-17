@@ -1,0 +1,19 @@
+.TH "ptm_open_peer" 9 "ptm_open_peer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ptm_open_peer \- open the peer of a pty
+.SH SYNOPSIS
+.B "int" ptm_open_peer
+.BI "(struct file *master "  ","
+.BI "struct tty_struct *tty "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+the open struct file of the ptmx device node
+.IP "tty" 12
+the master of the pty being opened
+.IP "flags" 12
+the flags for open
+
+Provide a race free way for userspace to open the slave end of a pty
+(where they have the master fd and cannot access or trust the mount
+namespace /dev/pts was mounted inside).

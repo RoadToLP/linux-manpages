@@ -1,0 +1,19 @@
+.TH "zpa2326_power_on" 9 "zpa2326_power_on" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpa2326_power_on \- Power on device to allow subsequent configuration.
+.SH SYNOPSIS
+.B "int" zpa2326_power_on
+.BI "(const struct iio_dev *indio_dev "  ","
+.BI "const struct zpa2326_private *private "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+The IIO device associated with the sampling hardware.
+.IP "private" 12
+Internal private state related to \fIindio_dev\fP.
+.SH "DESCRIPTION"
+Sampling will be disabled, preventing strange things from happening in our
+back. Hardware FIFO content will be cleared.
+When successful, device will be left in the enabled state to allow further
+configuration.
+.SH "RETURN"
+Zero when successful, a negative error code otherwise.

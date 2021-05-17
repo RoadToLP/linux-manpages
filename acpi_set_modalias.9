@@ -1,0 +1,22 @@
+.TH "acpi_set_modalias" 9 "acpi_set_modalias" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_set_modalias \- Set modalias using "compatible" property or supplied ID
+.SH SYNOPSIS
+.B "void" acpi_set_modalias
+.BI "(struct acpi_device *adev "  ","
+.BI "const char *default_id "  ","
+.BI "char *modalias "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device object to match
+.IP "default_id" 12
+ID string to use as default if no compatible string found
+.IP "modalias" 12
+Pointer to buffer that modalias value will be copied into
+.IP "len" 12
+Length of modalias buffer
+.SH "DESCRIPTION"
+This is a counterpart of \fBof_modalias_node\fP for struct acpi_device objects.
+If there is a compatible string for \fIadev\fP, it will be copied to \fImodalias\fP
+with the vendor prefix stripped; otherwise, \fIdefault_id\fP will be used.

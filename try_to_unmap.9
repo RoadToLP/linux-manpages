@@ -1,0 +1,17 @@
+.TH "try_to_unmap" 9 "try_to_unmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_unmap \- try to remove all page table mappings to a page
+.SH SYNOPSIS
+.B "bool" try_to_unmap
+.BI "(struct page *page "  ","
+.BI "enum ttu_flags flags "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to get unmapped
+.IP "flags" 12
+action and flags
+.SH "DESCRIPTION"
+Tries to remove all the page table entries which are mapping this
+page, used in the pageout path.  Caller must hold the page lock.
+
+If unmap is successful, return true. Otherwise, false.

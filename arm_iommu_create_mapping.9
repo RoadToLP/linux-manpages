@@ -1,0 +1,22 @@
+.TH "arm_iommu_create_mapping" 9 "arm_iommu_create_mapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_iommu_create_mapping \- 
+.SH SYNOPSIS
+.B "struct dma_iommu_mapping *" arm_iommu_create_mapping
+.BI "(struct bus_type *bus "  ","
+.BI "dma_addr_t base "  ","
+.BI "u64 size "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+pointer to the bus holding the client device (for IOMMU calls)
+.IP "base" 12
+start address of the valid IO address space
+.IP "size" 12
+maximum size of the valid IO address space
+.SH "DESCRIPTION"
+Creates a mapping structure which holds information about used/unused
+IO address ranges, which is required to perform memory allocation and
+mapping with IOMMU aware functions.
+
+The client device need to be attached to the mapping with
+arm_iommu_attach_device function.

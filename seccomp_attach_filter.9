@@ -1,0 +1,19 @@
+.TH "seccomp_attach_filter" 9 "seccomp_attach_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seccomp_attach_filter \- validate and attach filter
+.SH SYNOPSIS
+.B "long" seccomp_attach_filter
+.BI "(unsigned int flags "  ","
+.BI "struct seccomp_filter *filter "  ");"
+.SH ARGUMENTS
+.IP "flags" 12
+flags to change filter behavior
+.IP "filter" 12
+seccomp filter to add to the current process
+.SH "DESCRIPTION"
+Caller must be holding current->sighand->siglock lock.
+
+Returns 0 on success, -ve on error, or
+- in TSYNC mode: the pid of a thread which was either not in the correct
+seccomp mode or did not have an ancestral seccomp filter
+- in NEW_LISTENER mode: the fd of the new listener

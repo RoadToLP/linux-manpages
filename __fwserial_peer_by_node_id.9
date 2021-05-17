@@ -1,0 +1,25 @@
+.TH "__fwserial_peer_by_node_id" 9 "__fwserial_peer_by_node_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__fwserial_peer_by_node_id \- finds a peer matching the given generation + id
+.SH SYNOPSIS
+.B "struct fwtty_peer *" __fwserial_peer_by_node_id
+.BI "(struct fw_card *card "  ","
+.BI "int generation "  ","
+.BI "int id "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+-- undescribed --
+.IP "generation" 12
+-- undescribed --
+.IP "id" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+If a matching peer could not be found for the specified generation/node id,
+this could be because:
+a) the generation has changed and one of the nodes hasn't updated yet
+b) the remote node has created its remote unit device before this
+local node has created its corresponding remote unit device
+In either case, the remote node should retry
+.SH "NOTE"
+caller must be in \fBrcu_read_lock\fP section

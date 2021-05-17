@@ -1,0 +1,17 @@
+.TH "e1000_check_downshift" 9 "e1000_check_downshift" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_check_downshift \- Check if Downshift occurred
+.SH SYNOPSIS
+.B "s32" e1000_check_downshift
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+Struct containing variables accessed by shared code
+.SH "RETURN"
+- E1000_ERR_XXX
+E1000_SUCCESS
+.SH "DESCRIPTION"
+For phy's older than IGP, this function reads the Downshift bit in the Phy
+Specific Status register.  For IGP phy's, it reads the Downgrade bit in the
+Link Health register.  In IGP this bit is latched high, so the driver must
+read it immediately after link is established.

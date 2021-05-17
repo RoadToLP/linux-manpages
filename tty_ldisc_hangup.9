@@ -1,0 +1,22 @@
+.TH "tty_ldisc_hangup" 9 "tty_ldisc_hangup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_ldisc_hangup \- hangup ldisc reset
+.SH SYNOPSIS
+.B "void" tty_ldisc_hangup
+.BI "(struct tty_struct *tty "  ","
+.BI "bool reinit "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty being hung up
+.IP "reinit" 12
+whether to re-initialise the tty
+
+Some tty devices reset their termios when they receive a hangup
+event. In that situation we must also switch back to N_TTY properly
+before we reset the termios data.
+
+Locking: We can take the ldisc mutex as the rest of the code is
+careful to allow for this.
+
+In the pty pair case this occurs in the \fBclose\fP path of the
+tty itself so we must be careful about locking rules.

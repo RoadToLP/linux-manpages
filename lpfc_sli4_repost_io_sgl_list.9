@@ -1,0 +1,17 @@
+.TH "lpfc_sli4_repost_io_sgl_list" 9 "lpfc_sli4_repost_io_sgl_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_repost_io_sgl_list \- Repost all the allocated nvme buffer sgls
+.SH SYNOPSIS
+.B "int" lpfc_sli4_repost_io_sgl_list
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine walks the list of nvme buffers that have been allocated and
+repost them to the port by using SGL block post. This is needed after a
+pci_function_reset/warm_start or start. The lpfc_hba_down_post_s4 routine
+is responsible for moving all nvme buffers on the lpfc_abts_nvme_sgl_list
+to the lpfc_io_buf_list. If the repost fails, reject all nvme buffers.
+.SH "RETURN"
+0 = success, non-zero failure.

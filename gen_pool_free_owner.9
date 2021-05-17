@@ -1,0 +1,22 @@
+.TH "gen_pool_free_owner" 9 "gen_pool_free_owner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen_pool_free_owner \- free allocated special memory back to the pool
+.SH SYNOPSIS
+.B "void" gen_pool_free_owner
+.BI "(struct gen_pool *pool "  ","
+.BI "unsigned long addr "  ","
+.BI "size_t size "  ","
+.BI "void **owner "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool to free to
+.IP "addr" 12
+starting address of memory to free back to pool
+.IP "size" 12
+size in bytes of memory to free
+.IP "owner" 12
+private data stashed at \fBgen_pool_add\fP time
+.SH "DESCRIPTION"
+Free previously allocated special memory back to the specified
+pool.  Can not be used in NMI handler on architectures without
+NMI-safe cmpxchg implementation.

@@ -1,0 +1,25 @@
+.TH "ntfs_statfs" 9 "ntfs_statfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_statfs \- return information about mounted NTFS volume
+.SH SYNOPSIS
+.B "int" ntfs_statfs
+.BI "(struct dentry *dentry "  ","
+.BI "struct kstatfs *sfs "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+dentry from mounted volume
+.IP "sfs" 12
+statfs structure in which to return the information
+.SH "DESCRIPTION"
+Return information about the mounted NTFS volume \fIdentry\fP in the statfs structure
+pointed to by \fIsfs\fP (this is initialized with zeros before ntfs_statfs is
+called). We interpret the values to be correct of the moment in time at
+which we are called. Most values are variable otherwise and this isn't just
+the free values but the totals as well. For example we can increase the
+total number of file nodes if we run out and we can keep doing this until
+there is no more space on the volume left at all.
+
+Called from vfs_statfs which is used to handle the statfs, fstatfs, and
+ustat system calls.
+
+Return 0 on success or -errno on error.

@@ -1,0 +1,12 @@
+.TH "fsnotify_unmount_inodes" 9 "fsnotify_unmount_inodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsnotify_unmount_inodes \- an sb is unmounting. handle any watched inodes.
+.SH SYNOPSIS
+.B "void" fsnotify_unmount_inodes
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock being unmounted.
+.SH "DESCRIPTION"
+Called during unmount with no locks held, so needs to be safe against
+concurrent modifiers. We temporarily drop sb->s_inode_list_lock and CAN block.

@@ -1,0 +1,26 @@
+.TH "set_type" 9 "set_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_type \- Sets the tuner type for a given device
+.SH SYNOPSIS
+.B "void" set_type
+.BI "(struct i2c_client *c "  ","
+.BI "unsigned int type "  ","
+.BI "unsigned int new_mode_mask "  ","
+.BI "void *new_config "  ","
+.BI "int (*tuner_callback) (void *dev, int component, int cmd, int arg) "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+i2c_client descriptor
+.IP "type" 12
+type of the tuner (e. g. tuner number)
+.IP "new_mode_mask" 12
+Indicates if tuner supports TV and/or Radio
+.IP "new_config" 12
+an optional parameter used by a few tuners to adjust
+internal parameters, like LNA mode
+.IP "tuner_callback" 12
+an optional function to be called when switching
+to analog mode
+.SH "DESCRIPTION"
+This function applies the tuner config to tuner specified
+by tun_setup structure. It contains several per-tuner initialization "magic"

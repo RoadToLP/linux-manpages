@@ -1,0 +1,21 @@
+.TH "snd_hdac_display_power" 9 "snd_hdac_display_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_display_power \- Power up / down the power refcount
+.SH SYNOPSIS
+.B "void" snd_hdac_display_power
+.BI "(struct hdac_bus *bus "  ","
+.BI "unsigned int idx "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+HDA core bus
+.IP "idx" 12
+HDA codec address, pass HDA_CODEC_IDX_CONTROLLER for controller
+.IP "enable" 12
+power up or down
+.SH "DESCRIPTION"
+This function is used by either HD-audio controller or codec driver that
+needs the interaction with graphics driver.
+
+This function updates the power status, and calls the \fBget_power\fP and
+\fBput_power\fP ops accordingly, toggling the codec wakeup, too.

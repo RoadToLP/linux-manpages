@@ -1,0 +1,20 @@
+.TH "pm_clk_notify" 9 "pm_clk_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_clk_notify \- Notify routine for device addition and removal.
+.SH SYNOPSIS
+.B "int" pm_clk_notify
+.BI "(struct notifier_block *nb "  ","
+.BI "unsigned long action "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+Notifier block object this function is a member of.
+.IP "action" 12
+Operation being carried out by the caller.
+.IP "data" 12
+Device the routine is being run for.
+.SH "DESCRIPTION"
+For this function to work, \fInb\fP must be a member of an object of type
+struct pm_clk_notifier_block containing all of the requisite data.
+Specifically, the con_ids member of that object is used to enable or disable
+the device's clocks, depending on \fIaction\fP.

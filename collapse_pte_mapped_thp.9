@@ -1,0 +1,16 @@
+.TH "collapse_pte_mapped_thp" 9 "collapse_pte_mapped_thp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+collapse_pte_mapped_thp \- Try to collapse a pte-mapped THP for mm at address haddr.
+.SH SYNOPSIS
+.B "void" collapse_pte_mapped_thp
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+process address space where collapse happens
+.IP "addr" 12
+THP collapse address
+.SH "DESCRIPTION"
+This function checks whether all the PTEs in the PMD are pointing to the
+right THP. If so, retract the page table so the THP can refault in with
+as pmd-mapped.

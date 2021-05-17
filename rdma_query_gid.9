@@ -1,0 +1,24 @@
+.TH "rdma_query_gid" 9 "rdma_query_gid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_query_gid \- Read the GID content from the GID software cache
+.SH SYNOPSIS
+.B "int" rdma_query_gid
+.BI "(struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "int index "  ","
+.BI "union ib_gid *gid "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+Device to query the GID
+.IP "port_num" 12
+Port number of the device
+.IP "index" 12
+Index of the GID table entry to read
+.IP "gid" 12
+Pointer to GID where to store the entry's GID
+.SH "DESCRIPTION"
+\fBrdma_query_gid\fP only reads the GID entry content for requested device,
+port and index. It reads for IB, RoCE and iWarp link layers.  It doesn't
+hold any reference to the GID table entry in the HCA or software cache.
+
+Returns 0 on success or appropriate error code.

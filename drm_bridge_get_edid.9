@@ -1,0 +1,18 @@
+.TH "drm_bridge_get_edid" 9 "drm_bridge_get_edid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_get_edid \- get the EDID data of the connected display
+.SH SYNOPSIS
+.B "struct edid *" drm_bridge_get_edid
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_connector *connector "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "connector" 12
+the connector to read EDID for
+.SH "DESCRIPTION"
+If the bridge supports output EDID retrieval, as reported by the
+DRM_BRIDGE_OP_EDID bridge ops flag, call \fIdrm_bridge_funcs.get_edid\fP to
+get the EDID and return it. Otherwise return NULL.
+.SH "RETURN"
+The retrieved EDID on success, or NULL otherwise.

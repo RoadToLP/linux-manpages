@@ -1,0 +1,16 @@
+.TH "isci_host_deinit" 9 "isci_host_deinit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isci_host_deinit \- shutdown frame reception and dma
+.SH SYNOPSIS
+.B "void" isci_host_deinit
+.BI "(struct isci_host *ihost "  ");"
+.SH ARGUMENTS
+.IP "ihost" 12
+host to take down
+.SH "DESCRIPTION"
+This is called in either the driver shutdown or the suspend path.  In
+the shutdown case libsas went through port teardown and normal device
+removal (i.e. physical links stayed up to service scsi_device removal
+commands).  In the suspend case we disable the hardware without
+notifying libsas of the link down events since we want libsas to
+remember the domain across the suspend/resume cycle

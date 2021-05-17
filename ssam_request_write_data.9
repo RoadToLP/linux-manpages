@@ -1,0 +1,28 @@
+.TH "ssam_request_write_data" 9 "ssam_request_write_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_write_data \- Construct and write SAM request message to buffer.
+.SH SYNOPSIS
+.B "ssize_t" ssam_request_write_data
+.BI "(struct ssam_span *buf "  ","
+.BI "struct ssam_controller *ctrl "  ","
+.BI "const struct ssam_request *spec "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+The buffer to write the data to.
+.IP "ctrl" 12
+The controller via which the request will be sent.
+.IP "spec" 12
+The request data and specification.
+.SH "DESCRIPTION"
+Constructs a SAM/SSH request message and writes it to the provided buffer.
+The request and transport counters, specifically RQID and SEQ, will be set
+in this call. These counters are obtained from the controller. It is thus
+only valid to send the resulting message via the controller specified here.
+
+For calculation of the required buffer size, refer to the
+\fBSSH_COMMAND_MESSAGE_LENGTH\fP macro.
+.SH "RETURN"
+Returns the number of bytes used in the buffer on success. Returns
+-EINVAL if the payload length provided in the request specification is too
+large (larger than SSH_COMMAND_MAX_PAYLOAD_SIZE) or if the provided buffer
+is too small.

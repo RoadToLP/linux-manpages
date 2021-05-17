@@ -1,0 +1,38 @@
+.TH "ib_map_mr_sg_pi" 9 "ib_map_mr_sg_pi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_map_mr_sg_pi \- Map the dma mapped SG lists for PI (protection information) and set an appropriate memory region for registration.
+.SH SYNOPSIS
+.B "int" ib_map_mr_sg_pi
+.BI "(struct ib_mr *mr "  ","
+.BI "struct scatterlist *data_sg "  ","
+.BI "int data_sg_nents "  ","
+.BI "unsigned int *data_sg_offset "  ","
+.BI "struct scatterlist *meta_sg "  ","
+.BI "int meta_sg_nents "  ","
+.BI "unsigned int *meta_sg_offset "  ","
+.BI "unsigned int page_size "  ");"
+.SH ARGUMENTS
+.IP "mr" 12
+memory region
+.IP "data_sg" 12
+dma mapped scatterlist for data
+.IP "data_sg_nents" 12
+number of entries in data_sg
+.IP "data_sg_offset" 12
+offset in bytes into data_sg
+.IP "meta_sg" 12
+dma mapped scatterlist for metadata
+.IP "meta_sg_nents" 12
+number of entries in meta_sg
+.IP "meta_sg_offset" 12
+offset in bytes into meta_sg
+.IP "page_size" 12
+page vector desired page size
+.SH "DESCRIPTION"
+Constraints:
+- The MR must be allocated with type IB_MR_TYPE_INTEGRITY.
+
+After this completes successfully, the  memory region
+is ready for registration.
+.SH "RETURN"
+0 on success.

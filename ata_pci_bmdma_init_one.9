@@ -1,0 +1,29 @@
+.TH "ata_pci_bmdma_init_one" 9 "ata_pci_bmdma_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_pci_bmdma_init_one \- Initialize/register BMDMA PCI IDE controller
+.SH SYNOPSIS
+.B "int" ata_pci_bmdma_init_one
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct ata_port_info * const * ppi "  ","
+.BI "struct scsi_host_template *sht "  ","
+.BI "void *host_priv "  ","
+.BI "int hflags "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Controller to be initialized
+.IP "ppi" 12
+array of port_info, must be enough for two ports
+.IP "sht" 12
+scsi_host_template to use when registering the host
+.IP "host_priv" 12
+host private_data
+.IP "hflags" 12
+host flags
+
+This function is similar to \fBata_pci_sff_init_one\fP but also
+takes care of BMDMA initialization.
+
+LOCKING:
+Inherited from PCI layer (may sleep).
+.SH "RETURN"
+Zero on success, negative on errno-based value on error.

@@ -1,0 +1,23 @@
+.TH "__class_create" 9 "__class_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__class_create \- create a struct class structure
+.SH SYNOPSIS
+.B "struct class *" __class_create
+.BI "(struct module *owner "  ","
+.BI "const char *name "  ","
+.BI "struct lock_class_key *key "  ");"
+.SH ARGUMENTS
+.IP "owner" 12
+pointer to the module that is to "own" this struct class
+.IP "name" 12
+pointer to a string for the name of this class.
+.IP "key" 12
+the lock_class_key for this class; used by mutex lock debugging
+.SH "DESCRIPTION"
+This is used to create a struct class pointer that can then be used
+in calls to \fBdevice_create\fP.
+
+Returns \fIstruct class\fP pointer on success, or \fBERR_PTR\fP on error.
+
+Note, the pointer created here is to be destroyed when finished by
+making a call to \fBclass_destroy\fP.

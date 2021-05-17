@@ -1,0 +1,25 @@
+.TH "vmw_cmdbuf_res_add" 9 "vmw_cmdbuf_res_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_res_add \- Stage a command buffer managed resource for addition.
+.SH SYNOPSIS
+.B "int" vmw_cmdbuf_res_add
+.BI "(struct vmw_cmdbuf_res_manager *man "  ","
+.BI "enum vmw_cmdbuf_res_type res_type "  ","
+.BI "u32 user_key "  ","
+.BI "struct vmw_resource *res "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+Pointer to the command buffer resource manager.
+.IP "res_type" 12
+The resource type.
+.IP "user_key" 12
+The user-space id of the resource.
+.IP "res" 12
+Valid (refcount != 0) pointer to a struct vmw_resource.
+.IP "list" 12
+The staging list.
+.SH "DESCRIPTION"
+This function allocates a struct vmw_cmdbuf_res entry and adds the
+resource to the hash table of the manager identified by \fIman\fP. The
+entry is then put on the staging list identified by \fIlist\fP.

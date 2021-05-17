@@ -1,0 +1,29 @@
+.TH "ice_flow_add_prof_sync" 9 "ice_flow_add_prof_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_flow_add_prof_sync \- Add a flow profile for packet segments and fields
+.SH SYNOPSIS
+.B "enum ice_status" ice_flow_add_prof_sync
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_block blk "  ","
+.BI "enum ice_flow_dir dir "  ","
+.BI "u64 prof_id "  ","
+.BI "struct ice_flow_seg_info *segs "  ","
+.BI "u8 segs_cnt "  ","
+.BI "struct ice_flow_prof **prof "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "blk" 12
+classification stage
+.IP "dir" 12
+flow direction
+.IP "prof_id" 12
+unique ID to identify this flow profile
+.IP "segs" 12
+array of one or more packet segments that describe the flow
+.IP "segs_cnt" 12
+number of packet segments provided
+.IP "prof" 12
+stores the returned flow profile added
+.SH "DESCRIPTION"
+Assumption: the caller has acquired the lock to the profile list

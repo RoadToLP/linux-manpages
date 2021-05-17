@@ -1,0 +1,21 @@
+.TH "drm_bridge_connector_init" 9 "drm_bridge_connector_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_connector_init \- Initialise a connector for a chain of bridges
+.SH SYNOPSIS
+.B "struct drm_connector *" drm_bridge_connector_init
+.BI "(struct drm_device *drm "  ","
+.BI "struct drm_encoder *encoder "  ");"
+.SH ARGUMENTS
+.IP "drm" 12
+the DRM device
+.IP "encoder" 12
+the encoder where the bridge chain starts
+.SH "DESCRIPTION"
+Allocate, initialise and register a \fIdrm_bridge_connector\fP with the \fIdrm\fP
+device. The connector is associated with a chain of bridges that starts at
+the \fIencoder\fP. All bridges in the chain shall report bridge operation flags
+(\fIdrm_bridge->ops\fP) and bridge output type (\fIdrm_bridge->type\fP), and none of
+them may create a DRM connector directly.
+
+Returns a pointer to the new connector on success, or a negative error
+pointer otherwise.

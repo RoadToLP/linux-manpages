@@ -1,0 +1,23 @@
+.TH "has_valid_asid" 9 "has_valid_asid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+has_valid_asid \- Determine if an mm already has an ASID.
+.SH SYNOPSIS
+.B "int" has_valid_asid
+.BI "(const struct mm_struct *mm "  ","
+.BI "unsigned int type "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+Memory map.
+.IP "type" 12
+R4K_HIT or R4K_INDEX, type of cache op.
+.SH "DESCRIPTION"
+Determines whether \fImm\fP already has an ASID on any of the CPUs which cache ops
+of type \fItype\fP within an \fBr4k_on_each_cpu\fP call will affect. If
+\fBr4k_on_each_cpu\fP does an SMP call to a single VPE in each core, then the
+scope of the operation is confined to sibling CPUs, otherwise all online CPUs
+will need to be checked.
+
+Must be called in non-preemptive context.
+.SH "RETURN"
+1 if the CPUs affected by \fItype\fP cache ops have an ASID for \fImm\fP.
+0 otherwise.

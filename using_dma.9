@@ -1,0 +1,24 @@
+.TH "using_dma" 9 "using_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+using_dma \- return the DMA status of the driver.
+.SH SYNOPSIS
+.B "bool" using_dma
+.BI "(struct dwc2_hsotg *hsotg "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The driver state.
+.SH "DESCRIPTION"
+Return true if we're using DMA.
+
+Currently, we have the DMA support code worked into everywhere
+that needs it, but the AMBA DMA implementation in the hardware can
+only DMA from 32bit aligned addresses. This means that gadgets such
+as the CDC Ethernet cannot work as they often pass packets which are
+not 32bit aligned.
+
+Unfortunately the choice to use DMA or not is global to the controller
+and seems to be only settable when the controller is being put through
+a core reset. This means we either need to fix the gadgets to take
+account of DMA alignment, or add bounce buffers (yuerk).
+
+g_using_dma is set depending on dts flag.

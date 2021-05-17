@@ -1,0 +1,23 @@
+.TH "dev_pm_opp_find_freq_ceil_by_volt" 9 "dev_pm_opp_find_freq_ceil_by_volt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_find_freq_ceil_by_volt \- Find OPP with highest frequency for target voltage.
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" dev_pm_opp_find_freq_ceil_by_volt
+.BI "(struct device *dev "  ","
+.BI "unsigned long u_volt "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which we do this operation.
+.IP "u_volt" 12
+Target voltage.
+.SH "DESCRIPTION"
+Search for OPP with highest (ceil) frequency and has voltage <= u_volt.
+
+Error return values can be:
+EINVAL:      bad parameters
+
+The callers are required to call \fBdev_pm_opp_put\fP for the returned OPP after
+use.
+.SH "RETURN"
+matching *opp, else returns ERR_PTR in case of error which should be
+handled using IS_ERR.

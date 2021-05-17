@@ -1,0 +1,28 @@
+.TH "psb_gtt_alloc_range" 9 "psb_gtt_alloc_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+psb_gtt_alloc_range \- allocate GTT address space
+.SH SYNOPSIS
+.B "struct gtt_range *" psb_gtt_alloc_range
+.BI "(struct drm_device *dev "  ","
+.BI "int len "  ","
+.BI "const char *name "  ","
+.BI "int backed "  ","
+.BI "u32 align "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Our DRM device
+.IP "len" 12
+length (bytes) of address space required
+.IP "name" 12
+resource name
+.IP "backed" 12
+resource should be backed by stolen pages
+.IP "align" 12
+requested alignment
+
+Ask the kernel core to find us a suitable range of addresses
+to use for a GTT mapping.
+
+Returns a gtt_range structure describing the object, or NULL on
+error. On successful return the resource is both allocated and marked
+as in use.

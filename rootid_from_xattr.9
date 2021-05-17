@@ -1,0 +1,24 @@
+.TH "rootid_from_xattr" 9 "rootid_from_xattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rootid_from_xattr \- translate root uid of vfs caps
+.SH SYNOPSIS
+.B "kuid_t" rootid_from_xattr
+.BI "(const void *value "  ","
+.BI "size_t size "  ","
+.BI "struct user_namespace *task_ns "  ","
+.BI "struct user_namespace *mnt_userns "  ");"
+.SH ARGUMENTS
+.IP "value" 12
+vfs caps value which may be modified by this function
+.IP "size" 12
+size of \fIivalue\fP
+.IP "task_ns" 12
+user namespace of the caller
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.SH "DESCRIPTION"
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.

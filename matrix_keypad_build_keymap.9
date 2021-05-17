@@ -1,0 +1,42 @@
+.TH "matrix_keypad_build_keymap" 9 "matrix_keypad_build_keymap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+matrix_keypad_build_keymap \- convert platform keymap into matrix keymap
+.SH SYNOPSIS
+.B "int" matrix_keypad_build_keymap
+.BI "(const struct matrix_keymap_data *keymap_data "  ","
+.BI "const char *keymap_name "  ","
+.BI "unsigned int rows "  ","
+.BI "unsigned int cols "  ","
+.BI "unsigned short *keymap "  ","
+.BI "struct input_dev *input_dev "  ");"
+.SH ARGUMENTS
+.IP "keymap_data" 12
+keymap supplied by the platform code
+.IP "keymap_name" 12
+name of device tree property containing keymap (if device
+tree support is enabled).
+.IP "rows" 12
+number of rows in target keymap array
+.IP "cols" 12
+number of cols in target keymap array
+.IP "keymap" 12
+expanded version of keymap that is suitable for use by
+matrix keyboard driver
+.IP "input_dev" 12
+input devices for which we are setting up the keymap
+.SH "DESCRIPTION"
+This function converts platform keymap (encoded with \fBKEY\fP macro) into
+an array of keycodes that is suitable for using in a standard matrix
+keyboard driver that uses row and col as indices.
+
+If \fIkeymap_data\fP is not supplied and device tree support is enabled
+it will attempt load the keymap from property specified by \fIkeymap_name\fP
+argument (or "linux,keymap" if \fIkeymap_name\fP is NULL).
+
+If \fIkeymap\fP is NULL the function will automatically allocate managed
+block of memory to store the keymap. This memory will be associated with
+the parent device and automatically freed when device unbinds from the
+driver.
+
+Callers are expected to set up input_dev->dev.parent before calling this
+function.

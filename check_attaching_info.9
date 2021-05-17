@@ -1,0 +1,17 @@
+.TH "check_attaching_info" 9 "check_attaching_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_attaching_info \- check that attaching information.
+.SH SYNOPSIS
+.B "int" check_attaching_info
+.BI "(const struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+attaching information
+.SH "DESCRIPTION"
+Even though we protect on-flash data by CRC checksums, we still don't trust
+the media. This function ensures that attaching information is consistent to
+the information read from the volume table. Returns zero if the attaching
+information is OK and -EINVAL if it is not.

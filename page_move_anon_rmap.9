@@ -1,0 +1,17 @@
+.TH "page_move_anon_rmap" 9 "page_move_anon_rmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_move_anon_rmap \- move a page to our anon_vma
+.SH SYNOPSIS
+.B "void" page_move_anon_rmap
+.BI "(struct page *page "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to move to our anon_vma
+.IP "vma" 12
+the vma the page belongs to
+.SH "DESCRIPTION"
+When a page belongs exclusively to one process after a COW event,
+that page can be moved into the anon_vma that belongs to just that
+process, so the rmap code will not search the parent or sibling
+processes.

@@ -1,0 +1,19 @@
+.TH "blk_crypto_evict_key" 9 "blk_crypto_evict_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_crypto_evict_key \- Evict a key from any inline encryption hardware it may have been programmed into
+.SH SYNOPSIS
+.B "int" blk_crypto_evict_key
+.BI "(struct request_queue *q "  ","
+.BI "const struct blk_crypto_key *key "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+The request queue who's associated inline encryption hardware this key
+might have been programmed into
+.IP "key" 12
+The key to evict
+.SH "DESCRIPTION"
+Upper layers (filesystems) must call this function to ensure that a key is
+evicted from any hardware that it might have been programmed into.  The key
+must not be in use by any in-flight IO when this function is called.
+.SH "RETURN"
+0 on success or if key is not present in the q's ksm, -err on error.

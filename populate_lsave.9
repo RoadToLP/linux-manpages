@@ -1,0 +1,17 @@
+.TH "populate_lsave" 9 "populate_lsave" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+populate_lsave \- fill the lsave array with important LEB numbers.
+.SH SYNOPSIS
+.B "void" populate_lsave
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.SH "DESCRIPTION"
+This function is only called for the "big" model. It records a small number
+of LEB numbers of important LEBs.  Important LEBs are ones that are (from
+most important to least important): empty, freeable, freeable index, dirty
+index, dirty or free. Upon mount, we read this list of LEB numbers and bring
+their pnodes into memory.  That will stop us from having to scan the LPT
+straight away. For the "small" model we assume that scanning the LPT is no
+big deal.

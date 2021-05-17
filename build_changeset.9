@@ -1,0 +1,17 @@
+.TH "build_changeset" 9 "build_changeset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+build_changeset \- populate overlay changeset in @ovcs from @ovcs->fragments
+.SH SYNOPSIS
+.B "int" build_changeset
+.BI "(struct overlay_changeset *ovcs "  ");"
+.SH ARGUMENTS
+.IP "ovcs" 12
+Overlay changeset
+.SH "DESCRIPTION"
+Create changeset \fIovcs->cset\fP to contain the nodes and properties of the
+overlay device tree fragments in \fIovcs->fragments\fP[].  If an error occurs,
+any portions of the changeset that were successfully created will remain
+in \fIovcs->cset\fP.
+
+Returns 0 on success, -ENOMEM if memory allocation failure, or -EINVAL if
+invalid overlay in \fIovcs->fragments\fP[].

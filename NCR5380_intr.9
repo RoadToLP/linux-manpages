@@ -1,0 +1,40 @@
+.TH "NCR5380_intr" 9 "NCR5380_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_intr \- generic NCR5380 irq handler
+.SH SYNOPSIS
+.B "irqreturn_t __maybe_unused" NCR5380_intr
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number
+.IP "dev_id" 12
+device info
+.SH "DESCRIPTION"
+Handle interrupts, reestablishing I_T_L or I_T_L_Q nexuses
+from the disconnected queue, and restarting \fBNCR5380_main\fP
+as required.
+
+The chip can assert IRQ in any of six different conditions. The IRQ flag
+is then cleared by reading the Reset Parity/Interrupt Register (RPIR).
+Three of these six conditions are latched in the Bus and Status Register:
+- End of DMA (cleared by ending DMA Mode)
+- Parity error (cleared by reading RPIR)
+- Loss of BSY (cleared by reading RPIR)
+Two conditions have flag bits that are not latched:
+- Bus phase mismatch (non-maskable in DMA Mode, cleared by ending DMA Mode)
+- Bus reset (non-maskable)
+The remaining condition has no flag bit at all:
+- Selection/reselection
+
+Hence, establishing the cause(s) of any interrupt is partly guesswork.
+In "The DP8490 and DP5380 Comparison Guide", National Semiconductor
+claimed that "the design of the [DP8490] interrupt logic ensures
+interrupts will not be lost (they can be on the DP5380)."
+The L5380/53C80 datasheet from LOGIC Devices has more details.
+
+Checking for bus reset by reading RST is futile because of interrupt
+latency, but a bus reset will reset chip logic. Checking for parity error
+is unnecessary because that interrupt is never enabled. A Loss of BSY
+condition will clear DMA Mode. We can tell when this occurs because the
+the Busy Monitor interrupt is enabled together with DMA Mode.

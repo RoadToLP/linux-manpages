@@ -1,0 +1,21 @@
+.TH "exynos5_dmc_target" 9 "exynos5_dmc_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_dmc_target \- Function responsible for changing frequency of DMC
+.SH SYNOPSIS
+.B "int" exynos5_dmc_target
+.BI "(struct device *dev "  ","
+.BI "unsigned long *freq "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which the frequency is going to be changed
+.IP "freq" 12
+requested frequency in KHz
+.IP "flags" 12
+flags provided for this frequency change request
+.SH "DESCRIPTION"
+An entry function provided to the devfreq framework which provides frequency
+change of the DMC. The function gets the possible rate from OPP table based
+on requested frequency. It calls the next function responsible for the
+frequency and voltage change. In case of failure, does not set 'curr_rate'
+and returns error value to the framework.

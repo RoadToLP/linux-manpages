@@ -1,0 +1,16 @@
+.TH "fc_lport_error" 9 "fc_lport_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_lport_error \- Handler for any errors
+.SH SYNOPSIS
+.B "void" fc_lport_error
+.BI "(struct fc_lport *lport "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port that the error was on
+.IP "fp" 12
+The error code encoded in a frame pointer
+.SH "DESCRIPTION"
+If the error was caused by a resource allocation failure
+then wait for half a second and retry, otherwise retry
+after the e_d_tov time.

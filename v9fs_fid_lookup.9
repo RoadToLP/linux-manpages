@@ -1,0 +1,14 @@
+.TH "v9fs_fid_lookup" 9 "v9fs_fid_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v9fs_fid_lookup \- lookup for a fid, try to walk if not found
+.SH SYNOPSIS
+.B "struct p9_fid *" v9fs_fid_lookup
+.BI "(struct dentry *dentry "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+dentry to look for fid in
+.SH "DESCRIPTION"
+Look for a fid in the specified dentry for the current user.
+If no fid is found, try to create one walking from a fid from the parent
+dentry (if it has one), or the root dentry. If the user haven't accessed
+the fs yet, attach now and walk from the root.

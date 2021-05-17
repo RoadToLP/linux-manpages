@@ -1,0 +1,21 @@
+.TH "gpiod_get_array" 9 "gpiod_get_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiod_get_array \- obtain multiple GPIOs from a multi-index GPIO function
+.SH SYNOPSIS
+.B "struct gpio_descs *" gpiod_get_array
+.BI "(struct device *dev "  ","
+.BI "const char *con_id "  ","
+.BI "enum gpiod_flags flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+GPIO consumer, can be NULL for system-global GPIOs
+.IP "con_id" 12
+function within the GPIO consumer
+.IP "flags" 12
+optional GPIO initialization flags
+.SH "DESCRIPTION"
+This function acquires all the GPIOs defined under a given function.
+
+Return a struct gpio_descs containing an array of descriptors, -ENOENT if
+no GPIO has been assigned to the requested function, or another \fBIS_ERR\fP
+code if an error occurred while trying to acquire the GPIOs.

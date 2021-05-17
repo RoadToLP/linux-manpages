@@ -1,0 +1,36 @@
+.TH "__kprobe_event_gen_cmd_start" 9 "__kprobe_event_gen_cmd_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__kprobe_event_gen_cmd_start \- Generate a kprobe event command from arg list
+.SH SYNOPSIS
+.B "int" __kprobe_event_gen_cmd_start
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "bool kretprobe "  ","
+.BI "const char *name "  ","
+.BI "const char *loc "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event
+.IP "kretprobe" 12
+Is this a return probe?
+.IP "name" 12
+The name of the kprobe event
+.IP "loc" 12
+The location of the kprobe event
+.IP "..." 12
+variable arguments
+.SH "NOTE"
+Users normally won't want to call this function directly, but
+rather use the \fBkprobe_event_gen_cmd_start\fP wrapper, which automatically
+adds a NULL to the end of the arg list.  If this function is used
+directly, make sure the last arg in the variable arg list is NULL.
+.SH "DESCRIPTION"
+Generate a kprobe event command to be executed by
+\fBkprobe_event_gen_cmd_end\fP.  This function can be used to generate the
+complete command or only the first part of it; in the latter case,
+\fBkprobe_event_add_fields\fP can be used to add more fields following this.
+
+Unlikely the \fBsynth_event_gen_cmd_start\fP, \fIloc\fP must be specified. This
+returns -EINVAL if \fIloc\fP == NULL.
+.SH "RETURN"
+0 if successful, error otherwise.

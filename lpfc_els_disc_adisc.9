@@ -1,0 +1,24 @@
+.TH "lpfc_els_disc_adisc" 9 "lpfc_els_disc_adisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_disc_adisc \- Issue remaining adisc iocbs to npr nodes of a vport
+.SH SYNOPSIS
+.B "int" lpfc_els_disc_adisc
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine issues Address Discover (ADISC) ELS commands to those
+N_Ports which are in node port recovery state and ADISC has not been issued
+for the \fIvport\fP. Each time an ELS ADISC IOCB is issued by invoking the
+\fBlpfc_issue_els_adisc\fP routine, the per \fIvport\fP number of discover count
+(num_disc_nodes) shall be incremented. If the num_disc_nodes reaches a
+pre-configured threshold (cfg_discovery_threads), the \fIvport\fP fc_flag will
+be marked with FC_NLP_MORE bit and the process of issuing remaining ADISC
+IOCBs quit for later pick up. On the other hand, after walking through
+all the ndlps with the \fIvport\fP and there is none ADISC IOCB issued, the
+\fIvport\fP fc_flag shall be cleared with FC_NLP_MORE bit indicating there is
+no more ADISC need to be sent.
+
+Return code
+The number of N_Ports with adisc issued.

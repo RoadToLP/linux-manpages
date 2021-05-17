@@ -1,0 +1,29 @@
+.TH "__platform_driver_probe" 9 "__platform_driver_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__platform_driver_probe \- register driver for non-hotpluggable device
+.SH SYNOPSIS
+.B "int" __platform_driver_probe
+.BI "(struct platform_driver *drv "  ","
+.BI "int (*probe)(struct platform_device *) "  ","
+.BI "struct module *module "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+platform driver structure
+.IP "probe" 12
+the driver probe routine, probably from an __init section
+.IP "module" 12
+module which will be the owner of the driver
+.SH "DESCRIPTION"
+Use this instead of \fBplatform_driver_register\fP when you know the device
+is not hotpluggable and has already been registered, and you want to
+remove its run-once \fBprobe\fP infrastructure from memory after the driver
+has bound to the device.
+
+One typical use for this would be with drivers for controllers integrated
+into system-on-chip processors, where the controller devices have been
+configured as part of board setup.
+
+Note that this is incompatible with deferred probing.
+
+Returns zero if the driver registered and bound to a device, else returns
+a negative error code and with the driver not registered.

@@ -1,0 +1,19 @@
+.TH "tl_release" 9 "tl_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tl_release \- mark as BARRIER_ACKED all requests in the corresponding transfer log epoch
+.SH SYNOPSIS
+.B "void" tl_release
+.BI "(struct drbd_connection *connection "  ","
+.BI "unsigned int barrier_nr "  ","
+.BI "unsigned int set_size "  ");"
+.SH ARGUMENTS
+.IP "connection" 12
+DRBD connection.
+.IP "barrier_nr" 12
+Expected identifier of the DRBD write barrier packet.
+.IP "set_size" 12
+Expected number of requests before that barrier.
+.SH "DESCRIPTION"
+In case the passed barrier_nr or set_size does not match the oldest
+epoch of not yet barrier-acked requests, this function will cause a
+termination of the connection.

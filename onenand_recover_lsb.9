@@ -1,0 +1,22 @@
+.TH "onenand_recover_lsb" 9 "onenand_recover_lsb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+onenand_recover_lsb \- [Flex-OneNAND] Recover LSB page data
+.SH SYNOPSIS
+.B "int" onenand_recover_lsb
+.BI "(struct mtd_info *mtd "  ","
+.BI "loff_t addr "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device structure
+.IP "addr" 12
+address to recover
+.IP "status" 12
+return value from onenand_wait / onenand_bbt_wait
+.SH "DESCRIPTION"
+MLC NAND Flash cell has paired pages - LSB page and MSB page. LSB page has
+lower page address and MSB page has higher page address in paired pages.
+If power off occurs during MSB page program, the paired LSB page data can
+become corrupt. LSB page recovery read is a way to read LSB page though page
+data are corrupted. When uncorrectable error occurs as a result of LSB page
+read after power up, issue LSB page recovery read.

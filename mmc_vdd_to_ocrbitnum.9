@@ -1,0 +1,22 @@
+.TH "mmc_vdd_to_ocrbitnum" 9 "mmc_vdd_to_ocrbitnum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_vdd_to_ocrbitnum \- Convert a voltage to the OCR bit number
+.SH SYNOPSIS
+.B "int" mmc_vdd_to_ocrbitnum
+.BI "(int vdd "  ","
+.BI "bool low_bits "  ");"
+.SH ARGUMENTS
+.IP "vdd" 12
+voltage (mV)
+.IP "low_bits" 12
+prefer low bits in boundary cases
+.SH "DESCRIPTION"
+This function returns the OCR bit number according to the provided \fIvdd\fP
+value. If conversion is not possible a negative errno value returned.
+
+Depending on the \fIlow_bits\fP flag the function prefers low or high OCR bits
+on boundary voltages. For example,
+with \fIlow_bits\fP = true, 3300 mV translates to ilog2(MMC_VDD_32_33);
+with \fIlow_bits\fP = false, 3300 mV translates to ilog2(MMC_VDD_33_34);
+
+Any value in the [1951:1999] range translates to the ilog2(MMC_VDD_20_21).

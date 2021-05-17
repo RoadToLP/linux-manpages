@@ -1,0 +1,19 @@
+.TH "netlink_change_ngroups" 9 "netlink_change_ngroups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlink_change_ngroups \- change number of multicast groups
+.SH SYNOPSIS
+.B "int" netlink_change_ngroups
+.BI "(struct sock *sk "  ","
+.BI "unsigned int groups "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+The kernel netlink socket, as returned by \fBnetlink_kernel_create\fP.
+.IP "groups" 12
+The new number of groups.
+.SH "DESCRIPTION"
+
+This changes the number of multicast groups that are available
+on a certain netlink family. Note that it is not possible to
+change the number of groups to below 32. Also note that it does
+not implicitly call \fBnetlink_clear_multicast_users\fP when the
+number of groups is reduced.

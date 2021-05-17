@@ -1,0 +1,21 @@
+.TH "devm_counter_register" 9 "devm_counter_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_counter_register \- Resource-managed counter_register
+.SH SYNOPSIS
+.B "int" devm_counter_register
+.BI "(struct device *dev "  ","
+.BI "struct counter_device *const counter "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to allocate counter_device for
+.IP "counter" 12
+pointer to Counter to register
+.SH "DESCRIPTION"
+Managed counter_register. The Counter registered with this function is
+automatically unregistered on driver detach. This function calls
+counter_register internally. Refer to that function for more information.
+
+If an Counter registered with this function needs to be unregistered
+separately, devm_counter_unregister must be used.
+.SH "RETURN"
+0 on success, negative error number on failure.

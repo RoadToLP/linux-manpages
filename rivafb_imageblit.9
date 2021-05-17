@@ -1,0 +1,22 @@
+.TH "rivafb_imageblit" 9 "rivafb_imageblit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rivafb_imageblit \- hardware accelerated color expand function
+.SH SYNOPSIS
+.B "void" rivafb_imageblit
+.BI "(struct fb_info *info "  ","
+.BI "const struct fb_image *image "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+pointer to fb_info structure
+.IP "image" 12
+pointer to fb_image structure
+.SH "DESCRIPTION"
+If the source is a monochrome bitmap, the function fills up a a region
+of framebuffer memory with pixels whose color is determined by the bit
+setting of the bitmap, 1 - foreground, 0 - background.
+
+If the source is not a monochrome bitmap, color expansion is not done.
+In this case, it is channeled to a software function.
+
+CALLED FROM:
+framebuffer hook

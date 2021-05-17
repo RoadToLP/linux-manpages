@@ -1,0 +1,21 @@
+.TH "write_zsreg" 9 "write_zsreg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_zsreg \- Write to a Z8530 channel register
+.SH SYNOPSIS
+.B "void" write_zsreg
+.BI "(struct z8530_channel *c "  ","
+.BI "u8 reg "  ","
+.BI "u8 val "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The Z8530 channel
+.IP "reg" 12
+Register number
+.IP "val" 12
+Value to write
+
+Write a value to an indexed register. The caller must hold the lock
+to honour the irritating delay rules. We know about register 0
+being fast to access.
+
+Assumes c->lock is held.

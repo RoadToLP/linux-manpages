@@ -1,0 +1,25 @@
+.TH "snd_ac97_reset" 9 "snd_ac97_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ac97_reset \- Reset AC'97 device
+.SH SYNOPSIS
+.B "int" snd_ac97_reset
+.BI "(struct snd_ac97 *ac97 "  ","
+.BI "bool try_warm "  ","
+.BI "unsigned int id "  ","
+.BI "unsigned int id_mask "  ");"
+.SH ARGUMENTS
+.IP "ac97" 12
+The AC'97 device to reset
+.IP "try_warm" 12
+Try a warm reset first
+.IP "id" 12
+Expected device vendor ID
+.IP "id_mask" 12
+Mask that is applied to the device ID before comparing to \fIid\fP
+.SH "DESCRIPTION"
+This function resets the AC'97 device. If \fItry_warm\fP is true the function
+first performs a warm reset. If the warm reset is successful the function
+returns 1. Otherwise or if \fItry_warm\fP is false the function issues cold reset
+followed by a warm reset. If this is successful the function returns 0,
+otherwise a negative error code. If \fIid\fP is 0 any valid device ID will be
+accepted, otherwise only the ID that matches \fIid\fP and \fIid_mask\fP is accepted.

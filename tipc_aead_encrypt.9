@@ -1,0 +1,25 @@
+.TH "tipc_aead_encrypt" 9 "tipc_aead_encrypt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_aead_encrypt \- Encrypt a message
+.SH SYNOPSIS
+.B "int" tipc_aead_encrypt
+.BI "(struct tipc_aead *aead "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct tipc_bearer *b "  ","
+.BI "struct tipc_media_addr *dst "  ","
+.BI "struct tipc_node *__dnode "  ");"
+.SH ARGUMENTS
+.IP "aead" 12
+TIPC AEAD key for the message encryption
+.IP "skb" 12
+the input/output skb
+.IP "b" 12
+TIPC bearer where the message will be delivered after the encryption
+.IP "dst" 12
+the destination media address
+.IP "__dnode" 12
+TIPC dest node if "known"
+.SH "RETURN"
+* 0                   : if the encryption has completed
+* -EINPROGRESS/-EBUSY : if a callback will be performed
+* < 0                 : the encryption has failed

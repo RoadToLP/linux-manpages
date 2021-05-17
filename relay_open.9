@@ -1,0 +1,35 @@
+.TH "relay_open" 9 "relay_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+relay_open \- create a new relay channel
+.SH SYNOPSIS
+.B "struct rchan *" relay_open
+.BI "(const char *base_filename "  ","
+.BI "struct dentry *parent "  ","
+.BI "size_t subbuf_size "  ","
+.BI "size_t n_subbufs "  ","
+.BI "const struct rchan_callbacks *cb "  ","
+.BI "void *private_data "  ");"
+.SH ARGUMENTS
+.IP "base_filename" 12
+base name of files to create, NULL for buffering only
+.IP "parent" 12
+dentry of parent directory, NULL for root directory or buffer
+.IP "subbuf_size" 12
+size of sub-buffers
+.IP "n_subbufs" 12
+number of sub-buffers
+.IP "cb" 12
+client callback functions
+.IP "private_data" 12
+user-defined data
+
+Returns channel pointer if successful, NULL otherwise.
+
+Creates a channel buffer for each cpu using the sizes and
+attributes specified.  The created channel buffer files
+will be named base_filename0...base_filenameN-1.  File
+permissions will be S_IRUSR.
+
+If opening a buffer (\fIparent\fP = NULL) that you later wish to register
+in a filesystem, call \fBrelay_late_setup_files\fP once the \fIparent\fP dentry
+is available.

@@ -1,0 +1,17 @@
+.TH "cable_is_40wire" 9 "cable_is_40wire" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cable_is_40wire \- 40/80/SATA decider
+.SH SYNOPSIS
+.B "int" cable_is_40wire
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port to consider
+
+This function encapsulates the policy for speed management
+in one place. At the moment we don't cache the result but
+there is a good case for setting ap->cbl to the result when
+we are called with unknown cables (and figuring out if it
+impacts hotplug at all).
+
+Return 1 if the cable appears to be 40 wire.

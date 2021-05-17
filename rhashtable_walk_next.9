@@ -1,0 +1,17 @@
+.TH "rhashtable_walk_next" 9 "rhashtable_walk_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rhashtable_walk_next \- Return the next object and advance the iterator
+.SH SYNOPSIS
+.B "void *" rhashtable_walk_next
+.BI "(struct rhashtable_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+Hash table iterator
+.SH "DESCRIPTION"
+Note that you must call rhashtable_walk_stop when you are finished
+with the walk.
+
+Returns the next object or NULL when the end of the table is reached.
+
+Returns -EAGAIN if resize event occurred.  Note that the iterator
+will rewind back to the beginning and you may continue to use it.

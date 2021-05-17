@@ -1,0 +1,23 @@
+.TH "nilfs_sufile_trim_fs" 9 "nilfs_sufile_trim_fs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_sufile_trim_fs \- trim ioctl handle function
+.SH SYNOPSIS
+.B "int" nilfs_sufile_trim_fs
+.BI "(struct inode *sufile "  ","
+.BI "struct fstrim_range *range "  ");"
+.SH ARGUMENTS
+.IP "sufile" 12
+inode of segment usage file
+.IP "range" 12
+fstrim_range structure
+.SH "DESCRIPTION"
+start:       First Byte to trim
+len:         number of Bytes to trim from start
+minlen:      minimum extent length in Bytes
+
+Decription: nilfs_sufile_trim_fs goes through all segments containing bytes
+from start to start+len. start is rounded up to the next block boundary
+and start+len is rounded down. For each clean segment blkdev_issue_discard
+function is invoked.
+
+Return Value: On success, 0 is returned or negative error code, otherwise.

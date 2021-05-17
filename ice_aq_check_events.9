@@ -1,0 +1,27 @@
+.TH "ice_aq_check_events" 9 "ice_aq_check_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_check_events \- Check if any thread is waiting for an AdminQ event
+.SH SYNOPSIS
+.B "void" ice_aq_check_events
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 opcode "  ","
+.BI "struct ice_rq_event_info *event "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+pointer to the PF private structure
+.IP "opcode" 12
+the opcode of the event
+.IP "event" 12
+the event to check
+.SH "DESCRIPTION"
+Loops over the current list of pending threads waiting for an AdminQ event.
+For each matching task, copy the contents of the event into the task
+structure and wake up the thread.
+
+If multiple threads wait for the same opcode, they will all be woken up.
+
+Note that event->msg_buf will only be duplicated if the event has a buffer
+with enough space already allocated. Otherwise, only the descriptor and
+message length will be copied.
+.SH "RETURN"
+true if an event was found, false otherwise

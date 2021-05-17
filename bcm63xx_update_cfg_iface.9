@@ -1,0 +1,14 @@
+.TH "bcm63xx_update_cfg_iface" 9 "bcm63xx_update_cfg_iface" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_update_cfg_iface \- Read current configuration/interface settings.
+.SH SYNOPSIS
+.B "void" bcm63xx_update_cfg_iface
+.BI "(struct bcm63xx_udc *udc "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+Reference to the device controller.
+.SH "DESCRIPTION"
+This controller intercepts SET_CONFIGURATION and SET_INTERFACE messages.
+The driver never sees the raw control packets coming in on the ep0
+IUDMA channel, but at least we get an interrupt event to tell us that
+new values are waiting in the USBD_STATUS register.

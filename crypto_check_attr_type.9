@@ -1,0 +1,25 @@
+.TH "crypto_check_attr_type" 9 "crypto_check_attr_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+crypto_check_attr_type \- check algorithm type and compute inherited mask
+.SH SYNOPSIS
+.B "int" crypto_check_attr_type
+.BI "(struct rtattr **tb "  ","
+.BI "u32 type "  ","
+.BI "u32 *mask_ret "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+the template parameters
+.IP "type" 12
+the algorithm type the template would be instantiated as
+.IP "mask_ret" 12
+(output) the mask that should be passed to crypto_grab_*()
+to restrict the flags of any inner algorithms
+.SH "DESCRIPTION"
+Validate that the algorithm type the user requested is compatible with the
+one the template would actually be instantiated as.  E.g., if the user is
+doing crypto_alloc_shash("cbc(aes)", ...), this would return an error because
+the "cbc" template creates an "skcipher" algorithm, not an "shash" algorithm.
+
+Also compute the mask to use to restrict the flags of any inner algorithms.
+.SH "RETURN"
+0 on success; -errno on failure

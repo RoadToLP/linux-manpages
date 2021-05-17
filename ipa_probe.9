@@ -1,0 +1,28 @@
+.TH "ipa_probe" 9 "ipa_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_probe \- IPA platform driver probe function
+.SH SYNOPSIS
+.B "int" ipa_probe
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Platform device pointer
+.SH "RETURN"
+0 if successful, or a negative error code (possibly
+EPROBE_DEFER)
+.SH "DESCRIPTION"
+This is the main entry point for the IPA driver.  Initialization proceeds
+in several stages:
+- The "init" stage involves activities that can be initialized without
+access to the IPA hardware.
+- The "config" stage requires the IPA clock to be active so IPA registers
+can be accessed, but does not require the use of IPA immediate commands.
+- The "setup" stage uses IPA immediate commands, and so requires the GSI
+layer to be initialized.
+
+A Boolean Device Tree "modem-init" property determines whether GSI
+initialization will be performed by the AP (Trust Zone) or the modem.
+If the AP does GSI initialization, the setup phase is entered after
+this has completed successfully.  Otherwise the modem initializes
+the GSI layer and signals it has finished by sending an SMP2P interrupt
+to the AP; this triggers the start if IPA setup.

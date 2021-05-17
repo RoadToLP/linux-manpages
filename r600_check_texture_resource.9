@@ -1,0 +1,30 @@
+.TH "r600_check_texture_resource" 9 "r600_check_texture_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r600_check_texture_resource \- check if register is authorized or not
+.SH SYNOPSIS
+.B "int" r600_check_texture_resource
+.BI "(struct radeon_cs_parser *p "  ","
+.BI "u32 idx "  ","
+.BI "struct radeon_bo *texture "  ","
+.BI "struct radeon_bo *mipmap "  ","
+.BI "u64 base_offset "  ","
+.BI "u64 mip_offset "  ","
+.BI "u32 tiling_flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+parser structure holding parsing context
+.IP "idx" 12
+index into the cs buffer
+.IP "texture" 12
+texture's bo structure
+.IP "mipmap" 12
+mipmap's bo structure
+.IP "base_offset" 12
+base offset (used for error checking)
+.IP "mip_offset" 12
+mip offset (used for error checking)
+.IP "tiling_flags" 12
+tiling flags
+.SH "DESCRIPTION"
+This function will check that the resource has valid field and that
+the texture and mipmap bo object are big enough to cover this resource.

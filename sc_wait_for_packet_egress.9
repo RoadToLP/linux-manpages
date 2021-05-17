@@ -1,0 +1,21 @@
+.TH "sc_wait_for_packet_egress" 9 "sc_wait_for_packet_egress" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sc_wait_for_packet_egress \- 
+.SH SYNOPSIS
+.B "void" sc_wait_for_packet_egress
+.BI "(struct send_context *sc "  ","
+.BI "int pause "  ");"
+.SH ARGUMENTS
+.IP "sc" 12
+valid send context
+.IP "pause" 12
+wait for credit return
+.SH "DESCRIPTION"
+Wait for packet egress, optionally pause for credit return
+
+Egress halt and Context halt are not necessarily the same thing, so
+check for both.
+.SH "NOTE"
+The context halt bit may not be set immediately.  Because of this,
+it is necessary to check the SW SFC_HALTED bit (set in the IRQ) and the HW
+context bit to determine if the context is halted.

@@ -1,0 +1,21 @@
+.TH "vmw_fence_goal_new_locked" 9 "vmw_fence_goal_new_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_fence_goal_new_locked \- Figure out a new device fence goal seqno if needed.
+.SH SYNOPSIS
+.B "bool" vmw_fence_goal_new_locked
+.BI "(struct vmw_fence_manager *fman "  ","
+.BI "u32 passed_seqno "  ");"
+.SH ARGUMENTS
+.IP "fman" 12
+Pointer to a fence manager.
+.IP "passed_seqno" 12
+The seqno the device currently signals as passed.
+.SH "DESCRIPTION"
+This function should be called with the fence manager lock held.
+It is typically called when we have a new passed_seqno, and
+we might need to update the fence goal. It checks to see whether
+the current fence goal has already passed, and, in that case,
+scans through all unsignaled fences to get the next fence object with an
+action attached, and sets the seqno of that fence as a new fence goal.
+
+returns true if the device goal seqno was updated. False otherwise.

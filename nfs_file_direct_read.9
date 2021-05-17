@@ -1,0 +1,26 @@
+.TH "nfs_file_direct_read" 9 "nfs_file_direct_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_file_direct_read \- file direct read operation for NFS files
+.SH SYNOPSIS
+.B "ssize_t" nfs_file_direct_read
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+target I/O control block
+.IP "iter" 12
+vector of user buffers into which to read data
+.SH "DESCRIPTION"
+We use this function for direct reads instead of calling
+\fBgeneric_file_aio_read\fP in order to avoid gfar's check to see if
+the request starts before the end of the file.  For that check
+to work, we must generate a GETATTR before each direct read, and
+even then there is a window between the GETATTR and the subsequent
+READ where the file size could change.  Our preference is simply
+to do all reads the application wants, and the server will take
+care of managing the end of file boundary.
+
+This function also eliminates unnecessarily updating the file's
+atime locally, as the NFS server sets the file's atime, and this
+client must read the updated atime from the server back into its
+cache.

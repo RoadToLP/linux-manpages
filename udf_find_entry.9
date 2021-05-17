@@ -1,0 +1,29 @@
+.TH "udf_find_entry" 9 "udf_find_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+udf_find_entry \- find entry in given directory.
+.SH SYNOPSIS
+.B "struct fileIdentDesc *" udf_find_entry
+.BI "(struct inode *dir "  ","
+.BI "const struct qstr *child "  ","
+.BI "struct udf_fileident_bh *fibh "  ","
+.BI "struct fileIdentDesc *cfi "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+directory inode to search in
+.IP "child" 12
+qstr of the name
+.IP "fibh" 12
+buffer head / inode with file identifier descriptor we found
+.IP "cfi" 12
+found file identifier descriptor with given name
+.SH "DESCRIPTION"
+This function searches in the directory \fIdir\fP for a file name \fIchild\fP. When
+found, \fIfibh\fP points to the buffer head(s) (bh is NULL for in ICB
+directories) containing the file identifier descriptor (FID). In that case
+the function returns pointer to the FID in the buffer or inode - but note
+that FID may be split among two buffers (blocks) so accessing it via that
+pointer isn't easily possible. This pointer can be used only as an iterator
+for other directory manipulation functions. For inspection of the FID \fIcfi\fP
+can be used - the found FID is copied there.
+
+Returns pointer to FID, NULL when nothing found, or error code.

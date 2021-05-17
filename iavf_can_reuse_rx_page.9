@@ -1,0 +1,30 @@
+.TH "iavf_can_reuse_rx_page" 9 "iavf_can_reuse_rx_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_can_reuse_rx_page \- Determine if this page can be reused by the adapter for another receive
+.SH SYNOPSIS
+.B "bool" iavf_can_reuse_rx_page
+.BI "(struct iavf_rx_buffer *rx_buffer "  ");"
+.SH ARGUMENTS
+.IP "rx_buffer" 12
+buffer containing the page
+.SH "DESCRIPTION"
+If page is reusable, rx_buffer->page_offset is adjusted to point to
+an unused region in the page.
+
+For small pages, \fItruesize\fP will be a constant value, half the size
+of the memory at page.  We'll attempt to alternate between high and
+low halves of the page, with one half ready for use by the hardware
+and the other half being consumed by the stack.  We use the page
+ref count to determine whether the stack has finished consuming the
+portion of this page that was passed up with a previous packet.  If
+the page ref count is >1, we'll assume the "other" half page is
+still busy, and this page cannot be reused.
+
+For larger pages, \fItruesize\fP will be the actual space used by the
+received packet (adjusted upward to an even multiple of the cache
+line size).  This will advance through the page by the amount
+actually consumed by the received packets while there is still
+space for a buffer.  Each region of larger pages will be used at
+most once, after which the page will not be reused.
+
+In either case, if the page is reusable its refcount is increased.

@@ -1,0 +1,18 @@
+.TH "update_turbo_limits" 9 "update_turbo_limits" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_turbo_limits \- get various limits & settings from regs
+.SH SYNOPSIS
+.B "void" update_turbo_limits
+.BI "(struct ips_driver *ips "  ");"
+.SH ARGUMENTS
+.IP "ips" 12
+IPS driver struct
+.SH "DESCRIPTION"
+Update the IPS power & temp limits, along with turbo enable flags,
+based on latest register contents.
+
+Used at init time and for runtime BIOS support, which requires polling
+the regs for updates (as a result of AC->DC transition for example).
+
+LOCKING:
+Caller must hold turbo_status_lock (outside of init)

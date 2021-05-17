@@ -1,0 +1,30 @@
+.TH "batadv_bla_check_duplist" 9 "batadv_bla_check_duplist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_bla_check_duplist \- Check if a frame is in the broadcast dup.
+.SH SYNOPSIS
+.B "bool" batadv_bla_check_duplist
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u8 *payload_ptr "  ","
+.BI "const u8 *orig "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+contains the multicast packet to be checked
+.IP "payload_ptr" 12
+pointer to position inside the head buffer of the skb
+marking the start of the data to be CRC'ed
+.IP "orig" 12
+originator mac address, NULL if unknown
+.SH "DESCRIPTION"
+Check if it is on our broadcast list. Another gateway might have sent the
+same packet because it is connected to the same backbone, so we have to
+remove this duplicate.
+
+This is performed by checking the CRC, which will tell us
+with a good chance that it is the same packet. If it is furthermore
+sent by another host, drop it. We allow equal packets from
+the same host however as this might be intended.
+.SH "RETURN"
+true if a packet is in the duplicate list, false otherwise.

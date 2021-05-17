@@ -1,0 +1,27 @@
+.TH "of_clk_detect_critical" 9 "of_clk_detect_critical" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_clk_detect_critical \- set CLK_IS_CRITICAL flag from Device Tree
+.SH SYNOPSIS
+.B "int" of_clk_detect_critical
+.BI "(struct device_node *np "  ","
+.BI "int index "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+Device node pointer associated with clock provider
+.IP "index" 12
+clock index
+.IP "flags" 12
+pointer to top-level framework flags
+.SH "DESCRIPTION"
+Detects if the clock-critical property exists and, if so, sets the
+corresponding CLK_IS_CRITICAL flag.
+
+Do not use this function. It exists only for legacy Device Tree
+bindings, such as the one-clock-per-node style that are outdated.
+Those bindings typically put all clock data into .dts and the Linux
+driver has no clock data, thus making it impossible to set this flag
+correctly from the driver. Only those drivers may call
+of_clk_detect_critical from their setup functions.
+.SH "RETURN"
+error code or zero on success

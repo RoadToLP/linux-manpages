@@ -1,0 +1,20 @@
+.TH "pty_common_install" 9 "pty_common_install" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pty_common_install \- set up the pty pair
+.SH SYNOPSIS
+.B "int" pty_common_install
+.BI "(struct tty_driver *driver "  ","
+.BI "struct tty_struct *tty "  ","
+.BI "bool legacy "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the pty driver
+.IP "tty" 12
+the tty being instantiated
+.IP "legacy" 12
+true if this is BSD style
+
+Perform the initial set up for the tty/pty pair. Called from the
+tty layer when the port is first opened.
+
+Locking: the caller must hold the tty_mutex

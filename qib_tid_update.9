@@ -1,0 +1,34 @@
+.TH "qib_tid_update" 9 "qib_tid_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_tid_update \- update a context TID
+.SH SYNOPSIS
+.B "int" qib_tid_update
+.BI "(struct qib_ctxtdata *rcd "  ","
+.BI "struct file *fp "  ","
+.BI "const struct qib_tid_info *ti "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the context
+.IP "fp" 12
+the qib device file
+.IP "ti" 12
+the TID information
+.SH "DESCRIPTION"
+The new implementation as of Oct 2004 is that the driver assigns
+the tid and returns it to the caller.   To reduce search time, we
+keep a cursor for each context, walking the shadow tid array to find
+one that's not in use.
+
+For now, if we can't allocate the full list, we fail, although
+in the long run, we'll allocate as many as we can, and the
+caller will deal with that by trying the remaining pages later.
+That means that when we fail, we have to mark the tids as not in
+use again, in our shadow copy.
+
+It's up to the caller to free the tids when they are done.
+We'll unlock the pages as they free them.
+
+Also, right now we are locking one page at a time, but since
+the intended use of this routine is for a single group of
+virtually contiguous pages, that should change to improve
+performance.

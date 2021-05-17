@@ -1,0 +1,22 @@
+.TH "copy_notes_elf32" 9 "copy_notes_elf32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_notes_elf32 \- copy ELF note segments in a given buffer
+.SH SYNOPSIS
+.B "int" copy_notes_elf32
+.BI "(const Elf32_Ehdr *ehdr_ptr "  ","
+.BI "char *notes_buf "  ");"
+.SH ARGUMENTS
+.IP "ehdr_ptr" 12
+ELF header
+.IP "notes_buf" 12
+buffer into which ELF note segments are copied
+.SH "DESCRIPTION"
+This function is used to copy ELF note segment in the 1st kernel
+into the buffer \fInotes_buf\fP in the 2nd kernel. It is assumed that
+size of the buffer \fInotes_buf\fP is equal to or larger than sum of the
+real ELF note segment headers and data.
+
+It is assumed that program headers with PT_NOTE type pointed to by
+\fIehdr_ptr\fP has already been updated by update_note_header_size_elf32
+and each of PT_NOTE program headers has actual ELF note segment
+size in its p_memsz member.

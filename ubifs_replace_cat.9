@@ -1,0 +1,19 @@
+.TH "ubifs_replace_cat" 9 "ubifs_replace_cat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_replace_cat \- replace lprops in a category list or heap.
+.SH SYNOPSIS
+.B "void" ubifs_replace_cat
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_lprops *old_lprops "  ","
+.BI "struct ubifs_lprops *new_lprops "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "old_lprops" 12
+LEB properties to replace
+.IP "new_lprops" 12
+LEB properties with which to replace
+.SH "DESCRIPTION"
+During commit it is sometimes necessary to copy a pnode (see dirty_cow_pnode)
+and the lprops that the pnode contains. When that happens, references in
+category lists and heaps must be replaced. This function does that.

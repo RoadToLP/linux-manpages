@@ -1,0 +1,23 @@
+.TH "of_link_to_phandle" 9 "of_link_to_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_link_to_phandle \- Add fwnode link to supplier from supplier phandle
+.SH SYNOPSIS
+.B "int" of_link_to_phandle
+.BI "(struct device_node *con_np "  ","
+.BI "struct device_node *sup_np "  ");"
+.SH ARGUMENTS
+.IP "con_np" 12
+consumer device tree node
+.IP "sup_np" 12
+supplier device tree node
+.SH "DESCRIPTION"
+Given a phandle to a supplier device tree node (\fIsup_np\fP), this function
+finds the device that owns the supplier device tree node and creates a
+device link from \fIdev\fP consumer device to the supplier device. This function
+doesn't create device links for invalid scenarios such as trying to create a
+link with a parent device as the consumer of its child device. In such
+cases, it returns an error.
+.SH "RETURN"
+- 0 if fwnode link successfully created to supplier
+- -EINVAL if the supplier link is invalid and should not be created
+- -ENODEV if struct device will never be create for supplier

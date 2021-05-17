@@ -1,0 +1,17 @@
+.TH "zfcp_erp_lun_shutdown_wait" 9 "zfcp_erp_lun_shutdown_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_erp_lun_shutdown_wait \- Shutdown LUN and wait for erp completion
+.SH SYNOPSIS
+.B "void" zfcp_erp_lun_shutdown_wait
+.BI "(struct scsi_device *sdev "  ","
+.BI "char *dbftag "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device / LUN to shut down.
+.IP "dbftag" 12
+Tag for debug trace event.
+.SH "DESCRIPTION"
+Do not acquire a reference for the LUN when creating the ERP
+action. It is safe, because this function waits for the ERP to
+complete first. This allows to shutdown the LUN, even when the SCSI
+device is in the state SDEV_DEL when scsi_device_get will fail.

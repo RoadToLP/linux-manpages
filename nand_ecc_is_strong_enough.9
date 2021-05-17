@@ -1,0 +1,20 @@
+.TH "nand_ecc_is_strong_enough" 9 "nand_ecc_is_strong_enough" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_ecc_is_strong_enough \- Check if the chip configuration meets the datasheet requirements.
+.SH SYNOPSIS
+.B "bool" nand_ecc_is_strong_enough
+.BI "(struct nand_device *nand "  ");"
+.SH ARGUMENTS
+.IP "nand" 12
+Device to check
+.SH "DESCRIPTION"
+If our configuration corrects A bits per B bytes and the minimum
+required correction level is X bits per Y bytes, then we must ensure
+both of the following are true:
+
+(1) A / B >= X / Y
+(2) A >= X
+
+Requirement (1) ensures we can correct for the required bitflip density.
+Requirement (2) ensures we can correct even when all bitflips are clumped
+in the same sector.

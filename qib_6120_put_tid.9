@@ -1,0 +1,23 @@
+.TH "qib_6120_put_tid" 9 "qib_6120_put_tid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_6120_put_tid \- write a TID in chip
+.SH SYNOPSIS
+.B "void" qib_6120_put_tid
+.BI "(struct qib_devdata *dd "  ","
+.BI "u64 __iomem *tidptr "  ","
+.BI "u32 type "  ","
+.BI "unsigned long pa "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.IP "tidptr" 12
+pointer to the expected TID (in chip) to update
+.IP "type" 12
+RCVHQ_RCV_TYPE_EAGER (1) for eager, RCVHQ_RCV_TYPE_EXPECTED (0)
+for expected
+.IP "pa" 12
+physical address of in memory buffer; tidinvalid if freeing
+.SH "DESCRIPTION"
+This exists as a separate routine to allow for special locking etc.
+It's used for both the full cleanup on exit, as well as the normal
+setup and teardown.

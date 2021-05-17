@@ -1,0 +1,21 @@
+.TH "get_cpu_iowait_time_us" 9 "get_cpu_iowait_time_us" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_cpu_iowait_time_us \- get the total iowait time of a CPU
+.SH SYNOPSIS
+.B "u64" get_cpu_iowait_time_us
+.BI "(int cpu "  ","
+.BI "u64 *last_update_time "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU number to query
+.IP "last_update_time" 12
+variable to store update time in. Do not update
+counters if NULL.
+.SH "DESCRIPTION"
+Return the cumulative iowait time (since boot) for a given
+CPU, in microseconds.
+
+This time is measured via accounting rather than sampling,
+and is as accurate as \fBktime_get\fP is.
+
+This function returns -1 if NOHZ is not enabled.

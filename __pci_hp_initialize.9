@@ -1,0 +1,31 @@
+.TH "__pci_hp_initialize" 9 "__pci_hp_initialize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pci_hp_initialize \- prepare hotplug slot for in-kernel use
+.SH SYNOPSIS
+.B "int" __pci_hp_initialize
+.BI "(struct hotplug_slot *slot "  ","
+.BI "struct pci_bus *bus "  ","
+.BI "int devnr "  ","
+.BI "const char *name "  ","
+.BI "struct module *owner "  ","
+.BI "const char *mod_name "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+pointer to the \fIstruct hotplug_slot\fP to initialize
+.IP "bus" 12
+bus this slot is on
+.IP "devnr" 12
+slot number
+.IP "name" 12
+name registered with kobject core
+.IP "owner" 12
+caller module owner
+.IP "mod_name" 12
+caller module name
+.SH "DESCRIPTION"
+Allocate and fill in a PCI slot for use by a hotplug driver.  Once this has
+been called, the driver may invoke \fBhotplug_slot_name\fP to get the slot's
+unique name.  The driver must be prepared to handle a ->reset_slot callback
+from this point on.
+
+Returns 0 on success or a negative int on error.

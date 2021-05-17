@@ -1,0 +1,17 @@
+.TH "pdcspath_fetch" 9 "pdcspath_fetch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdcspath_fetch \- This function populates the path entry structs.
+.SH SYNOPSIS
+.B "int" pdcspath_fetch
+.BI "(struct pdcspath_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+A pointer to an allocated pdcspath_entry.
+.SH "DESCRIPTION"
+The general idea is that you don't read from the Stable Storage every time
+you access the files provided by the facilities. We store a copy of the
+content of the stable storage WRT various paths in these structs. We read
+these structs when reading the files, and we will write to these structs when
+writing to the files, and only then write them back to the Stable Storage.
+
+This function expects to be called with \fIentry->rw_lock\fP write-hold.

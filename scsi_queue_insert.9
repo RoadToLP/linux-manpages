@@ -1,0 +1,19 @@
+.TH "scsi_queue_insert" 9 "scsi_queue_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_queue_insert \- Reinsert a command in the queue.
+.SH SYNOPSIS
+.B "void" scsi_queue_insert
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "int reason "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+command that we are adding to queue.
+.IP "reason" 12
+why we are inserting command to queue.
+.SH "DESCRIPTION"
+We do this for one of two cases. Either the host is busy and it cannot accept
+any more commands for the time being, or the device returned QUEUE_FULL and
+can accept no more commands.
+.SH "CONTEXT"
+This could be called either from an interrupt context or a normal
+process context.

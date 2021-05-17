@@ -1,0 +1,30 @@
+.TH "binder_alloc_get_page" 9 "binder_alloc_get_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_alloc_get_page \- get kernel pointer for given buffer offset
+.SH SYNOPSIS
+.B "struct page *" binder_alloc_get_page
+.BI "(struct binder_alloc *alloc "  ","
+.BI "struct binder_buffer *buffer "  ","
+.BI "binder_size_t buffer_offset "  ","
+.BI "pgoff_t *pgoffp "  ");"
+.SH ARGUMENTS
+.IP "alloc" 12
+binder_alloc for this proc
+.IP "buffer" 12
+binder buffer to be accessed
+.IP "buffer_offset" 12
+offset into \fIbuffer\fP data
+.IP "pgoffp" 12
+address to copy final page offset to
+.SH "DESCRIPTION"
+Lookup the struct page corresponding to the address
+at \fIbuffer_offset\fP into \fIbuffer->user_data\fP. If \fIpgoffp\fP is not
+NULL, the byte-offset into the page is written there.
+
+The caller is responsible to ensure that the offset points
+to a valid address within the \fIbuffer\fP and that \fIbuffer\fP is
+not freeable by the user. Since it can't be freed, we are
+guaranteed that the corresponding elements of \fIalloc->pages\fP[]
+cannot change.
+.SH "RETURN"
+struct page

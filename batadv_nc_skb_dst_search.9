@@ -1,0 +1,22 @@
+.TH "batadv_nc_skb_dst_search" 9 "batadv_nc_skb_dst_search" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_nc_skb_dst_search \- Loops through list of neighboring nodes to dst.
+.SH SYNOPSIS
+.B "bool" batadv_nc_skb_dst_search
+.BI "(struct sk_buff *skb "  ","
+.BI "struct batadv_neigh_node *neigh_node "  ","
+.BI "struct ethhdr *ethhdr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+data skb to forward
+.IP "neigh_node" 12
+next hop to forward packet to
+.IP "ethhdr" 12
+pointer to the ethernet header inside the skb
+.SH "DESCRIPTION"
+Loops through the list of neighboring nodes the next hop has a good
+connection to (receives OGMs with a sufficient quality). We need to find a
+neighbor of our next hop that potentially sent a packet which our next hop
+also received (overheard) and has stored for later decoding.
+.SH "RETURN"
+true if the skb was consumed (encoded packet sent) or false otherwise

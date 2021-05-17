@@ -1,0 +1,15 @@
+.TH "xprt_release_xprt_cong" 9 "xprt_release_xprt_cong" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_release_xprt_cong \- allow other requests to use a transport
+.SH SYNOPSIS
+.B "void" xprt_release_xprt_cong
+.BI "(struct rpc_xprt *xprt "  ","
+.BI "struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+transport with other tasks potentially waiting
+.IP "task" 12
+task that is releasing access to the transport
+.SH "DESCRIPTION"
+Note that "task" can be NULL.  Another task is awoken to use the
+transport if the transport's congestion window allows it.

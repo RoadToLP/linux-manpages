@@ -1,0 +1,21 @@
+.TH "drm_gem_fb_create_handle" 9 "drm_gem_fb_create_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fb_create_handle \- Create handle for GEM backed framebuffer
+.SH SYNOPSIS
+.B "int" drm_gem_fb_create_handle
+.BI "(struct drm_framebuffer *fb "  ","
+.BI "struct drm_file *file "  ","
+.BI "unsigned int *handle "  ");"
+.SH ARGUMENTS
+.IP "fb" 12
+Framebuffer
+.IP "file" 12
+DRM file to register the handle for
+.IP "handle" 12
+Pointer to return the created handle
+.SH "DESCRIPTION"
+This function creates a handle for the GEM object backing the framebuffer.
+Drivers can use this as their \fIdrm_framebuffer_funcs->create_handle\fP
+callback. The GETFB IOCTL calls into this callback.
+.SH "RETURN"
+0 on success or a negative error code on failure.

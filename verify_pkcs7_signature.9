@@ -1,0 +1,31 @@
+.TH "verify_pkcs7_signature" 9 "verify_pkcs7_signature" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+verify_pkcs7_signature \- Verify a PKCS#7-based signature on system data.
+.SH SYNOPSIS
+.B "int" verify_pkcs7_signature
+.BI "(const void *data "  ","
+.BI "size_t len "  ","
+.BI "const void *raw_pkcs7 "  ","
+.BI "size_t pkcs7_len "  ","
+.BI "struct key *trusted_keys "  ","
+.BI "enum key_being_used_for usage "  ","
+.BI "int (*view_content)(void *ctx, const void *data, size_t len, size_t asn1hdrlen) "  ","
+.BI "void *ctx "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+The data to be verified (NULL if expecting internal data).
+.IP "len" 12
+Size of \fIdata\fP.
+.IP "raw_pkcs7" 12
+The PKCS#7 message that is the signature.
+.IP "pkcs7_len" 12
+The size of \fIraw_pkcs7\fP.
+.IP "trusted_keys" 12
+Trusted keys to use (NULL for builtin trusted keys only,
+(void *)1UL for all trusted keys).
+.IP "usage" 12
+The use to which the key is being put.
+.IP "view_content" 12
+Callback to gain access to content.
+.IP "ctx" 12
+Context for callback.

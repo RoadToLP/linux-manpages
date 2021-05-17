@@ -1,0 +1,32 @@
+.TH "batadv_tt_global_crc" 9 "batadv_tt_global_crc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tt_global_crc \- calculates the checksum of the local table belonging to the given orig_node
+.SH SYNOPSIS
+.B "u32" batadv_tt_global_crc
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "orig_node" 12
+originator for which the CRC should be computed
+.IP "vid" 12
+VLAN identifier for which the CRC32 has to be computed
+.SH "DESCRIPTION"
+This function computes the checksum for the global table corresponding to a
+specific originator. In particular, the checksum is computed as follows: For
+each client connected to the originator the CRC32C of the MAC address and the
+VID is computed and then all the CRC32Cs of the various clients are xor'ed
+together.
+
+The idea behind is that CRC32C should be used as much as possible in order to
+produce a unique hash of the table, but since the order which is used to feed
+the CRC32C function affects the result and since every node in the network
+probably sorts the clients differently, the hash function cannot be directly
+computed over the entire table. Hence the CRC32C is used only on
+the single client entry, while all the results are then xor'ed together
+because the XOR operation can combine them all while trying to reduce the
+noise as much as possible.
+.SH "RETURN"
+the checksum of the global table of a given originator.

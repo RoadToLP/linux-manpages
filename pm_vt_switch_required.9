@@ -1,0 +1,22 @@
+.TH "pm_vt_switch_required" 9 "pm_vt_switch_required" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_vt_switch_required \- indicate VT switch at suspend requirements
+.SH SYNOPSIS
+.B "void" pm_vt_switch_required
+.BI "(struct device *dev "  ","
+.BI "bool required "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "required" 12
+if true, caller needs VT switch at suspend/resume time
+.SH "DESCRIPTION"
+The different console drivers may or may not require VT switches across
+suspend/resume, depending on how they handle restoring video state and
+what may be running.
+
+Drivers can indicate support for switchless suspend/resume, which can
+save time and flicker, by using this routine and passing 'false' as
+the argument.  If any loaded driver needs VT switching, or the
+no_console_suspend argument has been passed on the command line, VT
+switches will occur.

@@ -1,0 +1,39 @@
+.TH "parport_register_port" 9 "parport_register_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_register_port \- register a parallel port
+.SH SYNOPSIS
+.B "struct parport *" parport_register_port
+.BI "(unsigned long base "  ","
+.BI "int irq "  ","
+.BI "int dma "  ","
+.BI "struct parport_operations *ops "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+base I/O address
+.IP "irq" 12
+IRQ line
+.IP "dma" 12
+DMA channel
+.IP "ops" 12
+pointer to the port driver's port operations structure
+
+When a parallel port (lowlevel) driver finds a port that
+should be made available to parallel port device drivers, it
+should call \fBparport_register_port\fP.  The \fIbase\fP, \fIirq\fP, and
+\fIdma\fP parameters are for the convenience of port drivers, and
+for ports where they aren't meaningful needn't be set to
+anything special.  They can be altered afterwards by adjusting
+the relevant members of the parport structure that is returned
+and represents the port.  They should not be tampered with
+after calling parport_announce_port, however.
+
+If there are parallel port device drivers in the system that
+have registered themselves using \fBparport_register_driver\fP,
+they are not told about the port at this time; that is done by
+\fBparport_announce_port\fP.
+
+The \fIops\fP structure is allocated by the caller, and must not be
+deallocated before calling \fBparport_remove_port\fP.
+
+If there is no memory to allocate a new parport structure,
+this function will return NULL.

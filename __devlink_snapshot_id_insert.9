@@ -1,0 +1,23 @@
+.TH "__devlink_snapshot_id_insert" 9 "__devlink_snapshot_id_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devlink_snapshot_id_insert \- Insert a specific snapshot ID
+.SH SYNOPSIS
+.B "int" __devlink_snapshot_id_insert
+.BI "(struct devlink *devlink "  ","
+.BI "u32 id "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink instance
+.IP "id" 12
+the snapshot id
+
+Mark the given snapshot id as used by inserting a zero value into the
+snapshot xarray.
+
+This must be called while holding the devlink instance lock. Unlike
+devlink_snapshot_id_get, the initial reference count is zero, not one.
+It is expected that the id will immediately be used before
+releasing the devlink instance lock.
+
+Returns zero on success, or an error code if the snapshot id could not
+be inserted.

@@ -1,0 +1,31 @@
+.TH "__pm_runtime_set_status" 9 "__pm_runtime_set_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pm_runtime_set_status \- Set runtime PM status of a device.
+.SH SYNOPSIS
+.B "int" __pm_runtime_set_status
+.BI "(struct device *dev "  ","
+.BI "unsigned int status "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "status" 12
+New runtime PM status of the device.
+.SH "DESCRIPTION"
+If runtime PM of the device is disabled or its power.runtime_error field is
+different from zero, the status may be changed either to RPM_ACTIVE, or to
+RPM_SUSPENDED, as long as that reflects the actual state of the device.
+However, if the device has a parent and the parent is not active, and the
+parent's power.ignore_children flag is unset, the device's status cannot be
+set to RPM_ACTIVE, so -EBUSY is returned in that case.
+
+If successful, \fB__pm_runtime_set_status\fP clears the power.runtime_error field
+and the device parent's counter of unsuspended children is modified to
+reflect the new status.  If the new status is RPM_SUSPENDED, an idle
+notification request for the parent is submitted.
+
+If \fIdev\fP has any suppliers (as reflected by device links to them), and \fIstatus\fP
+is RPM_ACTIVE, they will be activated upfront and if the activation of one
+of them fails, the status of \fIdev\fP will be changed to RPM_SUSPENDED (instead
+of the \fIstatus\fP value) and the suppliers will be deacticated on exit.  The
+error returned by the failing supplier activation will be returned in that
+case.

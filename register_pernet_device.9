@@ -1,0 +1,24 @@
+.TH "register_pernet_device" 9 "register_pernet_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_pernet_device \- register a network namespace device
+.SH SYNOPSIS
+.B "int" register_pernet_device
+.BI "(struct pernet_operations *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+pernet operations structure for the subsystem
+
+Register a device which has init and exit functions
+that are called when network namespaces are created and
+destroyed respectively.
+
+When registered all network namespace init functions are
+called for every existing network namespace.  Allowing kernel
+modules to have a race free view of the set of network namespaces.
+
+When a new network namespace is created all of the init
+methods are called in the order in which they were registered.
+
+When a network namespace is destroyed all of the exit methods
+are called in the reverse of the order with which they were
+registered.

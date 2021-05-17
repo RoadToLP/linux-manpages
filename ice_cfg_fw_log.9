@@ -1,0 +1,43 @@
+.TH "ice_cfg_fw_log" 9 "ice_cfg_fw_log" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_cfg_fw_log \- configure FW logging
+.SH SYNOPSIS
+.B "enum ice_status" ice_cfg_fw_log
+.BI "(struct ice_hw *hw "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "enable" 12
+enable certain FW logging events if true, disable all if false
+.SH "DESCRIPTION"
+This function enables/disables the FW logging via Rx CQ events and a UART
+port based on predetermined configurations. FW logging via the Rx CQ can be
+enabled/disabled for individual PF's. However, FW logging via the UART can
+only be enabled/disabled for all PFs on the same device.
+
+To enable overall FW logging, the "cq_en" and "uart_en" enable bits in
+hw->fw_log need to be set accordingly, e.g. based on user-provided input,
+before initializing the device.
+
+When re/configuring FW logging, callers need to update the "cfg" elements of
+the hw->fw_log.evnts array with the desired logging event configurations for
+modules of interest. When disabling FW logging completely, the callers can
+just pass false in the "enable" parameter. On completion, the function will
+update the "cur" element of the hw->fw_log.evnts array with the resulting
+logging event configurations of the modules that are being re/configured. FW
+logging modules that are not part of a reconfiguration operation retain their
+previous states.
+
+Before resetting the device, it is recommended that the driver disables FW
+logging before shutting down the control queue. When disabling FW logging
+("enable" = false), the latest configurations of FW logging events stored in
+hw->fw_log.evnts[] are not overridden to allow them to be reconfigured after
+a device reset.
+
+When enabling FW logging to emit log messages via the Rx CQ during the
+device's initialization phase, a mechanism alternative to interrupt handlers
+needs to be used to extract FW log messages from the Rx CQ periodically and
+to prevent the Rx CQ from being full and stalling other types of control
+messages from FW to SW. Interrupts are typically disabled during the device's
+initialization phase.

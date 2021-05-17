@@ -1,0 +1,14 @@
+.TH "r600_mmio_hdp_flush" 9 "r600_mmio_hdp_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r600_mmio_hdp_flush \- flush Host Data Path cache via MMIO
+.SH SYNOPSIS
+.B "void" r600_mmio_hdp_flush
+.BI "(struct radeon_device *rdev "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device structure
+.SH "DESCRIPTION"
+Some R6XX/R7XX don't seem to take into account HDP flushes performed
+through the ring buffer. This leads to corruption in rendering, see
+http://bugzilla.kernel.org/show_bug.cgi?id=15186 . To avoid this, we
+directly perform the HDP flush by writing the register through MMIO.

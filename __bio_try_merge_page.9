@@ -1,0 +1,29 @@
+.TH "__bio_try_merge_page" 9 "__bio_try_merge_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bio_try_merge_page \- try appending data to an existing bvec.
+.SH SYNOPSIS
+.B "bool" __bio_try_merge_page
+.BI "(struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int off "  ","
+.BI "bool *same_page "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+destination bio
+.IP "page" 12
+start page to add
+.IP "len" 12
+length of the data to add
+.IP "off" 12
+offset of the data relative to \fIpage\fP
+.IP "same_page" 12
+return if the segment has been merged inside the same page
+.SH "DESCRIPTION"
+Try to add the data at \fIpage\fP + \fIoff\fP to the last bvec of \fIbio\fP.  This is a
+useful optimisation for file systems with a block size smaller than the
+page size.
+
+Warn if (\fIlen\fP, \fIoff\fP) crosses pages in case that \fIsame_page\fP is true.
+
+Return true on success or false on failure.

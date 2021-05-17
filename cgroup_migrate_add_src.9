@@ -1,0 +1,25 @@
+.TH "cgroup_migrate_add_src" 9 "cgroup_migrate_add_src" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_migrate_add_src \- add a migration source css_set
+.SH SYNOPSIS
+.B "void" cgroup_migrate_add_src
+.BI "(struct css_set *src_cset "  ","
+.BI "struct cgroup *dst_cgrp "  ","
+.BI "struct cgroup_mgctx *mgctx "  ");"
+.SH ARGUMENTS
+.IP "src_cset" 12
+the source css_set to add
+.IP "dst_cgrp" 12
+the destination cgroup
+.IP "mgctx" 12
+migration context
+.SH "DESCRIPTION"
+Tasks belonging to \fIsrc_cset\fP are about to be migrated to \fIdst_cgrp\fP.  Pin
+\fIsrc_cset\fP and add it to \fImgctx->src_csets\fP, which should later be cleaned
+up by \fBcgroup_migrate_finish\fP.
+
+This function may be called without holding cgroup_threadgroup_rwsem
+even if the target is a process.  Threads may be created and destroyed
+but as long as cgroup_mutex is not dropped, no new css_set can be put
+into play and the preloaded css_sets are guaranteed to cover all
+migrations.

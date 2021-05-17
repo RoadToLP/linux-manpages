@@ -1,0 +1,18 @@
+.TH "charger_manager_prepare_sysfs" 9 "charger_manager_prepare_sysfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+charger_manager_prepare_sysfs \- Prepare sysfs entry for each charger
+.SH SYNOPSIS
+.B "int" charger_manager_prepare_sysfs
+.BI "(struct charger_manager *cm "  ");"
+.SH ARGUMENTS
+.IP "cm" 12
+the Charger Manager representing the battery.
+.SH "DESCRIPTION"
+This function add sysfs entry for charger(regulator) to control charger from
+user-space. If some development board use one more chargers for charging
+but only need one charger on specific case which is dependent on user
+scenario or hardware restrictions, the user enter 1 or 0(zero) to '/sys/
+class/power_supply/battery/charger.[index]/externally_control'. For example,
+if user enter 1 to 'sys/class/power_supply/battery/charger.[index]/
+externally_control, this charger isn't controlled from charger-manager and
+always stay off state of regulator.

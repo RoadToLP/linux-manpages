@@ -1,0 +1,33 @@
+.TH "i915_perf_open_ioctl" 9 "i915_perf_open_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_perf_open_ioctl \- DRM ioctl() for userspace to open a stream FD
+.SH SYNOPSIS
+.B "int" i915_perf_open_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "data" 12
+ioctl data copied from userspace (unvalidated)
+.IP "file" 12
+drm file
+.SH "DESCRIPTION"
+Validates the stream open parameters given by userspace including flags
+and an array of u64 key, value pair properties.
+
+Very little is assumed up front about the nature of the stream being
+opened (for instance we don't assume it's for periodic OA unit metrics). An
+i915-perf stream is expected to be a suitable interface for other forms of
+buffered data written by the GPU besides periodic OA metrics.
+
+Note we copy the properties from userspace outside of the i915 perf
+mutex to avoid an awkward lockdep with mmap_lock.
+
+Most of the implementation details are handled by
+\fBi915_perf_open_ioctl_locked\fP after taking the \fIperf->lock\fP
+mutex for serializing with any non-file-operation driver hooks.
+.SH "RETURN"
+A newly opened i915 Perf stream file descriptor or negative
+error code on failure.

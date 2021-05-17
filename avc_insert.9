@@ -1,0 +1,34 @@
+.TH "avc_insert" 9 "avc_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+avc_insert \- Insert an AVC entry.
+.SH SYNOPSIS
+.B "struct avc_node *" avc_insert
+.BI "(struct selinux_avc *avc "  ","
+.BI "u32 ssid "  ","
+.BI "u32 tsid "  ","
+.BI "u16 tclass "  ","
+.BI "struct av_decision *avd "  ","
+.BI "struct avc_xperms_node *xp_node "  ");"
+.SH ARGUMENTS
+.IP "avc" 12
+-- undescribed --
+.IP "ssid" 12
+source security identifier
+.IP "tsid" 12
+target security identifier
+.IP "tclass" 12
+target security class
+.IP "avd" 12
+resulting av decision
+.IP "xp_node" 12
+resulting extended permissions
+.SH "DESCRIPTION"
+Insert an AVC entry for the SID pair
+(\fIssid\fP, \fItsid\fP) and class \fItclass\fP.
+The access vectors and the sequence number are
+normally provided by the security server in
+response to a \fBsecurity_compute_av\fP call.  If the
+sequence number \fIavd->seqno\fP is not less than the latest
+revocation notification, then the function copies
+the access vectors into a cache entry, returns
+avc_node inserted. Otherwise, this function returns NULL.

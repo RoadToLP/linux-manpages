@@ -1,0 +1,15 @@
+.TH "mraid_mm_setup_dma_pools" 9 "mraid_mm_setup_dma_pools" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mraid_mm_setup_dma_pools \- Set up dma buffer pools per adapter
+.SH SYNOPSIS
+.B "int" mraid_mm_setup_dma_pools
+.BI "(mraid_mmadp_t *adp "  ");"
+.SH ARGUMENTS
+.IP "adp" 12
+Adapter softstate
+.SH "DESCRIPTION"
+We maintain a pool of dma buffers per each adapter. Each pool has one
+buffer. E.g, we may have 5 dma pools - one each for 4k, 8k ... 64k buffers.
+We have just one 4k buffer in 4k pool, one 8k buffer in 8k pool etc. We
+dont' want to waste too much memory by allocating more buffers per each
+pool.

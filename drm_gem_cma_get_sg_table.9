@@ -1,0 +1,15 @@
+.TH "drm_gem_cma_get_sg_table" 9 "drm_gem_cma_get_sg_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_get_sg_table \- provide a scatter/gather table of pinned pages for a CMA GEM object
+.SH SYNOPSIS
+.B "struct sg_table *" drm_gem_cma_get_sg_table
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.SH "DESCRIPTION"
+This function exports a scatter/gather table by
+calling the standard DMA mapping API. Drivers using the CMA helpers should
+set this as their \fIdrm_gem_object_funcs.get_sg_table\fP callback.
+.SH "RETURN"
+A pointer to the scatter/gather table of pinned pages or NULL on failure.

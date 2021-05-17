@@ -1,0 +1,41 @@
+.TH "notify_change" 9 "notify_change" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+notify_change \- modify attributes of a filesytem object
+.SH SYNOPSIS
+.B "int" notify_change
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct iattr *attr "  ","
+.BI "struct inode **delegated_inode "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dentry" 12
+object affected
+.IP "attr" 12
+new attributes
+.IP "delegated_inode" 12
+returns inode, if the inode is delegated
+.SH "DESCRIPTION"
+The caller must hold the i_mutex on the affected object.
+
+If notify_change discovers a delegation in need of breaking,
+it will return -EWOULDBLOCK and return a reference to the inode in
+delegated_inode.  The caller should then break the delegation and
+retry.  Because breaking a delegation may take a long time, the
+caller should drop the i_mutex before doing so.
+
+If file ownership is changed \fBnotify_change\fP doesn't map ia_uid and
+ia_gid. It will asssume the caller has already provided the intended values.
+
+Alternatively, a caller may pass NULL for delegated_inode.  This may
+be appropriate for callers that expect the underlying filesystem not
+to be NFS exported.  Also, passing NULL is fine for callers holding
+the file open for write, as there can be no conflicting delegation in
+that case.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.

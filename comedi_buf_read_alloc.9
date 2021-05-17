@@ -1,0 +1,22 @@
+.TH "comedi_buf_read_alloc" 9 "comedi_buf_read_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_buf_read_alloc \- Reserve buffer space for reading
+.SH SYNOPSIS
+.B "unsigned int" comedi_buf_read_alloc
+.BI "(struct comedi_subdevice *s "  ","
+.BI "unsigned int nbytes "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "nbytes" 12
+Maximum space to reserve in bytes.
+.SH "DESCRIPTION"
+Reserve up to \fInbytes\fP bytes of previously written and "munged" buffer space
+for reading in the COMEDI acquisition data buffer associated with the
+subdevice.  The amount reserved is limited to the space available.  The
+reader can read from the reserved space and then free it.  A reader is also
+allowed to read from the space before reserving it as long as it determines
+the amount of readable data available, but the space needs to be marked as
+reserved before it can be freed.
+.SH "RETURN"
+The amount of space reserved in bytes.

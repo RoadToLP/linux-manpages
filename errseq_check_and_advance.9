@@ -1,0 +1,27 @@
+.TH "errseq_check_and_advance" 9 "errseq_check_and_advance" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+errseq_check_and_advance \- Check an errseq_t and advance to current value.
+.SH SYNOPSIS
+.B "int" errseq_check_and_advance
+.BI "(errseq_t *eseq "  ","
+.BI "errseq_t *since "  ");"
+.SH ARGUMENTS
+.IP "eseq" 12
+Pointer to value being checked and reported.
+.IP "since" 12
+Pointer to previously-sampled errseq_t to check against and advance.
+.SH "DESCRIPTION"
+Grab the eseq value, and see whether it matches the value that \fIsince\fP
+points to. If it does, then just return 0.
+
+If it doesn't, then the value has changed. Set the "seen" flag, and try to
+swap it into place as the new eseq value. Then, set that value as the new
+"since" value, and return whatever the error portion is set to.
+
+Note that no locking is provided here for concurrent updates to the "since"
+value. The caller must provide that if necessary. Because of this, callers
+may want to do a lockless errseq_check before taking the lock and calling
+this.
+.SH "RETURN"
+Negative errno if one has been stored, or 0 if no new error has
+occurred.

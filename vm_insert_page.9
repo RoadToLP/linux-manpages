@@ -1,0 +1,38 @@
+.TH "vm_insert_page" 9 "vm_insert_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_insert_page \- insert single page into user vma
+.SH SYNOPSIS
+.B "int" vm_insert_page
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "struct page *page "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target user address of this page
+.IP "page" 12
+source kernel page
+.SH "DESCRIPTION"
+This allows drivers to insert individual pages they've allocated
+into a user vma.
+
+The page has to be a nice clean _individual_ kernel allocation.
+If you allocate a compound page, you need to have marked it as
+such (__GFP_COMP), or manually just split the page up yourself
+(see \fBsplit_page\fP).
+
+NOTE! Traditionally this was done with "\fBremap_pfn_range\fP" which
+took an arbitrary page protection parameter. This doesn't allow
+that. Your vma protection will have to be set up correctly, which
+means that if you want a shared writable mapping, you'd better
+ask for a shared writable mapping!
+
+The page does not need to be reserved.
+
+Usually this function is called from f_op->\fBmmap\fP handler
+under mm->mmap_lock write-lock, so it can change vma->vm_flags.
+Caller must set VM_MIXEDMAP on vma if it wants to call this
+function from other places, for example from page-fault handler.
+.SH "RETURN"
+0 on success, negative error code otherwise.

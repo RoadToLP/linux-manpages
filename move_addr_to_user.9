@@ -1,0 +1,27 @@
+.TH "move_addr_to_user" 9 "move_addr_to_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+move_addr_to_user \- copy an address to user space
+.SH SYNOPSIS
+.B "int" move_addr_to_user
+.BI "(struct sockaddr_storage *kaddr "  ","
+.BI "int klen "  ","
+.BI "void __user *uaddr "  ","
+.BI "int __user *ulen "  ");"
+.SH ARGUMENTS
+.IP "kaddr" 12
+kernel space address
+.IP "klen" 12
+length of address in kernel
+.IP "uaddr" 12
+user space address
+.IP "ulen" 12
+pointer to user length field
+
+The value pointed to by ulen on entry is the buffer length available.
+This is overwritten with the buffer space used. -EINVAL is returned
+if an overlong buffer is specified or a negative buffer size. -EFAULT
+is returned if either the buffer or the length field are not
+accessible.
+After copying the data up to the limit the user specifies, the true
+length of the data is written over the length limit the user
+specified. Zero is returned for a success.

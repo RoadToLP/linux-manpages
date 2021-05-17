@@ -1,0 +1,22 @@
+.TH "mite_init_ring_descriptors" 9 "mite_init_ring_descriptors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mite_init_ring_descriptors \- Initialize a MITE dma ring descriptors.
+.SH SYNOPSIS
+.B "int" mite_init_ring_descriptors
+.BI "(struct mite_ring *ring "  ","
+.BI "struct comedi_subdevice *s "  ","
+.BI "unsigned int nbytes "  ");"
+.SH ARGUMENTS
+.IP "ring" 12
+MITE dma ring.
+.IP "s" 12
+COMEDI subdevice.
+.IP "nbytes" 12
+the size of the dma ring (in bytes).
+.SH "DESCRIPTION"
+Initializes the ring buffer descriptors to provide correct DMA transfer
+links to the exact amount of memory required. When the ring buffer is
+allocated by \fBmite_buf_change\fP, the default is to initialize the ring
+to refer to the entire DMA data buffer. A command may call this function
+later to re-initialize and shorten the amount of memory that will be
+transferred.

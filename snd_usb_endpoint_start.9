@@ -1,0 +1,17 @@
+.TH "snd_usb_endpoint_start" 9 "snd_usb_endpoint_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_usb_endpoint_start \- start an snd_usb_endpoint
+.SH SYNOPSIS
+.B "int" snd_usb_endpoint_start
+.BI "(struct snd_usb_endpoint *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint to start
+.SH "DESCRIPTION"
+A call to this function will increment the running count of the endpoint.
+In case it is not already running, the URBs for this endpoint will be
+submitted. Otherwise, this function does nothing.
+
+Must be balanced to calls of \fBsnd_usb_endpoint_stop\fP.
+
+Returns an error if the URB submission failed, 0 in all other cases.

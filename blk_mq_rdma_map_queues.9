@@ -1,0 +1,24 @@
+.TH "blk_mq_rdma_map_queues" 9 "blk_mq_rdma_map_queues" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_rdma_map_queues \- provide a default queue mapping for rdma device
+.SH SYNOPSIS
+.B "int" blk_mq_rdma_map_queues
+.BI "(struct blk_mq_queue_map *map "  ","
+.BI "struct ib_device *dev "  ","
+.BI "int first_vec "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+CPU to hardware queue map.
+.IP "dev" 12
+rdma device to provide a mapping for.
+.IP "first_vec" 12
+first interrupt vectors to use for queues (usually 0)
+.SH "DESCRIPTION"
+This function assumes the rdma device \fIdev\fP has at least as many available
+interrupt vetors as \fIset\fP has queues.  It will then query it's affinity mask
+and built queue mapping that maps a queue to the CPUs that have irq affinity
+for the corresponding vector.
+
+In case either the driver passed a \fIdev\fP with less vectors than
+\fIset->nr_hw_queues\fP, or \fIdev\fP does not provide an affinity mask for a
+vector, we fallback to the naive mapping.

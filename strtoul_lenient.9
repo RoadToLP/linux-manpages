@@ -1,0 +1,24 @@
+.TH "strtoul_lenient" 9 "strtoul_lenient" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strtoul_lenient \- parse an ASCII formatted integer from a buffer and only fail on overflow
+.SH SYNOPSIS
+.B "int" strtoul_lenient
+.BI "(const char *cp "  ","
+.BI "char **endp "  ","
+.BI "unsigned int base "  ","
+.BI "unsigned long *res "  ");"
+.SH ARGUMENTS
+.IP "cp" 12
+kernel buffer containing the string to parse
+.IP "endp" 12
+pointer to store the trailing characters
+.IP "base" 12
+the base to use
+.IP "res" 12
+where the parsed integer will be stored
+.SH "DESCRIPTION"
+In case of success 0 is returned and \fIres\fP will contain the parsed integer,
+\fIendp\fP will hold any trailing characters.
+This function will fail the parse on overflow. If there wasn't an overflow
+the function will defer the decision what characters count as invalid to the
+caller.

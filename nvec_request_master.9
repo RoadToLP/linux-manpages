@@ -1,0 +1,13 @@
+.TH "nvec_request_master" 9 "nvec_request_master" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvec_request_master \- Process outgoing messages
+.SH SYNOPSIS
+.B "void" nvec_request_master
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+A \fIstruct work_struct\fP (the tx_worker member of \fIstruct nvec_chip\fP)
+.SH "DESCRIPTION"
+Processes all outgoing requests by sending the request and awaiting the
+response, then continuing with the next request. Once a request has a
+matching response, it will be freed and removed from the list.

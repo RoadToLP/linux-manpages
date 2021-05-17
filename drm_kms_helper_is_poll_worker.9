@@ -1,0 +1,19 @@
+.TH "drm_kms_helper_is_poll_worker" 9 "drm_kms_helper_is_poll_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_kms_helper_is_poll_worker \- is %current task an output poll worker?
+.SH SYNOPSIS
+.B "bool" drm_kms_helper_is_poll_worker
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Determine if current task is an output poll worker.  This can be used
+to select distinct code paths for output polling versus other contexts.
+
+One use case is to avoid a deadlock between the output poll worker and
+the autosuspend worker wherein the latter waits for polling to finish
+upon calling \fBdrm_kms_helper_poll_disable\fP, while the former waits for
+runtime suspend to finish upon calling \fBpm_runtime_get_sync\fP in a
+connector ->detect hook.

@@ -1,0 +1,29 @@
+.TH "vmw_kms_readback" 9 "vmw_kms_readback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_readback \- Perform a readback from the screen system to a buffer-object backed framebuffer.
+.SH SYNOPSIS
+.B "int" vmw_kms_readback
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct vmw_framebuffer *vfb "  ","
+.BI "struct drm_vmw_fence_rep __user *user_fence_rep "  ","
+.BI "struct drm_vmw_rect *vclips "  ","
+.BI "uint32_t num_clips "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to the device private structure.
+.IP "file_priv" 12
+Pointer to a struct drm_file identifying the caller.
+Must be set to NULL if \fIuser_fence_rep\fP is NULL.
+.IP "vfb" 12
+Pointer to the buffer-object backed framebuffer.
+.IP "user_fence_rep" 12
+User-space provided structure for fence information.
+Must be set to non-NULL if \fIfile_priv\fP is non-NULL.
+.IP "vclips" 12
+Array of clip rects.
+.IP "num_clips" 12
+Number of clip rects in \fIvclips\fP.
+.SH "DESCRIPTION"
+Returns 0 on success, negative error code on failure. -ERESTARTSYS if
+interrupted.

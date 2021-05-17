@@ -1,0 +1,15 @@
+.TH "intel_power_domains_verify_state" 9 "intel_power_domains_verify_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_power_domains_verify_state \- verify the HW/SW state for all power wells
+.SH SYNOPSIS
+.B "void" intel_power_domains_verify_state
+.BI "(struct drm_i915_private *i915 "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device instance
+.SH "DESCRIPTION"
+Verify if the reference count of each power well matches its HW enabled
+state and the total refcount of the domains it belongs to. This must be
+called after modeset HW state sanitization, which is responsible for
+acquiring reference counts for any power wells in use and disabling the
+ones left on by BIOS but not required by any active output.

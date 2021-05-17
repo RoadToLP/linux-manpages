@@ -1,0 +1,20 @@
+.TH "__efi_memmap_init" 9 "__efi_memmap_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__efi_memmap_init \- Common code for mapping the EFI memory map
+.SH SYNOPSIS
+.B "int" __efi_memmap_init
+.BI "(struct efi_memory_map_data *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+EFI memory map data
+.SH "DESCRIPTION"
+This function takes care of figuring out which function to use to
+map the EFI memory map in efi.memmap based on how far into the boot
+we are.
+
+During bootup EFI_MEMMAP_LATE in data->flags should be clear since we
+only have access to the early_memremap*() functions as the vmalloc
+space isn't setup.  Once the kernel is fully booted we can fallback
+to the more robust memremap*() API.
+
+Returns zero on success, a negative error code on failure.

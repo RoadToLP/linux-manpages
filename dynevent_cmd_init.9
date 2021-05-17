@@ -1,0 +1,33 @@
+.TH "dynevent_cmd_init" 9 "dynevent_cmd_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dynevent_cmd_init \- Initialize a dynevent_cmd object
+.SH SYNOPSIS
+.B "void" dynevent_cmd_init
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "char *buf "  ","
+.BI "int maxlen "  ","
+.BI "enum dynevent_type type "  ","
+.BI "dynevent_create_fn_t run_command "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the cmd
+.IP "buf" 12
+A pointer to the buffer to generate the command into
+.IP "maxlen" 12
+The length of the buffer the command will be generated into
+.IP "type" 12
+The type of the cmd, checked against further operations
+.IP "run_command" 12
+The type-specific function that will actually run the command
+.SH "DESCRIPTION"
+Initialize a dynevent_cmd.  A dynevent_cmd is used to build up and
+run dynamic event creation commands, such as commands for creating
+synthetic and kprobe events.  Before calling any of the functions
+used to build the command, a dynevent_cmd object should be
+instantiated and initialized using this function.
+
+The initialization sets things up by saving a pointer to the
+user-supplied buffer and its length via the \fIbuf\fP and \fImaxlen\fP
+params, and by saving the cmd-specific \fItype\fP and \fIrun_command\fP
+params which are used to check subsequent dynevent_cmd operations
+and actually run the command when complete.

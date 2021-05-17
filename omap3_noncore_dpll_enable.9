@@ -1,0 +1,19 @@
+.TH "omap3_noncore_dpll_enable" 9 "omap3_noncore_dpll_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3_noncore_dpll_enable \- instruct a DPLL to enter bypass or lock mode
+.SH SYNOPSIS
+.B "int" omap3_noncore_dpll_enable
+.BI "(struct clk_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+struct clk_hw containing then pointer to a DPLL struct clk
+.SH "DESCRIPTION"
+Instructs a non-CORE DPLL to enable, e.g., to enter bypass or lock.
+The choice of modes depends on the DPLL's programmed rate: if it is
+the same as the DPLL's parent clock, it will enter bypass;
+otherwise, it will enter lock.  This code will wait for the DPLL to
+indicate readiness before returning, unless the DPLL takes too long
+to enter the target state.  Intended to be used as the struct clk's
+enable function.  If DPLL3 was passed in, or the DPLL does not
+support low-power stop, or if the DPLL took too long to enter
+bypass or lock, return -EINVAL; otherwise, return 0.

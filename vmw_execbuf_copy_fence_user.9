@@ -1,0 +1,39 @@
+.TH "vmw_execbuf_copy_fence_user" 9 "vmw_execbuf_copy_fence_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_execbuf_copy_fence_user \- copy fence object information to user-space.
+.SH SYNOPSIS
+.B "void" vmw_execbuf_copy_fence_user
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_fpriv *vmw_fp "  ","
+.BI "int ret "  ","
+.BI "struct drm_vmw_fence_rep __user *user_fence_rep "  ","
+.BI "struct vmw_fence_obj *fence "  ","
+.BI "uint32_t fence_handle "  ","
+.BI "int32_t out_fence_fd "  ","
+.BI "struct sync_file *sync_file "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a vmw_private struct.
+.IP "vmw_fp" 12
+Pointer to the struct vmw_fpriv representing the calling file.
+.IP "ret" 12
+Return value from fence object creation.
+.IP "user_fence_rep" 12
+User space address of a struct drm_vmw_fence_rep to which
+the information should be copied.
+.IP "fence" 12
+Pointer to the fenc object.
+.IP "fence_handle" 12
+User-space fence handle.
+.IP "out_fence_fd" 12
+exported file descriptor for the fence.  -1 if not used
+.IP "sync_file" 12
+Only used to clean up in case of an error in this function.
+.SH "DESCRIPTION"
+This function copies fence information to user-space. If copying fails, the
+user-space struct drm_vmw_fence_rep::error member is hopefully left
+untouched, and if it's preloaded with an -EFAULT by user-space, the error
+will hopefully be detected.
+
+Also if copying fails, user-space will be unable to signal the fence object
+so we wait for it immediately, and then unreference the user-space reference.

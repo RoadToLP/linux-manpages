@@ -1,0 +1,27 @@
+.TH "mpt_diag_reset" 9 "mpt_diag_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_diag_reset \- Perform hard reset of the adapter.
+.SH SYNOPSIS
+.B "int" mpt_diag_reset
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int ignore "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "ignore" 12
+Set if to honor and clear to ignore
+the reset history bit
+.IP "sleepFlag" 12
+CAN_SLEEP if called in a non-interrupt thread,
+else set to NO_SLEEP (use mdelay instead)
+
+This routine places the adapter in diagnostic mode via the
+WriteSequence register and then performs a hard reset of adapter
+via the Diagnostic register. Adapter should be in ready state
+upon successful completion.
+.SH "RETURN"
+1  hard reset successful
+0  no reset performed because reset history bit set
+-2  enabling diagnostic mode failed
+-3  diagnostic reset failed

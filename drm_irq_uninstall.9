@@ -1,0 +1,20 @@
+.TH "drm_irq_uninstall" 9 "drm_irq_uninstall" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_irq_uninstall \- uninstall the IRQ handler
+.SH SYNOPSIS
+.B "int" drm_irq_uninstall
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Calls the driver's \fIdrm_driver.irq_uninstall\fP function and unregisters the IRQ
+handler.  This should only be called by drivers which used \fBdrm_irq_install\fP
+to set up their interrupt handler. Other drivers must only reset
+\fIdrm_device.irq_enabled\fP to false.
+
+Note that for kernel modesetting drivers it is a bug if this function fails.
+The sanity checks are only to catch buggy user modesetting drivers which call
+the same function through an ioctl.
+.SH "RETURN"
+Zero on success or a negative error code on failure.

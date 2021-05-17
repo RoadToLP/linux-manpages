@@ -1,0 +1,24 @@
+.TH "fallible_matches_name" 9 "fallible_matches_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fallible_matches_name \- determine if a dent matches a given name.
+.SH SYNOPSIS
+.B "int" fallible_matches_name
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_zbranch *zbr "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "zbr" 12
+zbranch of dent
+.IP "nm" 12
+name to match
+.SH "DESCRIPTION"
+This is a "fallible" version of '\fBmatches_name\fP' function which does not
+panic if the direntry/xentry referred by \fIzbr\fP does not exist on the media.
+
+This function checks if xentry/direntry referred by zbranch \fIzbr\fP matches name
+\fInm\fP. Returns NAME_MATCHES it does, NAME_LESS if the name referred by \fIzbr\fP
+is less than \fInm\fP, NAME_GREATER if it is greater than \fInm\fP, and \fINOT_ON_MEDIA\fP
+if xentry/direntry referred by \fIzbr\fP does not exist on the media. A negative
+error code is returned in case of failure.

@@ -1,0 +1,16 @@
+.TH "nfs_complete_unlink" 9 "nfs_complete_unlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_complete_unlink \- Initialize completion of the sillydelete
+.SH SYNOPSIS
+.B "void" nfs_complete_unlink
+.BI "(struct dentry *dentry "  ","
+.BI "struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+dentry to delete
+.IP "inode" 12
+inode
+.SH "DESCRIPTION"
+Since we're most likely to be called by \fBdentry_iput\fP, we
+only use the dentry to find the sillydelete. We then copy the name
+into the qstr.

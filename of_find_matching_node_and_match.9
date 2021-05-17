@@ -1,0 +1,22 @@
+.TH "of_find_matching_node_and_match" 9 "of_find_matching_node_and_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_matching_node_and_match \- Find a node based on an of_device_id match table.
+.SH SYNOPSIS
+.B "struct device_node *" of_find_matching_node_and_match
+.BI "(struct device_node *from "  ","
+.BI "const struct of_device_id *matches "  ","
+.BI "const struct of_device_id **match "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+The node to start searching from or NULL, the node
+you pass will not be searched, only the next one
+will; typically, you pass what the previous call
+returned. \fBof_node_put\fP will be called on it
+.IP "matches" 12
+array of of device match structures to search in
+\fImatch\fP          Updated to point at the matches entry which matched
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.
+.IP "match" 12
+-- undescribed --

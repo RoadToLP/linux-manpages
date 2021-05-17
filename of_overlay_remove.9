@@ -1,0 +1,39 @@
+.TH "of_overlay_remove" 9 "of_overlay_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_overlay_remove \- Revert and free an overlay changeset
+.SH SYNOPSIS
+.B "int" of_overlay_remove
+.BI "(int *ovcs_id "  ");"
+.SH ARGUMENTS
+.IP "ovcs_id" 12
+Pointer to overlay changeset id
+.SH "DESCRIPTION"
+Removes an overlay if it is permissible.  \fIovcs_id\fP was previously returned
+by \fBof_overlay_fdt_apply\fP.
+
+If an error occurred while attempting to revert the overlay changeset,
+then an attempt is made to re-apply any changeset entry that was
+reverted.  If an error occurs on re-apply then the state of the device
+tree can not be determined, and any following attempt to apply or remove
+an overlay changeset will be refused.
+
+A non-zero return value will not revert the changeset if error is from:
+- parameter checks
+- overlay changeset pre-remove notifier
+- overlay changeset entry revert
+
+If an error is returned by an overlay changeset pre-remove notifier
+then no further overlay changeset pre-remove notifier will be called.
+
+If more than one notifier returns an error, then the last notifier
+error to occur is returned.
+
+A non-zero return value will revert the changeset if error is from:
+- overlay changeset entry notifier
+- overlay changeset post-remove notifier
+
+If an error is returned by an overlay changeset post-remove notifier
+then no further overlay changeset post-remove notifier will be called.
+
+Returns 0 on success, or a negative error number.  *ovcs_id is set to
+zero after reverting the changeset, even if a subsequent error occurs.

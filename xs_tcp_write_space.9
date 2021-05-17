@@ -1,0 +1,14 @@
+.TH "xs_tcp_write_space" 9 "xs_tcp_write_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xs_tcp_write_space \- callback invoked when socket buffer space becomes available
+.SH SYNOPSIS
+.B "void" xs_tcp_write_space
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket whose state has changed
+.SH "DESCRIPTION"
+Called when more output buffer space is available for this socket.
+We try not to wake our writers until they can make "significant"
+progress, otherwise we'll waste resources thrashing kernel_sendmsg
+with a bunch of small requests.

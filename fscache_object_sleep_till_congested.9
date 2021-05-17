@@ -1,0 +1,17 @@
+.TH "fscache_object_sleep_till_congested" 9 "fscache_object_sleep_till_congested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscache_object_sleep_till_congested \- Sleep until object wq is congested
+.SH SYNOPSIS
+.B "bool" fscache_object_sleep_till_congested
+.BI "(signed long *timeoutp "  ");"
+.SH ARGUMENTS
+.IP "timeoutp" 12
+Scheduler sleep timeout
+.SH "DESCRIPTION"
+Allow an object handler to sleep until the object workqueue is congested.
+
+The caller must set up a wake up event before calling this and must have set
+the appropriate sleep mode (such as TASK_UNINTERRUPTIBLE) and tested its own
+condition before calling this function as no test is made here.
+
+true is returned if the object wq is congested, false otherwise.

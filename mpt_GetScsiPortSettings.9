@@ -1,0 +1,27 @@
+.TH "mpt_GetScsiPortSettings" 9 "mpt_GetScsiPortSettings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_GetScsiPortSettings \- read SCSI Port Page 0 and 2
+.SH SYNOPSIS
+.B "int" mpt_GetScsiPortSettings
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int portnum "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to a Adapter Strucutre
+.IP "portnum" 12
+IOC port number
+.SH "RETURN"
+-EFAULT if read of config page header fails
+or if no nvram
+If read of SCSI Port Page 0 fails,
+NVRAM = MPT_HOST_NVRAM_INVALID  (0xFFFFFFFF)
+Adapter settings: async, narrow
+Return 1
+If read of SCSI Port Page 2 fails,
+Adapter settings valid
+NVRAM = MPT_HOST_NVRAM_INVALID  (0xFFFFFFFF)
+Return 1
+Else
+Both valid
+Return 0
+CHECK - what type of locking mechanisms should be used????

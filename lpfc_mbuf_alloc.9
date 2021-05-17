@@ -1,0 +1,26 @@
+.TH "lpfc_mbuf_alloc" 9 "lpfc_mbuf_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbuf_alloc \- Allocate an mbuf from the lpfc_mbuf_pool PCI pool
+.SH SYNOPSIS
+.B "void *" lpfc_mbuf_alloc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int mem_flags "  ","
+.BI "dma_addr_t *handle "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA which owns the pool to allocate from
+.IP "mem_flags" 12
+indicates if this is a priority (MEM_PRI) allocation
+.IP "handle" 12
+used to return the DMA-mapped address of the mbuf
+.SH "DESCRIPTION"
+Allocates a DMA-mapped buffer from the lpfc_mbuf_pool PCI pool.
+Allocates from generic dma_pool_alloc function first and if that fails and
+mem_flags has MEM_PRI set (the only defined flag), returns an mbuf from the
+HBA's pool.
+.SH "NOTES"
+Not interrupt-safe.  Must be called with no locks held.  Takes
+phba->hbalock.
+.SH "RETURN"
+pointer to the allocated mbuf on success
+NULL on failure

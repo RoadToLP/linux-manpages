@@ -1,0 +1,33 @@
+.TH "lpfc_sli4_post_sgl" 9 "lpfc_sli4_post_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_post_sgl \- Post scatter gather list for an XRI to HBA
+.SH SYNOPSIS
+.B "int" lpfc_sli4_post_sgl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "dma_addr_t pdma_phys_addr0 "  ","
+.BI "dma_addr_t pdma_phys_addr1 "  ","
+.BI "uint16_t xritag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The virtual port for which this call being executed.
+.IP "pdma_phys_addr0" 12
+Physical address of the 1st SGL page.
+.IP "pdma_phys_addr1" 12
+Physical address of the 2nd SGL page.
+.IP "xritag" 12
+the xritag that ties this io to the SGL pages.
+.SH "DESCRIPTION"
+This routine will post the sgl pages for the IO that has the xritag
+that is in the iocbq structure. The xritag is assigned during iocbq
+creation and persists for as long as the driver is loaded.
+if the caller has fewer than 256 scatter gather segments to map then
+pdma_phys_addr1 should be 0.
+If the caller needs to map more than 256 scatter gather segment then
+pdma_phys_addr1 should be a valid physical address.
+physical address for SGLs must be 64 byte aligned.
+If you are going to map 2 SGL's then the first one must have 256 entries
+the second sgl can have between 1 and 256 entries.
+
+Return codes:
+0 - Success
+-ENXIO, -ENOMEM - Failure

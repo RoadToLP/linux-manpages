@@ -1,0 +1,18 @@
+.TH "apic_soft_disable" 9 "apic_soft_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apic_soft_disable \- Clears and software disables the local APIC on hotplug
+.SH SYNOPSIS
+.B "void" apic_soft_disable
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Contrary to \fBdisable_local_APIC\fP this does not touch the enable bit in
+MSR_IA32_APICBASE. Clearing that bit on systems based on the 3 wire APIC
+bus would require a hardware reset as the APIC would lose track of bus
+arbitration. On systems with FSB delivery APICBASE could be disabled,
+but it has to be guaranteed that no interrupt is sent to the APIC while
+in that state and it's not clear from the SDM whether it still responds
+to INIT/SIPI messages. Stay on the safe side and use software disable.

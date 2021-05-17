@@ -1,0 +1,29 @@
+.TH "acpi_data_get_property" 9 "acpi_data_get_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_data_get_property \- return an ACPI property with given name
+.SH SYNOPSIS
+.B "int" acpi_data_get_property
+.BI "(const struct acpi_device_data *data "  ","
+.BI "const char *name "  ","
+.BI "acpi_object_type type "  ","
+.BI "const union acpi_object **obj "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ACPI device deta object to get the property from
+.IP "name" 12
+Name of the property
+.IP "type" 12
+Expected property type
+.IP "obj" 12
+Location to store the property value (if not NULL)
+.SH "DESCRIPTION"
+Look up a property with \fIname\fP and store a pointer to the resulting ACPI
+object at the location pointed to by \fIobj\fP if found.
+
+Callers must not attempt to free the returned objects.  These objects will be
+freed by the ACPI core automatically during the removal of \fIdata\fP.
+.SH "RETURN"
+0 if property with \fIname\fP has been found (success),
+-EINVAL if the arguments are invalid,
+-EINVAL if the property doesn't exist,
+-EPROTO if the property value type doesn't match \fItype\fP.

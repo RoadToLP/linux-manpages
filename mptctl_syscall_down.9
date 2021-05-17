@@ -1,0 +1,17 @@
+.TH "mptctl_syscall_down" 9 "mptctl_syscall_down" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptctl_syscall_down \- Down the MPT adapter syscall semaphore.
+.SH SYNOPSIS
+.B "int" mptctl_syscall_down
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int nonblock "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT adapter
+.IP "nonblock" 12
+boolean, non-zero if O_NONBLOCK is set
+
+All of the ioctl commands can potentially sleep, which is illegal
+with a spinlock held, thus we perform mutual exclusion here.
+
+Returns negative errno on error, or zero for success.

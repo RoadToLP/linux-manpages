@@ -1,0 +1,17 @@
+.TH "v4l2_m2m_try_schedule" 9 "v4l2_m2m_try_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v4l2_m2m_try_schedule \- schedule and possibly run a job for any context
+.SH SYNOPSIS
+.B "void" v4l2_m2m_try_schedule
+.BI "(struct v4l2_m2m_ctx *m2m_ctx "  ");"
+.SH ARGUMENTS
+.IP "m2m_ctx" 12
+m2m context
+.SH "DESCRIPTION"
+Check if this context is ready to queue a job. If suitable,
+run the next queued job on the mem2mem device.
+
+This function shouldn't run in interrupt context.
+
+Note that \fBv4l2_m2m_try_schedule\fP can schedule one job for this context,
+and then run another job for another context.

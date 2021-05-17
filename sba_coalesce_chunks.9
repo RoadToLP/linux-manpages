@@ -1,0 +1,26 @@
+.TH "sba_coalesce_chunks" 9 "sba_coalesce_chunks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sba_coalesce_chunks \- preprocess the SG list
+.SH SYNOPSIS
+.B "SBA_INLINE int" sba_coalesce_chunks
+.BI "(struct ioc *ioc "  ","
+.BI "struct device *dev "  ","
+.BI "struct scatterlist *startsg "  ","
+.BI "int nents "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+IO MMU structure which owns the pdir we are interested in.
+.IP "dev" 12
+-- undescribed --
+.IP "startsg" 12
+list of IOVA/size pairs
+.IP "nents" 12
+number of entries in startsg list
+.SH "DESCRIPTION"
+First pass is to walk the SG list and determine where the breaks are
+in the DMA stream. Allocates PDIR entries but does not fill them.
+Returns the number of DMA chunks.
+
+Doing the fill separate from the coalescing/allocation keeps the
+code simpler. Future enhancement could make one pass through
+the sglist do both.

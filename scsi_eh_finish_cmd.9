@@ -1,0 +1,18 @@
+.TH "scsi_eh_finish_cmd" 9 "scsi_eh_finish_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_eh_finish_cmd \- Handle a cmd that eh is finished with.
+.SH SYNOPSIS
+.B "void" scsi_eh_finish_cmd
+.BI "(struct scsi_cmnd *scmd "  ","
+.BI "struct list_head *done_q "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+Original SCSI cmd that eh has finished.
+.IP "done_q" 12
+Queue for processed commands.
+.SH "NOTES"
+We don't want to use the normal command completion while we are are
+still handling errors - it may cause other commands to be queued,
+and that would disturb what we are doing.  Thus we really want to
+keep a list of pending commands for final completion, and once we
+are ready to leave error handling we handle completion for real.

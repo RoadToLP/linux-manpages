@@ -1,0 +1,43 @@
+.TH "mchp_pit64b_init_mode" 9 "mchp_pit64b_init_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mchp_pit64b_init_mode \- prepare PIT64B mode register value to be used at runtime; this includes prescaler and SGCLK bit
+.SH SYNOPSIS
+.B "int" mchp_pit64b_init_mode
+.BI "(struct mchp_pit64b_timer *timer "  ","
+.BI "unsigned long max_rate "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+-- undescribed --
+.IP "max_rate" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+PIT64B timer may be fed by gclk or pclk. When gclk is used its rate has to
+be at least 3 times lower that pclk's rate. pclk rate is fixed, gclk rate
+could be changed via clock APIs. The chosen clock (pclk or gclk) could be
+divided by the internal PIT64B's divider.
+
+This function, first tries to use GCLK by requesting the desired rate from
+PMC and then using the internal PIT64B prescaler, if any, to reach the
+requested rate. If PCLK/GCLK < 3 (condition requested by PIT64B hardware)
+then the function falls back on using PCLK as clock source for PIT64B timer
+choosing the highest prescaler in case it doesn't locate one to match the
+requested frequency.
+
+Below is presented the PIT64B block in relation with PMC:
+
+PIT64B
+PMC             +------------------------------------+
++----+           |   +-----+                          |
+|    |-->gclk -->|-->|     |    +---------+  +-----+  |
+|    |           |   | MUX |--->| Divider |->|timer|  |
+|    |-->pclk -->|-->|     |    +---------+  +-----+  |
++----+           |   +-----+                          |
+|      ^                             |
+|     sel                            |
++------------------------------------+
+
+Where:
+- gclk rate <= pclk rate/3
+- gclk rate could be requested from PMC
+- pclk rate is fixed (cannot be requested from PMC)

@@ -1,0 +1,18 @@
+.TH "btrfs_delalloc_release_extents" 9 "btrfs_delalloc_release_extents" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_delalloc_release_extents \- release our outstanding_extents
+.SH SYNOPSIS
+.B "void" btrfs_delalloc_release_extents
+.BI "(struct btrfs_inode *inode "  ","
+.BI "u64 num_bytes "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to balance the reservation for.
+.IP "num_bytes" 12
+the number of bytes we originally reserved with
+.SH "DESCRIPTION"
+When we reserve space we increase outstanding_extents for the extents we may
+add.  Once we've set the range as delalloc or created our ordered extents we
+have outstanding_extents to track the real usage, so we use this to free our
+temporarily tracked outstanding_extents.  This _must_ be used in conjunction
+with btrfs_delalloc_reserve_metadata.

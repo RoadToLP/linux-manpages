@@ -1,0 +1,16 @@
+.TH "drm_atomic_helper_shutdown" 9 "drm_atomic_helper_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_shutdown \- shutdown all CRTC
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_shutdown
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+This shuts down all CRTC, which is useful for driver unloading. Shutdown on
+suspend should instead be handled with \fBdrm_atomic_helper_suspend\fP, since
+that also takes a snapshot of the modeset state to be restored on resume.
+
+This is just a convenience wrapper around \fBdrm_atomic_helper_disable_all\fP,
+and it is the atomic version of \fBdrm_crtc_force_disable_all\fP.

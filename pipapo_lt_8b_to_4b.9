@@ -1,0 +1,34 @@
+.TH "pipapo_lt_8b_to_4b" 9 "pipapo_lt_8b_to_4b" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_lt_8b_to_4b \- Switch lookup table group width from 8 bits to 4 bits
+.SH SYNOPSIS
+.B "void" pipapo_lt_8b_to_4b
+.BI "(int old_groups "  ","
+.BI "int bsize "  ","
+.BI "unsigned long *old_lt "  ","
+.BI "unsigned long *new_lt "  ");"
+.SH ARGUMENTS
+.IP "old_groups" 12
+Number of current groups
+.IP "bsize" 12
+Size of one bucket, in longs
+.IP "old_lt" 12
+Pointer to the current lookup table
+.IP "new_lt" 12
+Pointer to the new, pre-allocated lookup table
+.SH "DESCRIPTION"
+Each bucket with index b in the new lookup table, belonging to group g, is
+filled with the bit union of:
+- all the buckets with index such that the upper four bits of the lower byte
+equal b, from group g, with g odd
+- all the buckets with index such that the lower four bits equal b, from
+group g, with g even
+
+That is, given buckets from the new lookup table N(x, y) and the old lookup
+table O(x, y), with x bucket index, and y group index:
+
+- with g odd:  N(b, g) := U(O(x, g) for each x : x = (b & 0xf0) >> 4)
+- with g even: N(b, g) := U(O(x, g) for each x : x = b & 0x0f)
+
+where \fBU\fP denotes the arbitrary union operation (binary OR of n terms). This
+ensures equivalence of the matching results on lookup.

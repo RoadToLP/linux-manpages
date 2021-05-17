@@ -1,0 +1,25 @@
+.TH "punch_hole" 9 "punch_hole" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+punch_hole \- deallocate blocks in a file
+.SH SYNOPSIS
+.B "int" punch_hole
+.BI "(struct gfs2_inode *ip "  ","
+.BI "u64 offset "  ","
+.BI "u64 length "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+inode to truncate
+.IP "offset" 12
+the start of the hole
+.IP "length" 12
+the size of the hole (or 0 for truncate)
+.SH "DESCRIPTION"
+Punch a hole into a file or truncate a file at a given position.  This
+function operates in whole blocks (\fIoffset\fP and \fIlength\fP are rounded
+accordingly); partially filled blocks must be cleared otherwise.
+
+This function works from the bottom up, and from the right to the left. In
+other words, it strips off the highest layer (data) before stripping any of
+the metadata. Doing it this way is best in case the operation is interrupted
+by power failure, etc.  The dinode is rewritten in every transaction to
+guarantee integrity.

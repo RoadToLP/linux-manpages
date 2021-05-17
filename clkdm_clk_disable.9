@@ -1,0 +1,20 @@
+.TH "clkdm_clk_disable" 9 "clkdm_clk_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_clk_disable \- remove an enabled downstream clock from this clkdm
+.SH SYNOPSIS
+.B "int" clkdm_clk_disable
+.BI "(struct clockdomain *clkdm "  ","
+.BI "struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clkdm" 12
+struct clockdomain *
+.IP "clk" 12
+struct clk * of the disabled downstream clock
+.SH "DESCRIPTION"
+Decrement the usecount of this clockdomain \fIclkdm\fP when \fIclk\fP is
+disabled.  Intended to be called by \fBclk_disable\fP code.  If the
+clockdomain usecount goes to 0, put the clockdomain to sleep
+(software-supervised mode) or remove the clkdm autodependencies
+(hardware-supervised mode).  Returns -EINVAL if passed null
+pointers; -ERANGE if the \fIclkdm\fP usecount underflows; or returns 0
+upon success or if the clockdomain is in hwsup idle mode.

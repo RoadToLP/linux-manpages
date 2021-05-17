@@ -1,0 +1,25 @@
+.TH "mtd_ooblayout_ecc" 9 "mtd_ooblayout_ecc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_ooblayout_ecc \- Get the OOB region definition of a specific ECC section
+.SH SYNOPSIS
+.B "int" mtd_ooblayout_ecc
+.BI "(struct mtd_info *mtd "  ","
+.BI "int section "  ","
+.BI "struct mtd_oob_region *oobecc "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device structure
+.IP "section" 12
+ECC section. Depending on the layout you may have all the ECC
+bytes stored in a single contiguous section, or one section
+per ECC chunk (and sometime several sections for a single ECC
+ECC chunk)
+.IP "oobecc" 12
+OOB region struct filled with the appropriate ECC position
+information
+.SH "DESCRIPTION"
+This function returns ECC section information in the OOB area. If you want
+to get all the ECC bytes information, then you should call
+mtd_ooblayout_ecc(mtd, section++, oobecc) until it returns -ERANGE.
+
+Returns zero on success, a negative error code otherwise.

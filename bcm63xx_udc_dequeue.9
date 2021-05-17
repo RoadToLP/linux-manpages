@@ -1,0 +1,16 @@
+.TH "bcm63xx_udc_dequeue" 9 "bcm63xx_udc_dequeue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_udc_dequeue \- Remove a pending request from the queue.
+.SH SYNOPSIS
+.B "int" bcm63xx_udc_dequeue
+.BI "(struct usb_ep *ep "  ","
+.BI "struct usb_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+Endpoint associated with the request.
+.IP "req" 12
+Request to remove.
+.SH "DESCRIPTION"
+If the request is not at the head of the queue, this is easy - just nuke
+it.  If the request is at the head of the queue, we'll need to stop the
+DMA transaction and then queue up the successor.

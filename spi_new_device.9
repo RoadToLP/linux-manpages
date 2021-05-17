@@ -1,0 +1,22 @@
+.TH "spi_new_device" 9 "spi_new_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_new_device \- instantiate one new SPI device
+.SH SYNOPSIS
+.B "struct spi_device *" spi_new_device
+.BI "(struct spi_controller *ctlr "  ","
+.BI "struct spi_board_info *chip "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+Controller to which device is connected
+.IP "chip" 12
+Describes the SPI device
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+On typical mainboards, this is purely internal; and it's not needed
+after board init creates the hard-wired devices.  Some development
+platforms may not be able to use spi_register_board_info though, and
+this is exported so that for example a USB or parport based adapter
+driver could add devices (which it would learn about out-of-band).
+.SH "RETURN"
+the new device, or NULL.

@@ -1,0 +1,19 @@
+.TH "iio_dmaengine_buffer_alloc" 9 "iio_dmaengine_buffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_dmaengine_buffer_alloc \- Allocate new buffer which uses DMAengine
+.SH SYNOPSIS
+.B "struct iio_buffer *" iio_dmaengine_buffer_alloc
+.BI "(struct device *dev "  ","
+.BI "const char *channel "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Parent device for the buffer
+.IP "channel" 12
+DMA channel name, typically "rx".
+.SH "DESCRIPTION"
+This allocates a new IIO buffer which internally uses the DMAengine framework
+to perform its transfers. The parent device will be used to request the DMA
+channel.
+
+Once done using the buffer \fBiio_dmaengine_buffer_free\fP should be used to
+release it.

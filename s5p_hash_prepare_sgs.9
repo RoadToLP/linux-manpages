@@ -1,0 +1,27 @@
+.TH "s5p_hash_prepare_sgs" 9 "s5p_hash_prepare_sgs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_prepare_sgs \- prepare sg for processing
+.SH SYNOPSIS
+.B "int" s5p_hash_prepare_sgs
+.BI "(struct s5p_hash_reqctx *ctx "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "unsigned int new_len "  ","
+.BI "bool final "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+request context
+.IP "sg" 12
+source scatterlist request
+.IP "new_len" 12
+number of bytes to process from sg
+.IP "final" 12
+final flag
+.SH "DESCRIPTION"
+Check two conditions: (1) if buffers in sg have len aligned data, and (2)
+sg table have good aligned elements (list_ok). If one of this checks fails,
+then either (1) allocates new buffer for data with s5p_hash_copy_sgs, copy
+data into this buffer and prepare request in sgl, or (2) allocates new sg
+table and prepare sg elements.
+
+For digest or finup all conditions can be good, and we may not need any
+fixes.

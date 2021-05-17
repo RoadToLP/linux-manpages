@@ -1,0 +1,29 @@
+.TH "nfsd_cache_update" 9 "nfsd_cache_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfsd_cache_update \- Update an entry in the duplicate reply cache.
+.SH SYNOPSIS
+.B "void" nfsd_cache_update
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "int cachetype "  ","
+.BI "__be32 *statp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+svc_rqst with a finished Reply
+.IP "cachetype" 12
+which cache to update
+.IP "statp" 12
+Reply's status code
+.SH "DESCRIPTION"
+This is called from nfsd_dispatch when the procedure has been
+executed and the complete reply is in rqstp->rq_res.
+
+We're copying around data here rather than swapping buffers because
+the toplevel loop requires max-sized buffers, which would be a waste
+of memory for a cache with a max reply size of 100 bytes (diropokres).
+
+If we should start to use different types of cache entries tailored
+specifically for attrstat and fh's, we may save even more space.
+
+Also note that a cachetype of RC_NOCACHE can legally be passed when
+nfsd failed to encode a reply that otherwise would have been cached.
+In this case, nfsd_cache_update is called with statp == NULL.

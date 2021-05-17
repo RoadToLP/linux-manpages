@@ -1,0 +1,18 @@
+.TH "may_umount" 9 "may_umount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+may_umount \- check if a mount point is busy
+.SH SYNOPSIS
+.B "int" may_umount
+.BI "(struct vfsmount *mnt "  ");"
+.SH ARGUMENTS
+.IP "mnt" 12
+root of mount
+.SH "DESCRIPTION"
+This is called to check if a mount point has any
+open files, pwds, chroots or sub mounts. If the
+mount has sub mounts this will return busy
+regardless of whether the sub mounts are busy.
+
+Doesn't take quota and stuff into account. IOW, in some cases it will
+give false negatives. The main reason why it's here is that we need
+a non-destructive way to look for easily umountable filesystems.

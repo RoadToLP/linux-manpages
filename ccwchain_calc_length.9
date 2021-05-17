@@ -1,0 +1,20 @@
+.TH "ccwchain_calc_length" 9 "ccwchain_calc_length" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccwchain_calc_length \- calculate the length of the ccw chain.
+.SH SYNOPSIS
+.B "int" ccwchain_calc_length
+.BI "(u64 iova "  ","
+.BI "struct channel_program *cp "  ");"
+.SH ARGUMENTS
+.IP "iova" 12
+guest physical address of the target ccw chain
+.IP "cp" 12
+channel_program on which to perform the operation
+.SH "DESCRIPTION"
+This is the chain length not considering any TICs.
+You need to do a new round for each TIC target.
+
+The program is also validated for absence of not yet supported
+indirect data addressing scenarios.
+.SH "RETURN"
+the length of the ccw chain or -errno.

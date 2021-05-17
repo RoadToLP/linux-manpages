@@ -1,0 +1,24 @@
+.TH "tracing_map_lookup" 9 "tracing_map_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_lookup \- Retrieve val from a tracing_map
+.SH SYNOPSIS
+.B "struct tracing_map_elt *" tracing_map_lookup
+.BI "(struct tracing_map *map "  ","
+.BI "void *key "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The tracing_map to perform the lookup on
+.IP "key" 12
+The key to look up
+.SH "DESCRIPTION"
+Looks up key in tracing_map and if found returns the matching
+tracing_map_elt.  This is a lock-free lookup; see
+\fBtracing_map_insert\fP for details on tracing_map and how it works.
+Every time an element is retrieved, the 'hits' value is
+incremented.  There is one user-visible tracing_map variable,
+'hits', which is updated by this function.  Every time an element
+is successfully retrieved, the 'hits' value is incremented.  The
+'drops' value is never updated by this function.
+.SH "RETURN"
+the tracing_map_elt pointer val associated with the key.
+If the key wasn't found, NULL is returned.

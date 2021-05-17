@@ -1,0 +1,17 @@
+.TH "i40e_get_platform_mac_addr" 9 "i40e_get_platform_mac_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_get_platform_mac_addr \- get platform-specific MAC address
+.SH SYNOPSIS
+.B "void" i40e_get_platform_mac_addr
+.BI "(struct pci_dev *pdev "  ","
+.BI "struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device information struct
+.IP "pf" 12
+board private structure
+.SH "DESCRIPTION"
+Look up the MAC address for the device. First we'll try
+eth_platform_get_mac_address, which will check Open Firmware, or arch
+specific fallback. Otherwise, we'll default to the stored value in
+firmware.

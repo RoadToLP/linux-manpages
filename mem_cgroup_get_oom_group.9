@@ -1,0 +1,17 @@
+.TH "mem_cgroup_get_oom_group" 9 "mem_cgroup_get_oom_group" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_get_oom_group \- get a memory cgroup to clean up after OOM
+.SH SYNOPSIS
+.B "struct mem_cgroup *" mem_cgroup_get_oom_group
+.BI "(struct task_struct *victim "  ","
+.BI "struct mem_cgroup *oom_domain "  ");"
+.SH ARGUMENTS
+.IP "victim" 12
+task to be killed by the OOM killer
+.IP "oom_domain" 12
+memcg in case of memcg OOM, NULL in case of system-wide OOM
+.SH "DESCRIPTION"
+Returns a pointer to a memory cgroup, which has to be cleaned up
+by killing all belonging OOM-killable tasks.
+
+Caller has to call \fBmem_cgroup_put\fP on the returned non-NULL memcg.

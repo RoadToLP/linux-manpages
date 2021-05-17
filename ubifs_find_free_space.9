@@ -1,0 +1,27 @@
+.TH "ubifs_find_free_space" 9 "ubifs_find_free_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_find_free_space \- find a data LEB with free space.
+.SH SYNOPSIS
+.B "int" ubifs_find_free_space
+.BI "(struct ubifs_info *c "  ","
+.BI "int min_space "  ","
+.BI "int *offs "  ","
+.BI "int squeeze "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "min_space" 12
+minimum amount of required free space
+.IP "offs" 12
+contains offset of where free space starts on exit
+.IP "squeeze" 12
+whether to try to find space in a non-empty LEB first
+.SH "DESCRIPTION"
+This function looks for an LEB with at least \fImin_space\fP bytes of free space.
+It tries to find an empty LEB if possible. If no empty LEBs are available,
+this function searches for a non-empty data LEB. The returned LEB is marked
+as "taken".
+
+This function returns found LEB number in case of success, -ENOSPC if it
+failed to find a LEB with \fImin_space\fP bytes of free space and other a negative
+error codes in case of failure.

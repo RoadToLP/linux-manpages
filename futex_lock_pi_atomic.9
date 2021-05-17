@@ -1,0 +1,40 @@
+.TH "futex_lock_pi_atomic" 9 "futex_lock_pi_atomic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+futex_lock_pi_atomic \- Atomic work required to acquire a pi aware futex
+.SH SYNOPSIS
+.B "int" futex_lock_pi_atomic
+.BI "(u32 __user *uaddr "  ","
+.BI "struct futex_hash_bucket *hb "  ","
+.BI "union futex_key *key "  ","
+.BI "struct futex_pi_state **ps "  ","
+.BI "struct task_struct *task "  ","
+.BI "struct task_struct **exiting "  ","
+.BI "int set_waiters "  ");"
+.SH ARGUMENTS
+.IP "uaddr" 12
+the pi futex user address
+.IP "hb" 12
+the pi futex hash bucket
+.IP "key" 12
+the futex key associated with uaddr and hb
+.IP "ps" 12
+the pi_state pointer where we store the result of the
+lookup
+.IP "task" 12
+the task to perform the atomic lock work for.  This will
+be "current" except in the case of requeue pi.
+.IP "exiting" 12
+Pointer to store the task pointer of the owner task
+which is in the middle of exiting
+.IP "set_waiters" 12
+force setting the FUTEX_WAITERS bit (1) or not (0)
+.SH "RETURN"
+-  0 - ready to wait;
+-  1 - acquired the lock;
+- <0 - error
+.SH "DESCRIPTION"
+The hb->lock and futex_key refs shall be held by the caller.
+
+\fIexiting\fP is only set when the return value is -EBUSY. If so, this holds
+a refcount on the exiting task on return and the caller needs to drop it
+after waiting for the exit to complete.

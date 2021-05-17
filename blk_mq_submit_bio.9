@@ -1,0 +1,20 @@
+.TH "blk_mq_submit_bio" 9 "blk_mq_submit_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_submit_bio \- Create and send a request to block device.
+.SH SYNOPSIS
+.B "blk_qc_t" blk_mq_submit_bio
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+Bio pointer.
+.SH "DESCRIPTION"
+Builds up a request structure from \fIq\fP and \fIbio\fP and send to the device. The
+request may not be queued directly to hardware if:
+* This request can be merged with another one
+* We want to place request at plug queue for possible future merging
+* There is an IO scheduler active at this queue
+
+It will not queue the request if there is an error with the bio, or at the
+request creation.
+.SH "RETURN"
+Request queue cookie.

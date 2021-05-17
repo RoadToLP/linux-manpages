@@ -1,0 +1,27 @@
+.TH "create_xattr" 9 "create_xattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_xattr \- create an extended attribute.
+.SH SYNOPSIS
+.B "int" create_xattr
+.BI "(struct ubifs_info *c "  ","
+.BI "struct inode *host "  ","
+.BI "const struct fscrypt_name *nm "  ","
+.BI "const void *value "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "host" 12
+host inode
+.IP "nm" 12
+extended attribute name
+.IP "value" 12
+extended attribute value
+.IP "size" 12
+size of extended attribute value
+.SH "DESCRIPTION"
+This is a helper function which creates an extended attribute of name \fInm\fP
+and value \fIvalue\fP for inode \fIhost\fP. The host inode is also updated on flash
+because the ctime and extended attribute accounting data changes. This
+function returns zero in case of success and a negative error code in case
+of failure.

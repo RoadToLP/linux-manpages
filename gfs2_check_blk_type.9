@@ -1,0 +1,23 @@
+.TH "gfs2_check_blk_type" 9 "gfs2_check_blk_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_check_blk_type \- Check the type of a block
+.SH SYNOPSIS
+.B "int" gfs2_check_blk_type
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "u64 no_addr "  ","
+.BI "unsigned int type "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The superblock
+.IP "no_addr" 12
+The block number to check
+.IP "type" 12
+The block type we are looking for
+.SH "DESCRIPTION"
+The inode glock of \fIno_addr\fP must be held.  The \fItype\fP to check for is either
+GFS2_BLKST_DINODE or GFS2_BLKST_UNLINKED; checking for type GFS2_BLKST_FREE
+or GFS2_BLKST_USED would make no sense.
+.SH "RETURN"
+0 if the block type matches the expected type
+-ESTALE if it doesn't match
+or -ve errno if something went wrong while checking

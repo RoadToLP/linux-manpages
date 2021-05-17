@@ -1,0 +1,27 @@
+.TH "pxa_camera_check_link_miss" 9 "pxa_camera_check_link_miss" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pxa_camera_check_link_miss \- check missed DMA linking
+.SH SYNOPSIS
+.B "void" pxa_camera_check_link_miss
+.BI "(struct pxa_camera_dev *pcdev "  ","
+.BI "dma_cookie_t last_submitted "  ","
+.BI "dma_cookie_t last_issued "  ");"
+.SH ARGUMENTS
+.IP "pcdev" 12
+camera device
+.IP "last_submitted" 12
+an opaque DMA cookie for last submitted
+.IP "last_issued" 12
+an opaque DMA cookie for last issued
+.SH "DESCRIPTION"
+The DMA chaining is done with DMA running. This means a tiny temporal window
+remains, where a buffer is queued on the chain, while the chain is already
+stopped. This means the tailed buffer would never be transferred by DMA.
+This function restarts the capture for this corner case, where :
+- \fBDADR\fP == DADDR_STOP
+- a videobuffer is queued on the pcdev->capture list
+
+Please check the "DMA hot chaining timeslice issue" in
+Documentation/driver-api/media/drivers/pxa_camera.rst
+.SH "CONTEXT"
+should only be called within the dma irq handler

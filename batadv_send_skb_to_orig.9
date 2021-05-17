@@ -1,0 +1,24 @@
+.TH "batadv_send_skb_to_orig" 9 "batadv_send_skb_to_orig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_send_skb_to_orig \- Lookup next-hop and transmit skb.
+.SH SYNOPSIS
+.B "int" batadv_send_skb_to_orig
+.BI "(struct sk_buff *skb "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "struct batadv_hard_iface *recv_if "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+Packet to be transmitted.
+.IP "orig_node" 12
+Final destination of the packet.
+.IP "recv_if" 12
+Interface used when receiving the packet (can be NULL).
+.SH "DESCRIPTION"
+Looks up the best next-hop towards the passed originator and passes the
+skb on for preparation of MAC header. If the packet originated from this
+host, NULL can be passed as recv_if and no interface alternating is
+attempted.
+.SH "RETURN"
+negative errno code on a failure, -EINPROGRESS if the skb is
+buffered for later transmit or the NET_XMIT status returned by the
+lower routine if the packet has been passed down.

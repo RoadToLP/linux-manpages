@@ -1,0 +1,26 @@
+.TH "gfs2_map_journal_extents" 9 "gfs2_map_journal_extents" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_map_journal_extents \- Cache journal bmap info
+.SH SYNOPSIS
+.B "int" gfs2_map_journal_extents
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct gfs2_jdesc *jd "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The super block
+.IP "jd" 12
+The journal to map
+.SH "DESCRIPTION"
+Create a reusable "extent" mapping from all logical
+blocks to all physical blocks for the given journal.  This will save
+us time when writing journal blocks.  Most journals will have only one
+extent that maps all their logical blocks.  That's because gfs2.mkfs
+arranges the journal blocks sequentially to maximize performance.
+So the extent would map the first block for the entire file length.
+However, gfs2_jadd can happen while file activity is happening, so
+those journals may not be sequential.  Less likely is the case where
+the users created their own journals by mounting the metafs and
+laying it out.  But it's still possible.  These journals might have
+several extents.
+.SH "RETURN"
+0 on success, or error on failure

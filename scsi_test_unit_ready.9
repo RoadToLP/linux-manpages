@@ -1,0 +1,21 @@
+.TH "scsi_test_unit_ready" 9 "scsi_test_unit_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_test_unit_ready \- test if unit is ready
+.SH SYNOPSIS
+.B "int" scsi_test_unit_ready
+.BI "(struct scsi_device *sdev "  ","
+.BI "int timeout "  ","
+.BI "int retries "  ","
+.BI "struct scsi_sense_hdr *sshdr "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device to change the state of.
+.IP "timeout" 12
+command timeout
+.IP "retries" 12
+number of retries before failing
+.IP "sshdr" 12
+outpout pointer for decoded sense information.
+
+Returns zero if unsuccessful or an error if TUR failed.  For
+removable media, UNIT_ATTENTION sets ->changed flag.

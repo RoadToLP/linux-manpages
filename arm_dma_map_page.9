@@ -1,0 +1,30 @@
+.TH "arm_dma_map_page" 9 "arm_dma_map_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_dma_map_page \- map a portion of a page for streaming DMA
+.SH SYNOPSIS
+.B "dma_addr_t" arm_dma_map_page
+.BI "(struct device *dev "  ","
+.BI "struct page *page "  ","
+.BI "unsigned long offset "  ","
+.BI "size_t size "  ","
+.BI "enum dma_data_direction dir "  ","
+.BI "unsigned long attrs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+valid struct device pointer, or NULL for ISA and EISA-like devices
+.IP "page" 12
+page that buffer resides in
+.IP "offset" 12
+offset into page for start of buffer
+.IP "size" 12
+size of buffer to map
+.IP "dir" 12
+DMA transfer direction
+.IP "attrs" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Ensure that any data held in the cache is appropriately discarded
+or written back.
+
+The device owns this memory once this call has completed.  The CPU
+can regain ownership by calling \fBdma_unmap_page\fP.

@@ -1,0 +1,30 @@
+.TH "spu_ahash_rx_sg_create" 9 "spu_ahash_rx_sg_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spu_ahash_rx_sg_create \- Build up the scatterlist of buffers used to receive a SPU response message for an ahash request.
+.SH SYNOPSIS
+.B "int" spu_ahash_rx_sg_create
+.BI "(struct brcm_message *mssg "  ","
+.BI "struct iproc_reqctx_s *rctx "  ","
+.BI "u8 rx_frag_num "  ","
+.BI "unsigned int digestsize "  ","
+.BI "u32 stat_pad_len "  ");"
+.SH ARGUMENTS
+.IP "mssg" 12
+mailbox message containing the receive sg
+.IP "rctx" 12
+crypto request context
+.IP "rx_frag_num" 12
+number of scatterlist elements required to hold the
+SPU response message
+.IP "digestsize" 12
+length of hash digest, in bytes
+.IP "stat_pad_len" 12
+Number of bytes required to pad the STAT field to
+a 4-byte boundary
+.SH "DESCRIPTION"
+The scatterlist that gets allocated here is freed in \fBspu_chunk_cleanup\fP
+when the request completes, whether the request is handled successfully or
+there is an error.
+.SH "RETURN"
+0 if successful
+< 0 if an error

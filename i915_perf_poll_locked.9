@@ -1,0 +1,24 @@
+.TH "i915_perf_poll_locked" 9 "i915_perf_poll_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_perf_poll_locked \- poll_wait() with a suitable wait queue for stream
+.SH SYNOPSIS
+.B "__poll_t" i915_perf_poll_locked
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "struct file *file "  ","
+.BI "poll_table *wait "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915 perf stream
+.IP "file" 12
+An i915 perf stream file
+.IP "wait" 12
+\fBpoll\fP state table
+.SH "DESCRIPTION"
+For handling userspace polling on an i915 perf stream, this calls through to
+\fIi915_perf_stream_ops->poll_wait\fP to call \fBpoll_wait\fP with a wait queue that
+will be woken for new stream data.
+.SH "NOTE"
+The \fIperf->lock\fP mutex has been taken to serialize
+with any non-file-operation driver hooks.
+.SH "RETURN"
+any poll events that are ready without sleeping

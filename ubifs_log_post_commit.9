@@ -1,0 +1,20 @@
+.TH "ubifs_log_post_commit" 9 "ubifs_log_post_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_log_post_commit \- things to do after commit is completed.
+.SH SYNOPSIS
+.B "int" ubifs_log_post_commit
+.BI "(struct ubifs_info *c "  ","
+.BI "int old_ltail_lnum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "old_ltail_lnum" 12
+old log tail LEB number
+.SH "DESCRIPTION"
+Release buds only after commit is completed, because they must be unchanged
+if recovery is needed.
+
+Unmap log LEBs only after commit is completed, because they may be needed for
+recovery.
+
+This function returns 0 on success and a negative error code on failure.

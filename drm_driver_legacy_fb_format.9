@@ -1,0 +1,20 @@
+.TH "drm_driver_legacy_fb_format" 9 "drm_driver_legacy_fb_format" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_driver_legacy_fb_format \- compute drm fourcc code from legacy description
+.SH SYNOPSIS
+.B "uint32_t" drm_driver_legacy_fb_format
+.BI "(struct drm_device *dev "  ","
+.BI "uint32_t bpp "  ","
+.BI "uint32_t depth "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "bpp" 12
+bits per pixels
+.IP "depth" 12
+bit depth per pixel
+.SH "DESCRIPTION"
+Computes a drm fourcc pixel format code for the given \fIbpp\fP/\fIdepth\fP values.
+Unlike \fBdrm_mode_legacy_fb_format\fP this looks at the drivers mode_config,
+and depending on the \fIdrm_mode_config.quirk_addfb_prefer_host_byte_order\fP flag
+it returns little endian byte order or host byte order framebuffer formats.

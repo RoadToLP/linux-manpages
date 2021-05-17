@@ -1,0 +1,23 @@
+.TH "memory_failure_queue" 9 "memory_failure_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memory_failure_queue \- Schedule handling memory failure of a page.
+.SH SYNOPSIS
+.B "void" memory_failure_queue
+.BI "(unsigned long pfn "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+Page Number of the corrupted page
+.IP "flags" 12
+Flags for memory failure handling
+.SH "DESCRIPTION"
+This function is called by the low level hardware error handler
+when it detects hardware memory corruption of a page. It schedules
+the recovering of error page, including dropping pages, killing
+processes etc.
+
+The function is primarily of use for corruptions that
+happen outside the current execution context (e.g. when
+detected by a background scrubber)
+
+Can run in IRQ context.

@@ -1,0 +1,21 @@
+.TH "alb_set_mac_address" 9 "alb_set_mac_address" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alb_set_mac_address \- 
+.SH SYNOPSIS
+.B "int" alb_set_mac_address
+.BI "(struct bonding *bond "  ","
+.BI "void *addr "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+bonding we're working on
+.IP "addr" 12
+MAC address to set
+.SH "DESCRIPTION"
+In TLB mode all slaves are configured to the bond's hw address, but set
+their dev_addr field to different addresses (based on their permanent hw
+addresses).
+
+For each slave, this function sets the interface to the new address and then
+changes its dev_addr field to its previous value.
+
+Unwinding assumes bond's mac address has not yet changed.

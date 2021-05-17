@@ -1,0 +1,20 @@
+.TH "kernfs_get_open_node" 9 "kernfs_get_open_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_get_open_node \- get or create kernfs_open_node
+.SH SYNOPSIS
+.B "int" kernfs_get_open_node
+.BI "(struct kernfs_node *kn "  ","
+.BI "struct kernfs_open_file *of "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+target kernfs_node
+.IP "of" 12
+kernfs_open_file for this instance of open
+
+If \fIkn->attr.open\fP exists, increment its reference count; otherwise,
+create one.  \fIof\fP is chained to the files list.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, -errno on failure.

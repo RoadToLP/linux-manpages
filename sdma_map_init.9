@@ -1,0 +1,37 @@
+.TH "sdma_map_init" 9 "sdma_map_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdma_map_init \- called when # vls change
+.SH SYNOPSIS
+.B "int" sdma_map_init
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "u8 port "  ","
+.BI "u8 num_vls "  ","
+.BI "u8 *vl_engines "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+hfi1_devdata
+.IP "port" 12
+port number
+.IP "num_vls" 12
+number of vls
+.IP "vl_engines" 12
+per vl engine mapping (optional)
+.SH "DESCRIPTION"
+This routine changes the mapping based on the number of vls.
+
+vl_engines is used to specify a non-uniform vl/engine loading. NULL
+implies auto computing the loading and giving each VLs a uniform
+distribution of engines per VL.
+
+The auto algorithm computes the sde_per_vl and the number of extra
+engines.  Any extra engines are added from the last VL on down.
+
+rcu locking is used here to control access to the mapping fields.
+
+If either the num_vls or num_sdma are non-power of 2, the array sizes
+in the struct sdma_vl_map and the struct sdma_map_elem are rounded
+up to the next highest power of 2 and the first entry is reused
+in a round robin fashion.
+
+If an error occurs the map change is not done and the mapping is
+not changed.

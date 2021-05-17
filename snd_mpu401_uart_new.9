@@ -1,0 +1,35 @@
+.TH "snd_mpu401_uart_new" 9 "snd_mpu401_uart_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_mpu401_uart_new \- create an MPU401-UART instance
+.SH SYNOPSIS
+.B "int" snd_mpu401_uart_new
+.BI "(struct snd_card *card "  ","
+.BI "int device "  ","
+.BI "unsigned short hardware "  ","
+.BI "unsigned long port "  ","
+.BI "unsigned int info_flags "  ","
+.BI "int irq "  ","
+.BI "struct snd_rawmidi ** rrawmidi "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "device" 12
+the device index, zero-based
+.IP "hardware" 12
+the hardware type, MPU401_HW_XXXX
+.IP "port" 12
+the base address of MPU401 port
+.IP "info_flags" 12
+bitflags MPU401_INFO_XXX
+.IP "irq" 12
+the ISA irq number, -1 if not to be allocated
+.IP "rrawmidi" 12
+the pointer to store the new rawmidi instance
+.SH "DESCRIPTION"
+Creates a new MPU-401 instance.
+
+Note that the rawmidi instance is returned on the rrawmidi argument,
+not the mpu401 instance itself.  To access to the mpu401 instance,
+cast from rawmidi->private_data (with struct snd_mpu401 magic-cast).
+.SH "RETURN"
+Zero if successful, or a negative error code.

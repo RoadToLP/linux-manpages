@@ -1,0 +1,23 @@
+.TH "init_per_cpu" 9 "init_per_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_per_cpu \- Handle individual processor initializations.
+.SH SYNOPSIS
+.B "int" init_per_cpu
+.BI "(int cpunum "  ");"
+.SH ARGUMENTS
+.IP "cpunum" 12
+logical processor number.
+.SH "DESCRIPTION"
+This function handles initialization for *every* CPU
+in the system:
+
+o Set "default" CPU width for trap handlers
+
+o Enable FP coprocessor
+REVISIT: this could be done in the "code 22" trap handler.
+(frowands idea - that way we know which processes need FP
+registers saved on the interrupt stack.)
+NEWS FLASH: wide kernels need FP coprocessor enabled to handle
+formatted printing of lx for example (double divides I think)
+
+o Enable CPU profiling hooks.

@@ -1,0 +1,19 @@
+.TH "unmap_kernel_range_noflush" 9 "unmap_kernel_range_noflush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_kernel_range_noflush \- unmap kernel VM area
+.SH SYNOPSIS
+.B "void" unmap_kernel_range_noflush
+.BI "(unsigned long start "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+start of the VM area to unmap
+.IP "size" 12
+size of the VM area to unmap
+.SH "DESCRIPTION"
+Unmap PFN_UP(\fIsize\fP) pages at \fIaddr\fP.  The VM area \fIaddr\fP and \fIsize\fP specify
+should have been allocated using \fBget_vm_area\fP and its friends.
+.SH "NOTE"
+This function does NOT do any cache flushing.  The caller is responsible
+for calling \fBflush_cache_vunmap\fP on to-be-mapped areas before calling this
+function and \fBflush_tlb_kernel_range\fP after.

@@ -1,0 +1,24 @@
+.TH "rdma_get_gid_attr" 9 "rdma_get_gid_attr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_get_gid_attr \- Returns GID attributes for a port of a device at a requested gid_index, if a valid GID entry exists.
+.SH SYNOPSIS
+.B "const struct ib_gid_attr *" rdma_get_gid_attr
+.BI "(struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+The device to query.
+.IP "port_num" 12
+The port number on the device where the GID value
+is to be queried.
+.IP "index" 12
+Index of the GID table entry whose attributes are to
+be queried.
+.SH "DESCRIPTION"
+\fBrdma_get_gid_attr\fP acquires reference count of gid attributes from the
+cached GID table. Caller must invoke \fBrdma_put_gid_attr\fP to release
+reference to gid attribute regardless of link layer.
+
+Returns pointer to valid gid attribute or ERR_PTR for the appropriate error
+code.

@@ -1,0 +1,43 @@
+.TH "seq_buf_hex_dump" 9 "seq_buf_hex_dump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seq_buf_hex_dump \- print formatted hex dump into the sequence buffer
+.SH SYNOPSIS
+.B "int" seq_buf_hex_dump
+.BI "(struct seq_buf *s "  ","
+.BI "const char *prefix_str "  ","
+.BI "int prefix_type "  ","
+.BI "int rowsize "  ","
+.BI "int groupsize "  ","
+.BI "const void *buf "  ","
+.BI "size_t len "  ","
+.BI "bool ascii "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+seq_buf descriptor
+.IP "prefix_str" 12
+string to prefix each line with;
+caller supplies trailing spaces for alignment if desired
+.IP "prefix_type" 12
+controls whether prefix of an offset, address, or none
+is printed (DUMP_PREFIX_OFFSET, DUMP_PREFIX_ADDRESS, DUMP_PREFIX_NONE)
+.IP "rowsize" 12
+number of bytes to print per line; must be 16 or 32
+.IP "groupsize" 12
+number of bytes to print at a time (1, 2, 4, 8; default = 1)
+.IP "buf" 12
+data blob to dump
+.IP "len" 12
+number of bytes in the \fIbuf\fP
+.IP "ascii" 12
+include ASCII after the hex output
+.SH "DESCRIPTION"
+Function is an analogue of \fBprint_hex_dump\fP and thus has similar interface.
+
+linebuf size is maximal length for one line.
+32 * 3 - maximum bytes per line, each printed into 2 chars + 1 for
+separating space
+2 - spaces separating hex dump and ascii representation
+32 - ascii representation
+1 - terminating '\0'
+
+Returns zero on success, -1 on overflow

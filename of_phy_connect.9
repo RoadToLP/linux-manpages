@@ -1,0 +1,25 @@
+.TH "of_phy_connect" 9 "of_phy_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_phy_connect \- Connect to the phy described in the device tree
+.SH SYNOPSIS
+.B "struct phy_device *" of_phy_connect
+.BI "(struct net_device *dev "  ","
+.BI "struct device_node *phy_np "  ","
+.BI "void (*hndlr)(struct net_device *) "  ","
+.BI "u32 flags "  ","
+.BI "phy_interface_t iface "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to net_device claiming the phy
+.IP "phy_np" 12
+Pointer to device tree node for the PHY
+.IP "hndlr" 12
+Link state callback for the network device
+.IP "flags" 12
+flags to pass to the PHY
+.IP "iface" 12
+PHY data interface type
+.SH "DESCRIPTION"
+If successful, returns a pointer to the phy_device with the embedded
+struct device refcount incremented by one, or NULL on failure. The
+refcount must be dropped by calling \fBphy_disconnect\fP or \fBphy_detach\fP.

@@ -1,0 +1,24 @@
+.TH "mpt_attach" 9 "mpt_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_attach \- Install a PCI intelligent MPT adapter.
+.SH SYNOPSIS
+.B "int" mpt_attach
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Pointer to pci_dev structure
+.IP "id" 12
+PCI device ID information
+
+This routine performs all the steps necessary to bring the IOC of
+a MPT adapter to a OPERATIONAL state.  This includes registering
+memory regions, registering the interrupt, and allocating request
+and reply memory pools.
+
+This routine also pre-fetches the LAN MAC address of a Fibre Channel
+MPT adapter.
+
+Returns 0 for success, non-zero for failure.
+
+TODO: Add support for polled controllers

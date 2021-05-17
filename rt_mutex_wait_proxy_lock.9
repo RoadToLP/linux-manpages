@@ -1,0 +1,25 @@
+.TH "rt_mutex_wait_proxy_lock" 9 "rt_mutex_wait_proxy_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rt_mutex_wait_proxy_lock \- Wait for lock acquisition
+.SH SYNOPSIS
+.B "int" rt_mutex_wait_proxy_lock
+.BI "(struct rt_mutex *lock "  ","
+.BI "struct hrtimer_sleeper *to "  ","
+.BI "struct rt_mutex_waiter *waiter "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex we were woken on
+.IP "to" 12
+the timeout, null if none. hrtimer should already have
+been started.
+.IP "waiter" 12
+the pre-initialized rt_mutex_waiter
+.SH "DESCRIPTION"
+Wait for the lock acquisition started on our behalf by
+\fBrt_mutex_start_proxy_lock\fP. Upon failure, the caller must call
+\fBrt_mutex_cleanup_proxy_lock\fP.
+
+Special API call for PI-futex support
+.SH "RETURN"
+0 - success
+<0 - error, one of -EINTR, -ETIMEDOUT

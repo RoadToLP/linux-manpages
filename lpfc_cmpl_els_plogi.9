@@ -1,0 +1,29 @@
+.TH "lpfc_cmpl_els_plogi" 9 "lpfc_cmpl_els_plogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_plogi \- Completion callback function for plogi
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_plogi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion callback function for issuing the Port
+Login (PLOGI) command. For PLOGI completion, there must be an active
+ndlp on the vport node list that matches the remote node ID from the
+PLOGI response IOCB. If such ndlp does not exist, the PLOGI is simply
+ignored and command IOCB released. The PLOGI response IOCB status is
+checked for error conditons. If there is error status reported, PLOGI
+retry shall be attempted by invoking the \fBlpfc_els_retry\fP routine.
+Otherwise, the \fBlpfc_plogi_confirm_nport\fP routine shall be invoked on
+the ndlp and the NLP_EVT_CMPL_PLOGI state to the Discover State Machine
+(DSM) is set for this PLOGI completion. Finally, it checks whether
+there are additional N_Port nodes with the vport that need to perform
+PLOGI. If so, the \fBlpfc_more_plogi\fP routine is invoked to issue addition
+PLOGIs.

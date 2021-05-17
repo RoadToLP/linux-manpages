@@ -1,0 +1,20 @@
+.TH "xxxfb_open" 9 "xxxfb_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xxxfb_open \- Optional function. Called when the framebuffer is first accessed.
+.SH SYNOPSIS
+.B "int" xxxfb_open
+.BI "(struct fb_info *info "  ","
+.BI "int user "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+frame buffer structure that represents a single frame buffer
+.IP "user" 12
+tell us if the userland (value=1) or the console is accessing
+the framebuffer. 
+
+This function is the first function called in the framebuffer api.
+Usually you don't need to provide this function. The case where it 
+is used is to change from a text mode hardware state to a graphics
+mode state. 
+
+Returns negative errno on error, or zero on success.

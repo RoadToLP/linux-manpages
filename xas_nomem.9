@@ -1,0 +1,25 @@
+.TH "xas_nomem" 9 "xas_nomem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_nomem \- Allocate memory if needed.
+.SH SYNOPSIS
+.B "bool" xas_nomem
+.BI "(struct xa_state *xas "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+If we need to add new nodes to the XArray, we try to allocate memory
+with GFP_NOWAIT while holding the lock, which will usually succeed.
+If it fails, \fIxas\fP is flagged as needing memory to continue.  The caller
+should drop the lock and call \fBxas_nomem\fP.  If \fBxas_nomem\fP succeeds,
+the caller should retry the operation.
+
+Forward progress is guaranteed as one node is allocated here and
+stored in the xa_state where it will be found by \fBxas_alloc\fP.  More
+nodes will likely be found in the slab allocator, but we do not tie
+them up here.
+.SH "RETURN"
+true if memory was needed, and was successfully allocated.

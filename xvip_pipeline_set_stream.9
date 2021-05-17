@@ -1,0 +1,32 @@
+.TH "xvip_pipeline_set_stream" 9 "xvip_pipeline_set_stream" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xvip_pipeline_set_stream \- Enable/disable streaming on a pipeline
+.SH SYNOPSIS
+.B "int" xvip_pipeline_set_stream
+.BI "(struct xvip_pipeline *pipe "  ","
+.BI "bool on "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+The pipeline
+.IP "on" 12
+Turn the stream on when true or off when false
+.SH "DESCRIPTION"
+The pipeline is shared between all DMA engines connect at its input and
+output. While the stream state of DMA engines can be controlled
+independently, pipelines have a shared stream state that enable or disable
+all entities in the pipeline. For this reason the pipeline uses a streaming
+counter that tracks the number of DMA engines that have requested the stream
+to be enabled.
+
+When called with the \fIon\fP argument set to true, this function will increment
+the pipeline streaming count. If the streaming count reaches the number of
+DMA engines in the pipeline it will enable all entities that belong to the
+pipeline.
+
+Similarly, when called with the \fIon\fP argument set to false, this function will
+decrement the pipeline streaming count and disable all entities in the
+pipeline when the streaming count reaches zero.
+.SH "RETURN"
+0 if successful, or the return value of the failed video::s_stream
+operation otherwise. Stopping the pipeline never fails. The pipeline state is
+not updated when the operation fails.

@@ -1,0 +1,23 @@
+.TH "nand_gpio_waitrdy" 9 "nand_gpio_waitrdy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_gpio_waitrdy \- Poll R/B GPIO pin until ready
+.SH SYNOPSIS
+.B "int" nand_gpio_waitrdy
+.BI "(struct nand_chip *chip "  ","
+.BI "struct gpio_desc *gpiod "  ","
+.BI "unsigned long timeout_ms "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip structure
+.IP "gpiod" 12
+GPIO descriptor of R/B pin
+.IP "timeout_ms" 12
+Timeout in ms
+.SH "DESCRIPTION"
+Poll the R/B GPIO pin until it becomes ready. If that does not happen
+whitin the specified timeout, -ETIMEDOUT is returned.
+
+This helper is intended to be used when the controller has access to the
+NAND R/B pin over GPIO.
+
+Return 0 if the R/B pin indicates chip is ready, a negative error otherwise.

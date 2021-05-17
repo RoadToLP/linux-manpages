@@ -1,0 +1,27 @@
+.TH "sd_zbc_do_report_zones" 9 "sd_zbc_do_report_zones" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_zbc_do_report_zones \- Issue a REPORT ZONES scsi command.
+.SH SYNOPSIS
+.B "int" sd_zbc_do_report_zones
+.BI "(struct scsi_disk *sdkp "  ","
+.BI "unsigned char *buf "  ","
+.BI "unsigned int buflen "  ","
+.BI "sector_t lba "  ","
+.BI "bool partial "  ");"
+.SH ARGUMENTS
+.IP "sdkp" 12
+The target disk
+.IP "buf" 12
+vmalloc-ed buffer to use for the reply
+.IP "buflen" 12
+the buffer size
+.IP "lba" 12
+Start LBA of the report
+.IP "partial" 12
+Do partial report
+.SH "DESCRIPTION"
+For internal use during device validation.
+Using partial=true can significantly speed up execution of a report zones
+command because the disk does not have to count all possible report matching
+zones and will only report the count of zones fitting in the command reply
+buffer.

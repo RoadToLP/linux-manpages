@@ -1,0 +1,36 @@
+.TH "pci_epc_map_msi_irq" 9 "pci_epc_map_msi_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_epc_map_msi_irq \- Map physical address to MSI address and return MSI data
+.SH SYNOPSIS
+.B "int" pci_epc_map_msi_irq
+.BI "(struct pci_epc *epc "  ","
+.BI "u8 func_no "  ","
+.BI "phys_addr_t phys_addr "  ","
+.BI "u8 interrupt_num "  ","
+.BI "u32 entry_size "  ","
+.BI "u32 *msi_data "  ","
+.BI "u32 *msi_addr_offset "  ");"
+.SH ARGUMENTS
+.IP "epc" 12
+the EPC device which has the MSI capability
+.IP "func_no" 12
+the physical endpoint function number in the EPC device
+.IP "phys_addr" 12
+the physical address of the outbound region
+.IP "interrupt_num" 12
+the MSI interrupt number
+.IP "entry_size" 12
+Size of Outbound address region for each interrupt
+.IP "msi_data" 12
+the data that should be written in order to raise MSI interrupt
+with interrupt number as 'interrupt num'
+.IP "msi_addr_offset" 12
+Offset of MSI address from the aligned outbound address
+to which the MSI address is mapped
+.SH "DESCRIPTION"
+Invoke to map physical address to MSI address and return MSI data. The
+physical address should be an address in the outbound region. This is
+required to implement doorbell functionality of NTB wherein EPC on either
+side of the interface (primary and secondary) can directly write to the
+physical address (in outbound region) of the other interface to ring
+doorbell.

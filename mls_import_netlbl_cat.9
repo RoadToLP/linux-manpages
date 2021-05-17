@@ -1,0 +1,20 @@
+.TH "mls_import_netlbl_cat" 9 "mls_import_netlbl_cat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mls_import_netlbl_cat \- Import the MLS categories from NetLabel
+.SH SYNOPSIS
+.B "int" mls_import_netlbl_cat
+.BI "(struct policydb *p "  ","
+.BI "struct context *context "  ","
+.BI "struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+-- undescribed --
+.IP "context" 12
+the security context
+.IP "secattr" 12
+the NetLabel security attributes
+.SH "DESCRIPTION"
+Copy the NetLabel security attributes into the SELinux context; since the
+NetLabel security attribute only contains a single MLS category use it for
+both the low and high categories of the context.  Returns zero on success,
+negative values on failure.

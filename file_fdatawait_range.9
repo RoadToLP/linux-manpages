@@ -1,0 +1,25 @@
+.TH "file_fdatawait_range" 9 "file_fdatawait_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+file_fdatawait_range \- wait for writeback to complete
+.SH SYNOPSIS
+.B "int" file_fdatawait_range
+.BI "(struct file *file "  ","
+.BI "loff_t start_byte "  ","
+.BI "loff_t end_byte "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointing to address space structure to wait for
+.IP "start_byte" 12
+offset in bytes where the range starts
+.IP "end_byte" 12
+offset in bytes where the range ends (inclusive)
+.SH "DESCRIPTION"
+Walk the list of under-writeback pages of the address space that file
+refers to, in the given range and wait for all of them.  Check error
+status of the address space vs. the file->f_wb_err cursor and return it.
+
+Since the error status of the file is advanced by this function,
+callers are responsible for checking the return value and handling and/or
+reporting the error.
+.SH "RETURN"
+error status of the address space vs. the file->f_wb_err cursor.

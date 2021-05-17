@@ -1,0 +1,24 @@
+.TH "drm_gem_cma_prime_import_sg_table" 9 "drm_gem_cma_prime_import_sg_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_prime_import_sg_table \- produce a CMA GEM object from another driver's scatter/gather table of pinned pages
+.SH SYNOPSIS
+.B "struct drm_gem_object *" drm_gem_cma_prime_import_sg_table
+.BI "(struct drm_device *dev "  ","
+.BI "struct dma_buf_attachment *attach "  ","
+.BI "struct sg_table *sgt "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to import into
+.IP "attach" 12
+DMA-BUF attachment
+.IP "sgt" 12
+scatter/gather table of pinned pages
+.SH "DESCRIPTION"
+This function imports a scatter/gather table exported via DMA-BUF by
+another driver. Imported buffers must be physically contiguous in memory
+(i.e. the scatter/gather table must contain a single entry). Drivers that
+use the CMA helpers should set this as their
+\fIdrm_driver.gem_prime_import_sg_table\fP callback.
+.SH "RETURN"
+A pointer to a newly created GEM object or an ERR_PTR-encoded negative
+error code on failure.

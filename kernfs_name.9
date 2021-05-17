@@ -1,0 +1,23 @@
+.TH "kernfs_name" 9 "kernfs_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_name \- obtain the name of a given node
+.SH SYNOPSIS
+.B "int" kernfs_name
+.BI "(struct kernfs_node *kn "  ","
+.BI "char *buf "  ","
+.BI "size_t buflen "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+kernfs_node of interest
+.IP "buf" 12
+buffer to copy \fIkn\fP's name into
+.IP "buflen" 12
+size of \fIbuf\fP
+.SH "DESCRIPTION"
+Copies the name of \fIkn\fP into \fIbuf\fP of \fIbuflen\fP bytes.  The behavior is
+similar to \fBstrlcpy\fP.  It returns the length of \fIkn\fP's name and if \fIbuf\fP
+isn't long enough, it's filled upto \fIbuflen\fP-1 and nul terminated.
+
+Fills buffer with "(null)" if \fIkn\fP is NULL.
+
+This function can be called from any context.

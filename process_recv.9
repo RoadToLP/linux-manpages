@@ -1,0 +1,19 @@
+.TH "process_recv" 9 "process_recv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_recv \- Received and parse incoming packet
+.SH SYNOPSIS
+.B "void" process_recv
+.BI "(struct ishtp_cl *cros_ish_cl "  ","
+.BI "struct ishtp_cl_rb *rb_in_proc "  ","
+.BI "ktime_t timestamp "  ");"
+.SH ARGUMENTS
+.IP "cros_ish_cl" 12
+Client instance to get stats
+.IP "rb_in_proc" 12
+Host interface message buffer
+.IP "timestamp" 12
+Timestamp of when parent callback started
+.SH "DESCRIPTION"
+Parse the incoming packet. If it is a response packet then it will
+update per instance flags and wake up the caller waiting to for the
+response. If it is an event packet then it will schedule event work.

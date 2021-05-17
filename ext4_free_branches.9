@@ -1,0 +1,28 @@
+.TH "ext4_free_branches" 9 "ext4_free_branches" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_free_branches \- free an array of branches
+.SH SYNOPSIS
+.B "void" ext4_free_branches
+.BI "(handle_t *handle "  ","
+.BI "struct inode *inode "  ","
+.BI "struct buffer_head *parent_bh "  ","
+.BI "__le32 *first "  ","
+.BI "__le32 *last "  ","
+.BI "int depth "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+JBD handle for this transaction
+.IP "inode" 12
+inode we are dealing with
+.IP "parent_bh" 12
+the buffer_head which contains *\fIfirst\fP and *\fIlast\fP
+.IP "first" 12
+array of block numbers
+.IP "last" 12
+pointer immediately past the end of array
+.IP "depth" 12
+depth of the branches to free
+
+We are freeing all blocks referred from these branches (numbers are
+stored as little-endian 32-bit) and updating \fIinode->i_blocks\fP
+appropriately.

@@ -1,0 +1,17 @@
+.TH "of_find_backlight_by_node" 9 "of_find_backlight_by_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_backlight_by_node \- find backlight device by device-tree node
+.SH SYNOPSIS
+.B "struct backlight_device *" of_find_backlight_by_node
+.BI "(struct device_node *node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+device-tree node of the backlight device
+.SH "DESCRIPTION"
+Returns a pointer to the backlight device corresponding to the given DT
+node or NULL if no such backlight device exists or if the device hasn't
+been probed yet.
+
+This function obtains a reference on the backlight device and it is the
+caller's responsibility to drop the reference by calling \fBput_device\fP on
+the backlight device's .dev field.

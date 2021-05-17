@@ -1,0 +1,31 @@
+.TH "drm_vma_offset_add" 9 "drm_vma_offset_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vma_offset_add \- Add offset node to manager
+.SH SYNOPSIS
+.B "int" drm_vma_offset_add
+.BI "(struct drm_vma_offset_manager *mgr "  ","
+.BI "struct drm_vma_offset_node *node "  ","
+.BI "unsigned long pages "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+Manager object
+.IP "node" 12
+Node to be added
+.IP "pages" 12
+Allocation size visible to user-space (in number of pages)
+.SH "DESCRIPTION"
+Add a node to the offset-manager. If the node was already added, this does
+nothing and return 0. \fIpages\fP is the size of the object given in number of
+pages.
+After this call succeeds, you can access the offset of the node until it
+is removed again.
+
+If this call fails, it is safe to retry the operation or call
+\fBdrm_vma_offset_remove\fP, anyway. However, no cleanup is required in that
+case.
+
+\fIpages\fP is not required to be the same size as the underlying memory object
+that you want to map. It only limits the size that user-space can map into
+their address space.
+.SH "RETURN"
+0 on success, negative error code on failure.

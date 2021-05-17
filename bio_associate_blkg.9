@@ -1,0 +1,14 @@
+.TH "bio_associate_blkg" 9 "bio_associate_blkg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_associate_blkg \- associate a bio with a blkg
+.SH SYNOPSIS
+.B "void" bio_associate_blkg
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+target bio
+.SH "DESCRIPTION"
+Associate \fIbio\fP with the blkg found from the bio's css and request_queue.
+If one is not found, \fBbio_lookup_blkg\fP creates the blkg.  If a blkg is
+already associated, the css is reused and association redone as the
+request_queue may have changed.

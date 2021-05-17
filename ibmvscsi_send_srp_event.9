@@ -1,0 +1,18 @@
+.TH "ibmvscsi_send_srp_event" 9 "ibmvscsi_send_srp_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsi_send_srp_event \- - Transforms event to u64 array and calls send_crq()
+.SH SYNOPSIS
+.B "int" ibmvscsi_send_srp_event
+.BI "(struct srp_event_struct *evt_struct "  ","
+.BI "struct ibmvscsi_host_data *hostdata "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "evt_struct" 12
+evt_struct to be sent
+.IP "hostdata" 12
+ibmvscsi_host_data of host
+.IP "timeout" 12
+timeout in seconds - 0 means do not time command
+.SH "DESCRIPTION"
+Returns the value returned from \fBibmvscsi_send_crq\fP. (Zero for success)
+Note that this routine assumes that host_lock is held for synchronization

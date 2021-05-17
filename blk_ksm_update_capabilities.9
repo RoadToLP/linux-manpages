@@ -1,0 +1,29 @@
+.TH "blk_ksm_update_capabilities" 9 "blk_ksm_update_capabilities" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_ksm_update_capabilities \- Update the restrictions of a KSM to those of another KSM
+.SH SYNOPSIS
+.B "void" blk_ksm_update_capabilities
+.BI "(struct blk_keyslot_manager *target_ksm "  ","
+.BI "struct blk_keyslot_manager *reference_ksm "  ");"
+.SH ARGUMENTS
+.IP "target_ksm" 12
+The KSM whose restrictions to update.
+.IP "reference_ksm" 12
+The KSM to whose restrictions this function will update
+\fItarget_ksm\fP's restrictions to.
+.SH "DESCRIPTION"
+Blk-crypto requires that crypto capabilities that were
+advertised when a bio was created continue to be supported by the
+device until that bio is ended. This is turn means that a device cannot
+shrink its advertised crypto capabilities without any explicit
+synchronization with upper layers. So if there's no such explicit
+synchronization, \fIreference_ksm\fP must support all the crypto capabilities that
+\fItarget_ksm\fP does
+(i.e. we need blk_ksm_is_superset(\fIreference_ksm\fP, \fItarget_ksm\fP) == true).
+
+Note also that as long as the crypto capabilities are being expanded, the
+order of updates becoming visible is not important because it's alright
+for blk-crypto to see stale values - they only cause blk-crypto to
+believe that a crypto capability isn't supported when it actually is (which
+might result in blk-crypto-fallback being used if available, or the bio being
+failed).

@@ -1,0 +1,21 @@
+.TH "ntfs_cluster_free_from_rl_nolock" 9 "ntfs_cluster_free_from_rl_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_cluster_free_from_rl_nolock \- free clusters from runlist
+.SH SYNOPSIS
+.B "int" ntfs_cluster_free_from_rl_nolock
+.BI "(ntfs_volume *vol "  ","
+.BI "const runlist_element *rl "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+mounted ntfs volume on which to free the clusters
+.IP "rl" 12
+runlist describing the clusters to free
+.SH "DESCRIPTION"
+Free all the clusters described by the runlist \fIrl\fP on the volume \fIvol\fP.  In
+the case of an error being returned, at least some of the clusters were not
+freed.
+
+Return 0 on success and -errno on error.
+
+Locking: - The volume lcn bitmap must be locked for writing on entry and is
+left locked on return.

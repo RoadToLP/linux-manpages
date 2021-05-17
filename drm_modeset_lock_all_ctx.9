@@ -1,0 +1,27 @@
+.TH "drm_modeset_lock_all_ctx" 9 "drm_modeset_lock_all_ctx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_modeset_lock_all_ctx \- take all modeset locks
+.SH SYNOPSIS
+.B "int" drm_modeset_lock_all_ctx
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+This function takes all modeset locks, suitable where a more fine-grained
+scheme isn't (yet) implemented.
+
+Unlike \fBdrm_modeset_lock_all\fP, it doesn't take the \fIdrm_mode_config.mutex\fP
+since that lock isn't required for modeset state changes. Callers which
+need to grab that lock too need to do so outside of the acquire context
+\fIctx\fP.
+
+Locks acquired with this function should be released by calling the
+\fBdrm_modeset_drop_locks\fP function on \fIctx\fP.
+
+See also: \fBDRM_MODESET_LOCK_ALL_BEGIN\fP and \fBDRM_MODESET_LOCK_ALL_END\fP
+.SH "RETURN"
+0 on success or a negative error-code on failure.

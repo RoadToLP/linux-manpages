@@ -1,0 +1,36 @@
+.TH "amdgpu_ttm_map_buffer" 9 "amdgpu_ttm_map_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_ttm_map_buffer \- Map memory into the GART windows
+.SH SYNOPSIS
+.B "int" amdgpu_ttm_map_buffer
+.BI "(struct ttm_buffer_object *bo "  ","
+.BI "struct ttm_resource *mem "  ","
+.BI "struct drm_mm_node *mm_node "  ","
+.BI "unsigned num_pages "  ","
+.BI "uint64_t offset "  ","
+.BI "unsigned window "  ","
+.BI "struct amdgpu_ring *ring "  ","
+.BI "bool tmz "  ","
+.BI "uint64_t *addr "  ");"
+.SH ARGUMENTS
+.IP "bo" 12
+buffer object to map
+.IP "mem" 12
+memory object to map
+.IP "mm_node" 12
+drm_mm node object to map
+.IP "num_pages" 12
+number of pages to map
+.IP "offset" 12
+offset into \fImm_node\fP where to start
+.IP "window" 12
+which GART window to use
+.IP "ring" 12
+DMA ring to use for the copy
+.IP "tmz" 12
+if we should setup a TMZ enabled mapping
+.IP "addr" 12
+resulting address inside the MC address space
+.SH "DESCRIPTION"
+Setup one of the GART windows to access a specific piece of memory or return
+the physical address for local memory.

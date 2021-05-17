@@ -1,0 +1,36 @@
+.TH "do_shash" 9 "do_shash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_shash \- Do a synchronous hash operation in software
+.SH SYNOPSIS
+.B "int" do_shash
+.BI "(unsigned char *name "  ","
+.BI "unsigned char *result "  ","
+.BI "const u8 *data1 "  ","
+.BI "unsigned int data1_len "  ","
+.BI "const u8 *data2 "  ","
+.BI "unsigned int data2_len "  ","
+.BI "const u8 *key "  ","
+.BI "unsigned int key_len "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the hash algorithm
+.IP "result" 12
+Buffer where digest is to be written
+.IP "data1" 12
+First part of data to hash. May be NULL.
+.IP "data1_len" 12
+Length of data1, in bytes
+.IP "data2" 12
+Second part of data to hash. May be NULL.
+.IP "data2_len" 12
+Length of data2, in bytes
+.IP "key" 12
+Key (if keyed hash)
+.IP "key_len" 12
+Length of key, in bytes (or 0 if non-keyed hash)
+.SH "DESCRIPTION"
+Note that the crypto API will not select this driver's own transform because
+this driver only registers asynchronous algos.
+.SH "RETURN"
+0 if hash successfully stored in result
+< 0 otherwise

@@ -1,0 +1,19 @@
+.TH "queue_me" 9 "queue_me" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queue_me \- Enqueue the futex_q on the futex_hash_bucket
+.SH SYNOPSIS
+.B "void" queue_me
+.BI "(struct futex_q *q "  ","
+.BI "struct futex_hash_bucket *hb "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+The futex_q to enqueue
+.IP "hb" 12
+The destination hash bucket
+.SH "DESCRIPTION"
+The hb->lock must be held by the caller, and is released here. A call to
+\fBqueue_me\fP is typically paired with exactly one call to \fBunqueue_me\fP.  The
+exceptions involve the PI related operations, which may use \fBunqueue_me_pi\fP
+or nothing if the unqueue is done as part of the wake process and the unqueue
+state is implicit in the state of woken task (see \fBfutex_wait_requeue_pi\fP for
+an example).

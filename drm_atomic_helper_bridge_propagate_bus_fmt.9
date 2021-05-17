@@ -1,0 +1,32 @@
+.TH "drm_atomic_helper_bridge_propagate_bus_fmt" 9 "drm_atomic_helper_bridge_propagate_bus_fmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_bridge_propagate_bus_fmt \- Propagate output format to the input end of a bridge
+.SH SYNOPSIS
+.B "u32 *" drm_atomic_helper_bridge_propagate_bus_fmt
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_bridge_state *bridge_state "  ","
+.BI "struct drm_crtc_state *crtc_state "  ","
+.BI "struct drm_connector_state *conn_state "  ","
+.BI "u32 output_fmt "  ","
+.BI "unsigned int *num_input_fmts "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "bridge_state" 12
+new bridge state
+.IP "crtc_state" 12
+new CRTC state
+.IP "conn_state" 12
+new connector state
+.IP "output_fmt" 12
+tested output bus format
+.IP "num_input_fmts" 12
+will contain the size of the returned array
+.SH "DESCRIPTION"
+This helper is a pluggable implementation of the
+\fIdrm_bridge_funcs.atomic_get_input_bus_fmts\fP operation for bridges that don't
+modify the bus configuration between their input and their output. It
+returns an array of input formats with a single element set to \fIoutput_fmt\fP.
+.SH "RETURN"
+a valid format array of size \fInum_input_fmts\fP, or NULL if the allocation
+failed

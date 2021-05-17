@@ -1,0 +1,21 @@
+.TH "mesh_rmc_check" 9 "mesh_rmc_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_rmc_check \- Check frame in recent multicast cache and add if absent.
+.SH SYNOPSIS
+.B "int" mesh_rmc_check
+.BI "(struct ieee80211_sub_if_data *sdata "  ","
+.BI "const u8 *sa "  ","
+.BI "struct ieee80211s_hdr *mesh_hdr "  ");"
+.SH ARGUMENTS
+.IP "sdata" 12
+interface
+.IP "sa" 12
+source address
+.IP "mesh_hdr" 12
+mesh_header
+.SH "RETURN"
+0 if the frame is not in the cache, nonzero otherwise.
+.SH "DESCRIPTION"
+Checks using the source address and the mesh sequence number if we have
+received this frame lately. If the frame is not in the cache, it is added to
+it.

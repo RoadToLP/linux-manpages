@@ -1,0 +1,18 @@
+.TH "drm_client_release" 9 "drm_client_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_client_release \- Release DRM client resources
+.SH SYNOPSIS
+.B "void" drm_client_release
+.BI "(struct drm_client_dev *client "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+DRM client
+.SH "DESCRIPTION"
+Releases resources by closing the \fIdrm_file\fP that was opened by \fBdrm_client_init\fP.
+It is called automatically if the \fIdrm_client_funcs.unregister\fP callback is _not_ set.
+
+This function should only be called from the unregister callback. An exception
+is fbdev which cannot free the buffer if userspace has open file descriptors.
+.SH "NOTE"
+Clients cannot initiate a release by themselves. This is done to keep the code simple.
+The driver has to be unloaded before the client can be unloaded.

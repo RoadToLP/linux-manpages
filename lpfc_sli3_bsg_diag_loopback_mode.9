@@ -1,0 +1,20 @@
+.TH "lpfc_sli3_bsg_diag_loopback_mode" 9 "lpfc_sli3_bsg_diag_loopback_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli3_bsg_diag_loopback_mode \- process an sli3 bsg vendor command
+.SH SYNOPSIS
+.B "int" lpfc_sli3_bsg_diag_loopback_mode
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct bsg_job *job "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "job" 12
+LPFC_BSG_VENDOR_DIAG_MODE
+.SH "DESCRIPTION"
+This function is responsible for placing an sli3  port into diagnostic
+loopback mode in order to perform a diagnostic loopback test.
+All new scsi requests are blocked, a small delay is used to allow the
+scsi requests to complete then the link is brought down. If the link is
+is placed in loopback mode then scsi requests are again allowed
+so the scsi mid-layer doesn't give up on the port.
+All of this is done in-line.

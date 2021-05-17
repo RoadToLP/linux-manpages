@@ -1,0 +1,23 @@
+.TH "of_devfreq_cooling_register_power" 9 "of_devfreq_cooling_register_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_devfreq_cooling_register_power \- Register devfreq cooling device, with OF and power information.
+.SH SYNOPSIS
+.B "struct thermal_cooling_device *" of_devfreq_cooling_register_power
+.BI "(struct device_node *np "  ","
+.BI "struct devfreq *df "  ","
+.BI "struct devfreq_cooling_power *dfc_power "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+Pointer to OF device_node.
+.IP "df" 12
+Pointer to devfreq device.
+.IP "dfc_power" 12
+Pointer to devfreq_cooling_power.
+.SH "DESCRIPTION"
+Register a devfreq cooling device.  The available OPPs must be
+registered on the device.
+
+If \fIdfc_power\fP is provided, the cooling device is registered with the
+power extensions.  For the power extensions to work correctly,
+devfreq should use the simple_ondemand governor, other governors
+are not currently supported.

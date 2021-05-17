@@ -1,0 +1,27 @@
+.TH "iscsi_boot_create_ethernet" 9 "iscsi_boot_create_ethernet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_boot_create_ethernet \- create boot ethernet sysfs dir
+.SH SYNOPSIS
+.B "struct iscsi_boot_kobj *" iscsi_boot_create_ethernet
+.BI "(struct iscsi_boot_kset *boot_kset "  ","
+.BI "int index "  ","
+.BI "void *data "  ","
+.BI "ssize_t (*show) (void *data, int type, char *buf) "  ","
+.BI "umode_t (*is_visible) (void *data, int type) "  ","
+.BI "void (*release) (void *data) "  ");"
+.SH ARGUMENTS
+.IP "boot_kset" 12
+boot kset
+.IP "index" 12
+the ethernet device id
+.IP "data" 12
+driver specific data
+.IP "show" 12
+attr show function
+.IP "is_visible" 12
+attr visibility function
+.IP "release" 12
+release function
+.SH "NOTE"
+The boot sysfs lib will free the data passed in for the caller
+when all refs to the ethernet kobject have been released.

@@ -1,0 +1,17 @@
+.TH "beiscsi_alloc_pdu" 9 "beiscsi_alloc_pdu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+beiscsi_alloc_pdu \- allocates pdu and related resources
+.SH SYNOPSIS
+.B "int" beiscsi_alloc_pdu
+.BI "(struct iscsi_task *task "  ","
+.BI "uint8_t opcode "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+libiscsi task
+.IP "opcode" 12
+opcode of pdu for task
+.SH "DESCRIPTION"
+This is called with the session lock held. It will allocate
+the wrb and sgl if needed for the command. And it will prep
+the pdu's itt. beiscsi_parse_pdu will later translate
+the pdu itt to the libiscsi task itt.

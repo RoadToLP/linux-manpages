@@ -1,0 +1,24 @@
+.TH "get_nr_free_clusters" 9 "get_nr_free_clusters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_nr_free_clusters \- return the number of free clusters on a volume
+.SH SYNOPSIS
+.B "s64" get_nr_free_clusters
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume for which to obtain free cluster count
+.SH "DESCRIPTION"
+Calculate the number of free clusters on the mounted NTFS volume \fIvol\fP. We
+actually calculate the number of clusters in use instead because this
+allows us to not care about partial pages as these will be just zero filled
+and hence not be counted as allocated clusters.
+
+The only particularity is that clusters beyond the end of the logical ntfs
+volume will be marked as allocated to prevent errors which means we have to
+discount those at the end. This is important as the cluster bitmap always
+has a size in multiples of 8 bytes, i.e. up to 63 clusters could be outside
+the logical volume and marked in use when they are not as they do not exist.
+
+If any pages cannot be read we assume all clusters in the erroring pages are
+in use. This means we return an underestimate on errors which is better than
+an overestimate.

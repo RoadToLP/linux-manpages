@@ -1,0 +1,16 @@
+.TH "blkcg_destroy_blkgs" 9 "blkcg_destroy_blkgs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_destroy_blkgs \- responsible for shooting down blkgs
+.SH SYNOPSIS
+.B "void" blkcg_destroy_blkgs
+.BI "(struct blkcg *blkcg "  ");"
+.SH ARGUMENTS
+.IP "blkcg" 12
+blkcg of interest
+.SH "DESCRIPTION"
+blkgs should be removed while holding both q and blkcg locks.  As blkcg lock
+is nested inside q lock, this function performs reverse double lock dancing.
+Destroying the blkgs releases the reference held on the blkcg's css allowing
+blkcg_css_free to eventually be called.
+
+This is the blkcg counterpart of \fBioc_release_fn\fP.

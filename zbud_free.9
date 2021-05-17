@@ -1,0 +1,17 @@
+.TH "zbud_free" 9 "zbud_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zbud_free \- frees the allocation associated with the given handle
+.SH SYNOPSIS
+.B "void" zbud_free
+.BI "(struct zbud_pool *pool "  ","
+.BI "unsigned long handle "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool in which the allocation resided
+.IP "handle" 12
+handle associated with the allocation returned by \fBzbud_alloc\fP
+.SH "DESCRIPTION"
+In the case that the zbud page in which the allocation resides is under
+reclaim, as indicated by the PG_reclaim flag being set, this function
+only sets the first|last_chunks to 0.  The page is actually freed
+once both buddies are evicted (see \fBzbud_reclaim_page\fP below).

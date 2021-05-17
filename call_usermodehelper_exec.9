@@ -1,0 +1,24 @@
+.TH "call_usermodehelper_exec" 9 "call_usermodehelper_exec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_usermodehelper_exec \- start a usermode application
+.SH SYNOPSIS
+.B "int" call_usermodehelper_exec
+.BI "(struct subprocess_info *sub_info "  ","
+.BI "int wait "  ");"
+.SH ARGUMENTS
+.IP "sub_info" 12
+information about the subprocessa
+.IP "wait" 12
+wait for the application to finish and return status.
+when UMH_NO_WAIT don't wait at all, but you get no useful error back
+when the program couldn't be exec'ed. This makes it safe to call
+from interrupt context.
+.SH "DESCRIPTION"
+Runs a user-space application.  The application is started
+asynchronously if wait is not set, and runs as a child of system workqueues.
+(ie. it runs with full root capabilities and optimized affinity).
+.SH "NOTE"
+successful return value does not guarantee the helper was called at
+all. You can't rely on sub_info->{init,cleanup} being called even for
+UMH_WAIT_* wait modes as STATIC_USERMODEHELPER_PATH="" turns all helpers
+into a successful no-op.

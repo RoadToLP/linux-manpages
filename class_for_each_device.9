@@ -1,0 +1,29 @@
+.TH "class_for_each_device" 9 "class_for_each_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+class_for_each_device \- device iterator
+.SH SYNOPSIS
+.B "int" class_for_each_device
+.BI "(struct class *class "  ","
+.BI "struct device *start "  ","
+.BI "void *data "  ","
+.BI "int (*fn)(struct device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "class" 12
+the class we're iterating
+.IP "start" 12
+the device to start with in the list, if any.
+.IP "data" 12
+data for the callback
+.IP "fn" 12
+function to be called for each device
+.SH "DESCRIPTION"
+Iterate over \fIclass\fP's list of devices, and call \fIfn\fP for each,
+passing it \fIdata\fP.  If \fIstart\fP is set, the list iteration will start
+there, otherwise if it is NULL, the iteration starts at the
+beginning of the list.
+
+We check the return of \fIfn\fP each time. If it returns anything
+other than 0, we break out and return that value.
+
+\fIfn\fP is allowed to do anything including calling back into class
+code.  There's no locking restriction.

@@ -1,0 +1,16 @@
+.TH "cpuidle_coupled_set_done" 9 "cpuidle_coupled_set_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_coupled_set_done \- mark this cpu as leaving the ready loop
+.SH SYNOPSIS
+.B "void" cpuidle_coupled_set_done
+.BI "(int cpu "  ","
+.BI "struct cpuidle_coupled *coupled "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+the current cpu
+.IP "coupled" 12
+the struct coupled that contains the current cpu
+.SH "DESCRIPTION"
+Marks this cpu as no longer in the ready and waiting loops.  Decrements
+the waiting count first to prevent another cpu looping back in and seeing
+this cpu as waiting just before it exits idle.

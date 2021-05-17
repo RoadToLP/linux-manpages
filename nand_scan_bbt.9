@@ -1,0 +1,19 @@
+.TH "nand_scan_bbt" 9 "nand_scan_bbt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_scan_bbt \- [NAND Interface] scan, find, read and maybe create bad block table(s)
+.SH SYNOPSIS
+.B "int" nand_scan_bbt
+.BI "(struct nand_chip *this "  ","
+.BI "struct nand_bbt_descr *bd "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+the NAND device
+.IP "bd" 12
+descriptor for the good/bad block search pattern
+.SH "DESCRIPTION"
+The function checks, if a bad block table(s) is/are already available. If
+not it scans the device for manufacturer marked good / bad blocks and writes
+the bad block table(s) to the selected place.
+
+The bad block table memory is allocated here. It must be freed by calling
+the nand_free_bbt function.

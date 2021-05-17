@@ -1,0 +1,24 @@
+.TH "ca8210_test_int_user_read" 9 "ca8210_test_int_user_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ca8210_test_int_user_read \- Called by a process in userspace to read a message from the ca8210 drivers
+.SH SYNOPSIS
+.B "ssize_t" ca8210_test_int_user_read
+.BI "(struct file *filp "  ","
+.BI "char __user *buf "  ","
+.BI "size_t len "  ","
+.BI "loff_t *offp "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file interface
+.IP "buf" 12
+Buffer to write message to
+.IP "len" 12
+length of message to read (ignored)
+.IP "offp" 12
+file offset
+.SH "DESCRIPTION"
+If the O_NONBLOCK flag was set when opening the file then this function will
+not block, i.e. it will return if the fifo is empty. Otherwise the function
+will block, i.e. wait until new data arrives.
+.SH "RETURN"
+number of bytes read

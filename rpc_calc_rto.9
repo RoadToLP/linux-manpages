@@ -1,0 +1,25 @@
+.TH "rpc_calc_rto" 9 "rpc_calc_rto" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_calc_rto \- Provide an estimated timeout value
+.SH SYNOPSIS
+.B "unsigned long" rpc_calc_rto
+.BI "(struct rpc_rtt *rt "  ","
+.BI "unsigned int timer "  ");"
+.SH ARGUMENTS
+.IP "rt" 12
+context to use for calculation
+.IP "timer" 12
+timer array index (request type)
+.SH "DESCRIPTION"
+Estimate RTO for an NFS RPC sent via an unreliable datagram.  Use
+the mean and mean deviation of RTT for the appropriate type of RPC
+for frequently issued RPCs, and a fixed default for the others.
+
+The justification for doing "other" this way is that these RPCs
+happen so infrequently that timer estimation would probably be
+stale.  Also, since many of these RPCs are non-idempotent, a
+conservative timeout is desired.
+
+getattr, lookup,
+read, write, commit     - A+4D
+other                   - timeo

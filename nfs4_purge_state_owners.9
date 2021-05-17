@@ -1,0 +1,18 @@
+.TH "nfs4_purge_state_owners" 9 "nfs4_purge_state_owners" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_purge_state_owners \- Release all cached state owners
+.SH SYNOPSIS
+.B "void" nfs4_purge_state_owners
+.BI "(struct nfs_server *server "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "server" 12
+nfs_server with cached state owners to release
+.IP "head" 12
+resulting list of state owners
+.SH "DESCRIPTION"
+Called at umount time.  Remaining state owners will be on
+the LRU with ref count of zero.
+Note that the state owners are not freed, but are added
+to the list \fIhead\fP, which can later be used as an argument
+to nfs4_free_state_owners.

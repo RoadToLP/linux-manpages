@@ -1,0 +1,26 @@
+.TH "mmc_gpiod_request_cd" 9 "mmc_gpiod_request_cd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_gpiod_request_cd \- request a gpio descriptor for card-detection
+.SH SYNOPSIS
+.B "int" mmc_gpiod_request_cd
+.BI "(struct mmc_host *host "  ","
+.BI "const char *con_id "  ","
+.BI "unsigned int idx "  ","
+.BI "bool override_active_level "  ","
+.BI "unsigned int debounce "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+mmc host
+.IP "con_id" 12
+function within the GPIO consumer
+.IP "idx" 12
+index of the GPIO to obtain in the consumer
+.IP "override_active_level" 12
+ignore GPIO_ACTIVE_LOW flag
+.IP "debounce" 12
+debounce time in microseconds
+.SH "DESCRIPTION"
+Note that this must be called prior to \fBmmc_add_host\fP
+otherwise the caller must also call \fBmmc_gpiod_request_cd_irq\fP.
+
+Returns zero on success, else an error.

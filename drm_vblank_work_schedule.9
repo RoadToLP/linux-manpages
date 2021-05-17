@@ -1,0 +1,30 @@
+.TH "drm_vblank_work_schedule" 9 "drm_vblank_work_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vblank_work_schedule \- schedule a vblank work
+.SH SYNOPSIS
+.B "int" drm_vblank_work_schedule
+.BI "(struct drm_vblank_work *work "  ","
+.BI "u64 count "  ","
+.BI "bool nextonmiss "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+vblank work to schedule
+.IP "count" 12
+target vblank count
+.IP "nextonmiss" 12
+defer until the next vblank if target vblank was missed
+.SH "DESCRIPTION"
+Schedule \fIwork\fP for execution once the crtc vblank count reaches \fIcount\fP.
+
+If the crtc vblank count has already reached \fIcount\fP and \fInextonmiss\fP is
+false the work starts to execute immediately.
+
+If the crtc vblank count has already reached \fIcount\fP and \fInextonmiss\fP is
+true the work is deferred until the next vblank (as if \fIcount\fP has been
+specified as crtc vblank count + 1).
+
+If \fIwork\fP is already scheduled, this function will reschedule said work
+using the new \fIcount\fP. This can be used for self-rearming work items.
+.SH "RETURN"
+1 if \fIwork\fP was successfully (re)scheduled, 0 if it was either already
+scheduled or cancelled, or a negative error code on failure.

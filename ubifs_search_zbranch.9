@@ -1,0 +1,26 @@
+.TH "ubifs_search_zbranch" 9 "ubifs_search_zbranch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_search_zbranch \- search znode branch.
+.SH SYNOPSIS
+.B "int" ubifs_search_zbranch
+.BI "(const struct ubifs_info *c "  ","
+.BI "const struct ubifs_znode *znode "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "int *n "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "znode" 12
+znode to search in
+.IP "key" 12
+key to search for
+.IP "n" 12
+znode branch slot number is returned here
+.SH "DESCRIPTION"
+This is a helper function which search branch with key \fIkey\fP in \fIznode\fP using
+binary search. The result of the search may be:
+o exact match, then 1 is returned, and the slot number of the branch is
+stored in \fIn\fP;
+o no exact match, then 0 is returned and the slot number of the left
+closest branch is returned in \fIn\fP; the slot if all keys in this znode are
+greater than \fIkey\fP, then -1 is returned in \fIn\fP.

@@ -1,0 +1,24 @@
+.TH "vmw_cotable_scrub" 9 "vmw_cotable_scrub" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cotable_scrub \- Scrub the cotable from the device.
+.SH SYNOPSIS
+.B "int" vmw_cotable_scrub
+.BI "(struct vmw_resource *res "  ","
+.BI "bool readback "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to the cotable resource.
+.IP "readback" 12
+Whether initiate a readback of the cotable data to the backup
+buffer.
+.SH "DESCRIPTION"
+In some situations (context swapouts) it might be desirable to make the
+device forget about the cotable without performing a full unbind. A full
+unbind requires reserved backup buffers and it might not be possible to
+reserve them due to locking order violation issues. The vmw_cotable_scrub
+function implements a partial \fBunbind\fP without that requirement but with the
+following restrictions.
+1) Before the cotable is again used by the GPU, \fBvmw_cotable_unscrub\fP must
+be called.
+2) Before the cotable backing buffer is used by the CPU, or during the
+resource destruction, \fBvmw_cotable_unbind\fP must be called.

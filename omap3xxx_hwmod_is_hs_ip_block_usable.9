@@ -1,0 +1,24 @@
+.TH "omap3xxx_hwmod_is_hs_ip_block_usable" 9 "omap3xxx_hwmod_is_hs_ip_block_usable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3xxx_hwmod_is_hs_ip_block_usable \- is a security IP block accessible?
+.SH SYNOPSIS
+.B "bool" omap3xxx_hwmod_is_hs_ip_block_usable
+.BI "(struct device_node *bus "  ","
+.BI "const char *dev_name "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+struct device_node * for the top-level OMAP DT data
+.IP "dev_name" 12
+device name used in the DT file
+.SH "DESCRIPTION"
+Determine whether a "secure" IP block \fIdev_name\fP is usable by Linux.
+There doesn't appear to be a 100% reliable way to determine this,
+so we rely on heuristics.  If \fIbus\fP is null, meaning there's no DT
+data, then we only assume the IP block is accessible if the OMAP is
+fused as a 'general-purpose' SoC.  If however DT data is present,
+test to see if the IP block is described in the DT data and set to
+'status = "okay"'.  If so then we assume the ODM has configured the
+OMAP firewalls to allow access to the IP block.
+.SH "RETURN"
+0 if device named \fIdev_name\fP is not likely to be accessible,
+or 1 if it is likely to be accessible.

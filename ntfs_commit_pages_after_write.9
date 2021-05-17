@@ -1,0 +1,47 @@
+.TH "ntfs_commit_pages_after_write" 9 "ntfs_commit_pages_after_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_commit_pages_after_write \- commit the received data
+.SH SYNOPSIS
+.B "int" ntfs_commit_pages_after_write
+.BI "(struct page **pages "  ","
+.BI "const unsigned nr_pages "  ","
+.BI "s64 pos "  ","
+.BI "size_t bytes "  ");"
+.SH ARGUMENTS
+.IP "pages" 12
+array of destination pages
+.IP "nr_pages" 12
+number of pages in \fIpages\fP
+.IP "pos" 12
+byte position in file at which the write begins
+.IP "bytes" 12
+number of bytes to be written
+.SH "DESCRIPTION"
+This is called from \fBntfs_file_buffered_write\fP with i_mutex held on the inode
+(\fIpages\fP[0]->mapping->host).  There are \fInr_pages\fP pages in \fIpages\fP which are
+locked but not \fBkmap\fPped.  The source data has already been copied into the
+\fIpage\fP.  \fBntfs_prepare_pages_for_non_resident_write\fP has been called before
+the data was copied (for non-resident attributes only) and it returned
+success.
+
+Need to set uptodate and mark dirty all buffers within the boundary of the
+write.  If all buffers in a page are uptodate we set the page uptodate, too.
+
+Setting the buffers dirty ensures that they get written out later when
+\fBntfs_writepage\fP is invoked by the VM.
+
+Finally, we need to update i_size and initialized_size as appropriate both
+in the inode and the mft record.
+
+This is modelled after fs/buffer.c::\fBgeneric_commit_write\fP, which marks
+buffers uptodate and dirty, sets the page uptodate if all buffers in the
+page are uptodate, and updates i_size if the end of io is beyond i_size.  In
+that case, it also marks the inode dirty.
+
+If things have gone as outlined in
+\fBntfs_prepare_pages_for_non_resident_write\fP, we do not need to do any page
+content modifications here for non-resident attributes.  For resident
+attributes we need to do the uptodate bringing here which we combine with
+the copying into the mft record which means we save one atomic kmap.
+
+Return 0 on success or -errno on error.

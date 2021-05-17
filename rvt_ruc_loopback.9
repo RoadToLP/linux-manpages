@@ -1,0 +1,15 @@
+.TH "rvt_ruc_loopback" 9 "rvt_ruc_loopback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_ruc_loopback \- handle UC and RC loopback requests
+.SH SYNOPSIS
+.B "void" rvt_ruc_loopback
+.BI "(struct rvt_qp *sqp "  ");"
+.SH ARGUMENTS
+.IP "sqp" 12
+the sending QP
+.SH "DESCRIPTION"
+This is called from \fBrvt_do_send\fP to forward a WQE addressed to the same HFI
+Note that although we are single threaded due to the send engine, we still
+have to protect against \fBpost_send\fP.  We don't have to worry about
+receive interrupts since this is a connected protocol and all packets
+will pass through here.

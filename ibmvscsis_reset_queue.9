@@ -1,0 +1,24 @@
+.TH "ibmvscsis_reset_queue" 9 "ibmvscsis_reset_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_reset_queue \- Reset CRQ Queue
+.SH SYNOPSIS
+.B "void" ibmvscsis_reset_queue
+.BI "(struct scsi_info *vscsi "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.SH "DESCRIPTION"
+This function calls h_free_q and then calls h_reg_q and does all
+of the bookkeeping to get us back to where we can communicate.
+
+Actually, we don't always call h_free_crq.  A problem was discovered
+where one partition would close and reopen his queue, which would
+cause his partner to get a transport event, which would cause him to
+close and reopen his queue, which would cause the original partition
+to get a transport event, etc., etc.  To prevent this, we don't
+actually close our queue if the client initiated the reset, (i.e.
+either we got a transport event or we have detected that the client's
+queue is gone)
+
+EXECUTION ENVIRONMENT:
+Process environment, called with interrupt lock held

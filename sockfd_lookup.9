@@ -1,0 +1,19 @@
+.TH "sockfd_lookup" 9 "sockfd_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sockfd_lookup \- Go from a file number to its socket slot
+.SH SYNOPSIS
+.B "struct socket *" sockfd_lookup
+.BI "(int fd "  ","
+.BI "int *err "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+file handle
+.IP "err" 12
+pointer to an error code return
+
+The file handle passed in is locked and the socket it is bound
+to is returned. If an error occurs the err pointer is overwritten
+with a negative errno code and NULL is returned. The function checks
+for both invalid handles and passing a handle which is not a socket.
+
+On a success the socket object pointer is returned.

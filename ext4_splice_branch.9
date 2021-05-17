@@ -1,0 +1,22 @@
+.TH "ext4_splice_branch" 9 "ext4_splice_branch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_splice_branch \- splice the allocated branch onto inode.
+.SH SYNOPSIS
+.B "int" ext4_splice_branch
+.BI "(handle_t *handle "  ","
+.BI "struct ext4_allocation_request *ar "  ","
+.BI "Indirect *where "  ","
+.BI "int num "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+handle for this transaction
+.IP "ar" 12
+structure describing the allocation request
+.IP "where" 12
+location of missing link
+.IP "num" 12
+number of indirect blocks we are adding
+.SH "DESCRIPTION"
+This function fills the missing link and does all housekeeping needed in
+inode (->i_blocks, etc.). In case of success we end up with the full
+chain to new block and return 0.

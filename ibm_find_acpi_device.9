@@ -1,0 +1,22 @@
+.TH "ibm_find_acpi_device" 9 "ibm_find_acpi_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibm_find_acpi_device \- callback to find our ACPI device
+.SH SYNOPSIS
+.B "acpi_status" ibm_find_acpi_device
+.BI "(acpi_handle handle "  ","
+.BI "u32 lvl "  ","
+.BI "void *context "  ","
+.BI "void **rv "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+the ACPI handle of the device we are inspecting
+.IP "lvl" 12
+depth into the namespace tree
+.IP "context" 12
+a pointer to our handle to fill when we find the device
+.IP "rv" 12
+a return value to fill if desired
+.SH "DESCRIPTION"
+Used as a callback when calling acpi_walk_namespace
+to find our device.  When this method returns non-zero
+acpi_walk_namespace quits its search and returns our value.

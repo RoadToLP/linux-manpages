@@ -1,0 +1,32 @@
+.TH "ice_write_nvm_module" 9 "ice_write_nvm_module" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_write_nvm_module \- Write data to an NVM module
+.SH SYNOPSIS
+.B "int" ice_write_nvm_module
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 module "  ","
+.BI "const char *component "  ","
+.BI "const u8 *image "  ","
+.BI "u32 length "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+the PF driver structure
+.IP "module" 12
+the module id to program
+.IP "component" 12
+the name of the component being updated
+.IP "image" 12
+buffer of image data to write to the NVM
+.IP "length" 12
+length of the buffer
+.IP "extack" 12
+netlink extended ACK structure
+.SH "DESCRIPTION"
+Loop over the data for a given NVM module and program it in 4 Kb
+blocks. Notify devlink core of progress after each block is programmed.
+Loops over a block of data and programs the NVM in 4k block chunks.
+
+Note this function assumes the caller has acquired the NVM resource.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

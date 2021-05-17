@@ -1,0 +1,18 @@
+.TH "wait_for_completion_interruptible_timeout" 9 "wait_for_completion_interruptible_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_completion_interruptible_timeout \- - waits for completion (w/(to,intr))
+.SH SYNOPSIS
+.B "long" wait_for_completion_interruptible_timeout
+.BI "(struct completion *x "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+holds the state of this particular completion
+.IP "timeout" 12
+timeout value in jiffies
+.SH "DESCRIPTION"
+This waits for either a completion of a specific task to be signaled or for a
+specified timeout to expire. It is interruptible. The timeout is in jiffies.
+.SH "RETURN"
+-ERESTARTSYS if interrupted, 0 if timed out, positive (at least 1,
+or number of jiffies left till timeout) if completed.

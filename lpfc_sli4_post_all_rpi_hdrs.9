@@ -1,0 +1,26 @@
+.TH "lpfc_sli4_post_all_rpi_hdrs" 9 "lpfc_sli4_post_all_rpi_hdrs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_post_all_rpi_hdrs \- Post the rpi header memory region to the port
+.SH SYNOPSIS
+.B "int" lpfc_sli4_post_all_rpi_hdrs
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine is invoked to post rpi header templates to the
+HBA consistent with the SLI-4 interface spec.  This routine
+posts a SLI4_PAGE_SIZE memory region to the port to hold up to
+SLI4_PAGE_SIZE modulo 64 rpi context headers.
+
+This routine does not require any locks.  It's usage is expected
+to be driver load or reset recovery when the driver is
+sequential.
+
+Return codes
+0 - successful
+-EIO - The mailbox failed to complete successfully.
+When this error occurs, the driver is not guaranteed
+to have any rpi regions posted to the device and
+must either attempt to repost the regions or take a
+fatal error.

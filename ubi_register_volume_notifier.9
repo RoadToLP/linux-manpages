@@ -1,0 +1,23 @@
+.TH "ubi_register_volume_notifier" 9 "ubi_register_volume_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_register_volume_notifier \- register a volume notifier.
+.SH SYNOPSIS
+.B "int" ubi_register_volume_notifier
+.BI "(struct notifier_block *nb "  ","
+.BI "int ignore_existing "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+the notifier description object
+.IP "ignore_existing" 12
+if non-zero, do not send "added" notification for all
+already existing volumes
+.SH "DESCRIPTION"
+This function registers a volume notifier, which means that
+'nb->\fBnotifier_call\fP' will be invoked when an UBI  volume is created,
+removed, re-sized, re-named, or updated. The first argument of the function
+is the notification type. The second argument is pointer to a
+\fIstruct ubi_notification\fP object which describes the notification event.
+Using UBI API from the volume notifier is prohibited.
+
+This function returns zero in case of success and a negative error code
+in case of failure.

@@ -1,0 +1,27 @@
+.TH "bitmap_parse" 9 "bitmap_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_parse \- convert an ASCII hex string into a bitmap.
+.SH SYNOPSIS
+.B "int" bitmap_parse
+.BI "(const char *start "  ","
+.BI "unsigned int buflen "  ","
+.BI "unsigned long *maskp "  ","
+.BI "int nmaskbits "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+pointer to buffer containing string.
+.IP "buflen" 12
+buffer size in bytes.  If string is smaller than this
+then it must be terminated with a \0 or \n. In that case,
+UINT_MAX may be provided instead of string length.
+.IP "maskp" 12
+pointer to bitmap array that will contain result.
+.IP "nmaskbits" 12
+size of bitmap, in bits.
+.SH "DESCRIPTION"
+Commas group hex digits into chunks.  Each chunk defines exactly 32
+bits of the resultant bitmask.  No chunk may specify a value larger
+than 32 bits (-EOVERFLOW), and if a chunk specifies a smaller value
+then leading 0-bits are prepended.  -EINVAL is returned for illegal
+characters. Grouping such as "1,,5", ",44", "," or "" is allowed.
+Leading, embedded and trailing whitespace accepted.

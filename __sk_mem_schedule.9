@@ -1,0 +1,19 @@
+.TH "__sk_mem_schedule" 9 "__sk_mem_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__sk_mem_schedule \- increase sk_forward_alloc and memory_allocated
+.SH SYNOPSIS
+.B "int" __sk_mem_schedule
+.BI "(struct sock *sk "  ","
+.BI "int size "  ","
+.BI "int kind "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.IP "size" 12
+memory size to allocate
+.IP "kind" 12
+allocation type
+
+If kind is SK_MEM_SEND, it means wmem allocation. Otherwise it means
+rmem allocation. This function assumes that protocols which have
+memory_pressure use sk_wmem_queued as write buffer accounting.

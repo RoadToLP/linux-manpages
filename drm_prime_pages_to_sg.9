@@ -1,0 +1,21 @@
+.TH "drm_prime_pages_to_sg" 9 "drm_prime_pages_to_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_prime_pages_to_sg \- converts a page array into an sg list
+.SH SYNOPSIS
+.B "struct sg_table *" drm_prime_pages_to_sg
+.BI "(struct drm_device *dev "  ","
+.BI "struct page **pages "  ","
+.BI "unsigned int nr_pages "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "pages" 12
+pointer to the array of page pointers to convert
+.IP "nr_pages" 12
+length of the page vector
+.SH "DESCRIPTION"
+This helper creates an sg table object from a set of pages
+the driver is responsible for mapping the pages into the
+importers address space for use with dma_buf itself.
+
+This is useful for implementing \fIdrm_gem_object_funcs.get_sg_table\fP.

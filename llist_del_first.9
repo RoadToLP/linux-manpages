@@ -1,0 +1,19 @@
+.TH "llist_del_first" 9 "llist_del_first" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llist_del_first \- delete the first entry of lock-less list
+.SH SYNOPSIS
+.B "struct llist_node *" llist_del_first
+.BI "(struct llist_head *head "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+the head for your lock-less list
+.SH "DESCRIPTION"
+If list is empty, return NULL, otherwise, return the first entry
+deleted, this is the newest added one.
+
+Only one llist_del_first user can be used simultaneously with
+multiple llist_add users without lock.  Because otherwise
+llist_del_first, llist_add, llist_add (or llist_del_all, llist_add,
+llist_add) sequence in another user may change \fIhead->first->next\fP,
+but keep \fIhead->first\fP.  If multiple consumers are needed, please
+use llist_del_all or use lock between consumers.

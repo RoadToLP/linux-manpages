@@ -1,0 +1,21 @@
+.TH "kthread_cancel_work_sync" 9 "kthread_cancel_work_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_cancel_work_sync \- cancel a kthread work and wait for it to finish
+.SH SYNOPSIS
+.B "bool" kthread_cancel_work_sync
+.BI "(struct kthread_work *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+the kthread work to cancel
+.SH "DESCRIPTION"
+Cancel \fIwork\fP and wait for its execution to finish.  This function
+can be used even if the work re-queues itself. On return from this
+function, \fIwork\fP is guaranteed to be not pending or executing on any CPU.
+
+kthread_cancel_work_sync(\fIdelayed_work->work\fP) must not be used for
+delayed_work's. Use \fBkthread_cancel_delayed_work_sync\fP instead.
+
+The caller must ensure that the worker on which \fIwork\fP was last
+queued can't be destroyed before this function returns.
+.SH "RETURN"
+true if \fIwork\fP was pending, false otherwise.

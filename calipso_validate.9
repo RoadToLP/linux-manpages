@@ -1,0 +1,22 @@
+.TH "calipso_validate" 9 "calipso_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_validate \- Validate a CALIPSO option
+.SH SYNOPSIS
+.B "bool" calipso_validate
+.BI "(const struct sk_buff *skb "  ","
+.BI "const unsigned char *option "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "option" 12
+the start of the option
+.SH "DESCRIPTION"
+This routine is called to validate a CALIPSO option.
+If the option is valid then true is returned, otherwise
+false is returned.
+
+The caller should have already checked that the length of the
+option (including the TLV header) is >= 10 and that the catmap
+length is consistent with the option length.
+
+We leave checks on the level and categories to the socket layer.

@@ -1,0 +1,22 @@
+.TH "gnet_stats_copy_app" 9 "gnet_stats_copy_app" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gnet_stats_copy_app \- copy application specific statistics into statistics TLV
+.SH SYNOPSIS
+.B "int" gnet_stats_copy_app
+.BI "(struct gnet_dump *d "  ","
+.BI "void *st "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+dumping handle
+.IP "st" 12
+application specific statistics data
+.IP "len" 12
+length of data
+.SH "DESCRIPTION"
+Appends the application specific statistics to the top level TLV created by
+\fBgnet_stats_start_copy\fP and remembers the data for XSTATS if the dumping
+handle is in backward compatibility mode.
+
+Returns 0 on success or -1 with the statistic lock released
+if the room in the socket buffer was not sufficient.

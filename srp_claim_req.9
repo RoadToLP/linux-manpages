@@ -1,0 +1,22 @@
+.TH "srp_claim_req" 9 "srp_claim_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_claim_req \- Take ownership of the scmnd associated with a request.
+.SH SYNOPSIS
+.B "struct scsi_cmnd *" srp_claim_req
+.BI "(struct srp_rdma_ch *ch "  ","
+.BI "struct srp_request *req "  ","
+.BI "struct scsi_device *sdev "  ","
+.BI "struct scsi_cmnd *scmnd "  ");"
+.SH ARGUMENTS
+.IP "ch" 12
+SRP RDMA channel.
+.IP "req" 12
+SRP request.
+.IP "sdev" 12
+If not NULL, only take ownership for this SCSI device.
+.IP "scmnd" 12
+If NULL, take ownership of \fIreq->scmnd\fP. If not NULL, only take
+ownership of \fIreq->scmnd\fP if it equals \fIscmnd\fP.
+.SH "DESCRIPTION"
+Return value:
+Either NULL or a pointer to the SCSI command the caller became owner of.

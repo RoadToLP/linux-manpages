@@ -1,0 +1,49 @@
+.TH "pci_create_slot" 9 "pci_create_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_create_slot \- create or increment refcount for physical PCI slot
+.SH SYNOPSIS
+.B "struct pci_slot *" pci_create_slot
+.BI "(struct pci_bus *parent "  ","
+.BI "int slot_nr "  ","
+.BI "const char *name "  ","
+.BI "struct hotplug_slot *hotplug "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+struct pci_bus of parent bridge
+.IP "slot_nr" 12
+PCI_SLOT(pci_dev->devfn) or -1 for placeholder
+.IP "name" 12
+user visible string presented in /sys/bus/pci/slots/<name>
+.IP "hotplug" 12
+set if caller is hotplug driver, NULL otherwise
+.SH "DESCRIPTION"
+PCI slots have first class attributes such as address, speed, width,
+and a \fIstruct pci_slot\fP is used to manage them. This interface will
+either return a new \fIstruct pci_slot\fP to the caller, or if the pci_slot
+already exists, its refcount will be incremented.
+
+Slots are uniquely identified by a \fIpci_bus\fP, \fIslot_nr\fP tuple.
+
+There are known platforms with broken firmware that assign the same
+name to multiple slots. Workaround these broken platforms by renaming
+the slots on behalf of the caller. If firmware assigns name N to
+multiple slots:
+
+The first slot is assigned N
+The second slot is assigned N-1
+The third slot is assigned N-2
+etc.
+
+Placeholder slots:
+In most cases, \fIpci_bus\fP, \fIslot_nr\fP will be sufficient to uniquely identify
+a slot. There is one notable exception - pSeries (rpaphp), where the
+\fIslot_nr\fP cannot be determined until a device is actually inserted into
+the slot. In this scenario, the caller may pass -1 for \fIslot_nr\fP.
+
+The following semantics are imposed when the caller passes \fIslot_nr\fP ==
+-1. First, we no longer check for an existing struct pci_slot, as there
+may be many slots with \fIslot_nr\fP of -1.  The other change in semantics is
+user-visible, which is the 'address' parameter presented in sysfs will
+consist solely of a dddd:bb tuple, where dddd is the PCI domain of the
+struct pci_bus and bb is the bus number. In other words, the devfn of
+the 'placeholder' slot will not be displayed.

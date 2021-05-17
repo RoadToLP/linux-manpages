@@ -1,0 +1,29 @@
+.TH "gen_replace_estimator" 9 "gen_replace_estimator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen_replace_estimator \- replace rate estimator configuration
+.SH SYNOPSIS
+.B "int" gen_replace_estimator
+.BI "(struct gnet_stats_basic_packed *bstats "  ","
+.BI "struct gnet_stats_basic_cpu __percpu *cpu_bstats "  ","
+.BI "struct net_rate_estimator __rcu **rate_est "  ","
+.BI "spinlock_t *lock "  ","
+.BI "seqcount_t *running "  ","
+.BI "struct nlattr *opt "  ");"
+.SH ARGUMENTS
+.IP "bstats" 12
+basic statistics
+.IP "cpu_bstats" 12
+bstats per cpu
+.IP "rate_est" 12
+rate estimator statistics
+.IP "lock" 12
+lock for statistics and control path
+.IP "running" 12
+qdisc running seqcount (might be NULL)
+.IP "opt" 12
+rate estimator configuration TLV
+.SH "DESCRIPTION"
+Replaces the configuration of a rate estimator by calling
+\fBgen_kill_estimator\fP and \fBgen_new_estimator\fP.
+
+Returns 0 on success or a negative error code.

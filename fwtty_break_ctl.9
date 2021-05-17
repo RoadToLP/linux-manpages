@@ -1,0 +1,20 @@
+.TH "fwtty_break_ctl" 9 "fwtty_break_ctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwtty_break_ctl \- start/stop sending breaks
+.SH SYNOPSIS
+.B "int" fwtty_break_ctl
+.BI "(struct tty_struct *tty "  ","
+.BI "int state "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+-- undescribed --
+.IP "state" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Signals the remote to start or stop generating simulated breaks.
+First, stop dequeueing from the fifo and wait for writer/drain to leave tx
+before signalling the break line status. This guarantees any pending rx will
+be queued to the line discipline before break is simulated on the remote.
+Conversely, turning off break_ctl requires signalling the line status change,
+then enabling tx.

@@ -1,0 +1,18 @@
+.TH "of_find_node_by_name" 9 "of_find_node_by_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_node_by_name \- Find a node by its "name" property
+.SH SYNOPSIS
+.B "struct device_node *" of_find_node_by_name
+.BI "(struct device_node *from "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+The node to start searching from or NULL; the node
+you pass will not be searched, only the next one
+will. Typically, you pass what the previous call
+returned. \fBof_node_put\fP will be called on \fIfrom\fP.
+.IP "name" 12
+The name string to match against
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.

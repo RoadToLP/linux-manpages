@@ -1,0 +1,23 @@
+.TH "comedi_buf_read_samples" 9 "comedi_buf_read_samples" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_buf_read_samples \- Read sample data from COMEDI buffer
+.SH SYNOPSIS
+.B "unsigned int" comedi_buf_read_samples
+.BI "(struct comedi_subdevice *s "  ","
+.BI "void *data "  ","
+.BI "unsigned int nsamples "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "data" 12
+Pointer to destination.
+.IP "nsamples" 12
+Maximum number of samples to read.
+.SH "DESCRIPTION"
+Read up to \fInsamples\fP samples from the COMEDI acquisition data buffer
+associated with the subdevice, mark it as read and update the acquisition
+scan progress.  Limit the number of samples read to the number available.
+Set the COMEDI_CB_BLOCK event flag if any samples are read to cause waiting
+tasks to be woken when the event flags are processed.
+.SH "RETURN"
+The amount of data read in bytes.

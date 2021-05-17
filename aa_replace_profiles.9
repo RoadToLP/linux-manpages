@@ -1,0 +1,25 @@
+.TH "aa_replace_profiles" 9 "aa_replace_profiles" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_replace_profiles \- replace profile(s) on the profile list
+.SH SYNOPSIS
+.B "ssize_t" aa_replace_profiles
+.BI "(struct aa_ns *policy_ns "  ","
+.BI "struct aa_label *label "  ","
+.BI "u32 mask "  ","
+.BI "struct aa_loaddata *udata "  ");"
+.SH ARGUMENTS
+.IP "policy_ns" 12
+namespace load is occurring on
+.IP "label" 12
+label that is attempting to load/replace policy
+.IP "mask" 12
+permission mask
+.IP "udata" 12
+serialized data stream  (NOT NULL)
+.SH "DESCRIPTION"
+unpack and replace a profile on the profile list and uses of that profile
+by any task creds via invalidating the old version of the profile, which
+tasks will notice to update their own cred.  If the profile does not exist
+on the profile list it is added.
+.SH "RETURN"
+size of data consumed else error code on failure.

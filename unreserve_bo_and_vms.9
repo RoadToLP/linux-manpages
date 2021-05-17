@@ -1,0 +1,19 @@
+.TH "unreserve_bo_and_vms" 9 "unreserve_bo_and_vms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unreserve_bo_and_vms \- Unreserve BO and VMs from a reservation context
+.SH SYNOPSIS
+.B "int" unreserve_bo_and_vms
+.BI "(struct bo_vm_reservation_context *ctx "  ","
+.BI "bool wait "  ","
+.BI "bool intr "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+Reservation context to unreserve
+.IP "wait" 12
+Optionally wait for a sync object representing pending VM updates
+.IP "intr" 12
+Whether the wait is interruptible
+.SH "DESCRIPTION"
+Also frees any resources allocated in
+reserve_bo_and_(cond_)vm(s). Returns the status from
+amdgpu_sync_wait.

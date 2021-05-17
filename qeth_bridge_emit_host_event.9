@@ -1,0 +1,28 @@
+.TH "qeth_bridge_emit_host_event" 9 "qeth_bridge_emit_host_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qeth_bridge_emit_host_event \- bridgeport address change notification
+.SH SYNOPSIS
+.B "void" qeth_bridge_emit_host_event
+.BI "(struct qeth_card *card "  ","
+.BI "enum qeth_an_event_type evtype "  ","
+.BI "u8 code "  ","
+.BI "struct net_if_token *token "  ","
+.BI "struct mac_addr_lnid *addr_lnid "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+qeth_card structure pointer, for udev events.
+.IP "evtype" 12
+"normal" register/unregister, or abort, or reset. For abort
+and reset token and addr_lnid are unused and may be NULL.
+.IP "code" 12
+event bitmask: high order bit 0x80 value 1 means removal of an
+object, 0 - addition of an object.
+0x01 - VLAN, 0x02 - MAC, 0x03 - VLAN and MAC.
+.IP "token" 12
+"network token" structure identifying physical address of the port.
+.IP "addr_lnid" 12
+pointer to structure with MAC address and VLAN ID.
+.SH "DESCRIPTION"
+This function is called when registrations and deregistrations are
+reported by the hardware, and also when notifications are enabled -
+for all currently registered addresses.

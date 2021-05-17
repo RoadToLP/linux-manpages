@@ -1,0 +1,19 @@
+.TH "i2c_new_slave_host_notify_device" 9 "i2c_new_slave_host_notify_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_new_slave_host_notify_device \- get a client for SMBus host-notify support
+.SH SYNOPSIS
+.B "struct i2c_client *" i2c_new_slave_host_notify_device
+.BI "(struct i2c_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the target adapter
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+Setup handling of the SMBus host-notify protocol on a given I2C bus segment.
+
+Handling is done by creating a device and its callback and handling data
+received via the SMBus host-notify address (0x8)
+
+This returns the client, which should be ultimately freed using
+\fBi2c_free_slave_host_notify_device\fP; or an ERRPTR to indicate an error.

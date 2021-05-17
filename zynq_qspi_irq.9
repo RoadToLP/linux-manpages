@@ -1,0 +1,18 @@
+.TH "zynq_qspi_irq" 9 "zynq_qspi_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynq_qspi_irq \- Interrupt service routine of the QSPI controller
+.SH SYNOPSIS
+.B "irqreturn_t" zynq_qspi_irq
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number
+.IP "dev_id" 12
+Pointer to the xqspi structure
+.SH "DESCRIPTION"
+This function handles TX empty only.
+On TX empty interrupt this function reads the received data from RX FIFO and
+fills the TX FIFO if there is any data remaining to be transferred.
+.SH "RETURN"
+IRQ_HANDLED when interrupt is handled; IRQ_NONE otherwise.

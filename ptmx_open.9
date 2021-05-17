@@ -1,0 +1,18 @@
+.TH "ptmx_open" 9 "ptmx_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ptmx_open \- open a unix 98 pty master
+.SH SYNOPSIS
+.B "int" ptmx_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of device file
+.IP "filp" 12
+file pointer to tty
+
+Allocate a unix98 pty master device from the ptmx driver.
+
+Locking: tty_mutex protects the init_dev work. tty->count should
+protect the rest.
+allocated_ptys_lock handles the list of free pty numbers

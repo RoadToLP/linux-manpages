@@ -1,0 +1,30 @@
+.TH "pccard_loop_tuple" 9 "pccard_loop_tuple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pccard_loop_tuple \- loop over tuples in the CIS
+.SH SYNOPSIS
+.B "int" pccard_loop_tuple
+.BI "(struct pcmcia_socket *s "  ","
+.BI "unsigned int function "  ","
+.BI "cisdata_t code "  ","
+.BI "cisparse_t *parse "  ","
+.BI "void *priv_data "  ","
+.BI "int (*loop_tuple) (tuple_t *tuple, cisparse_t *parse, void *priv_data) "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the struct pcmcia_socket where the card is inserted
+.IP "function" 12
+the device function we loop for
+.IP "code" 12
+which CIS code shall we look for?
+.IP "parse" 12
+buffer where the tuple shall be parsed (or NULL, if no parse)
+.IP "priv_data" 12
+private data to be passed to the loop_tuple function.
+.IP "loop_tuple" 12
+function to call for each CIS entry of type \fIfunction\fP. IT
+gets passed the raw tuple, the paresed tuple (if \fIparse\fP is
+set) and \fIpriv_data\fP.
+.SH "DESCRIPTION"
+\fBpccard_loop_tuple\fP loops over all CIS entries of type \fIfunction\fP, and
+calls the \fIloop_tuple\fP function for each entry. If the call to \fIloop_tuple\fP
+returns 0, the loop exits. Returns 0 on success or errorcode otherwise.

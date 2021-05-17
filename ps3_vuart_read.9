@@ -1,0 +1,21 @@
+.TH "ps3_vuart_read" 9 "ps3_vuart_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_vuart_read \- The entry point for reading data from a port.
+.SH SYNOPSIS
+.B "int" ps3_vuart_read
+.BI "(struct ps3_system_bus_device *dev "  ","
+.BI "void *buf "  ","
+.BI "unsigned int bytes "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+-- undescribed --
+.IP "buf" 12
+-- undescribed --
+.IP "bytes" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Queue data waiting at the port, and if enough bytes to satisfy the request
+are held in the buffer list those bytes are dequeued and copied to the
+caller's buffer.  Emptied list buffers are retiered.  If the request cannot
+be statified by bytes held in the list buffers -EAGAIN is returned.

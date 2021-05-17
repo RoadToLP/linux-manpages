@@ -1,0 +1,21 @@
+.TH "acpi_find_processor_node" 9 "acpi_find_processor_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_find_processor_node \- Given a PPTT table find the requested processor
+.SH SYNOPSIS
+.B "struct acpi_pptt_processor *" acpi_find_processor_node
+.BI "(struct acpi_table_header *table_hdr "  ","
+.BI "u32 acpi_cpu_id "  ");"
+.SH ARGUMENTS
+.IP "table_hdr" 12
+Pointer to the head of the PPTT table
+.IP "acpi_cpu_id" 12
+CPU we are searching for
+.SH "DESCRIPTION"
+Find the subtable entry describing the provided processor.
+This is done by iterating the PPTT table looking for processor nodes
+which have an acpi_processor_id that matches the acpi_cpu_id parameter
+passed into the function. If we find a node that matches this criteria
+we verify that its a leaf node in the topology rather than depending
+on the valid flag, which doesn't need to be set for leaf nodes.
+.SH "RETURN"
+NULL, or the processors acpi_pptt_processor*

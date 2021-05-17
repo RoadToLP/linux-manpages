@@ -1,0 +1,19 @@
+.TH "pdc_irq_handler" 9 "pdc_irq_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_irq_handler \- Interrupt handler called in interrupt context.
+.SH SYNOPSIS
+.B "irqreturn_t" pdc_irq_handler
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number that has fired
+.IP "data" 12
+device struct for DMA engine that generated the interrupt
+.SH "DESCRIPTION"
+We have to clear the device interrupt status flags here. So cache the
+status for later use in the thread function. Other than that, just return
+WAKE_THREAD to invoke the thread function.
+.SH "RETURN"
+IRQ_WAKE_THREAD if interrupt is ours
+IRQ_NONE otherwise

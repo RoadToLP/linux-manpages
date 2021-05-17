@@ -1,0 +1,14 @@
+.TH "it821x_port_start" 9 "it821x_port_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+it821x_port_start \- port setup
+.SH SYNOPSIS
+.B "int" it821x_port_start
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port being set up
+
+The it821x needs to maintain private data structures and also to
+use the standard PCI interface which lacks support for this
+functionality. We instead set up the private data on the port
+start hook, and tear it down on port stop

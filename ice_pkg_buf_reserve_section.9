@@ -1,0 +1,21 @@
+.TH "ice_pkg_buf_reserve_section" 9 "ice_pkg_buf_reserve_section" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_pkg_buf_reserve_section \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_pkg_buf_reserve_section
+.BI "(struct ice_buf_build *bld "  ","
+.BI "u16 count "  ");"
+.SH ARGUMENTS
+.IP "bld" 12
+pointer to pkg build (allocated by \fBice_pkg_buf_alloc\fP)
+.IP "count" 12
+the number of sections to reserve
+.SH "DESCRIPTION"
+Reserves one or more section table entries in a package buffer. This routine
+can be called multiple times as long as they are made before calling
+\fBice_pkg_buf_alloc_section\fP. Once \fBice_pkg_buf_alloc_section\fP
+is called once, the number of sections that can be allocated will not be able
+to be increased; not using all reserved sections is fine, but this will
+result in some wasted space in the buffer.
+.SH "NOTE"
+all package contents must be in Little Endian form.

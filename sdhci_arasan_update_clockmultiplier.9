@@ -1,0 +1,23 @@
+.TH "sdhci_arasan_update_clockmultiplier" 9 "sdhci_arasan_update_clockmultiplier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdhci_arasan_update_clockmultiplier \- Set corecfg_clockmultiplier
+.SH SYNOPSIS
+.B "void" sdhci_arasan_update_clockmultiplier
+.BI "(struct sdhci_host *host "  ","
+.BI "u32 value "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The sdhci_host
+.IP "value" 12
+The value to write
+.SH "DESCRIPTION"
+The corecfg_clockmultiplier is supposed to contain clock multiplier
+value of programmable clock generator.
+.SH "NOTES"
+- Many existing devices don't seem to do this and work fine.  To keep
+compatibility for old hardware where the device tree doesn't provide a
+register map, this function is a noop if a soc_ctl_map hasn't been provided
+for this platform.
+- The value of corecfg_clockmultiplier should sync with that of corresponding
+value reading from sdhci_capability_register. So this function is called
+once at probe time and never called again.

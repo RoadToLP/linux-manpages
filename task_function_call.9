@@ -1,0 +1,22 @@
+.TH "task_function_call" 9 "task_function_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_function_call \- call a function on the cpu on which a task runs
+.SH SYNOPSIS
+.B "int" task_function_call
+.BI "(struct task_struct *p "  ","
+.BI "remote_function_f func "  ","
+.BI "void *info "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+the task to evaluate
+.IP "func" 12
+the function to be called
+.IP "info" 12
+the function call argument
+.SH "DESCRIPTION"
+Calls the function \fIfunc\fP when the task is currently running. This might
+be on the current CPU, which just calls the function directly.  This will
+retry due to any failures in \fBsmp_call_function_single\fP, such as if the
+\fBtask_cpu\fP goes offline concurrently.
+
+returns \fIfunc\fP return value or -ESRCH or -ENXIO when the process isn't running

@@ -1,0 +1,22 @@
+.TH "genwqe_crc16" 9 "genwqe_crc16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_crc16 \- Generate 16-bit crc as required for DDCBs
+.SH SYNOPSIS
+.B "u16" genwqe_crc16
+.BI "(const u8 *buff "  ","
+.BI "size_t len "  ","
+.BI "u16 init "  ");"
+.SH ARGUMENTS
+.IP "buff" 12
+pointer to data buffer
+.IP "len" 12
+length of data for calculation
+.IP "init" 12
+initial crc (0xffff at start)
+.SH "DESCRIPTION"
+Polynomial = x^16 + x^12 + x^5 + 1   (0x1021)
+.SH "EXAMPLE"
+4 bytes 0x01 0x02 0x03 0x04 with init = 0xffff
+should result in a crc16 of 0x89c3
+.SH "RETURN"
+crc16 checksum in big endian format !

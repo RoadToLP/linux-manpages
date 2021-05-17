@@ -1,0 +1,73 @@
+.TH "fw_send_request" 9 "fw_send_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_send_request \- submit a request packet for transmission
+.SH SYNOPSIS
+.B "void" fw_send_request
+.BI "(struct fw_card *card "  ","
+.BI "struct fw_transaction *t "  ","
+.BI "int tcode "  ","
+.BI "int destination_id "  ","
+.BI "int generation "  ","
+.BI "int speed "  ","
+.BI "unsigned long long offset "  ","
+.BI "void *payload "  ","
+.BI "size_t length "  ","
+.BI "fw_transaction_callback_t callback "  ","
+.BI "void *callback_data "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+interface to send the request at
+.IP "t" 12
+transaction instance to which the request belongs
+.IP "tcode" 12
+transaction code
+.IP "destination_id" 12
+destination node ID, consisting of bus_ID and phy_ID
+.IP "generation" 12
+bus generation in which request and response are valid
+.IP "speed" 12
+transmission speed
+.IP "offset" 12
+48bit wide offset into destination's address space
+.IP "payload" 12
+data payload for the request subaction
+.IP "length" 12
+length of the payload, in bytes
+.IP "callback" 12
+function to be called when the transaction is completed
+.IP "callback_data" 12
+data to be passed to the transaction completion callback
+.SH "DESCRIPTION"
+Submit a request packet into the asynchronous request transmission queue.
+Can be called from atomic context.  If you prefer a blocking API, use
+\fBfw_run_transaction\fP in a context that can sleep.
+
+In case of lock requests, specify one of the firewire-core specific TCODE_
+constants instead of TCODE_LOCK_REQUEST in \fItcode\fP.
+
+Make sure that the value in \fIdestination_id\fP is not older than the one in
+\fIgeneration\fP.  Otherwise the request is in danger to be sent to a wrong node.
+
+In case of asynchronous stream packets i.e. TCODE_STREAM_DATA, the caller
+needs to synthesize \fIdestination_id\fP with \fBfw_stream_packet_destination_id\fP.
+It will contain tag, channel, and sy data instead of a node ID then.
+
+The payload buffer at \fIdata\fP is going to be DMA-mapped except in case of
+\fIlength\fP <= 8 or of local (loopback) requests.  Hence make sure that the
+buffer complies with the restrictions of the streaming DMA mapping API.
+\fIpayload\fP must not be freed before the \fIcallback\fP is called.
+
+In case of request types without payload, \fIdata\fP is NULL and \fIlength\fP is 0.
+
+After the transaction is completed successfully or unsuccessfully, the
+\fIcallback\fP will be called.  Among its parameters is the response code which
+is either one of the rcodes per IEEE 1394 or, in case of internal errors,
+the firewire-core specific RCODE_SEND_ERROR.  The other firewire-core
+specific rcodes (RCODE_CANCELLED, RCODE_BUSY, RCODE_GENERATION,
+RCODE_NO_ACK) denote transaction timeout, busy responder, stale request
+generation, or missing ACK respectively.
+
+Note some timing corner cases:  \fBfw_send_request\fP may complete much earlier
+than when the request packet actually hits the wire.  On the other hand,
+transaction completion and hence execution of \fIcallback\fP may happen even
+before \fBfw_send_request\fP returns.

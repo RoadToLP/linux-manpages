@@ -1,0 +1,29 @@
+.TH "drm_vram_helper_mode_valid" 9 "drm_vram_helper_mode_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vram_helper_mode_valid \- Tests if a display mode's framebuffer fits into the available video memory.
+.SH SYNOPSIS
+.B "enum drm_mode_status" drm_vram_helper_mode_valid
+.BI "(struct drm_device *dev "  ","
+.BI "const struct drm_display_mode *mode "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the DRM device
+.IP "mode" 12
+the mode to test
+.SH "DESCRIPTION"
+This function tests if enough video memory is available for using the
+specified display mode. Atomic modesetting requires importing the
+designated framebuffer into video memory before evicting the active
+one. Hence, any framebuffer may consume at most half of the available
+VRAM. Display modes that require a larger framebuffer can not be used,
+even if the CRTC does support them. Each framebuffer is assumed to
+have 32-bit color depth.
+.SH "NOTE"
+The function can only test if the display mode is supported in
+general. If there are too many framebuffers pinned to video memory,
+a display mode may still not be usable in practice. The color depth of
+32-bit fits all current use case. A more flexible test can be added
+when necessary.
+.SH "RETURN"
+MODE_OK if the display mode is supported, or an error code of type
+enum drm_mode_status otherwise.

@@ -1,0 +1,16 @@
+.TH "of_get_next_child" 9 "of_get_next_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_get_next_child \- Iterate a node childs
+.SH SYNOPSIS
+.B "struct device_node *" of_get_next_child
+.BI "(const struct device_node *node "  ","
+.BI "struct device_node *prev "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+parent node
+.IP "prev" 12
+previous child of the parent node, or NULL to get first
+
+Returns a node pointer with refcount incremented, use \fBof_node_put\fP on
+it when done. Returns NULL when prev is the last child. Decrements the
+refcount of prev.

@@ -1,0 +1,21 @@
+.TH "do_jobctl_trap" 9 "do_jobctl_trap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_jobctl_trap \- take care of ptrace jobctl traps
+.SH SYNOPSIS
+.B "void" do_jobctl_trap
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+When PT_SEIZED, it's used for both group stop and explicit
+SEIZE/INTERRUPT traps.  Both generate PTRACE_EVENT_STOP trap with
+accompanying siginfo.  If stopped, lower eight bits of exit_code contain
+the stop signal; otherwise, SIGTRAP.
+
+When !PT_SEIZED, it's used only for group stop trap with stop signal
+number as exit_code and no siginfo.
+.SH "CONTEXT"
+Must be called with \fIcurrent->sighand->siglock\fP held, which may be
+released and re-acquired before returning with intervening sleep.

@@ -1,0 +1,36 @@
+.TH "compat_ptr_ioctl" 9 "compat_ptr_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+compat_ptr_ioctl \- generic implementation of .compat_ioctl file operation
+.SH SYNOPSIS
+.B "long" compat_ptr_ioctl
+.BI "(struct file *file "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+-- undescribed --
+.IP "cmd" 12
+-- undescribed --
+.IP "arg" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This is not normally called as a function, but instead set in struct
+file_operations as
+
+\&.compat_ioctl = compat_ptr_ioctl,
+
+On most architectures, the \fBcompat_ptr_ioctl\fP just passes all arguments
+to the corresponding ->ioctl handler. The exception is arch/s390, where
+\fBcompat_ptr\fP clears the top bit of a 32-bit pointer value, so user space
+pointers to the second 2GB alias the first 2GB, as is the case for
+native 32-bit s390 user space.
+
+The \fBcompat_ptr_ioctl\fP function must therefore be used only with ioctl
+functions that either ignore the argument or pass a pointer to a
+compatible data type.
+
+If any ioctl command handled by fops->unlocked_ioctl passes a plain
+integer instead of a pointer, or any of the passed data types
+is incompatible between 32-bit and 64-bit architectures, a proper
+handler is required instead of compat_ptr_ioctl.

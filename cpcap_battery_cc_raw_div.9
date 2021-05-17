@@ -1,0 +1,34 @@
+.TH "cpcap_battery_cc_raw_div" 9 "cpcap_battery_cc_raw_div" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpcap_battery_cc_raw_div \- calculate and divide coulomb counter μAms values
+.SH SYNOPSIS
+.B "int" cpcap_battery_cc_raw_div
+.BI "(struct cpcap_battery_ddata *ddata "  ","
+.BI "s32 sample "  ","
+.BI "s32 accumulator "  ","
+.BI "s16 offset "  ","
+.BI "u32 divider "  ");"
+.SH ARGUMENTS
+.IP "ddata" 12
+device driver data
+.IP "sample" 12
+coulomb counter sample value
+.IP "accumulator" 12
+coulomb counter integrator value
+.IP "offset" 12
+coulomb counter offset value
+.IP "divider" 12
+conversion divider
+.SH "DESCRIPTION"
+Note that cc_lsb and cc_dur values are from Motorola Linux kernel
+function \fBdata_get_avg_curr_ua\fP and seem to be based on measured test
+results. It also has the following comment:
+
+Adjustment factors are applied here as a temp solution per the test
+results. Need to work out a formal solution for this adjustment.
+
+A coulomb counter for similar hardware seems to be documented in
+"TWL6030 Gas Gauging Basics (Rev. A)" swca095a.pdf in chapter
+"10 Calculating Accumulated Current". We however follow what the
+Motorola mapphone Linux kernel is doing as there may be either a
+TI or ST coulomb counter in the PMIC.

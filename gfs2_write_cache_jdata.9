@@ -1,0 +1,16 @@
+.TH "gfs2_write_cache_jdata" 9 "gfs2_write_cache_jdata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_write_cache_jdata \- Like write_cache_pages but different
+.SH SYNOPSIS
+.B "int" gfs2_write_cache_jdata
+.BI "(struct address_space *mapping "  ","
+.BI "struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The mapping to write
+.IP "wbc" 12
+The writeback control
+.SH "DESCRIPTION"
+The reason that we use our own function here is that we need to
+start transactions before we grab page locks. This allows us
+to get the ordering right.

@@ -1,0 +1,16 @@
+.TH "process_scheduled_works" 9 "process_scheduled_works" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_scheduled_works \- process scheduled works
+.SH SYNOPSIS
+.B "void" process_scheduled_works
+.BI "(struct worker *worker "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+self
+.SH "DESCRIPTION"
+Process all scheduled works.  Please note that the scheduled list
+may change while processing a work, so this function repeatedly
+fetches a work from the top and executes it.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock) which may be released and regrabbed
+multiple times.

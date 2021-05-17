@@ -1,0 +1,32 @@
+.TH "intel_pt_find_overlap" 9 "intel_pt_find_overlap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pt_find_overlap \- determine start of non-overlapped trace data.
+.SH SYNOPSIS
+.B "unsigned char *" intel_pt_find_overlap
+.BI "(unsigned char *buf_a "  ","
+.BI "size_t len_a "  ","
+.BI "unsigned char *buf_b "  ","
+.BI "size_t len_b "  ","
+.BI "bool have_tsc "  ","
+.BI "bool *consecutive "  ");"
+.SH ARGUMENTS
+.IP "buf_a" 12
+first buffer
+.IP "len_a" 12
+size of first buffer
+.IP "buf_b" 12
+second buffer
+.IP "len_b" 12
+size of second buffer
+.IP "have_tsc" 12
+can use TSC packets to detect overlap
+.IP "consecutive" 12
+returns true if there is data in buf_b that is consecutive
+to buf_a
+.SH "DESCRIPTION"
+When trace samples or snapshots are recorded there is the possibility that
+the data overlaps.  Note that, for the purposes of decoding, data is only
+useful if it begins with a PSB packet.
+.SH "RETURN"
+A pointer into \fIbuf_b\fP from where non-overlapped data starts, or
+\fIbuf_b\fP + \fIlen_b\fP if there is no non-overlapped data.

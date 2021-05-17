@@ -1,0 +1,16 @@
+.TH "kauditd_hold_skb" 9 "kauditd_hold_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kauditd_hold_skb \- Queue an audit record, waiting for auditd
+.SH SYNOPSIS
+.B "void" kauditd_hold_skb
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+audit record
+.SH "DESCRIPTION"
+Queue the audit record, waiting for an instance of auditd.  When this
+function is called we haven't given up yet on sending the record, but things
+are not looking good.  The first thing we want to do is try to write the
+record via printk and then see if we want to try and hold on to the record
+and queue it, if we have room.  If we want to hold on to the record, but we
+don't have room, record a record lost message.

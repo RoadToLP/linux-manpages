@@ -1,0 +1,16 @@
+.TH "devfreq_update_target" 9 "devfreq_update_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devfreq_update_target \- Reevaluate the device and configure frequency on the final stage.
+.SH SYNOPSIS
+.B "int" devfreq_update_target
+.BI "(struct devfreq *devfreq "  ","
+.BI "unsigned long freq "  ");"
+.SH ARGUMENTS
+.IP "devfreq" 12
+the devfreq instance.
+.IP "freq" 12
+the new frequency of parent device. This argument
+is only used for devfreq device using passive governor.
+.SH "NOTE"
+Lock devfreq->lock before calling devfreq_update_target. This function
+should be only used by both \fBupdate_devfreq\fP and devfreq governors.

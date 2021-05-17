@@ -1,0 +1,16 @@
+.TH "dma_fifo_out_pend" 9 "dma_fifo_out_pend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fifo_out_pend \- gets address/len of next avail read and marks as pended
+.SH SYNOPSIS
+.B "int" dma_fifo_out_pend
+.BI "(struct dma_fifo *fifo "  ","
+.BI "struct dma_pending *pended "  ");"
+.SH ARGUMENTS
+.IP "fifo" 12
+address of in-place "struct dma_fifo" to read from
+.IP "pended" 12
+address of structure to fill with read address/len
+The data/len fields will be NULL/0 if no dma is pended.
+.SH "DESCRIPTION"
+Returns the # of used bytes remaining in fifo (ie, if > 0, more data
+remains in the fifo that was not pended). If < 0, return is error code.

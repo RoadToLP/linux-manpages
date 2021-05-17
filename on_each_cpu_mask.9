@@ -1,0 +1,26 @@
+.TH "on_each_cpu_mask" 9 "on_each_cpu_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+on_each_cpu_mask \- Run a function on processors specified by cpumask, which may include the local processor.
+.SH SYNOPSIS
+.B "void" on_each_cpu_mask
+.BI "(const struct cpumask *mask "  ","
+.BI "smp_call_func_t func "  ","
+.BI "void *info "  ","
+.BI "bool wait "  ");"
+.SH ARGUMENTS
+.IP "mask" 12
+The set of cpus to run on (only runs on online subset).
+.IP "func" 12
+The function to run. This must be fast and non-blocking.
+.IP "info" 12
+An arbitrary pointer to pass to the function.
+.IP "wait" 12
+If true, wait (atomically) until function has completed
+on other CPUs.
+.SH "DESCRIPTION"
+If \fIwait\fP is true, then returns once \fIfunc\fP has returned.
+
+You must not call this function with disabled interrupts or from a
+hardware interrupt handler or from a bottom half handler.  The
+exception is that it may be used during early boot while
+early_boot_irqs_disabled is set.

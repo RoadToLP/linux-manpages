@@ -1,0 +1,17 @@
+.TH "dev_add_pack" 9 "dev_add_pack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_add_pack \- add packet handler
+.SH SYNOPSIS
+.B "void" dev_add_pack
+.BI "(struct packet_type *pt "  ");"
+.SH ARGUMENTS
+.IP "pt" 12
+packet type declaration
+
+Add a protocol handler to the networking stack. The passed \fIpacket_type\fP
+is linked into kernel lists and may not be freed until it has been
+removed from the kernel lists.
+
+This call does not sleep therefore it can not
+guarantee all CPU's that are in middle of receiving packets
+will see the new packet type (until the next received packet).

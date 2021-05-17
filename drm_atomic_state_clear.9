@@ -1,0 +1,19 @@
+.TH "drm_atomic_state_clear" 9 "drm_atomic_state_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_state_clear \- clear state object
+.SH SYNOPSIS
+.B "void" drm_atomic_state_clear
+.BI "(struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.SH "DESCRIPTION"
+When the w/w mutex algorithm detects a deadlock we need to back off and drop
+all locks. So someone else could sneak in and change the current modeset
+configuration. Which means that all the state assembled in \fIstate\fP is no
+longer an atomic update to the current state, but to some arbitrary earlier
+state. Which could break assumptions the driver's
+\fIdrm_mode_config_funcs.atomic_check\fP likely relies on.
+
+Hence we must clear all cached state and completely start over, using this
+function.

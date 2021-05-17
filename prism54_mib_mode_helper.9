@@ -1,0 +1,18 @@
+.TH "prism54_mib_mode_helper" 9 "prism54_mib_mode_helper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prism54_mib_mode_helper \- MIB change mode helper function
+.SH SYNOPSIS
+.B "int" prism54_mib_mode_helper
+.BI "(islpci_private *priv "  ","
+.BI "u32 iw_mode "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+the \fIstruct islpci_private\fP object to modify
+.IP "iw_mode" 12
+new mode (IW_MODE_*)
+
+This is a helper function, hence it does not lock. Make sure
+caller deals with locking *if* necessary. This function sets the
+mode-dependent mib values and does the mapping of the Linux
+Wireless API modes to Device firmware modes. It also checks for
+correct valid Linux wireless modes.

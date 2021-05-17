@@ -1,0 +1,24 @@
+.TH "genwqe_crc32" 9 "genwqe_crc32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_crc32 \- Generate 32-bit crc as required for DDCBs
+.SH SYNOPSIS
+.B "u32" genwqe_crc32
+.BI "(u8 *buff "  ","
+.BI "size_t len "  ","
+.BI "u32 init "  ");"
+.SH ARGUMENTS
+.IP "buff" 12
+pointer to data buffer
+.IP "len" 12
+length of data for calculation
+.IP "init" 12
+initial crc (0xffffffff at start)
+.SH "DESCRIPTION"
+polynomial = x^32 * + x^29 + x^18 + x^14 + x^3 + 1 (0x20044009)
+
+The existing kernel crc functions did not cover this polynom yet.
+.SH "EXAMPLE"
+4 bytes 0x01 0x02 0x03 0x04 with init=0xffffffff should
+result in a crc32 of 0xf33cb7d3.
+.SH "RETURN"
+crc32 checksum.

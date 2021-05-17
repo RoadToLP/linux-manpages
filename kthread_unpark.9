@@ -1,0 +1,13 @@
+.TH "kthread_unpark" 9 "kthread_unpark" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_unpark \- unpark a thread created by kthread_create().
+.SH SYNOPSIS
+.B "void" kthread_unpark
+.BI "(struct task_struct *k "  ");"
+.SH ARGUMENTS
+.IP "k" 12
+thread created by \fBkthread_create\fP.
+.SH "DESCRIPTION"
+Sets \fBkthread_should_park\fP for \fIk\fP to return false, wakes it, and
+waits for it to return. If the thread is marked percpu then its
+bound to the cpu again.

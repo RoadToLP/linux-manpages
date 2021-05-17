@@ -1,0 +1,31 @@
+.TH "usb_driver_claim_interface" 9 "usb_driver_claim_interface" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_driver_claim_interface \- bind a driver to an interface
+.SH SYNOPSIS
+.B "int" usb_driver_claim_interface
+.BI "(struct usb_driver *driver "  ","
+.BI "struct usb_interface *iface "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the driver to be bound
+.IP "iface" 12
+the interface to which it will be bound; must be in the
+usb device's active configuration
+.IP "priv" 12
+driver data associated with that interface
+.SH "DESCRIPTION"
+This is used by usb device drivers that need to claim more than one
+interface on a device when probing (audio and acm are current examples).
+No device driver should directly modify internal usb_interface or
+usb_device structure members.
+
+Few drivers should need to use this routine, since the most natural
+way to bind to an interface is to return the private data from
+the driver's \fBprobe\fP method.
+
+Callers must own the device lock, so driver \fBprobe\fP entries don't need
+extra locking, but other call contexts may need to explicitly claim that
+lock.
+.SH "RETURN"
+0 on success.

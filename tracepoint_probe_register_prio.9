@@ -1,0 +1,25 @@
+.TH "tracepoint_probe_register_prio" 9 "tracepoint_probe_register_prio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracepoint_probe_register_prio \- Connect a probe to a tracepoint with priority
+.SH SYNOPSIS
+.B "int" tracepoint_probe_register_prio
+.BI "(struct tracepoint *tp "  ","
+.BI "void *probe "  ","
+.BI "void *data "  ","
+.BI "int prio "  ");"
+.SH ARGUMENTS
+.IP "tp" 12
+tracepoint
+.IP "probe" 12
+probe handler
+.IP "data" 12
+tracepoint data
+.IP "prio" 12
+priority of this function over other registered functions
+.SH "DESCRIPTION"
+Returns 0 if ok, error value on error.
+.SH "NOTE"
+if \fItp\fP is within a module, the caller is responsible for
+unregistering the probe before the module is gone. This can be
+performed either with a tracepoint module going notifier, or from
+within module exit functions.

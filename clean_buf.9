@@ -1,0 +1,25 @@
+.TH "clean_buf" 9 "clean_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clean_buf \- clean the data from an LEB sitting in a buffer.
+.SH SYNOPSIS
+.B "void" clean_buf
+.BI "(const struct ubifs_info *c "  ","
+.BI "void **buf "  ","
+.BI "int lnum "  ","
+.BI "int *offs "  ","
+.BI "int *len "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+buffer to clean
+.IP "lnum" 12
+LEB number to clean
+.IP "offs" 12
+offset from which to clean
+.IP "len" 12
+length of buffer
+.SH "DESCRIPTION"
+This function pads up to the next min_io_size boundary (if there is one) and
+sets empty space to all 0xff. \fIbuf\fP, \fIoffs\fP and \fIlen\fP are updated to the next
+\fIc->min_io_size\fP boundary.

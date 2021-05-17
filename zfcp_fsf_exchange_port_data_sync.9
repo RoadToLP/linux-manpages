@@ -1,0 +1,19 @@
+.TH "zfcp_fsf_exchange_port_data_sync" 9 "zfcp_fsf_exchange_port_data_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_fsf_exchange_port_data_sync \- Request information about local port.
+.SH SYNOPSIS
+.B "int" zfcp_fsf_exchange_port_data_sync
+.BI "(struct zfcp_qdio *qdio "  ","
+.BI "struct fsf_qtcb_bottom_port *data "  ");"
+.SH ARGUMENTS
+.IP "qdio" 12
+pointer to the QDIO-Queue to use for sending the command.
+.IP "data" 12
+pointer to the QTCB-Bottom for storing the result of the command,
+might be NULL.
+.SH "RETURN"
+* 0          - Exchange Port Data was successful, \fIdata\fP is complete
+* -EIO       - Exchange Port Data was not successful, \fIdata\fP is invalid
+* -EAGAIN    - \fIdata\fP contains incomplete data
+* -ENOMEM    - Some memory allocation failed along the way
+* -EOPNOTSUPP        - This operation is not supported

@@ -1,0 +1,29 @@
+.TH "mapping_seek_hole_data" 9 "mapping_seek_hole_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mapping_seek_hole_data \- Seek for SEEK_DATA / SEEK_HOLE in the page cache.
+.SH SYNOPSIS
+.B "loff_t" mapping_seek_hole_data
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "int whence "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+Address space to search.
+.IP "start" 12
+First byte to consider.
+.IP "end" 12
+Limit of search (exclusive).
+.IP "whence" 12
+Either SEEK_HOLE or SEEK_DATA.
+.SH "DESCRIPTION"
+If the page cache knows which blocks contain holes and which blocks
+contain data, your filesystem can use this function to implement
+SEEK_HOLE and SEEK_DATA.  This is useful for filesystems which are
+entirely memory-based such as tmpfs, and filesystems which support
+unwritten extents.
+.SH "RETURN"
+The requested offset on successs, or -ENXIO if \fIwhence\fP specifies
+SEEK_DATA and there is no data after \fIstart\fP.  There is an implicit hole
+after \fIend\fP - 1, so SEEK_HOLE returns \fIend\fP if all the bytes between \fIstart\fP
+and \fIend\fP contain data.

@@ -1,0 +1,23 @@
+.TH "fpga_mgr_firmware_load" 9 "fpga_mgr_firmware_load" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_mgr_firmware_load \- request firmware and load to fpga
+.SH SYNOPSIS
+.B "int" fpga_mgr_firmware_load
+.BI "(struct fpga_manager *mgr "  ","
+.BI "struct fpga_image_info *info "  ","
+.BI "const char *image_name "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+fpga manager
+.IP "info" 12
+fpga image specific information
+.IP "image_name" 12
+name of image file on the firmware search path
+.SH "DESCRIPTION"
+Request an FPGA image using the firmware class, then write out to the FPGA.
+Update the state before each step to provide info on what step failed if
+there is a failure.  This code assumes the caller got the mgr pointer
+from \fBof_fpga_mgr_get\fP or \fBfpga_mgr_get\fP and checked that it is not an error
+code.
+.SH "RETURN"
+0 on success, negative error code otherwise.

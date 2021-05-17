@@ -1,0 +1,18 @@
+.TH "ata_hsm_qc_complete" 9 "ata_hsm_qc_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_hsm_qc_complete \- finish a qc running on standard HSM
+.SH SYNOPSIS
+.B "void" ata_hsm_qc_complete
+.BI "(struct ata_queued_cmd *qc "  ","
+.BI "int in_wq "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+Command to complete
+.IP "in_wq" 12
+1 if called from workqueue, 0 otherwise
+
+Finish \fIqc\fP which is running on standard HSM.
+
+LOCKING:
+If \fIin_wq\fP is zero, spin_lock_irqsave(host lock).
+Otherwise, none on entry and grabs host lock.

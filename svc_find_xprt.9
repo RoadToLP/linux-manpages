@@ -1,0 +1,29 @@
+.TH "svc_find_xprt" 9 "svc_find_xprt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_find_xprt \- find an RPC transport instance
+.SH SYNOPSIS
+.B "struct svc_xprt *" svc_find_xprt
+.BI "(struct svc_serv *serv "  ","
+.BI "const char *xcl_name "  ","
+.BI "struct net *net "  ","
+.BI "const sa_family_t af "  ","
+.BI "const unsigned short port "  ");"
+.SH ARGUMENTS
+.IP "serv" 12
+pointer to svc_serv to search
+.IP "xcl_name" 12
+C string containing transport's class name
+.IP "net" 12
+owner net pointer
+.IP "af" 12
+Address family of transport's local address
+.IP "port" 12
+transport's IP port number
+.SH "DESCRIPTION"
+Return the transport instance pointer for the endpoint accepting
+connections/peer traffic from the specified transport class,
+address family and port.
+
+Specifying 0 for the address family or port is effectively a
+wild-card, and will result in matching the first transport in the
+service's list that has a matching class name.

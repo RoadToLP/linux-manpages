@@ -1,0 +1,27 @@
+.TH "nand_monolithic_write_page_raw" 9 "nand_monolithic_write_page_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_monolithic_write_page_raw \- Monolithic page write in raw mode
+.SH SYNOPSIS
+.B "int" nand_monolithic_write_page_raw
+.BI "(struct nand_chip *chip "  ","
+.BI "const u8 *buf "  ","
+.BI "int oob_required "  ","
+.BI "int page "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip info structure
+.IP "buf" 12
+data buffer to write
+.IP "oob_required" 12
+must write chip->oob_poi to OOB
+.IP "page" 12
+page number to write
+.SH "DESCRIPTION"
+This is a raw page write, ie. without any error detection/correction.
+Monolithic means we are requesting all the relevant data (main plus
+eventually OOB) to be sent over the bus and effectively programmed
+into the NAND chip arrays in a single operation. This is an
+alternative to \fBnand_write_page_raw\fP, which first sends the main
+data, then eventually send the OOB data by latching more data
+cycles on the NAND bus, and finally sends the program command to
+synchronyze the NAND chip cache.

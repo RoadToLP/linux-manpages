@@ -1,0 +1,24 @@
+.TH "allocate_budget" 9 "allocate_budget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+allocate_budget \- allocate budget for 'ubifs_write_begin()'.
+.SH SYNOPSIS
+.B "int" allocate_budget
+.BI "(struct ubifs_info *c "  ","
+.BI "struct page *page "  ","
+.BI "struct ubifs_inode *ui "  ","
+.BI "int appending "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "page" 12
+page to allocate budget for
+.IP "ui" 12
+UBIFS inode object the page belongs to
+.IP "appending" 12
+non-zero if the page is appended
+.SH "DESCRIPTION"
+This is a helper function for '\fBubifs_write_begin\fP' which allocates budget
+for the operation. The budget is allocated differently depending on whether
+this is appending, whether the page is dirty or not, and so on. This
+function leaves the \fIui->ui_mutex\fP locked in case of appending. Returns zero
+in case of success and -ENOSPC in case of failure.

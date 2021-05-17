@@ -1,0 +1,21 @@
+.TH "si476x_core_stop" 9 "si476x_core_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+si476x_core_stop \- chip power-down function
+.SH SYNOPSIS
+.B "int" si476x_core_stop
+.BI "(struct si476x_core *core "  ","
+.BI "bool soft "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+Core device structure
+.IP "soft" 12
+When set, function sends a POWER_DOWN command instead of
+bringing reset line low
+.SH "DESCRIPTION"
+Power down the chip by performing following actions:
+1. Disable IRQ or stop the polling worker
+2. Send the POWER_DOWN command if the power down is soft or bring
+reset line low if not.
+
+The function returns zero in case of succes or negative error code
+otherwise.

@@ -1,0 +1,28 @@
+.TH "nand_check_erased_buf" 9 "nand_check_erased_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_check_erased_buf \- check if a buffer contains (almost) only 0xff data
+.SH SYNOPSIS
+.B "int" nand_check_erased_buf
+.BI "(void *buf "  ","
+.BI "int len "  ","
+.BI "int bitflips_threshold "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+buffer to test
+.IP "len" 12
+buffer length
+.IP "bitflips_threshold" 12
+maximum number of bitflips
+.SH "DESCRIPTION"
+Check if a buffer contains only 0xff, which means the underlying region
+has been erased and is ready to be programmed.
+The bitflips_threshold specify the maximum number of bitflips before
+considering the region is not erased.
+Returns a positive number of bitflips less than or equal to
+bitflips_threshold, or -ERROR_CODE for bitflips in excess of the
+threshold.
+.SH "NOTE"
+The logic of this function has been extracted from the memweight
+implementation, except that nand_check_erased_buf function exit before
+testing the whole buffer if the number of bitflips exceed the
+bitflips_threshold value.

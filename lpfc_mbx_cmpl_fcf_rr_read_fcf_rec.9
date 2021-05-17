@@ -1,0 +1,22 @@
+.TH "lpfc_mbx_cmpl_fcf_rr_read_fcf_rec" 9 "lpfc_mbx_cmpl_fcf_rr_read_fcf_rec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbx_cmpl_fcf_rr_read_fcf_rec \- fcf roundrobin read_fcf mbox cmpl hdler
+.SH SYNOPSIS
+.B "void" lpfc_mbx_cmpl_fcf_rr_read_fcf_rec
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *mboxq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "mboxq" 12
+pointer to mailbox object.
+.SH "DESCRIPTION"
+This is the callback function for FLOGI failure roundrobin FCF failover
+read FCF record mailbox command from the eligible FCF record bmask for
+performing the failover. If the FCF read back is not valid/available, it
+fails through to retrying FLOGI to the currently registered FCF again.
+Otherwise, if the FCF read back is valid and available, it will set the
+newly read FCF record to the failover FCF record, unregister currently
+registered FCF record, copy the failover FCF record to the current
+FCF record, and then register the current FCF record before proceeding
+to trying FLOGI on the new failover FCF.

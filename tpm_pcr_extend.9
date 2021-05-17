@@ -1,0 +1,20 @@
+.TH "tpm_pcr_extend" 9 "tpm_pcr_extend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_pcr_extend \- extend a PCR value in SHA1 bank.
+.SH SYNOPSIS
+.B "int" tpm_pcr_extend
+.BI "(struct tpm_chip *chip "  ","
+.BI "u32 pcr_idx "  ","
+.BI "struct tpm_digest *digests "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+a \fIstruct tpm_chip\fP instance, NULL for the default chip
+.IP "pcr_idx" 12
+the PCR to be retrieved
+.IP "digests" 12
+array of tpm_digest structures used to extend PCRs
+.SH "NOTE"
+callers must pass a digest for every allocated PCR bank, in the same
+order of the banks in chip->allocated_banks.
+.SH "RETURN"
+same as with \fBtpm_transmit_cmd\fP

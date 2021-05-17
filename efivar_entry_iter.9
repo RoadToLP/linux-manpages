@@ -1,0 +1,23 @@
+.TH "efivar_entry_iter" 9 "efivar_entry_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_iter \- iterate over variable list
+.SH SYNOPSIS
+.B "int" efivar_entry_iter
+.BI "(int (*func)(struct efivar_entry *, void *) "  ","
+.BI "struct list_head *head "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+callback function
+.IP "head" 12
+head of variable list
+.IP "data" 12
+function-specific data to pass to callback
+.SH "DESCRIPTION"
+Iterate over the list of EFI variables and call \fIfunc\fP with every
+entry on the list. It is safe for \fIfunc\fP to remove entries in the
+list via \fBefivar_entry_delete\fP while iterating.
+
+Some notes for the callback function:
+- a non-zero return value indicates an error and terminates the loop
+- \fIfunc\fP is called from atomic context

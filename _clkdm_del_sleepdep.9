@@ -1,0 +1,19 @@
+.TH "_clkdm_del_sleepdep" 9 "_clkdm_del_sleepdep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_clkdm_del_sleepdep \- remove a sleep dep from clkdm2 to clkdm1 (lockless)
+.SH SYNOPSIS
+.B "int" _clkdm_del_sleepdep
+.BI "(struct clockdomain *clkdm1 "  ","
+.BI "struct clockdomain *clkdm2 "  ");"
+.SH ARGUMENTS
+.IP "clkdm1" 12
+prevent this struct clockdomain * from sleeping (dependent)
+.IP "clkdm2" 12
+when this struct clockdomain * is active (source)
+.SH "DESCRIPTION"
+Allow \fIclkdm1\fP to automatically go inactive (and then to retention or
+off), independent of the activity state of \fIclkdm2\fP.  Returns -EINVAL
+if presented with invalid clockdomain pointers or called on a machine
+that does not support software-configurable hardware sleep dependencies,
+-ENOENT if the specified dependency cannot be cleared in hardware, or
+0 upon success.

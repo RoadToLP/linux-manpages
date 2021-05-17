@@ -1,0 +1,25 @@
+.TH "ntfs_attr_can_be_resident" 9 "ntfs_attr_can_be_resident" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_can_be_resident \- check if an attribute can be resident
+.SH SYNOPSIS
+.B "int" ntfs_attr_can_be_resident
+.BI "(const ntfs_volume *vol "  ","
+.BI "const ATTR_TYPE type "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume to which the attribute belongs
+.IP "type" 12
+attribute type which to check
+.SH "DESCRIPTION"
+Check whether the attribute of \fItype\fP on the ntfs volume \fIvol\fP is allowed to
+be resident.  This information is derived from our ntfs knowledge and may
+not be completely accurate, especially when user defined attributes are
+present.  Basically we allow everything to be resident except for index
+allocation and $EA attributes.
+
+Return 0 if the attribute is allowed to be non-resident and -EPERM if not.
+
+Warning: In the system file $MFT the attribute $Bitmap must be non-resident
+otherwise windows will not boot (blue screen of death)!  We cannot
+check for this here as we do not know which inode's $Bitmap is
+being asked about so the caller needs to special case this.

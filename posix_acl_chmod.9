@@ -1,0 +1,21 @@
+.TH "posix_acl_chmod" 9 "posix_acl_chmod" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+posix_acl_chmod \- chmod a posix acl
+.SH SYNOPSIS
+.B "int" posix_acl_chmod
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "umode_t mode "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount \fIinode\fP was found from
+.IP "inode" 12
+inode to check permissions on
+.IP "mode" 12
+the new mode of \fIinode\fP
+.SH "DESCRIPTION"
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.

@@ -1,0 +1,18 @@
+.TH "dma_resv_reserve_shared" 9 "dma_resv_reserve_shared" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_resv_reserve_shared \- Reserve space to add shared fences to a dma_resv.
+.SH SYNOPSIS
+.B "int" dma_resv_reserve_shared
+.BI "(struct dma_resv *obj "  ","
+.BI "unsigned int num_fences "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+reservation object
+.IP "num_fences" 12
+number of fences we want to add
+.SH "DESCRIPTION"
+Should be called before \fBdma_resv_add_shared_fence\fP.  Must
+be called with obj->lock held.
+
+RETURNS
+Zero for success, or -errno

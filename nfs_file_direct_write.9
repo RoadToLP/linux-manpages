@@ -1,0 +1,27 @@
+.TH "nfs_file_direct_write" 9 "nfs_file_direct_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_file_direct_write \- file direct write operation for NFS files
+.SH SYNOPSIS
+.B "ssize_t" nfs_file_direct_write
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+target I/O control block
+.IP "iter" 12
+vector of user buffers from which to write data
+.SH "DESCRIPTION"
+We use this function for direct writes instead of calling
+\fBgeneric_file_aio_write\fP in order to avoid taking the inode
+semaphore and updating the i_size.  The NFS server will set
+the new i_size and this client must read the updated size
+back into its cache.  We let the server do generic write
+parameter checking and report problems.
+
+We eliminate local atime updates, see direct read above.
+
+We avoid unnecessary page cache invalidations for normal cached
+readers of this file.
+
+Note that O_APPEND is not supported for NFS direct writes, as there
+is no atomic O_APPEND write facility in the NFS protocol.

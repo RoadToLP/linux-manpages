@@ -1,0 +1,17 @@
+.TH "fscrypt_set_context" 9 "fscrypt_set_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_set_context \- Set the fscrypt context of a new inode
+.SH SYNOPSIS
+.B "int" fscrypt_set_context
+.BI "(struct inode *inode "  ","
+.BI "void *fs_data "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+a new inode
+.IP "fs_data" 12
+private data given by FS and passed to ->\fBset_context\fP
+.SH "DESCRIPTION"
+This should be called after \fBfscrypt_prepare_new_inode\fP, generally during a
+filesystem transaction.  Everything here must be GFP_NOFS-safe.
+.SH "RETURN"
+0 on success, -errno on failure

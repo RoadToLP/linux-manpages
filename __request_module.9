@@ -1,0 +1,25 @@
+.TH "__request_module" 9 "__request_module" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__request_module \- try to load a kernel module
+.SH SYNOPSIS
+.B "int" __request_module
+.BI "(bool wait "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "wait" 12
+wait (or not) for the operation to complete
+.IP "fmt" 12
+printf style format string for the name of the module
+.IP "..." 12
+arguments as specified in the format string
+.SH "DESCRIPTION"
+Load a module using the user mode module loader. The function returns
+zero on success or a negative errno code or positive exit code from
+"modprobe" on failure. Note that a successful module load does not mean
+the module did not then unload and exit on an error of its own. Callers
+must check that the service they requested is now available not blindly
+invoke it.
+
+If module auto-loading support is disabled then this function
+simply returns -ENOENT.

@@ -1,0 +1,17 @@
+.TH "drm_dev_get" 9 "drm_dev_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dev_get \- Take reference of a DRM device
+.SH SYNOPSIS
+.B "void" drm_dev_get
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to take reference of or NULL
+.SH "DESCRIPTION"
+This increases the ref-count of \fIdev\fP by one. You *must* already own a
+reference when calling this. Use \fBdrm_dev_put\fP to drop this reference
+again.
+
+This function never fails. However, this function does not provide *any*
+guarantee whether the device is alive or running. It only provides a
+reference to the object and the memory associated with it.

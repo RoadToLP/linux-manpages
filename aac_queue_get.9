@@ -1,0 +1,32 @@
+.TH "aac_queue_get" 9 "aac_queue_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aac_queue_get \- get the next free QE
+.SH SYNOPSIS
+.B "int" aac_queue_get
+.BI "(struct aac_dev * dev "  ","
+.BI "u32 * index "  ","
+.BI "u32 qid "  ","
+.BI "struct hw_fib * hw_fib "  ","
+.BI "int wait "  ","
+.BI "struct fib * fibptr "  ","
+.BI "unsigned long *nonotify "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Adapter
+.IP "index" 12
+Returned index
+.IP "qid" 12
+Queue number
+.IP "hw_fib" 12
+Fib to associate with the queue entry
+.IP "wait" 12
+Wait if queue full
+.IP "fibptr" 12
+Driver fib object to go with fib
+.IP "nonotify" 12
+Don't notify the adapter
+
+Gets the next free QE off the requested priorty adapter command
+queue and associates the Fib with the QE. The QE represented by
+index is ready to insert on the queue when this routine returns
+success.

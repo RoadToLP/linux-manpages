@@ -1,0 +1,17 @@
+.TH "binder_select_thread_ilocked" 9 "binder_select_thread_ilocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_select_thread_ilocked \- selects a thread for doing proc work.
+.SH SYNOPSIS
+.B "struct binder_thread *" binder_select_thread_ilocked
+.BI "(struct binder_proc *proc "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+process to select a thread from
+.SH "DESCRIPTION"
+Note that calling this function moves the thread off the waiting_threads
+list, so it can only be woken up by the caller of this function, or a
+signal. Therefore, callers *should* always wake up the thread this function
+returns.
+.SH "RETURN"
+If there's a thread currently waiting for process work,
+returns that thread. Otherwise returns NULL.

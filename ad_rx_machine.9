@@ -1,0 +1,16 @@
+.TH "ad_rx_machine" 9 "ad_rx_machine" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ad_rx_machine \- handle a port's rx State Machine
+.SH SYNOPSIS
+.B "void" ad_rx_machine
+.BI "(struct lacpdu *lacpdu "  ","
+.BI "struct port *port "  ");"
+.SH ARGUMENTS
+.IP "lacpdu" 12
+the lacpdu we've received
+.IP "port" 12
+the port we're looking at
+.SH "DESCRIPTION"
+If lacpdu arrived, stop previous timer (if exists) and set the next state as
+CURRENT. If timer expired set the state machine in the proper state.
+In other cases, this function checks if we need to switch to other state.

@@ -1,0 +1,22 @@
+.TH "usb_ep_fifo_status" 9 "usb_ep_fifo_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ep_fifo_status \- returns number of bytes in fifo, or error
+.SH SYNOPSIS
+.B "int" usb_ep_fifo_status
+.BI "(struct usb_ep *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint whose fifo status is being checked.
+.SH "DESCRIPTION"
+FIFO endpoints may have "unclaimed data" in them in certain cases,
+such as after aborted transfers.  Hosts may not have collected all
+the IN data written by the gadget driver (and reported by a request
+completion).  The gadget driver may not have collected all the data
+written OUT to it by the host.  Drivers that need precise handling for
+fault reporting or recovery may need to use this call.
+
+This routine may be called in interrupt context.
+
+This returns the number of such bytes in the fifo, or a negative
+errno if the endpoint doesn't use a FIFO or doesn't support such
+precise handling.

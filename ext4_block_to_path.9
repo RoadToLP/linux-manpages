@@ -1,0 +1,31 @@
+.TH "ext4_block_to_path" 9 "ext4_block_to_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_block_to_path \- parse the block number into array of offsets
+.SH SYNOPSIS
+.B "int" ext4_block_to_path
+.BI "(struct inode *inode "  ","
+.BI "ext4_lblk_t i_block "  ","
+.BI "ext4_lblk_t offsets[4] "  ","
+.BI "int *boundary "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode in question (we are only interested in its superblock)
+.IP "i_block" 12
+block number to be parsed
+.IP "offsets" 12
+array to store the offsets in
+.IP "boundary" 12
+set this non-zero if the referred-to block is likely to be
+followed (on disk) by an indirect block.
+
+To store the locations of file's data ext4 uses a data structure common
+for UNIX filesystems - tree of pointers anchored in the inode, with
+data blocks at leaves and indirect blocks in intermediate nodes.
+This function translates the block number into path in that tree -
+return value is the path length and \fIoffsets\fP[n] is the offset of
+pointer to (n+1)th node in the nth one. If \fIblock\fP is out of range
+(negative or too large) warning is printed and zero returned.
+.SH "NOTE"
+function doesn't find node addresses, so no IO is needed. All
+we need to know is the capacity of indirect blocks (taken from the
+inode->i_sb).

@@ -1,0 +1,40 @@
+.TH "qib_rc_rcv_resp" 9 "qib_rc_rcv_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_rc_rcv_resp \- process an incoming RC response packet
+.SH SYNOPSIS
+.B "void" qib_rc_rcv_resp
+.BI "(struct qib_ibport *ibp "  ","
+.BI "struct ib_other_headers *ohdr "  ","
+.BI "void *data "  ","
+.BI "u32 tlen "  ","
+.BI "struct rvt_qp *qp "  ","
+.BI "u32 opcode "  ","
+.BI "u32 psn "  ","
+.BI "u32 hdrsize "  ","
+.BI "u32 pmtu "  ","
+.BI "struct qib_ctxtdata *rcd "  ");"
+.SH ARGUMENTS
+.IP "ibp" 12
+the port this packet came in on
+.IP "ohdr" 12
+the other headers for this packet
+.IP "data" 12
+the packet data
+.IP "tlen" 12
+the packet length
+.IP "qp" 12
+the QP for this packet
+.IP "opcode" 12
+the opcode for this packet
+.IP "psn" 12
+the packet sequence number for this packet
+.IP "hdrsize" 12
+the header length
+.IP "pmtu" 12
+the path MTU
+.IP "rcd" 12
+the context pointer
+.SH "DESCRIPTION"
+This is called from \fBqib_rc_rcv\fP to process an incoming RC response
+packet for the given QP.
+Called at interrupt level.

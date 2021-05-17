@@ -1,0 +1,25 @@
+.TH "ntfs_file_open" 9 "ntfs_file_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_file_open \- called when an inode is about to be opened
+.SH SYNOPSIS
+.B "int" ntfs_file_open
+.BI "(struct inode *vi "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+inode to be opened
+.IP "filp" 12
+file structure describing the inode
+.SH "DESCRIPTION"
+Limit file size to the page cache limit on architectures where unsigned long
+is 32-bits. This is the most we can do for now without overflowing the page
+cache page index. Doing it this way means we don't run into problems because
+of existing too large files. It would be better to allow the user to read
+the beginning of the file but I doubt very much anyone is going to hit this
+check on a 32-bit architecture, so there is no point in adding the extra
+complexity required to support this.
+
+On 64-bit architectures, the check is hopefully optimized away by the
+compiler.
+
+After the check passes, just call \fBgeneric_file_open\fP to do its work.

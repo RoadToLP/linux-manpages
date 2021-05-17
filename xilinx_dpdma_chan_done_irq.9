@@ -1,0 +1,14 @@
+.TH "xilinx_dpdma_chan_done_irq" 9 "xilinx_dpdma_chan_done_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xilinx_dpdma_chan_done_irq \- Handle hardware descriptor completion
+.SH SYNOPSIS
+.B "void" xilinx_dpdma_chan_done_irq
+.BI "(struct xilinx_dpdma_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+DPDMA channel
+.SH "DESCRIPTION"
+Handle completion of the currently active descriptor (\fIchan->desc.active\fP). As
+we currently support cyclic transfers only, this just invokes the cyclic
+callback. The descriptor will be completed at the VSYNC interrupt when a new
+descriptor replaces it.

@@ -1,0 +1,33 @@
+.TH "idr_alloc" 9 "idr_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_alloc \- Allocate an ID.
+.SH SYNOPSIS
+.B "int" idr_alloc
+.BI "(struct idr *idr "  ","
+.BI "void *ptr "  ","
+.BI "int start "  ","
+.BI "int end "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "ptr" 12
+Pointer to be associated with the new ID.
+.IP "start" 12
+The minimum ID (inclusive).
+.IP "end" 12
+The maximum ID (exclusive).
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Allocates an unused ID in the range specified by \fIstart\fP and \fIend\fP.  If
+\fIend\fP is <= 0, it is treated as one larger than INT_MAX.  This allows
+callers to use \fIstart\fP + N as \fIend\fP as long as N is within integer range.
+
+The caller should provide their own locking to ensure that two
+concurrent modifications to the IDR are not possible.  Read-only
+accesses to the IDR may be done under the RCU read lock or may
+exclude simultaneous writers.
+.SH "RETURN"
+The newly allocated ID, -ENOMEM if memory allocation failed,
+or -ENOSPC if no free IDs could be found.

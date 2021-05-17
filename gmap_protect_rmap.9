@@ -1,0 +1,21 @@
+.TH "gmap_protect_rmap" 9 "gmap_protect_rmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_protect_rmap \- restrict access rights to memory (RO) and create an rmap
+.SH SYNOPSIS
+.B "int" gmap_protect_rmap
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long raddr "  ","
+.BI "unsigned long paddr "  ","
+.BI "unsigned long len "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "raddr" 12
+rmap address in the shadow gmap
+.IP "paddr" 12
+address in the parent guest address space
+.IP "len" 12
+length of the memory area to protect
+.SH "DESCRIPTION"
+Returns 0 if successfully protected and the rmap was created, -ENOMEM
+if out of memory and -EFAULT if paddr is invalid.

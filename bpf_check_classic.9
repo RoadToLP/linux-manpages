@@ -1,0 +1,21 @@
+.TH "bpf_check_classic" 9 "bpf_check_classic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_check_classic \- verify socket filter code
+.SH SYNOPSIS
+.B "int" bpf_check_classic
+.BI "(const struct sock_filter *filter "  ","
+.BI "unsigned int flen "  ");"
+.SH ARGUMENTS
+.IP "filter" 12
+filter to verify
+.IP "flen" 12
+length of filter
+.SH "DESCRIPTION"
+Check the user's filter code. If we let some ugly
+filter code slip through kaboom! The filter must contain
+no references or jumps that are out of range, no illegal
+instructions, and must end with a RET instruction.
+
+All jumps are forward as they are not signed.
+
+Returns 0 if the rule set is legal or -EINVAL if not.

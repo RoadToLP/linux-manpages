@@ -1,0 +1,24 @@
+.TH "call_usermodehelper" 9 "call_usermodehelper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_usermodehelper \- prepare and start a usermode application
+.SH SYNOPSIS
+.B "int" call_usermodehelper
+.BI "(const char *path "  ","
+.BI "char **argv "  ","
+.BI "char **envp "  ","
+.BI "int wait "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to usermode executable
+.IP "argv" 12
+arg vector for process
+.IP "envp" 12
+environment for process
+.IP "wait" 12
+wait for the application to finish and return status.
+when UMH_NO_WAIT don't wait at all, but you get no useful error back
+when the program couldn't be exec'ed. This makes it safe to call
+from interrupt context.
+.SH "DESCRIPTION"
+This function is the equivalent to use \fBcall_usermodehelper_setup\fP and
+\fBcall_usermodehelper_exec\fP.

@@ -1,0 +1,39 @@
+.TH "__synth_event_gen_cmd_start" 9 "__synth_event_gen_cmd_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__synth_event_gen_cmd_start \- Start a synthetic event command from arg list
+.SH SYNOPSIS
+.B "int" __synth_event_gen_cmd_start
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "const char *name "  ","
+.BI "struct module *mod "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event
+.IP "name" 12
+The name of the synthetic event
+.IP "mod" 12
+The module creating the event, NULL if not created from a module
+.IP "..." 12
+variable arguments
+.SH "NOTE"
+Users normally won't want to call this function directly, but
+rather use the \fBsynth_event_gen_cmd_start\fP wrapper, which
+automatically adds a NULL to the end of the arg list.  If this
+function is used directly, make sure the last arg in the variable
+arg list is NULL.
+.SH "DESCRIPTION"
+Generate a synthetic event command to be executed by
+\fBsynth_event_gen_cmd_end\fP.  This function can be used to generate
+the complete command or only the first part of it; in the latter
+case, \fBsynth_event_add_field\fP, \fBsynth_event_add_field_str\fP, or
+\fBsynth_event_add_fields\fP can be used to add more fields following
+this.
+
+There should be an even number variable args, each pair consisting
+of a type followed by a field name.
+
+See \fBsynth_field_size\fP for available types. If field_name contains
+[n] the field is considered to be an array.
+.SH "RETURN"
+0 if successful, error otherwise.

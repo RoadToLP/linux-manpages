@@ -1,0 +1,17 @@
+.TH "restore_unbound_workers_cpumask" 9 "restore_unbound_workers_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+restore_unbound_workers_cpumask \- restore cpumask of unbound workers
+.SH SYNOPSIS
+.B "void" restore_unbound_workers_cpumask
+.BI "(struct worker_pool *pool "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+unbound pool of interest
+.IP "cpu" 12
+the CPU which is coming up
+.SH "DESCRIPTION"
+An unbound pool may end up with a cpumask which doesn't have any online
+CPUs.  When a worker of such pool get scheduled, the scheduler resets
+its cpus_allowed.  If \fIcpu\fP is in \fIpool\fP's cpumask which didn't have any
+online CPU before, cpus_allowed of all its workers should be restored.

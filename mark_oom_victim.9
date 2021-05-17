@@ -1,0 +1,15 @@
+.TH "mark_oom_victim" 9 "mark_oom_victim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mark_oom_victim \- mark the given task as OOM victim
+.SH SYNOPSIS
+.B "void" mark_oom_victim
+.BI "(struct task_struct *tsk "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+task to mark
+.SH "DESCRIPTION"
+Has to be called with oom_lock held and never after
+oom has been disabled already.
+
+tsk->mm has to be non NULL and caller has to guarantee it is stable (either
+under task_lock or operate on the current).

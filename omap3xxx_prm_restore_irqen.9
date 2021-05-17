@@ -1,0 +1,15 @@
+.TH "omap3xxx_prm_restore_irqen" 9 "omap3xxx_prm_restore_irqen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3xxx_prm_restore_irqen \- set PRM_IRQENABLE_MPU register from args
+.SH SYNOPSIS
+.B "void" omap3xxx_prm_restore_irqen
+.BI "(u32 *saved_mask "  ");"
+.SH ARGUMENTS
+.IP "saved_mask" 12
+ptr to a u32 array of IRQENABLE bits saved previously
+.SH "DESCRIPTION"
+Restore the PRM_IRQENABLE_MPU register from \fIsaved_mask\fP.  Intended
+to be used in the PRM interrupt handler resume callback to restore
+values saved by \fBomap3xxx_prm_save_and_clear_irqen\fP.  No OCP
+barrier should be needed here; any pending PRM interrupts will fire
+once the writes reach the PRM.  No return value.

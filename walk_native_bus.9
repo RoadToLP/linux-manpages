@@ -1,0 +1,21 @@
+.TH "walk_native_bus" 9 "walk_native_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+walk_native_bus \- - Probe a bus for devices
+.SH SYNOPSIS
+.B "void" walk_native_bus
+.BI "(unsigned long io_io_low "  ","
+.BI "unsigned long io_io_high "  ","
+.BI "struct device *parent "  ");"
+.SH ARGUMENTS
+.IP "io_io_low" 12
+Base address of this bus.
+.IP "io_io_high" 12
+Last address of this bus.
+.IP "parent" 12
+The parent bus device.
+.SH "DESCRIPTION"
+A native bus (eg Runway or GSC) may have up to 64 devices on it,
+spaced at intervals of 0x1000 bytes.  PDC may not inform us of these
+devices, so we have to probe for them.  Unfortunately, we may find
+devices which are not physically connected (such as extra serial &
+keyboard ports).  This problem is not yet solved.

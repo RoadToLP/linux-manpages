@@ -1,0 +1,29 @@
+.TH "key_instantiate_and_link" 9 "key_instantiate_and_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_instantiate_and_link \- Instantiate a key and link it into the keyring.
+.SH SYNOPSIS
+.B "int" key_instantiate_and_link
+.BI "(struct key *key "  ","
+.BI "const void *data "  ","
+.BI "size_t datalen "  ","
+.BI "struct key *keyring "  ","
+.BI "struct key *authkey "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+The key to instantiate.
+.IP "data" 12
+The data to use to instantiate the keyring.
+.IP "datalen" 12
+The length of \fIdata\fP.
+.IP "keyring" 12
+Keyring to create a link in on success (or NULL).
+.IP "authkey" 12
+The authorisation token permitting instantiation.
+.SH "DESCRIPTION"
+Instantiate a key that's in the uninstantiated state using the provided data
+and, if successful, link it in to the destination keyring if one is
+supplied.
+
+If successful, 0 is returned, the authorisation token is revoked and anyone
+waiting for the key is woken up.  If the key was already instantiated,
+-EBUSY will be returned.

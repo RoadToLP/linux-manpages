@@ -1,0 +1,25 @@
+.TH "img_ir_timing_range_convert" 9 "img_ir_timing_range_convert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+img_ir_timing_range_convert \- Convert microsecond range.
+.SH SYNOPSIS
+.B "void" img_ir_timing_range_convert
+.BI "(struct img_ir_timing_range *out "  ","
+.BI "const struct img_ir_timing_range *in "  ","
+.BI "unsigned int tolerance "  ","
+.BI "unsigned long clock_hz "  ","
+.BI "unsigned int shift "  ");"
+.SH ARGUMENTS
+.IP "out" 12
+Output timing range in clock cycles with a shift.
+.IP "in" 12
+Input timing range in microseconds.
+.IP "tolerance" 12
+Tolerance as a fraction of 128 (roughly percent).
+.IP "clock_hz" 12
+IR clock rate in Hz.
+.IP "shift" 12
+Shift of output units.
+.SH "DESCRIPTION"
+Converts min and max from microseconds to IR clock cycles, applies a
+tolerance, and shifts for the register, rounding in the right direction.
+Note that in and out can safely be the same object.

@@ -1,0 +1,24 @@
+.TH "tpm2_ordinal_duration_index" 9 "tpm2_ordinal_duration_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm2_ordinal_duration_index \- returns an index to the chip duration table
+.SH SYNOPSIS
+.B "u8" tpm2_ordinal_duration_index
+.BI "(u32 ordinal "  ");"
+.SH ARGUMENTS
+.IP "ordinal" 12
+TPM command ordinal.
+.SH "DESCRIPTION"
+The function returns an index to the chip duration table
+(enum tpm_duration), that describes the maximum amount of
+time the chip could take to return the result for a  particular ordinal.
+
+The values of the MEDIUM, and LONG durations are taken
+from the PC Client Profile (PTP) specification (750, 2000 msec)
+
+LONG_LONG is for commands that generates keys which empirically takes
+a longer time on some systems.
+.SH "RETURN"
+* TPM_MEDIUM
+* TPM_LONG
+* TPM_LONG_LONG
+* TPM_UNDEFINED

@@ -1,0 +1,28 @@
+.TH "dpni_add_qos_entry" 9 "dpni_add_qos_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_add_qos_entry \- Add QoS mapping entry (to select a traffic class)
+.SH SYNOPSIS
+.B "int" dpni_add_qos_entry
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "const struct dpni_rule_cfg *cfg "  ","
+.BI "u8 tc_id "  ","
+.BI "u16 index "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "cfg" 12
+QoS rule to add
+.IP "tc_id" 12
+Traffic class selection (0-7)
+.IP "index" 12
+Location in the QoS table where to insert the entry.
+Only relevant if MASKING is enabled for QoS classification on
+this DPNI, it is ignored for exact match.
+.SH "RETURN"
+'0' on Success; Error code otherwise.

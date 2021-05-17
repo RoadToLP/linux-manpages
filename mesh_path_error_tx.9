@@ -1,0 +1,28 @@
+.TH "mesh_path_error_tx" 9 "mesh_path_error_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_path_error_tx \- Sends a PERR mesh management frame
+.SH SYNOPSIS
+.B "int" mesh_path_error_tx
+.BI "(struct ieee80211_sub_if_data *sdata "  ","
+.BI "u8 ttl "  ","
+.BI "const u8 *target "  ","
+.BI "u32 target_sn "  ","
+.BI "u16 target_rcode "  ","
+.BI "const u8 *ra "  ");"
+.SH ARGUMENTS
+.IP "sdata" 12
+local mesh subif
+.IP "ttl" 12
+allowed remaining hops
+.IP "target" 12
+broken destination
+.IP "target_sn" 12
+SN of the broken destination
+.IP "target_rcode" 12
+reason code for this PERR
+.IP "ra" 12
+node this frame is addressed to
+.SH "NOTE"
+This function may be called with driver locks taken that the driver
+also acquires in the TX path.  To avoid a deadlock we don't transmit the
+frame directly but add it to the pending queue instead.

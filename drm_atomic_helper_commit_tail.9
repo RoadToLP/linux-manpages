@@ -1,0 +1,18 @@
+.TH "drm_atomic_helper_commit_tail" 9 "drm_atomic_helper_commit_tail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_commit_tail \- commit atomic update to hardware
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_commit_tail
+.BI "(struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+This is the default implementation for the
+\fIdrm_mode_config_helper_funcs.atomic_commit_tail\fP hook, for drivers
+that do not support runtime_pm or do not need the CRTC to be
+enabled to perform a commit. Otherwise, see
+\fBdrm_atomic_helper_commit_tail_rpm\fP.
+
+Note that the default ordering of how the various stages are called is to
+match the legacy modeset helper library closest.

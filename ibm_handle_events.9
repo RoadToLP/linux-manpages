@@ -1,0 +1,27 @@
+.TH "ibm_handle_events" 9 "ibm_handle_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibm_handle_events \- listens for ACPI events for the IBM37D0 device
+.SH SYNOPSIS
+.B "void" ibm_handle_events
+.BI "(acpi_handle handle "  ","
+.BI "u32 event "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+an ACPI handle to the device that caused the event
+.IP "event" 12
+the event info (device specific)
+.IP "context" 12
+passed context (our notification struct)
+.SH "DESCRIPTION"
+This method is registered as a callback with the ACPI
+subsystem it is called when this device has an event to notify the OS of.
+
+The events actually come from the device as two events that get
+synthesized into one event with data by this function.  The event
+ID comes first and then the slot number that caused it.  We report
+this as one event to the OS.
+
+From section 5.6.2.2 of the ACPI 2.0 spec, I understand that the OSPM will
+only re-enable the interrupt that causes this event AFTER this method
+has returned, thereby enforcing serial access for the notification struct.

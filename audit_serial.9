@@ -1,0 +1,24 @@
+.TH "audit_serial" 9 "audit_serial" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_serial \- compute a serial number for the audit record
+.SH SYNOPSIS
+.B "unsigned int" audit_serial
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Compute a serial number for the audit record.  Audit records are
+written to user-space as soon as they are generated, so a complete
+audit record may be written in several pieces.  The timestamp of the
+record and this serial number are used by the user-space tools to
+determine which pieces belong to the same audit record.  The
+(timestamp,serial) tuple is unique for each syscall and is live from
+syscall entry to syscall exit.
+.SH "NOTE"
+Another possibility is to store the formatted records off the
+audit context (for those records that have a context), and emit them
+all at syscall exit.  However, this could delay the reporting of
+significant errors until syscall exit (or never, if the system
+halts).

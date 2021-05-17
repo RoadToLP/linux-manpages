@@ -1,0 +1,17 @@
+.TH "cpuidle_coupled_poke" 9 "cpuidle_coupled_poke" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_coupled_poke \- wake up a cpu that may be waiting
+.SH SYNOPSIS
+.B "void" cpuidle_coupled_poke
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+target cpu
+.SH "DESCRIPTION"
+Ensures that the target cpu exits it's waiting idle state (if it is in it)
+and will see updates to waiting_count before it re-enters it's waiting idle
+state.
+
+If cpuidle_coupled_poked_mask is already set for the target cpu, that cpu
+either has or will soon have a pending IPI that will wake it out of idle,
+or it is currently processing the IPI and is not in idle.

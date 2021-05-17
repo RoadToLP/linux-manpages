@@ -1,0 +1,14 @@
+.TH "alarmtimer_fired" 9 "alarmtimer_fired" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alarmtimer_fired \- Handles alarm hrtimer being fired.
+.SH SYNOPSIS
+.B "enum hrtimer_restart" alarmtimer_fired
+.BI "(struct hrtimer *timer "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+pointer to hrtimer being run
+.SH "DESCRIPTION"
+When a alarm timer fires, this runs through the timerqueue to
+see which alarms expired, and runs those. If there are more alarm
+timers queued for the future, we set the hrtimer to fire when
+the next future alarm timer expires.

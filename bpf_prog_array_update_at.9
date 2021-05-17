@@ -1,0 +1,22 @@
+.TH "bpf_prog_array_update_at" 9 "bpf_prog_array_update_at" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_prog_array_update_at \- Updates the program at the given index into the program array.
+.SH SYNOPSIS
+.B "int" bpf_prog_array_update_at
+.BI "(struct bpf_prog_array *array "  ","
+.BI "int index "  ","
+.BI "struct bpf_prog *prog "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+a bpf_prog_array
+.IP "index" 12
+the index of the program to update
+.IP "prog" 12
+the program to insert into the array
+.SH "DESCRIPTION"
+Skips over dummy programs, by not counting them, when calculating
+the position of the program to update.
+.SH "RETURN"
+* 0          - Success
+* -EINVAL    - Invalid index value. Must be a non-negative integer.
+* -ENOENT    - Index out of range

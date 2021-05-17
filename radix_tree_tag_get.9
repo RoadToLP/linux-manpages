@@ -1,0 +1,24 @@
+.TH "radix_tree_tag_get" 9 "radix_tree_tag_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_tag_get \- get a tag on a radix tree node
+.SH SYNOPSIS
+.B "int" radix_tree_tag_get
+.BI "(const struct radix_tree_root *root "  ","
+.BI "unsigned long index "  ","
+.BI "unsigned int tag "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "index" 12
+index key
+.IP "tag" 12
+tag index (< RADIX_TREE_MAX_TAGS)
+.SH "DESCRIPTION"
+Return values:
+
+0: tag not present or not set
+1: tag set
+
+Note that the return value of this function may not be relied on, even if
+the RCU lock is held, unless tag modification and node deletion are excluded
+from concurrency.

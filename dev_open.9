@@ -1,0 +1,20 @@
+.TH "dev_open" 9 "dev_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_open \- prepare an interface for use.
+.SH SYNOPSIS
+.B "int" dev_open
+.BI "(struct net_device *dev "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to open
+.IP "extack" 12
+netlink extended ack
+
+Takes a device from down to up state. The device's private open
+function is invoked and then the multicast lists are loaded. Finally
+the device is moved into the up state and a NETDEV_UP message is
+sent to the netdev notifier chain.
+
+Calling this function on an active interface is a nop. On a failure
+a negative errno code is returned.

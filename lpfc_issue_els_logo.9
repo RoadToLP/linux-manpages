@@ -1,0 +1,31 @@
+.TH "lpfc_issue_els_logo" 9 "lpfc_issue_els_logo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_els_logo \- Issue a logo to an node on a vport
+.SH SYNOPSIS
+.B "int" lpfc_issue_els_logo
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "uint8_t retry "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "retry" 12
+number of retries to the command IOCB.
+.SH "DESCRIPTION"
+This routine constructs and issues an ELS Logout (LOGO) iocb command
+to a remote node, referred by an \fIndlp\fP on a \fIvport\fP. It constructs the
+payload of the IOCB, properly sets up the \fIndlp\fP state, and invokes the
+\fBlpfc_sli_issue_iocb\fP routine to send out the LOGO ELS command.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the LOGO ELS command.
+
+Callers of this routine are expected to unregister the RPI first
+
+Return code
+0 - successfully issued logo
+1 - failed to issue logo

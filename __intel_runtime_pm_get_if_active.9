@@ -1,0 +1,29 @@
+.TH "__intel_runtime_pm_get_if_active" 9 "__intel_runtime_pm_get_if_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__intel_runtime_pm_get_if_active \- grab a runtime pm reference if device is active
+.SH SYNOPSIS
+.B "intel_wakeref_t" __intel_runtime_pm_get_if_active
+.BI "(struct intel_runtime_pm *rpm "  ","
+.BI "bool ignore_usecount "  ");"
+.SH ARGUMENTS
+.IP "rpm" 12
+the intel_runtime_pm structure
+.IP "ignore_usecount" 12
+get a ref even if dev->power.usage_count is 0
+.SH "DESCRIPTION"
+This function grabs a device-level runtime pm reference if the device is
+already active and ensures that it is powered up. It is illegal to try
+and access the HW should \fBintel_runtime_pm_get_if_active\fP report failure.
+
+If \fIignore_usecount\fP=true, a reference will be acquired even if there is no
+user requiring the device to be powered up (dev->power.usage_count == 0).
+If the function returns false in this case then it's guaranteed that the
+device's runtime suspend hook has been called already or that it will be
+called (and hence it's also guaranteed that the device's runtime resume
+hook will be called eventually).
+
+Any runtime pm reference obtained by this function must have a symmetric
+call to \fBintel_runtime_pm_put\fP to release the reference again.
+.SH "RETURN"
+the wakeref cookie to pass to \fBintel_runtime_pm_put\fP, evaluates
+as True if the wakeref was acquired, or False otherwise.

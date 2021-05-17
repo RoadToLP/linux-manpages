@@ -1,0 +1,25 @@
+.TH "get_SMBIOS_entry" 9 "get_SMBIOS_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_SMBIOS_entry \- return the requested SMBIOS entry or %NULL
+.SH SYNOPSIS
+.B "void __iomem *" get_SMBIOS_entry
+.BI "(void __iomem *smbios_start "  ","
+.BI "void __iomem *smbios_table "  ","
+.BI "u8 type "  ","
+.BI "void __iomem *previous "  ");"
+.SH ARGUMENTS
+.IP "smbios_start" 12
+where to start in the SMBIOS table
+.IP "smbios_table" 12
+location of the SMBIOS table
+.IP "type" 12
+SMBIOS structure type to be returned
+.IP "previous" 12
+NULL or pointer to previously returned structure
+.SH "DESCRIPTION"
+Gets the first entry of the specified type if previous == NULL;
+Otherwise, returns the next entry of the given type.
+Uses global SMBIOS Table pointer.
+Uses get_subsequent_smbios_entry.
+
+Returns a pointer to an SMBIOS structure or NULL if none found.

@@ -1,0 +1,32 @@
+.TH "doc_ecc_bch_fix_data" 9 "doc_ecc_bch_fix_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_ecc_bch_fix_data \- Fix if need be read data from flash
+.SH SYNOPSIS
+.B "int" doc_ecc_bch_fix_data
+.BI "(struct docg3 *docg3 "  ","
+.BI "void *buf "  ","
+.BI "u8 *hwecc "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "buf" 12
+the buffer of read data (512 + 7 + 1 bytes)
+.IP "hwecc" 12
+the hardware calculated ECC.
+It's in fact recv_ecc ^ calc_ecc, where recv_ecc was read from OOB
+area data, and calc_ecc the ECC calculated by the hardware generator.
+.SH "DESCRIPTION"
+Checks if the received data matches the ECC, and if an error is detected,
+tries to fix the bit flips (at most 4) in the buffer buf.  As the docg3
+understands the (data, ecc, syndroms) in an inverted order in comparison to
+the BCH library, the function reverses the order of bits (ie. bit7 and bit0,
+bit6 and bit 1, ...) for all ECC data.
+
+The hardware ecc unit produces oob_ecc ^ calc_ecc.  The kernel's bch
+algorithm is used to decode this.  However the hw operates on page
+data in a bit order that is the reverse of that of the bch alg,
+requiring that the bits be reversed on the result.  Thanks to Ivan
+Djelic for his analysis.
+
+Returns number of fixed bits (0, 1, 2, 3, 4) or -EBADMSG if too many bit
+errors were detected and cannot be fixed.

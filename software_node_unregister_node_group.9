@@ -1,0 +1,14 @@
+.TH "software_node_unregister_node_group" 9 "software_node_unregister_node_group" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+software_node_unregister_node_group \- Unregister a group of software nodes
+.SH SYNOPSIS
+.B "void" software_node_unregister_node_group
+.BI "(const struct software_node **node_group "  ");"
+.SH ARGUMENTS
+.IP "node_group" 12
+NULL terminated array of software node pointers to be unregistered
+.SH "DESCRIPTION"
+Unregister multiple software nodes at once. The array will be unwound in
+reverse order (i.e. last entry first) and thus if any members of the array are
+children of another member then the children must appear later in the list such
+that they are unregistered first.

@@ -1,0 +1,39 @@
+.TH "cxl_mem_mbox_send_cmd" 9 "cxl_mem_mbox_send_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxl_mem_mbox_send_cmd \- Send a mailbox command to a memory device.
+.SH SYNOPSIS
+.B "int" cxl_mem_mbox_send_cmd
+.BI "(struct cxl_mem *cxlm "  ","
+.BI "u16 opcode "  ","
+.BI "void *in "  ","
+.BI "size_t in_size "  ","
+.BI "void *out "  ","
+.BI "size_t out_size "  ");"
+.SH ARGUMENTS
+.IP "cxlm" 12
+The CXL memory device to communicate with.
+.IP "opcode" 12
+Opcode for the mailbox command.
+.IP "in" 12
+The input payload for the mailbox command.
+.IP "in_size" 12
+The length of the input payload
+.IP "out" 12
+Caller allocated buffer for the output.
+.IP "out_size" 12
+Expected size of output.
+.SH "CONTEXT"
+Any context. Will acquire and release mbox_mutex.
+.SH "RETURN"
+* %>=0      - Number of bytes returned in \fIout\fP.
+* -E2BIG   - Payload is too large for hardware.
+* -EBUSY   - Couldn't acquire exclusive mailbox access.
+* -EFAULT  - Hardware error occurred.
+* -ENXIO   - Command completed, but device reported an error.
+* -EIO     - Unexpected output size.
+.SH "DESCRIPTION"
+Mailbox commands may execute successfully yet the device itself reported an
+error. While this distinction can be useful for commands from userspace, the
+kernel will only be able to use results when both are successful.
+
+See \fB__cxl_mem_mbox_send_cmd\fP

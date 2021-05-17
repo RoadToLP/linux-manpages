@@ -1,0 +1,18 @@
+.TH "flush_smp_call_function_queue" 9 "flush_smp_call_function_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+flush_smp_call_function_queue \- Flush pending smp-call-function callbacks
+.SH SYNOPSIS
+.B "void" flush_smp_call_function_queue
+.BI "(bool warn_cpu_offline "  ");"
+.SH ARGUMENTS
+.IP "warn_cpu_offline" 12
+If set to 'true', warn if callbacks were queued on an
+offline CPU. Skip this check if set to 'false'.
+.SH "DESCRIPTION"
+Flush any pending smp-call-function callbacks queued on this CPU. This is
+invoked by the generic IPI handler, as well as by a CPU about to go offline,
+to ensure that all pending IPI callbacks are run before it goes completely
+offline.
+
+Loop through the call_single_queue and run all the queued callbacks.
+Must be called with interrupts disabled.

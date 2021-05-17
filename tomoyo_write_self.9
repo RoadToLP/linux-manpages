@@ -1,0 +1,23 @@
+.TH "tomoyo_write_self" 9 "tomoyo_write_self" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_write_self \- write() for /sys/kernel/security/tomoyo/self_domain interface.
+.SH SYNOPSIS
+.B "ssize_t" tomoyo_write_self
+.BI "(struct file *file "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+Pointer to "struct file".
+.IP "buf" 12
+Domainname to transit to.
+.IP "count" 12
+Size of \fIbuf\fP.
+.IP "ppos" 12
+Unused.
+.SH "DESCRIPTION"
+Returns \fIcount\fP on success, negative value otherwise.
+
+If domain transition was permitted but the domain transition failed, this
+function returns error rather than terminating current thread with SIGKILL.

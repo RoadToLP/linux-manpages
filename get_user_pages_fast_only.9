@@ -1,0 +1,31 @@
+.TH "get_user_pages_fast_only" 9 "get_user_pages_fast_only" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_user_pages_fast_only \- pin user pages in memory
+.SH SYNOPSIS
+.B "int" get_user_pages_fast_only
+.BI "(unsigned long start "  ","
+.BI "int nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying pin behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long.
+.SH "DESCRIPTION"
+Like \fBget_user_pages_fast\fP except it's IRQ-safe in that it won't fall back to
+the regular GUP.
+Note a difference with get_user_pages_fast: this always returns the
+number of pages pinned, 0 if no pages were pinned.
+
+If the architecture does not support this function, simply return with no
+pages pinned.
+
+Careful, careful! COW breaking can go either way, so a non-write
+access can get ambiguous page results. If you call this function without
+'write' set, you'd better be sure that you're ok with that ambiguity.

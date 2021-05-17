@@ -1,0 +1,17 @@
+.TH "fm10k_mbx_update_local_crc" 9 "fm10k_mbx_update_local_crc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_update_local_crc \- Update the local CRC for outgoing data
+.SH SYNOPSIS
+.B "void" fm10k_mbx_update_local_crc
+.BI "(struct fm10k_mbx_info *mbx "  ","
+.BI "u16 head "  ");"
+.SH ARGUMENTS
+.IP "mbx" 12
+pointer to mailbox
+.IP "head" 12
+head index provided by remote mailbox
+
+This function will generate the CRC for all data from the end of the
+last head update to the current one.  It uses the result of the
+previous CRC as the seed for this update.  The result is stored in
+mbx->local.

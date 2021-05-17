@@ -1,0 +1,21 @@
+.TH "try_layer_config" 9 "try_layer_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_layer_config \- Try a specific configuration for the layer
+.SH SYNOPSIS
+.B "int" try_layer_config
+.BI "(struct osd_state *sd "  ","
+.BI "enum osd_layer layer "  ","
+.BI "struct osd_layer_config *lconfig "  ");"
+.SH ARGUMENTS
+.IP "sd" 12
+ptr to struct osd_state
+.IP "layer" 12
+layer to configure
+.IP "lconfig" 12
+layer configuration to try
+.SH "DESCRIPTION"
+If the requested lconfig is completely rejected and the value of lconfig on
+exit is the current lconfig, then \fBtry_layer_config\fP returns 1.  Otherwise,
+\fBtry_layer_config\fP returns 0.  A return value of 0 does not necessarily mean
+that the value of lconfig on exit is identical to the value of lconfig on
+entry, but merely that it represents a change from the current lconfig.

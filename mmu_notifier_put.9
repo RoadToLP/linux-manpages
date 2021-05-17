@@ -1,0 +1,27 @@
+.TH "mmu_notifier_put" 9 "mmu_notifier_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_notifier_put \- Release the reference on the notifier
+.SH SYNOPSIS
+.B "void" mmu_notifier_put
+.BI "(struct mmu_notifier *subscription "  ");"
+.SH ARGUMENTS
+.IP "subscription" 12
+The notifier to act on
+.SH "DESCRIPTION"
+This function must be paired with each \fBmmu_notifier_get\fP, it releases the
+reference obtained by the get. If this is the last reference then process
+to free the notifier will be run asynchronously.
+
+Unlike \fBmmu_notifier_unregister\fP the get/put flow only calls ops->release
+when the mm_struct is destroyed. Instead free_notifier is always called to
+release any resources held by the user.
+
+As ops->release is not guaranteed to be called, the user must ensure that
+all sptes are dropped, and no new sptes can be established before
+\fBmmu_notifier_put\fP is called.
+
+This function can be called from the ops->release callback, however the
+caller must still ensure it is called pairwise with \fBmmu_notifier_get\fP.
+
+Modules calling this function must call \fBmmu_notifier_synchronize\fP in
+their __exit functions to ensure the async work is completed.

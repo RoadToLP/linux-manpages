@@ -1,0 +1,16 @@
+.TH "lpfc_sli_brdkill" 9 "lpfc_sli_brdkill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_brdkill \- Issue a kill_board mailbox command
+.SH SYNOPSIS
+.B "int" lpfc_sli_brdkill
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function issues a kill_board mailbox command and waits for
+the error attention interrupt. This function is called for stopping
+the firmware processing. The caller is not required to hold any
+locks. This function calls lpfc_hba_down_post function to free
+any pending commands after the kill. The function will return 1 when it
+fails to kill the board else will return 0.

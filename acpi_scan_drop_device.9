@@ -1,0 +1,20 @@
+.TH "acpi_scan_drop_device" 9 "acpi_scan_drop_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_scan_drop_device \- Drop an ACPI device object.
+.SH SYNOPSIS
+.B "void" acpi_scan_drop_device
+.BI "(acpi_handle handle "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Handle of an ACPI namespace node, not used.
+.IP "context" 12
+Address of the ACPI device object to drop.
+.SH "DESCRIPTION"
+This is invoked by \fBacpi_ns_delete_node\fP during the removal of the ACPI
+namespace node the device object pointed to by \fIcontext\fP is attached to.
+
+The unregistration is carried out asynchronously to avoid running
+\fBacpi_device_del\fP under the ACPICA's namespace mutex and the list is used to
+ensure the correct ordering (the device objects must be unregistered in the
+same order in which the corresponding namespace nodes are deleted).

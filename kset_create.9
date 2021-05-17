@@ -1,0 +1,23 @@
+.TH "kset_create" 9 "kset_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kset_create \- Create a struct kset dynamically.
+.SH SYNOPSIS
+.B "struct kset *" kset_create
+.BI "(const char *name "  ","
+.BI "const struct kset_uevent_ops *uevent_ops "  ","
+.BI "struct kobject *parent_kobj "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+the name for the kset
+.IP "uevent_ops" 12
+a struct kset_uevent_ops for the kset
+.IP "parent_kobj" 12
+the parent kobject of this kset, if any.
+.SH "DESCRIPTION"
+This function creates a kset structure dynamically.  This structure can
+then be registered with the system and show up in sysfs with a call to
+\fBkset_register\fP.  When you are finished with this structure, if
+\fBkset_register\fP has been called, call \fBkset_unregister\fP and the
+structure will be dynamically freed when it is no longer being used.
+
+If the kset was not able to be created, NULL will be returned.

@@ -1,0 +1,18 @@
+.TH "nfs_request_remove_commit_list" 9 "nfs_request_remove_commit_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_request_remove_commit_list \- Remove request from a commit list
+.SH SYNOPSIS
+.B "void" nfs_request_remove_commit_list
+.BI "(struct nfs_page *req "  ","
+.BI "struct nfs_commit_info *cinfo "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+pointer to a nfs_page
+.IP "cinfo" 12
+holds list lock and accounting info
+.SH "DESCRIPTION"
+This clears the PG_CLEAN bit, and updates the cinfo's count of
+number of outstanding requests requiring a commit
+It does not update the MM page stats.
+
+The caller _must_ hold the cinfo->lock and the nfs_page lock.

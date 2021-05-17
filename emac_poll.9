@@ -1,0 +1,20 @@
+.TH "emac_poll" 9 "emac_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+emac_poll \- EMAC NAPI Poll function
+.SH SYNOPSIS
+.B "int" emac_poll
+.BI "(struct napi_struct *napi "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "napi" 12
+pointer to the napi_struct containing The DaVinci EMAC network adapter
+.IP "budget" 12
+Number of receive packets to process (as told by NAPI layer)
+.SH "DESCRIPTION"
+NAPI Poll function implemented to process packets as per budget. We check
+the type of interrupt on the device and accordingly call the TX or RX
+packet processing functions. We follow the budget for RX processing and
+also put a cap on number of TX pkts processed through config param. The
+NAPI schedule function is called if more packets pending.
+
+Returns number of packets received (in most cases; else TX pkts - rarely)

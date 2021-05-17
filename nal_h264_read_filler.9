@@ -1,0 +1,26 @@
+.TH "nal_h264_read_filler" 9 "nal_h264_read_filler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nal_h264_read_filler \- Read filler data RBSP
+.SH SYNOPSIS
+.B "ssize_t" nal_h264_read_filler
+.BI "(const struct device *dev "  ","
+.BI "void *src "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer
+.IP "src" 12
+buffer with RBSP data that is read
+.IP "n" 12
+maximum size of src that shall be read
+.SH "DESCRIPTION"
+Read a filler data RBSP from \fIsrc\fP up to a maximum size of \fIn\fP bytes and
+return the size of the filler data in bytes including the marker.
+
+This function is used to parse filler data and skip the respective bytes in
+the RBSP data.
+
+The RBSP format of the filler data is specified in Rec. ITU-T H.264
+(04/2017) 7.3.2.7 Filler data RBSP syntax.
+.SH "RETURN"
+number of filler data bytes (including marker) or negative error

@@ -1,0 +1,28 @@
+.TH "drm_connector_init_with_ddc" 9 "drm_connector_init_with_ddc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_init_with_ddc \- Init a preallocated connector
+.SH SYNOPSIS
+.B "int" drm_connector_init_with_ddc
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_connector *connector "  ","
+.BI "const struct drm_connector_funcs *funcs "  ","
+.BI "int connector_type "  ","
+.BI "struct i2c_adapter *ddc "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "connector" 12
+the connector to init
+.IP "funcs" 12
+callbacks for this connector
+.IP "connector_type" 12
+user visible type of the connector
+.IP "ddc" 12
+pointer to the associated ddc adapter
+.SH "DESCRIPTION"
+Initialises a preallocated connector. Connectors should be
+subclassed as part of driver connector objects.
+
+Ensures that the ddc field of the connector is correctly set.
+.SH "RETURN"
+Zero on success, error code on failure.

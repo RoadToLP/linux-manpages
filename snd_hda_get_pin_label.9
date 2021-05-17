@@ -1,0 +1,34 @@
+.TH "snd_hda_get_pin_label" 9 "snd_hda_get_pin_label" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_get_pin_label \- Get a label for the given I/O pin
+.SH SYNOPSIS
+.B "int" snd_hda_get_pin_label
+.BI "(struct hda_codec *codec "  ","
+.BI "hda_nid_t nid "  ","
+.BI "const struct auto_pin_cfg *cfg "  ","
+.BI "char *label "  ","
+.BI "int maxlen "  ","
+.BI "int *indexp "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "nid" 12
+pin NID
+.IP "cfg" 12
+the parsed pin configuration
+.IP "label" 12
+the string buffer to store
+.IP "maxlen" 12
+the max length of string buffer (including termination)
+.IP "indexp" 12
+the pointer to return the index number (for multiple ctls)
+.SH "DESCRIPTION"
+Get a label for the given pin.  This function works for both input and
+output pins.  When \fIcfg\fP is given as non-NULL, the function tries to get
+an optimized label using \fBhda_get_autocfg_input_label\fP.
+
+This function tries to give a unique label string for the pin as much as
+possible.  For example, when the multiple line-outs are present, it adds
+the channel suffix like "Front", "Surround", etc (only when \fIcfg\fP is given).
+If no unique name with a suffix is available and \fIindexp\fP is non-NULL, the
+index number is stored in the pointer.

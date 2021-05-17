@@ -1,0 +1,24 @@
+.TH "ice_send_component_table" 9 "ice_send_component_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_send_component_table \- Send PLDM component table to firmware
+.SH SYNOPSIS
+.B "int" ice_send_component_table
+.BI "(struct pldmfw *context "  ","
+.BI "struct pldmfw_component *component "  ","
+.BI "u8 transfer_flag "  ");"
+.SH ARGUMENTS
+.IP "context" 12
+PLDM fw update structure
+.IP "component" 12
+the component to process
+.IP "transfer_flag" 12
+relative transfer order of this component
+.SH "DESCRIPTION"
+Read relevant data from the component and forward it to the device
+firmware. Check the response to determine if the firmware indicates that
+the update can proceed.
+
+This function sends AdminQ commands related to the NVM, and assumes that
+the NVM resource has been acquired.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

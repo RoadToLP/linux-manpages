@@ -1,0 +1,16 @@
+.TH "hid_hw_start" 9 "hid_hw_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hid_hw_start \- start underlying HW
+.SH SYNOPSIS
+.B "int" hid_hw_start
+.BI "(struct hid_device *hdev "  ","
+.BI "unsigned int connect_mask "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+hid device
+.IP "connect_mask" 12
+which outputs to connect, see HID_CONNECT_*
+.SH "DESCRIPTION"
+Call this in probe function *after* hid_parse. This will setup HW
+buffers and start the device (if not defeirred to device open).
+hid_hw_stop must be called if this was successful.

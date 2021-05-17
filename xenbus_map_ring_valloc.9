@@ -1,0 +1,25 @@
+.TH "xenbus_map_ring_valloc" 9 "xenbus_map_ring_valloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xenbus_map_ring_valloc \- 
+.SH SYNOPSIS
+.B "int" xenbus_map_ring_valloc
+.BI "(struct xenbus_device *dev "  ","
+.BI "grant_ref_t *gnt_refs "  ","
+.BI "unsigned int nr_grefs "  ","
+.BI "void **vaddr "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+xenbus device
+.IP "gnt_refs" 12
+grant reference array
+.IP "nr_grefs" 12
+number of grant references
+.IP "vaddr" 12
+pointer to address to be filled out by mapping
+.SH "DESCRIPTION"
+Map \fInr_grefs\fP pages of memory into this domain from another
+domain's grant table.  xenbus_map_ring_valloc allocates \fInr_grefs\fP
+pages of virtual address space, maps the pages to that address, and
+sets *vaddr to that address.  Returns 0 on success, and -errno on
+error. If an error is returned, device will switch to
+XenbusStateClosing and the error message will be saved in XenStore.

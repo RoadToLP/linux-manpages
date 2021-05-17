@@ -1,0 +1,25 @@
+.TH "cppi_channel_program" 9 "cppi_channel_program" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cppi_channel_program \- program channel for data transfer
+.SH SYNOPSIS
+.B "int" cppi_channel_program
+.BI "(struct dma_channel *ch "  ","
+.BI "u16 maxpacket "  ","
+.BI "u8 mode "  ","
+.BI "dma_addr_t dma_addr "  ","
+.BI "u32 len "  ");"
+.SH ARGUMENTS
+.IP "ch" 12
+the channel
+.IP "maxpacket" 12
+max packet size
+.IP "mode" 12
+For RX, 1 unless the usb protocol driver promised to treat
+all short reads as errors and kick in high level fault recovery.
+For TX, ignored because of RNDIS mode races/glitches.
+.IP "dma_addr" 12
+dma address of buffer
+.IP "len" 12
+length of buffer
+.SH "CONTEXT"
+controller irqlocked

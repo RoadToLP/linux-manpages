@@ -1,0 +1,29 @@
+.TH "__nilfs_error" 9 "__nilfs_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nilfs_error \- report failure condition on a filesystem
+.SH SYNOPSIS
+.B "void" __nilfs_error
+.BI "(struct super_block *sb "  ","
+.BI "const char *function "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+-- undescribed --
+.IP "function" 12
+-- undescribed --
+.IP "fmt" 12
+-- undescribed --
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+
+\fB__nilfs_error\fP sets an ERROR_FS flag on the superblock as well as
+reporting an error message.  This function should be called when
+NILFS detects incoherences or defects of meta data on disk.
+
+This implements the body of \fBnilfs_error\fP macro.  Normally,
+\fBnilfs_error\fP should be used.  As for sustainable errors such as a
+single-shot I/O error, \fBnilfs_err\fP should be used instead.
+
+Callers should not add a trailing newline since this will do it.

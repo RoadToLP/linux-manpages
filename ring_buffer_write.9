@@ -1,0 +1,22 @@
+.TH "ring_buffer_write" 9 "ring_buffer_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_write \- write data to the buffer without reserving
+.SH SYNOPSIS
+.B "int" ring_buffer_write
+.BI "(struct trace_buffer *buffer "  ","
+.BI "unsigned long length "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to write to.
+.IP "length" 12
+The length of the data being written (excluding the event header)
+.IP "data" 12
+The data to write to the buffer.
+.SH "DESCRIPTION"
+This is like ring_buffer_lock_reserve and ring_buffer_unlock_commit as
+one function. If you already have the data to write to the buffer, it
+may be easier to simply call this function.
+
+Note, like ring_buffer_lock_reserve, the length is the length of the data
+and not the length of the event which would hold the header.

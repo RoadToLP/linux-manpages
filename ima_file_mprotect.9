@@ -1,0 +1,20 @@
+.TH "ima_file_mprotect" 9 "ima_file_mprotect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_file_mprotect \- based on policy, limit mprotect change
+.SH SYNOPSIS
+.B "int" ima_file_mprotect
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long prot "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+-- undescribed --
+.IP "prot" 12
+contains the protection that will be applied by the kernel.
+.SH "DESCRIPTION"
+Files can be mmap'ed read/write and later changed to execute to circumvent
+IMA's mmap appraisal policy rules.  Due to locking issues (mmap semaphore
+would be taken before i_mutex), files can not be measured or appraised at
+this point.  Eliminate this integrity gap by denying the mprotect
+PROT_EXECUTE change, if an mmap appraise policy rule exists.
+
+On mprotect change success, return 0.  On failure, return -EACESS.

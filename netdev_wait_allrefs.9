@@ -1,0 +1,17 @@
+.TH "netdev_wait_allrefs" 9 "netdev_wait_allrefs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netdev_wait_allrefs \- wait until all references are gone.
+.SH SYNOPSIS
+.B "void" netdev_wait_allrefs
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target net_device
+.SH "DESCRIPTION"
+This is called when unregistering network devices.
+
+Any protocol or device that holds a reference should register
+for netdevice notification, and cleanup and put back the
+reference if they receive an UNREGISTER event.
+We can get stuck here if buggy protocols don't correctly
+call dev_put.

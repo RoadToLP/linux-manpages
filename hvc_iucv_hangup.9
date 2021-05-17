@@ -1,0 +1,37 @@
+.TH "hvc_iucv_hangup" 9 "hvc_iucv_hangup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_hangup \- Sever IUCV path and schedule hvc tty hang up
+.SH SYNOPSIS
+.B "void" hvc_iucv_hangup
+.BI "(struct hvc_iucv_private *priv "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+Pointer to hvc_iucv_private structure
+.SH "DESCRIPTION"
+This routine severs an existing IUCV communication path and hangs
+up the underlying HVC terminal device.
+The hang-up occurs only if an IUCV communication path is established;
+otherwise there is no need to hang up the terminal device.
+
+The IUCV HVC hang-up is separated into two steps:
+1. After the IUCV path has been severed, the iucv_state is set to
+IUCV_SEVERED.
+2. Later, when the HVC thread calls \fBhvc_iucv_get_chars\fP, the
+IUCV_SEVERED state causes the tty hang-up in the HVC layer.
+
+If the tty has not yet been opened, clean up the hvc_iucv_private
+structure to allow re-connects.
+If the tty has been opened, let \fBget_chars\fP return -EPIPE to signal
+the HVC layer to hang up the tty and, if so, wake up the HVC thread
+to call \fBget_chars\fP...
+
+Special notes on hanging up a HVC terminal instantiated as console:
+Hang-up:     1. \fBdo_tty_hangup\fP replaces file ops (= hung_up_tty_fops)
+2. \fBdo_tty_hangup\fP calls tty->ops->\fBclose\fP for console_filp
+=> no hangup notifier is called by HVC (default)
+2. \fBhvc_close\fP returns because of tty_hung_up_p(filp)
+=> no delete notifier is called!
+Finally, the back-end is not being notified, thus, the tty session is
+kept active (TTY_OPEN) to be ready for re-connects.
+
+Locking:     spin_lock(\fIpriv->lock\fP) w/o disabling bh

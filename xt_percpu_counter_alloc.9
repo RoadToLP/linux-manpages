@@ -1,0 +1,28 @@
+.TH "xt_percpu_counter_alloc" 9 "xt_percpu_counter_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xt_percpu_counter_alloc \- allocate x_tables rule counter
+.SH SYNOPSIS
+.B "bool" xt_percpu_counter_alloc
+.BI "(struct xt_percpu_counter_alloc_state *state "  ","
+.BI "struct xt_counters *counter "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+pointer to xt_percpu allocation state
+.IP "counter" 12
+pointer to counter struct inside the ip(6)/arpt_entry struct
+.SH "DESCRIPTION"
+On SMP, the packet counter [ ip(6)t_entry->counters.pcnt ] will then
+contain the address of the real (percpu) counter.
+
+Rule evaluation needs to use \fBxt_get_this_cpu_counter\fP helper
+to fetch the real percpu counter.
+
+To speed up allocation and improve data locality, a 4kb block is
+allocated.  Freeing any counter may free an entire block, so all
+counters allocated using the same state must be freed at the same
+time.
+
+xt_percpu_counter_alloc_state contains the base address of the
+allocated page and the current sub-offset.
+
+returns false on error.

@@ -1,0 +1,19 @@
+.TH "kthread_create_worker" 9 "kthread_create_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_create_worker \- create a kthread worker
+.SH SYNOPSIS
+.B "struct kthread_worker *" kthread_create_worker
+.BI "(unsigned int flags "  ","
+.BI "const char namefmt[] "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "flags" 12
+flags modifying the default behavior of the worker
+.IP "namefmt" 12
+printf-style name for the kthread worker (task).
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Returns a pointer to the allocated worker on success, ERR_PTR(-ENOMEM)
+when the needed structures could not get allocated, and ERR_PTR(-EINTR)
+when the worker was SIGKILLed.

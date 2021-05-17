@@ -1,0 +1,21 @@
+.TH "ib_process_cq_direct" 9 "ib_process_cq_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_process_cq_direct \- process a CQ in caller context
+.SH SYNOPSIS
+.B "int" ib_process_cq_direct
+.BI "(struct ib_cq *cq "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "cq" 12
+CQ to process
+.IP "budget" 12
+number of CQEs to poll for
+.SH "DESCRIPTION"
+This function is used to process all outstanding CQ entries.
+It does not offload CQ processing to a different context and does
+not ask for completion interrupts from the HCA.
+Using direct processing on CQ with non IB_POLL_DIRECT type may trigger
+concurrent processing.
+.SH "NOTE"
+do not pass -1 as budget unless it is guaranteed that the number
+of completions that will be processed is small.

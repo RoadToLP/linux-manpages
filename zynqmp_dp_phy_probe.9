@@ -1,0 +1,18 @@
+.TH "zynqmp_dp_phy_probe" 9 "zynqmp_dp_phy_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_dp_phy_probe \- Probe the PHYs
+.SH SYNOPSIS
+.B "int" zynqmp_dp_phy_probe
+.BI "(struct zynqmp_dp *dp "  ");"
+.SH ARGUMENTS
+.IP "dp" 12
+DisplayPort IP core structure
+.SH "DESCRIPTION"
+Probe PHYs for all lanes. Less PHYs may be available than the number of
+lanes, which is not considered an error as long as at least one PHY is
+found. The caller can check dp->num_lanes to check how many PHYs were found.
+.SH "RETURN"
+* 0                          - Success
+* -ENXIO                     - No PHY found
+* -EPROBE_DEFER              - Probe deferral requested
+* Other negative value       - PHY retrieval failure

@@ -1,0 +1,26 @@
+.TH "drm_dp_mst_atomic_enable_dsc" 9 "drm_dp_mst_atomic_enable_dsc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_atomic_enable_dsc \- Set DSC Enable Flag to On/Off
+.SH SYNOPSIS
+.B "int" drm_dp_mst_atomic_enable_dsc
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_dp_mst_port *port "  ","
+.BI "int pbn "  ","
+.BI "int pbn_div "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Pointer to the new drm_atomic_state
+.IP "port" 12
+Pointer to the affected MST Port
+.IP "pbn" 12
+Newly recalculated bw required for link with DSC enabled
+.IP "pbn_div" 12
+Divider to calculate correct number of pbn per slot
+.IP "enable" 12
+Boolean flag to enable or disable DSC on the port
+.SH "DESCRIPTION"
+This function enables DSC on the given Port
+by recalculating its vcpi from pbn provided
+and sets dsc_enable flag to keep track of which
+ports have DSC enabled

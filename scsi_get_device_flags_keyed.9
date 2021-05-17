@@ -1,0 +1,23 @@
+.TH "scsi_get_device_flags_keyed" 9 "scsi_get_device_flags_keyed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_get_device_flags_keyed \- get device specific flags from the dynamic device list
+.SH SYNOPSIS
+.B "blist_flags_t" scsi_get_device_flags_keyed
+.BI "(struct scsi_device *sdev "  ","
+.BI "const unsigned char *vendor "  ","
+.BI "const unsigned char *model "  ","
+.BI "enum scsi_devinfo_key key "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+\fIscsi_device\fP to get flags for
+.IP "vendor" 12
+vendor name
+.IP "model" 12
+model name
+.IP "key" 12
+list to look up
+.SH "DESCRIPTION"
+Search the scsi_dev_info_list specified by \fIkey\fP for an entry
+matching \fIvendor\fP and \fImodel\fP, if found, return the matching
+flags value, else return the host or global default settings.
+Called during scan time.

@@ -1,0 +1,15 @@
+.TH "regulator_lock" 9 "regulator_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_lock \- lock a single regulator
+.SH SYNOPSIS
+.B "void" regulator_lock
+.BI "(struct regulator_dev *rdev "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+regulator source
+.SH "DESCRIPTION"
+This function can be called many times by one task on
+a single regulator and its mutex will be locked only
+once. If a task, which is calling this function is other
+than the one, which initially locked the mutex, it will
+wait on mutex.

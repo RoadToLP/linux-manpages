@@ -1,0 +1,19 @@
+.TH "__save_processor_state" 9 "__save_processor_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__save_processor_state \- save CPU registers before creating a hibernation image and before restoring the memory state from it @ctxt - structure to store the registers contents in
+.SH SYNOPSIS
+.B "void" __save_processor_state
+.BI "(struct saved_context *ctxt "  ");"
+.SH ARGUMENTS
+.IP "ctxt" 12
+-- undescribed --
+.SH "NOTE"
+If there is a CPU register the modification of which by the
+boot kernel (ie. the kernel used for loading the hibernation image)
+might affect the operations of the restored target kernel (ie. the one
+saved in the hibernation image), then its contents must be saved by this
+function.  In other words, if kernel A is hibernated and different
+kernel B is used for loading the hibernation image into memory, the
+kernel A's \fB__save_processor_state\fP function must save all registers
+needed by kernel A, so that it can operate correctly after the resume
+regardless of what kernel B does in the meantime.

@@ -1,0 +1,28 @@
+.TH "sfp_bus_add_upstream" 9 "sfp_bus_add_upstream" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sfp_bus_add_upstream \- parse and register the neighbouring device
+.SH SYNOPSIS
+.B "int" sfp_bus_add_upstream
+.BI "(struct sfp_bus *bus "  ","
+.BI "void *upstream "  ","
+.BI "const struct sfp_upstream_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the \fIstruct sfp_bus\fP found via \fBsfp_bus_find_fwnode\fP
+.IP "upstream" 12
+the upstream private data
+.IP "ops" 12
+the upstream's \fIstruct sfp_upstream_ops\fP
+.SH "DESCRIPTION"
+Add upstream driver for the SFP bus, and if the bus is complete, register
+the SFP bus using \fBsfp_register_upstream\fP.  This takes a reference on the
+bus, so it is safe to put the bus after this call.
+.SH "RETURN"
+- on success, a pointer to the sfp_bus structure,
+- NULL if no SFP is specified,
+- on failure, an error pointer value:
+
+- corresponding to the errors detailed for
+\fBfwnode_property_get_reference_args\fP.
+- -ENOMEM if we failed to allocate the bus.
+- an error from the upstream's \fBconnect_phy\fP method.

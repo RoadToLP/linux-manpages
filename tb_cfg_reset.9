@@ -1,0 +1,19 @@
+.TH "tb_cfg_reset" 9 "tb_cfg_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_cfg_reset \- send a reset packet and wait for a response
+.SH SYNOPSIS
+.B "struct tb_cfg_result" tb_cfg_reset
+.BI "(struct tb_ctl *ctl "  ","
+.BI "u64 route "  ","
+.BI "int timeout_msec "  ");"
+.SH ARGUMENTS
+.IP "ctl" 12
+Control channel pointer
+.IP "route" 12
+Router string for the router to send reset
+.IP "timeout_msec" 12
+Timeout in ms how long to wait for the response
+.SH "DESCRIPTION"
+If the switch at route is incorrectly configured then we will not receive a
+reply (even though the switch will reset). The caller should check for
+-ETIMEDOUT and attempt to reconfigure the switch.

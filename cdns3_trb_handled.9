@@ -1,0 +1,45 @@
+.TH "cdns3_trb_handled" 9 "cdns3_trb_handled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns3_trb_handled \- check whether trb has been handled by DMA
+.SH SYNOPSIS
+.B "bool" cdns3_trb_handled
+.BI "(struct cdns3_endpoint *priv_ep "  ","
+.BI "struct cdns3_request *priv_req "  ");"
+.SH ARGUMENTS
+.IP "priv_ep" 12
+extended endpoint object.
+.IP "priv_req" 12
+request object for checking
+.SH "DESCRIPTION"
+Endpoint must be selected before invoking this function.
+
+Returns false if request has not been handled by DMA, else returns true.
+
+SR - start ring
+ER -  end ring
+DQ = priv_ep->dequeue - dequeue position
+EQ = priv_ep->enqueue -  enqueue position
+ST = priv_req->start_trb - index of first TRB in transfer ring
+ET = priv_req->end_trb - index of last TRB in transfer ring
+CI = current_index - index of processed TRB by DMA.
+
+As first step, we check if the TRB between the ST and ET.
+Then, we check if cycle bit for index priv_ep->dequeue
+is correct.
+
+some rules:
+1. priv_ep->dequeue never equals to current_index.
+2  priv_ep->enqueue never exceed priv_ep->dequeue
+3. exception: priv_ep->enqueue == priv_ep->dequeue
+and priv_ep->free_trbs is zero.
+This case indicate that TR is full.
+
+At below two cases, the request have been handled.
+Case 1 - priv_ep->dequeue < current_index
+SR ... EQ ... DQ ... CI ... ER
+SR ... DQ ... CI ... EQ ... ER
+
+Case 2 - priv_ep->dequeue > current_index
+This situation takes place when CI go through the LINK TRB at the end of
+transfer ring.
+SR ... CI ... EQ ... DQ ... ER

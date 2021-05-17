@@ -1,0 +1,19 @@
+.TH "pcpu_alloc_first_chunk" 9 "pcpu_alloc_first_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_alloc_first_chunk \- creates chunks that serve the first chunk
+.SH SYNOPSIS
+.B "struct pcpu_chunk *" pcpu_alloc_first_chunk
+.BI "(unsigned long tmp_addr "  ","
+.BI "int map_size "  ");"
+.SH ARGUMENTS
+.IP "tmp_addr" 12
+the start of the region served
+.IP "map_size" 12
+size of the region served
+.SH "DESCRIPTION"
+This is responsible for creating the chunks that serve the first chunk.  The
+base_addr is page aligned down of \fItmp_addr\fP while the region end is page
+aligned up.  Offsets are kept track of to determine the region served. All
+this is done to appease the bitmap allocator in avoiding partial blocks.
+.SH "RETURN"
+Chunk serving the region at \fItmp_addr\fP of \fImap_size\fP.

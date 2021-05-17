@@ -1,0 +1,27 @@
+.TH "ixgbe_ipsec_vf_del_sa" 9 "ixgbe_ipsec_vf_del_sa" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ipsec_vf_del_sa \- translate VF request to SA delete
+.SH SYNOPSIS
+.B "int" ixgbe_ipsec_vf_del_sa
+.BI "(struct ixgbe_adapter *adapter "  ","
+.BI "u32 *msgbuf "  ","
+.BI "u32 vf "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private structure
+.IP "msgbuf" 12
+The message buffer
+.IP "vf" 12
+the VF index
+.SH "DESCRIPTION"
+Given the offload_handle sent by the VF, look for the related SA table
+entry and use its xs field to call for a delete of the SA.
+
+Returns 0 or error value
+.SH "NOTE"
+We silently ignore requests to delete entries that are already
+set to unused because when a VF is set to "DOWN", the PF first
+gets a reset and clears all the VF's entries; then the VF's
+XFRM stack sends individual deletes for each entry, which the
+reset already removed.  In the future it might be good to try to
+optimize this so not so many unnecessary delete messages are sent.

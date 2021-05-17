@@ -1,0 +1,22 @@
+.TH "ath5k_beacon_update_timers" 9 "ath5k_beacon_update_timers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_beacon_update_timers \- update beacon timers
+.SH SYNOPSIS
+.B "void" ath5k_beacon_update_timers
+.BI "(struct ath5k_hw *ah "  ","
+.BI "u64 bc_tsf "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+struct ath5k_hw pointer we are operating on
+.IP "bc_tsf" 12
+the timestamp of the beacon. 0 to reset the TSF. -1 to perform a
+beacon timer update based on the current HW TSF.
+.SH "DESCRIPTION"
+Calculate the next target beacon transmit time (TBTT) based on the timestamp
+of a received beacon or the current local hardware TSF and write it to the
+beacon timer registers.
+
+This is called in a variety of situations, e.g. when a beacon is received,
+when a TSF update has been detected, but also when an new IBSS is created or
+when we otherwise know we have to update the timers, but we keep it in this
+function to have it all together in one place.

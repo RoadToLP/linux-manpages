@@ -1,0 +1,22 @@
+.TH "rdtgroup_cbm_overlaps_pseudo_locked" 9 "rdtgroup_cbm_overlaps_pseudo_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_cbm_overlaps_pseudo_locked \- Test if CBM or portion is pseudo-locked
+.SH SYNOPSIS
+.B "bool" rdtgroup_cbm_overlaps_pseudo_locked
+.BI "(struct rdt_domain *d "  ","
+.BI "unsigned long cbm "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+RDT domain
+.IP "cbm" 12
+CBM to test
+.SH "DESCRIPTION"
+\fId\fP represents a cache instance and \fIcbm\fP a capacity bitmask that is
+considered for it. Determine if \fIcbm\fP overlaps with any existing
+pseudo-locked region on \fId\fP.
+
+\fIcbm\fP is unsigned long, even if only 32 bits are used, to make the
+bitmap functions work correctly.
+.SH "RETURN"
+true if \fIcbm\fP overlaps with pseudo-locked region on \fId\fP, false
+otherwise.

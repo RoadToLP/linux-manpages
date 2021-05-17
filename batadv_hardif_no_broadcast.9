@@ -1,0 +1,23 @@
+.TH "batadv_hardif_no_broadcast" 9 "batadv_hardif_no_broadcast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_hardif_no_broadcast \- check whether (re)broadcast is necessary
+.SH SYNOPSIS
+.B "int" batadv_hardif_no_broadcast
+.BI "(struct batadv_hard_iface *if_outgoing "  ","
+.BI "u8 *orig_addr "  ","
+.BI "u8 *orig_neigh "  ");"
+.SH ARGUMENTS
+.IP "if_outgoing" 12
+the outgoing interface checked and considered for (re)broadcast
+.IP "orig_addr" 12
+the originator of this packet
+.IP "orig_neigh" 12
+originator address of the forwarder we just got the packet from
+(NULL if we originated)
+.SH "DESCRIPTION"
+Checks whether a packet needs to be (re)broadcasted on the given interface.
+.SH "RETURN"
+BATADV_HARDIF_BCAST_NORECIPIENT: No neighbor on interface
+BATADV_HARDIF_BCAST_DUPFWD: Just one neighbor, but it is the forwarder
+BATADV_HARDIF_BCAST_DUPORIG: Just one neighbor, but it is the originator
+BATADV_HARDIF_BCAST_OK: Several neighbors, must broadcast

@@ -1,0 +1,22 @@
+.TH "intel_svm_drain_prq" 9 "intel_svm_drain_prq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_svm_drain_prq \- Drain page requests and responses for a pasid
+.SH SYNOPSIS
+.B "void" intel_svm_drain_prq
+.BI "(struct device *dev "  ","
+.BI "u32 pasid "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device
+.IP "pasid" 12
+pasid for draining
+.SH "DESCRIPTION"
+Drain all pending page requests and responses related to \fIpasid\fP in both
+software and hardware. This is supposed to be called after the device
+driver has stopped DMA, the pasid entry has been cleared, and both IOTLB
+and DevTLB have been invalidated.
+
+It waits until all pending page requests for \fIpasid\fP in the page fault
+queue are completed by the prq handling thread. Then follow the steps
+described in VT-d spec CH7.10 to drain all page requests and page
+responses pending in the hardware.

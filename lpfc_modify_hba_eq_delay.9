@@ -1,0 +1,34 @@
+.TH "lpfc_modify_hba_eq_delay" 9 "lpfc_modify_hba_eq_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_modify_hba_eq_delay \- Modify Delay Multiplier on EQs
+.SH SYNOPSIS
+.B "void" lpfc_modify_hba_eq_delay
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t startq "  ","
+.BI "uint32_t numq "  ","
+.BI "uint32_t usdelay "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that EQs are on.
+.IP "startq" 12
+The starting EQ index to modify
+.IP "numq" 12
+The number of EQs (consecutive indexes) to modify
+.IP "usdelay" 12
+amount of delay
+.SH "DESCRIPTION"
+This function revises the EQ delay on 1 or more EQs. The EQ delay
+is set either by writing to a register (if supported by the SLI Port)
+or by mailbox command. The mailbox command allows several EQs to be
+updated at once.
+
+The \fIphba\fP struct is used to send a mailbox command to HBA. The \fIstartq\fP
+is used to get the starting EQ index to change. The \fInumq\fP value is
+used to specify how many consecutive EQ indexes, starting at EQ index,
+are to be changed. This function is asynchronous and will wait for any
+mailbox commands to finish before returning.
+
+On success this function will return a zero. If unable to allocate
+enough memory this function will return -ENOMEM. If a mailbox command
+fails this function will return -ENXIO. Note: on ENXIO, some EQs may
+have had their delay multipler changed.

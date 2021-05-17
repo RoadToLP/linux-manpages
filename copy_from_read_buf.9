@@ -1,0 +1,27 @@
+.TH "copy_from_read_buf" 9 "copy_from_read_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_from_read_buf \- copy read data directly
+.SH SYNOPSIS
+.B "bool" copy_from_read_buf
+.BI "(struct tty_struct *tty "  ","
+.BI "unsigned char **kbp "  ","
+.BI "size_t *nr "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal device
+.IP "kbp" 12
+data
+.IP "nr" 12
+size of data
+
+Helper function to speed up n_tty_read.  It is only called when
+ICANON is off; it copies characters straight from the tty queue.
+
+Called under the ldata->atomic_read_lock sem
+
+Returns true if it successfully copied data, but there is still
+more data to be had.
+
+\fBn_tty_read\fP/consumer path:
+caller holds non-exclusive termios_rwsem
+read_tail published

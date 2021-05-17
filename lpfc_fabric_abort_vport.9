@@ -1,0 +1,16 @@
+.TH "lpfc_fabric_abort_vport" 9 "lpfc_fabric_abort_vport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fabric_abort_vport \- Abort a vport's iocbs from driver fabric iocb list
+.SH SYNOPSIS
+.B "void" lpfc_fabric_abort_vport
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine aborts all the IOCBs associated with a \fIvport\fP from the
+driver internal fabric IOCB list. The list contains fabric IOCBs to be
+issued to the ELS IOCB ring. This abort function walks the fabric IOCB
+list, removes each IOCB associated with the \fIvport\fP off the list, set the
+status feild to IOSTAT_LOCAL_REJECT, and invokes the callback function
+associated with the IOCB.

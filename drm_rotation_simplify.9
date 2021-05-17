@@ -1,0 +1,25 @@
+.TH "drm_rotation_simplify" 9 "drm_rotation_simplify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_rotation_simplify \- Try to simplify the rotation
+.SH SYNOPSIS
+.B "unsigned int" drm_rotation_simplify
+.BI "(unsigned int rotation "  ","
+.BI "unsigned int supported_rotations "  ");"
+.SH ARGUMENTS
+.IP "rotation" 12
+Rotation to be simplified
+.IP "supported_rotations" 12
+Supported rotations
+.SH "DESCRIPTION"
+Attempt to simplify the rotation to a form that is supported.
+Eg. if the hardware supports everything except DRM_MODE_REFLECT_X
+one could call this function like this:
+
+drm_rotation_simplify(rotation, DRM_MODE_ROTATE_0 |
+DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_180 |
+DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_Y);
+
+to eliminate the DRM_MODE_ROTATE_X flag. Depending on what kind of
+transforms the hardware supports, this function may not
+be able to produce a supported transform, so the caller should
+check the result afterwards.

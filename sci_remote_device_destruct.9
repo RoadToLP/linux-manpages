@@ -1,0 +1,18 @@
+.TH "sci_remote_device_destruct" 9 "sci_remote_device_destruct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sci_remote_device_destruct \- free remote node context and destruct
+.SH SYNOPSIS
+.B "enum sci_status" sci_remote_device_destruct
+.BI "(struct isci_remote_device *idev "  ");"
+.SH ARGUMENTS
+.IP "idev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Remote device objects are a limited resource.  As such, they must be
+protected.  Thus calls to construct and destruct are mutually exclusive and
+non-reentrant. The return value shall indicate if the device was
+successfully destructed or if some failure occurred. enum sci_status This value
+is returned if the device is successfully destructed.
+SCI_FAILURE_INVALID_REMOTE_DEVICE This value is returned if the supplied
+device isn't valid (e.g. it's already been destoryed, the handle isn't
+valid, etc.).

@@ -1,0 +1,16 @@
+.TH "nsm_monitor" 9 "nsm_monitor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nsm_monitor \- Notify a peer in case we reboot
+.SH SYNOPSIS
+.B "int" nsm_monitor
+.BI "(const struct nlm_host *host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+pointer to nlm_host of peer to notify
+.SH "DESCRIPTION"
+If this peer is not already monitored, this function sends an
+upcall to the local rpc.statd to record the name/address of
+the peer to notify in case we reboot.
+
+Returns zero if the peer is monitored by the local rpc.statd;
+otherwise a negative errno value is returned.

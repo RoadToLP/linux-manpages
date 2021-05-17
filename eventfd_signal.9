@@ -1,0 +1,21 @@
+.TH "eventfd_signal" 9 "eventfd_signal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eventfd_signal \- Adds @n to the eventfd counter.
+.SH SYNOPSIS
+.B "__u64" eventfd_signal
+.BI "(struct eventfd_ctx *ctx "  ","
+.BI "__u64 n "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+[in] Pointer to the eventfd context.
+.IP "n" 12
+[in] Value of the counter to be added to the eventfd internal counter.
+The value cannot be negative.
+.SH "DESCRIPTION"
+This function is supposed to be called by the kernel in paths that do not
+allow sleeping. In this function we allow the counter to reach the ULLONG_MAX
+value, and we signal this as overflow condition by returning a EPOLLERR
+to poll(2).
+
+Returns the amount by which the counter was incremented.  This will be less
+than \fIn\fP if the counter has overflowed.

@@ -1,0 +1,58 @@
+.TH "epf_ntb_alloc_peer_mem" 9 "epf_ntb_alloc_peer_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_alloc_peer_mem \- Allocate memory in peer's outbound address space
+.SH SYNOPSIS
+.B "int" epf_ntb_alloc_peer_mem
+.BI "(struct device *dev "  ","
+.BI "struct epf_ntb_epc *ntb_epc "  ","
+.BI "enum epf_ntb_bar bar "  ","
+.BI "struct epf_ntb_epc *peer_ntb_epc "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+-- undescribed --
+.IP "ntb_epc" 12
+EPC associated with one of the HOST whose BAR holds peer's outbound
+address
+.IP "bar" 12
+BAR of \fIntb_epc\fP in for which memory has to be allocated (could be
+BAR_DB_MW1, BAR_MW2, BAR_MW3, BAR_MW4)
+.IP "peer_ntb_epc" 12
+EPC associated with HOST whose outbound address space is
+used by \fIntb_epc\fP
+.IP "size" 12
+Size of the address region that has to be allocated in peers OB SPACE
+.SH "DESCRIPTION"
++-----------------+    +---->+----------------+-----------+-----------------+
+|       BAR0      |    |     |   Doorbell 1   +-----------> MSI|X ADDRESS 1 |
++-----------------+    |     +----------------+           +-----------------+
+|       BAR1      |    |     |   Doorbell 2   +---------+ |                 |
++-----------------+----+     +----------------+         | |                 |
+|       BAR2      |          |   Doorbell 3   +-------+ | +-----------------+
++-----------------+----+     +----------------+       | +-> MSI|X ADDRESS 2 |
+|       BAR3      |    |     |   Doorbell 4   +-----+ |   +-----------------+
++-----------------+    |     |----------------+     | |   |                 |
+|       BAR4      |    |     |                |     | |   +-----------------+
++-----------------+    |     |      MW1       +---+ | +-->+ MSI|X ADDRESS 3||
+|       BAR5      |    |     |                |   | |     +-----------------+
++-----------------+    +---->-----------------+   | |     |                 |
+EP CONTROLLER 1            |                |   | |     +-----------------+
+|                |   | +---->+ MSI|X ADDRESS 4 |
++----------------+   |       +-----------------+
+(A)      EP CONTROLLER 2     |       |                 |
+(OB SPACE)        |       |                 |
++------->      MW1        |
+|                 |
+|                 |
+(B)     +-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+PCI Address Space
+(Managed by HOST2)
+
+Allocate memory in OB space of EP CONTROLLER 2 in the above diagram. Allocate
+for Doorbell 1, Doorbell 2, Doorbell 3, Doorbell 4, MW1 (and MW2, MW3, MW4).

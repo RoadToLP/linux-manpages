@@ -1,0 +1,20 @@
+.TH "acpi_count_levels" 9 "acpi_count_levels" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_count_levels \- Given a PPTT table, and a CPU node, count the caches
+.SH SYNOPSIS
+.B "int" acpi_count_levels
+.BI "(struct acpi_table_header *table_hdr "  ","
+.BI "struct acpi_pptt_processor *cpu_node "  ");"
+.SH ARGUMENTS
+.IP "table_hdr" 12
+Pointer to the head of the PPTT table
+.IP "cpu_node" 12
+processor node we wish to count caches for
+.SH "DESCRIPTION"
+Given a processor node containing a processing unit, walk into it and count
+how many levels exist solely for it, and then walk up each level until we hit
+the root node (ignore the package level because it may be possible to have
+caches that exist across packages). Count the number of cache levels that
+exist at each level on the way up.
+.SH "RETURN"
+Total number of levels found.

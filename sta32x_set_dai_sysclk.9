@@ -1,0 +1,30 @@
+.TH "sta32x_set_dai_sysclk" 9 "sta32x_set_dai_sysclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sta32x_set_dai_sysclk \- configure MCLK
+.SH SYNOPSIS
+.B "int" sta32x_set_dai_sysclk
+.BI "(struct snd_soc_dai *codec_dai "  ","
+.BI "int clk_id "  ","
+.BI "unsigned int freq "  ","
+.BI "int dir "  ");"
+.SH ARGUMENTS
+.IP "codec_dai" 12
+the codec DAI
+.IP "clk_id" 12
+the clock ID (ignored)
+.IP "freq" 12
+the MCLK input frequency
+.IP "dir" 12
+the clock direction (ignored)
+.SH "DESCRIPTION"
+The value of MCLK is used to determine which sample rates are supported
+by the STA32X, based on the mclk_ratios table.
+
+This function must be called by the machine driver's 'startup' function,
+otherwise the list of supported sample rates will not be available in
+time for ALSA.
+
+For setups with variable MCLKs, pass 0 as 'freq' argument. This will cause
+theoretically possible sample rates to be enabled. Call it again with a
+proper value set one the external clock is set (most probably you would do
+that from a machine's driver 'hw_param' hook.

@@ -1,0 +1,30 @@
+.TH "bus_for_each_drv" 9 "bus_for_each_drv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bus_for_each_drv \- driver iterator
+.SH SYNOPSIS
+.B "int" bus_for_each_drv
+.BI "(struct bus_type *bus "  ","
+.BI "struct device_driver *start "  ","
+.BI "void *data "  ","
+.BI "int (*fn)(struct device_driver *, void *) "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus we're dealing with.
+.IP "start" 12
+driver to start iterating on.
+.IP "data" 12
+data to pass to the callback.
+.IP "fn" 12
+function to call for each driver.
+.SH "DESCRIPTION"
+This is nearly identical to the device iterator above.
+We iterate over each driver that belongs to \fIbus\fP, and call
+\fIfn\fP for each. If \fIfn\fP returns anything but 0, we break out
+and return it. If \fIstart\fP is not NULL, we use it as the head
+of the list.
+.SH "NOTE"
+we don't return the driver that returns a non-zero
+value, nor do we leave the reference count incremented for that
+driver. If the caller needs to know that info, it must set it
+in the callback. It must also be sure to increment the refcount
+so it doesn't disappear before returning to the caller.

@@ -1,0 +1,25 @@
+.TH "__clk_notify" 9 "__clk_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__clk_notify \- call clk notifier chain
+.SH SYNOPSIS
+.B "int" __clk_notify
+.BI "(struct clk_core *core "  ","
+.BI "unsigned long msg "  ","
+.BI "unsigned long old_rate "  ","
+.BI "unsigned long new_rate "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+clk that is changing rate
+.IP "msg" 12
+clk notifier type (see include/linux/clk.h)
+.IP "old_rate" 12
+old clk rate
+.IP "new_rate" 12
+new clk rate
+.SH "DESCRIPTION"
+Triggers a notifier call chain on the clk rate-change notification
+for 'clk'.  Passes a pointer to the struct clk and the previous
+and current rates to the notifier callback.  Intended to be called by
+internal clock code only.  Returns NOTIFY_DONE from the last driver
+called if all went well, or NOTIFY_STOP or NOTIFY_BAD immediately if
+a driver returns that.

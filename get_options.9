@@ -1,0 +1,32 @@
+.TH "get_options" 9 "get_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_options \- Parse a string into a list of integers
+.SH SYNOPSIS
+.B "char *" get_options
+.BI "(const char *str "  ","
+.BI "int nints "  ","
+.BI "int *ints "  ");"
+.SH ARGUMENTS
+.IP "str" 12
+String to be parsed
+.IP "nints" 12
+size of integer array
+.IP "ints" 12
+integer array (must have room for at least one element)
+
+This function parses a string containing a comma-separated
+list of integers, a hyphen-separated range of _positive_ integers,
+or a combination of both.  The parse halts when the array is
+full, or when no more numbers can be retrieved from the
+string.
+
+When \fInints\fP is 0, the function just validates the given \fIstr\fP and
+returns the amount of parseable integers as described below.
+.SH "RETURN"
+
+The first element is filled by the number of collected integers
+in the range. The rest is what was parsed from the \fIstr\fP.
+
+Return value is the character in the string which caused
+the parse to end (typically a null terminator, if \fIstr\fP is
+completely parseable).

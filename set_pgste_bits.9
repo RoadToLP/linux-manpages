@@ -1,0 +1,21 @@
+.TH "set_pgste_bits" 9 "set_pgste_bits" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_pgste_bits \- set specific PGSTE bits.
+.SH SYNOPSIS
+.B "int" set_pgste_bits
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long hva "  ","
+.BI "unsigned long bits "  ","
+.BI "unsigned long value "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+the memory context. It must have PGSTEs, no check is performed here!
+.IP "hva" 12
+the host virtual address of the page whose PGSTE is to be processed
+.IP "bits" 12
+a bitmask representing the bits that will be touched
+.IP "value" 12
+the values of the bits to be written. Only the bits in the mask
+will be written.
+.SH "RETURN"
+0 on success, < 0 in case of error.

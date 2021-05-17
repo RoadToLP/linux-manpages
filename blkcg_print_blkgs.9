@@ -1,0 +1,33 @@
+.TH "blkcg_print_blkgs" 9 "blkcg_print_blkgs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_print_blkgs \- helper for printing per-blkg data
+.SH SYNOPSIS
+.B "void" blkcg_print_blkgs
+.BI "(struct seq_file *sf "  ","
+.BI "struct blkcg *blkcg "  ","
+.BI "u64 (*prfill)(struct seq_file *, struct blkg_policy_data *, int) "  ","
+.BI "const struct blkcg_policy *pol "  ","
+.BI "int data "  ","
+.BI "bool show_total "  ");"
+.SH ARGUMENTS
+.IP "sf" 12
+seq_file to print to
+.IP "blkcg" 12
+blkcg of interest
+.IP "prfill" 12
+fill function to print out a blkg
+.IP "pol" 12
+policy in question
+.IP "data" 12
+data to be passed to \fIprfill\fP
+.IP "show_total" 12
+to print out sum of prfill return values or not
+.SH "DESCRIPTION"
+This function invokes \fIprfill\fP on each blkg of \fIblkcg\fP if pd for the
+policy specified by \fIpol\fP exists.  \fIprfill\fP is invoked with \fIsf\fP, the
+policy data and \fIdata\fP and the matching queue lock held.  If \fIshow_total\fP
+is true, the sum of the return values from \fIprfill\fP is printed with
+"Total" label at the end.
+
+This is to be used to construct print functions for
+cftype->read_seq_string method.

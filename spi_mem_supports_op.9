@@ -1,0 +1,21 @@
+.TH "spi_mem_supports_op" 9 "spi_mem_supports_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_mem_supports_op \- Check if a memory device and the controller it is connected to support a specific memory operation
+.SH SYNOPSIS
+.B "bool" spi_mem_supports_op
+.BI "(struct spi_mem *mem "  ","
+.BI "const struct spi_mem_op *op "  ");"
+.SH ARGUMENTS
+.IP "mem" 12
+the SPI memory
+.IP "op" 12
+the memory operation to check
+.SH "DESCRIPTION"
+Some controllers are only supporting Single or Dual IOs, others might only
+support specific opcodes, or it can even be that the controller and device
+both support Quad IOs but the hardware prevents you from using it because
+only 2 IO lines are connected.
+
+This function checks whether a specific operation is supported.
+.SH "RETURN"
+true if \fIop\fP is supported, false otherwise.

@@ -1,0 +1,26 @@
+.TH "drm_dev_register" 9 "drm_dev_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dev_register \- Register DRM device
+.SH SYNOPSIS
+.B "int" drm_dev_register
+.BI "(struct drm_device *dev "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to register
+.IP "flags" 12
+Flags passed to the driver's .\fBload\fP function
+.SH "DESCRIPTION"
+Register the DRM device \fIdev\fP with the system, advertise device to user-space
+and start normal device operation. \fIdev\fP must be initialized via \fBdrm_dev_init\fP
+previously.
+
+Never call this twice on any device!
+.SH "NOTE"
+To ensure backward compatibility with existing drivers method this
+function calls the \fIdrm_driver.load\fP method after registering the device
+nodes, creating race conditions. Usage of the \fIdrm_driver.load\fP methods is
+therefore deprecated, drivers must perform all initialization before calling
+\fBdrm_dev_register\fP.
+.SH "RETURN"
+0 on success, negative error code on failure.

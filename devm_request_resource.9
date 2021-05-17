@@ -1,0 +1,27 @@
+.TH "devm_request_resource" 9 "devm_request_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_request_resource \- request and reserve an I/O or memory resource
+.SH SYNOPSIS
+.B "int" devm_request_resource
+.BI "(struct device *dev "  ","
+.BI "struct resource *root "  ","
+.BI "struct resource *new "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which to request the resource
+.IP "root" 12
+root of the resource tree from which to request the resource
+.IP "new" 12
+descriptor of the resource to request
+.SH "DESCRIPTION"
+This is a device-managed version of \fBrequest_resource\fP. There is usually
+no need to release resources requested by this function explicitly since
+that will be taken care of when the device is unbound from its driver.
+If for some reason the resource needs to be released explicitly, because
+of ordering issues for example, drivers must call \fBdevm_release_resource\fP
+rather than the regular \fBrelease_resource\fP.
+
+When a conflict is detected between any existing resources and the newly
+requested resource, an error message will be printed.
+
+Returns 0 on success or a negative error code on failure.

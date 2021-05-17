@@ -1,0 +1,19 @@
+.TH "__apm_bios_call" 9 "__apm_bios_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__apm_bios_call \- Make an APM BIOS 32bit call
+.SH SYNOPSIS
+.B "long" __apm_bios_call
+.BI "(void *_call "  ");"
+.SH ARGUMENTS
+.IP "_call" 12
+pointer to struct apm_bios_call.
+
+Make an APM call using the 32bit protected mode interface. The
+caller is responsible for knowing if APM BIOS is configured and
+enabled. This call can disable interrupts for a long period of
+time on some laptops.  The return value is in AH and the carry
+flag is loaded into AL.  If there is an error, then the error
+code is returned in AH (bits 8-15 of eax) and this function
+returns non-zero.
+.SH "NOTE"
+this makes the call on the current CPU.

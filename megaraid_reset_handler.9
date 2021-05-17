@@ -1,0 +1,15 @@
+.TH "megaraid_reset_handler" 9 "megaraid_reset_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_reset_handler \- device reset handler for mailbox based driver
+.SH SYNOPSIS
+.B "int" megaraid_reset_handler
+.BI "(struct scsi_cmnd *scp "  ");"
+.SH ARGUMENTS
+.IP "scp" 12
+reference command
+.SH "DESCRIPTION"
+Reset handler for the mailbox based controller. First try to find out if
+the FW is still live, in which case the outstanding commands counter mut go
+down to 0. If that happens, also issue the reservation reset command to
+relinquish (possible) reservations on the logical drives connected to this
+host.

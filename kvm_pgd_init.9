@@ -1,0 +1,15 @@
+.TH "kvm_pgd_init" 9 "kvm_pgd_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_pgd_init \- Initialise KVM GPA page directory.
+.SH SYNOPSIS
+.B "void" kvm_pgd_init
+.BI "(void *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+Pointer to page directory (PGD) for KVM GPA.
+.SH "DESCRIPTION"
+Initialise a KVM GPA page directory with pointers to the invalid table, i.e.
+representing no mappings. This is similar to \fBpgd_init\fP, however it
+initialises all the page directory pointers, not just the ones corresponding
+to the userland address space (since it is for the guest physical address
+space rather than a virtual address space).

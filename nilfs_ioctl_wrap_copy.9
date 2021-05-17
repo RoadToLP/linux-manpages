@@ -1,0 +1,31 @@
+.TH "nilfs_ioctl_wrap_copy" 9 "nilfs_ioctl_wrap_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_wrap_copy \- wrapping function of get/set metadata info
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_wrap_copy
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct nilfs_argv *argv "  ","
+.BI "int dir "  ","
+.BI "ssize_t (*dofunc)(struct the_nilfs *, __u64 *, int, void *, size_t, size_t) "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "argv" 12
+vector of arguments from userspace
+.IP "dir" 12
+set of direction flags
+.IP "dofunc" 12
+concrete function of get/set metadata info
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_wrap_copy\fP gets/sets metadata info by means of
+calling \fBdofunc\fP function on the basis of \fIargv\fP argument.
+
+Return Value: On success, 0 is returned and requested metadata info
+is copied into userspace. On error, one of the following
+negative error codes is returned.
+
+-EINVAL - Invalid arguments from userspace.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EFAULT - Failure during execution of requested operation.

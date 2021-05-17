@@ -1,0 +1,38 @@
+.TH "avc_has_perm_noaudit" 9 "avc_has_perm_noaudit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+avc_has_perm_noaudit \- Check permissions but perform no auditing.
+.SH SYNOPSIS
+.B "int" avc_has_perm_noaudit
+.BI "(struct selinux_state *state "  ","
+.BI "u32 ssid "  ","
+.BI "u32 tsid "  ","
+.BI "u16 tclass "  ","
+.BI "u32 requested "  ","
+.BI "unsigned int flags "  ","
+.BI "struct av_decision *avd "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "ssid" 12
+source security identifier
+.IP "tsid" 12
+target security identifier
+.IP "tclass" 12
+target security class
+.IP "requested" 12
+requested permissions, interpreted based on \fItclass\fP
+.IP "flags" 12
+AVC_STRICT, AVC_NONBLOCKING, or 0
+.IP "avd" 12
+access vector decisions
+.SH "DESCRIPTION"
+Check the AVC to determine whether the \fIrequested\fP permissions are granted
+for the SID pair (\fIssid\fP, \fItsid\fP), interpreting the permissions
+based on \fItclass\fP, and call the security server on a cache miss to obtain
+a new decision and add it to the cache.  Return a copy of the decisions
+in \fIavd\fP.  Return 0 if all \fIrequested\fP permissions are granted,
+-EACCES if any permissions are denied, or another -errno upon
+other errors.  This function is typically called by \fBavc_has_perm\fP,
+but may also be called directly to separate permission checking from
+auditing, e.g. in cases where a lock must be held for the check but
+should be released for the auditing.

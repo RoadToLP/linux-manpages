@@ -1,0 +1,15 @@
+.TH "gfs2_should_freeze" 9 "gfs2_should_freeze" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_should_freeze \- Figure out if glock should be frozen
+.SH SYNOPSIS
+.B "int" gfs2_should_freeze
+.BI "(const struct gfs2_glock *gl "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+The glock in question
+.SH "DESCRIPTION"
+Glocks are not frozen if (a) the result of the dlm operation is
+an error, (b) the locking operation was an unlock operation or
+(c) if there is a "noexp" flagged request anywhere in the queue
+.SH "RETURN"
+1 if freezing should occur, 0 otherwise

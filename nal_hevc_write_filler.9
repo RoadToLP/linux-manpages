@@ -1,0 +1,26 @@
+.TH "nal_hevc_write_filler" 9 "nal_hevc_write_filler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nal_hevc_write_filler \- Write filler data RBSP
+.SH SYNOPSIS
+.B "ssize_t" nal_hevc_write_filler
+.BI "(const struct device *dev "  ","
+.BI "void *dest "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer
+.IP "dest" 12
+buffer to fill with filler data
+.IP "n" 12
+size of the buffer to fill with filler data
+.SH "DESCRIPTION"
+Write a filler data RBSP to \fIdest\fP with a size of \fIn\fP bytes and return the
+number of written filler data bytes.
+
+Use this function to generate dummy data in an RBSP data stream that can be
+safely ignored by hevc decoders.
+
+The RBSP format of the filler data is specified in Rec. ITU-T H.265
+(02/2018) 7.3.2.8 Filler data RBSP syntax.
+.SH "RETURN"
+number of filler data bytes (including marker) or negative error

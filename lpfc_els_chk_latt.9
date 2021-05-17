@@ -1,0 +1,27 @@
+.TH "lpfc_els_chk_latt" 9 "lpfc_els_chk_latt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_chk_latt \- Check host link attention event for a vport
+.SH SYNOPSIS
+.B "int" lpfc_els_chk_latt
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine checks whether there is an outstanding host link
+attention event during the discovery process with the \fIvport\fP. It is done
+by reading the HBA's Host Attention (HA) register. If there is any host
+link attention events during this \fIvport\fP's discovery process, the \fIvport\fP
+shall be marked as FC_ABORT_DISCOVERY, a host link attention clear shall
+be issued if the link state is not already in host link cleared state,
+and a return code shall indicate whether the host link attention event
+had happened.
+
+Note that, if either the host link is in state LPFC_LINK_DOWN or \fIvport\fP
+state in LPFC_VPORT_READY, the request for checking host link attention
+event will be ignored and a return code shall indicate no host link
+attention event had happened.
+
+Return codes
+0 - no host link attention event happened
+1 - host link attention event happened

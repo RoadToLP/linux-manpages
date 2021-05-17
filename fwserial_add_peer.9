@@ -1,0 +1,23 @@
+.TH "fwserial_add_peer" 9 "fwserial_add_peer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwserial_add_peer \- add a newly probed 'serial' unit device as a 'peer'
+.SH SYNOPSIS
+.B "int" fwserial_add_peer
+.BI "(struct fw_serial *serial "  ","
+.BI "struct fw_unit *unit "  ");"
+.SH ARGUMENTS
+.IP "serial" 12
+aggregate representing the specific fw_card to add the peer to
+.IP "unit" 12
+'peer' to create and add to peer_list of serial
+.SH "DESCRIPTION"
+Adds a 'peer' (ie, a local or remote 'serial' unit device) to the list of
+peers for a specific fw_card. Optionally, auto-attach this peer to an
+available tty port. This function is called either directly or indirectly
+as a result of a 'serial' unit device being created & probed.
+
+A 1:1 correspondence between an fw_unit and an fwtty_peer is maintained
+via the \fBdev_set_drvdata\fP for the device of the fw_unit.
+.SH "NOTE"
+this function is serialized with \fBfwserial_remove_peer\fP by the
+fwserial_list_mutex held in \fBfwserial_probe\fP.

@@ -1,0 +1,19 @@
+.TH "free_percpu_irq" 9 "free_percpu_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+free_percpu_irq \- free an interrupt allocated with request_percpu_irq
+.SH SYNOPSIS
+.B "void" free_percpu_irq
+.BI "(unsigned int irq "  ","
+.BI "void __percpu *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to free
+.IP "dev_id" 12
+Device identity to free
+
+Remove a percpu interrupt handler. The handler is removed, but
+the interrupt line is not disabled. This must be done on each
+CPU before calling this function. The function does not return
+until any executing interrupts for this IRQ have completed.
+
+This function must not be called from interrupt context.

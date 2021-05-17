@@ -1,0 +1,36 @@
+.TH "ubifs_jnl_delete_inode" 9 "ubifs_jnl_delete_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_delete_inode \- delete an inode.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_delete_inode
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "inode" 12
+inode to delete
+.SH "DESCRIPTION"
+This function deletes inode \fIinode\fP which includes removing it from orphans,
+deleting it from TNC and, in some cases, writing a deletion inode to the
+journal.
+
+When regular file inodes are unlinked or a directory inode is removed, the
+'\fBubifs_jnl_update\fP' function writes a corresponding deletion inode and
+direntry to the media, and adds the inode to orphans. After this, when the
+last reference to this inode has been dropped, this function is called. In
+general, it has to write one more deletion inode to the media, because if
+a commit happened between '\fBubifs_jnl_update\fP' and
+'\fBubifs_jnl_delete_inode\fP', the deletion inode is not in the journal
+anymore, and in fact it might not be on the flash anymore, because it might
+have been garbage-collected already. And for optimization reasons UBIFS does
+not read the orphan area if it has been unmounted cleanly, so it would have
+no indication in the journal that there is a deleted inode which has to be
+removed from TNC.
+
+However, if there was no commit between '\fBubifs_jnl_update\fP' and
+'\fBubifs_jnl_delete_inode\fP', then there is no need to write the deletion
+inode to the media for the second time. And this is quite a typical case.
+
+This function returns zero in case of success and a negative error code in
+case of failure.

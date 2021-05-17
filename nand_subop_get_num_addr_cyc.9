@@ -1,0 +1,18 @@
+.TH "nand_subop_get_num_addr_cyc" 9 "nand_subop_get_num_addr_cyc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_subop_get_num_addr_cyc \- Get the remaining address cycles to assert
+.SH SYNOPSIS
+.B "unsigned int" nand_subop_get_num_addr_cyc
+.BI "(const struct nand_subop *subop "  ","
+.BI "unsigned int instr_idx "  ");"
+.SH ARGUMENTS
+.IP "subop" 12
+The entire sub-operation
+.IP "instr_idx" 12
+Index of the instruction inside the sub-operation
+.SH "DESCRIPTION"
+During driver development, one could be tempted to directly use the
+->addr->naddrs field of a data instruction. This is wrong as instructions
+might be split.
+
+Given an address instruction, returns the number of address cycle to issue.

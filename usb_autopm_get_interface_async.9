@@ -1,0 +1,22 @@
+.TH "usb_autopm_get_interface_async" 9 "usb_autopm_get_interface_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_autopm_get_interface_async \- increment a USB interface's PM-usage counter
+.SH SYNOPSIS
+.B "int" usb_autopm_get_interface_async
+.BI "(struct usb_interface *intf "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+the usb_interface whose counter should be incremented
+.SH "DESCRIPTION"
+This routine does much the same thing as
+\fBusb_autopm_get_interface\fP: It increments \fIintf\fP's usage counter and
+queues an autoresume request if the device is suspended.  The
+differences are that it does not perform any synchronization (callers
+should hold a private lock and handle all synchronization issues
+themselves), and it does not autoresume the device directly (it only
+queues a request).  After a successful call, the device may not yet be
+resumed.
+
+This routine can run in atomic context.
+.SH "RETURN"
+0 on success. A negative error code otherwise.

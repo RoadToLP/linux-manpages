@@ -1,0 +1,26 @@
+.TH "try_to_extend_reservation" 9 "try_to_extend_reservation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_extend_reservation \- 
+.SH SYNOPSIS
+.B "void" try_to_extend_reservation
+.BI "(struct ext2_reserve_window_node *my_rsv "  ","
+.BI "struct super_block *sb "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "my_rsv" 12
+given reservation window
+.IP "sb" 12
+super block
+.IP "size" 12
+the delta to extend
+.SH "DESCRIPTION"
+Attempt to expand the reservation window large enough to have
+required number of free blocks
+
+Since \fBext2_try_to_allocate\fP will always allocate blocks within
+the reservation window range, if the window size is too small,
+multiple blocks allocation has to stop at the end of the reservation
+window. To make this more efficient, given the total number of
+blocks needed and the current size of the window, we try to
+expand the reservation window size if necessary on a best-effort
+basis before \fBext2_new_blocks\fP tries to allocate blocks.

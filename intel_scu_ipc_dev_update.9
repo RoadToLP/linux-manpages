@@ -1,0 +1,26 @@
+.TH "intel_scu_ipc_dev_update" 9 "intel_scu_ipc_dev_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_scu_ipc_dev_update \- Update a register
+.SH SYNOPSIS
+.B "int" intel_scu_ipc_dev_update
+.BI "(struct intel_scu_ipc_dev *scu "  ","
+.BI "u16 addr "  ","
+.BI "u8 data "  ","
+.BI "u8 mask "  ");"
+.SH ARGUMENTS
+.IP "scu" 12
+Optional SCU IPC instance
+.IP "addr" 12
+Register address
+.IP "data" 12
+Bits to update
+.IP "mask" 12
+Mask of bits to update
+.SH "DESCRIPTION"
+Read-modify-write power control unit register. The first data argument
+must be register value and second is mask value mask is a bitmap that
+indicates which bits to update. 0 = masked. Don't modify this bit, 1 =
+modify this bit. returns 0 on success or an error code.
+
+This function may sleep. Locking between SCU accesses is handled
+for the caller.

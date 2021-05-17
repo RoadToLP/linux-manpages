@@ -1,0 +1,18 @@
+.TH "ubifs_release_budget" 9 "ubifs_release_budget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_release_budget \- release budgeted free space.
+.SH SYNOPSIS
+.B "void" ubifs_release_budget
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_budget_req *req "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "req" 12
+budget request
+.SH "DESCRIPTION"
+This function releases the space budgeted by '\fBubifs_budget_space\fP'. Note,
+since the index changes (which were budgeted for in \fIreq->idx_growth\fP) will
+only be written to the media on commit, this function moves the index budget
+from \fIc->bi.idx_growth\fP to \fIc->bi.uncommitted_idx\fP. The latter will be zeroed
+by the commit operation.

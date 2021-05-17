@@ -1,0 +1,22 @@
+.TH "drm_dp_dpcd_read_phy_link_status" 9 "drm_dp_dpcd_read_phy_link_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_dpcd_read_phy_link_status \- get the link status information for a DP PHY
+.SH SYNOPSIS
+.B "int" drm_dp_dpcd_read_phy_link_status
+.BI "(struct drm_dp_aux *aux "  ","
+.BI "enum drm_dp_phy dp_phy "  ","
+.BI "u8 link_status[DP_LINK_STATUS_SIZE] "  ");"
+.SH ARGUMENTS
+.IP "aux" 12
+DisplayPort AUX channel
+.IP "dp_phy" 12
+the DP PHY to get the link status for
+.IP "link_status" 12
+buffer to return the status in
+.SH "DESCRIPTION"
+Fetch the AUX DPCD registers for the DPRX or an LTTPR PHY link status. The
+layout of the returned \fIlink_status\fP matches the DPCD register layout of the
+DPRX PHY link status.
+
+Returns 0 if the information was read successfully or a negative error code
+on failure.

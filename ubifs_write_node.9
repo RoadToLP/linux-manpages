@@ -1,0 +1,27 @@
+.TH "ubifs_write_node" 9 "ubifs_write_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_write_node \- write node to the media.
+.SH SYNOPSIS
+.B "int" ubifs_write_node
+.BI "(struct ubifs_info *c "  ","
+.BI "void *buf "  ","
+.BI "int len "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+the node to write
+.IP "len" 12
+node length
+.IP "lnum" 12
+logical eraseblock number
+.IP "offs" 12
+offset within the logical eraseblock
+.SH "DESCRIPTION"
+This function automatically fills node magic number, assigns sequence
+number, and calculates node CRC checksum. The length of the \fIbuf\fP buffer has
+to be aligned to the minimal I/O unit size. This function automatically
+appends padding node and padding bytes if needed. Returns zero in case of
+success and a negative error code in case of failure.

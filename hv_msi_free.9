@@ -1,0 +1,20 @@
+.TH "hv_msi_free" 9 "hv_msi_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_msi_free \- Free the MSI.
+.SH SYNOPSIS
+.B "void" hv_msi_free
+.BI "(struct irq_domain *domain "  ","
+.BI "struct msi_domain_info *info "  ","
+.BI "unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+The interrupt domain pointer
+.IP "info" 12
+Extra MSI-related context
+.IP "irq" 12
+Identifies the IRQ.
+.SH "DESCRIPTION"
+The Hyper-V parent partition and hypervisor are tracking the
+messages that are in use, keeping the interrupt redirection
+table up to date.  This callback sends a message that frees
+the IRT entry and related tracking nonsense.

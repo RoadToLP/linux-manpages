@@ -1,0 +1,22 @@
+.TH "drm_state_dump" 9 "drm_state_dump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_state_dump \- dump entire device atomic state
+.SH SYNOPSIS
+.B "void" drm_state_dump
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_printer *p "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the drm device
+.IP "p" 12
+where to print the state to
+.SH "DESCRIPTION"
+Just for debugging.  Drivers might want an option to dump state
+to dmesg in case of error irq's.  (Hint, you probably want to
+ratelimit this!)
+
+The caller must wrap this \fBdrm_modeset_lock_all_ctx\fP and
+\fBdrm_modeset_drop_locks\fP. If this is called from error irq handler, it should
+not be enabled by default - if you are debugging errors you might
+not care that this is racey, but calling this without all modeset locks held
+is inherently unsafe.

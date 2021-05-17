@@ -1,0 +1,34 @@
+.TH "mpt_handshake_req_reply_wait" 9 "mpt_handshake_req_reply_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_handshake_req_reply_wait \- Send MPT request to and receive reply from IOC via doorbell handshake method.
+.SH SYNOPSIS
+.B "int" mpt_handshake_req_reply_wait
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int reqBytes "  ","
+.BI "u32 *req "  ","
+.BI "int replyBytes "  ","
+.BI "u16 *u16reply "  ","
+.BI "int maxwait "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "reqBytes" 12
+Size of the request in bytes
+.IP "req" 12
+Pointer to MPT request frame
+.IP "replyBytes" 12
+Expected size of the reply in bytes
+.IP "u16reply" 12
+Pointer to area where reply should be written
+.IP "maxwait" 12
+Max wait time for a reply (in seconds)
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+.SH "NOTES"
+It is the callers responsibility to byte-swap fields in the
+request which are greater than 1 byte in size.  It is also the
+callers responsibility to byte-swap response fields which are
+greater than 1 byte in size.
+
+Returns 0 for success, non-zero for failure.

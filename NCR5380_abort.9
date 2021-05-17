@@ -1,0 +1,33 @@
+.TH "NCR5380_abort" 9 "NCR5380_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_abort \- scsi host eh_abort_handler() method
+.SH SYNOPSIS
+.B "int" NCR5380_abort
+.BI "(struct scsi_cmnd *cmd "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+the command to be aborted
+.SH "DESCRIPTION"
+Try to abort a given command by removing it from queues and/or sending
+the target an abort message. This may not succeed in causing a target
+to abort the command. Nonetheless, the low-level driver must forget about
+the command because the mid-layer reclaims it and it may be re-issued.
+
+The normal path taken by a command is as follows. For EH we trace this
+same path to locate and abort the command.
+
+unissued -> selecting -> [unissued -> selecting ->]... connected ->
+[disconnected -> connected ->]...
+[autosense -> connected ->] done
+
+If cmd was not found at all then presumably it has already been completed,
+in which case return SUCCESS to try to avoid further EH measures.
+
+If the command has not completed yet, we must not fail to find it.
+We have no option but to forget the aborted command (even if it still
+lacks sense data). The mid-layer may re-issue a command that is in error
+recovery (see scsi_send_eh_cmnd), but the logic and data structures in
+this driver are such that a command can appear on one queue only.
+
+The lock protects driver data structures, but EH handlers also use it
+to serialize their own execution and prevent their own re-entry.

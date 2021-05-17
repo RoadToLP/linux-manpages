@@ -1,0 +1,19 @@
+.TH "vmw_dx_context_scrub_cotables" 9 "vmw_dx_context_scrub_cotables" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_dx_context_scrub_cotables \- Scrub all bindings and cotables from a context
+.SH SYNOPSIS
+.B "void" vmw_dx_context_scrub_cotables
+.BI "(struct vmw_resource *ctx "  ","
+.BI "bool readback "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+Pointer to the context resource
+.IP "readback" 12
+Whether to save the otable contents on scrubbing.
+.SH "DESCRIPTION"
+COtables must be unbound before their context, but unbinding requires
+the backup buffer being reserved, whereas scrubbing does not.
+This function scrubs all cotables of a context, potentially reading back
+the contents into their backup buffers. However, scrubbing cotables
+also makes the device context invalid, so scrub all bindings first so
+that doesn't have to be done later with an invalid context.

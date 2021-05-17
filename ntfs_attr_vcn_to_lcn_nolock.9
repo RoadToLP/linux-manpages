@@ -1,0 +1,39 @@
+.TH "ntfs_attr_vcn_to_lcn_nolock" 9 "ntfs_attr_vcn_to_lcn_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_vcn_to_lcn_nolock \- convert a vcn into a lcn given an ntfs inode
+.SH SYNOPSIS
+.B "LCN" ntfs_attr_vcn_to_lcn_nolock
+.BI "(ntfs_inode *ni "  ","
+.BI "const VCN vcn "  ","
+.BI "const bool write_locked "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode of the attribute whose runlist to search
+.IP "vcn" 12
+vcn to convert
+.IP "write_locked" 12
+true if the runlist is locked for writing
+.SH "DESCRIPTION"
+Find the virtual cluster number \fIvcn\fP in the runlist of the ntfs attribute
+described by the ntfs inode \fIni\fP and return the corresponding logical cluster
+number (lcn).
+
+If the \fIvcn\fP is not mapped yet, the attempt is made to map the attribute
+extent containing the \fIvcn\fP and the vcn to lcn conversion is retried.
+
+If \fIwrite_locked\fP is true the caller has locked the runlist for writing and
+if false for reading.
+
+Since lcns must be >= 0, we use negative return codes with special meaning:
+
+Return code  Meaning / Description
+==========================================
+LCN_HOLE    Hole / not allocated on disk.
+LCN_ENOENT  There is no such vcn in the runlist, i.e. \fIvcn\fP is out of bounds.
+LCN_ENOMEM  Not enough memory to map runlist.
+LCN_EIO     Critical error (runlist/file is corrupt, i/o error, etc).
+
+Locking: - The runlist must be locked on entry and is left locked on return.
+- If \fIwrite_locked\fP is 'false', i.e. the runlist is locked for reading,
+the lock may be dropped inside the function so you cannot rely on
+the runlist still being the same when this function returns.

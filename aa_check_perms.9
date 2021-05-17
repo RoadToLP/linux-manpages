@@ -1,0 +1,30 @@
+.TH "aa_check_perms" 9 "aa_check_perms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_check_perms \- do audit mode selection based on perms set
+.SH SYNOPSIS
+.B "int" aa_check_perms
+.BI "(struct aa_profile *profile "  ","
+.BI "struct aa_perms *perms "  ","
+.BI "u32 request "  ","
+.BI "struct common_audit_data *sa "  ","
+.BI "void (*cb)(struct audit_buffer *, void *) "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+profile being checked
+.IP "perms" 12
+perms computed for the request
+.IP "request" 12
+requested perms
+.IP "sa" 12
+initialized audit structure (MAY BE NULL if not auditing)
+.IP "cb" 12
+callback fn for type specific fields (MAY BE NULL)
+.SH "RETURN"
+0 if permission else error code
+.SH "NOTE"
+profile audit modes need to be set before calling by setting the
+perm masks appropriately.
+
+If not auditing then complain mode is not enabled and the
+error code will indicate whether there was an explicit deny
+with a positive value.

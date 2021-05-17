@@ -1,0 +1,26 @@
+.TH "timing_setup" 9 "timing_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+timing_setup \- shared timing computation and load
+.SH SYNOPSIS
+.B "void" timing_setup
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "int offset "  ","
+.BI "int speed "  ","
+.BI "int clock "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port being set up
+.IP "adev" 12
+drive being configured
+.IP "offset" 12
+port offset
+.IP "speed" 12
+target speed
+.IP "clock" 12
+clock multiplier (number of times 33MHz for this part)
+
+Perform the actual timing set up for Nvidia or AMD PATA devices.
+The actual devices vary so they all call into this helper function
+providing the clock multipler and offset (because AMD and Nvidia put
+the ports at different locations).

@@ -1,0 +1,33 @@
+.TH "iget5_locked" 9 "iget5_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iget5_locked \- obtain an inode from a mounted file system
+.SH SYNOPSIS
+.B "struct inode *" iget5_locked
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long hashval "  ","
+.BI "int (*test)(struct inode *, void *) "  ","
+.BI "int (*set)(struct inode *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of file system
+.IP "hashval" 12
+hash value (usually inode number) to get
+.IP "test" 12
+callback used for comparisons between inodes
+.IP "set" 12
+callback used to initialize a new struct inode
+.IP "data" 12
+opaque data pointer to pass to \fItest\fP and \fIset\fP
+.SH "DESCRIPTION"
+Search for the inode specified by \fIhashval\fP and \fIdata\fP in the inode cache,
+and if present it is return it with an increased reference count. This is
+a generalized version of \fBiget_locked\fP for file systems where the inode
+number is not sufficient for unique identification of an inode.
+
+If the inode is not in cache, allocate a new inode and return it locked,
+hashed, and with the I_NEW flag set. The file system gets to fill it in
+before unlocking it via \fBunlock_new_inode\fP.
+
+Note both \fItest\fP and \fIset\fP are called with the inode_hash_lock held, so can't
+sleep.

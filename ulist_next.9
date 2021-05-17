@@ -1,0 +1,23 @@
+.TH "ulist_next" 9 "ulist_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ulist_next \- iterate ulist
+.SH SYNOPSIS
+.B "struct ulist_node *" ulist_next
+.BI "(struct ulist *ulist "  ","
+.BI "struct ulist_iterator *uiter "  ");"
+.SH ARGUMENTS
+.IP "ulist" 12
+ulist to iterate
+.IP "uiter" 12
+iterator variable, initialized with ULIST_ITER_INIT(\fIiterator\fP)
+.SH "NOTE"
+locking must be provided by the caller. In case of rwlocks only read
+locking is needed
+.SH "DESCRIPTION"
+This function is used to iterate an ulist.
+It returns the next element from the ulist or NULL when the
+end is reached. No guarantee is made with respect to the order in which
+the elements are returned. They might neither be returned in order of
+addition nor in ascending order.
+It is allowed to call ulist_add during an enumeration. Newly added items
+are guaranteed to show up in the running enumeration.

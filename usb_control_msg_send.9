@@ -1,0 +1,56 @@
+.TH "usb_control_msg_send" 9 "usb_control_msg_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_control_msg_send \- Builds a control "send" message, sends it off and waits for completion
+.SH SYNOPSIS
+.B "int" usb_control_msg_send
+.BI "(struct usb_device *dev "  ","
+.BI "__u8 endpoint "  ","
+.BI "__u8 request "  ","
+.BI "__u8 requesttype "  ","
+.BI "__u16 value "  ","
+.BI "__u16 index "  ","
+.BI "const void *driver_data "  ","
+.BI "__u16 size "  ","
+.BI "int timeout "  ","
+.BI "gfp_t memflags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the usb device to send the message to
+.IP "endpoint" 12
+endpoint to send the message to
+.IP "request" 12
+USB message request value
+.IP "requesttype" 12
+USB message request type value
+.IP "value" 12
+USB message value
+.IP "index" 12
+USB message index value
+.IP "driver_data" 12
+pointer to the data to send
+.IP "size" 12
+length in bytes of the data to send
+.IP "timeout" 12
+time in msecs to wait for the message to complete before timing
+out (if 0 the wait is forever)
+.IP "memflags" 12
+the flags for memory allocation for buffers
+.SH "CONTEXT"
+!in_interrupt ()
+.SH "DESCRIPTION"
+This function sends a control message to a specified endpoint that is not
+expected to fill in a response (i.e. a "send message") and waits for the
+message to complete, or timeout.
+
+Do not use this function from within an interrupt context. If you need
+an asynchronous message, or need to send a message from within interrupt
+context, use \fBusb_submit_urb\fP. If a thread in your driver uses this call,
+make sure your \fBdisconnect\fP method can wait for it to complete. Since you
+don't have a handle on the URB used, you can't cancel the request.
+
+The data pointer can be made to a reference on the stack, or anywhere else,
+as it will not be modified at all.  This does not have the restriction that
+\fBusb_control_msg\fP has where the data pointer must be to dynamically allocated
+memory (i.e. memory that can be successfully DMAed to a device).
+.SH "RETURN"
+If successful, 0 is returned, Otherwise, a negative error number.

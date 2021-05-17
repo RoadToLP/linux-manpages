@@ -1,0 +1,32 @@
+.TH "trace_array_printk" 9 "trace_array_printk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_array_printk \- Print a message to a specific instance
+.SH SYNOPSIS
+.B "int" trace_array_printk
+.BI "(struct trace_array *tr "  ","
+.BI "unsigned long ip "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+The instance trace_array descriptor
+.IP "ip" 12
+The instruction pointer that this is called from.
+.IP "fmt" 12
+The format to print (printf format)
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+If a subsystem sets up its own instance, they have the right to
+printk strings into their tracing instance buffer using this
+function. Note, this function will not write into the top level
+buffer (use \fBtrace_printk\fP for that), as writing into the top level
+buffer should only have events that can be individually disabled.
+\fBtrace_printk\fP is only used for debugging a kernel, and should not
+be ever encorporated in normal use.
+
+\fBtrace_array_printk\fP can be used, as it will not add noise to the
+top level tracing buffer.
+
+Note, \fBtrace_array_init_printk\fP must be called on \fItr\fP before this
+can be used.

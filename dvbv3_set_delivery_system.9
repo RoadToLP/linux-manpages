@@ -1,0 +1,33 @@
+.TH "dvbv3_set_delivery_system" 9 "dvbv3_set_delivery_system" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dvbv3_set_delivery_system \- Sets the delivery system for a DVBv3 API call
+.SH SYNOPSIS
+.B "int" dvbv3_set_delivery_system
+.BI "(struct dvb_frontend *fe "  ");"
+.SH ARGUMENTS
+.IP "fe" 12
+frontend struct
+.SH "DESCRIPTION"
+A DVBv3 call doesn't know what's the desired system it wants. It also
+doesn't allow to switch between different types. Due to that, userspace
+should use DVBv5 instead.
+However, in order to avoid breaking userspace API, limited backward
+compatibility support is provided.
+
+There are some delivery systems that are incompatible with DVBv3 calls.
+
+This routine should work fine for frontends that support just one delivery
+system.
+
+For frontends that support multiple frontends:
+1) It defaults to use the first supported delivery system. There's an
+userspace application that allows changing it at runtime;
+
+2) If the current delivery system is not compatible with DVBv3, it gets
+the first one that it is compatible.
+.SH "NOTE"
+in order for this to work with applications like Kaffeine that
+uses a DVBv5 call for DVB-S2 and a DVBv3 call to go back to
+DVB-S, drivers that support both DVB-S and DVB-S2 should have the
+SYS_DVBS entry before the SYS_DVBS2, otherwise it won't switch back
+to DVB-S.

@@ -1,0 +1,25 @@
+.TH "__lpfc_sli_issue_iocb_s4" 9 "__lpfc_sli_issue_iocb_s4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli_issue_iocb_s4 \- SLI4 device lockless ver of lpfc_sli_issue_iocb
+.SH SYNOPSIS
+.B "int" __lpfc_sli_issue_iocb_s4
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t ring_number "  ","
+.BI "struct lpfc_iocbq *piocb "  ","
+.BI "uint32_t flag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "ring_number" 12
+SLI ring number to issue iocb on.
+.IP "piocb" 12
+Pointer to command iocb.
+.IP "flag" 12
+Flag indicating if this command can be put into txq.
+.SH "DESCRIPTION"
+__lpfc_sli_issue_iocb_s4 is used by other functions in the driver to issue
+an iocb command to an HBA with SLI-4 interface spec.
+
+This function is called with ringlock held. The function will return success
+after it successfully submit the iocb to firmware or after adding to the
+txq.

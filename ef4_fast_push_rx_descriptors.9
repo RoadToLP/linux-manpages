@@ -1,0 +1,19 @@
+.TH "ef4_fast_push_rx_descriptors" 9 "ef4_fast_push_rx_descriptors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ef4_fast_push_rx_descriptors \- push new RX descriptors quickly
+.SH SYNOPSIS
+.B "void" ef4_fast_push_rx_descriptors
+.BI "(struct ef4_rx_queue *rx_queue "  ","
+.BI "bool atomic "  ");"
+.SH ARGUMENTS
+.IP "rx_queue" 12
+RX descriptor queue
+.IP "atomic" 12
+control memory allocation flags
+.SH "DESCRIPTION"
+This will aim to fill the RX descriptor queue up to
+\fIrx_queue\fP->\fImax_fill\fP. If there is insufficient atomic
+memory to do so, a slow fill will be scheduled.
+The caller must provide serialisation (none is used here). In practise,
+this means this function must run from the NAPI handler, or be called
+when NAPI is disabled.

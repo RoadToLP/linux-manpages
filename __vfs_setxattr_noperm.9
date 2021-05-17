@@ -1,0 +1,38 @@
+.TH "__vfs_setxattr_noperm" 9 "__vfs_setxattr_noperm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vfs_setxattr_noperm \- perform setxattr operation without performing permission checks.
+.SH SYNOPSIS
+.B "int" __vfs_setxattr_noperm
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "const char *name "  ","
+.BI "const void *value "  ","
+.BI "size_t size "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+-- undescribed --
+.IP "dentry" 12
+-- undescribed --
+.IP "name" 12
+-- undescribed --
+.IP "value" 12
+-- undescribed --
+.IP "size" 12
+-- undescribed --
+.IP "flags" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+\fImnt_userns\fP - user namespace of the mount the inode was found from
+\fIdentry\fP - object to perform setxattr on
+\fIname\fP - xattr name to set
+\fIvalue\fP - value to set \fIname\fP to
+\fIsize\fP - size of \fIvalue\fP
+\fIflags\fP - flags to pass into filesystem operations
+
+returns the result of the internal setxattr or setsecurity operations.
+
+This function requires the caller to lock the inode's i_mutex before it
+is executed. It also assumes that the caller will make the appropriate
+permission checks.

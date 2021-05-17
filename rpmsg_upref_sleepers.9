@@ -1,0 +1,21 @@
+.TH "rpmsg_upref_sleepers" 9 "rpmsg_upref_sleepers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_upref_sleepers \- enable "tx-complete" interrupts, if needed
+.SH SYNOPSIS
+.B "void" rpmsg_upref_sleepers
+.BI "(struct virtproc_info *vrp "  ");"
+.SH ARGUMENTS
+.IP "vrp" 12
+virtual remote processor state
+.SH "DESCRIPTION"
+This function is called before a sender is blocked, waiting for
+a tx buffer to become available.
+
+If we already have blocking senders, this function merely increases
+the "sleepers" reference count, and exits.
+
+Otherwise, if this is the first sender to block, we also enable
+virtio's tx callbacks, so we'd be immediately notified when a tx
+buffer is consumed (we rely on virtio's tx callback in order
+to wake up sleeping senders as soon as a tx buffer is used by the
+remote processor).

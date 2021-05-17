@@ -1,0 +1,30 @@
+.TH "__tty_hangup" 9 "__tty_hangup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__tty_hangup \- actual handler for hangup events
+.SH SYNOPSIS
+.B "void" __tty_hangup
+.BI "(struct tty_struct *tty "  ","
+.BI "int exit_session "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device
+.IP "exit_session" 12
+if non-zero, signal all foreground group processes
+
+This can be called by a "kworker" kernel thread.  That is process
+synchronous but doesn't hold any locks, so we need to make sure we
+have the appropriate locks for what we're doing.
+
+The hangup event clears any pending redirections onto the hung up
+device. It ensures future writes will error and it does the needed
+line discipline hangup and signal delivery. The tty object itself
+remains intact.
+
+Locking:
+BTM
+redirect lock for undoing redirection
+file list lock for manipulating list of ttys
+tty_ldiscs_lock from called functions
+termios_rwsem resetting termios data
+tasklist_lock to walk task list for hangup event
+->siglock to protect ->signal/->sighand

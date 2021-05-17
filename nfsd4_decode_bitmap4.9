@@ -1,0 +1,26 @@
+.TH "nfsd4_decode_bitmap4" 9 "nfsd4_decode_bitmap4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfsd4_decode_bitmap4 \- Decode an NFSv4 bitmap4
+.SH SYNOPSIS
+.B "__be32" nfsd4_decode_bitmap4
+.BI "(struct nfsd4_compoundargs *argp "  ","
+.BI "u32 *bmval "  ","
+.BI "u32 bmlen "  ");"
+.SH ARGUMENTS
+.IP "argp" 12
+NFSv4 compound argument structure
+.IP "bmval" 12
+pointer to an array of u32's to decode into
+.IP "bmlen" 12
+size of the \fIbmval\fP array
+.SH "DESCRIPTION"
+The server needs to return nfs_ok rather than nfserr_bad_xdr when
+encountering bitmaps containing bits it does not recognize. This
+includes bits in bitmap words past WORDn, where WORDn is the last
+bitmap WORD the implementation currently supports. Thus we are
+careful here to simply ignore bits in bitmap words that this
+implementation has yet to support explicitly.
+
+Return values:
+nfs_ok: \fIbmval\fP populated successfully
+nfserr_bad_xdr: the encoded bitmap was invalid

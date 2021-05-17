@@ -1,0 +1,19 @@
+.TH "telem_open" 9 "telem_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+telem_open \- Callback for when the device node is opened.
+.SH SYNOPSIS
+.B "int" telem_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode for this char device node.
+.IP "filp" 12
+file for this char device node.
+.SH "DESCRIPTION"
+We need to ensure that after writing a command to the device,
+the same userspace process reads the corresponding result.
+Therefore, we increment a refcount on opening the device, so that
+only one process can communicate with the EC at a time.
+.SH "RETURN"
+0 on success, or negative error code on failure.

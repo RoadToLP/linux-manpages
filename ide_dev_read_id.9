@@ -1,0 +1,24 @@
+.TH "ide_dev_read_id" 9 "ide_dev_read_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_dev_read_id \- send ATA/ATAPI IDENTIFY command
+.SH SYNOPSIS
+.B "int" ide_dev_read_id
+.BI "(ide_drive_t *drive "  ","
+.BI "u8 cmd "  ","
+.BI "u16 *id "  ","
+.BI "int irq_ctx "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive to identify
+.IP "cmd" 12
+command to use
+.IP "id" 12
+buffer for IDENTIFY data
+.IP "irq_ctx" 12
+flag set when called from the IRQ context
+
+Sends an ATA(PI) IDENTIFY request to a drive and waits for a response.
+.SH "RETURN"
+0  device was identified
+1  device timed-out (no response to identify request)
+2  device aborted the command (refused to identify itself)

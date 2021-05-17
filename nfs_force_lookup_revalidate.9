@@ -1,0 +1,18 @@
+.TH "nfs_force_lookup_revalidate" 9 "nfs_force_lookup_revalidate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_force_lookup_revalidate \- Mark the directory as having changed
+.SH SYNOPSIS
+.B "void" nfs_force_lookup_revalidate
+.BI "(struct inode *dir "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+pointer to directory inode
+.SH "DESCRIPTION"
+This forces the revalidation code in \fBnfs_lookup_revalidate\fP to do a
+full lookup on all child dentries of 'dir' whenever a change occurs
+on the server that might have invalidated our dcache.
+
+Note that we reserve bit '0' as a tag to let us know when a dentry
+was revalidated while holding a delegation on its inode.
+
+The caller should be holding dir->i_lock

@@ -1,0 +1,18 @@
+.TH "pcc_mbox_request_channel" 9 "pcc_mbox_request_channel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcc_mbox_request_channel \- PCC clients call this function to request a pointer to their PCC subspace, from which they can get the details of communicating with the remote.
+.SH SYNOPSIS
+.B "struct mbox_chan *" pcc_mbox_request_channel
+.BI "(struct mbox_client *cl "  ","
+.BI "int subspace_id "  ");"
+.SH ARGUMENTS
+.IP "cl" 12
+Pointer to Mailbox client, so we know where to bind the
+Channel.
+.IP "subspace_id" 12
+The PCC Subspace index as parsed in the PCC client
+ACPI package. This is used to lookup the array of PCC
+subspaces as parsed by the PCC Mailbox controller.
+.SH "RETURN"
+Pointer to the Mailbox Channel if successful or
+ERR_PTR.

@@ -1,0 +1,24 @@
+.TH "drm_invalid_op" 9 "drm_invalid_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_invalid_op \- DRM invalid ioctl implemntation
+.SH SYNOPSIS
+.B "int" drm_invalid_op
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device for the ioctl
+.IP "data" 12
+data pointer for the ioctl
+.IP "file_priv" 12
+DRM file for the ioctl call
+.SH "DESCRIPTION"
+This no-op implementation for drm ioctls is useful for deprecated
+functionality where we really don't want to allow userspace to call the ioctl
+any more. This is the case for old ums interfaces for drivers that
+transitioned to kms gradually and so kept the old legacy tables around. This
+only applies to radeon and i915 kms drivers, other drivers shouldn't need to
+use this function.
+
+Always fails with a return value of -EINVAL.

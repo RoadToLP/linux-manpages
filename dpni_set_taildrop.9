@@ -1,0 +1,34 @@
+.TH "dpni_set_taildrop" 9 "dpni_set_taildrop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_taildrop \- Set taildrop per queue or TC
+.SH SYNOPSIS
+.B "int" dpni_set_taildrop
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "enum dpni_congestion_point cg_point "  ","
+.BI "enum dpni_queue_type qtype "  ","
+.BI "u8 tc "  ","
+.BI "u8 index "  ","
+.BI "struct dpni_taildrop *taildrop "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "cg_point" 12
+Congestion point
+.IP "qtype" 12
+Queue type on which the taildrop is configured.
+Only Rx queues are supported for now
+.IP "tc" 12
+Traffic class to apply this taildrop to
+.IP "index" 12
+Index of the queue if the DPNI supports multiple queues for
+traffic distribution. Ignored if CONGESTION_POINT is not 0.
+.IP "taildrop" 12
+Taildrop structure
+.SH "RETURN"
+'0' on Success; Error code otherwise.

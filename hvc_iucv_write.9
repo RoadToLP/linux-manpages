@@ -1,0 +1,31 @@
+.TH "hvc_iucv_write" 9 "hvc_iucv_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_write \- Receive IUCV message & write data to HVC buffer.
+.SH SYNOPSIS
+.B "int" hvc_iucv_write
+.BI "(struct hvc_iucv_private *priv "  ","
+.BI "char *buf "  ","
+.BI "int count "  ","
+.BI "int *has_more_data "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+Pointer to struct hvc_iucv_private
+.IP "buf" 12
+HVC buffer for writing received terminal data.
+.IP "count" 12
+HVC buffer size.
+.IP "has_more_data" 12
+Pointer to an int variable.
+.SH "DESCRIPTION"
+The function picks up pending messages from the input queue and receives
+the message data that is then written to the specified buffer \fIbuf\fP.
+If the buffer size \fIcount\fP is less than the data message size, the
+message is kept on the input queue and \fIhas_more_data\fP is set to 1.
+If all message data has been written, the message is removed from
+the input queue.
+
+The function returns the number of bytes written to the terminal, zero if
+there are no pending data messages available or if there is no established
+IUCV path.
+If the IUCV path has been severed, then -EPIPE is returned to cause a
+hang up (that is issued by the HVC layer).

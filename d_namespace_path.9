@@ -1,0 +1,27 @@
+.TH "d_namespace_path" 9 "d_namespace_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+d_namespace_path \- lookup a name associated with a given path
+.SH SYNOPSIS
+.B "int" d_namespace_path
+.BI "(const struct path *path "  ","
+.BI "char *buf "  ","
+.BI "char **name "  ","
+.BI "int flags "  ","
+.BI "const char *disconnected "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to lookup  (NOT NULL)
+.IP "buf" 12
+buffer to store path to  (NOT NULL)
+.IP "name" 12
+Returns - pointer for start of path name with in \fIbuf\fP (NOT NULL)
+.IP "flags" 12
+flags controlling path lookup
+.IP "disconnected" 12
+string to prefix to disconnected paths
+.SH "DESCRIPTION"
+Handle path name lookup.
+.SH "RETURN"
+0 else error code if path lookup fails
+When no error the path name is returned in \fIname\fP which points to
+to a position in \fIbuf\fP

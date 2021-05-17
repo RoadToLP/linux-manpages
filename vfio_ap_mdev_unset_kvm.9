@@ -1,0 +1,18 @@
+.TH "vfio_ap_mdev_unset_kvm" 9 "vfio_ap_mdev_unset_kvm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfio_ap_mdev_unset_kvm \- 
+.SH SYNOPSIS
+.B "void" vfio_ap_mdev_unset_kvm
+.BI "(struct ap_matrix_mdev *matrix_mdev "  ");"
+.SH ARGUMENTS
+.IP "matrix_mdev" 12
+a matrix mediated device
+.SH "DESCRIPTION"
+Performs clean-up of resources no longer needed by \fImatrix_mdev\fP.
+.SH "NOTE"
+The matrix_dev->lock must be taken prior to calling
+this function; however, the lock will be temporarily released while the
+guest's AP configuration is cleared to avoid a potential lockdep splat.
+The kvm->lock is taken to clear the guest's AP configuration which, under
+certain circumstances, will result in a circular lock dependency if this is
+done under the \fImatrix_mdev->lock\fP.

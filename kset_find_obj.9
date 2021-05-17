@@ -1,0 +1,16 @@
+.TH "kset_find_obj" 9 "kset_find_obj" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kset_find_obj \- Search for object in kset.
+.SH SYNOPSIS
+.B "struct kobject *" kset_find_obj
+.BI "(struct kset *kset "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "kset" 12
+kset we're looking in.
+.IP "name" 12
+object's name.
+.SH "DESCRIPTION"
+Lock kset via \fIkset->subsys\fP, and iterate over \fIkset->list\fP,
+looking for a matching kobject. If matching object is found
+take a reference and return the object.

@@ -1,0 +1,17 @@
+.TH "iommu_dma_get_resv_regions" 9 "iommu_dma_get_resv_regions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_dma_get_resv_regions \- Reserved region driver helper
+.SH SYNOPSIS
+.B "void" iommu_dma_get_resv_regions
+.BI "(struct device *dev "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device from \fBiommu_get_resv_regions\fP
+.IP "list" 12
+Reserved region list from \fBiommu_get_resv_regions\fP
+.SH "DESCRIPTION"
+IOMMU drivers can use this to implement their .get_resv_regions callback
+for general non-IOMMU-specific reservations. Currently, this covers GICv3
+ITS region reservation on ACPI based ARM platforms that may require HW MSI
+reservation.

@@ -1,0 +1,19 @@
+.TH "srpt_cm_handler" 9 "srpt_cm_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srpt_cm_handler \- IB connection manager callback function
+.SH SYNOPSIS
+.B "int" srpt_cm_handler
+.BI "(struct ib_cm_id *cm_id "  ","
+.BI "const struct ib_cm_event *event "  ");"
+.SH ARGUMENTS
+.IP "cm_id" 12
+IB/CM connection identifier.
+.IP "event" 12
+IB/CM event.
+.SH "DESCRIPTION"
+A non-zero return value will cause the caller destroy the CM ID.
+.SH "NOTE"
+\fBsrpt_cm_handler\fP must only return a non-zero value when transferring
+ownership of the cm_id to a channel by \fBsrpt_cm_req_recv\fP failed. Returning
+a non-zero value in any other case will trigger a race with the
+\fBib_destroy_cm_id\fP call in \fBsrpt_release_channel\fP.

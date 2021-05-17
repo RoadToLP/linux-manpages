@@ -1,0 +1,20 @@
+.TH "clk_is_enabled_when_prepared" 9 "clk_is_enabled_when_prepared" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_is_enabled_when_prepared \- indicate if preparing a clock also enables it.
+.SH SYNOPSIS
+.B "bool" clk_is_enabled_when_prepared
+.BI "(struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+clock source
+.SH "DESCRIPTION"
+Returns true if \fBclk_prepare\fP implicitly enables the clock, effectively
+making \fBclk_enable\fP/\fBclk_disable\fP no-ops, false otherwise.
+
+This is of interest mainly to power management code where actually
+disabling the clock also requires unpreparing it to have any material
+effect.
+
+Regardless of the value returned here, the caller must always invoke
+\fBclk_enable\fP or \fBclk_prepare_enable\fP  and counterparts for usage counts
+to be right.

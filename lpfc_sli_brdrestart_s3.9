@@ -1,0 +1,18 @@
+.TH "lpfc_sli_brdrestart_s3" 9 "lpfc_sli_brdrestart_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_brdrestart_s3 \- Restart a sli-3 hba
+.SH SYNOPSIS
+.B "int" lpfc_sli_brdrestart_s3
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is called in the SLI initialization code path to
+restart the HBA. The caller is not required to hold any lock.
+This function writes MBX_RESTART mailbox command to the SLIM and
+resets the HBA. At the end of the function, it calls lpfc_hba_down_post
+function to free any pending commands. The function enables
+POST only during the first initialization. The function returns zero.
+The function does not guarantee completion of MBX_RESTART mailbox
+command before the return of this function.

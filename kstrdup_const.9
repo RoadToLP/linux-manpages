@@ -1,0 +1,18 @@
+.TH "kstrdup_const" 9 "kstrdup_const" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kstrdup_const \- conditionally duplicate an existing const string
+.SH SYNOPSIS
+.B "const char *" kstrdup_const
+.BI "(const char *s "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the string to duplicate
+.IP "gfp" 12
+the GFP mask used in the \fBkmalloc\fP call when allocating memory
+.SH "NOTE"
+Strings allocated by kstrdup_const should be freed by kfree_const and
+must not be passed to \fBkrealloc\fP.
+.SH "RETURN"
+source string if it is in .rodata section otherwise
+fallback to kstrdup.

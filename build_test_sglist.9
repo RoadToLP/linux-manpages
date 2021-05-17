@@ -1,0 +1,33 @@
+.TH "build_test_sglist" 9 "build_test_sglist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+build_test_sglist \- build a scatterlist for a crypto test
+.SH SYNOPSIS
+.B "int" build_test_sglist
+.BI "(struct test_sglist *tsgl "  ","
+.BI "const struct test_sg_division *divs "  ","
+.BI "const unsigned int alignmask "  ","
+.BI "const unsigned int total_len "  ","
+.BI "struct iov_iter *data "  ","
+.BI "const struct test_sg_division *out_divs[XBUFSIZE] "  ");"
+.SH ARGUMENTS
+.IP "tsgl" 12
+the scatterlist to build.  \fItsgl->bufs\fP[] contains an array of 2-page
+buffers which the scatterlist \fItsgl->sgl\fP[] will be made to point into.
+.IP "divs" 12
+the layout specification on which the scatterlist will be based
+.IP "alignmask" 12
+the algorithm's alignmask
+.IP "total_len" 12
+the total length of the scatterlist to build in bytes
+.IP "data" 12
+if non-NULL, the buffers will be filled with this data until it ends.
+Otherwise the buffers will be poisoned.  In both cases, some bytes
+past the end of each buffer will be poisoned to help detect overruns.
+.IP "out_divs" 12
+if non-NULL, the test_sg_division to which each scatterlist entry
+corresponds will be returned here.  This will match \fIdivs\fP except
+that divisions resolving to a length of 0 are omitted as they are
+not included in the scatterlist.
+.SH "RETURN"
+0 or a -errno value
+

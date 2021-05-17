@@ -1,0 +1,17 @@
+.TH "handle_fasteoi_nmi" 9 "handle_fasteoi_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_fasteoi_nmi \- irq handler for NMI interrupt lines
+.SH SYNOPSIS
+.B "void" handle_fasteoi_nmi
+.BI "(struct irq_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+the interrupt description structure for this irq
+
+A simple NMI-safe handler, considering the restrictions
+from request_nmi.
+
+Only a single callback will be issued to the chip: an ->\fBeoi\fP
+call when the interrupt has been serviced. This enables support
+for modern forms of interrupt handlers, which handle the flow
+details in hardware, transparently.

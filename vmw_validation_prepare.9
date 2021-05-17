@@ -1,0 +1,24 @@
+.TH "vmw_validation_prepare" 9 "vmw_validation_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_validation_prepare \- Prepare a validation context for command submission.
+.SH SYNOPSIS
+.B "int" vmw_validation_prepare
+.BI "(struct vmw_validation_context *ctx "  ","
+.BI "struct mutex *mutex "  ","
+.BI "bool intr "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+The validation context.
+.IP "mutex" 12
+The mutex used to protect resource reservation.
+.IP "intr" 12
+Whether to perform waits interruptible if possible.
+.SH "DESCRIPTION"
+Note that the single reservation mutex \fImutex\fP is an unfortunate
+construct. Ideally resource reservation should be moved to per-resource
+ww_mutexes.
+If this functions doesn't return Zero to indicate success, all resources
+are left unreserved but still referenced.
+.SH "RETURN"
+Zero on success, -ERESTARTSYS if interrupted, negative error code
+on error.

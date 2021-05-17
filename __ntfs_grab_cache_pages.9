@@ -1,0 +1,28 @@
+.TH "__ntfs_grab_cache_pages" 9 "__ntfs_grab_cache_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_grab_cache_pages \- obtain a number of locked pages
+.SH SYNOPSIS
+.B "int" __ntfs_grab_cache_pages
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t index "  ","
+.BI "const unsigned nr_pages "  ","
+.BI "struct page **pages "  ","
+.BI "struct page **cached_page "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space mapping from which to obtain page cache pages
+.IP "index" 12
+starting index in \fImapping\fP at which to begin obtaining pages
+.IP "nr_pages" 12
+number of page cache pages to obtain
+.IP "pages" 12
+array of pages in which to return the obtained page cache pages
+.IP "cached_page" 12
+allocated but as yet unused page
+.SH "DESCRIPTION"
+Obtain \fInr_pages\fP locked page cache pages from the mapping \fImapping\fP and
+starting at index \fIindex\fP.
+
+If a page is newly created, add it to lru list
+
+Note, the page locks are obtained in ascending page index order.

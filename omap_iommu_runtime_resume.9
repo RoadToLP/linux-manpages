@@ -1,0 +1,17 @@
+.TH "omap_iommu_runtime_resume" 9 "omap_iommu_runtime_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_iommu_runtime_resume \- enable an iommu device
+.SH SYNOPSIS
+.B "__maybe_unused int" omap_iommu_runtime_resume
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+iommu device
+.SH "DESCRIPTION"
+This function performs all that is necessary to enable an
+IOMMU device, either during initial attachment to a client
+device, or during system/runtime resume of the device. This
+includes programming all the appropriate IOMMU registers, and
+managing the associated omap_hwmod's state and the device's
+reset line. The function also restores any locked TLBs if
+resuming after a suspend.

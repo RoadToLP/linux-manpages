@@ -1,0 +1,24 @@
+.TH "get_note_number_and_size_elf32" 9 "get_note_number_and_size_elf32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_note_number_and_size_elf32 \- get the number of PT_NOTE program headers and sum of real size of their ELF note segment headers and data.
+.SH SYNOPSIS
+.B "int" get_note_number_and_size_elf32
+.BI "(const Elf32_Ehdr *ehdr_ptr "  ","
+.BI "int *nr_ptnote "  ","
+.BI "u64 *sz_ptnote "  ");"
+.SH ARGUMENTS
+.IP "ehdr_ptr" 12
+ELF header
+.IP "nr_ptnote" 12
+buffer for the number of PT_NOTE program headers
+.IP "sz_ptnote" 12
+buffer for size of unique PT_NOTE program header
+.SH "DESCRIPTION"
+This function is used to merge multiple PT_NOTE program headers
+into a unique single one. The resulting unique entry will have
+\fIsz_ptnote\fP in its phdr->p_mem.
+
+It is assumed that program headers with PT_NOTE type pointed to by
+\fIehdr_ptr\fP has already been updated by update_note_header_size_elf32
+and each of PT_NOTE program headers has actual ELF note segment
+size in its p_memsz member.

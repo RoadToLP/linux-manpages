@@ -1,0 +1,33 @@
+.TH "vwrite" 9 "vwrite" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vwrite \- write vmalloc area in a safe way.
+.SH SYNOPSIS
+.B "long" vwrite
+.BI "(char *buf "  ","
+.BI "char *addr "  ","
+.BI "unsigned long count "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+buffer for source data
+.IP "addr" 12
+vm address.
+.IP "count" 12
+number of bytes to be read.
+.SH "DESCRIPTION"
+This function checks that addr is a valid vmalloc'ed area, and
+copy data from a buffer to the given addr. If specified range of
+[addr...addr+count) includes some valid address, data is copied from
+proper area of \fIbuf\fP. If there are memory holes, no copy to hole.
+IOREMAP area is treated as memory hole and no copy is done.
+
+If [addr...addr+count) doesn't includes any intersects with alive
+vm_struct area, returns 0. \fIbuf\fP should be kernel's buffer.
+.SH "NOTE"
+In usual ops, \fBvwrite\fP is never necessary because the caller
+should know \fBvmalloc\fP area is valid and can use \fBmemcpy\fP.
+This is for routines which have to access vmalloc area without
+any information, as /dev/kmem.
+.SH "RETURN"
+number of bytes for which addr and buf should be
+increased (same number as \fIcount\fP) or 0 if [addr...addr+count)
+doesn't include any intersection with valid vmalloc area

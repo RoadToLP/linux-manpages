@@ -1,0 +1,17 @@
+.TH "n_tty_receive_break" 9 "n_tty_receive_break" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_receive_break \- handle break
+.SH SYNOPSIS
+.B "void" n_tty_receive_break
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+An RS232 break event has been hit in the incoming bitstream. This
+can cause a variety of events depending upon the termios settings.
+
+\fBn_tty_receive_buf\fP/producer path:
+caller holds non-exclusive termios_rwsem
+.SH "NOTE"
+may get exclusive termios_rwsem if flushing input buffer

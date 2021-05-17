@@ -1,0 +1,26 @@
+.TH "seq_buf_bprintf" 9 "seq_buf_bprintf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seq_buf_bprintf \- Write the printf string from binary arguments
+.SH SYNOPSIS
+.B "int" seq_buf_bprintf
+.BI "(struct seq_buf *s "  ","
+.BI "const char *fmt "  ","
+.BI "const u32 *binary "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+seq_buf descriptor
+.IP "fmt" 12
+The format string for the \fIbinary\fP arguments
+.IP "binary" 12
+The binary arguments for \fIfmt\fP.
+.SH "DESCRIPTION"
+When recording in a fast path, a printf may be recorded with just
+saving the format and the arguments as they were passed to the
+function, instead of wasting cycles converting the arguments into
+ASCII characters. Instead, the arguments are saved in a 32 bit
+word array that is defined by the format string constraints.
+
+This function will take the format and the binary array and finish
+the conversion into the ASCII string within the buffer.
+
+Returns zero on success, -1 on overflow.

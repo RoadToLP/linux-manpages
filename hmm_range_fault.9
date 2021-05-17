@@ -1,0 +1,24 @@
+.TH "hmm_range_fault" 9 "hmm_range_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hmm_range_fault \- try to fault some address in a virtual address range
+.SH SYNOPSIS
+.B "int" hmm_range_fault
+.BI "(struct hmm_range *range "  ");"
+.SH ARGUMENTS
+.IP "range" 12
+argument structure
+.SH "DESCRIPTION"
+Returns 0 on success or one of the following error codes:
+
+-EINVAL:     Invalid arguments or mm or virtual address is in an invalid vma
+(e.g., device file vma).
+-ENOMEM:     Out of memory.
+-EPERM:      Invalid permission (e.g., asking for write and range is read
+only).
+-EBUSY:      The range has been invalidated and the caller needs to wait for
+the invalidation to finish.
+-EFAULT:     A page was requested to be valid and could not be made valid
+ie it has no backing VMA or it is illegal to access
+
+This is similar to \fBget_user_pages\fP, except that it can read the page tables
+without mutating them (ie causing faults).

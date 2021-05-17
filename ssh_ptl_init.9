@@ -1,0 +1,22 @@
+.TH "ssh_ptl_init" 9 "ssh_ptl_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_init \- Initialize packet transport layer.
+.SH SYNOPSIS
+.B "int" ssh_ptl_init
+.BI "(struct ssh_ptl *ptl "  ","
+.BI "struct serdev_device *serdev "  ","
+.BI "struct ssh_ptl_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ptl" 12
+The packet transport layer to initialize.
+.IP "serdev" 12
+The underlying serial device, i.e. the lower-level transport.
+.IP "ops" 12
+Packet layer operations.
+.SH "DESCRIPTION"
+Initializes the given packet transport layer. Transmitter and receiver
+threads must be started separately via \fBssh_ptl_tx_start\fP and
+\fBssh_ptl_rx_start\fP, after the packet-layer has been initialized and the
+lower-level transport layer has been set up.
+.SH "RETURN"
+Returns zero on success and a nonzero error code on failure.

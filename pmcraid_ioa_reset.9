@@ -1,0 +1,19 @@
+.TH "pmcraid_ioa_reset" 9 "pmcraid_ioa_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_ioa_reset \- Implementation of IOA reset logic
+.SH SYNOPSIS
+.B "void" pmcraid_ioa_reset
+.BI "(struct pmcraid_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+pointer to the cmd block to be used for entire reset process
+.SH "DESCRIPTION"
+This function executes most of the steps required for IOA reset. This gets
+called by user threads (modprobe/insmod/rmmod) timer, tasklet and midlayer's
+'eh_' thread. Access to variables used for controlling the reset sequence is
+synchronized using host lock. Various functions called during reset process
+would make use of a single command block, pointer to which is also stored in
+adapter instance structure.
+
+Return Value
+None

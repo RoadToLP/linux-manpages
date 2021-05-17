@@ -1,0 +1,26 @@
+.TH "pskb_expand_head" 9 "pskb_expand_head" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pskb_expand_head \- reallocate header of &sk_buff
+.SH SYNOPSIS
+.B "int" pskb_expand_head
+.BI "(struct sk_buff *skb "  ","
+.BI "int nhead "  ","
+.BI "int ntail "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to reallocate
+.IP "nhead" 12
+room to add at head
+.IP "ntail" 12
+room to add at tail
+.IP "gfp_mask" 12
+allocation priority
+
+Expands (or creates identical copy, if \fInhead\fP and \fIntail\fP are zero)
+header of \fIskb\fP. \fIsk_buff\fP itself is not changed. \fIsk_buff\fP MUST have
+reference count of 1. Returns zero in the case of success or error,
+if expansion failed. In the last case, \fIsk_buff\fP is not changed.
+
+All the pointers pointing into skb header may change and must be
+reloaded after call to this function.

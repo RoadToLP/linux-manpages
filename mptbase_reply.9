@@ -1,0 +1,22 @@
+.TH "mptbase_reply" 9 "mptbase_reply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptbase_reply \- MPT base driver's callback routine
+.SH SYNOPSIS
+.B "int" mptbase_reply
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "MPT_FRAME_HDR *req "  ","
+.BI "MPT_FRAME_HDR *reply "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "req" 12
+Pointer to original MPT request frame
+.IP "reply" 12
+Pointer to MPT reply frame (NULL if TurboReply)
+
+MPT base driver's callback routine; all base driver
+"internal" request/reply processing is routed here.
+Currently used for EventNotification and EventAck handling.
+
+Returns 1 indicating original alloc'd request frame ptr
+should be freed, or 0 if it shouldn't.

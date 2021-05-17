@@ -1,0 +1,28 @@
+.TH "assoc_array_delete" 9 "assoc_array_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assoc_array_delete \- Script deletion of an object from an associative array
+.SH SYNOPSIS
+.B "struct assoc_array_edit *" assoc_array_delete
+.BI "(struct assoc_array *array "  ","
+.BI "const struct assoc_array_ops *ops "  ","
+.BI "const void *index_key "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+The array to search.
+.IP "ops" 12
+The operations to use.
+.IP "index_key" 12
+The key to the object.
+.SH "DESCRIPTION"
+Precalculate and preallocate a script for the deletion of an object from an
+associative array.  This results in an edit script that can either be
+applied or cancelled.
+
+The function returns a pointer to an edit script if the object was found,
+NULL if the object was not found or -ENOMEM.
+
+The caller should lock against other modifications and must continue to hold
+the lock until \fBassoc_array_apply_edit\fP has been called.
+
+Accesses to the tree may take place concurrently with this function,
+provided they hold the RCU read lock.

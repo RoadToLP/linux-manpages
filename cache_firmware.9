@@ -1,0 +1,18 @@
+.TH "cache_firmware" 9 "cache_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cache_firmware \- cache one firmware image in kernel memory space
+.SH SYNOPSIS
+.B "int" cache_firmware
+.BI "(const char *fw_name "  ");"
+.SH ARGUMENTS
+.IP "fw_name" 12
+the firmware image name
+.SH "DESCRIPTION"
+Cache firmware in kernel memory so that drivers can use it when
+system isn't ready for them to request firmware image from userspace.
+Once it returns successfully, driver can use request_firmware or its
+nowait version to get the cached firmware without any interacting
+with userspace
+
+Return 0 if the firmware image has been cached successfully
+Return !0 otherwise

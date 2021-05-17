@@ -1,0 +1,29 @@
+.TH "__memblock_find_range_bottom_up" 9 "__memblock_find_range_bottom_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__memblock_find_range_bottom_up \- find free area utility in bottom-up
+.SH SYNOPSIS
+.B "phys_addr_t __init_memblock" __memblock_find_range_bottom_up
+.BI "(phys_addr_t start "  ","
+.BI "phys_addr_t end "  ","
+.BI "phys_addr_t size "  ","
+.BI "phys_addr_t align "  ","
+.BI "int nid "  ","
+.BI "enum memblock_flags flags "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+start of candidate range
+.IP "end" 12
+end of candidate range, can be MEMBLOCK_ALLOC_ANYWHERE or
+MEMBLOCK_ALLOC_ACCESSIBLE
+.IP "size" 12
+size of free area to find
+.IP "align" 12
+alignment of free area to find
+.IP "nid" 12
+nid of the free area to find, NUMA_NO_NODE for any node
+.IP "flags" 12
+pick from blocks based on memory attributes
+.SH "DESCRIPTION"
+Utility called from \fBmemblock_find_in_range_node\fP, find free area bottom-up.
+.SH "RETURN"
+Found address on success, 0 on failure.

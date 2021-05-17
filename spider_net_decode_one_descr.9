@@ -1,0 +1,16 @@
+.TH "spider_net_decode_one_descr" 9 "spider_net_decode_one_descr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spider_net_decode_one_descr \- processes an RX descriptor
+.SH SYNOPSIS
+.B "int" spider_net_decode_one_descr
+.BI "(struct spider_net_card *card "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+card structure
+.SH "DESCRIPTION"
+Returns 1 if a packet has been sent to the stack, otherwise 0.
+
+Processes an RX descriptor by iommu-unmapping the data buffer
+and passing the packet up to the stack. This function is called
+in softirq context, e.g. either bottom half from interrupt or
+NAPI polling context.

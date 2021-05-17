@@ -1,0 +1,24 @@
+.TH "ccw_device_halt" 9 "ccw_device_halt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_halt \- halt I/O request processing
+.SH SYNOPSIS
+.B "int" ccw_device_halt
+.BI "(struct ccw_device *cdev "  ","
+.BI "unsigned long intparm "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+target ccw device
+.IP "intparm" 12
+interruption parameter to be returned upon conclusion of hsch
+.SH "DESCRIPTION"
+\fBccw_device_halt\fP calls hsch on \fIcdev\fP's subchannel.
+The interruption handler will echo back the \fIintparm\fP specified here, unless
+another interruption parameter is specified by a subsequent invocation of
+\fBccw_device_clear\fP.
+.SH "RETURN"
+0 on success,
+-ENODEV on device not operational,
+-EINVAL on invalid device state,
+-EBUSY on device busy or interrupt pending.
+.SH "CONTEXT"
+Interrupts disabled, ccw device lock held

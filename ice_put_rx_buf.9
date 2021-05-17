@@ -1,0 +1,19 @@
+.TH "ice_put_rx_buf" 9 "ice_put_rx_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_put_rx_buf \- Clean up used buffer and either recycle or free
+.SH SYNOPSIS
+.B "void" ice_put_rx_buf
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "struct ice_rx_buf *rx_buf "  ","
+.BI "int rx_buf_pgcnt "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring to transact packets on
+.IP "rx_buf" 12
+Rx buffer to pull data from
+.IP "rx_buf_pgcnt" 12
+Rx buffer page count pre \fBxdp_do_redirect\fP
+.SH "DESCRIPTION"
+This function will update next_to_clean and then clean up the contents
+of the rx_buf. It will either recycle the buffer or unmap it and free
+the associated resources.

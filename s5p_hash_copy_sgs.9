@@ -1,0 +1,21 @@
+.TH "s5p_hash_copy_sgs" 9 "s5p_hash_copy_sgs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_copy_sgs \- copy request's bytes into new buffer
+.SH SYNOPSIS
+.B "int" s5p_hash_copy_sgs
+.BI "(struct s5p_hash_reqctx *ctx "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "unsigned int new_len "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+request context
+.IP "sg" 12
+source scatterlist request
+.IP "new_len" 12
+number of bytes to process from sg
+.SH "DESCRIPTION"
+Allocate new buffer, copy data for HASH into it. If there was xmit_buf
+filled, copy it first, then copy data from sg into it. Prepare one sgl[0]
+with allocated buffer.
+
+Set bit in dd->hash_flag so we can free it after irq ends processing.

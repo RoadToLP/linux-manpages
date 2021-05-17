@@ -1,0 +1,21 @@
+.TH "dev_extent_hole_check" 9 "dev_extent_hole_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_extent_hole_check \- check if specified hole is suitable for allocation
+.SH SYNOPSIS
+.B "bool" dev_extent_hole_check
+.BI "(struct btrfs_device *device "  ","
+.BI "u64 *hole_start "  ","
+.BI "u64 *hole_size "  ","
+.BI "u64 num_bytes "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device which we have the hole
+.IP "hole_start" 12
+starting position of the hole
+.IP "hole_size" 12
+the size of the hole
+.IP "num_bytes" 12
+the size of the free space that we need
+.SH "DESCRIPTION"
+This function may modify \fIhole_start\fP and \fIhole_size\fP to reflect the suitable
+position for allocation. Returns 1 if hole position is updated, 0 otherwise.

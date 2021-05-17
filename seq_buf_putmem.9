@@ -1,0 +1,21 @@
+.TH "seq_buf_putmem" 9 "seq_buf_putmem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seq_buf_putmem \- write raw data into the sequenc buffer
+.SH SYNOPSIS
+.B "int" seq_buf_putmem
+.BI "(struct seq_buf *s "  ","
+.BI "const void *mem "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+seq_buf descriptor
+.IP "mem" 12
+The raw memory to copy into the buffer
+.IP "len" 12
+The length of the raw memory to copy (in bytes)
+.SH "DESCRIPTION"
+There may be cases where raw memory needs to be written into the
+buffer and a \fBstrcpy\fP would not work. Using this function allows
+for such cases.
+
+Returns zero on success, -1 on overflow

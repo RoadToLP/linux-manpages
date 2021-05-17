@@ -1,0 +1,27 @@
+.TH "scsi_eh_prep_cmnd" 9 "scsi_eh_prep_cmnd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_eh_prep_cmnd \- Save a scsi command info as part of error recovery
+.SH SYNOPSIS
+.B "void" scsi_eh_prep_cmnd
+.BI "(struct scsi_cmnd *scmd "  ","
+.BI "struct scsi_eh_save *ses "  ","
+.BI "unsigned char *cmnd "  ","
+.BI "int cmnd_size "  ","
+.BI "unsigned sense_bytes "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+SCSI command structure to hijack
+.IP "ses" 12
+structure to save restore information
+.IP "cmnd" 12
+CDB to send. Can be NULL if no new cmnd is needed
+.IP "cmnd_size" 12
+size in bytes of \fIcmnd\fP (must be <= BLK_MAX_CDB)
+.IP "sense_bytes" 12
+size of sense data to copy. or 0 (if != 0 \fIcmnd\fP is ignored)
+.SH "DESCRIPTION"
+This function is used to save a scsi command information before re-execution
+as part of the error recovery process.  If \fIsense_bytes\fP is 0 the command
+sent must be one that does not transfer any data.  If \fIsense_bytes\fP != 0
+\fIcmnd\fP is ignored and this functions sets up a REQUEST_SENSE command
+and cmnd buffers to read \fIsense_bytes\fP into \fIscmd->sense_buffer\fP.

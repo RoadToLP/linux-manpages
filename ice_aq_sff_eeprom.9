@@ -1,0 +1,38 @@
+.TH "ice_aq_sff_eeprom" 9 "ice_aq_sff_eeprom" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_sff_eeprom \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_sff_eeprom
+.BI "(struct ice_hw *hw "  ","
+.BI "u16 lport "  ","
+.BI "u8 bus_addr "  ","
+.BI "u16 mem_addr "  ","
+.BI "u8 page "  ","
+.BI "u8 set_page "  ","
+.BI "u8 *data "  ","
+.BI "u8 length "  ","
+.BI "bool write "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "lport" 12
+bits [7:0] = logical port, bit [8] = logical port valid
+.IP "bus_addr" 12
+I2C bus address of the eeprom (typically 0xA0, 0=topo default)
+.IP "mem_addr" 12
+I2C offset. lower 8 bits for address, 8 upper bits zero padding.
+.IP "page" 12
+QSFP page
+.IP "set_page" 12
+set or ignore the page
+.IP "data" 12
+pointer to data buffer to be read/written to the I2C device.
+.IP "length" 12
+1-16 for read, 1 for write.
+.IP "write" 12
+0 read, 1 for write.
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Read/Write SFF EEPROM (0x06EE)

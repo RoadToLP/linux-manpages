@@ -1,0 +1,17 @@
+.TH "bcm63xx_udc_data_isr" 9 "bcm63xx_udc_data_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_udc_data_isr \- ISR for data path events (IUDMA).
+.SH SYNOPSIS
+.B "irqreturn_t" bcm63xx_udc_data_isr
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number (unused).
+.IP "dev_id" 12
+Reference to the IUDMA channel that generated the interrupt.
+.SH "DESCRIPTION"
+For the two ep0 channels, we have special handling that triggers the
+ep0 worker thread.  For normal bulk/intr channels, either queue up
+the next buffer descriptor for the transaction (incomplete transaction),
+or invoke the completion callback (complete transactions).

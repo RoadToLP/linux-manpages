@@ -1,0 +1,28 @@
+.TH "rio_setup_device" 9 "rio_setup_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_setup_device \- Allocates and sets up a RIO device
+.SH SYNOPSIS
+.B "struct rio_dev *" rio_setup_device
+.BI "(struct rio_net *net "  ","
+.BI "struct rio_mport *port "  ","
+.BI "u16 destid "  ","
+.BI "u8 hopcount "  ","
+.BI "int do_enum "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+RIO network
+.IP "port" 12
+Master port to send transactions
+.IP "destid" 12
+Current destination ID
+.IP "hopcount" 12
+Current hopcount
+.IP "do_enum" 12
+Enumeration/Discovery mode flag
+.SH "DESCRIPTION"
+Allocates a RIO device and configures fields based on configuration
+space contents. If device has a destination ID register, a destination
+ID is either assigned in enumeration mode or read from configuration
+space in discovery mode.  If the device has switch capabilities, then
+a switch is allocated and configured appropriately. Returns a pointer
+to a RIO device on success or NULL on failure.

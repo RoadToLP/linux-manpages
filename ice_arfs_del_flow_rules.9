@@ -1,0 +1,16 @@
+.TH "ice_arfs_del_flow_rules" 9 "ice_arfs_del_flow_rules" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_arfs_del_flow_rules \- delete the rules passed in from HW
+.SH SYNOPSIS
+.B "void" ice_arfs_del_flow_rules
+.BI "(struct ice_vsi *vsi "  ","
+.BI "struct hlist_head *del_list_head "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+VSI for the flow rules that need to be deleted
+.IP "del_list_head" 12
+head of the list of ice_arfs_entry(s) for rule deletion
+.SH "DESCRIPTION"
+Loop through the delete list passed in and remove the rules from HW. After
+each rule is deleted, disconnect and free the ice_arfs_entry because it is no
+longer being referenced by the aRFS hash table.

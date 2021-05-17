@@ -1,0 +1,25 @@
+.TH "from_kuid_munged" 9 "from_kuid_munged" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kuid_munged \- Create a uid from a kuid user-namespace pair.
+.SH SYNOPSIS
+.B "uid_t" from_kuid_munged
+.BI "(struct user_namespace *targ "  ","
+.BI "kuid_t kuid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a uid in.
+.IP "kuid" 12
+The kernel internal uid to start with.
+
+Map \fIkuid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting uid.
+
+There is always a mapping into the initial user_namespace.
+
+Unlike from_kuid from_kuid_munged never fails and always
+returns a valid uid.  This makes from_kuid_munged appropriate
+for use in syscalls like stat and getuid where failing the
+system call and failing to provide a valid uid are not an
+options.
+
+If \fIkuid\fP has no mapping in \fItarg\fP overflowuid is returned.

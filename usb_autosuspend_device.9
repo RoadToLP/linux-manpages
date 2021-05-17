@@ -1,0 +1,21 @@
+.TH "usb_autosuspend_device" 9 "usb_autosuspend_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_autosuspend_device \- delayed autosuspend of a USB device and its interfaces
+.SH SYNOPSIS
+.B "void" usb_autosuspend_device
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+the usb_device to autosuspend
+.SH "DESCRIPTION"
+This routine should be called when a core subsystem is finished using
+\fIudev\fP and wants to allow it to autosuspend.  Examples would be when
+\fIudev\fP's device file in usbfs is closed or after a configuration change.
+
+\fIudev\fP's usage counter is decremented; if it drops to 0 and all the
+interfaces are inactive then a delayed autosuspend will be attempted.
+The attempt may fail (see \fBautosuspend_check\fP).
+
+The caller must hold \fIudev\fP's device lock.
+
+This routine can run only in process context.

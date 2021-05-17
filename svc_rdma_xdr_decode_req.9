@@ -1,0 +1,23 @@
+.TH "svc_rdma_xdr_decode_req" 9 "svc_rdma_xdr_decode_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_xdr_decode_req \- Decode the transport header
+.SH SYNOPSIS
+.B "int" svc_rdma_xdr_decode_req
+.BI "(struct xdr_buf *rq_arg "  ","
+.BI "struct svc_rdma_recv_ctxt *rctxt "  ");"
+.SH ARGUMENTS
+.IP "rq_arg" 12
+xdr_buf containing ingress RPC/RDMA message
+.IP "rctxt" 12
+state of decoding
+.SH "DESCRIPTION"
+On entry, xdr->head[0].iov_base points to first byte of the
+RPC-over-RDMA transport header.
+
+On successful exit, head[0] points to first byte past the
+RPC-over-RDMA header. For RDMA_MSG, this is the RPC message.
+
+The length of the RPC-over-RDMA header is returned.
+
+Assumptions:
+- The transport header is entirely contained in the head iovec.

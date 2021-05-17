@@ -1,0 +1,60 @@
+.TH "pipapo_get_boundaries" 9 "pipapo_get_boundaries" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_get_boundaries \- Get byte interval for associated rules
+.SH SYNOPSIS
+.B "int" pipapo_get_boundaries
+.BI "(struct nft_pipapo_field *f "  ","
+.BI "int first_rule "  ","
+.BI "int rule_count "  ","
+.BI "u8 *left "  ","
+.BI "u8 *right "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+Field including lookup table
+.IP "first_rule" 12
+First rule (lowest index)
+.IP "rule_count" 12
+Number of associated rules
+.IP "left" 12
+Byte expression for left boundary (start of range)
+.IP "right" 12
+Byte expression for right boundary (end of range)
+.SH "DESCRIPTION"
+Given the first rule and amount of rules that originated from the same entry,
+build the original range associated with the entry, and calculate the length
+of the originating netmask.
+
+In pictures:
+
+bucket
+group  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+0                                                   1,2
+1   1,2
+2                                           1,2
+3                                   1,2
+4   1,2
+5        1   2
+6   1,2  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+7   1,2 1,2  1   1   1   1   1   1   1   1   1   1   1   1   1   1
+
+this is the lookup table corresponding to the IPv4 range
+192.168.1.0-192.168.2.1, which was expanded to the two composing netmasks,
+rule #1: 192.168.1.0/24, and rule #2: 192.168.2.0/31.
+
+This function fills \fIleft\fP and \fIright\fP with the byte values of the leftmost
+and rightmost bucket indices for the lowest and highest rule indices,
+respectively. If \fIfirst_rule\fP is 1 and \fIrule_count\fP is 2, we obtain, in
+nibbles:
+left:  < 12, 0, 10, 8, 0, 1, 0, 0 >
+right: < 12, 0, 10, 8, 0, 2, 2, 1 >
+corresponding to bytes:
+left:  < 192, 168, 1, 0 >
+right: < 192, 168, 2, 1 >
+with mask length irrelevant here, unused on return, as the range is already
+defined by its start and end points. The mask length is relevant for a single
+ranged entry instead: if \fIfirst_rule\fP is 1 and \fIrule_count\fP is 1, we ignore
+rule 2 above: \fIleft\fP becomes < 192, 168, 1, 0 >, \fIright\fP becomes
+< 192, 168, 1, 255 >, and the mask length, calculated from the distances
+between leftmost and rightmost bucket indices for each group, would be 24.
+.SH "RETURN"
+mask length, in bits.

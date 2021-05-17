@@ -1,0 +1,28 @@
+.TH "zpool_create_pool" 9 "zpool_create_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_create_pool \- Create a new zpool
+.SH SYNOPSIS
+.B "struct zpool *" zpool_create_pool
+.BI "(const char *type "  ","
+.BI "const char *name "  ","
+.BI "gfp_t gfp "  ","
+.BI "const struct zpool_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+The type of the zpool to create (e.g. zbud, zsmalloc)
+.IP "name" 12
+The name of the zpool (e.g. zram0, zswap)
+.IP "gfp" 12
+The GFP flags to use when allocating the pool.
+.IP "ops" 12
+The optional ops callback.
+.SH "DESCRIPTION"
+This creates a new zpool of the specified type.  The gfp flags will be
+used when allocating memory, if the implementation supports it.  If the
+ops param is NULL, then the created zpool will not be evictable.
+
+Implementations must guarantee this to be thread-safe.
+
+The \fItype\fP and \fIname\fP strings must be null-terminated.
+.SH "RETURN"
+New zpool on success, NULL on failure.

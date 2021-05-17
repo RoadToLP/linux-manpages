@@ -1,0 +1,25 @@
+.TH "phylink_mii_c22_pcs_set_advertisement" 9 "phylink_mii_c22_pcs_set_advertisement" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phylink_mii_c22_pcs_set_advertisement \- configure the clause 37 PCS advertisement
+.SH SYNOPSIS
+.B "int" phylink_mii_c22_pcs_set_advertisement
+.BI "(struct mdio_device *pcs "  ","
+.BI "phy_interface_t interface "  ","
+.BI "const unsigned long *advertising "  ");"
+.SH ARGUMENTS
+.IP "pcs" 12
+a pointer to a \fIstruct mdio_device\fP.
+.IP "interface" 12
+the PHY interface mode being configured
+.IP "advertising" 12
+the ethtool advertisement mask
+.SH "DESCRIPTION"
+Helper for MAC PCS supporting the 802.3 clause 22 register set for
+clause 37 negotiation and/or SGMII control.
+
+Configure the clause 37 PCS advertisement as specified by \fIstate\fP. This
+does not trigger a renegotiation; phylink will do that via the
+\fBmac_an_restart\fP method of the struct phylink_mac_ops structure.
+
+Returns negative error code on failure to configure the advertisement,
+zero if no change has been made, or one if the advertisement has changed.

@@ -1,0 +1,29 @@
+.TH "dmi_get_date" 9 "dmi_get_date" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dmi_get_date \- parse a DMI date
+.SH SYNOPSIS
+.B "bool" dmi_get_date
+.BI "(int field "  ","
+.BI "int *yearp "  ","
+.BI "int *monthp "  ","
+.BI "int *dayp "  ");"
+.SH ARGUMENTS
+.IP "field" 12
+data index (see enum dmi_field)
+.IP "yearp" 12
+optional out parameter for the year
+.IP "monthp" 12
+optional out parameter for the month
+.IP "dayp" 12
+optional out parameter for the day
+
+The date field is assumed to be in the form resembling
+[mm[/dd]]/yy[yy] and the result is stored in the out
+parameters any or all of which can be omitted.
+
+If the field doesn't exist, all out parameters are set to zero
+and false is returned.  Otherwise, true is returned with any
+invalid part of date set to zero.
+
+On return, year, month and day are guaranteed to be in the
+range of [0,9999], [0,12] and [0,31] respectively.

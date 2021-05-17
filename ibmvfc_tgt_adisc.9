@@ -1,0 +1,16 @@
+.TH "ibmvfc_tgt_adisc" 9 "ibmvfc_tgt_adisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvfc_tgt_adisc \- Initiate an ADISC for specified target
+.SH SYNOPSIS
+.B "void" ibmvfc_tgt_adisc
+.BI "(struct ibmvfc_target *tgt "  ");"
+.SH ARGUMENTS
+.IP "tgt" 12
+ibmvfc target struct
+.SH "DESCRIPTION"
+When sending an ADISC we end up with two timers running. The
+first timer is the timer in the ibmvfc target struct. If this
+fires, we send a cancel to the target. The second timer is the
+timer on the ibmvfc event for the ADISC, which is longer. If that
+fires, it means the ADISC timed out and our attempt to cancel it
+also failed, so we need to reset the CRQ.

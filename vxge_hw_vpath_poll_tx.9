@@ -1,0 +1,25 @@
+.TH "vxge_hw_vpath_poll_tx" 9 "vxge_hw_vpath_poll_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxge_hw_vpath_poll_tx \- Poll Tx for completed descriptors and process the same.
+.SH SYNOPSIS
+.B "enum vxge_hw_status" vxge_hw_vpath_poll_tx
+.BI "(struct __vxge_hw_fifo *fifo "  ","
+.BI "struct sk_buff ***skb_ptr "  ","
+.BI "int nr_skb "  ","
+.BI "int *more "  ");"
+.SH ARGUMENTS
+.IP "fifo" 12
+Handle to the fifo object used for non offload send
+.IP "skb_ptr" 12
+pointer to skb
+.IP "nr_skb" 12
+number of skbs
+.IP "more" 12
+more is coming
+.SH "DESCRIPTION"
+The function polls the Tx for the completed descriptors and calls
+the driver via supplied completion callback.
+.SH "RETURN"
+VXGE_HW_OK, if the polling is completed successful.
+VXGE_HW_COMPLETIONS_REMAIN: There are still more completed
+descriptors available which are yet to be processed.

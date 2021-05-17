@@ -1,0 +1,39 @@
+.TH "spi_nor_parse_bfpt" 9 "spi_nor_parse_bfpt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_parse_bfpt \- read and parse the Basic Flash Parameter Table.
+.SH SYNOPSIS
+.B "int" spi_nor_parse_bfpt
+.BI "(struct spi_nor *nor "  ","
+.BI "const struct sfdp_parameter_header *bfpt_header "  ","
+.BI "struct spi_nor_flash_parameter *params "  ");"
+.SH ARGUMENTS
+.IP "nor" 12
+pointer to a 'struct spi_nor'
+.IP "bfpt_header" 12
+pointer to the 'struct sfdp_parameter_header' describing
+the Basic Flash Parameter Table length and version
+.IP "params" 12
+pointer to the 'struct spi_nor_flash_parameter' to be
+filled
+.SH "DESCRIPTION"
+The Basic Flash Parameter Table is the main and only mandatory table as
+defined by the SFDP (JESD216) specification.
+It provides us with the total size (memory density) of the data array and
+the number of address bytes for Fast Read, Page Program and Sector Erase
+commands.
+For Fast READ commands, it also gives the number of mode clock cycles and
+wait states (regrouped in the number of dummy clock cycles) for each
+supported instruction op code.
+For Page Program, the page size is now available since JESD216 rev A, however
+the supported instruction op codes are still not provided.
+For Sector Erase commands, this table stores the supported instruction op
+codes and the associated sector sizes.
+Finally, the Quad Enable Requirements (QER) are also available since JESD216
+rev A. The QER bits encode the manufacturer dependent procedure to be
+executed to set the Quad Enable (QE) bit in some internal register of the
+Quad SPI memory. Indeed the QE bit, when it exists, must be set before
+sending any Quad SPI command to the memory. Actually, setting the QE bit
+tells the memory to reassign its WP# and HOLD#/RESET# pins to functions IO2
+and IO3 hence enabling 4 (Quad) I/O lines.
+.SH "RETURN"
+0 on success, -errno otherwise.

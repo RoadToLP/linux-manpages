@@ -1,0 +1,30 @@
+.TH "__bfq_lookup_next_entity" 9 "__bfq_lookup_next_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bfq_lookup_next_entity \- return the first eligible entity in @st.
+.SH SYNOPSIS
+.B "struct bfq_entity *" __bfq_lookup_next_entity
+.BI "(struct bfq_service_tree *st "  ","
+.BI "bool in_service "  ");"
+.SH ARGUMENTS
+.IP "st" 12
+the service tree.
+.IP "in_service" 12
+-- undescribed --
+.SH "DESCRIPTION"
+If there is no in-service entity for the sched_data st belongs to,
+then return the entity that will be set in service if:
+1) the parent entity this st belongs to is set in service;
+2) no entity belonging to such parent entity undergoes a state change
+that would influence the timestamps of the entity (e.g., becomes idle,
+becomes backlogged, changes its budget, ...).
+
+In this first case, update the virtual time in \fIst\fP too (see the
+comments on this update inside the function).
+
+In contrast, if there is an in-service entity, then return the
+entity that would be set in service if not only the above
+conditions, but also the next one held true: the currently
+in-service entity, on expiration,
+1) gets a finish time equal to the current one, or
+2) is not eligible any more, or
+3) is idle.

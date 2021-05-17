@@ -1,0 +1,25 @@
+.TH "tomoyo_update_domain" 9 "tomoyo_update_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_update_domain \- Update an entry for domain policy.
+.SH SYNOPSIS
+.B "int" tomoyo_update_domain
+.BI "(struct tomoyo_acl_info *new_entry "  ","
+.BI "const int size "  ","
+.BI "struct tomoyo_acl_param *param "  ","
+.BI "bool (*check_duplicate)(const struct tomoyo_acl_info *, const struct tomoyo_acl_info *) "  ","
+.BI "bool (*merge_duplicate)(struct tomoyo_acl_info *, struct tomoyo_acl_info *, const bool) "  ");"
+.SH ARGUMENTS
+.IP "new_entry" 12
+Pointer to "struct tomoyo_acl_info".
+.IP "size" 12
+Size of \fInew_entry\fP in bytes.
+.IP "param" 12
+Pointer to "struct tomoyo_acl_param".
+.IP "check_duplicate" 12
+Callback function to find duplicated entry.
+.IP "merge_duplicate" 12
+Callback function to merge duplicated entry.
+.SH "DESCRIPTION"
+Returns 0 on success, negative value otherwise.
+
+Caller holds \fBtomoyo_read_lock\fP.

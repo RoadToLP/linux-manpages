@@ -1,0 +1,20 @@
+.TH "kvm_mmu_wp_memory_region" 9 "kvm_mmu_wp_memory_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mmu_wp_memory_region \- write protect stage 2 entries for memory slot
+.SH SYNOPSIS
+.B "void" kvm_mmu_wp_memory_region
+.BI "(struct kvm *kvm "  ","
+.BI "int slot "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+The KVM pointer
+.IP "slot" 12
+The memory slot to write protect
+.SH "DESCRIPTION"
+Called to start logging dirty pages after memory region
+KVM_MEM_LOG_DIRTY_PAGES operation is called. After this function returns
+all present PUD, PMD and PTEs are write protected in the memory region.
+Afterwards read of dirty page log can be called.
+
+Acquires kvm_mmu_lock. Called with kvm->slots_lock mutex acquired,
+serializing operations for VM memory regions.

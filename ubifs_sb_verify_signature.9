@@ -1,0 +1,19 @@
+.TH "ubifs_sb_verify_signature" 9 "ubifs_sb_verify_signature" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_sb_verify_signature \- verify the signature of a superblock
+.SH SYNOPSIS
+.B "int" ubifs_sb_verify_signature
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct ubifs_sb_node *sup "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "sup" 12
+The superblock node
+.SH "DESCRIPTION"
+To support offline signed images the superblock can be signed with a
+PKCS#7 signature. The signature is placed directly behind the superblock
+node in an ubifs_sig_node.
+
+Returns 0 when the signature can be successfully verified or a negative
+error code if not.

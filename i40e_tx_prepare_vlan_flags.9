@@ -1,0 +1,21 @@
+.TH "i40e_tx_prepare_vlan_flags" 9 "i40e_tx_prepare_vlan_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_tx_prepare_vlan_flags \- prepare generic TX VLAN tagging flags for HW
+.SH SYNOPSIS
+.B "int" i40e_tx_prepare_vlan_flags
+.BI "(struct sk_buff *skb "  ","
+.BI "struct i40e_ring *tx_ring "  ","
+.BI "u32 *flags "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+send buffer
+.IP "tx_ring" 12
+ring to send buffer on
+.IP "flags" 12
+the tx flags to be set
+.SH "DESCRIPTION"
+Checks the skb and set up correspondingly several generic transmit flags
+related to VLAN tagging for the HW, such as VLAN, DCB, etc.
+
+Returns error code indicate the frame should be dropped upon error and the
+otherwise  returns 0 to indicate the flags has been set properly.

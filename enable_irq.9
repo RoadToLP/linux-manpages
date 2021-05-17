@@ -1,0 +1,16 @@
+.TH "enable_irq" 9 "enable_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enable_irq \- enable handling of an irq
+.SH SYNOPSIS
+.B "void" enable_irq
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt to enable
+
+Undoes the effect of one call to \fBdisable_irq\fP.  If this
+matches the last disable, processing of interrupts on this
+IRQ line is re-enabled.
+
+This function may be called from IRQ context only when
+desc->irq_data.chip->bus_lock and desc->chip->bus_sync_unlock are NULL !

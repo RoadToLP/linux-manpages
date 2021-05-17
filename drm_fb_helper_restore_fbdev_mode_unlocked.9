@@ -1,0 +1,15 @@
+.TH "drm_fb_helper_restore_fbdev_mode_unlocked" 9 "drm_fb_helper_restore_fbdev_mode_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_helper_restore_fbdev_mode_unlocked \- restore fbdev configuration
+.SH SYNOPSIS
+.B "int" drm_fb_helper_restore_fbdev_mode_unlocked
+.BI "(struct drm_fb_helper *fb_helper "  ");"
+.SH ARGUMENTS
+.IP "fb_helper" 12
+driver-allocated fbdev helper, can be NULL
+.SH "DESCRIPTION"
+This should be called from driver's drm \fIdrm_driver.lastclose\fP callback
+when implementing an fbcon on top of kms using this helper. This ensures that
+the user isn't greeted with a black screen when e.g. X dies.
+.SH "RETURN"
+Zero if everything went ok, negative error code otherwise.

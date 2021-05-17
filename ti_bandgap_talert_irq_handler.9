@@ -1,0 +1,20 @@
+.TH "ti_bandgap_talert_irq_handler" 9 "ti_bandgap_talert_irq_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_bandgap_talert_irq_handler \- handles Temperature alert IRQs
+.SH SYNOPSIS
+.B "irqreturn_t" ti_bandgap_talert_irq_handler
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number
+.IP "data" 12
+private data (struct ti_bandgap *)
+.SH "DESCRIPTION"
+This is the Talert handler. Use it only if bandgap device features
+HAS(TALERT). This handler goes over all sensors and checks their
+conditions and acts accordingly. In case there are events pending,
+it will reset the event mask to wait for the opposite event (next event).
+Every time there is a new event, it will be reported to thermal layer.
+.SH "RETURN"
+IRQ_HANDLED

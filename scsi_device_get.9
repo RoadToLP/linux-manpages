@@ -1,0 +1,16 @@
+.TH "scsi_device_get" 9 "scsi_device_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_device_get \- get an additional reference to a scsi_device
+.SH SYNOPSIS
+.B "int" scsi_device_get
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+device to get a reference to
+.SH "DESCRIPTION"
+Gets a reference to the scsi_device and increments the use count
+of the underlying LLDD module.  You must hold host_lock of the
+parent Scsi_Host or already have a reference when calling this.
+
+This will fail if a device is deleted or cancelled, or when the LLD module
+is in the process of being unloaded.

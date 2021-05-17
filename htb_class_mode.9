@@ -1,0 +1,21 @@
+.TH "htb_class_mode" 9 "htb_class_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+htb_class_mode \- computes and returns current class mode
+.SH SYNOPSIS
+.B "enum htb_cmode" htb_class_mode
+.BI "(struct htb_class *cl "  ","
+.BI "s64 *diff "  ");"
+.SH ARGUMENTS
+.IP "cl" 12
+-- undescribed --
+.IP "diff" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+It computes cl's mode at time cl->t_c+diff and returns it. If mode
+is not HTB_CAN_SEND then cl->pq_key is updated to time difference
+from now to time when cl will change its state.
+Also it is worth to note that class mode doesn't change simply
+at cl->{c,}tokens == 0 but there can rather be hysteresis of
+0 .. -cl->{c,}buffer range. It is meant to limit number of
+mode transitions per time unit. The speed gain is about 1/6.

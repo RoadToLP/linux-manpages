@@ -1,0 +1,18 @@
+.TH "__dev_remove_pack" 9 "__dev_remove_pack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__dev_remove_pack \- remove packet handler
+.SH SYNOPSIS
+.B "void" __dev_remove_pack
+.BI "(struct packet_type *pt "  ");"
+.SH ARGUMENTS
+.IP "pt" 12
+packet type declaration
+
+Remove a protocol handler that was previously added to the kernel
+protocol handlers by \fBdev_add_pack\fP. The passed \fIpacket_type\fP is removed
+from the kernel lists and can be freed or reused once this function
+returns.
+
+The packet type might still be in use by receivers
+and must not be freed until after all the CPU's have gone
+through a quiescent state.

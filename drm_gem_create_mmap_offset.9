@@ -1,0 +1,19 @@
+.TH "drm_gem_create_mmap_offset" 9 "drm_gem_create_mmap_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_create_mmap_offset \- create a fake mmap offset for an object
+.SH SYNOPSIS
+.B "int" drm_gem_create_mmap_offset
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+obj in question
+.SH "DESCRIPTION"
+GEM memory mapping works by handing back to userspace a fake mmap offset
+it can use in a subsequent mmap(2) call.  The DRM core code then looks
+up the object based on the offset and sets up the various memory mapping
+structures.
+
+This routine allocates and attaches a fake offset for \fIobj\fP.
+
+Drivers can call \fBdrm_gem_free_mmap_offset\fP before freeing \fIobj\fP to release
+the fake offset again.

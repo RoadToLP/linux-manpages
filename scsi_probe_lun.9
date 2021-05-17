@@ -1,0 +1,24 @@
+.TH "scsi_probe_lun" 9 "scsi_probe_lun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_probe_lun \- probe a single LUN using a SCSI INQUIRY
+.SH SYNOPSIS
+.B "int" scsi_probe_lun
+.BI "(struct scsi_device *sdev "  ","
+.BI "unsigned char *inq_result "  ","
+.BI "int result_len "  ","
+.BI "blist_flags_t *bflags "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi_device to probe
+.IP "inq_result" 12
+area to store the INQUIRY result
+.IP "result_len" 12
+len of inq_result
+.IP "bflags" 12
+store any bflags found here
+.SH "DESCRIPTION"
+Probe the lun associated with \fIreq\fP using a standard SCSI INQUIRY;
+
+If the INQUIRY is successful, zero is returned and the
+INQUIRY data is in \fIinq_result\fP; the scsi_level and INQUIRY length
+are copied to the scsi_device any flags value is stored in *\fIbflags\fP.

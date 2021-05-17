@@ -1,0 +1,20 @@
+.TH "find_sub_ctxt" 9 "find_sub_ctxt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_sub_ctxt \- 
+.SH SYNOPSIS
+.B "int" find_sub_ctxt
+.BI "(struct hfi1_filedata *fd "  ","
+.BI "const struct hfi1_user_info *uinfo "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+valid filedata pointer
+.IP "uinfo" 12
+matching info to use to find a possible context to share.
+.SH "DESCRIPTION"
+The hfi1_mutex must be held when this function is called.  It is
+necessary to ensure serialized creation of shared contexts.
+.SH "RETURN"
+0      No sub-context found
+1      Subcontext found and allocated
+errno  EINVAL (incorrect parameters)
+EBUSY (all sub contexts in use)

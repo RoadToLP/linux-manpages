@@ -1,0 +1,18 @@
+.TH "find_wl_entry" 9 "find_wl_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_wl_entry \- find wear-leveling entry closest to certain erase counter.
+.SH SYNOPSIS
+.B "struct ubi_wl_entry *" find_wl_entry
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct rb_root *root "  ","
+.BI "int diff "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "root" 12
+the RB-tree where to look for
+.IP "diff" 12
+maximum possible difference from the smallest erase counter
+.SH "DESCRIPTION"
+This function looks for a wear leveling entry with erase counter closest to
+min + \fIdiff\fP, where min is the smallest erase counter.

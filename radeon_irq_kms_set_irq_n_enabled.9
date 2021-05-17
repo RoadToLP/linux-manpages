@@ -1,0 +1,31 @@
+.TH "radeon_irq_kms_set_irq_n_enabled" 9 "radeon_irq_kms_set_irq_n_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_irq_kms_set_irq_n_enabled \- helper for updating interrupt enable registers
+.SH SYNOPSIS
+.B "void" radeon_irq_kms_set_irq_n_enabled
+.BI "(struct radeon_device *rdev "  ","
+.BI "u32 reg "  ","
+.BI "u32 mask "  ","
+.BI "bool enable "  ","
+.BI "const char *name "  ","
+.BI "unsigned n "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device pointer
+.IP "reg" 12
+the register to write to enable/disable interrupts
+.IP "mask" 12
+the mask that enables the interrupts
+.IP "enable" 12
+whether to enable or disable the interrupt register
+.IP "name" 12
+the name of the interrupt register to print to the kernel log
+.IP "n" 12
+the number of the interrupt register to print to the kernel log
+.SH "DESCRIPTION"
+Helper for updating the enable state of interrupt registers. Checks whether
+or not the interrupt matches the enable state we want. If it doesn't, then
+we update it and print a debugging message to the kernel log indicating the
+new state of the interrupt register.
+
+Used for updating sequences of interrupts registers like HPD1, HPD2, etc.

@@ -1,0 +1,23 @@
+.TH "check_pte" 9 "check_pte" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_pte \- check if @pvmw->page is mapped at the @pvmw->pte
+.SH SYNOPSIS
+.B "bool" check_pte
+.BI "(struct page_vma_mapped_walk *pvmw "  ");"
+.SH ARGUMENTS
+.IP "pvmw" 12
+page_vma_mapped_walk struct, includes a pair pte and page for checking
+.SH "DESCRIPTION"
+\fBpage_vma_mapped_walk\fP found a place where \fIpvmw->page\fP is *potentially*
+mapped. \fBcheck_pte\fP has to validate this.
+
+pvmw->pte may point to empty PTE, swap PTE or PTE pointing to
+arbitrary page.
+
+If PVMW_MIGRATION flag is set, returns true if \fIpvmw->pte\fP contains migration
+entry that points to \fIpvmw->page\fP or any subpage in case of THP.
+
+If PVMW_MIGRATION flag is not set, returns true if pvmw->pte points to
+pvmw->page or any subpage in case of THP.
+
+Otherwise, return false.

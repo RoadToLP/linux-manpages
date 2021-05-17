@@ -1,0 +1,17 @@
+.TH "e1000_check_alt_mac_addr_generic" 9 "e1000_check_alt_mac_addr_generic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_check_alt_mac_addr_generic \- Check for alternate MAC addr
+.SH SYNOPSIS
+.B "s32" e1000_check_alt_mac_addr_generic
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+Checks the nvm for an alternate MAC address.  An alternate MAC address
+can be setup by pre-boot software and must be treated like a permanent
+address and must override the actual permanent MAC address. If an
+alternate MAC address is found it is programmed into RAR0, replacing
+the permanent address that was installed into RAR0 by the Si on reset.
+This function will return SUCCESS unless it encounters an error while
+reading the EEPROM.

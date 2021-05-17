@@ -1,0 +1,25 @@
+.TH "drm_crtc_vblank_count" 9 "drm_crtc_vblank_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_vblank_count \- retrieve "cooked" vblank counter value
+.SH SYNOPSIS
+.B "u64" drm_crtc_vblank_count
+.BI "(struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+which counter to retrieve
+.SH "DESCRIPTION"
+Fetches the "cooked" vblank count value that represents the number of
+vblank events since the system was booted, including lost events due to
+modesetting activity. Note that this timer isn't correct against a racing
+vblank interrupt (since it only reports the software vblank counter), see
+\fBdrm_crtc_accurate_vblank_count\fP for such use-cases.
+
+Note that for a given vblank counter value \fBdrm_crtc_handle_vblank\fP
+and \fBdrm_crtc_vblank_count\fP or \fBdrm_crtc_vblank_count_and_time\fP
+provide a barrier: Any writes done before calling
+\fBdrm_crtc_handle_vblank\fP will be visible to callers of the later
+functions, iff the vblank count is the same or a later one.
+
+See also \fIdrm_vblank_crtc.count\fP.
+.SH "RETURN"
+The software vblank counter.

@@ -1,0 +1,17 @@
+.TH "ccw_device_notify" 9 "ccw_device_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_notify \- inform the device's driver about an event
+.SH SYNOPSIS
+.B "int" ccw_device_notify
+.BI "(struct ccw_device *cdev "  ","
+.BI "int event "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+device for which an event occurred
+.IP "event" 12
+event that occurred
+.SH "RETURN"
+-EINVAL if the device is offline or has no driver.
+-EOPNOTSUPP if the device's driver has no notifier registered.
+NOTIFY_OK if the driver wants to keep the device.
+NOTIFY_BAD if the driver doesn't want to keep the device.

@@ -1,0 +1,32 @@
+.TH "nx_build_sg_lists" 9 "nx_build_sg_lists" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nx_build_sg_lists \- walk the input scatterlists and build arrays of NX scatterlists based on them.
+.SH SYNOPSIS
+.B "int" nx_build_sg_lists
+.BI "(struct nx_crypto_ctx *nx_ctx "  ","
+.BI "const u8 *iv "  ","
+.BI "struct scatterlist *dst "  ","
+.BI "struct scatterlist *src "  ","
+.BI "unsigned int *nbytes "  ","
+.BI "unsigned int offset "  ","
+.BI "u8 *oiv "  ");"
+.SH ARGUMENTS
+.IP "nx_ctx" 12
+NX crypto context for the lists we're building
+.IP "iv" 12
+iv data, if the algorithm requires it
+.IP "dst" 12
+destination scatterlist
+.IP "src" 12
+source scatterlist
+.IP "nbytes" 12
+length of data described in the scatterlists
+.IP "offset" 12
+number of bytes to fast-forward past at the beginning of
+scatterlists.
+.IP "oiv" 12
+destination for the iv data, if the algorithm requires it
+.SH "DESCRIPTION"
+This is common code shared by all the AES algorithms. It uses the crypto
+scatterlist walk routines to traverse input and output scatterlists, building
+corresponding NX scatterlists

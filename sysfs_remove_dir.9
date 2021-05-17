@@ -1,0 +1,13 @@
+.TH "sysfs_remove_dir" 9 "sysfs_remove_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_remove_dir \- remove an object's directory.
+.SH SYNOPSIS
+.B "void" sysfs_remove_dir
+.BI "(struct kobject *kobj "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+object.
+
+The only thing special about this is that we remove any files in
+the directory before we remove the directory, and we've inlined
+what used to be \fBsysfs_rmdir\fP below, instead of calling separately.

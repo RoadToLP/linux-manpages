@@ -1,0 +1,26 @@
+.TH "lpfc_nvme_prep_io_cmd" 9 "lpfc_nvme_prep_io_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_prep_io_cmd \- Issue an NVME-over-FCP IO
+.SH SYNOPSIS
+.B "int" lpfc_nvme_prep_io_cmd
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_io_buf *lpfc_ncmd "  ","
+.BI "struct lpfc_nodelist *pnode "  ","
+.BI "struct lpfc_fc4_ctrl_stat *cstat "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure
+.IP "lpfc_ncmd" 12
+Pointer to lpfc scsi command
+.IP "pnode" 12
+pointer to a node-list data structure
+.IP "cstat" 12
+pointer to the control status structure
+.SH "DESCRIPTION"
+Driver registers this routine as it io request handler.  This
+routine issues an fcp WQE with data from the \fIlpfc_nvme_fcpreq\fP
+data structure to the rport indicated in \fIlpfc_nvme_rport\fP.
+
+Return value :
+0 - Success
+TODO: What are the failure codes.

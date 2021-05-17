@@ -1,0 +1,34 @@
+.TH "cdns_uart_calc_baud_divs" 9 "cdns_uart_calc_baud_divs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns_uart_calc_baud_divs \- Calculate baud rate divisors
+.SH SYNOPSIS
+.B "unsigned int" cdns_uart_calc_baud_divs
+.BI "(unsigned int clk "  ","
+.BI "unsigned int baud "  ","
+.BI "u32 *rbdiv "  ","
+.BI "u32 *rcd "  ","
+.BI "int *div8 "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+UART module input clock
+.IP "baud" 12
+Desired baud rate
+.IP "rbdiv" 12
+BDIV value (return value)
+.IP "rcd" 12
+CD value (return value)
+.IP "div8" 12
+Value for clk_sel bit in mod (return value)
+.SH "RETURN"
+baud rate, requested baud when possible, or actual baud when there
+was too much error, zero if no valid divisors are found.
+.SH "DESCRIPTION"
+Formula to obtain baud rate is
+baud_tx/rx rate = clk/CD * (BDIV + 1)
+input_clk = (Uart User Defined Clock or Apb Clock)
+depends on UCLKEN in MR Reg
+clk = input_clk or input_clk/8;
+depends on CLKS in MR reg
+CD and BDIV depends on values in
+baud rate generate register
+baud rate clock divisor register

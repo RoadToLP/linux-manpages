@@ -1,0 +1,24 @@
+.TH "drm_atomic_get_new_connector_for_encoder" 9 "drm_atomic_get_new_connector_for_encoder" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_get_new_connector_for_encoder \- Get new connector for an encoder
+.SH SYNOPSIS
+.B "struct drm_connector *" drm_atomic_get_new_connector_for_encoder
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_encoder *encoder "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Atomic state
+.IP "encoder" 12
+The encoder to fetch the connector state for
+.SH "DESCRIPTION"
+This function finds and returns the connector that will be connected to
+\fIencoder\fP as specified by the \fIstate\fP.
+
+If there is no connector in \fIstate\fP which will have \fIencoder\fP connected to it,
+this function will return NULL. While this may seem like an invalid use case,
+it is sometimes useful to differentiate commits which have no connectors
+attached to \fIencoder\fP vs ones that do (and to inspect their state). This is
+especially true in disable hooks because the pipeline will change.
+.SH "RETURN"
+The new connector connected to \fIencoder\fP, or NULL if the encoder is
+not connected.

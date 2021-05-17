@@ -1,0 +1,25 @@
+.TH "__radix_tree_lookup" 9 "__radix_tree_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__radix_tree_lookup \- lookup an item in a radix tree
+.SH SYNOPSIS
+.B "void *" __radix_tree_lookup
+.BI "(const struct radix_tree_root *root "  ","
+.BI "unsigned long index "  ","
+.BI "struct radix_tree_node **nodep "  ","
+.BI "void __rcu ***slotp "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "index" 12
+index key
+.IP "nodep" 12
+returns node
+.IP "slotp" 12
+returns slot
+
+Lookup and return the item at position \fIindex\fP in the radix
+tree \fIroot\fP.
+
+Until there is more than one item in the tree, no nodes are
+allocated and \fIroot->xa_head\fP is used as a direct slot instead of
+pointing to a node, in which case *\fInodep\fP will be NULL.

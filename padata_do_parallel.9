@@ -1,0 +1,25 @@
+.TH "padata_do_parallel" 9 "padata_do_parallel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+padata_do_parallel \- padata parallelization function
+.SH SYNOPSIS
+.B "int" padata_do_parallel
+.BI "(struct padata_shell *ps "  ","
+.BI "struct padata_priv *padata "  ","
+.BI "int *cb_cpu "  ");"
+.SH ARGUMENTS
+.IP "ps" 12
+padatashell
+.IP "padata" 12
+object to be parallelized
+.IP "cb_cpu" 12
+pointer to the CPU that the serialization callback function should
+run on.  If it's not in the serial cpumask of \fIpinst\fP
+(i.e. cpumask.cbcpu), this function selects a fallback CPU and if
+none found, returns -EINVAL.
+.SH "DESCRIPTION"
+The parallelization callback function will run with BHs off.
+.SH "NOTE"
+Every object which is parallelized by padata_do_parallel
+must be seen by padata_do_serial.
+.SH "RETURN"
+0 on success or else negative error code.

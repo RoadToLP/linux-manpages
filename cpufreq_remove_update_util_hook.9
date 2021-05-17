@@ -1,0 +1,15 @@
+.TH "cpufreq_remove_update_util_hook" 9 "cpufreq_remove_update_util_hook" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_remove_update_util_hook \- Clear the CPU's update_util_data pointer.
+.SH SYNOPSIS
+.B "void" cpufreq_remove_update_util_hook
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+The CPU to clear the pointer for.
+.SH "DESCRIPTION"
+Clear the update_util_data pointer for the given CPU.
+
+Callers must use RCU callbacks to free any memory that might be
+accessed via the old update_util_data pointer or invoke \fBsynchronize_rcu\fP
+right after this function to avoid use-after-free.

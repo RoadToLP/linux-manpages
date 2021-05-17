@@ -1,0 +1,23 @@
+.TH "device_register" 9 "device_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_register \- register a device with the system.
+.SH SYNOPSIS
+.B "int" device_register
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the device structure
+.SH "DESCRIPTION"
+This happens in two clean steps - initialize the device
+and add it to the system. The two steps can be called
+separately, but this is the easiest and most common.
+I.e. you should only call the two helpers separately if
+have a clearly defined need to use and refcount the device
+before it is added to the hierarchy.
+
+For more information, see the kerneldoc for \fBdevice_initialize\fP
+and \fBdevice_add\fP.
+.SH "NOTE"
+_Never_ directly free \fIdev\fP after calling this function, even
+if it returned an error! Always use \fBput_device\fP to give up the
+reference initialized in this function instead.

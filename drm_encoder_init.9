@@ -1,0 +1,36 @@
+.TH "drm_encoder_init" 9 "drm_encoder_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_encoder_init \- Init a preallocated encoder
+.SH SYNOPSIS
+.B "int" drm_encoder_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_encoder *encoder "  ","
+.BI "const struct drm_encoder_funcs *funcs "  ","
+.BI "int encoder_type "  ","
+.BI "const char *name "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "encoder" 12
+the encoder to init
+.IP "funcs" 12
+callbacks for this encoder
+.IP "encoder_type" 12
+user visible type of the encoder
+.IP "name" 12
+printf style format string for the encoder name, or NULL for default name
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Initializes a preallocated encoder. Encoder should be subclassed as part of
+driver encoder objects. At driver unload time the driver's
+\fIdrm_encoder_funcs.destroy\fP hook should call \fBdrm_encoder_cleanup\fP and \fBkfree\fP
+the encoder structure. The encoder structure should not be allocated with
+\fBdevm_kzalloc\fP.
+.SH "NOTE"
+consider using \fBdrmm_encoder_alloc\fP instead of \fBdrm_encoder_init\fP to
+let the DRM managed resource infrastructure take care of cleanup and
+deallocation.
+.SH "RETURN"
+Zero on success, error code on failure.

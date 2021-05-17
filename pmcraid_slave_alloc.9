@@ -1,0 +1,17 @@
+.TH "pmcraid_slave_alloc" 9 "pmcraid_slave_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_slave_alloc \- Prepare for commands to a device
+.SH SYNOPSIS
+.B "int" pmcraid_slave_alloc
+.BI "(struct scsi_device *scsi_dev "  ");"
+.SH ARGUMENTS
+.IP "scsi_dev" 12
+scsi device struct
+.SH "DESCRIPTION"
+This function is called by mid-layer prior to sending any command to the new
+device. Stores resource entry details of the device in scsi_device struct.
+Queuecommand uses the resource handle and other details to fill up IOARCB
+while sending commands to the device.
+
+Return value:
+0 on success / -ENXIO if device does not exist

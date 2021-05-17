@@ -1,0 +1,14 @@
+.TH "gsm_dlci_begin_open" 9 "gsm_dlci_begin_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_dlci_begin_open \- start channel open procedure
+.SH SYNOPSIS
+.B "void" gsm_dlci_begin_open
+.BI "(struct gsm_dlci *dlci "  ");"
+.SH ARGUMENTS
+.IP "dlci" 12
+DLCI to open
+
+Commence opening a DLCI from the Linux side. We issue SABM messages
+to the modem which should then reply with a UA or ADM, at which point
+we will move into open state. Opening is done asynchronously with retry
+running off timers and the responses.

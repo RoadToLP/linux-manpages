@@ -1,0 +1,18 @@
+.TH "ioctl_common" 9 "ioctl_common" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ioctl_common \- common IOCTL handler for driver
+.SH SYNOPSIS
+.B "int" ioctl_common
+.BI "(struct scsi_device *sdev "  ","
+.BI "unsigned int cmd "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "cmd" 12
+IOCTL command.
+.SH "DESCRIPTION"
+Handles common fencing operations that are valid for multiple ioctls. Always
+allow through ioctls that are cleanup oriented in nature, even when operating
+in a failed/terminating state.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,25 @@
+.TH "filemap_fdatawait_range" 9 "filemap_fdatawait_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_fdatawait_range \- wait for writeback to complete
+.SH SYNOPSIS
+.B "int" filemap_fdatawait_range
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t start_byte "  ","
+.BI "loff_t end_byte "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space structure to wait for
+.IP "start_byte" 12
+offset in bytes where the range starts
+.IP "end_byte" 12
+offset in bytes where the range ends (inclusive)
+.SH "DESCRIPTION"
+Walk the list of under-writeback pages of the given address space
+in the given range and wait for all of them.  Check error status of
+the address space and return it.
+
+Since the error status of the address space is cleared by this function,
+callers are responsible for checking the return value and handling and/or
+reporting the error.
+.SH "RETURN"
+error status of the address space.

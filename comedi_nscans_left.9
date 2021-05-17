@@ -1,0 +1,21 @@
+.TH "comedi_nscans_left" 9 "comedi_nscans_left" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_nscans_left \- Return the number of scans left in the command
+.SH SYNOPSIS
+.B "unsigned int" comedi_nscans_left
+.BI "(struct comedi_subdevice *s "  ","
+.BI "unsigned int nscans "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "nscans" 12
+The expected number of scans or 0 for all available scans.
+.SH "DESCRIPTION"
+If \fInscans\fP is 0, it is set to the number of scans available in the
+async buffer.
+
+If the async command has a stop_src of TRIG_COUNT, the \fInscans\fP will be
+checked against the number of scans remaining to complete the command.
+
+The return value will then be either the expected number of scans or the
+number of scans remaining to complete the command, whichever is fewer.

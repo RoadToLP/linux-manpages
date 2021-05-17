@@ -1,0 +1,18 @@
+.TH "nand_subop_get_data_len" 9 "nand_subop_get_data_len" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_subop_get_data_len \- Get the number of bytes to retrieve
+.SH SYNOPSIS
+.B "unsigned int" nand_subop_get_data_len
+.BI "(const struct nand_subop *subop "  ","
+.BI "unsigned int instr_idx "  ");"
+.SH ARGUMENTS
+.IP "subop" 12
+The entire sub-operation
+.IP "instr_idx" 12
+Index of the instruction inside the sub-operation
+.SH "DESCRIPTION"
+During driver development, one could be tempted to directly use the
+->data->len field of a data instruction. This is wrong as data instructions
+might be split.
+
+Returns the length of the chunk of data to send/receive.

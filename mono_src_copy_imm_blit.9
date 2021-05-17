@@ -1,0 +1,46 @@
+.TH "mono_src_copy_imm_blit" 9 "mono_src_copy_imm_blit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mono_src_copy_imm_blit \- color expand from system memory to framebuffer
+.SH SYNOPSIS
+.B "void" mono_src_copy_imm_blit
+.BI "(int dwidth "  ","
+.BI "int dheight "  ","
+.BI "int dpitch "  ","
+.BI "int dsize "  ","
+.BI "int blit_bpp "  ","
+.BI "int rop "  ","
+.BI "int dest "  ","
+.BI "const u32 *src "  ","
+.BI "int bg "  ","
+.BI "int fg "  ","
+.BI "struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "dwidth" 12
+width of destination
+.IP "dheight" 12
+height of destination
+.IP "dpitch" 12
+pixels per line of the buffer
+.IP "dsize" 12
+size of bitmap in double words
+.IP "blit_bpp" 12
+pixelformat to use which can be different from the 
+framebuffer's pixelformat
+.IP "rop" 12
+raster operation
+.IP "dest" 12
+address of first byte of pixel;
+.IP "src" 12
+address of image data
+.IP "bg" 12
+backgound color
+.IP "fg" 12
+forground color
+.IP "info" 12
+-- undescribed --
+.SH "DESCRIPTION"
+A color expand operation where the  source data is placed in the 
+ringbuffer itself. Useful for drawing text. 
+
+REQUIREMENT:
+The end of a scanline must be padded to the next word.

@@ -1,0 +1,26 @@
+.TH "ep_poll" 9 "ep_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep_poll \- Retrieves ready events, and delivers them to the caller supplied event buffer.
+.SH SYNOPSIS
+.B "int" ep_poll
+.BI "(struct eventpoll *ep "  ","
+.BI "struct epoll_event __user *events "  ","
+.BI "int maxevents "  ","
+.BI "struct timespec64 *timeout "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+Pointer to the eventpoll context.
+.IP "events" 12
+Pointer to the userspace buffer where the ready events should be
+stored.
+.IP "maxevents" 12
+Size (in terms of number of events) of the caller event buffer.
+.IP "timeout" 12
+Maximum timeout for the ready events fetch operation, in
+timespec. If the timeout is zero, the function will not block,
+while if the \fItimeout\fP ptr is NULL, the function will block
+until at least one event has been retrieved (or an error
+occurred).
+.SH "RETURN"
+Returns the number of ready events which have been fetched, or an
+error code, in case of error.

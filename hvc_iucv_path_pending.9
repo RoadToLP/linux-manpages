@@ -1,0 +1,28 @@
+.TH "hvc_iucv_path_pending" 9 "hvc_iucv_path_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_path_pending \- IUCV handler to process a connection request.
+.SH SYNOPSIS
+.B "int" hvc_iucv_path_pending
+.BI "(struct iucv_path *path "  ","
+.BI "u8 *ipvmid "  ","
+.BI "u8 *ipuser "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Pending path (struct iucv_path)
+.IP "ipvmid" 12
+z/VM system identifier of originator
+.IP "ipuser" 12
+User specified data for this path
+(AF_IUCV: port/service name and originator port)
+.SH "DESCRIPTION"
+The function uses the \fIipuser\fP data to determine if the pending path belongs
+to a terminal managed by this device driver.
+If the path belongs to this driver, ensure that the terminal is not accessed
+multiple times (only one connection to a terminal is allowed).
+If the terminal is not yet connected, the pending path is accepted and is
+associated to the appropriate struct hvc_iucv_private instance.
+
+Returns 0 if \fIpath\fP belongs to a terminal managed by the this device driver;
+otherwise returns -ENODEV in order to dispatch this path to other handlers.
+
+Locking:     struct hvc_iucv_private->lock

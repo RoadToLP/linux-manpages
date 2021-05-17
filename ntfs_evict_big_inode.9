@@ -1,0 +1,15 @@
+.TH "ntfs_evict_big_inode" 9 "ntfs_evict_big_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_evict_big_inode \- clean up the ntfs specific part of an inode
+.SH SYNOPSIS
+.B "void" ntfs_evict_big_inode
+.BI "(struct inode *vi "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+vfs inode pending annihilation
+.SH "DESCRIPTION"
+When the VFS is going to remove an inode from memory, \fBntfs_clear_big_inode\fP
+is called, which deallocates all memory belonging to the NTFS specific part
+of the inode and returns.
+
+If the MFT record is dirty, we commit it before doing anything else.

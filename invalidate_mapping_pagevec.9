@@ -1,0 +1,22 @@
+.TH "invalidate_mapping_pagevec" 9 "invalidate_mapping_pagevec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+invalidate_mapping_pagevec \- Invalidate all the unlocked pages of one inode
+.SH SYNOPSIS
+.B "void" invalidate_mapping_pagevec
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t end "  ","
+.BI "unsigned long *nr_pagevec "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address_space which holds the pages to invalidate
+.IP "start" 12
+the offset 'from' which to invalidate
+.IP "end" 12
+the offset 'to' which to invalidate (inclusive)
+.IP "nr_pagevec" 12
+invalidate failed page number for caller
+.SH "DESCRIPTION"
+This helper is similar to \fBinvalidate_mapping_pages\fP, except that it accounts
+for pages that are likely on a pagevec and counts them in \fInr_pagevec\fP, which
+will be used by the caller.

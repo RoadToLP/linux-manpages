@@ -1,0 +1,14 @@
+.TH "irq_poll_complete" 9 "irq_poll_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_poll_complete \- Mark this @iop as un-polled again
+.SH SYNOPSIS
+.B "void" irq_poll_complete
+.BI "(struct irq_poll *iop "  ");"
+.SH ARGUMENTS
+.IP "iop" 12
+The parent iopoll structure
+.SH "DESCRIPTION"
+If a driver consumes less than the assigned budget in its run of the
+iopoll handler, it'll end the polled mode by calling this function. The
+iopoll handler will not be invoked again before \fBirq_poll_sched\fP
+is called.

@@ -1,0 +1,29 @@
+.TH "trace_seq_to_user" 9 "trace_seq_to_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_seq_to_user \- copy the squence buffer to user space
+.SH SYNOPSIS
+.B "int" trace_seq_to_user
+.BI "(struct trace_seq *s "  ","
+.BI "char __user *ubuf "  ","
+.BI "int cnt "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+trace sequence descriptor
+.IP "ubuf" 12
+The userspace memory location to copy to
+.IP "cnt" 12
+The amount to copy
+.SH "DESCRIPTION"
+Copies the sequence buffer into the userspace memory pointed to
+by \fIubuf\fP. It starts from the last read position (\fIs->readpos\fP)
+and writes up to \fIcnt\fP characters or till it reaches the end of
+the content in the buffer (\fIs->len\fP), which ever comes first.
+
+On success, it returns a positive number of the number of bytes
+it copied.
+
+On failure it returns -EBUSY if all of the content in the
+sequence has been already read, which includes nothing in the
+sequenc (\fIs->len\fP == \fIs->readpos\fP).
+
+Returns -EFAULT if the copy to userspace fails.

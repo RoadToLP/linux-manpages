@@ -1,0 +1,18 @@
+.TH "it821x_passthru_set_dmamode" 9 "it821x_passthru_set_dmamode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+it821x_passthru_set_dmamode \- set initial DMA mode data
+.SH SYNOPSIS
+.B "void" it821x_passthru_set_dmamode
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA interface
+.IP "adev" 12
+ATA device
+
+Set up the DMA modes. The actions taken depend heavily on the mode
+to use. If UDMA is used as is hopefully the usual case then the
+timing register is private and we need only consider the clock. If
+we are using MWDMA then we have to manage the setting ourself as
+we switch devices and mode.

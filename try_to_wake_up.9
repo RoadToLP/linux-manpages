@@ -1,0 +1,46 @@
+.TH "try_to_wake_up" 9 "try_to_wake_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_wake_up \- wake up a thread
+.SH SYNOPSIS
+.B "int" try_to_wake_up
+.BI "(struct task_struct *p "  ","
+.BI "unsigned int state "  ","
+.BI "int wake_flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+the thread to be awakened
+.IP "state" 12
+the mask of task states that can be woken
+.IP "wake_flags" 12
+wake modifier flags (WF_*)
+.SH "DESCRIPTION"
+Conceptually does:
+
+If (\fIstate\fP & \fIp->state\fP) \fIp->state\fP = TASK_RUNNING.
+
+If the task was not queued/runnable, also place it back on a runqueue.
+
+This function is atomic against \fBschedule\fP which would dequeue the task.
+
+It issues a full memory barrier before accessing \fIp->state\fP, see the comment
+with \fBset_current_state\fP.
+
+Uses p->pi_lock to serialize against concurrent wake-ups.
+
+Relies on p->pi_lock stabilizing:
+- p->sched_class
+- p->cpus_ptr
+- p->sched_task_group
+in order to do migration, see its use of \fBselect_task_rq\fP/\fBset_task_cpu\fP.
+
+Tries really hard to only take one task_rq(p)->lock for performance.
+Takes rq->lock in:
+- \fBttwu_runnable\fP    -- old rq, unavoidable, see comment there;
+- \fBttwu_queue\fP       -- new rq, for enqueue of the task;
+- \fBpsi_ttwu_dequeue\fP -- much sadness :-( accounting will kill us.
+
+As a consequence we race really badly with just about everything. See the
+many memory barriers and their comments for details.
+.SH "RETURN"
+true if \fIp->state\fP changes (an actual wakeup was done),
+false otherwise.

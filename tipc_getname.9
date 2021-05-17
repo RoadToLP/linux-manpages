@@ -1,0 +1,21 @@
+.TH "tipc_getname" 9 "tipc_getname" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_getname \- get port ID of socket or peer socket
+.SH SYNOPSIS
+.B "int" tipc_getname
+.BI "(struct socket *sock "  ","
+.BI "struct sockaddr *uaddr "  ","
+.BI "int peer "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+socket structure
+.IP "uaddr" 12
+area for returned socket address
+.IP "peer" 12
+0 = own ID, 1 = current peer ID, 2 = current/former peer ID
+.SH "RETURN"
+0 on success, errno otherwise
+.SH "NOTE"
+This routine doesn't need to take the socket lock since it only
+accesses socket information that is unchanging (or which changes in
+a completely predictable manner).

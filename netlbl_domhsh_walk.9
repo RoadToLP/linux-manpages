@@ -1,0 +1,24 @@
+.TH "netlbl_domhsh_walk" 9 "netlbl_domhsh_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_domhsh_walk \- Iterate through the domain mapping hash table
+.SH SYNOPSIS
+.B "int" netlbl_domhsh_walk
+.BI "(u32 *skip_bkt "  ","
+.BI "u32 *skip_chain "  ","
+.BI "int (*callback) (struct netlbl_dom_map *entry, void *arg) "  ","
+.BI "void *cb_arg "  ");"
+.SH ARGUMENTS
+.IP "skip_bkt" 12
+the number of buckets to skip at the start
+.IP "skip_chain" 12
+the number of entries to skip in the first iterated bucket
+.IP "callback" 12
+callback for each entry
+.IP "cb_arg" 12
+argument for the callback function
+.SH "DESCRIPTION"
+Interate over the domain mapping hash table, skipping the first \fIskip_bkt\fP
+buckets and \fIskip_chain\fP entries.  For each entry in the table call
+\fIcallback\fP, if \fIcallback\fP returns a negative value stop 'walking' through the
+table and return.  Updates the values in \fIskip_bkt\fP and \fIskip_chain\fP on
+return.  Returns zero on success, negative values on failure.

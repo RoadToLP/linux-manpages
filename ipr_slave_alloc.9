@@ -1,0 +1,17 @@
+.TH "ipr_slave_alloc" 9 "ipr_slave_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipr_slave_alloc \- Prepare for commands to a device.
+.SH SYNOPSIS
+.B "int" ipr_slave_alloc
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device struct
+.SH "DESCRIPTION"
+This function saves a pointer to the resource entry
+in the scsi device struct if the device exists. We
+can then use this pointer in ipr_queuecommand when
+handling new commands.
+
+Return value:
+0 on success / -ENXIO if device does not exist

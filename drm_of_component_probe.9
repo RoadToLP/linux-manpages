@@ -1,0 +1,22 @@
+.TH "drm_of_component_probe" 9 "drm_of_component_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_of_component_probe \- Generic probe function for a component based master
+.SH SYNOPSIS
+.B "int" drm_of_component_probe
+.BI "(struct device *dev "  ","
+.BI "int (*compare_of)(struct device *, void *) "  ","
+.BI "const struct component_master_ops *m_ops "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+master device containing the OF node
+.IP "compare_of" 12
+compare function used for matching components
+.IP "m_ops" 12
+component master ops to be used
+.SH "DESCRIPTION"
+Parse the platform device OF node and bind all the components associated
+with the master. Interface ports are added before the encoders in order to
+satisfy their .bind requirements
+See Documentation/devicetree/bindings/graph.txt for the bindings.
+
+Returns zero if successful, or one of the standard error codes if it fails.

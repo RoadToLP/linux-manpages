@@ -1,0 +1,21 @@
+.TH "nf_ct_resolve_clash_harder" 9 "nf_ct_resolve_clash_harder" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nf_ct_resolve_clash_harder \- attempt to insert clashing conntrack entry
+.SH SYNOPSIS
+.B "int" nf_ct_resolve_clash_harder
+.BI "(struct sk_buff *skb "  ","
+.BI "u32 repl_idx "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb that causes the collision
+.IP "repl_idx" 12
+hash slot for reply direction
+.SH "DESCRIPTION"
+Called when origin or reply direction had a clash.
+The skb can be handled without packet drop provided the reply direction
+is unique or there the existing entry has the identical tuple in both
+directions.
+
+Caller must hold conntrack table locks to prevent concurrent updates.
+
+Returns NF_DROP if the clash could not be handled.

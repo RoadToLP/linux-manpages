@@ -1,0 +1,27 @@
+.TH "qmi_txn_init" 9 "qmi_txn_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_txn_init \- allocate transaction id within the given QMI handle
+.SH SYNOPSIS
+.B "int" qmi_txn_init
+.BI "(struct qmi_handle *qmi "  ","
+.BI "struct qmi_txn *txn "  ","
+.BI "struct qmi_elem_info *ei "  ","
+.BI "void *c_struct "  ");"
+.SH ARGUMENTS
+.IP "qmi" 12
+QMI handle
+.IP "txn" 12
+transaction context
+.IP "ei" 12
+description of how to decode a matching response (optional)
+.IP "c_struct" 12
+pointer to the object to decode the response into (optional)
+.SH "DESCRIPTION"
+This allocates a transaction id within the QMI handle. If \fIei\fP and \fIc_struct\fP
+are specified any responses to this transaction will be decoded as described
+by \fIei\fP into \fIc_struct\fP.
+
+A client calling \fBqmi_txn_init\fP must call either \fBqmi_txn_wait\fP or
+\fBqmi_txn_cancel\fP to free up the allocated resources.
+.SH "RETURN"
+Transaction id on success, negative errno on failure.

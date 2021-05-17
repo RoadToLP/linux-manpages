@@ -1,0 +1,20 @@
+.TH "ssam_cplt_get_event_queue" 9 "ssam_cplt_get_event_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_cplt_get_event_queue \- Get the event queue for the given parameters.
+.SH SYNOPSIS
+.B "struct ssam_event_queue *" ssam_cplt_get_event_queue
+.BI "(struct ssam_cplt *cplt "  ","
+.BI "u8 tid "  ","
+.BI "u16 rqid "  ");"
+.SH ARGUMENTS
+.IP "cplt" 12
+The completion system on which to look for the queue.
+.IP "tid" 12
+The target ID of the queue.
+.IP "rqid" 12
+The request ID representing the event ID for which to get the queue.
+.SH "RETURN"
+Returns the event queue corresponding to the event type described
+by the given parameters. If the request ID does not represent an event,
+this function returns NULL. If the target ID is not supported, this
+function will fall back to the default target ID (``tid = 1``).

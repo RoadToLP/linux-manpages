@@ -1,0 +1,21 @@
+.TH "snd_soc_runtime_action" 9 "snd_soc_runtime_action" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_soc_runtime_action \- Increment/Decrement active count for PCM runtime components
+.SH SYNOPSIS
+.B "void" snd_soc_runtime_action
+.BI "(struct snd_soc_pcm_runtime *rtd "  ","
+.BI "int stream "  ","
+.BI "int action "  ");"
+.SH ARGUMENTS
+.IP "rtd" 12
+ASoC PCM runtime that is activated
+.IP "stream" 12
+Direction of the PCM stream
+.IP "action" 12
+Activate stream if 1. Deactivate if -1.
+.SH "DESCRIPTION"
+Increments/Decrements the active count for all the DAIs and components
+attached to a PCM runtime.
+Should typically be called when a stream is opened.
+
+Must be called with the rtd->card->pcm_mutex being held

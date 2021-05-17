@@ -1,0 +1,18 @@
+.TH "_read_hardreset" 9 "_read_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_read_hardreset \- read the HW reset line state of submodules contained in the hwmod module
+.SH SYNOPSIS
+.B "int" _read_hardreset
+.BI "(struct omap_hwmod *oh "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "name" 12
+name of the reset line to look up and read
+.SH "DESCRIPTION"
+Return the state of the reset line.  Returns -EINVAL if \fIoh\fP is
+null, -ENOSYS if we have no way of reading the hardreset line
+status on the currently-booted SoC, or passes along the return
+value from \fB_lookup_hardreset\fP or the SoC's is_hardreset_asserted
+code.

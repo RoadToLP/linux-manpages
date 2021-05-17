@@ -1,0 +1,34 @@
+.TH "pci_bus_alloc_resource" 9 "pci_bus_alloc_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_bus_alloc_resource \- allocate a resource from a parent bus
+.SH SYNOPSIS
+.B "int" pci_bus_alloc_resource
+.BI "(struct pci_bus *bus "  ","
+.BI "struct resource *res "  ","
+.BI "resource_size_t size "  ","
+.BI "resource_size_t align "  ","
+.BI "resource_size_t min "  ","
+.BI "unsigned long type_mask "  ","
+.BI "resource_size_t (*alignf)(void *, const struct resource *, resource_size_t, resource_size_t) "  ","
+.BI "void *alignf_data "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+PCI bus
+.IP "res" 12
+resource to allocate
+.IP "size" 12
+size of resource to allocate
+.IP "align" 12
+alignment of resource to allocate
+.IP "min" 12
+minimum /proc/iomem address to allocate
+.IP "type_mask" 12
+IORESOURCE_* type flags
+.IP "alignf" 12
+resource alignment function
+.IP "alignf_data" 12
+data argument for resource alignment function
+.SH "DESCRIPTION"
+Given the PCI bus a device resides on, the size, minimum address,
+alignment and type, try to find an acceptable resource allocation
+for a specific device resource.

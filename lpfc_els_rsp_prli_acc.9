@@ -1,0 +1,28 @@
+.TH "lpfc_els_rsp_prli_acc" 9 "lpfc_els_rsp_prli_acc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rsp_prli_acc \- Prepare and issue acc response to prli iocb cmd
+.SH SYNOPSIS
+.B "int" lpfc_els_rsp_prli_acc
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *oldiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "oldiocb" 12
+pointer to the original lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine prepares and issues an Accept (ACC) response to Process
+Login (PRLI) ELS command. It simply prepares the payload of the IOCB
+and invokes the \fBlpfc_sli_issue_iocb\fP routine to send out the command.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the PRLI Accept response ELS IOCB command.
+
+Return code
+0 - Successfully issued acc prli response
+1 - Failed to issue acc prli response

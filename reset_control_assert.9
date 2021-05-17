@@ -1,0 +1,21 @@
+.TH "reset_control_assert" 9 "reset_control_assert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reset_control_assert \- asserts the reset line
+.SH SYNOPSIS
+.B "int" reset_control_assert
+.BI "(struct reset_control *rstc "  ");"
+.SH ARGUMENTS
+.IP "rstc" 12
+reset controller
+.SH "DESCRIPTION"
+Calling this on an exclusive reset controller guarantees that the reset
+will be asserted. When called on a shared reset controller the line may
+still be deasserted, as long as other users keep it so.
+
+For shared reset controls a driver cannot expect the hw's registers and
+internal state to be reset, but must be prepared for this to happen.
+Consumers must not use reset_control_reset on shared reset lines when
+reset_control_(de)assert has been used.
+
+If rstc is NULL it is an optional reset and the function will just
+return 0.

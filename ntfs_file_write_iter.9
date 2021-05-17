@@ -1,0 +1,16 @@
+.TH "ntfs_file_write_iter" 9 "ntfs_file_write_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_file_write_iter \- simple wrapper for ntfs_file_write_iter_nolock()
+.SH SYNOPSIS
+.B "ssize_t" ntfs_file_write_iter
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *from "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+IO state structure
+.IP "from" 12
+iov_iter with data to write
+.SH "DESCRIPTION"
+Basically the same as \fBgeneric_file_write_iter\fP except that it ends up
+up calling \fBntfs_perform_write\fP instead of \fBgeneric_perform_write\fP and that
+O_DIRECT is not implemented.

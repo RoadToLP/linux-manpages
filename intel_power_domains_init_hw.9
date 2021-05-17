@@ -1,0 +1,23 @@
+.TH "intel_power_domains_init_hw" 9 "intel_power_domains_init_hw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_power_domains_init_hw \- initialize hardware power domain state
+.SH SYNOPSIS
+.B "void" intel_power_domains_init_hw
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "bool resume "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device instance
+.IP "resume" 12
+Called from resume code paths or not
+.SH "DESCRIPTION"
+This function initializes the hardware power domain state and enables all
+power wells belonging to the INIT power domain. Power wells in other
+domains (and not in the INIT domain) are referenced or disabled by
+\fBintel_modeset_readout_hw_state\fP. After that the reference count of each
+power well must match its HW enabled state, see
+\fBintel_power_domains_verify_state\fP.
+
+It will return with power domains disabled (to be enabled later by
+\fBintel_power_domains_enable\fP) and must be paired with
+\fBintel_power_domains_driver_remove\fP.

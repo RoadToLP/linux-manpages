@@ -1,0 +1,24 @@
+.TH "xdr_stream_decode_string_dup" 9 "xdr_stream_decode_string_dup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_stream_decode_string_dup \- Decode and duplicate variable length string
+.SH SYNOPSIS
+.B "ssize_t" xdr_stream_decode_string_dup
+.BI "(struct xdr_stream *xdr "  ","
+.BI "char **str "  ","
+.BI "size_t maxlen "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream
+.IP "str" 12
+location to store pointer to string
+.IP "maxlen" 12
+maximum acceptable string length
+.IP "gfp_flags" 12
+GFP mask to use
+.SH "DESCRIPTION"
+Return values:
+On success, returns length of NUL-terminated string stored in *\fIptr\fP
+-EBADMSG on XDR buffer overflow
+-EMSGSIZE if the size of the string would exceed \fImaxlen\fP
+-ENOMEM on memory allocation failure

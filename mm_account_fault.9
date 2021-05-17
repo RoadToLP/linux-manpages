@@ -1,0 +1,25 @@
+.TH "mm_account_fault" 9 "mm_account_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mm_account_fault \- Do page fault accountings
+.SH SYNOPSIS
+.B "void" mm_account_fault
+.BI "(struct pt_regs *regs "  ","
+.BI "unsigned long address "  ","
+.BI "unsigned int flags "  ","
+.BI "vm_fault_t ret "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+the pt_regs struct pointer.  When set to NULL, will skip accounting
+of perf event counters, but we'll still do the per-task accounting to
+the task who triggered this page fault.
+.IP "address" 12
+the faulted address.
+.IP "flags" 12
+the fault flags.
+.IP "ret" 12
+the fault retcode.
+.SH "DESCRIPTION"
+This will take care of most of the page fault accountings.  Meanwhile, it
+will also include the PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN] perf counter
+updates.  However note that the handling of PERF_COUNT_SW_PAGE_FAULTS should
+still be in per-arch page fault handlers at the entry of page fault.

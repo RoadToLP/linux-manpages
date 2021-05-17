@@ -1,0 +1,23 @@
+.TH "insert_work" 9 "insert_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insert_work \- insert a work into a pool
+.SH SYNOPSIS
+.B "void" insert_work
+.BI "(struct pool_workqueue *pwq "  ","
+.BI "struct work_struct *work "  ","
+.BI "struct list_head *head "  ","
+.BI "unsigned int extra_flags "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+pwq \fIwork\fP belongs to
+.IP "work" 12
+work to insert
+.IP "head" 12
+insertion point
+.IP "extra_flags" 12
+extra WORK_STRUCT_* flags to set
+.SH "DESCRIPTION"
+Insert \fIwork\fP which belongs to \fIpwq\fP after \fIhead\fP.  \fIextra_flags\fP is or'd to
+work_struct flags.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock).

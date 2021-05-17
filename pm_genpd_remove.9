@@ -1,0 +1,18 @@
+.TH "pm_genpd_remove" 9 "pm_genpd_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_genpd_remove \- Remove a generic I/O PM domain
+.SH SYNOPSIS
+.B "int" pm_genpd_remove
+.BI "(struct generic_pm_domain *genpd "  ");"
+.SH ARGUMENTS
+.IP "genpd" 12
+Pointer to PM domain that is to be removed.
+.SH "DESCRIPTION"
+To remove the PM domain, this function:
+- Removes the PM domain as a subdomain to any parent domains,
+if it was added.
+- Removes the PM domain from the list of registered PM domains.
+
+The PM domain will only be removed, if the associated provider has
+been removed, it is not a parent to any other PM domain and has no
+devices associated with it.

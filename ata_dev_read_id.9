@@ -1,0 +1,31 @@
+.TH "ata_dev_read_id" 9 "ata_dev_read_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_dev_read_id \- Read ID data from the specified device
+.SH SYNOPSIS
+.B "int" ata_dev_read_id
+.BI "(struct ata_device *dev "  ","
+.BI "unsigned int *p_class "  ","
+.BI "unsigned int flags "  ","
+.BI "u16 *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device
+.IP "p_class" 12
+pointer to class of the target device (may be changed)
+.IP "flags" 12
+ATA_READID_* flags
+.IP "id" 12
+buffer to read IDENTIFY data into
+
+Read ID data from the specified device.  ATA_CMD_ID_ATA is
+performed on ATA devices and ATA_CMD_ID_ATAPI on ATAPI
+devices.  This function also issues ATA_CMD_INIT_DEV_PARAMS
+for pre-ATA4 drives.
+
+FIXME: ATA_CMD_ID_ATA is optional for early drives and right
+now we abort if we hit that case.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

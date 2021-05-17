@@ -1,0 +1,21 @@
+.TH "vfree" 9 "vfree" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfree \- Release memory allocated by vmalloc()
+.SH SYNOPSIS
+.B "void" vfree
+.BI "(const void *addr "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+Memory base address
+.SH "DESCRIPTION"
+Free the virtually continuous memory area starting at \fIaddr\fP, as obtained
+from one of the \fBvmalloc\fP family of APIs.  This will usually also free the
+physical memory underlying the virtual allocation, but that memory is
+reference counted, so it will not be freed until the last user goes away.
+
+If \fIaddr\fP is NULL, no operation is performed.
+.SH "CONTEXT"
+May sleep if called *not* from interrupt context.
+Must not be called in NMI context (strictly speaking, it could be
+if we have CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG, but making the calling
+conventions for \fBvfree\fP arch-depenedent would be a really bad idea).

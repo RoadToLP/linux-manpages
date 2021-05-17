@@ -1,0 +1,27 @@
+.TH "do_mem_probe" 9 "do_mem_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_mem_probe \- validate a memory region for PCMCIA use
+.SH SYNOPSIS
+.B "int" do_mem_probe
+.BI "(struct pcmcia_socket *s "  ","
+.BI "u_long base "  ","
+.BI "u_long num "  ","
+.BI "int fallback (struct pcmcia_socket *s# struct resource *res# unsigned int *value) "  ","
+.BI "int fallback (struct pcmcia_socket *s# struct resource *res# unsigned int *value) "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+PCMCIA socket to validate
+.IP "base" 12
+start address of resource to check
+.IP "num" 12
+size of resource to check
+.IP "value" 12
+-- undescribed --
+.IP "value" 12
+-- undescribed --
+.SH "DESCRIPTION"
+\fBdo_mem_probe\fP checks a memory region for use by the PCMCIA subsystem.
+To do so, the area is split up into sensible parts, and then passed
+into the \fI\fP\fBvalidate\fP function. Only if \fI\fP\fBvalidate\fP and \fI\fP\fBfallback\fP fail,
+the area is marked as unavaibale for use by the PCMCIA subsystem. The
+function returns the size of the usable memory area.

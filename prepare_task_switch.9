@@ -1,0 +1,22 @@
+.TH "prepare_task_switch" 9 "prepare_task_switch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_task_switch \- prepare to switch tasks
+.SH SYNOPSIS
+.B "void" prepare_task_switch
+.BI "(struct rq *rq "  ","
+.BI "struct task_struct *prev "  ","
+.BI "struct task_struct *next "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+the runqueue preparing to switch
+.IP "prev" 12
+the current task that is being switched out
+.IP "next" 12
+the task we are going to switch to.
+.SH "DESCRIPTION"
+This is called with the rq lock held and interrupts off. It must
+be paired with a subsequent finish_task_switch after the context
+switch.
+
+prepare_task_switch sets up locking and calls architecture specific
+hooks.

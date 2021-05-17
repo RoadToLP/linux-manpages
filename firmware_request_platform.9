@@ -1,0 +1,19 @@
+.TH "firmware_request_platform" 9 "firmware_request_platform" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_request_platform \- request firmware with platform-fw fallback
+.SH SYNOPSIS
+.B "int" firmware_request_platform
+.BI "(const struct firmware **firmware "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ");"
+.SH ARGUMENTS
+.IP "firmware" 12
+pointer to firmware image
+.IP "name" 12
+name of firmware file
+.IP "device" 12
+device for which firmware is being loaded
+.SH "DESCRIPTION"
+This function is similar in behaviour to request_firmware, except that if
+direct filesystem lookup fails, it will fallback to looking for a copy of the
+requested firmware embedded in the platform's main (e.g. UEFI) firmware.

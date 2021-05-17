@@ -1,0 +1,16 @@
+.TH "nilfs_transaction_commit" 9 "nilfs_transaction_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_transaction_commit \- commit indivisible file operations.
+.SH SYNOPSIS
+.B "int" nilfs_transaction_commit
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block
+.SH "DESCRIPTION"
+\fBnilfs_transaction_commit\fP releases the read semaphore which is
+acquired by \fBnilfs_transaction_begin\fP. This is only performed
+in outermost call of this function.  If a commit flag is set,
+\fBnilfs_transaction_commit\fP sets a timer to start the segment
+constructor.  If a sync flag is set, it starts construction
+directly.

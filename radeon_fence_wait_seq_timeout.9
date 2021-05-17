@@ -1,0 +1,27 @@
+.TH "radeon_fence_wait_seq_timeout" 9 "radeon_fence_wait_seq_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_fence_wait_seq_timeout \- wait for a specific sequence numbers
+.SH SYNOPSIS
+.B "long" radeon_fence_wait_seq_timeout
+.BI "(struct radeon_device *rdev "  ","
+.BI "u64 *target_seq "  ","
+.BI "bool intr "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device pointer
+.IP "target_seq" 12
+sequence number(s) we want to wait for
+.IP "intr" 12
+use interruptable sleep
+.IP "timeout" 12
+maximum time to wait, or MAX_SCHEDULE_TIMEOUT for infinite wait
+.SH "DESCRIPTION"
+Wait for the requested sequence number(s) to be written by any ring
+(all asics).  Sequnce number array is indexed by ring id.
+\fIintr\fP selects whether to use interruptable (true) or non-interruptable
+(false) sleep when waiting for the sequence number.  Helper function
+for radeon_fence_wait_*().
+Returns remaining time if the sequence number has passed, 0 when
+the wait timeout, or an error for all other cases.
+-EDEADLK is returned when a GPU lockup has been detected.

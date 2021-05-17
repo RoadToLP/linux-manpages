@@ -1,0 +1,16 @@
+.TH "of_device_is_big_endian" 9 "of_device_is_big_endian" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_device_is_big_endian \- check if a device has BE registers
+.SH SYNOPSIS
+.B "bool" of_device_is_big_endian
+.BI "(const struct device_node *device "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+Node to check for endianness
+
+Returns true if the device has a "big-endian" property, or if the kernel
+was compiled for BE *and* the device has a "native-endian" property.
+Returns false otherwise.
+
+Callers would nominally use ioread32be/iowrite32be if
+\fBof_device_is_big_endian\fP == true, or readl/writel otherwise.

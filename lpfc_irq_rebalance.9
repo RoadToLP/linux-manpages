@@ -1,0 +1,24 @@
+.TH "lpfc_irq_rebalance" 9 "lpfc_irq_rebalance" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_irq_rebalance \- rebalances IRQ affinity according to cpuhp event
+.SH SYNOPSIS
+.B "void" lpfc_irq_rebalance
+.BI "(struct lpfc_hba *phba "  ","
+.BI "unsigned int cpu "  ","
+.BI "bool offline "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to HBA context object.
+.IP "cpu" 12
+cpu going offline/online
+.IP "offline" 12
+true, cpu is going offline. false, cpu is coming online.
+.SH "DESCRIPTION"
+If cpu is going offline, we'll try our best effort to find the next
+online cpu on the phba's original_mask and migrate all offlining IRQ
+affinities.
+
+If cpu is coming online, reaffinitize the IRQ back to the onlining cpu.
+.SH "NOTE"
+Call only if NUMA or NHT mode is enabled, otherwise rely on
+PCI_IRQ_AFFINITY to auto-manage IRQ affinity.

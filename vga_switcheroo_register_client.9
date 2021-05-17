@@ -1,0 +1,23 @@
+.TH "vga_switcheroo_register_client" 9 "vga_switcheroo_register_client" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_switcheroo_register_client \- register vga client
+.SH SYNOPSIS
+.B "int" vga_switcheroo_register_client
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct vga_switcheroo_client_ops *ops "  ","
+.BI "bool driver_power_control "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+client pci device
+.IP "ops" 12
+client callbacks
+.IP "driver_power_control" 12
+whether power state is controlled by the driver's
+runtime pm
+.SH "DESCRIPTION"
+Register vga client (GPU). Enable vga_switcheroo if another GPU and a
+handler have already registered. The power state of the client is assumed
+to be ON. Beforehand, \fBvga_switcheroo_client_probe_defer\fP shall be called
+to ensure that all prerequisites are met.
+.SH "RETURN"
+0 on success, -ENOMEM on memory allocation error.

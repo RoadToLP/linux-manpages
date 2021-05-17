@@ -1,0 +1,20 @@
+.TH "stmmac_hw_setup" 9 "stmmac_hw_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stmmac_hw_setup \- setup mac in a usable state.
+.SH SYNOPSIS
+.B "int" stmmac_hw_setup
+.BI "(struct net_device *dev "  ","
+.BI "bool init_ptp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the device structure.
+.IP "init_ptp" 12
+initialize PTP if set
+.SH "DESCRIPTION"
+this is the main function to setup the HW in a usable state because the
+dma engine is reset, the core registers are configured (e.g. AXI,
+Checksum features, timers). The DMA is ready to start receiving and
+transmitting.
+Return value:
+0 on success and an appropriate (-)ve integer as defined in errno.h
+file on failure.

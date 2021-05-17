@@ -1,0 +1,24 @@
+.TH "nx_build_sg_list" 9 "nx_build_sg_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nx_build_sg_list \- build an NX scatter list describing a single buffer
+.SH SYNOPSIS
+.B "struct nx_sg *" nx_build_sg_list
+.BI "(struct nx_sg *sg_head "  ","
+.BI "u8 *start_addr "  ","
+.BI "unsigned int *len "  ","
+.BI "u32 sgmax "  ");"
+.SH ARGUMENTS
+.IP "sg_head" 12
+pointer to the first scatter list element to build
+.IP "start_addr" 12
+pointer to the linear buffer
+.IP "len" 12
+length of the data at \fIstart_addr\fP
+.IP "sgmax" 12
+the largest number of scatter list elements we're allowed to create
+.SH "DESCRIPTION"
+This function will start writing nx_sg elements at \fIsg_head\fP and keep
+writing them until all of the data from \fIstart_addr\fP is described or
+until sgmax elements have been written. Scatter list elements will be
+created such that none of the elements describes a buffer that crosses a 4K
+boundary.

@@ -1,0 +1,23 @@
+.TH "register_ftrace_direct" 9 "register_ftrace_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_ftrace_direct \- Call a custom trampoline directly
+.SH SYNOPSIS
+.B "int" register_ftrace_direct
+.BI "(unsigned long ip "  ","
+.BI "unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+The address of the nop at the beginning of a function
+.IP "addr" 12
+The address of the trampoline to call at \fIip\fP
+.SH "DESCRIPTION"
+This is used to connect a direct call from the nop location (\fIip\fP)
+at the start of ftrace traced functions. The location that it calls
+(\fIaddr\fP) must be able to handle a direct call, and save the parameters
+of the function being traced, and restore them (or inject new ones
+if needed), before returning.
+.SH "RETURN"
+0 on success
+-EBUSY - Another direct function is already attached (there can be only one)
+-ENODEV - \fIip\fP does not point to a ftrace nop location (or not supported)
+-ENOMEM - There was an allocation failure.

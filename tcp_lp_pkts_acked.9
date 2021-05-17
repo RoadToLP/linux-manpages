@@ -1,0 +1,18 @@
+.TH "tcp_lp_pkts_acked" 9 "tcp_lp_pkts_acked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcp_lp_pkts_acked \- 
+.SH SYNOPSIS
+.B "void" tcp_lp_pkts_acked
+.BI "(struct sock *sk "  ","
+.BI "const struct ack_sample *sample "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket requiring congestion avoidance calculations
+.IP "sample" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Implementation of pkts_acked.
+Deal with active drop under Early Congestion Indication.
+Only drop to half and 1 will be handle, because we hope to use back
+newReno in increase case.
+We work it out by following the idea from TCP-LP's paper directly

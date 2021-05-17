@@ -1,0 +1,19 @@
+.TH "blk_queue_io_opt" 9 "blk_queue_io_opt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_io_opt \- set optimal request size for the queue
+.SH SYNOPSIS
+.B "void" blk_queue_io_opt
+.BI "(struct request_queue *q "  ","
+.BI "unsigned int opt "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the request queue for the device
+.IP "opt" 12
+optimal request size in bytes
+.SH "DESCRIPTION"
+Storage devices may report an optimal I/O size, which is the
+device's preferred unit for sustained I/O.  This is rarely reported
+for disk drives.  For RAID arrays it is usually the stripe width or
+the internal track size.  A properly aligned multiple of
+optimal_io_size is the preferred request size for workloads where
+sustained throughput is desired.

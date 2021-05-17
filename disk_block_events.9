@@ -1,0 +1,19 @@
+.TH "disk_block_events" 9 "disk_block_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disk_block_events \- block and flush disk event checking
+.SH SYNOPSIS
+.B "void" disk_block_events
+.BI "(struct gendisk *disk "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+disk to block events for
+.SH "DESCRIPTION"
+On return from this function, it is guaranteed that event checking
+isn't in progress and won't happen until unblocked by
+\fBdisk_unblock_events\fP.  Events blocking is counted and the actual
+unblocking happens after the matching number of unblocks are done.
+
+Note that this intentionally does not block event checking from
+\fBdisk_clear_events\fP.
+.SH "CONTEXT"
+Might sleep.

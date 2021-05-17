@@ -1,0 +1,29 @@
+.TH "queue_work_node" 9 "queue_work_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queue_work_node \- queue work on a "random" cpu for a given NUMA node
+.SH SYNOPSIS
+.B "bool" queue_work_node
+.BI "(int node "  ","
+.BI "struct workqueue_struct *wq "  ","
+.BI "struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+NUMA node that we are targeting the work for
+.IP "wq" 12
+workqueue to use
+.IP "work" 12
+work to queue
+.SH "DESCRIPTION"
+We queue the work to a "random" CPU within a given NUMA node. The basic
+idea here is to provide a way to somehow associate work with a given
+NUMA node.
+
+This function will only make a best effort attempt at getting this onto
+the right NUMA node. If no node is requested or the requested node is
+offline then we just fall back to standard queue_work behavior.
+
+Currently the "random" CPU ends up being the first available CPU in the
+intersection of cpu_online_mask and the cpumask of the node, unless we
+are running on the node. In that case we just use the current CPU.
+.SH "RETURN"
+false if \fIwork\fP was already on a queue, true otherwise.

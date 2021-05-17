@@ -1,0 +1,23 @@
+.TH "lpfc_sli_mbox_sys_shutdown" 9 "lpfc_sli_mbox_sys_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_mbox_sys_shutdown \- shutdown mailbox command sub-system
+.SH SYNOPSIS
+.B "void" lpfc_sli_mbox_sys_shutdown
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int mbx_action "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context.
+.IP "mbx_action" 12
+Mailbox shutdown options.
+.SH "DESCRIPTION"
+This function is called to shutdown the driver's mailbox sub-system.
+It first marks the mailbox sub-system is in a block state to prevent
+the asynchronous mailbox command from issued off the pending mailbox
+command queue. If the mailbox command sub-system shutdown is due to
+HBA error conditions such as EEH or ERATT, this routine shall invoke
+the mailbox sub-system flush routine to forcefully bring down the
+mailbox sub-system. Otherwise, if it is due to normal condition (such
+as with offline or HBA function reset), this routine will wait for the
+outstanding mailbox command to complete before invoking the mailbox
+sub-system flush routine to gracefully bring down mailbox sub-system.

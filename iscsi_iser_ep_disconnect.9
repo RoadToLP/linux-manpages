@@ -1,0 +1,14 @@
+.TH "iscsi_iser_ep_disconnect" 9 "iscsi_iser_ep_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_ep_disconnect \- Initiate connection teardown process
+.SH SYNOPSIS
+.B "void" iscsi_iser_ep_disconnect
+.BI "(struct iscsi_endpoint *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+iscsi endpoint handle
+.SH "DESCRIPTION"
+This routine is not blocked by iser and RDMA termination process
+completion as we queue a deffered work for iser/RDMA destruction
+and cleanup or actually call it immediately in case we didn't pass
+iscsi conn bind/start stage, thus it is safe.

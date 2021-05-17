@@ -1,0 +1,18 @@
+.TH "cap_ptrace_traceme" 9 "cap_ptrace_traceme" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_ptrace_traceme \- Determine whether another process may trace the current
+.SH SYNOPSIS
+.B "int" cap_ptrace_traceme
+.BI "(struct task_struct *parent "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+The task proposed to be the tracer
+.SH "DESCRIPTION"
+If parent is in the same or an ancestor user_ns and has all current's
+capabilities, then ptrace access is allowed.
+If parent has the ptrace capability to current's user_ns, then ptrace
+access is allowed.
+Else denied.
+
+Determine whether the nominated task is permitted to trace the current
+process, returning 0 if permission is granted, -ve if denied.

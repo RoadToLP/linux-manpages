@@ -1,0 +1,25 @@
+.TH "e1000_write_nvm_eewr_82571" 9 "e1000_write_nvm_eewr_82571" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_write_nvm_eewr_82571 \- Write to EEPROM for 82573 silicon
+.SH SYNOPSIS
+.B "s32" e1000_write_nvm_eewr_82571
+.BI "(struct e1000_hw *hw "  ","
+.BI "u16 offset "  ","
+.BI "u16 words "  ","
+.BI "u16 *data "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+offset within the EEPROM to be written to
+.IP "words" 12
+number of words to write
+.IP "data" 12
+16 bit word(s) to be written to the EEPROM
+
+After checking for invalid values, poll the EEPROM to ensure the previous
+command has completed before trying to write the next word.  After write
+poll for completion.
+
+If e1000e_update_nvm_checksum is not called after this function, the
+EEPROM will most likely contain an invalid checksum.

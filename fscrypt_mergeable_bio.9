@@ -1,0 +1,26 @@
+.TH "fscrypt_mergeable_bio" 9 "fscrypt_mergeable_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_mergeable_bio \- test whether data can be added to a bio
+.SH SYNOPSIS
+.B "bool" fscrypt_mergeable_bio
+.BI "(struct bio *bio "  ","
+.BI "const struct inode *inode "  ","
+.BI "u64 next_lblk "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+the bio being built up
+.IP "inode" 12
+the inode for the next part of the I/O
+.IP "next_lblk" 12
+the next file logical block number in the I/O
+.SH "DESCRIPTION"
+When building a bio which may contain data which should undergo inline
+encryption (or decryption) via fscrypt, filesystems should call this function
+to ensure that the resulting bio contains only contiguous data unit numbers.
+This will return false if the next part of the I/O cannot be merged with the
+bio because either the encryption key would be different or the encryption
+data unit numbers would be discontiguous.
+
+\fBfscrypt_set_bio_crypt_ctx\fP must have already been called on the bio.
+.SH "RETURN"
+true iff the I/O is mergeable

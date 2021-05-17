@@ -1,0 +1,28 @@
+.TH "drm_syncobj_find_fence" 9 "drm_syncobj_find_fence" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_syncobj_find_fence \- lookup and reference the fence in a sync object
+.SH SYNOPSIS
+.B "int" drm_syncobj_find_fence
+.BI "(struct drm_file *file_private "  ","
+.BI "u32 handle "  ","
+.BI "u64 point "  ","
+.BI "u64 flags "  ","
+.BI "struct dma_fence **fence "  ");"
+.SH ARGUMENTS
+.IP "file_private" 12
+drm file private pointer
+.IP "handle" 12
+sync object handle to lookup.
+.IP "point" 12
+timeline point
+.IP "flags" 12
+DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT or not
+.IP "fence" 12
+out parameter for the fence
+.SH "DESCRIPTION"
+This is just a convenience function that combines \fBdrm_syncobj_find\fP and
+\fBdrm_syncobj_fence_get\fP.
+
+Returns 0 on success or a negative error value on failure. On success \fIfence\fP
+contains a reference to the fence, which must be released by calling
+\fBdma_fence_put\fP.

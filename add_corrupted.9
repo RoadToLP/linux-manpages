@@ -1,0 +1,20 @@
+.TH "add_corrupted" 9 "add_corrupted" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_corrupted \- add a corrupted physical eraseblock.
+.SH SYNOPSIS
+.B "int" add_corrupted
+.BI "(struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "int ec "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+physical eraseblock number to add
+.IP "ec" 12
+erase counter of the physical eraseblock
+.SH "DESCRIPTION"
+This function allocates a 'struct ubi_ainf_peb' object for a corrupted
+physical eraseblock \fIpnum\fP and adds it to the 'corr' list.  The corruption
+was presumably not caused by a power cut. Returns zero in case of success
+and a negative error code in case of failure.

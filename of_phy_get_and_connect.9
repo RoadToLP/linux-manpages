@@ -1,0 +1,20 @@
+.TH "of_phy_get_and_connect" 9 "of_phy_get_and_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_phy_get_and_connect \- 
+.SH SYNOPSIS
+.B "struct phy_device *" of_phy_get_and_connect
+.BI "(struct net_device *dev "  ","
+.BI "struct device_node *np "  ","
+.BI "void (*hndlr)(struct net_device *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to net_device claiming the phy
+.IP "np" 12
+Pointer to device tree node for the net_device claiming the phy
+.IP "hndlr" 12
+Link state callback for the network device
+.SH "DESCRIPTION"
+- Get phy node and connect to the phy described in the device tree
+If successful, returns a pointer to the phy_device with the embedded
+struct device refcount incremented by one, or NULL on failure. The
+refcount must be dropped by calling \fBphy_disconnect\fP or \fBphy_detach\fP.

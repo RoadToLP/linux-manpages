@@ -1,0 +1,43 @@
+.TH "drm_dp_atomic_find_vcpi_slots" 9 "drm_dp_atomic_find_vcpi_slots" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_atomic_find_vcpi_slots \- Find and add VCPI slots to the state
+.SH SYNOPSIS
+.B "int" drm_dp_atomic_find_vcpi_slots
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_dp_mst_topology_mgr *mgr "  ","
+.BI "struct drm_dp_mst_port *port "  ","
+.BI "int pbn "  ","
+.BI "int pbn_div "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+global atomic state
+.IP "mgr" 12
+MST topology manager for the port
+.IP "port" 12
+port to find vcpi slots for
+.IP "pbn" 12
+bandwidth required for the mode in PBN
+.IP "pbn_div" 12
+divider for DSC mode that takes FEC into account
+.SH "DESCRIPTION"
+Allocates VCPI slots to \fIport\fP, replacing any previous VCPI allocations it
+may have had. Any atomic drivers which support MST must call this function
+in their \fIdrm_encoder_helper_funcs\fP.\fBatomic_check\fP callback to change the
+current VCPI allocation for the new state, but only when
+\fIdrm_crtc_state.mode_changed\fP or \fIdrm_crtc_state.connectors_changed\fP is set
+to ensure compatibility with userspace applications that still use the
+legacy modesetting UAPI.
+
+Allocations set by this function are not checked against the bandwidth
+restraints of \fImgr\fP until the driver calls \fBdrm_dp_mst_atomic_check\fP.
+
+Additionally, it is OK to call this function multiple times on the same
+\fIport\fP as needed. It is not OK however, to call this function and
+\fBdrm_dp_atomic_release_vcpi_slots\fP in the same atomic check phase.
+
+See also:
+\fBdrm_dp_atomic_release_vcpi_slots\fP
+\fBdrm_dp_mst_atomic_check\fP
+.SH "RETURN"
+Total slots in the atomic state assigned for this port, or a negative error
+code if the port no longer exists

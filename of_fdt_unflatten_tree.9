@@ -1,0 +1,23 @@
+.TH "of_fdt_unflatten_tree" 9 "of_fdt_unflatten_tree" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_fdt_unflatten_tree \- create tree of device_nodes from flat blob
+.SH SYNOPSIS
+.B "void *" of_fdt_unflatten_tree
+.BI "(const unsigned long *blob "  ","
+.BI "struct device_node *dad "  ","
+.BI "struct device_node **mynodes "  ");"
+.SH ARGUMENTS
+.IP "blob" 12
+Flat device tree blob
+.IP "dad" 12
+Parent device node
+.IP "mynodes" 12
+The device tree created by the call
+.SH "DESCRIPTION"
+unflattens the device-tree passed by the firmware, creating the
+tree of struct device_node. It also fills the "name" and "type"
+pointers of the nodes so the normal device-tree walking functions
+can be used.
+
+Returns NULL on failure or the memory chunk containing the unflattened
+device tree on success.

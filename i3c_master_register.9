@@ -1,0 +1,32 @@
+.TH "i3c_master_register" 9 "i3c_master_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_register \- register an I3C master
+.SH SYNOPSIS
+.B "int" i3c_master_register
+.BI "(struct i3c_master_controller *master "  ","
+.BI "struct device *parent "  ","
+.BI "const struct i3c_master_controller_ops *ops "  ","
+.BI "bool secondary "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+master used to send frames on the bus
+.IP "parent" 12
+the parent device (the one that provides this I3C master
+controller)
+.IP "ops" 12
+the master controller operations
+.IP "secondary" 12
+true if you are registering a secondary master. Will return
+-ENOTSUPP if set to true since secondary masters are not yet
+supported
+.SH "DESCRIPTION"
+This function takes care of everything for you:
+
+- creates and initializes the I3C bus
+- populates the bus with static I2C devs if \fIparent->of_node\fP is not
+NULL
+- registers all I3C devices added by the controller during bus
+initialization
+- registers the I2C adapter and all I2C devices
+.SH "RETURN"
+0 in case of success, a negative error code otherwise.

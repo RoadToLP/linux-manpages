@@ -1,0 +1,23 @@
+.TH "calculate_slab_order" 9 "calculate_slab_order" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calculate_slab_order \- calculate size (page order) of slabs
+.SH SYNOPSIS
+.B "size_t" calculate_slab_order
+.BI "(struct kmem_cache *cachep "  ","
+.BI "size_t size "  ","
+.BI "slab_flags_t flags "  ");"
+.SH ARGUMENTS
+.IP "cachep" 12
+pointer to the cache that is being created
+.IP "size" 12
+size of objects to be created in this cache.
+.IP "flags" 12
+slab allocation flags
+.SH "DESCRIPTION"
+Also calculates the number of objects per slab.
+
+This could be made much more intelligent.  For now, try to avoid using
+high order pages for slabs.  When the \fBgfp\fP functions are more friendly
+towards high-order requests, this should be changed.
+.SH "RETURN"
+number of left-over bytes in a slab

@@ -1,0 +1,22 @@
+.TH "snd_dmaengine_pcm_open_request_chan" 9 "snd_dmaengine_pcm_open_request_chan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_dmaengine_pcm_open_request_chan \- Open a dmaengine based PCM substream and request channel
+.SH SYNOPSIS
+.B "int" snd_dmaengine_pcm_open_request_chan
+.BI "(struct snd_pcm_substream *substream "  ","
+.BI "dma_filter_fn filter_fn "  ","
+.BI "void *filter_data "  ");"
+.SH ARGUMENTS
+.IP "substream" 12
+PCM substream
+.IP "filter_fn" 12
+Filter function used to request the DMA channel
+.IP "filter_data" 12
+Data passed to the DMA filter function
+.SH "DESCRIPTION"
+Returns 0 on success, a negative error code otherwise.
+
+This function will request a DMA channel using the passed filter function and
+data. The function should usually be called from the pcm open callback. Note
+that this function will use private_data field of the substream's runtime. So
+it is not available to your pcm driver implementation.

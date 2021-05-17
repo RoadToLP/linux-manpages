@@ -1,0 +1,17 @@
+.TH "ring_buffer_record_disable_cpu" 9 "ring_buffer_record_disable_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_record_disable_cpu \- stop all writes into the cpu_buffer
+.SH SYNOPSIS
+.B "void" ring_buffer_record_disable_cpu
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to stop writes to.
+.IP "cpu" 12
+The CPU buffer to stop
+.SH "DESCRIPTION"
+This prevents all writes to the buffer. Any attempt to write
+to the buffer after this will fail and return NULL.
+
+The caller should call \fBsynchronize_rcu\fP after this.

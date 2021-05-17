@@ -1,0 +1,18 @@
+.TH "drm_vma_offset_remove" 9 "drm_vma_offset_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vma_offset_remove \- Remove offset node from manager
+.SH SYNOPSIS
+.B "void" drm_vma_offset_remove
+.BI "(struct drm_vma_offset_manager *mgr "  ","
+.BI "struct drm_vma_offset_node *node "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+Manager object
+.IP "node" 12
+Node to be removed
+.SH "DESCRIPTION"
+Remove a node from the offset manager. If the node wasn't added before, this
+does nothing. After this call returns, the offset and size will be 0 until a
+new offset is allocated via \fBdrm_vma_offset_add\fP again. Helper functions like
+\fBdrm_vma_node_start\fP and \fBdrm_vma_node_offset_addr\fP will return 0 if no
+offset is allocated.

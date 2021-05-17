@@ -1,0 +1,21 @@
+.TH "ccw_device_get_ciw" 9 "ccw_device_get_ciw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_get_ciw \- Search for CIW command in extended sense data.
+.SH SYNOPSIS
+.B "struct ciw *" ccw_device_get_ciw
+.BI "(struct ccw_device *cdev "  ","
+.BI "__u32 ct "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+ccw device to inspect
+.IP "ct" 12
+command type to look for
+.SH "DESCRIPTION"
+During SenseID, command information words (CIWs) describing special
+commands available to the device may have been stored in the extended
+sense data. This function searches for CIWs of a specified command
+type in the extended sense data.
+.SH "RETURN"
+NULL if no extended sense data has been stored or if no CIW of the
+specified command type could be found,
+else a pointer to the CIW of the specified command type.

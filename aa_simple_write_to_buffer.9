@@ -1,0 +1,21 @@
+.TH "aa_simple_write_to_buffer" 9 "aa_simple_write_to_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_simple_write_to_buffer \- common routine for getting policy from user
+.SH SYNOPSIS
+.B "struct aa_loaddata *" aa_simple_write_to_buffer
+.BI "(const char __user *userbuf "  ","
+.BI "size_t alloc_size "  ","
+.BI "size_t copy_size "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "userbuf" 12
+user buffer to copy data from  (NOT NULL)
+.IP "alloc_size" 12
+size of user buffer (REQUIRES: \fIalloc_size\fP >= \fIcopy_size\fP)
+.IP "copy_size" 12
+size of data to copy from user buffer
+.IP "pos" 12
+position write is at in the file (NOT NULL)
+.SH "RETURN"
+kernel buffer containing copy of user buffer data or an
+ERR_PTR on failure.

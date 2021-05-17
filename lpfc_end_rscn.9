@@ -1,0 +1,16 @@
+.TH "lpfc_end_rscn" 9 "lpfc_end_rscn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_end_rscn \- Check and handle more rscn for a vport
+.SH SYNOPSIS
+.B "void" lpfc_end_rscn
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine checks whether more Registration State Change
+Notifications (RSCNs) came in while the discovery state machine was in
+the FC_RSCN_MODE. If so, the \fBlpfc_els_handle_rscn\fP routine will be
+invoked to handle the additional RSCNs for the \fIvport\fP. Otherwise, the
+FC_RSCN_MODE bit will be cleared with the \fIvport\fP to mark as the end of
+handling the RSCNs.

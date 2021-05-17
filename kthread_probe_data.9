@@ -1,0 +1,14 @@
+.TH "kthread_probe_data" 9 "kthread_probe_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_probe_data \- speculative version of kthread_data()
+.SH SYNOPSIS
+.B "void *" kthread_probe_data
+.BI "(struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+possible kthread task in question
+.SH "DESCRIPTION"
+\fItask\fP could be a kthread task.  Return the data value specified when it
+was created if accessible.  If \fItask\fP isn't a kthread task or its data is
+inaccessible for any reason, NULL is returned.  This function requires
+that \fItask\fP itself is safe to dereference.

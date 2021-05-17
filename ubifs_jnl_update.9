@@ -1,0 +1,42 @@
+.TH "ubifs_jnl_update" 9 "ubifs_jnl_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_update \- update inode.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_update
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *dir "  ","
+.BI "const struct fscrypt_name *nm "  ","
+.BI "const struct inode *inode "  ","
+.BI "int deletion "  ","
+.BI "int xent "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "dir" 12
+parent inode or host inode in case of extended attributes
+.IP "nm" 12
+directory entry name
+.IP "inode" 12
+inode to update
+.IP "deletion" 12
+indicates a directory entry deletion i.e unlink or rmdir
+.IP "xent" 12
+non-zero if the directory entry is an extended attribute entry
+.SH "DESCRIPTION"
+This function updates an inode by writing a directory entry (or extended
+attribute entry), the inode itself, and the parent directory inode (or the
+host inode) to the journal.
+
+The function writes the host inode \fIdir\fP last, which is important in case of
+extended attributes. Indeed, then we guarantee that if the host inode gets
+synchronized (with '\fBfsync\fP'), and the write-buffer it sits in gets flushed,
+the extended attribute inode gets flushed too. And this is exactly what the
+user expects - synchronizing the host inode synchronizes its extended
+attributes. Similarly, this guarantees that if \fIdir\fP is synchronized, its
+directory entry corresponding to \fInm\fP gets synchronized too.
+
+If the inode (\fIinode\fP) or the parent directory (\fIdir\fP) are synchronous, this
+function synchronizes the write-buffer.
+
+This function marks the \fIdir\fP and \fIinode\fP inodes as clean and returns zero on
+success. In case of failure, a negative error code is returned.

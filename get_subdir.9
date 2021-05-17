@@ -1,0 +1,21 @@
+.TH "get_subdir" 9 "get_subdir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_subdir \- find or create a subdir with the specified name.
+.SH SYNOPSIS
+.B "struct ctl_dir *" get_subdir
+.BI "(struct ctl_dir *dir "  ","
+.BI "const char *name "  ","
+.BI "int namelen "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+Directory to create the subdirectory in
+.IP "name" 12
+The name of the subdirectory to find or create
+.IP "namelen" 12
+The length of name
+.SH "DESCRIPTION"
+Takes a directory with an elevated reference count so we know that
+if we drop the lock the directory will not go away.  Upon success
+the reference is moved from \fIdir\fP to the returned subdirectory.
+Upon error an error code is returned and the reference on \fIdir\fP is
+simply dropped.

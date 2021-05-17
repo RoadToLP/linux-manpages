@@ -1,0 +1,31 @@
+.TH "nilfs_sufile_set_suinfo" 9 "nilfs_sufile_set_suinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_sufile_set_suinfo \- sets segment usage info
+.SH SYNOPSIS
+.B "ssize_t" nilfs_sufile_set_suinfo
+.BI "(struct inode *sufile "  ","
+.BI "void *buf "  ","
+.BI "unsigned int supsz "  ","
+.BI "size_t nsup "  ");"
+.SH ARGUMENTS
+.IP "sufile" 12
+inode of segment usage file
+.IP "buf" 12
+array of suinfo_update
+.IP "supsz" 12
+byte size of suinfo_update
+.IP "nsup" 12
+size of suinfo_update array
+.SH "DESCRIPTION"
+Takes an array of nilfs_suinfo_update structs and updates
+segment usage accordingly. Only the fields indicated by the sup_flags
+are updated.
+
+Return Value: On success, 0 is returned. On error, one of the
+following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EINVAL - Invalid values in input (segment number, flags or nblocks)

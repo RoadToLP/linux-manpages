@@ -1,0 +1,21 @@
+.TH "usb_composite_probe" 9 "usb_composite_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_composite_probe \- register a composite driver
+.SH SYNOPSIS
+.B "int" usb_composite_probe
+.BI "(struct usb_composite_driver *driver "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the driver to register
+.SH "CONTEXT"
+single threaded during gadget setup
+.SH "DESCRIPTION"
+This function is used to register drivers using the composite driver
+framework.  The return value is zero, or a negative errno value.
+Those values normally come from the driver's \fIbind\fP method, which does
+all the work of setting up the driver to match the hardware.
+
+On successful return, the gadget is ready to respond to requests from
+the host, unless one of its components invokes \fBusb_gadget_disconnect\fP
+while it was binding.  That would usually be done in order to wait for
+some userspace participation.

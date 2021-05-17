@@ -1,0 +1,19 @@
+.TH "mbox_client_peek_data" 9 "mbox_client_peek_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_client_peek_data \- A way for client driver to pull data received from remote by the controller.
+.SH SYNOPSIS
+.B "bool" mbox_client_peek_data
+.BI "(struct mbox_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Mailbox channel assigned to this client.
+.SH "DESCRIPTION"
+A poke to controller driver for any received data.
+The data is actually passed onto client via the
+\fBmbox_chan_received_data\fP
+The call can be made from atomic context, so the controller's
+implementation of \fBpeek_data\fP must not sleep.
+.SH "RETURN"
+True, if controller has, and is going to push after this,
+some data.
+False, if controller doesn't have any data to be read.

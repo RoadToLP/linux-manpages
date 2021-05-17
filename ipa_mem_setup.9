@@ -1,0 +1,21 @@
+.TH "ipa_mem_setup" 9 "ipa_mem_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_mem_setup \- Set up IPA AP and modem shared memory areas
+.SH SYNOPSIS
+.B "int" ipa_mem_setup
+.BI "(struct ipa *ipa "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.SH "DESCRIPTION"
+Set up the shared memory regions in IPA local memory.  This involves
+zero-filling memory regions, and in the case of header memory, telling
+the IPA where it's located.
+
+This function performs the initial setup of this memory.  If the modem
+crashes, its regions are re-zeroed in \fBipa_mem_zero_modem\fP.
+
+The AP informs the modem where its portions of memory are located
+in a QMI exchange that occurs at modem startup.
+.SH "RETURN"
+0 if successful, or a negative error code

@@ -1,0 +1,19 @@
+.TH "ks8851_irq" 9 "ks8851_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_irq \- IRQ handler for dealing with interrupt requests
+.SH SYNOPSIS
+.B "irqreturn_t" ks8851_irq
+.BI "(int irq "  ","
+.BI "void *_ks "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number
+.IP "_ks" 12
+cookie
+.SH "DESCRIPTION"
+This handler is invoked when the IRQ line asserts to find out what happened.
+As we cannot allow ourselves to sleep in HARDIRQ context, this handler runs
+in thread context.
+
+Read the interrupt status, work out what needs to be done and then clear
+any of the interrupts that are not needed.

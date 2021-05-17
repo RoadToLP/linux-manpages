@@ -1,0 +1,25 @@
+.TH "copy_oldmem_page" 9 "copy_oldmem_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_oldmem_page \- copy one page from old kernel memory
+.SH SYNOPSIS
+.B "ssize_t" copy_oldmem_page
+.BI "(unsigned long pfn "  ","
+.BI "char *buf "  ","
+.BI "size_t csize "  ","
+.BI "unsigned long offset "  ","
+.BI "int userbuf "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+page frame number to be copied
+.IP "buf" 12
+buffer where the copied page is placed
+.IP "csize" 12
+number of bytes to copy
+.IP "offset" 12
+offset in bytes into the page
+.IP "userbuf" 12
+if set, \fIbuf\fP is in a user address space
+.SH "DESCRIPTION"
+This function copies one page from old kernel memory into buffer pointed by
+\fIbuf\fP. If \fIbuf\fP is in userspace, set \fIuserbuf\fP to 1. Returns number of bytes
+copied or negative error in case of failure.

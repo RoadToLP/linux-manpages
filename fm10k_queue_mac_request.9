@@ -1,0 +1,25 @@
+.TH "fm10k_queue_mac_request" 9 "fm10k_queue_mac_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_queue_mac_request \- Queue a MAC update request
+.SH SYNOPSIS
+.B "int" fm10k_queue_mac_request
+.BI "(struct fm10k_intfc *interface "  ","
+.BI "u16 glort "  ","
+.BI "const unsigned char *addr "  ","
+.BI "u16 vid "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+the fm10k interface structure
+.IP "glort" 12
+the target glort for this update
+.IP "addr" 12
+the address to update
+.IP "vid" 12
+the vid to update
+.IP "set" 12
+whether to add or remove
+.SH "DESCRIPTION"
+This function queues up a MAC request for sending to the switch manager.
+A separate thread monitors the queue and sends updates to the switch
+manager. Return 0 on success, and negative error code on failure.

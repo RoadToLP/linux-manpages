@@ -1,0 +1,25 @@
+.TH "llc_build_and_send_ui_pkt" 9 "llc_build_and_send_ui_pkt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_build_and_send_ui_pkt \- unitdata request interface for upper layers
+.SH SYNOPSIS
+.B "int" llc_build_and_send_ui_pkt
+.BI "(struct llc_sap *sap "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned char *dmac "  ","
+.BI "unsigned char dsap "  ");"
+.SH ARGUMENTS
+.IP "sap" 12
+sap to use
+.IP "skb" 12
+packet to send
+.IP "dmac" 12
+destination mac address
+.IP "dsap" 12
+destination sap
+
+Upper layers calls this function when upper layer wants to send data
+using connection-less mode communication (UI pdu).
+
+Accept data frame from network layer to be sent using connection-
+less mode communication; timeout/retries handled by network layer;
+package primitive as an event and send to SAP event handler

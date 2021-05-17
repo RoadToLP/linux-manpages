@@ -1,0 +1,36 @@
+.TH "securityfs_create_symlink" 9 "securityfs_create_symlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+securityfs_create_symlink \- create a symlink in the securityfs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" securityfs_create_symlink
+.BI "(const char *name "  ","
+.BI "struct dentry *parent "  ","
+.BI "const char *target "  ","
+.BI "const struct inode_operations *iops "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the symlink to
+create.
+.IP "parent" 12
+a pointer to the parent dentry for the symlink.  This should be a
+directory dentry if set.  If this parameter is NULL, then the
+directory will be created in the root of the securityfs filesystem.
+.IP "target" 12
+a pointer to a string containing the name of the symlink's target.
+If this parameter is NULL, then the \fIiops\fP parameter needs to be
+setup to handle .readlink and .get_link inode_operations.
+.IP "iops" 12
+a pointer to the struct inode_operations to use for the symlink. If
+this parameter is NULL, then the default simple_symlink_inode
+operations will be used.
+.SH "DESCRIPTION"
+This function creates a symlink in securityfs with the given \fIname\fP.
+
+This function returns a pointer to a dentry if it succeeds.  This
+pointer must be passed to the \fBsecurityfs_remove\fP function when the file is
+to be removed (no automatic cleanup happens if your module is unloaded,
+you are responsible here).  If an error occurs, the function will return
+the error value (via ERR_PTR).
+
+If securityfs is not enabled in the kernel, the value -ENODEV is
+returned.

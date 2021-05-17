@@ -1,0 +1,31 @@
+.TH "usb_clear_halt" 9 "usb_clear_halt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_clear_halt \- tells device to clear endpoint halt/stall condition
+.SH SYNOPSIS
+.B "int" usb_clear_halt
+.BI "(struct usb_device *dev "  ","
+.BI "int pipe "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device whose endpoint is halted
+.IP "pipe" 12
+endpoint "pipe" being cleared
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+This is used to clear halt conditions for bulk and interrupt endpoints,
+as reported by URB completion status.  Endpoints that are halted are
+sometimes referred to as being "stalled".  Such endpoints are unable
+to transmit or receive data until the halt status is cleared.  Any URBs
+queued for such an endpoint should normally be unlinked by the driver
+before clearing the halt condition, as described in sections 5.7.5
+and 5.8.5 of the USB 2.0 spec.
+
+Note that control and isochronous endpoints don't halt, although control
+endpoints report "protocol stall" (for unsupported requests) using the
+same status code used to report a true stall.
+
+This call is synchronous, and may not be used in an interrupt context.
+.SH "RETURN"
+Zero on success, or else the status code returned by the
+underlying \fBusb_control_msg\fP call.

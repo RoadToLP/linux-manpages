@@ -1,0 +1,20 @@
+.TH "netif_receive_skb" 9 "netif_receive_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netif_receive_skb \- process receive buffer from network
+.SH SYNOPSIS
+.B "int" netif_receive_skb
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to process
+
+\fBnetif_receive_skb\fP is the main receive data processing function.
+It always succeeds. The buffer may be dropped during processing
+for congestion control or by the protocol layers.
+
+This function may only be called from softirq context and interrupts
+should be enabled.
+
+Return values (usually ignored):
+NET_RX_SUCCESS: no congestion
+NET_RX_DROP: packet was dropped

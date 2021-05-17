@@ -1,0 +1,17 @@
+.TH "jbd2_journal_recover" 9 "jbd2_journal_recover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_recover \- recovers a on-disk journal
+.SH SYNOPSIS
+.B "int" jbd2_journal_recover
+.BI "(journal_t *journal "  ");"
+.SH ARGUMENTS
+.IP "journal" 12
+the journal to recover
+.SH "DESCRIPTION"
+The primary function for recovering the log contents when mounting a
+journaled device.
+
+Recovery is done in three passes.  In the first pass, we look for the
+end of the log.  In the second, we assemble the list of revoke
+blocks.  In the third and final pass, we replay any un-revoked blocks
+in the log.

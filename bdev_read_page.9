@@ -1,0 +1,25 @@
+.TH "bdev_read_page" 9 "bdev_read_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdev_read_page \- Start reading a page from a block device
+.SH SYNOPSIS
+.B "int" bdev_read_page
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t sector "  ","
+.BI "struct page *page "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+The device to read the page from
+.IP "sector" 12
+The offset on the device to read the page to (need not be aligned)
+.IP "page" 12
+The page to read
+.SH "DESCRIPTION"
+On entry, the page should be locked.  It will be unlocked when the page
+has been read.  If the block driver implements rw_page synchronously,
+that will be true on exit from this function, but it need not be.
+
+Errors returned by this function are usually "soft", eg out of memory, or
+queue full; callers should try a different route to read this page rather
+than propagate an error back up the stack.
+.SH "RETURN"
+negative errno if an error occurs, 0 if submission was successful.

@@ -1,0 +1,28 @@
+.TH "nfs4_proc_get_locations" 9 "nfs4_proc_get_locations" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_proc_get_locations \- discover locations for a migrated FSID
+.SH SYNOPSIS
+.B "int" nfs4_proc_get_locations
+.BI "(struct inode *inode "  ","
+.BI "struct nfs4_fs_locations *locations "  ","
+.BI "struct page *page "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode on FSID that is migrating
+.IP "locations" 12
+result of query
+.IP "page" 12
+buffer
+.IP "cred" 12
+credential to use for this operation
+.SH "DESCRIPTION"
+Returns NFS4_OK on success, a negative NFS4ERR status code if the
+operation failed, or a negative errno if a local error occurred.
+
+On success, "locations" is filled in, but if the server has
+no locations information, NFS_ATTR_FATTR_V4_LOCATIONS is not
+asserted.
+
+-NFS4ERR_LEASE_MOVED is returned if the server still has leases
+from this client that require migration recovery.

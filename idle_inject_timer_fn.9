@@ -1,0 +1,15 @@
+.TH "idle_inject_timer_fn" 9 "idle_inject_timer_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idle_inject_timer_fn \- idle injection timer function
+.SH SYNOPSIS
+.B "enum hrtimer_restart" idle_inject_timer_fn
+.BI "(struct hrtimer *timer "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+idle injection hrtimer
+.SH "DESCRIPTION"
+This function is called when the idle injection timer expires.  It wakes up
+idle injection tasks associated with the timer and they, in turn, invoke
+\fBplay_idle_precise\fP to inject a specified amount of CPU idle time.
+.SH "RETURN"
+HRTIMER_RESTART.

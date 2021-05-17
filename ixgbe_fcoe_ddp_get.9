@@ -1,0 +1,25 @@
+.TH "ixgbe_fcoe_ddp_get" 9 "ixgbe_fcoe_ddp_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_fcoe_ddp_get \- called to set up ddp context in initiator mode
+.SH SYNOPSIS
+.B "int" ixgbe_fcoe_ddp_get
+.BI "(struct net_device *netdev "  ","
+.BI "u16 xid "  ","
+.BI "struct scatterlist *sgl "  ","
+.BI "unsigned int sgc "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the corresponding net_device
+.IP "xid" 12
+the exchange id requesting ddp
+.IP "sgl" 12
+the scatter-gather list for this request
+.IP "sgc" 12
+the number of scatter-gather items
+.SH "DESCRIPTION"
+This is the implementation of net_device_ops.ndo_fcoe_ddp_setup
+and is expected to be called from ULD, e.g., FCP layer of libfc
+to set up ddp for the corresponding xid of the given sglist for
+the corresponding I/O.
+.SH "RETURN"
+1 for success and 0 for no ddp

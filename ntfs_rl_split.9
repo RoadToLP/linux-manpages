@@ -1,0 +1,37 @@
+.TH "ntfs_rl_split" 9 "ntfs_rl_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_rl_split \- insert a runlist into the centre of a hole
+.SH SYNOPSIS
+.B "runlist_element *" ntfs_rl_split
+.BI "(runlist_element *dst "  ","
+.BI "int dsize "  ","
+.BI "runlist_element *src "  ","
+.BI "int ssize "  ","
+.BI "int loc "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+original runlist to be worked on
+.IP "dsize" 12
+number of elements in \fIdst\fP (including end marker)
+.IP "src" 12
+new runlist to be inserted
+.IP "ssize" 12
+number of elements in \fIsrc\fP (excluding end marker)
+.IP "loc" 12
+index in runlist \fIdst\fP at which to split and insert \fIsrc\fP
+.SH "DESCRIPTION"
+Split the runlist \fIdst\fP at \fIloc\fP into two and insert \fInew\fP in between the two
+fragments. No merging of runlists is necessary. Adjust the size of the
+holes either side.
+
+It is up to the caller to serialize access to the runlists \fIdst\fP and \fIsrc\fP.
+
+On success, return a pointer to the new, combined, runlist. Note, both
+runlists \fIdst\fP and \fIsrc\fP are deallocated before returning so you cannot use
+the pointers for anything any more. (Strictly speaking the returned runlist
+may be the same as \fIdst\fP but this is irrelevant.)
+
+On error, return -errno. Both runlists are left unmodified. The following
+error codes are defined:
+-ENOMEM - Not enough memory to allocate runlist array.
+-EINVAL - Invalid parameters were passed in.

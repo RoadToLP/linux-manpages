@@ -1,0 +1,16 @@
+.TH "asd_invalidate_edb" 9 "asd_invalidate_edb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_invalidate_edb \- - invalidate an EDB and if necessary post the ESCB
+.SH SYNOPSIS
+.B "void" asd_invalidate_edb
+.BI "(struct asd_ascb *ascb "  ","
+.BI "int edb_id "  ");"
+.SH ARGUMENTS
+.IP "ascb" 12
+pointer to Empty SCB
+.IP "edb_id" 12
+index [0,6] to the empty data buffer which is to be invalidated
+.SH "DESCRIPTION"
+After an EDB has been invalidated, if all EDBs in this ESCB have been
+invalidated, the ESCB is posted back to the sequencer.
+Context is tasklet/IRQ.

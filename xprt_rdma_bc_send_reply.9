@@ -1,0 +1,16 @@
+.TH "xprt_rdma_bc_send_reply" 9 "xprt_rdma_bc_send_reply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_rdma_bc_send_reply \- marshal and send a backchannel reply
+.SH SYNOPSIS
+.B "int" xprt_rdma_bc_send_reply
+.BI "(struct rpc_rqst *rqst "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+RPC rqst with a backchannel RPC reply in rq_snd_buf
+.SH "DESCRIPTION"
+Caller holds the transport's write lock.
+.SH "RETURN"
+0 if the RPC message has been sent
+-ENOTCONN if the caller should reconnect and call again
+-EIO if a permanent error occurred and the request was not
+sent. Do not try to send this message again.

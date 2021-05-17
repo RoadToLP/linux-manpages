@@ -1,0 +1,20 @@
+.TH "vmw_cmdbuf_ctx_add" 9 "vmw_cmdbuf_ctx_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_ctx_add \- Schedule a command buffer for submission on a command buffer context
+.SH SYNOPSIS
+.B "void" vmw_cmdbuf_ctx_add
+.BI "(struct vmw_cmdbuf_man *man "  ","
+.BI "struct vmw_cmdbuf_header *header "  ","
+.BI "SVGACBContext cb_context "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+The command buffer manager.
+.IP "header" 12
+The header of the buffer to submit.
+.IP "cb_context" 12
+The command buffer context to use.
+.SH "DESCRIPTION"
+This function adds \fIheader\fP to the "submitted" queue of the command
+buffer context identified by \fIcb_context\fP. It then calls the command buffer
+manager processing to potentially submit the buffer to hardware.
+\fIman->lock\fP needs to be held when calling this function.

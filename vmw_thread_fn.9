@@ -1,0 +1,16 @@
+.TH "vmw_thread_fn" 9 "vmw_thread_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_thread_fn \- Deferred (process context) irq handler
+.SH SYNOPSIS
+.B "irqreturn_t" vmw_thread_fn
+.BI "(int irq "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+irq number
+.IP "arg" 12
+Closure argument. Pointer to a struct drm_device cast to void *
+.SH "DESCRIPTION"
+This function implements the deferred part of irq processing.
+The function is guaranteed to run at least once after the
+vmw_irq_handler has returned with IRQ_WAKE_THREAD.

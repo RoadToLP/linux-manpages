@@ -1,0 +1,21 @@
+.TH "cuse_channel_open" 9 "cuse_channel_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cuse_channel_open \- open method for /dev/cuse
+.SH SYNOPSIS
+.B "int" cuse_channel_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode for /dev/cuse
+.IP "file" 12
+file struct being opened
+.SH "DESCRIPTION"
+Userland CUSE server can create a CUSE device by opening /dev/cuse
+and replying to the initialization request kernel sends.  This
+function is responsible for handling CUSE device initialization.
+Because the fd opened by this function is used during
+initialization, this function only creates cuse_conn and sends
+init.  The rest is delegated to a kthread.
+.SH "RETURN"
+0 on success, -errno on failure.

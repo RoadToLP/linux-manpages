@@ -1,0 +1,24 @@
+.TH "vmw_collect_dirty_vbs" 9 "vmw_collect_dirty_vbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_collect_dirty_vbs \- Build SVGA3dVertexBuffer data for a SVGA3dCmdDXSetVertexBuffers command
+.SH SYNOPSIS
+.B "void" vmw_collect_dirty_vbs
+.BI "(struct vmw_ctx_binding_state *cbs "  ","
+.BI "const struct vmw_ctx_bindinfo *bi "  ","
+.BI "unsigned long *dirty "  ","
+.BI "u32 max_num "  ");"
+.SH ARGUMENTS
+.IP "cbs" 12
+Pointer to the context's struct vmw_ctx_binding_state
+.IP "bi" 12
+Pointer to where the binding info array is stored in \fIcbs\fP
+.IP "dirty" 12
+Bitmap indicating which bindings need to be emitted.
+.IP "max_num" 12
+Maximum number of entries in the \fIbi\fP array.
+.SH "DESCRIPTION"
+Scans the \fIbi\fP array for bindings that need to be emitted and
+builds a buffer of SVGA3dVertexBuffer data.
+On output, \fIcbs->bind_cmd_count\fP contains the number of bindings to be
+emitted, \fIcbs->bind_first_slot\fP indicates the index of the first emitted
+binding, and \fIcbs->bind_cmd_buffer\fP contains the command data.

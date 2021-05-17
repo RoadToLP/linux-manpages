@@ -1,0 +1,34 @@
+.TH "skl_pcode_request" 9 "skl_pcode_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skl_pcode_request \- send PCODE request until acknowledgment
+.SH SYNOPSIS
+.B "int" skl_pcode_request
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "u32 mbox "  ","
+.BI "u32 request "  ","
+.BI "u32 reply_mask "  ","
+.BI "u32 reply "  ","
+.BI "int timeout_base_ms "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+device private
+.IP "mbox" 12
+PCODE mailbox ID the request is targeted for
+.IP "request" 12
+request ID
+.IP "reply_mask" 12
+mask used to check for request acknowledgment
+.IP "reply" 12
+value used to check for request acknowledgment
+.IP "timeout_base_ms" 12
+timeout for polling with preemption enabled
+.SH "DESCRIPTION"
+Keep resending the \fIrequest\fP to \fImbox\fP until PCODE acknowledges it, PCODE
+reports an error or an overall timeout of \fItimeout_base_ms\fP+50 ms expires.
+The request is acknowledged once the PCODE reply dword equals \fIreply\fP after
+applying \fIreply_mask\fP. Polling is first attempted with preemption enabled
+for \fItimeout_base_ms\fP and if this times out for another 50 ms with
+preemption disabled.
+
+Returns 0 on success, -ETIMEDOUT in case of a timeout, <0 in case of some
+other error as reported by PCODE.

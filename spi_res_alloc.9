@@ -1,0 +1,23 @@
+.TH "spi_res_alloc" 9 "spi_res_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_res_alloc \- allocate a spi resource that is life-cycle managed during the processing of a spi_message while using spi_transfer_one
+.SH SYNOPSIS
+.B "void *" spi_res_alloc
+.BI "(struct spi_device *spi "  ","
+.BI "spi_res_release_t release "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "spi" 12
+the spi device for which we allocate memory
+.IP "release" 12
+the release code to execute for this resource
+.IP "size" 12
+size to alloc and return
+.IP "gfp" 12
+GFP allocation flags
+.SH "RETURN"
+the pointer to the allocated data
+.SH "DESCRIPTION"
+This may get enhanced in the future to allocate from a memory pool
+of the \fIspi_device\fP or \fIspi_controller\fP to avoid repeated allocations.

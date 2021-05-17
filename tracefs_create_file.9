@@ -1,0 +1,39 @@
+.TH "tracefs_create_file" 9 "tracefs_create_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracefs_create_file \- create a file in the tracefs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" tracefs_create_file
+.BI "(const char *name "  ","
+.BI "umode_t mode "  ","
+.BI "struct dentry *parent "  ","
+.BI "void *data "  ","
+.BI "const struct file_operations *fops "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the file to create.
+.IP "mode" 12
+the permission that the file should have.
+.IP "parent" 12
+a pointer to the parent dentry for this file.  This should be a
+directory dentry if set.  If this parameter is NULL, then the
+file will be created in the root of the tracefs filesystem.
+.IP "data" 12
+a pointer to something that the caller will want to get to later
+on.  The inode.i_private pointer will point to this value on
+the \fBopen\fP call.
+.IP "fops" 12
+a pointer to a struct file_operations that should be used for
+this file.
+.SH "DESCRIPTION"
+This is the basic "create a file" function for tracefs.  It allows for a
+wide range of flexibility in creating a file, or a directory (if you want
+to create a directory, the \fBtracefs_create_dir\fP function is
+recommended to be used instead.)
+
+This function will return a pointer to a dentry if it succeeds.  This
+pointer must be passed to the \fBtracefs_remove\fP function when the file is
+to be removed (no automatic cleanup happens if your module is unloaded,
+you are responsible here.)  If an error occurs, NULL will be returned.
+
+If tracefs is not enabled in the kernel, the value -ENODEV will be
+returned.

@@ -1,0 +1,46 @@
+.TH "mtrr_add" 9 "mtrr_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtrr_add \- Add a memory type region
+.SH SYNOPSIS
+.B "int" mtrr_add
+.BI "(unsigned long base "  ","
+.BI "unsigned long size "  ","
+.BI "unsigned int type "  ","
+.BI "bool increment "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+Physical base address of region
+.IP "size" 12
+Physical size of region
+.IP "type" 12
+Type of MTRR desired
+.IP "increment" 12
+If this is true do usage counting on the region
+.SH "DESCRIPTION"
+Memory type region registers control the caching on newer Intel and
+non Intel processors. This function allows drivers to request an
+MTRR is added. The details and hardware specifics of each processor's
+implementation are hidden from the caller, but nevertheless the
+caller should expect to need to provide a power of two size on an
+equivalent power of two boundary.
+
+If the region cannot be added either because all regions are in use
+or the CPU cannot support it a negative value is returned. On success
+the register number for this entry is returned, but should be treated
+as a cookie only.
+
+On a multiprocessor machine the changes are made to all processors.
+This is required on x86 by the Intel processors.
+
+The available types are
+
+MTRR_TYPE_UNCACHABLE - No caching
+
+MTRR_TYPE_WRBACK - Write data back in bursts whenever
+
+MTRR_TYPE_WRCOMB - Write data back soon but allow bursts
+
+MTRR_TYPE_WRTHROUGH - Cache reads but not writes
+
+BUGS: Needs a quiet flag for the cases where drivers do not mind
+failures and do not wish system log messages to be sent.

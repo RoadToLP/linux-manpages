@@ -1,0 +1,23 @@
+.TH "tomoyo_init_log" 9 "tomoyo_init_log" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_init_log \- Allocate buffer for audit logs.
+.SH SYNOPSIS
+.B "char *" tomoyo_init_log
+.BI "(struct tomoyo_request_info *r "  ","
+.BI "int len "  ","
+.BI "const char *fmt "  ","
+.BI "va_list args "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+Pointer to "struct tomoyo_request_info".
+.IP "len" 12
+Buffer size needed for \fIfmt\fP and \fIargs\fP.
+.IP "fmt" 12
+The \fBprintf\fP's format string.
+.IP "args" 12
+va_list structure for \fIfmt\fP.
+.SH "DESCRIPTION"
+Returns pointer to allocated memory.
+
+This function uses \fBkzalloc\fP, so caller must \fBkfree\fP if this function
+didn't return NULL.

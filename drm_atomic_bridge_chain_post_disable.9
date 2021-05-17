@@ -1,0 +1,19 @@
+.TH "drm_atomic_bridge_chain_post_disable" 9 "drm_atomic_bridge_chain_post_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_bridge_chain_post_disable \- cleans up after disabling all bridges in the encoder chain
+.SH SYNOPSIS
+.B "void" drm_atomic_bridge_chain_post_disable
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "old_state" 12
+old atomic state
+.SH "DESCRIPTION"
+Calls \fIdrm_bridge_funcs.atomic_post_disable\fP (falls back on
+\fIdrm_bridge_funcs.post_disable\fP) op for all the bridges in the encoder chain,
+starting from the first bridge to the last. These are called after completing
+\fIdrm_encoder_helper_funcs.atomic_disable\fP
+.SH "NOTE"
+the bridge passed should be the one closest to the encoder

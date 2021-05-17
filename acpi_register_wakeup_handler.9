@@ -1,0 +1,19 @@
+.TH "acpi_register_wakeup_handler" 9 "acpi_register_wakeup_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_register_wakeup_handler \- Register wakeup handler
+.SH SYNOPSIS
+.B "int" acpi_register_wakeup_handler
+.BI "(int wake_irq "  ","
+.BI "bool (*wakeup)(void *context) "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "wake_irq" 12
+The IRQ through which the device may receive wakeups
+.IP "wakeup" 12
+Wakeup-handler to call when the SCI has triggered a wakeup
+.IP "context" 12
+Context to pass to the handler when calling it
+.SH "DESCRIPTION"
+Drivers which may share an IRQ with the SCI can use this to register
+a handler which returns true when the device they are managing wants
+to trigger a wakeup.

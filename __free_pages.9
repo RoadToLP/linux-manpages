@@ -1,0 +1,27 @@
+.TH "__free_pages" 9 "__free_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__free_pages \- Free pages allocated with alloc_pages().
+.SH SYNOPSIS
+.B "void" __free_pages
+.BI "(struct page *page "  ","
+.BI "unsigned int order "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+The page pointer returned from \fBalloc_pages\fP.
+.IP "order" 12
+The order of the allocation.
+.SH "DESCRIPTION"
+This function can free multi-page allocations that are not compound
+pages.  It does not check that the \fIorder\fP passed in matches that of
+the allocation, so it is easy to leak memory.  Freeing more memory
+than was allocated will probably emit a warning.
+
+If the last reference to this page is speculative, it will be released
+by \fBput_page\fP which only frees the first page of a non-compound
+allocation.  To prevent the remaining pages from being leaked, we free
+the subsequent pages here.  If you want to use the page's reference
+count to decide when to free the allocation, you should allocate a
+compound page, and use \fBput_page\fP instead of \fB__free_pages\fP.
+.SH "CONTEXT"
+May be called in interrupt context or while holding a normal
+spinlock, but not in NMI context or while holding a raw spinlock.

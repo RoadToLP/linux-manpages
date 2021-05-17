@@ -1,0 +1,24 @@
+.TH "__post_watch_notification" 9 "__post_watch_notification" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__post_watch_notification \- Post an event notification
+.SH SYNOPSIS
+.B "void" __post_watch_notification
+.BI "(struct watch_list *wlist "  ","
+.BI "struct watch_notification *n "  ","
+.BI "const struct cred *cred "  ","
+.BI "u64 id "  ");"
+.SH ARGUMENTS
+.IP "wlist" 12
+The watch list to post the event to.
+.IP "n" 12
+The notification record to post.
+.IP "cred" 12
+The creds of the process that triggered the notification.
+.IP "id" 12
+The ID to match on the watch.
+.SH "DESCRIPTION"
+Post a notification of an event into a set of watch queues and let the users
+know.
+
+The size of the notification should be set in n->info & WATCH_INFO_LENGTH and
+should be in units of sizeof(*n).

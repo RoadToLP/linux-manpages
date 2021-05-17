@@ -1,0 +1,22 @@
+.TH "drm_mode_set_crtcinfo" 9 "drm_mode_set_crtcinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_set_crtcinfo \- set CRTC modesetting timing parameters
+.SH SYNOPSIS
+.B "void" drm_mode_set_crtcinfo
+.BI "(struct drm_display_mode *p "  ","
+.BI "int adjust_flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+mode
+.IP "adjust_flags" 12
+a combination of adjustment flags
+.SH "DESCRIPTION"
+Setup the CRTC modesetting timing parameters for \fIp\fP, adjusting if necessary.
+
+- The CRTC_INTERLACE_HALVE_V flag can be used to halve vertical timings of
+interlaced modes.
+- The CRTC_STEREO_DOUBLE flag can be used to compute the timings for
+buffers containing two eyes (only adjust the timings when needed, eg. for
+"frame packing" or "side by side full").
+- The CRTC_NO_DBLSCAN and CRTC_NO_VSCAN flags request that adjustment *not*
+be performed for doublescan and vscan > 1 modes respectively.

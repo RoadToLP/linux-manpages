@@ -1,0 +1,23 @@
+.TH "scan_peb" 9 "scan_peb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scan_peb \- scan and process UBI headers of a PEB.
+.SH SYNOPSIS
+.B "int" scan_peb
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "bool fast "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+the physical eraseblock number
+.IP "fast" 12
+true if we're scanning for a Fastmap
+.SH "DESCRIPTION"
+This function reads UBI headers of PEB \fIpnum\fP, checks them, and adds
+information about this PEB to the corresponding list or RB-tree in the
+"attaching info" structure. Returns zero if the physical eraseblock was
+successfully handled and a negative error code in case of failure.

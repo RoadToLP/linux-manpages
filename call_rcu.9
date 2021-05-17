@@ -1,0 +1,42 @@
+.TH "call_rcu" 9 "call_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_rcu \- Queue an RCU callback for invocation after a grace period.
+.SH SYNOPSIS
+.B "void" call_rcu
+.BI "(struct rcu_head *head "  ","
+.BI "rcu_callback_t func "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+structure to be used for queueing the RCU updates.
+.IP "func" 12
+actual callback function to be invoked after the grace period
+.SH "DESCRIPTION"
+The callback function will be invoked some time after a full grace
+period elapses, in other words after all pre-existing RCU read-side
+critical sections have completed.  However, the callback function
+might well execute concurrently with RCU read-side critical sections
+that started after \fBcall_rcu\fP was invoked.  RCU read-side critical
+sections are delimited by \fBrcu_read_lock\fP and \fBrcu_read_unlock\fP, and
+may be nested.  In addition, regions of code across which interrupts,
+preemption, or softirqs have been disabled also serve as RCU read-side
+critical sections.  This includes hardware interrupt handlers, softirq
+handlers, and NMI handlers.
+
+Note that all CPUs must agree that the grace period extended beyond
+all pre-existing RCU read-side critical section.  On systems with more
+than one CPU, this means that when "\fBfunc\fP" is invoked, each CPU is
+guaranteed to have executed a full memory barrier since the end of its
+last RCU read-side critical section whose beginning preceded the call
+to \fBcall_rcu\fP.  It also means that each CPU executing an RCU read-side
+critical section that continues beyond the start of "\fBfunc\fP" must have
+executed a memory barrier after the \fBcall_rcu\fP but before the beginning
+of that RCU read-side critical section.  Note that these guarantees
+include CPUs that are offline, idle, or executing in user mode, as
+well as CPUs that are executing in the kernel.
+
+Furthermore, if CPU A invoked \fBcall_rcu\fP and CPU B invoked the
+resulting RCU callback function "\fBfunc\fP", then both CPU A and CPU B are
+guaranteed to execute a full memory barrier during the time interval
+between the call to \fBcall_rcu\fP and the invocation of "\fBfunc\fP" -- even
+if CPU A and CPU B are the same CPU (but again only if the system has
+more than one CPU).

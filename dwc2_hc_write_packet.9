@@ -1,0 +1,19 @@
+.TH "dwc2_hc_write_packet" 9 "dwc2_hc_write_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hc_write_packet \- Writes a packet into the Tx FIFO associated with the Host Channel
+.SH SYNOPSIS
+.B "void" dwc2_hc_write_packet
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of DWC_otg controller
+.IP "chan" 12
+Information needed to initialize the host channel
+.SH "DESCRIPTION"
+This function should only be called in Slave mode. For a channel associated
+with a non-periodic EP, the non-periodic Tx FIFO is written. For a channel
+associated with a periodic EP, the periodic Tx FIFO is written.
+
+Upon return the xfer_buf and xfer_count fields in chan are incremented by
+the number of bytes written to the Tx FIFO.

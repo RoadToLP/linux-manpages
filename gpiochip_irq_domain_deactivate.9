@@ -1,0 +1,16 @@
+.TH "gpiochip_irq_domain_deactivate" 9 "gpiochip_irq_domain_deactivate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_irq_domain_deactivate \- Unlock a GPIO used as an IRQ
+.SH SYNOPSIS
+.B "void" gpiochip_irq_domain_deactivate
+.BI "(struct irq_domain *domain "  ","
+.BI "struct irq_data *data "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+The IRQ domain used by this IRQ chip
+.IP "data" 12
+Outermost irq_data associated with the IRQ
+.SH "DESCRIPTION"
+This function is a wrapper that will call \fBgpiochip_unlock_as_irq\fP and is to
+be used as the deactivate function for the \fIstruct irq_domain_ops\fP. The
+host_data for the IRQ domain must be the \fIstruct gpio_chip\fP.

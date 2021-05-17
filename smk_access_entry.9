@@ -1,0 +1,35 @@
+.TH "smk_access_entry" 9 "smk_access_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_access_entry \- look up matching access rule
+.SH SYNOPSIS
+.B "int" smk_access_entry
+.BI "(char *subject_label "  ","
+.BI "char *object_label "  ","
+.BI "struct list_head *rule_list "  ");"
+.SH ARGUMENTS
+.IP "subject_label" 12
+a pointer to the subject's Smack label
+.IP "object_label" 12
+a pointer to the object's Smack label
+.IP "rule_list" 12
+the list of rules to search
+.SH "DESCRIPTION"
+This function looks up the subject/object pair in the
+access rule list and returns the access mode. If no
+entry is found returns -ENOENT.
+
+Earlier versions of this function allowed for labels that
+were not on the label list. This was done to allow for
+labels to come over the network that had never been seen
+before on this host. Unless the receiving socket has the
+star label this will always result in a failure check. The
+star labeled socket case is now handled in the networking
+hooks so there is no case where the label is not on the
+label list. Checking to see if the address of two labels
+is the same is now a reliable test.
+
+Do the object check first because that is more
+likely to differ.
+
+Allowing write access implies allowing locking.
+.SH "NOTE"

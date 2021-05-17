@@ -1,0 +1,17 @@
+.TH "zerocopy_sg_from_iter" 9 "zerocopy_sg_from_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zerocopy_sg_from_iter \- Build a zerocopy datagram from an iov_iter
+.SH SYNOPSIS
+.B "int" zerocopy_sg_from_iter
+.BI "(struct sk_buff *skb "  ","
+.BI "struct iov_iter *from "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to copy
+.IP "from" 12
+the source to copy from
+
+The function will first copy up to headlen, and then pin the userspace
+pages and build frags through them.
+
+Returns 0, -EFAULT or -EMSGSIZE.

@@ -1,0 +1,22 @@
+.TH "ia64_set_curr_task" 9 "ia64_set_curr_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ia64_set_curr_task \- set the current task for a given CPU.
+.SH SYNOPSIS
+.B "void" ia64_set_curr_task
+.BI "(int cpu "  ","
+.BI "struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+the processor in question.
+.IP "p" 12
+the task pointer to set.
+.SH "DESCRIPTION"
+This function must only be used when non-maskable interrupts
+are serviced on a separate stack. It allows the architecture to switch the
+notion of the current task on a CPU in a non-blocking manner. This function
+must be called with all CPU's synchronized, and interrupts disabled, the
+and caller must save the original value of the current task (see
+\fBcurr_task\fP above) and restore that value before reenabling interrupts and
+re-starting the system.
+
+ONLY VALID WHEN THE WHOLE SYSTEM IS STOPPED!

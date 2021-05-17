@@ -1,0 +1,22 @@
+.TH "btrfs_alloc_device" 9 "btrfs_alloc_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_alloc_device \- allocate struct btrfs_device
+.SH SYNOPSIS
+.B "struct btrfs_device *" btrfs_alloc_device
+.BI "(struct btrfs_fs_info *fs_info "  ","
+.BI "const u64 *devid "  ","
+.BI "const u8 *uuid "  ");"
+.SH ARGUMENTS
+.IP "fs_info" 12
+used only for generating a new devid, can be NULL if
+devid is provided (i.e. \fIdevid\fP != NULL).
+.IP "devid" 12
+a pointer to devid for this device.  If NULL a new devid
+is generated.
+.IP "uuid" 12
+a pointer to UUID for this device.  If NULL a new UUID
+is generated.
+.SH "RETURN"
+a pointer to a new \fIstruct btrfs_device\fP on success; \fBERR_PTR\fP
+on error.  Returned struct is not linked onto any lists and must be
+destroyed with btrfs_free_device.

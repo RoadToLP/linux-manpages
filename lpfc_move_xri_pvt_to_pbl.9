@@ -1,0 +1,17 @@
+.TH "lpfc_move_xri_pvt_to_pbl" 9 "lpfc_move_xri_pvt_to_pbl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_move_xri_pvt_to_pbl \- Move some XRIs from private to public pool
+.SH SYNOPSIS
+.B "void" lpfc_move_xri_pvt_to_pbl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "u32 hwqid "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "hwqid" 12
+belong to which HWQ.
+.SH "DESCRIPTION"
+This routine is called from hearbeat timer when pvt_pool is idle.
+All free XRIs are moved from private to public pool on hwqid with 2 steps.
+The first step moves (all - low_watermark) amount of XRIs.
+The second step moves the rest of XRIs.

@@ -1,0 +1,17 @@
+.TH "try_to_unlazy" 9 "try_to_unlazy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_unlazy \- try to switch to ref-walk mode.
+.SH SYNOPSIS
+.B "bool" try_to_unlazy
+.BI "(struct nameidata *nd "  ");"
+.SH ARGUMENTS
+.IP "nd" 12
+nameidata pathwalk data
+.SH "RETURN"
+true on success, false on failure
+.SH "DESCRIPTION"
+try_to_unlazy attempts to legitimize the current nd->path and nd->root
+for ref-walk mode.
+Must be called from rcu-walk context.
+Nothing should touch nameidata between \fBtry_to_unlazy\fP failure and
+\fBterminate_walk\fP.

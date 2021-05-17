@@ -1,0 +1,25 @@
+.TH "cdns_i2c_clk_notifier_cb" 9 "cdns_i2c_clk_notifier_cb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns_i2c_clk_notifier_cb \- Clock rate change callback
+.SH SYNOPSIS
+.B "int" cdns_i2c_clk_notifier_cb
+.BI "(struct notifier_block *nb "  ","
+.BI "unsigned long event "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+Pointer to notifier block
+.IP "event" 12
+Notification reason
+.IP "data" 12
+Pointer to notification data object
+.SH "DESCRIPTION"
+This function is called when the cdns_i2c input clock frequency changes.
+The callback checks whether a valid bus frequency can be generated after the
+change. If so, the change is acknowledged, otherwise the change is aborted.
+New dividers are written to the HW in the pre- or post change notification
+depending on the scaling direction.
+.SH "RETURN"
+NOTIFY_STOP if the rate change should be aborted, NOTIFY_OK
+to acknowledge the change, NOTIFY_DONE if the notification is
+considered irrelevant.

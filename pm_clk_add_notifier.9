@@ -1,0 +1,17 @@
+.TH "pm_clk_add_notifier" 9 "pm_clk_add_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_clk_add_notifier \- Add bus type notifier for power management clocks.
+.SH SYNOPSIS
+.B "void" pm_clk_add_notifier
+.BI "(struct bus_type *bus "  ","
+.BI "struct pm_clk_notifier_block *clknb "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+Bus type to add the notifier to.
+.IP "clknb" 12
+Notifier to be added to the given bus type.
+.SH "DESCRIPTION"
+The nb member of \fIclknb\fP is not expected to be initialized and its
+notifier_call member will be replaced with \fBpm_clk_notify\fP.  However,
+the remaining members of \fIclknb\fP should be populated prior to calling this
+routine.

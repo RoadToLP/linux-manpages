@@ -1,0 +1,21 @@
+.TH "omap_rproc_mbox_callback" 9 "omap_rproc_mbox_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_rproc_mbox_callback \- inbound mailbox message handler
+.SH SYNOPSIS
+.B "void" omap_rproc_mbox_callback
+.BI "(struct mbox_client *client "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+mailbox client pointer used for requesting the mailbox channel
+.IP "data" 12
+mailbox payload
+.SH "DESCRIPTION"
+This handler is invoked by omap's mailbox driver whenever a mailbox
+message is received. Usually, the mailbox payload simply contains
+the index of the virtqueue that is kicked by the remote processor,
+and we let remoteproc core handle it.
+
+In addition to virtqueue indices, we also have some out-of-band values
+that indicates different events. Those values are deliberately very
+big so they don't coincide with virtqueue indices.

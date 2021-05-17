@@ -1,0 +1,32 @@
+.TH "amdgpu_bo_pin_restricted" 9 "amdgpu_bo_pin_restricted" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_bo_pin_restricted \- pin an &amdgpu_bo buffer object
+.SH SYNOPSIS
+.B "int" amdgpu_bo_pin_restricted
+.BI "(struct amdgpu_bo *bo "  ","
+.BI "u32 domain "  ","
+.BI "u64 min_offset "  ","
+.BI "u64 max_offset "  ");"
+.SH ARGUMENTS
+.IP "bo" 12
+\fIamdgpu_bo\fP buffer object to be pinned
+.IP "domain" 12
+domain to be pinned to
+.IP "min_offset" 12
+the start of requested address range
+.IP "max_offset" 12
+the end of requested address range
+.SH "DESCRIPTION"
+Pins the buffer object according to requested domain and address range. If
+the memory is unbound gart memory, binds the pages into gart table. Adjusts
+pin_count and pin_size accordingly.
+
+Pinning means to lock pages in memory along with keeping them at a fixed
+offset. It is required when a buffer can not be moved, for example, when
+a display buffer is being scanned out.
+
+Compared with \fBamdgpu_bo_pin\fP, this function gives more flexibility on
+where to pin a buffer if there are specific restrictions on where a buffer
+must be located.
+.SH "RETURN"
+0 for success or a negative error code on failure.

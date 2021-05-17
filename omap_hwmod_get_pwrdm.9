@@ -1,0 +1,16 @@
+.TH "omap_hwmod_get_pwrdm" 9 "omap_hwmod_get_pwrdm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_get_pwrdm \- return pointer to this module's main powerdomain
+.SH SYNOPSIS
+.B "struct powerdomain *" omap_hwmod_get_pwrdm
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Return the powerdomain pointer associated with the OMAP module
+\fIoh\fP's main clock.  If \fIoh\fP does not have a main clk, return the
+powerdomain associated with the interface clock associated with the
+module's MPU port. (XXX Perhaps this should use the SDMA port
+instead?)  Returns NULL on error, or a struct powerdomain * on
+success.

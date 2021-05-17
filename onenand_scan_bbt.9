@@ -1,0 +1,20 @@
+.TH "onenand_scan_bbt" 9 "onenand_scan_bbt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+onenand_scan_bbt \- [OneNAND Interface] scan, find, read and maybe create bad block table(s)
+.SH SYNOPSIS
+.B "int" onenand_scan_bbt
+.BI "(struct mtd_info *mtd "  ","
+.BI "struct nand_bbt_descr *bd "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device structure
+.IP "bd" 12
+descriptor for the good/bad block search pattern
+.SH "DESCRIPTION"
+The function checks, if a bad block table(s) is/are already
+available. If not it scans the device for manufacturer
+marked good / bad blocks and writes the bad block table(s) to
+the selected place.
+
+The bad block table memory is allocated here. It is freed
+by the onenand_release function.

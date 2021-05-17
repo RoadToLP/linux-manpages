@@ -1,0 +1,17 @@
+.TH "check_inodes" 9 "check_inodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_inodes \- checks all inodes.
+.SH SYNOPSIS
+.B "int" check_inodes
+.BI "(struct ubifs_info *c "  ","
+.BI "struct fsck_data *fsckd "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "fsckd" 12
+FS checking information
+.SH "DESCRIPTION"
+This is a helper function for '\fBdbg_check_filesystem\fP' which walks the
+RB-tree of inodes after the index scan has been finished, and checks that
+inode nlink, size, etc are correct. Returns zero if inodes are fine,
+-EINVAL if not, and a negative error code in case of failure.

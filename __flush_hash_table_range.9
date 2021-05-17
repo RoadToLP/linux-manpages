@@ -1,0 +1,21 @@
+.TH "__flush_hash_table_range" 9 "__flush_hash_table_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__flush_hash_table_range \- Flush all HPTEs for a given address range from the hash table (and the TLB). But keeps the linux PTEs intact.
+.SH SYNOPSIS
+.B "void" __flush_hash_table_range
+.BI "(unsigned long start "  ","
+.BI "unsigned long end "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting address
+.IP "end" 12
+ending address (not included in the flush)
+.SH "DESCRIPTION"
+This function is mostly to be used by some IO hotplug code in order
+to remove all hash entries from a given address range used to map IO
+space on a removed PCI-PCI bidge without tearing down the full mapping
+since 64K pages may overlap with other bridges when using 64K pages
+with 4K HW pages on IO space.
+
+Because of that usage pattern, it is implemented for small size rather
+than speed.

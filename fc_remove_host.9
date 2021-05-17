@@ -1,0 +1,19 @@
+.TH "fc_remove_host" 9 "fc_remove_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_remove_host \- called to terminate any fc_transport-related elements for a scsi host.
+.SH SYNOPSIS
+.B "void" fc_remove_host
+.BI "(struct Scsi_Host *shost "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+Which \fIScsi_Host\fP
+.SH "DESCRIPTION"
+This routine is expected to be called immediately preceding the
+a driver's call to \fBscsi_remove_host\fP.
+
+WARNING: A driver utilizing the fc_transport, which fails to call
+this routine prior to \fBscsi_remove_host\fP, will leave dangling
+objects in /sys/class/fc_remote_ports. Access to any of these
+objects can result in a system crash !!!
+.SH "NOTES"
+This routine assumes no locks are held on entry.

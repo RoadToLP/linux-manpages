@@ -1,0 +1,27 @@
+.TH "smp_call_function_single_async" 9 "smp_call_function_single_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smp_call_function_single_async \- Run an asynchronous function on a specific CPU.
+.SH SYNOPSIS
+.B "int" smp_call_function_single_async
+.BI "(int cpu "  ","
+.BI "struct __call_single_data *csd "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+The CPU to run on.
+.IP "csd" 12
+Pre-allocated and setup data structure
+.SH "DESCRIPTION"
+Like \fBsmp_call_function_single\fP, but the call is asynchonous and
+can thus be done from contexts with disabled interrupts.
+
+The caller passes his own pre-allocated data structure
+(ie: embedded in an object) and is responsible for synchronizing it
+such that the IPIs performed on the \fIcsd\fP are strictly serialized.
+
+If the function is called with one csd which has not yet been
+processed by previous call to \fBsmp_call_function_single_async\fP, the
+function will return immediately with -EBUSY showing that the csd
+object is still in progress.
+.SH "NOTE"
+Be careful, there is unfortunately no current debugging facility to
+validate the correctness of this serialization.

@@ -1,0 +1,22 @@
+.TH "fscrypt_fname_encrypt" 9 "fscrypt_fname_encrypt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_fname_encrypt \- encrypt a filename
+.SH SYNOPSIS
+.B "int" fscrypt_fname_encrypt
+.BI "(const struct inode *inode "  ","
+.BI "const struct qstr *iname "  ","
+.BI "u8 *out "  ","
+.BI "unsigned int olen "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the parent directory (for regular filenames)
+or of the symlink (for symlink targets)
+.IP "iname" 12
+the filename to encrypt
+.IP "out" 12
+(output) the encrypted filename
+.IP "olen" 12
+size of the encrypted filename.  It must be at least \fIiname->len\fP.
+Any extra space is filled with NUL padding before encryption.
+.SH "RETURN"
+0 on success, -errno on failure

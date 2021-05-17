@@ -1,0 +1,31 @@
+.TH "omap2_sdrc_get_params" 9 "omap2_sdrc_get_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_sdrc_get_params \- return SDRC register values for a given clock rate
+.SH SYNOPSIS
+.B "int" omap2_sdrc_get_params
+.BI "(unsigned long r "  ","
+.BI "struct omap_sdrc_params **sdrc_cs0 "  ","
+.BI "struct omap_sdrc_params **sdrc_cs1 "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+SDRC clock rate (in Hz)
+.IP "sdrc_cs0" 12
+chip select 0 ram timings **
+.IP "sdrc_cs1" 12
+chip select 1 ram timings **
+.SH "DESCRIPTION"
+Return pre-calculated values for the SDRC_ACTIM_CTRLA,
+SDRC_ACTIM_CTRLB, SDRC_RFR_CTRL and SDRC_MR registers in sdrc_cs[01]
+structs,for a given SDRC clock rate 'r'.
+These parameters control various timing delays in the SDRAM controller
+that are expressed in terms of the number of SDRC clock cycles to
+wait; hence the clock rate dependency.
+
+Supports 2 different timing parameters for both chip selects.
+
+Note 1: the sdrc_init_params_cs[01] must be sorted rate descending.
+Note 2: If sdrc_init_params_cs_1 is not NULL it must be of same size
+as sdrc_init_params_cs_0.
+
+Fills in the struct omap_sdrc_params * for each chip select.
+Returns 0 upon success or -1 upon failure.

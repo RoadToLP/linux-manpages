@@ -1,0 +1,25 @@
+.TH "gfs2_evict_inode" 9 "gfs2_evict_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_evict_inode \- Remove an inode from cache
+.SH SYNOPSIS
+.B "void" gfs2_evict_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode to evict
+.SH "DESCRIPTION"
+There are three cases to consider:
+1. i_nlink == 0, we are final opener (and must deallocate)
+2. i_nlink == 0, we are not the final opener (and cannot deallocate)
+3. i_nlink > 0
+
+If the fs is read only, then we have to treat all cases as per #3
+since we are unable to do any deallocation. The inode will be
+deallocated by the next read/write node to attempt an allocation
+in the same resource group
+
+We have to (at the moment) hold the inodes main lock to cover
+the gap between unlocking the shared lock on the iopen lock and
+taking the exclusive lock. I'd rather do a shared -> exclusive
+conversion on the iopen lock, but we can change that later. This
+is safe, just less efficient.

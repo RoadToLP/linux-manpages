@@ -1,0 +1,19 @@
+.TH "dwc2_get_ls_map" 9 "dwc2_get_ls_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_get_ls_map \- Get the map used for the given qh
+.SH SYNOPSIS
+.B "unsigned long *" dwc2_get_ls_map
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller.
+.IP "qh" 12
+QH for the periodic transfer.
+.SH "DESCRIPTION"
+We'll always get the periodic map out of our TT.  Note that even if we're
+running the host straight in low speed / full speed mode it appears as if
+a TT is allocated for us, so we'll use it.  If that ever changes we can
+add logic here to get a map out of "hsotg" if !qh->do_split.
+.SH "RETURN"
+the map or NULL if a map couldn't be found.

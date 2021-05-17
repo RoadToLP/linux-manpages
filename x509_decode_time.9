@@ -1,0 +1,31 @@
+.TH "x509_decode_time" 9 "x509_decode_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+x509_decode_time \- Decode an X.509 time ASN.1 object
+.SH SYNOPSIS
+.B "int" x509_decode_time
+.BI "(time64_t *_t "  ","
+.BI "size_t hdrlen "  ","
+.BI "unsigned char tag "  ","
+.BI "const unsigned char *value "  ","
+.BI "size_t vlen "  ");"
+.SH ARGUMENTS
+.IP "_t" 12
+The time to fill in
+.IP "hdrlen" 12
+The length of the object header
+.IP "tag" 12
+The object tag
+.IP "value" 12
+The object value
+.IP "vlen" 12
+The size of the object value
+.SH "DESCRIPTION"
+Decode an ASN.1 universal time or generalised time field into a struct the
+kernel can handle and check it for validity.  The time is decoded thus:
+
+[RFC5280 §4.1.2.5]
+CAs conforming to this profile MUST always encode certificate validity
+dates through the year 2049 as UTCTime; certificate validity dates in
+2050 or later MUST be encoded as GeneralizedTime.  Conforming
+applications MUST be able to process validity dates that are encoded in
+either UTCTime or GeneralizedTime.

@@ -1,0 +1,29 @@
+.TH "spi_register_controller" 9 "spi_register_controller" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_register_controller \- register SPI master or slave controller
+.SH SYNOPSIS
+.B "int" spi_register_controller
+.BI "(struct spi_controller *ctlr "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+initialized master, originally from \fBspi_alloc_master\fP or
+\fBspi_alloc_slave\fP
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+SPI controllers connect to their drivers using some non-SPI bus,
+such as the platform bus.  The final stage of \fBprobe\fP in that code
+includes calling \fBspi_register_controller\fP to hook up to this SPI bus glue.
+
+SPI controllers use board specific (often SOC specific) bus numbers,
+and board-specific addressing for SPI devices combines those numbers
+with chip select numbers.  Since SPI does not directly support dynamic
+device identification, boards need configuration tables telling which
+chip is at which address.
+
+This must be called from context that can sleep.  It returns zero on
+success, else a negative error code (dropping the controller's refcount).
+After a successful return, the caller is responsible for calling
+\fBspi_unregister_controller\fP.
+.SH "RETURN"
+zero on success, else a negative error code.

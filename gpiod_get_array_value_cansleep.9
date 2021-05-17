@@ -1,0 +1,23 @@
+.TH "gpiod_get_array_value_cansleep" 9 "gpiod_get_array_value_cansleep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiod_get_array_value_cansleep \- read values from an array of GPIOs
+.SH SYNOPSIS
+.B "int" gpiod_get_array_value_cansleep
+.BI "(unsigned int array_size "  ","
+.BI "struct gpio_desc **desc_array "  ","
+.BI "struct gpio_array *array_info "  ","
+.BI "unsigned long *value_bitmap "  ");"
+.SH ARGUMENTS
+.IP "array_size" 12
+number of elements in the descriptor array / value bitmap
+.IP "desc_array" 12
+array of GPIO descriptors whose values will be read
+.IP "array_info" 12
+information on applicability of fast bitmap processing path
+.IP "value_bitmap" 12
+bitmap to store the read values
+.SH "DESCRIPTION"
+Read the logical values of the GPIOs, i.e. taking their ACTIVE_LOW status
+into account.  Return 0 in case of success, else an error code.
+
+This function is to be called from contexts that can sleep.

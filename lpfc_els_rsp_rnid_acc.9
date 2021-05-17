@@ -1,0 +1,37 @@
+.TH "lpfc_els_rsp_rnid_acc" 9 "lpfc_els_rsp_rnid_acc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rsp_rnid_acc \- Issue rnid acc response iocb command
+.SH SYNOPSIS
+.B "int" lpfc_els_rsp_rnid_acc
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint8_t format "  ","
+.BI "struct lpfc_iocbq *oldiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "format" 12
+rnid command format.
+.IP "oldiocb" 12
+pointer to the original lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine issues a Request Node Identification Data (RNID) Accept
+(ACC) response. It constructs the RNID ACC response command according to
+the proper \fIformat\fP and then calls the \fBlpfc_sli_issue_iocb\fP routine to
+issue the response. Note that this command does not need to hold the ndlp
+reference count for the callback. So, the ndlp reference count taken by
+the \fBlpfc_prep_els_iocb\fP routine is put back and the context1 field of
+IOCB is set to NULL to indicate to the \fBlpfc_els_free_iocb\fP routine that
+there is no ndlp reference available.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function. However, for the RNID Accept Response ELS command,
+this is undone later by this routine after the IOCB is allocated.
+
+Return code
+0 - Successfully issued acc rnid response
+1 - Failed to issue acc rnid response

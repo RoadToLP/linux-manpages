@@ -1,0 +1,17 @@
+.TH "ice_add_mac_to_sync_list" 9 "ice_add_mac_to_sync_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_mac_to_sync_list \- creates list of MAC addresses to be synced
+.SH SYNOPSIS
+.B "int" ice_add_mac_to_sync_list
+.BI "(struct net_device *netdev "  ","
+.BI "const u8 *addr "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the net device on which the sync is happening
+.IP "addr" 12
+MAC address to sync
+.SH "DESCRIPTION"
+This is a callback function which is called by the in kernel device sync
+functions (like __dev_uc_sync, __dev_mc_sync, etc). This function only
+populates the tmp_sync_list, which is later used by ice_add_mac to add the
+MAC filters from the hardware.

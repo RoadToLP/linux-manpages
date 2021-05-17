@@ -1,0 +1,33 @@
+.TH "label_components_match" 9 "label_components_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+label_components_match \- find perms for all subcomponents of a label
+.SH SYNOPSIS
+.B "int" label_components_match
+.BI "(struct aa_profile *profile "  ","
+.BI "struct aa_label *label "  ","
+.BI "bool stack "  ","
+.BI "unsigned int start "  ","
+.BI "bool subns "  ","
+.BI "u32 request "  ","
+.BI "struct aa_perms *perms "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+profile to find perms for
+.IP "label" 12
+label to check access permissions for
+.IP "stack" 12
+whether this is a stacking request
+.IP "start" 12
+state to start match in
+.IP "subns" 12
+whether to do permission checks on components in a subns
+.IP "request" 12
+permissions to request
+.IP "perms" 12
+an initialized perms struct to add accumulation to
+.SH "RETURN"
+0 on success else ERROR
+.SH "DESCRIPTION"
+For the label A//\fIB\fP//\fIC\fP this does the perm match for each of A and B and C
+\fIperms\fP should be preinitialized with allperms OR a previous permission
+check to be stacked.

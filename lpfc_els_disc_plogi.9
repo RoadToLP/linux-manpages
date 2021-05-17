@@ -1,0 +1,24 @@
+.TH "lpfc_els_disc_plogi" 9 "lpfc_els_disc_plogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_disc_plogi \- Issue plogi for all npr nodes of a vport before adisc
+.SH SYNOPSIS
+.B "int" lpfc_els_disc_plogi
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine issues Port Login (PLOGI) ELS commands to all the N_Ports
+which are in node port recovery state, with a \fIvport\fP. Each time an ELS
+ADISC PLOGI IOCB is issued by invoking the \fBlpfc_issue_els_plogi\fP routine,
+the per \fIvport\fP number of discover count (num_disc_nodes) shall be
+incremented. If the num_disc_nodes reaches a pre-configured threshold
+(cfg_discovery_threads), the \fIvport\fP fc_flag will be marked with FC_NLP_MORE
+bit set and quit the process of issuing remaining ADISC PLOGIN IOCBs for
+later pick up. On the other hand, after walking through all the ndlps with
+the \fIvport\fP and there is none ADISC PLOGI IOCB issued, the \fIvport\fP fc_flag
+shall be cleared with the FC_NLP_MORE bit indicating there is no more ADISC
+PLOGI need to be sent.
+
+Return code
+The number of N_Ports with plogi issued.

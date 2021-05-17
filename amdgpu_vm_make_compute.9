@@ -1,0 +1,28 @@
+.TH "amdgpu_vm_make_compute" 9 "amdgpu_vm_make_compute" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_make_compute \- Turn a GFX VM into a compute VM
+.SH SYNOPSIS
+.B "int" amdgpu_vm_make_compute
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct amdgpu_vm *vm "  ","
+.BI "u32 pasid "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "vm" 12
+requested vm
+.IP "pasid" 12
+pasid to use
+.SH "DESCRIPTION"
+This only works on GFX VMs that don't have any BOs added and no
+page tables allocated yet.
+
+Changes the following VM parameters:
+- use_cpu_for_update
+- pte_supports_ats
+- pasid (old PASID is released, because compute manages its own PASIDs)
+
+Reinitializes the page directory to reflect the changed ATS
+setting.
+.SH "RETURN"
+0 for success, -errno for errors.

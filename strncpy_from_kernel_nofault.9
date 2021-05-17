@@ -1,0 +1,27 @@
+.TH "strncpy_from_kernel_nofault" 9 "strncpy_from_kernel_nofault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strncpy_from_kernel_nofault \- - Copy a NUL terminated string from unsafe address.
+.SH SYNOPSIS
+.B "long" strncpy_from_kernel_nofault
+.BI "(char *dst "  ","
+.BI "const void *unsafe_addr "  ","
+.BI "long count "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+Destination address, in kernel space.  This buffer must be at
+least \fIcount\fP bytes long.
+.IP "unsafe_addr" 12
+Unsafe address.
+.IP "count" 12
+Maximum number of bytes to copy, including the trailing NUL.
+.SH "DESCRIPTION"
+Copies a NUL-terminated string from unsafe address to kernel buffer.
+
+On success, returns the length of the string INCLUDING the trailing NUL.
+
+If access fails, returns -EFAULT (some data may have been copied and the
+trailing NUL added).  If \fIunsafe_addr\fP is not a valid kernel address, return
+-ERANGE.
+
+If \fIcount\fP is smaller than the length of the string, copies \fIcount\fP-1 bytes,
+sets the last byte of \fIdst\fP buffer to NUL and returns \fIcount\fP.

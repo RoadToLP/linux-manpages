@@ -1,0 +1,38 @@
+.TH "synth_event_gen_cmd_array_start" 9 "synth_event_gen_cmd_array_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_gen_cmd_array_start \- Start synthetic event command from an array
+.SH SYNOPSIS
+.B "int" synth_event_gen_cmd_array_start
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "const char *name "  ","
+.BI "struct module *mod "  ","
+.BI "struct synth_field_desc *fields "  ","
+.BI "unsigned int n_fields "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event
+.IP "name" 12
+The name of the synthetic event
+.IP "mod" 12
+-- undescribed --
+.IP "fields" 12
+An array of type/name field descriptions
+.IP "n_fields" 12
+The number of field descriptions contained in the fields array
+.SH "DESCRIPTION"
+Generate a synthetic event command to be executed by
+\fBsynth_event_gen_cmd_end\fP.  This function can be used to generate
+the complete command or only the first part of it; in the latter
+case, \fBsynth_event_add_field\fP, \fBsynth_event_add_field_str\fP, or
+\fBsynth_event_add_fields\fP can be used to add more fields following
+this.
+
+The event fields that will be defined for the event should be
+passed in as an array of struct synth_field_desc, and the number of
+elements in the array passed in as n_fields.  Field ordering will
+retain the ordering given in the fields array.
+
+See \fBsynth_field_size\fP for available types. If field_name contains
+[n] the field is considered to be an array.
+.SH "RETURN"
+0 if successful, error otherwise.

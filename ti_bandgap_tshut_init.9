@@ -1,0 +1,21 @@
+.TH "ti_bandgap_tshut_init" 9 "ti_bandgap_tshut_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_bandgap_tshut_init \- setup and initialize tshut handling
+.SH SYNOPSIS
+.B "int" ti_bandgap_tshut_init
+.BI "(struct ti_bandgap *bgp "  ","
+.BI "struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "bgp" 12
+pointer to struct ti_bandgap
+.IP "pdev" 12
+pointer to device struct platform_device
+.SH "DESCRIPTION"
+Call this function only in case the bandgap features HAS(TSHUT).
+In this case, the driver needs to handle the TSHUT signal as an IRQ.
+The IRQ is wired as a GPIO, and for this purpose, it is required
+to specify which GPIO line is used. TSHUT IRQ is fired anytime
+one of the bandgap sensors violates the TSHUT high/hot threshold.
+And in that case, the system must go off.
+.SH "RETURN"
+0 if no error, else error status

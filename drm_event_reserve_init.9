@@ -1,0 +1,34 @@
+.TH "drm_event_reserve_init" 9 "drm_event_reserve_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_event_reserve_init \- init a DRM event and reserve space for it
+.SH SYNOPSIS
+.B "int" drm_event_reserve_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct drm_pending_event *p "  ","
+.BI "struct drm_event *e "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "file_priv" 12
+DRM file private data
+.IP "p" 12
+tracking structure for the pending event
+.IP "e" 12
+actual event data to deliver to userspace
+.SH "DESCRIPTION"
+This function prepares the passed in event for eventual delivery. If the event
+doesn't get delivered (because the IOCTL fails later on, before queuing up
+anything) then the even must be cancelled and freed using
+\fBdrm_event_cancel_free\fP. Successfully initialized events should be sent out
+using \fBdrm_send_event\fP or \fBdrm_send_event_locked\fP to signal completion of the
+asynchronous event to userspace.
+
+If callers embedded \fIp\fP into a larger structure it must be allocated with
+kmalloc and \fIp\fP must be the first member element.
+
+Callers which already hold \fIdrm_device.event_lock\fP should use
+\fBdrm_event_reserve_init_locked\fP instead.
+
+0 on success or a negative error code on failure.
+.SH "RETURN"

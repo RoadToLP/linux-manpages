@@ -1,0 +1,31 @@
+.TH "mem_cgroup_wb_stats" 9 "mem_cgroup_wb_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_wb_stats \- retrieve writeback related stats from its memcg
+.SH SYNOPSIS
+.B "void" mem_cgroup_wb_stats
+.BI "(struct bdi_writeback *wb "  ","
+.BI "unsigned long *pfilepages "  ","
+.BI "unsigned long *pheadroom "  ","
+.BI "unsigned long *pdirty "  ","
+.BI "unsigned long *pwriteback "  ");"
+.SH ARGUMENTS
+.IP "wb" 12
+bdi_writeback in question
+.IP "pfilepages" 12
+out parameter for number of file pages
+.IP "pheadroom" 12
+out parameter for number of allocatable pages according to memcg
+.IP "pdirty" 12
+out parameter for number of dirty pages
+.IP "pwriteback" 12
+out parameter for number of pages under writeback
+.SH "DESCRIPTION"
+Determine the numbers of file, headroom, dirty, and writeback pages in
+\fIwb\fP's memcg.  File, dirty and writeback are self-explanatory.  Headroom
+is a bit more involved.
+
+A memcg's headroom is "min(max, high) - used".  In the hierarchy, the
+headroom is calculated as the lowest headroom of itself and the
+ancestors.  Note that this doesn't consider the actual amount of
+available memory in the system.  The caller should further cap
+*\fIpheadroom\fP accordingly.

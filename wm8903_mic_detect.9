@@ -1,0 +1,27 @@
+.TH "wm8903_mic_detect" 9 "wm8903_mic_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8903_mic_detect \- Enable microphone detection via the WM8903 IRQ
+.SH SYNOPSIS
+.B "int" wm8903_mic_detect
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_soc_jack *jack "  ","
+.BI "int det "  ","
+.BI "int shrt "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+WM8903 component
+.IP "jack" 12
+jack to report detection events on
+.IP "det" 12
+value to report for presence detection
+.IP "shrt" 12
+value to report for short detection
+.SH "DESCRIPTION"
+Enable microphone detection via IRQ on the WM8903.  If GPIOs are
+being used to bring out signals to the processor then only platform
+data configuration is needed for WM8903 and processor GPIOs should
+be configured using \fBsnd_soc_jack_add_gpios\fP instead.
+
+The current threasholds for detection should be configured using
+micdet_cfg in the platform data.  Using this function will force on
+the microphone bias for the device.

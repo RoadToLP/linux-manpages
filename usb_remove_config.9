@@ -1,0 +1,16 @@
+.TH "usb_remove_config" 9 "usb_remove_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_remove_config \- remove a configuration from a device.
+.SH SYNOPSIS
+.B "void" usb_remove_config
+.BI "(struct usb_composite_dev *cdev "  ","
+.BI "struct usb_configuration *config "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+wraps the USB gadget
+.IP "config" 12
+the configuration
+.SH "DESCRIPTION"
+Drivers must call usb_gadget_disconnect before calling this function
+to disconnect the device from the host and make sure the host will not
+try to enumerate the device while we are changing the config list.

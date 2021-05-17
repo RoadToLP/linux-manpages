@@ -1,0 +1,16 @@
+.TH "cdev_del" 9 "cdev_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdev_del \- remove a cdev from the system
+.SH SYNOPSIS
+.B "void" cdev_del
+.BI "(struct cdev *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+the cdev structure to be removed
+.SH "DESCRIPTION"
+\fBcdev_del\fP removes \fIp\fP from the system, possibly freeing the structure
+itself.
+.SH "NOTE"
+This guarantees that cdev device will no longer be able to be
+opened, however any cdevs already open will remain and their fops will
+still be callable even after cdev_del returns.

@@ -1,0 +1,21 @@
+.TH "crypto_aes_set_key" 9 "crypto_aes_set_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+crypto_aes_set_key \- Set the AES key.
+.SH SYNOPSIS
+.B "int" crypto_aes_set_key
+.BI "(struct crypto_tfm *tfm "  ","
+.BI "const u8 *in_key "  ","
+.BI "unsigned int key_len "  ");"
+.SH ARGUMENTS
+.IP "tfm" 12
+The crypto_tfm that is used in the context.
+.IP "in_key" 12
+The input key.
+.IP "key_len" 12
+The size of the key.
+.SH "DESCRIPTION"
+This function uses \fBaes_expand_key\fP to expand the key.  \fIcrypto_aes_ctx\fP
+_must_ be the private data embedded in \fItfm\fP which is retrieved with
+\fBcrypto_tfm_ctx\fP.
+.SH "RETURN"
+0 on success; -EINVAL on failure (only happens for bad key lengths)

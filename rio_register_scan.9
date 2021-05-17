@@ -1,0 +1,20 @@
+.TH "rio_register_scan" 9 "rio_register_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_register_scan \- enumeration/discovery method registration interface
+.SH SYNOPSIS
+.B "int" rio_register_scan
+.BI "(int mport_id "  ","
+.BI "struct rio_scan *scan_ops "  ");"
+.SH ARGUMENTS
+.IP "mport_id" 12
+mport device ID for which fabric scan routine has to be set
+(RIO_MPORT_ANY = set for all available mports)
+.IP "scan_ops" 12
+enumeration/discovery operations structure
+.SH "DESCRIPTION"
+Registers enumeration/discovery operations with RapidIO subsystem and
+attaches it to the specified mport device (or all available mports
+if RIO_MPORT_ANY is specified).
+
+Returns error if the mport already has an enumerator attached to it.
+In case of RIO_MPORT_ANY skips mports with valid scan routines (no error).

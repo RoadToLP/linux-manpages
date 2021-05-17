@@ -1,0 +1,19 @@
+.TH "drm_mode_config_cleanup" 9 "drm_mode_config_cleanup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_config_cleanup \- free up DRM mode_config info
+.SH SYNOPSIS
+.B "void" drm_mode_config_cleanup
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Free up all the connectors and CRTCs associated with this DRM device, then
+free up the framebuffers and associated buffer objects.
+
+Note that since this /should/ happen single-threaded at driver/device
+teardown time, no locking is required. It's the driver's job to ensure that
+this guarantee actually holds true.
+
+FIXME: With the managed \fBdrmm_mode_config_init\fP it is no longer necessary for
+drivers to explicitly call this function.

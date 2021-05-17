@@ -1,0 +1,21 @@
+.TH "__lookupn_profile" 9 "__lookupn_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lookupn_profile \- lookup the profile matching @hname
+.SH SYNOPSIS
+.B "struct aa_profile *" __lookupn_profile
+.BI "(struct aa_policy *base "  ","
+.BI "const char *hname "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+base list to start looking up profile name from  (NOT NULL)
+.IP "hname" 12
+hierarchical profile name  (NOT NULL)
+.IP "n" 12
+length of \fIhname\fP
+.SH "DESCRIPTION"
+Requires: rcu_read_lock be held
+
+Do a relative name lookup, recursing through profile tree.
+.SH "RETURN"
+unrefcounted profile pointer or NULL if not found

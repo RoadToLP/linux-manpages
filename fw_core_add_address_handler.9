@@ -1,0 +1,26 @@
+.TH "fw_core_add_address_handler" 9 "fw_core_add_address_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_core_add_address_handler \- register for incoming requests
+.SH SYNOPSIS
+.B "int" fw_core_add_address_handler
+.BI "(struct fw_address_handler *handler "  ","
+.BI "const struct fw_address_region *region "  ");"
+.SH ARGUMENTS
+.IP "handler" 12
+callback
+.IP "region" 12
+region in the IEEE 1212 node space address range
+.SH "DESCRIPTION"
+region->start, ->end, and handler->length have to be quadlet-aligned.
+
+When a request is received that falls within the specified address range,
+the specified callback is invoked.  The parameters passed to the callback
+give the details of the particular request.
+
+To be called in process context.
+Return value:  0 on success, non-zero otherwise.
+
+The start offset of the handler's address region is determined by
+\fBfw_core_add_address_handler\fP and is returned in handler->offset.
+
+Address allocations are exclusive, except for the FCP registers.

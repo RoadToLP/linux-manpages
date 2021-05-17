@@ -1,0 +1,21 @@
+.TH "input_handler_for_each_handle" 9 "input_handler_for_each_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_handler_for_each_handle \- handle iterator
+.SH SYNOPSIS
+.B "int" input_handler_for_each_handle
+.BI "(struct input_handler *handler "  ","
+.BI "void *data "  ","
+.BI "int (*fn)(struct input_handle *, void *) "  ");"
+.SH ARGUMENTS
+.IP "handler" 12
+input handler to iterate
+.IP "data" 12
+data for the callback
+.IP "fn" 12
+function to be called for each handle
+.SH "DESCRIPTION"
+Iterate over \fIbus\fP's list of devices, and call \fIfn\fP for each, passing
+it \fIdata\fP and stop when \fIfn\fP returns a non-zero value. The function is
+using RCU to traverse the list and therefore may be using in atomic
+contexts. The \fIfn\fP callback is invoked from RCU critical section and
+thus must not sleep.

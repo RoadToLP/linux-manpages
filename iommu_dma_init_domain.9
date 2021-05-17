@@ -1,0 +1,23 @@
+.TH "iommu_dma_init_domain" 9 "iommu_dma_init_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_dma_init_domain \- Initialise a DMA mapping domain
+.SH SYNOPSIS
+.B "int" iommu_dma_init_domain
+.BI "(struct iommu_domain *domain "  ","
+.BI "dma_addr_t base "  ","
+.BI "u64 size "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+IOMMU domain previously prepared by \fBiommu_get_dma_cookie\fP
+.IP "base" 12
+IOVA at which the mappable address space starts
+.IP "size" 12
+Size of IOVA space
+.IP "dev" 12
+Device the domain is being initialised for
+.SH "DESCRIPTION"
+\fIbase\fP and \fIsize\fP should be exact multiples of IOMMU page granularity to
+avoid rounding surprises. If necessary, we reserve the page at address 0
+to ensure it is an invalid IOVA. It is safe to reinitialise a domain, but
+any change which could make prior IOVAs invalid will fail.

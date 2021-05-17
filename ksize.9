@@ -1,0 +1,19 @@
+.TH "ksize" 9 "ksize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ksize \- get the actual amount of memory allocated for a given object
+.SH SYNOPSIS
+.B "size_t" ksize
+.BI "(const void *objp "  ");"
+.SH ARGUMENTS
+.IP "objp" 12
+Pointer to the object
+.SH "DESCRIPTION"
+kmalloc may internally round up allocations and return more memory
+than requested. \fBksize\fP can be used to determine the actual amount of
+memory allocated. The caller may use this additional memory, even though
+a smaller amount of memory was initially specified with the kmalloc call.
+The caller must guarantee that objp points to a valid object previously
+allocated with either \fBkmalloc\fP or \fBkmem_cache_alloc\fP. The object
+must not be freed during the duration of the call.
+.SH "RETURN"
+size of the actual memory used by \fIobjp\fP in bytes

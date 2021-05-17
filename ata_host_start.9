@@ -1,0 +1,20 @@
+.TH "ata_host_start" 9 "ata_host_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_host_start \- start and freeze ports of an ATA host
+.SH SYNOPSIS
+.B "int" ata_host_start
+.BI "(struct ata_host *host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+ATA host to start ports for
+
+Start and then freeze ports of \fIhost\fP.  Started status is
+recorded in host->flags, so this function can be called
+multiple times.  Ports are guaranteed to get started only
+once.  If host->ops isn't initialized yet, its set to the
+first non-dummy port ops.
+
+LOCKING:
+Inherited from calling layer (may sleep).
+.SH "RETURN"
+0 if all ports are started successfully, -errno otherwise.

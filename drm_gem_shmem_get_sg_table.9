@@ -1,0 +1,19 @@
+.TH "drm_gem_shmem_get_sg_table" 9 "drm_gem_shmem_get_sg_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_shmem_get_sg_table \- Provide a scatter/gather table of pinned pages for a shmem GEM object
+.SH SYNOPSIS
+.B "struct sg_table *" drm_gem_shmem_get_sg_table
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.SH "DESCRIPTION"
+This function exports a scatter/gather table suitable for PRIME usage by
+calling the standard DMA mapping API. Drivers should not call this function
+directly, instead it should only be used as an implementation for
+\fIdrm_gem_object_funcs.get_sg_table\fP.
+
+Drivers who need to acquire an scatter/gather table for objects need to call
+\fBdrm_gem_shmem_get_pages_sgt\fP instead.
+.SH "RETURN"
+A pointer to the scatter/gather table of pinned pages or NULL on failure.

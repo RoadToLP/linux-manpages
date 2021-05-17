@@ -1,0 +1,24 @@
+.TH "smk_access" 9 "smk_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_access \- determine if a subject has a specific access to an object
+.SH SYNOPSIS
+.B "int" smk_access
+.BI "(struct smack_known *subject "  ","
+.BI "struct smack_known *object "  ","
+.BI "int request "  ","
+.BI "struct smk_audit_info *a "  ");"
+.SH ARGUMENTS
+.IP "subject" 12
+a pointer to the subject's Smack label entry
+.IP "object" 12
+a pointer to the object's Smack label entry
+.IP "request" 12
+the access requested, in "MAY" format
+.IP "a" 12
+a pointer to the audit data
+.SH "DESCRIPTION"
+This function looks up the subject/object pair in the
+access rule list and returns 0 if the access is permitted,
+non zero otherwise.
+
+Smack labels are shared on smack_list

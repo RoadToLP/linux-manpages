@@ -1,0 +1,22 @@
+.TH "i915_hotplug_interrupt_update" 9 "i915_hotplug_interrupt_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_hotplug_interrupt_update \- update hotplug interrupt enable
+.SH SYNOPSIS
+.B "void" i915_hotplug_interrupt_update
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "u32 mask "  ","
+.BI "u32 bits "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+driver private
+.IP "mask" 12
+bits to update
+.IP "bits" 12
+bits to enable
+.SH "NOTE"
+the HPD enable bits are modified both inside and outside
+of an interrupt context. To avoid that read-modify-write cycles
+interfer, these bits are protected by a spinlock. Since this
+function is usually not called from a context where the lock is
+held already, this function acquires the lock itself. A non-locking
+version is also available.

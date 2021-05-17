@@ -1,0 +1,29 @@
+.TH "pl011_console_match" 9 "pl011_console_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pl011_console_match \- non-standard console matching
+.SH SYNOPSIS
+.B "int" pl011_console_match
+.BI "(struct console *co "  ","
+.BI "char *name "  ","
+.BI "int idx "  ","
+.BI "char *options "  ");"
+.SH ARGUMENTS
+.IP "co" 12
+registering console
+.IP "name" 12
+name from console command line
+.IP "idx" 12
+index from console command line
+.IP "options" 12
+ptr to option string from console command line
+
+Only attempts to match console command lines of the form:
+console=pl011,mmio|mmio32,<addr>[,<options>]
+console=pl011,0x<addr>[,<options>]
+This form is used to register an initial earlycon boot console and
+replace it with the amba_console at pl011 driver init.
+
+Performs console setup for a match (as required by interface)
+If no <options> are specified, then assume the h/w is already setup.
+
+Returns 0 if console matches; otherwise non-zero to use default matching

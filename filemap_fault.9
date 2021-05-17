@@ -1,0 +1,28 @@
+.TH "filemap_fault" 9 "filemap_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_fault \- read in file data for page fault handling
+.SH SYNOPSIS
+.B "vm_fault_t" filemap_fault
+.BI "(struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+struct vm_fault containing details of the fault
+.SH "DESCRIPTION"
+\fBfilemap_fault\fP is invoked via the vma operations vector for a
+mapped memory region to read in file data during a page fault.
+
+The goto's are kind of ugly, but this streamlines the normal case of having
+it in the page cache, and handles the special cases reasonably without
+having a lot of duplicated code.
+
+vma->vm_mm->mmap_lock must be held on entry.
+
+If our return value has VM_FAULT_RETRY set, it's because the mmap_lock
+may be dropped before doing I/O or by \fBlock_page_maybe_drop_mmap\fP.
+
+If our return value does not have VM_FAULT_RETRY set, the mmap_lock
+has not been released.
+
+We never return with VM_FAULT_RETRY and a bit from VM_FAULT_ERROR set.
+.SH "RETURN"
+bitwise-OR of VM_FAULT_ codes.

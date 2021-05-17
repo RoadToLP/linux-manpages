@@ -1,0 +1,22 @@
+.TH "drm_poll" 9 "drm_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_poll \- poll method for DRM file
+.SH SYNOPSIS
+.B "__poll_t" drm_poll
+.BI "(struct file *filp "  ","
+.BI "struct poll_table_struct *wait "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file pointer
+.IP "wait" 12
+poll waiter table
+.SH "DESCRIPTION"
+This function must be used by drivers as their \fIfile_operations.read\fP method
+iff they use DRM events for asynchronous signalling to userspace.  Since
+events are used by the KMS API for vblank and page flip completion this means
+all modern display drivers must use it.
+
+See also \fBdrm_read\fP.
+
+Mask of POLL flags indicating the current status of the file.
+.SH "RETURN"

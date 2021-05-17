@@ -1,0 +1,26 @@
+.TH "ttm_bo_vm_insert_huge" 9 "ttm_bo_vm_insert_huge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ttm_bo_vm_insert_huge \- Insert a pfn for PUD or PMD faults
+.SH SYNOPSIS
+.B "vm_fault_t" ttm_bo_vm_insert_huge
+.BI "(struct vm_fault *vmf "  ","
+.BI "struct ttm_buffer_object *bo "  ","
+.BI "pgoff_t page_offset "  ","
+.BI "pgoff_t fault_page_size "  ","
+.BI "pgprot_t pgprot "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+Fault data
+.IP "bo" 12
+The buffer object
+.IP "page_offset" 12
+Page offset from bo start
+.IP "fault_page_size" 12
+The size of the fault in pages.
+.IP "pgprot" 12
+The page protections.
+Does additional checking whether it's possible to insert a PUD or PMD
+pfn and performs the insertion.
+.SH "RETURN"
+VM_FAULT_NOPAGE on successful insertion, VM_FAULT_FALLBACK if
+a huge fault was not possible, or on insertion error.

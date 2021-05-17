@@ -1,0 +1,18 @@
+.TH "page_cgroup_ino" 9 "page_cgroup_ino" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_cgroup_ino \- return inode number of the memcg a page is charged to
+.SH SYNOPSIS
+.B "ino_t" page_cgroup_ino
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page
+.SH "DESCRIPTION"
+Look up the closest online ancestor of the memory cgroup \fIpage\fP is charged to
+and return its inode number or 0 if \fIpage\fP is not charged to any cgroup. It
+is safe to call this function without holding a reference to \fIpage\fP.
+
+Note, this function is inherently racy, because there is nothing to prevent
+the cgroup inode from getting torn down and potentially reallocated a moment
+after \fBpage_cgroup_ino\fP returns, so it only should be used by callers that
+do not care (such as procfs interfaces).

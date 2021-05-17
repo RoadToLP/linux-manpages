@@ -1,0 +1,15 @@
+.TH "usb_free_urb" 9 "usb_free_urb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_free_urb \- frees the memory used by a urb when all users of it are finished
+.SH SYNOPSIS
+.B "void" usb_free_urb
+.BI "(struct urb *urb "  ");"
+.SH ARGUMENTS
+.IP "urb" 12
+pointer to the urb to free, may be NULL
+.SH "DESCRIPTION"
+Must be called when a user of a urb is finished with it.  When the last user
+of the urb calls this function, the memory of the urb is freed.
+.SH "NOTE"
+The transfer buffer associated with the urb is not freed unless the
+URB_FREE_BUFFER transfer flag is set.

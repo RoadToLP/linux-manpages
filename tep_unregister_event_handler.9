@@ -1,0 +1,31 @@
+.TH "tep_unregister_event_handler" 9 "tep_unregister_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_unregister_event_handler \- unregister an existing event handler
+.SH SYNOPSIS
+.B "int" tep_unregister_event_handler
+.BI "(struct tep_handle *tep "  ","
+.BI "int id "  ","
+.BI "const char *sys_name "  ","
+.BI "const char *event_name "  ","
+.BI "tep_event_handler_func func "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+a handle to the trace event parser context
+.IP "id" 12
+the id of the event to unregister
+.IP "sys_name" 12
+the system name the handler belongs to
+.IP "event_name" 12
+the name of the event handler
+.IP "func" 12
+the function to call to parse the event information
+.IP "context" 12
+the data to be passed to \fIfunc\fP
+.SH "DESCRIPTION"
+This function removes existing event handler (parser).
+
+If \fIid\fP is >= 0, then it is used to find the event.
+else \fIsys_name\fP and \fIevent_name\fP are used.
+
+Returns 0 if handler was removed successfully, -1 if event was not found.

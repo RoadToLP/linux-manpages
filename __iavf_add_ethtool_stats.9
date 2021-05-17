@@ -1,0 +1,24 @@
+.TH "__iavf_add_ethtool_stats" 9 "__iavf_add_ethtool_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__iavf_add_ethtool_stats \- copy stats into the ethtool supplied buffer
+.SH SYNOPSIS
+.B "void" __iavf_add_ethtool_stats
+.BI "(u64 **data "  ","
+.BI "void *pointer "  ","
+.BI "const struct iavf_stats stats[] "  ","
+.BI "const unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ethtool stats buffer
+.IP "pointer" 12
+location to copy stats from
+.IP "stats" 12
+array of stats to copy
+.IP "size" 12
+the size of the stats definition
+.SH "DESCRIPTION"
+Copy the stats defined by the stats array using the pointer as a base into
+the data buffer supplied by ethtool. Updates the data pointer to point to
+the next empty location for successive calls to __iavf_add_ethtool_stats.
+If pointer is null, set the data values to zero and update the pointer to
+skip these stats.

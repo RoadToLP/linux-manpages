@@ -1,0 +1,21 @@
+.TH "ice_init_ctrlq" 9 "ice_init_ctrlq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_init_ctrlq \- main initialization routine for any control Queue
+.SH SYNOPSIS
+.B "enum ice_status" ice_init_ctrlq
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_ctl_q q_type "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "q_type" 12
+specific Control queue type
+.SH "DESCRIPTION"
+Prior to calling this function, the driver *MUST* set the following fields
+in the cq->structure:
+- cq->num_sq_entries
+- cq->num_rq_entries
+- cq->rq_buf_size
+- cq->sq_buf_size
+.SH "NOTE"
+this function does not initialize the controlq locks

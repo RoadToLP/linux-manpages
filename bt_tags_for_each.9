@@ -1,0 +1,25 @@
+.TH "bt_tags_for_each" 9 "bt_tags_for_each" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bt_tags_for_each \- iterate over the requests in a tag map
+.SH SYNOPSIS
+.B "void" bt_tags_for_each
+.BI "(struct blk_mq_tags *tags "  ","
+.BI "struct sbitmap_queue *bt "  ","
+.BI "busy_tag_iter_fn *fn "  ","
+.BI "void *data "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "tags" 12
+Tag map to iterate over.
+.IP "bt" 12
+sbitmap to examine. This is either the breserved_tags member
+or the bitmap_tags member of struct blk_mq_tags.
+.IP "fn" 12
+Pointer to the function that will be called for each started
+request. \fIfn\fP will be called as follows: \fIfn\fP(rq, \fIdata\fP,
+\fIreserved\fP) where rq is a pointer to a request. Return true
+to continue iterating tags, false to stop.
+.IP "data" 12
+Will be passed as second argument to \fIfn\fP.
+.IP "flags" 12
+BT_TAG_ITER_*

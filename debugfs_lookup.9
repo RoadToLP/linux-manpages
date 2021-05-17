@@ -1,0 +1,19 @@
+.TH "debugfs_lookup" 9 "debugfs_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_lookup \- look up an existing debugfs file
+.SH SYNOPSIS
+.B "struct dentry *" debugfs_lookup
+.BI "(const char *name "  ","
+.BI "struct dentry *parent "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the file to look up.
+.IP "parent" 12
+a pointer to the parent dentry of the file.
+.SH "DESCRIPTION"
+This function will return a pointer to a dentry if it succeeds.  If the file
+doesn't exist or an error occurs, NULL will be returned.  The returned
+dentry must be passed to \fBdput\fP when it is no longer needed.
+
+If debugfs is not enabled in the kernel, the value -ENODEV will be
+returned.

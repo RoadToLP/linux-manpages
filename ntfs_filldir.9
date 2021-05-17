@@ -1,0 +1,36 @@
+.TH "ntfs_filldir" 9 "ntfs_filldir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_filldir \- ntfs specific filldir method
+.SH SYNOPSIS
+.B "int" ntfs_filldir
+.BI "(ntfs_volume *vol "  ","
+.BI "ntfs_inode *ndir "  ","
+.BI "struct page *ia_page "  ","
+.BI "INDEX_ENTRY *ie "  ","
+.BI "u8 *name "  ","
+.BI "struct dir_context *actor "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+current ntfs volume
+.IP "ndir" 12
+ntfs inode of current directory
+.IP "ia_page" 12
+page in which the index allocation buffer \fIie\fP is in resides
+.IP "ie" 12
+current index entry
+.IP "name" 12
+buffer to use for the converted name
+.IP "actor" 12
+what to feed the entries to
+.SH "DESCRIPTION"
+Convert the Unicode \fIname\fP to the loaded NLS and pass it to the \fIfilldir\fP
+callback.
+
+If \fIia_page\fP is not NULL it is the locked page containing the index
+allocation block containing the index entry \fIie\fP.
+
+Note, we drop (and then reacquire) the page lock on \fIia_page\fP across the
+\fI\fP\fBfilldir\fP call otherwise we would deadlock with NFSd when it calls ->lookup
+since \fBntfs_lookup\fP will lock the same page.  As an optimization, we do not
+retake the lock if we are returning a non-zero value as \fBntfs_readdir\fP
+would need to drop the lock immediately anyway.

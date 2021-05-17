@@ -1,0 +1,42 @@
+.TH "t4_alloc_vi" 9 "t4_alloc_vi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_alloc_vi \- allocate a virtual interface
+.SH SYNOPSIS
+.B "int" t4_alloc_vi
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "unsigned int port "  ","
+.BI "unsigned int pf "  ","
+.BI "unsigned int vf "  ","
+.BI "unsigned int nmac "  ","
+.BI "u8 *mac "  ","
+.BI "unsigned int *rss_size "  ","
+.BI "u8 *vivld "  ","
+.BI "u8 *vin "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW command
+.IP "port" 12
+physical port associated with the VI
+.IP "pf" 12
+the PF owning the VI
+.IP "vf" 12
+the VF owning the VI
+.IP "nmac" 12
+number of MAC addresses needed (1 to 5)
+.IP "mac" 12
+the MAC addresses of the VI
+.IP "rss_size" 12
+size of RSS table slice associated with this VI
+.IP "vivld" 12
+the destination to store the VI Valid value.
+.IP "vin" 12
+the destination to store the VIN value.
+
+Allocates a virtual interface for the given physical port.  If \fImac\fP is
+not NULL it contains the MAC addresses of the VI as assigned by FW.
+\fImac\fP should be large enough to hold \fInmac\fP Ethernet addresses, they are
+stored consecutively so the space needed is \fInmac\fP * 6 bytes.
+Returns a negative error number or the non-negative VI id.

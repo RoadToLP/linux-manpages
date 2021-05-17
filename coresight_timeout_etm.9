@@ -1,0 +1,24 @@
+.TH "coresight_timeout_etm" 9 "coresight_timeout_etm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+coresight_timeout_etm \- loop until a bit has changed to a specific state.
+.SH SYNOPSIS
+.B "int" coresight_timeout_etm
+.BI "(struct etm_drvdata *drvdata "  ","
+.BI "u32 offset "  ","
+.BI "int position "  ","
+.BI "int value "  ");"
+.SH ARGUMENTS
+.IP "drvdata" 12
+etm's private data structure.
+.IP "offset" 12
+address of a register, starting from \fIaddr\fP.
+.IP "position" 12
+the position of the bit of interest.
+.IP "value" 12
+the value the bit should have.
+.SH "DESCRIPTION"
+Basically the same as \fIcoresight_timeout\fP except for the register access
+method where we have to account for CP14 configurations.
+.SH "RETURN"
+0 as soon as the bit has taken the desired state or -EAGAIN if
+TIMEOUT_US has elapsed, which ever happens first.

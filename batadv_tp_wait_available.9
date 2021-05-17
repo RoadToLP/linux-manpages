@@ -1,0 +1,17 @@
+.TH "batadv_tp_wait_available" 9 "batadv_tp_wait_available" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tp_wait_available \- wait until congestion window becomes free or timeout is reached
+.SH SYNOPSIS
+.B "int" batadv_tp_wait_available
+.BI "(struct batadv_tp_vars *tp_vars "  ","
+.BI "size_t plen "  ");"
+.SH ARGUMENTS
+.IP "tp_vars" 12
+the private data of the current TP meter session
+.IP "plen" 12
+size of the payload of a single message
+.SH "RETURN"
+0 if the condition evaluated to false after the timeout elapsed,
+1 if the condition evaluated to true after the timeout elapsed, the
+remaining jiffies (at least 1) if the condition evaluated to true before
+the timeout elapsed, or -ERESTARTSYS if it was interrupted by a signal.

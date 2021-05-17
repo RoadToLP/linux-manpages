@@ -1,0 +1,23 @@
+.TH "nand_scan_ident" 9 "nand_scan_ident" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_scan_ident \- Scan for the NAND device
+.SH SYNOPSIS
+.B "int" nand_scan_ident
+.BI "(struct nand_chip *chip "  ","
+.BI "unsigned int maxchips "  ","
+.BI "struct nand_flash_dev *table "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "maxchips" 12
+number of chips to scan for
+.IP "table" 12
+alternative NAND ID table
+.SH "DESCRIPTION"
+This is the first phase of the normal \fBnand_scan\fP function. It reads the
+flash ID and sets up MTD fields accordingly.
+
+This helper used to be called directly from controller drivers that needed
+to tweak some ECC-related parameters before \fBnand_scan_tail\fP. This separation
+prevented dynamic allocations during this phase which was unconvenient and
+as been banned for the benefit of the ->\fBinit_ecc\fP/\fBcleanup_ecc\fP hooks.

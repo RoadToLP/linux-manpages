@@ -1,0 +1,27 @@
+.TH "rpc_uaddr2sockaddr" 9 "rpc_uaddr2sockaddr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_uaddr2sockaddr \- convert a universal address to a socket address.
+.SH SYNOPSIS
+.B "size_t" rpc_uaddr2sockaddr
+.BI "(struct net *net "  ","
+.BI "const char *uaddr "  ","
+.BI "const size_t uaddr_len "  ","
+.BI "struct sockaddr *sap "  ","
+.BI "const size_t salen "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+applicable network namespace
+.IP "uaddr" 12
+C string containing universal address to convert
+.IP "uaddr_len" 12
+length of universal address string
+.IP "sap" 12
+buffer into which to plant socket address
+.IP "salen" 12
+size of buffer
+.SH "DESCRIPTION"
+\fIuaddr\fP does not have to be '\0'-terminated, but \fBkstrtou8\fP and
+\fBrpc_pton\fP require proper string termination to be successful.
+
+Returns the size of the socket address if successful; otherwise
+zero is returned.

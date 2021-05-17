@@ -1,0 +1,34 @@
+.TH "of_map_id" 9 "of_map_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_map_id \- Translate an ID through a downstream mapping.
+.SH SYNOPSIS
+.B "int" of_map_id
+.BI "(struct device_node *np "  ","
+.BI "u32 id "  ","
+.BI "const char *map_name "  ","
+.BI "const char *map_mask_name "  ","
+.BI "struct device_node **target "  ","
+.BI "u32 *id_out "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+root complex device node.
+.IP "id" 12
+device ID to map.
+.IP "map_name" 12
+property name of the map to use.
+.IP "map_mask_name" 12
+optional property name of the mask to use.
+.IP "target" 12
+optional pointer to a target device node.
+.IP "id_out" 12
+optional pointer to receive the translated ID.
+.SH "DESCRIPTION"
+Given a device ID, look up the appropriate implementation-defined
+platform ID and/or the target device which receives transactions on that
+ID, as per the "iommu-map" and "msi-map" bindings. Either of \fItarget\fP or
+\fIid_out\fP may be NULL if only the other is required. If \fItarget\fP points to
+a non-NULL device node pointer, only entries targeting that node will be
+matched; if it points to a NULL value, it will receive the device node of
+the first matching target phandle, with a reference held.
+.SH "RETURN"
+0 on success or a standard error code on failure.

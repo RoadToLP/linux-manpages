@@ -1,0 +1,34 @@
+.TH "lpfc_enable_oas_lun" 9 "lpfc_enable_oas_lun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_enable_oas_lun \- enables a lun for OAS operations
+.SH SYNOPSIS
+.B "bool" lpfc_enable_oas_lun
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_name *vport_wwpn "  ","
+.BI "struct lpfc_name *target_wwpn "  ","
+.BI "uint64_t lun "  ","
+.BI "uint8_t pri "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to host bus adapter structure.
+.IP "vport_wwpn" 12
+Pointer to vport's wwpn information
+.IP "target_wwpn" 12
+Pointer to target's wwpn information
+.IP "lun" 12
+Lun
+.IP "pri" 12
+Priority
+.SH "DESCRIPTION"
+This routine enables a lun for oas operations.  The routines does so by
+doing the following :
+
+1) Checks to see if the device data for the lun has been created.
+2) If found, sets the OAS enabled flag if not set and returns.
+3) Otherwise, creates a device data structure.
+4) If successfully created, indicates the device data is for an OAS lun,
+indicates the lun is not available and add to the list of luns.
+
+Return codes:
+false - Error
+true - Success

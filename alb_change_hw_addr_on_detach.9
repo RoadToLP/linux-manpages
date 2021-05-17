@@ -1,0 +1,21 @@
+.TH "alb_change_hw_addr_on_detach" 9 "alb_change_hw_addr_on_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alb_change_hw_addr_on_detach \- 
+.SH SYNOPSIS
+.B "void" alb_change_hw_addr_on_detach
+.BI "(struct bonding *bond "  ","
+.BI "struct slave *slave "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+bonding we're working on
+.IP "slave" 12
+the slave that was just detached
+.SH "DESCRIPTION"
+We assume that \fIslave\fP was already detached from the slave list.
+
+If \fIslave\fP's permanent hw address is different both from its current
+address and from \fIbond\fP's address, then somewhere in the bond there's
+a slave that has \fIslave\fP's permanet address as its current address.
+We'll make sure that that slave no longer uses \fIslave\fP's permanent address.
+
+Caller must hold RTNL and no other locks

@@ -1,0 +1,16 @@
+.TH "task_clear_jobctl_trapping" 9 "task_clear_jobctl_trapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_clear_jobctl_trapping \- clear jobctl trapping bit
+.SH SYNOPSIS
+.B "void" task_clear_jobctl_trapping
+.BI "(struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+target task
+.SH "DESCRIPTION"
+If JOBCTL_TRAPPING is set, a ptracer is waiting for us to enter TRACED.
+Clear it and wake up the ptracer.  Note that we don't need any further
+locking.  \fItask->siglock\fP guarantees that \fItask->parent\fP points to the
+ptracer.
+.SH "CONTEXT"
+Must be called with \fItask->sighand->siglock\fP held.

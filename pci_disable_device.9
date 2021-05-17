@@ -1,0 +1,15 @@
+.TH "pci_disable_device" 9 "pci_disable_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_disable_device \- Disable PCI device after use
+.SH SYNOPSIS
+.B "void" pci_disable_device
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to be disabled
+.SH "DESCRIPTION"
+Signal to the system that the PCI device is not in use by the system
+anymore.  This only involves disabling PCI bus-mastering, if active.
+
+Note we don't actually disable the device until all callers of
+\fBpci_enable_device\fP have called \fBpci_disable_device\fP.

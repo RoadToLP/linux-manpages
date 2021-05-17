@@ -1,0 +1,18 @@
+.TH "hwspin_lock_request_specific" 9 "hwspin_lock_request_specific" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hwspin_lock_request_specific \- request for a specific hwspinlock
+.SH SYNOPSIS
+.B "struct hwspinlock *" hwspin_lock_request_specific
+.BI "(unsigned int id "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+index of the specific hwspinlock that is requested
+.SH "DESCRIPTION"
+This function should be called by users of the hwspinlock module,
+in order to assign them a specific hwspinlock.
+Usually early board code will be calling this function in order to
+reserve specific hwspinlock ids for predefined purposes.
+
+Should be called from a process context (might sleep)
+
+Returns the address of the assigned hwspinlock, or NULL on error

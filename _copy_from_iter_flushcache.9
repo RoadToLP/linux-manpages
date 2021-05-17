@@ -1,0 +1,23 @@
+.TH "_copy_from_iter_flushcache" 9 "_copy_from_iter_flushcache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_copy_from_iter_flushcache \- write destination through cpu cache
+.SH SYNOPSIS
+.B "size_t" _copy_from_iter_flushcache
+.BI "(void *addr "  ","
+.BI "size_t bytes "  ","
+.BI "struct iov_iter *i "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+destination kernel address
+.IP "bytes" 12
+total transfer length
+.IP "i" 12
+-- undescribed --
+.SH "DESCRIPTION"
+The pmem driver arranges for filesystem-dax to use this facility via
+\fBdax_copy_from_iter\fP for ensuring that writes to persistent memory
+are flushed through the CPU cache. It is differentiated from
+\fB_copy_from_iter_nocache\fP in that guarantees all data is flushed for
+all iterator types. The \fB_copy_from_iter_nocache\fP only attempts to
+bypass the cache for the ITER_IOVEC case, and on some archs may use
+instructions that strand dirty-data in the cache.

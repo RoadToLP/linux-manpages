@@ -1,0 +1,30 @@
+.TH "nilfs_ioctl_do_get_suinfo" 9 "nilfs_ioctl_do_get_suinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_do_get_suinfo \- callback method getting segment usage info
+.SH SYNOPSIS
+.B "ssize_t" nilfs_ioctl_do_get_suinfo
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "__u64 *posp "  ","
+.BI "int flags "  ","
+.BI "void *buf "  ","
+.BI "size_t size "  ","
+.BI "size_t nmembs "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "posp" 12
+pointer on array of segment numbers
+.IP "flags" 12
+*not used*
+.IP "buf" 12
+buffer for storing suinfo array
+.IP "size" 12
+size in bytes of one suinfo item in array
+.IP "nmembs" 12
+count of segment numbers and suinfos in array
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_do_get_suinfo\fP function returns segment usage
+info about requested segments. The NILFS_IOCTL_GET_SUINFO ioctl is used
+in lssu, nilfs_resize utilities and by nilfs_cleanerd daemon.
+
+Return value: count of nilfs_suinfo structures in output buffer.

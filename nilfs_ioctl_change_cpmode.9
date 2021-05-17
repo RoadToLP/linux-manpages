@@ -1,0 +1,30 @@
+.TH "nilfs_ioctl_change_cpmode" 9 "nilfs_ioctl_change_cpmode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_change_cpmode \- change checkpoint mode (checkpoint/snapshot)
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_change_cpmode
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_change_cpmode\fP function changes mode of
+given checkpoint between checkpoint and snapshot state. This ioctl
+is used in chcp and mkcp utilities.
+
+Return Value: On success, 0 is returned and mode of a checkpoint is
+changed. On error, one of the following negative error codes
+is returned.
+
+-EPERM - Operation not permitted.
+
+-EFAULT - Failure during checkpoint mode changing.

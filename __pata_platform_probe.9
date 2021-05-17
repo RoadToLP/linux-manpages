@@ -1,0 +1,48 @@
+.TH "__pata_platform_probe" 9 "__pata_platform_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pata_platform_probe \- attach a platform interface
+.SH SYNOPSIS
+.B "int" __pata_platform_probe
+.BI "(struct device *dev "  ","
+.BI "struct resource *io_res "  ","
+.BI "struct resource *ctl_res "  ","
+.BI "struct resource *irq_res "  ","
+.BI "unsigned int ioport_shift "  ","
+.BI "int __pio_mask "  ","
+.BI "struct scsi_host_template *sht "  ","
+.BI "bool use16bit "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "io_res" 12
+Resource representing I/O base
+.IP "ctl_res" 12
+Resource representing CTL base
+.IP "irq_res" 12
+Resource representing IRQ and its flags
+.IP "ioport_shift" 12
+I/O port shift
+.IP "__pio_mask" 12
+PIO mask
+.IP "sht" 12
+scsi_host_template to use when registering
+.IP "use16bit" 12
+Flag to indicate 16-bit IO instead of 32-bit
+
+Register a platform bus IDE interface. Such interfaces are PIO and we
+assume do not support IRQ sharing.
+
+Platform devices are expected to contain at least 2 resources per port:
+
+- I/O Base (IORESOURCE_IO or IORESOURCE_MEM)
+- CTL Base (IORESOURCE_IO or IORESOURCE_MEM)
+
+and optionally:
+
+- IRQ      (IORESOURCE_IRQ)
+
+If the base resources are both mem types, the \fBioremap\fP is handled
+here. For IORESOURCE_IO, it's assumed that there's no remapping
+necessary.
+
+If no IRQ resource is present, PIO polling mode is used instead.

@@ -1,0 +1,16 @@
+.TH "lpfc_rampdown_queue_depth" 9 "lpfc_rampdown_queue_depth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_rampdown_queue_depth \- Post RAMP_DOWN_QUEUE event to worker thread
+.SH SYNOPSIS
+.B "void" lpfc_rampdown_queue_depth
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.SH "DESCRIPTION"
+This routine is called when there is resource error in driver or firmware.
+This routine posts WORKER_RAMP_DOWN_QUEUE event for \fIphba\fP. This routine
+posts at most 1 event each second. This routine wakes up worker thread of
+\fIphba\fP to process WORKER_RAM_DOWN_EVENT event.
+
+This routine should be called with no lock held.

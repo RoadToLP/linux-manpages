@@ -1,0 +1,26 @@
+.TH "fiemap_prep" 9 "fiemap_prep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fiemap_prep \- check validity of requested flags for fiemap
+.SH SYNOPSIS
+.B "int" fiemap_prep
+.BI "(struct inode *inode "  ","
+.BI "struct fiemap_extent_info *fieinfo "  ","
+.BI "u64 start "  ","
+.BI "u64 *len "  ","
+.BI "u32 supported_flags "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+Inode to operate on
+.IP "fieinfo" 12
+Fiemap context passed into ->fiemap
+.IP "start" 12
+Start of the mapped range
+.IP "len" 12
+Length of the mapped range, can be truncated by this function.
+.IP "supported_flags" 12
+Set of fiemap flags that the file system understands
+.SH "DESCRIPTION"
+This function must be called from each ->fiemap instance to validate the
+fiemap request against the file system parameters.
+
+Returns 0 on success, or a negative error on failure.

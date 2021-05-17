@@ -1,0 +1,22 @@
+.TH "batadv_forw_packet_list_steal" 9 "batadv_forw_packet_list_steal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_forw_packet_list_steal \- claim a list of forward packets for free()
+.SH SYNOPSIS
+.B "void" batadv_forw_packet_list_steal
+.BI "(struct hlist_head *forw_list "  ","
+.BI "struct hlist_head *cleanup_list "  ","
+.BI "const struct batadv_hard_iface *hard_iface "  ");"
+.SH ARGUMENTS
+.IP "forw_list" 12
+the to be stolen forward packets
+.IP "cleanup_list" 12
+a backup pointer, to be able to dispose the packet later
+.IP "hard_iface" 12
+the interface to steal forward packets from
+.SH "DESCRIPTION"
+This function claims responsibility to free any forw_packet queued on the
+given hard_iface. If hard_iface is NULL forwarding packets on all hard
+interfaces will be claimed.
+
+The packets are being moved from the forw_list to the cleanup_list. This
+makes it possible for already running threads to notice the claim.

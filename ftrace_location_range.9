@@ -1,0 +1,18 @@
+.TH "ftrace_location_range" 9 "ftrace_location_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_location_range \- return the first address of a traced location if it touches the given ip range
+.SH SYNOPSIS
+.B "unsigned long" ftrace_location_range
+.BI "(unsigned long start "  ","
+.BI "unsigned long end "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+start of range to search.
+.IP "end" 12
+end of range to search (inclusive). \fIend\fP points to the last byte
+to check.
+.SH "DESCRIPTION"
+Returns rec->ip if the related ftrace location is a least partly within
+the given address range. That is, the first address of the instruction
+that is either a NOP or call to the function tracer. It checks the ftrace
+internal tables to determine if the address belongs or not.

@@ -1,0 +1,28 @@
+.TH "ath5k_hw_register_timeout" 9 "ath5k_hw_register_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_register_timeout \- Poll a register for a flag/field change
+.SH SYNOPSIS
+.B "int" ath5k_hw_register_timeout
+.BI "(struct ath5k_hw *ah "  ","
+.BI "u32 reg "  ","
+.BI "u32 flag "  ","
+.BI "u32 val "  ","
+.BI "bool is_set "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "reg" 12
+The register to read
+.IP "flag" 12
+The flag/field to check on the register
+.IP "val" 12
+The field value we expect (if we check a field)
+.IP "is_set" 12
+Instead of checking if the flag got cleared, check if it got set
+.SH "DESCRIPTION"
+Some registers contain flags that indicate that an operation is
+running. We use this function to poll these registers and check
+if these flags get cleared. We also use it to poll a register
+field (containing multiple flags) until it gets a specific value.
+
+Returns -EAGAIN if we exceeded AR5K_TUNE_REGISTER_TIMEOUT * 15us or 0

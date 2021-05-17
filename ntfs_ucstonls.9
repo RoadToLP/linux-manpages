@@ -1,0 +1,38 @@
+.TH "ntfs_ucstonls" 9 "ntfs_ucstonls" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_ucstonls \- convert little endian Unicode string to NLS string
+.SH SYNOPSIS
+.B "int" ntfs_ucstonls
+.BI "(const ntfs_volume *vol "  ","
+.BI "const ntfschar *ins "  ","
+.BI "const int ins_len "  ","
+.BI "unsigned char **outs "  ","
+.BI "int outs_len "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume which we are working with
+.IP "ins" 12
+input Unicode string buffer
+.IP "ins_len" 12
+length of input string in Unicode characters
+.IP "outs" 12
+on return contains the (allocated) output NLS string buffer
+.IP "outs_len" 12
+length of output string buffer in bytes
+.SH "DESCRIPTION"
+Convert the input little endian, 2-byte Unicode string \fIins\fP, of length
+\fIins_len\fP into the string format dictated by the loaded NLS.
+
+If *\fIouts\fP is NULL, this function allocates the string and the caller is
+responsible for calling kfree(*\fIouts\fP); when finished with it. In this case
+\fIouts_len\fP is ignored and can be 0.
+
+On success the function returns the number of bytes written to the output
+string *\fIouts\fP (>= 0), not counting the terminating NULL byte. If the output
+string buffer was allocated, *\fIouts\fP is set to it.
+
+On error, a negative number corresponding to the error code is returned. In
+that case the output string is not allocated. The contents of *\fIouts\fP are
+then undefined.
+
+This might look a bit odd due to fast path optimization...

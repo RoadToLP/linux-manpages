@@ -1,0 +1,31 @@
+.TH "__xa_alloc" 9 "__xa_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__xa_alloc \- Find somewhere to store this entry in the XArray.
+.SH SYNOPSIS
+.B "int" __xa_alloc
+.BI "(struct xarray *xa "  ","
+.BI "u32 *id "  ","
+.BI "void *entry "  ","
+.BI "struct xa_limit limit "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "id" 12
+Pointer to ID.
+.IP "entry" 12
+New entry.
+.IP "limit" 12
+Range for allocated ID.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Finds an empty entry in \fIxa\fP between \fIlimit.min\fP and \fIlimit.max\fP,
+stores the index into the \fIid\fP pointer, then stores the entry at
+that index.  A concurrent lookup will not see an uninitialised \fIid\fP.
+.SH "CONTEXT"
+Any context.  Expects xa_lock to be held on entry.  May
+release and reacquire xa_lock if \fIgfp\fP flags permit.
+.SH "RETURN"
+0 on success, -ENOMEM if memory could not be allocated or
+-EBUSY if there are no free entries in \fIlimit\fP.

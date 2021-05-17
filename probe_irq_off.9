@@ -1,0 +1,22 @@
+.TH "probe_irq_off" 9 "probe_irq_off" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+probe_irq_off \- end an interrupt autodetect
+.SH SYNOPSIS
+.B "int" probe_irq_off
+.BI "(unsigned long val "  ");"
+.SH ARGUMENTS
+.IP "val" 12
+mask of potential interrupts (unused)
+
+Scans the unused interrupt lines and returns the line which
+appears to have triggered the interrupt. If no interrupt was
+found then zero is returned. If more than one interrupt is
+found then minus the first candidate is returned to indicate
+their is doubt.
+
+The interrupt probe logic state is returned to its previous
+value.
+
+BUGS: When used in a module (which arguably shouldn't happen)
+nothing prevents two IRQ probe callers from overlapping. The
+results of this are non-optimal.

@@ -1,0 +1,16 @@
+.TH "ubifs_gc_start_commit" 9 "ubifs_gc_start_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_gc_start_commit \- garbage collection at start of commit.
+.SH SYNOPSIS
+.B "int" ubifs_gc_start_commit
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+If a LEB has only dirty and free space, then we may safely unmap it and make
+it free.  Note, we cannot do this with indexing LEBs because dirty space may
+correspond index nodes that are required for recovery.  In that case, the
+LEB cannot be unmapped until after the next commit.
+
+This function returns 0 upon success and a negative error code upon failure.

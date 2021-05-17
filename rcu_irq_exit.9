@@ -1,0 +1,26 @@
+.TH "rcu_irq_exit" 9 "rcu_irq_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_irq_exit \- inform RCU that current CPU is exiting irq towards idle
+.SH SYNOPSIS
+.B "void noinstr" rcu_irq_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Exit from an interrupt handler, which might possibly result in entering
+idle mode, in other words, leaving the mode in which read-side critical
+sections can occur.  The caller must have disabled interrupts.
+
+This code assumes that the idle loop never does anything that might
+result in unbalanced calls to \fBirq_enter\fP and \fBirq_exit\fP.  If your
+architecture's idle loop violates this assumption, RCU will give you what
+you deserve, good and hard.  But very infrequently and irreproducibly.
+
+Use things like work queues to work around this limitation.
+
+You have been warned.
+
+If you add or remove a call to \fBrcu_irq_exit\fP, be sure to test with
+CONFIG_RCU_EQS_DEBUG=y.

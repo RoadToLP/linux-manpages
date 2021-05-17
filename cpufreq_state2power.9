@@ -1,0 +1,23 @@
+.TH "cpufreq_state2power" 9 "cpufreq_state2power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_state2power \- convert a cpu cdev state to power consumed
+.SH SYNOPSIS
+.B "int" cpufreq_state2power
+.BI "(struct thermal_cooling_device *cdev "  ","
+.BI "unsigned long state "  ","
+.BI "u32 *power "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+\fIthermal_cooling_device\fP pointer
+.IP "state" 12
+cooling device state to be converted
+.IP "power" 12
+pointer in which to store the resulting power
+.SH "DESCRIPTION"
+Convert cooling device state \fIstate\fP into power consumption in
+milliwatts assuming 100% load.  Store the calculated power in
+\fIpower\fP.
+.SH "RETURN"
+0 on success, -EINVAL if the cooling device state could not
+be converted into a frequency or other -E* if there was an error
+when calculating the static power.

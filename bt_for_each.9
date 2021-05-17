@@ -1,0 +1,27 @@
+.TH "bt_for_each" 9 "bt_for_each" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bt_for_each \- iterate over the requests associated with a hardware queue
+.SH SYNOPSIS
+.B "void" bt_for_each
+.BI "(struct blk_mq_hw_ctx *hctx "  ","
+.BI "struct sbitmap_queue *bt "  ","
+.BI "busy_iter_fn *fn "  ","
+.BI "void *data "  ","
+.BI "bool reserved "  ");"
+.SH ARGUMENTS
+.IP "hctx" 12
+Hardware queue to examine.
+.IP "bt" 12
+sbitmap to examine. This is either the breserved_tags member
+or the bitmap_tags member of struct blk_mq_tags.
+.IP "fn" 12
+Pointer to the function that will be called for each request
+associated with \fIhctx\fP that has been assigned a driver tag.
+\fIfn\fP will be called as follows: \fIfn\fP(\fIhctx\fP, rq, \fIdata\fP, \fIreserved\fP)
+where rq is a pointer to a request. Return true to continue
+iterating tags, false to stop.
+.IP "data" 12
+Will be passed as third argument to \fIfn\fP.
+.IP "reserved" 12
+Indicates whether \fIbt\fP is the breserved_tags member or the
+bitmap_tags member of struct blk_mq_tags.

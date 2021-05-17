@@ -1,0 +1,38 @@
+.TH "ubifs_jnl_rename" 9 "ubifs_jnl_rename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_rename \- rename a directory entry.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_rename
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *old_dir "  ","
+.BI "const struct inode *old_inode "  ","
+.BI "const struct fscrypt_name *old_nm "  ","
+.BI "const struct inode *new_dir "  ","
+.BI "const struct inode *new_inode "  ","
+.BI "const struct fscrypt_name *new_nm "  ","
+.BI "const struct inode *whiteout "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "old_dir" 12
+parent inode of directory entry to rename
+.IP "old_inode" 12
+-- undescribed --
+.IP "old_nm" 12
+-- undescribed --
+.IP "new_dir" 12
+parent inode of directory entry to rename
+.IP "new_inode" 12
+-- undescribed --
+.IP "new_nm" 12
+-- undescribed --
+.IP "whiteout" 12
+-- undescribed --
+.IP "sync" 12
+non-zero if the write-buffer has to be synchronized
+.SH "DESCRIPTION"
+This function implements the re-name operation which may involve writing up
+to 4 inodes and 2 directory entries. It marks the written inodes as clean
+and returns zero on success. In case of failure, a negative error code is
+returned.

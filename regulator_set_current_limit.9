@@ -1,0 +1,25 @@
+.TH "regulator_set_current_limit" 9 "regulator_set_current_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_set_current_limit \- set regulator output current limit
+.SH SYNOPSIS
+.B "int" regulator_set_current_limit
+.BI "(struct regulator *regulator "  ","
+.BI "int min_uA "  ","
+.BI "int max_uA "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.IP "min_uA" 12
+Minimum supported current in uA
+.IP "max_uA" 12
+Maximum supported current in uA
+.SH "DESCRIPTION"
+Sets current sink to the desired output current. This can be set during
+any regulator state. IOW, regulator can be disabled or enabled.
+
+If the regulator is enabled then the current will change to the new value
+immediately otherwise if the regulator is disabled the regulator will
+output at the new current when enabled.
+.SH "NOTE"
+Regulator system constraints must be set for this regulator before
+calling this function otherwise this call will fail.

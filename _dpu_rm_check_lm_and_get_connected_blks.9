@@ -1,0 +1,34 @@
+.TH "_dpu_rm_check_lm_and_get_connected_blks" 9 "_dpu_rm_check_lm_and_get_connected_blks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_dpu_rm_check_lm_and_get_connected_blks \- check if proposed layer mixer meets proposed use case requirements, incl. hardwired dependent blocks like pingpong
+.SH SYNOPSIS
+.B "bool" _dpu_rm_check_lm_and_get_connected_blks
+.BI "(struct dpu_rm *rm "  ","
+.BI "struct dpu_global_state *global_state "  ","
+.BI "uint32_t enc_id "  ","
+.BI "int lm_idx "  ","
+.BI "int *pp_idx "  ","
+.BI "int *dspp_idx "  ","
+.BI "struct dpu_rm_requirements *reqs "  ");"
+.SH ARGUMENTS
+.IP "rm" 12
+dpu resource manager handle
+.IP "global_state" 12
+resources shared across multiple kms objects
+.IP "enc_id" 12
+encoder id requesting for allocation
+.IP "lm_idx" 12
+index of proposed layer mixer in rm->mixer_blks[], function checks
+if lm, and all other hardwired blocks connected to the lm (pp) is
+available and appropriate
+.IP "pp_idx" 12
+output parameter, index of pingpong block attached to the layer
+mixer in rm->pingpong_blks[].
+.IP "dspp_idx" 12
+output parameter, index of dspp block attached to the layer
+mixer in rm->dspp_blks[].
+.IP "reqs" 12
+input parameter, rm requirements for HW blocks needed in the
+datapath.
+.SH "RETURN"
+true if lm matches all requirements, false otherwise

@@ -1,0 +1,21 @@
+.TH "nanddev_bbt_set_block_status" 9 "nanddev_bbt_set_block_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nanddev_bbt_set_block_status \- Update the status of an eraseblock in the in-memory BBT
+.SH SYNOPSIS
+.B "int" nanddev_bbt_set_block_status
+.BI "(struct nand_device *nand "  ","
+.BI "unsigned int entry "  ","
+.BI "enum nand_bbt_block_status status "  ");"
+.SH ARGUMENTS
+.IP "nand" 12
+nand device
+.IP "entry" 12
+the BBT entry to update
+.IP "status" 12
+the new status
+.SH "DESCRIPTION"
+Update an entry of the in-memory BBT. If you want to push the updated BBT
+the NAND you should call \fBnanddev_bbt_update\fP.
+.SH "RETURN"
+0 in case of success or -ERANGE if \fIentry\fP is bigger than the BBT
+size.

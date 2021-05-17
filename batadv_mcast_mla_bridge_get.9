@@ -1,0 +1,23 @@
+.TH "batadv_mcast_mla_bridge_get" 9 "batadv_mcast_mla_bridge_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_mcast_mla_bridge_get \- get bridged-in multicast listeners
+.SH SYNOPSIS
+.B "int" batadv_mcast_mla_bridge_get
+.BI "(struct net_device *dev "  ","
+.BI "struct hlist_head *mcast_list "  ","
+.BI "struct batadv_mcast_mla_flags *flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+a bridge slave whose bridge to collect multicast addresses from
+.IP "mcast_list" 12
+a list to put found addresses into
+.IP "flags" 12
+flags indicating the new multicast state
+.SH "DESCRIPTION"
+Collects multicast addresses of multicast listeners residing
+on foreign, non-mesh devices which we gave access to our mesh via
+a bridge on top of the given soft interface, dev, in the given
+mcast_list.
+.SH "RETURN"
+-ENOMEM on memory allocation error or the number of
+items added to the mcast_list otherwise.

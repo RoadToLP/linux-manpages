@@ -1,0 +1,17 @@
+.TH "omap_device_enable" 9 "omap_device_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_device_enable \- fully activate an omap_device
+.SH SYNOPSIS
+.B "int" omap_device_enable
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+the platform device to activate
+.SH "DESCRIPTION"
+Do whatever is necessary for the hwmods underlying omap_device \fIod\fP
+to be accessible and ready to operate.  This generally involves
+enabling clocks, setting SYSCONFIG registers; and in the future may
+involve remuxing pins.  Device drivers should call this function
+indirectly via pm_runtime_get*().  Returns -EINVAL if called when
+the omap_device is already enabled, or passes along the return
+value of \fB_omap_device_enable_hwmods\fP.

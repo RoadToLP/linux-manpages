@@ -1,0 +1,28 @@
+.TH "lpfc_nvmet_unsol_fcp_buffer" 9 "lpfc_nvmet_unsol_fcp_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvmet_unsol_fcp_buffer \- Process an unsolicited event data buffer
+.SH SYNOPSIS
+.B "void" lpfc_nvmet_unsol_fcp_buffer
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t idx "  ","
+.BI "struct rqb_dmabuf *nvmebuf "  ","
+.BI "uint64_t isr_timestamp "  ","
+.BI "uint8_t cqflag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "idx" 12
+relative index of MRQ vector
+.IP "nvmebuf" 12
+pointer to lpfc nvme command HBQ data structure.
+.IP "isr_timestamp" 12
+in jiffies.
+.IP "cqflag" 12
+cq processing information regarding workload.
+.SH "DESCRIPTION"
+This routine is used for processing the WQE associated with a unsolicited
+event. It first determines whether there is an existing ndlp that matches
+the DID from the unsolicited WQE. If not, it will create a new one with
+the DID from the unsolicited WQE. The ELS command from the unsolicited
+WQE is then used to invoke the proper routine and to set up proper state
+of the discovery state machine.

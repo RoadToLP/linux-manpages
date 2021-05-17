@@ -1,0 +1,20 @@
+.TH "debugfs_file_get" 9 "debugfs_file_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_file_get \- mark the beginning of file data access
+.SH SYNOPSIS
+.B "int" debugfs_file_get
+.BI "(struct dentry *dentry "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+the dentry object whose data is being accessed.
+.SH "DESCRIPTION"
+Up to a matching call to \fBdebugfs_file_put\fP, any successive call
+into the file removing functions \fBdebugfs_remove\fP and
+\fBdebugfs_remove_recursive\fP will block. Since associated private
+file data may only get freed after a successful return of any of
+the removal functions, you may safely access it after a successful
+call to \fBdebugfs_file_get\fP without worrying about lifetime issues.
+
+If -EIO is returned, the file has already been removed and thus,
+it is not safe to access any of its data. If, on the other hand,
+it is allowed to access the file data, zero is returned.

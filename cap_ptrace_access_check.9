@@ -1,0 +1,21 @@
+.TH "cap_ptrace_access_check" 9 "cap_ptrace_access_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_ptrace_access_check \- Determine whether the current process may access another
+.SH SYNOPSIS
+.B "int" cap_ptrace_access_check
+.BI "(struct task_struct *child "  ","
+.BI "unsigned int mode "  ");"
+.SH ARGUMENTS
+.IP "child" 12
+The process to be accessed
+.IP "mode" 12
+The mode of attachment.
+.SH "DESCRIPTION"
+If we are in the same or an ancestor user_ns and have all the target
+task's capabilities, then ptrace access is allowed.
+If we have the ptrace capability to the target user_ns, then ptrace
+access is allowed.
+Else denied.
+
+Determine whether a process may access another, returning 0 if permission
+granted, -ve if denied.

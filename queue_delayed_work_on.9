@@ -1,0 +1,22 @@
+.TH "queue_delayed_work_on" 9 "queue_delayed_work_on" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queue_delayed_work_on \- queue work on specific CPU after delay
+.SH SYNOPSIS
+.B "bool" queue_delayed_work_on
+.BI "(int cpu "  ","
+.BI "struct workqueue_struct *wq "  ","
+.BI "struct delayed_work *dwork "  ","
+.BI "unsigned long delay "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU number to execute work on
+.IP "wq" 12
+workqueue to use
+.IP "dwork" 12
+work to queue
+.IP "delay" 12
+number of jiffies to wait before queueing
+.SH "RETURN"
+false if \fIwork\fP was already on a queue, true otherwise.  If
+\fIdelay\fP is zero and \fIdwork\fP is idle, it will be scheduled for immediate
+execution.

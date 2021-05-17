@@ -1,0 +1,15 @@
+.TH "ssam_nfblk_remove" 9 "ssam_nfblk_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_nfblk_remove \- Remove a notifier block from its notifier list.
+.SH SYNOPSIS
+.B "void" ssam_nfblk_remove
+.BI "(struct ssam_notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+The notifier block to be removed.
+.SH "NOTE"
+This function must be synchronized by the caller with respect to
+other insert, find, and/or remove calls by holding ``struct ssam_nf.lock.
+Furthermore, the caller _must_ ensure SRCU synchronization by calling
+\fBsynchronize_srcu\fP with nh->srcu`` after leaving the critical section, to
+ensure that the removed notifier block is not in use any more.

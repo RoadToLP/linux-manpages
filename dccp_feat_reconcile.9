@@ -1,0 +1,23 @@
+.TH "dccp_feat_reconcile" 9 "dccp_feat_reconcile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_feat_reconcile \- Reconcile SP preference lists
+.SH SYNOPSIS
+.B "int" dccp_feat_reconcile
+.BI "(dccp_feat_val *fv "  ","
+.BI "u8 *arr "  ","
+.BI "u8 len "  ","
+.BI "bool is_server "  ","
+.BI "bool reorder "  ");"
+.SH ARGUMENTS
+.IP "fv" 12
+SP list to reconcile into
+.IP "arr" 12
+received SP preference list
+.IP "len" 12
+length of \fIarr\fP in bytes
+.IP "is_server" 12
+whether this side is the server (and \fIfv\fP is the server's list)
+.IP "reorder" 12
+whether to reorder the list in \fIfv\fP after reconciling with \fIarr\fP
+When successful, > 0 is returned and the reconciled list is in \fIfval\fP.
+A value of 0 means that negotiation failed (no shared entry).

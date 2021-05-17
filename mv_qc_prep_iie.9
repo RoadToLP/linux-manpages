@@ -1,0 +1,17 @@
+.TH "mv_qc_prep_iie" 9 "mv_qc_prep_iie" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_qc_prep_iie \- Host specific command preparation.
+.SH SYNOPSIS
+.B "enum ata_completion_errors" mv_qc_prep_iie
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+queued command to prepare
+
+This routine simply redirects to the general purpose routine
+if command is not DMA.  Else, it handles prep of the CRQB
+(command request block), does some sanity checking, and calls
+the SG load routine.
+
+LOCKING:
+Inherited from caller.

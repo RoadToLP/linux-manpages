@@ -1,0 +1,26 @@
+.TH "debugfs_create_regset32" 9 "debugfs_create_regset32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_create_regset32 \- create a debugfs file that returns register values
+.SH SYNOPSIS
+.B "void" debugfs_create_regset32
+.BI "(const char *name "  ","
+.BI "umode_t mode "  ","
+.BI "struct dentry *parent "  ","
+.BI "struct debugfs_regset32 *regset "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the file to create.
+.IP "mode" 12
+the permission that the file should have
+.IP "parent" 12
+a pointer to the parent dentry for this file.  This should be a
+directory dentry if set.  If this parameter is NULL, then the
+file will be created in the root of the debugfs filesystem.
+.IP "regset" 12
+a pointer to a struct debugfs_regset32, which contains a pointer
+to an array of register definitions, the array size and the base
+address where the register bank is to be found.
+.SH "DESCRIPTION"
+This function creates a file in debugfs with the given name that reports
+the names and values of a set of 32-bit registers. If the \fImode\fP variable
+is so set it can be read from. Writing is not supported.

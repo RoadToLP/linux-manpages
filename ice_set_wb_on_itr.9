@@ -1,0 +1,19 @@
+.TH "ice_set_wb_on_itr" 9 "ice_set_wb_on_itr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_wb_on_itr \- set WB_ON_ITR for this q_vector
+.SH SYNOPSIS
+.B "void" ice_set_wb_on_itr
+.BI "(struct ice_q_vector *q_vector "  ");"
+.SH ARGUMENTS
+.IP "q_vector" 12
+q_vector to set WB_ON_ITR on
+.SH "DESCRIPTION"
+We need to tell hardware to write-back completed descriptors even when
+interrupts are disabled. Descriptors will be written back on cache line
+boundaries without WB_ON_ITR enabled, but if we don't enable WB_ON_ITR
+descriptors may not be written back if they don't fill a cache line until
+the next interrupt.
+
+This sets the write-back frequency to whatever was set previously for the
+ITR indices. Also, set the INTENA_MSK bit to make sure hardware knows we
+aren't meddling with the INTENA_M bit.

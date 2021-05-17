@@ -1,0 +1,19 @@
+.TH "mutex_trylock" 9 "mutex_trylock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mutex_trylock \- try to acquire the mutex, without waiting
+.SH SYNOPSIS
+.B "int" mutex_trylock
+.BI "(struct mutex *lock "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the mutex to be acquired
+.SH "DESCRIPTION"
+Try to acquire the mutex atomically. Returns 1 if the mutex
+has been acquired successfully, and 0 on contention.
+
+This function must not be used in interrupt context. The
+mutex must be released by the same task that acquired it.
+.SH "NOTE"
+this function follows the \fBspin_trylock\fP convention, so
+it is negated from the \fBdown_trylock\fP return values! Be careful
+about this when converting semaphore users to mutexes.

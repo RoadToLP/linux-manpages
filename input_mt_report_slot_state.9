@@ -1,0 +1,23 @@
+.TH "input_mt_report_slot_state" 9 "input_mt_report_slot_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_mt_report_slot_state \- report contact state
+.SH SYNOPSIS
+.B "bool" input_mt_report_slot_state
+.BI "(struct input_dev *dev "  ","
+.BI "unsigned int tool_type "  ","
+.BI "bool active "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+input device with allocated MT slots
+.IP "tool_type" 12
+the tool type to use in this slot
+.IP "active" 12
+true if contact is active, false otherwise
+.SH "DESCRIPTION"
+Reports a contact via ABS_MT_TRACKING_ID, and optionally
+ABS_MT_TOOL_TYPE. If active is true and the slot is currently
+inactive, or if the tool type is changed, a new tracking id is
+assigned to the slot. The tool type is only reported if the
+corresponding absbit field is set.
+
+Returns true if contact is active.

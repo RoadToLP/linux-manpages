@@ -1,0 +1,18 @@
+.TH "ubifs_wbuf_sync_nolock" 9 "ubifs_wbuf_sync_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_wbuf_sync_nolock \- synchronize write-buffer.
+.SH SYNOPSIS
+.B "int" ubifs_wbuf_sync_nolock
+.BI "(struct ubifs_wbuf *wbuf "  ");"
+.SH ARGUMENTS
+.IP "wbuf" 12
+write-buffer to synchronize
+.SH "DESCRIPTION"
+This function synchronizes write-buffer \fIbuf\fP and returns zero in case of
+success or a negative error code in case of failure.
+
+Note, although write-buffers are of \fIc->max_write_size\fP, this function does
+not necessarily writes all \fIc->max_write_size\fP bytes to the flash. Instead,
+if the write-buffer is only partially filled with data, only the used part
+of the write-buffer (aligned on \fIc->min_io_size\fP boundary) is synchronized.
+This way we waste less space.

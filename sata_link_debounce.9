@@ -1,0 +1,30 @@
+.TH "sata_link_debounce" 9 "sata_link_debounce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_link_debounce \- debounce SATA phy status
+.SH SYNOPSIS
+.B "int" sata_link_debounce
+.BI "(struct ata_link *link "  ","
+.BI "const unsigned long *params "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to debounce SATA phy status for
+.IP "params" 12
+timing parameters { interval, duration, timeout } in msec
+.IP "deadline" 12
+deadline jiffies for the operation
+
+Make sure SStatus of \fIlink\fP reaches stable state, determined by
+holding the same value where DET is not 1 for \fIduration\fP polled
+every \fIinterval\fP, before \fItimeout\fP.  Timeout constraints the
+beginning of the stable state.  Because DET gets stuck at 1 on
+some controllers after hot unplugging, this functions waits
+until timeout then returns 0 if DET is stable at 1.
+
+\fItimeout\fP is further limited by \fIdeadline\fP.  The sooner of the
+two is used.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno on failure.

@@ -1,0 +1,35 @@
+.TH "bvec_split_segs" 9 "bvec_split_segs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bvec_split_segs \- verify whether or not a bvec should be split in the middle
+.SH SYNOPSIS
+.B "bool" bvec_split_segs
+.BI "(const struct request_queue *q "  ","
+.BI "const struct bio_vec *bv "  ","
+.BI "unsigned *nsegs "  ","
+.BI "unsigned *sectors "  ","
+.BI "unsigned max_segs "  ","
+.BI "unsigned max_sectors "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+[in] request queue associated with the bio associated with \fIbv\fP
+.IP "bv" 12
+[in] bvec to examine
+.IP "nsegs" 12
+[in,out] Number of segments in the bio being built. Incremented
+by the number of segments from \fIbv\fP that may be appended to that
+bio without exceeding \fImax_segs\fP
+.IP "sectors" 12
+[in,out] Number of sectors in the bio being built. Incremented
+by the number of sectors from \fIbv\fP that may be appended to that
+bio without exceeding \fImax_sectors\fP
+.IP "max_segs" 12
+[in] upper bound for *\fInsegs\fP
+.IP "max_sectors" 12
+[in] upper bound for *\fIsectors\fP
+.SH "DESCRIPTION"
+When splitting a bio, it can happen that a bvec is encountered that is too
+big to fit in a single segment and hence that it has to be split in the
+middle. This function verifies whether or not that should happen. The value
+true is returned if and only if appending the entire \fIbv\fP to a bio with
+*\fInsegs\fP segments and *\fIsectors\fP sectors would make that bio unacceptable for
+the block driver.

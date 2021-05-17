@@ -1,0 +1,18 @@
+.TH "radeon_mn_invalidate" 9 "radeon_mn_invalidate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_mn_invalidate \- callback to notify about mm change
+.SH SYNOPSIS
+.B "bool" radeon_mn_invalidate
+.BI "(struct mmu_interval_notifier *mn "  ","
+.BI "const struct mmu_notifier_range *range "  ","
+.BI "unsigned long cur_seq "  ");"
+.SH ARGUMENTS
+.IP "mn" 12
+our notifier
+.IP "range" 12
+the VMA under invalidation
+.IP "cur_seq" 12
+Value to pass to \fBmmu_interval_set_seq\fP
+.SH "DESCRIPTION"
+We block for all BOs between start and end to be idle and
+unmap them by move them into system domain again.

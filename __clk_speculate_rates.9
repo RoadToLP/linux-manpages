@@ -1,0 +1,21 @@
+.TH "__clk_speculate_rates" 9 "__clk_speculate_rates" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__clk_speculate_rates \- 
+.SH SYNOPSIS
+.B "int" __clk_speculate_rates
+.BI "(struct clk_core *core "  ","
+.BI "unsigned long parent_rate "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+first clk in the subtree
+.IP "parent_rate" 12
+the "future" rate of clk's parent
+.SH "DESCRIPTION"
+Walks the subtree of clks starting with clk, speculating rates as it
+goes and firing off PRE_RATE_CHANGE notifications as necessary.
+
+Unlike clk_recalc_rates, clk_speculate_rates exists only for sending
+pre-rate change notifications and returns early if no clks in the
+subtree have subscribed to the notifications.  Note that if a clk does not
+implement the .recalc_rate callback then it is assumed that the clock will
+take on the rate of its parent.

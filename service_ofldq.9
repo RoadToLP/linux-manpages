@@ -1,0 +1,23 @@
+.TH "service_ofldq" 9 "service_ofldq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+service_ofldq \- service/restart a suspended offload queue
+.SH SYNOPSIS
+.B "void" service_ofldq
+.BI "(struct sge_uld_txq *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the offload queue
+
+Services an offload Tx queue by moving packets from its Pending Send
+Queue to the Hardware TX ring.  The function starts and ends with the
+Send Queue locked, but drops the lock while putting the skb at the
+head of the Send Queue onto the Hardware TX Ring.  Dropping the lock
+allows more skbs to be added to the Send Queue by other threads.
+The packet being processed at the head of the Pending Send Queue is
+left on the queue in case we experience DMA Mapping errors, etc.
+and need to give up and restart later.
+
+\fBservice_ofldq\fP can be thought of as a task which opportunistically
+uses other threads execution contexts.  We use the Offload Queue
+boolean "service_ofldq_running" to make sure that only one instance
+is ever running at a time ...

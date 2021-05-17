@@ -1,0 +1,16 @@
+.TH "n_tty_kick_worker" 9 "n_tty_kick_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_kick_worker \- start input worker (if required)
+.SH SYNOPSIS
+.B "void" n_tty_kick_worker
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Re-schedules the flip buffer work if it may have stopped
+
+Caller holds exclusive termios_rwsem
+or
+\fBn_tty_read\fP/consumer path:
+holds non-exclusive termios_rwsem

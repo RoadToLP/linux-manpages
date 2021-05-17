@@ -1,0 +1,26 @@
+.TH "nand_block_markbad_lowlevel" 9 "nand_block_markbad_lowlevel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_block_markbad_lowlevel \- mark a block bad
+.SH SYNOPSIS
+.B "int" nand_block_markbad_lowlevel
+.BI "(struct nand_chip *chip "  ","
+.BI "loff_t ofs "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "ofs" 12
+offset from device start
+.SH "DESCRIPTION"
+This function performs the generic NAND bad block marking steps (i.e., bad
+block table(s) and/or marker(s)). We only allow the hardware driver to
+specify how to write bad block markers to OOB (chip->legacy.block_markbad).
+
+We try operations in the following order:
+
+(1) erase the affected block, to allow OOB marker to be written cleanly
+(2) write bad block marker to OOB area of affected block (unless flag
+NAND_BBT_NO_OOB_BBM is present)
+(3) update the BBT
+
+Note that we retain the first error encountered in (2) or (3), finish the
+procedures, and dump the error in the end.

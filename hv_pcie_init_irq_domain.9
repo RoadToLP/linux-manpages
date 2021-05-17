@@ -1,0 +1,18 @@
+.TH "hv_pcie_init_irq_domain" 9 "hv_pcie_init_irq_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_pcie_init_irq_domain \- Initialize IRQ domain
+.SH SYNOPSIS
+.B "int" hv_pcie_init_irq_domain
+.BI "(struct hv_pcibus_device *hbus "  ");"
+.SH ARGUMENTS
+.IP "hbus" 12
+The root PCI bus
+.SH "DESCRIPTION"
+This function creates an IRQ domain which will be used for
+interrupts from devices that have been passed through.  These
+devices only support MSI and MSI-X, not line-based interrupts
+or simulations of line-based interrupts through PCIe's
+fabric-layer messages.  Because interrupts are remapped, we
+can support multi-message MSI here.
+.SH "RETURN"
+'0' on success and error value on failure

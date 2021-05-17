@@ -1,0 +1,24 @@
+.TH "attribute_container_add_device" 9 "attribute_container_add_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+attribute_container_add_device \- see if any container is interested in dev
+.SH SYNOPSIS
+.B "void" attribute_container_add_device
+.BI "(struct device *dev "  ","
+.BI "int (*fn)(struct attribute_container *, struct device *, struct device *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to add attributes to
+.IP "fn" 12
+function to trigger addition of class device.
+.SH "DESCRIPTION"
+This function allocates storage for the class device(s) to be
+attached to dev (one for each matching attribute_container).  If no
+fn is provided, the code will simply register the class device via
+device_add.  If a function is provided, it is expected to add
+the class device at the appropriate time.  One of the things that
+might be necessary is to allocate and initialise the classdev and
+then add it a later time.  To do this, call this routine for
+allocation and initialisation and then use
+\fBattribute_container_device_trigger\fP to call \fBdevice_add\fP on
+it.  Note: after this, the class device contains a reference to dev
+which is not relinquished until the release of the classdev.

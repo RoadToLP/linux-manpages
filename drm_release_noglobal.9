@@ -1,0 +1,21 @@
+.TH "drm_release_noglobal" 9 "drm_release_noglobal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_release_noglobal \- release method for DRM file
+.SH SYNOPSIS
+.B "int" drm_release_noglobal
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+device inode
+.IP "filp" 12
+file pointer.
+.SH "DESCRIPTION"
+This function may be used by drivers as their \fIfile_operations.release\fP
+method. It frees any resources associated with the open file prior to taking
+the drm_global_mutex, which then calls the \fIdrm_driver.postclose\fP driver
+callback. If this is the last open file for the DRM device also proceeds to
+call the \fIdrm_driver.lastclose\fP driver callback.
+
+Always succeeds and returns 0.
+.SH "RETURN"

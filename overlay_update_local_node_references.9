@@ -1,0 +1,29 @@
+.TH "overlay_update_local_node_references" 9 "overlay_update_local_node_references" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+overlay_update_local_node_references \- Adjust the overlay references
+.SH SYNOPSIS
+.B "int" overlay_update_local_node_references
+.BI "(void *fdto "  ","
+.BI "int tree_node "  ","
+.BI "int fixup_node "  ","
+.BI "uint32_t delta "  ");"
+.SH ARGUMENTS
+.IP "fdto" 12
+Device tree overlay blob
+.IP "tree_node" 12
+Node offset of the node to operate on
+.IP "fixup_node" 12
+Node offset of the matching local fixups node
+.IP "delta" 12
+Offset to shift the phandles of
+.SH "DESCRIPTION"
+\fBoverlay_update_local_nodes_references\fP update the phandles
+pointing to a node within the device tree overlay by adding a
+constant delta.
+
+This is mainly used as part of a device tree application process,
+where you want the device tree overlays phandles to not conflict
+with the ones from the base device tree before merging them.
+.SH "RETURN"
+0 on success
+Negative error code on failure

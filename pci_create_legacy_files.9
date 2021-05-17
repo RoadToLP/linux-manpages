@@ -1,0 +1,16 @@
+.TH "pci_create_legacy_files" 9 "pci_create_legacy_files" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_create_legacy_files \- create legacy I/O port and memory files
+.SH SYNOPSIS
+.B "void" pci_create_legacy_files
+.BI "(struct pci_bus *b "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+bus to create files under
+.SH "DESCRIPTION"
+Some platforms allow access to legacy I/O port and ISA memory space on
+a per-bus basis.  This routine creates the files and ties them into
+their associated read, write and mmap files from pci-sysfs.c
+
+On error unwind, but don't propagate the error to the caller
+as it is ok to set up the PCI bus without these files.

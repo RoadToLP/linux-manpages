@@ -1,0 +1,24 @@
+.TH "pseudo_lock_fn" 9 "pseudo_lock_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseudo_lock_fn \- Load kernel memory into cache
+.SH SYNOPSIS
+.B "int" pseudo_lock_fn
+.BI "(void *_rdtgrp "  ");"
+.SH ARGUMENTS
+.IP "_rdtgrp" 12
+resource group to which pseudo-lock region belongs
+.SH "DESCRIPTION"
+This is the core pseudo-locking flow.
+
+First we ensure that the kernel memory cannot be found in the cache.
+Then, while taking care that there will be as little interference as
+possible, the memory to be loaded is accessed while core is running
+with class of service set to the bitmask of the pseudo-locked region.
+After this is complete no future CAT allocations will be allowed to
+overlap with this bitmask.
+
+Local register variables are utilized to ensure that the memory region
+to be locked is the only memory access made during the critical locking
+loop.
+.SH "RETURN"
+0. Waiter on waitqueue will be woken on completion.

@@ -1,0 +1,28 @@
+.TH "memblock_isolate_range" 9 "memblock_isolate_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memblock_isolate_range \- isolate given range into disjoint memblocks
+.SH SYNOPSIS
+.B "int __init_memblock" memblock_isolate_range
+.BI "(struct memblock_type *type "  ","
+.BI "phys_addr_t base "  ","
+.BI "phys_addr_t size "  ","
+.BI "int *start_rgn "  ","
+.BI "int *end_rgn "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+memblock type to isolate range for
+.IP "base" 12
+base of range to isolate
+.IP "size" 12
+size of range to isolate
+.IP "start_rgn" 12
+out parameter for the start of isolated region
+.IP "end_rgn" 12
+out parameter for the end of isolated region
+.SH "DESCRIPTION"
+Walk \fItype\fP and ensure that regions don't cross the boundaries defined by
+[\fIbase\fP, \fIbase\fP + \fIsize\fP).  Crossing regions are split at the boundaries,
+which may create at most two more regions.  The index of the first
+region inside the range is returned in *\fIstart_rgn\fP and end in *\fIend_rgn\fP.
+.SH "RETURN"
+0 on success, -errno on failure.

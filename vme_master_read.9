@@ -1,0 +1,26 @@
+.TH "vme_master_read" 9 "vme_master_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_master_read \- Read data from VME space into a buffer.
+.SH SYNOPSIS
+.B "ssize_t" vme_master_read
+.BI "(struct vme_resource *resource "  ","
+.BI "void *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t offset "  ");"
+.SH ARGUMENTS
+.IP "resource" 12
+Pointer to VME master resource.
+.IP "buf" 12
+Pointer to buffer where data should be transferred.
+.IP "count" 12
+Number of bytes to transfer.
+.IP "offset" 12
+Offset into VME master window at which to start transfer.
+.SH "DESCRIPTION"
+Perform read of count bytes of data from location on VME bus which maps into
+the VME master window at offset to buf.
+.SH "RETURN"
+Number of bytes read, -EINVAL if resource is not a VME master
+resource or read operation is not supported. -EFAULT returned if
+invalid offset is provided. Hardware specific errors may also be
+returned.

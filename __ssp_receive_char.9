@@ -1,0 +1,19 @@
+.TH "__ssp_receive_char" 9 "__ssp_receive_char" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ssp_receive_char \- receive a byte from the UART
+.SH SYNOPSIS
+.B "char" __ssp_receive_char
+.BI "(struct sifive_serial_port *ssp "  ","
+.BI "char *is_empty "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+pointer to a struct sifive_serial_port
+.IP "is_empty" 12
+char pointer to return whether the RX FIFO is empty
+.SH "DESCRIPTION"
+Try to read a byte from the SiFive UART RX FIFO, referenced by
+\fIssp\fP, and to return it.  Also returns the RX FIFO empty bit in
+the char pointed to by \fIch\fP.  The caller must pass the byte back to the
+Linux serial layer if needed.
+.SH "RETURN"
+the byte read from the UART RX FIFO.

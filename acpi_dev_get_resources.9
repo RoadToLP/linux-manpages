@@ -1,0 +1,35 @@
+.TH "acpi_dev_get_resources" 9 "acpi_dev_get_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_get_resources \- Get current resources of a device.
+.SH SYNOPSIS
+.B "int" acpi_dev_get_resources
+.BI "(struct acpi_device *adev "  ","
+.BI "struct list_head *list "  ","
+.BI "int (*preproc)(struct acpi_resource *, void *) "  ","
+.BI "void *preproc_data "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device node to get the resources for.
+.IP "list" 12
+Head of the resultant list of resources (must be empty).
+.IP "preproc" 12
+The caller's preprocessing routine.
+.IP "preproc_data" 12
+Pointer passed to the caller's preprocessing routine.
+.SH "DESCRIPTION"
+Evaluate the _CRS method for the given device node and process its output by
+(1) executing the \fI\fP\fBpreproc\fP rountine provided by the caller, passing the
+resource pointer and \fIpreproc_data\fP to it as arguments, for each ACPI resource
+returned and (2) converting all of the returned ACPI resources into struct
+resource objects if possible.  If the return value of \fI\fP\fBpreproc\fP in step (1)
+is different from 0, step (2) is not applied to the given ACPI resource and
+if that value is negative, the whole processing is aborted and that value is
+returned as the final error code.
+
+The resultant struct resource objects are put on the list pointed to by
+\fIlist\fP, that must be empty initially, as members of struct resource_entry
+objects.  Callers of this routine should use \fBacpi_dev_free_resource_list\fP to
+free that list.
+
+The number of resources in the output list is returned on success, an error
+code reflecting the error condition is returned otherwise.

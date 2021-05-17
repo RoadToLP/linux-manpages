@@ -1,0 +1,22 @@
+.TH "v9fs_direct_IO" 9 "v9fs_direct_IO" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v9fs_direct_IO \- 9P address space operation for direct I/O
+.SH SYNOPSIS
+.B "ssize_t" v9fs_direct_IO
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+target I/O control block
+.IP "iter" 12
+-- undescribed --
+.SH "DESCRIPTION"
+The presence of \fBv9fs_direct_IO\fP in the address space ops vector
+allowes \fBopen\fP O_DIRECT flags which would have failed otherwise.
+
+In the non-cached mode, we shunt off direct read and write requests before
+the VFS gets them, so this method should never be called.
+
+Direct IO is not 'yet' supported in the cached mode. Hence when
+this routine is called through \fBgeneric_file_aio_read\fP, the read/write fails
+with an error.

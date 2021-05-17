@@ -1,0 +1,21 @@
+.TH "radeon_fence_wait_timeout" 9 "radeon_fence_wait_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_fence_wait_timeout \- wait for a fence to signal with timeout
+.SH SYNOPSIS
+.B "long" radeon_fence_wait_timeout
+.BI "(struct radeon_fence *fence "  ","
+.BI "bool intr "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+radeon fence object
+.IP "intr" 12
+use interruptible sleep
+.IP "timeout" 12
+maximum time to wait, or MAX_SCHEDULE_TIMEOUT for infinite wait
+Returns remaining time if the sequence number has passed, 0 when
+the wait timeout, or an error for all other cases.
+.SH "DESCRIPTION"
+Wait for the requested fence to signal (all asics).
+\fIintr\fP selects whether to use interruptable (true) or non-interruptable
+(false) sleep when waiting for the fence.

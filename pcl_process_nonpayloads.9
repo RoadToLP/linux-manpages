@@ -1,0 +1,29 @@
+.TH "pcl_process_nonpayloads" 9 "pcl_process_nonpayloads" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcl_process_nonpayloads \- Process non-payload regions inside @xdr
+.SH SYNOPSIS
+.B "int" pcl_process_nonpayloads
+.BI "(const struct svc_rdma_pcl *pcl "  ","
+.BI "const struct xdr_buf *xdr "  ","
+.BI "int (*actor)(const struct xdr_buf *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "pcl" 12
+Chunk list to process
+.IP "xdr" 12
+xdr_buf to process
+.IP "actor" 12
+Function to invoke on each non-payload region
+.IP "data" 12
+Arguments for \fIactor\fP
+.SH "DESCRIPTION"
+This mechanism must ignore not only result payloads that were already
+sent via RDMA Write, but also XDR padding for those payloads that
+the upper layer has added.
+
+Assumptions:
+The xdr->len and ch_position fields are aligned to 4-byte multiples.
+.SH "RETURN"
+On success, zero,
+-EMSGSIZE on XDR buffer overflow, or
+The return value of \fIactor\fP

@@ -1,0 +1,31 @@
+.TH "xgene_ahci_handle_broken_edge_irq" 9 "xgene_ahci_handle_broken_edge_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xgene_ahci_handle_broken_edge_irq \- Handle the broken irq.
+.SH SYNOPSIS
+.B "int" xgene_ahci_handle_broken_edge_irq
+.BI "(struct ata_host *host "  ","
+.BI "u32 irq_masked "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+-- undescribed --
+.IP "irq_masked" 12
+HOST_IRQ_STAT value
+.SH "DESCRIPTION"
+For hardware with broken edge trigger latch
+the HOST_IRQ_STAT register misses the edge interrupt
+when clearing of HOST_IRQ_STAT register and hardware
+reporting the PORT_IRQ_STAT register at the
+same clock cycle.
+As such, the algorithm below outlines the workaround.
+
+1. Read HOST_IRQ_STAT register and save the state.
+2. Clear the HOST_IRQ_STAT register.
+3. Read back the HOST_IRQ_STAT register.
+4. If HOST_IRQ_STAT register equals to zero, then
+traverse the rest of port's PORT_IRQ_STAT register
+to check if an interrupt is triggered at that point else
+go to step 6.
+5. If PORT_IRQ_STAT register of rest ports is not equal to zero
+then update the state of HOST_IRQ_STAT saved in step 1.
+6. Handle port interrupts.
+7. Exit

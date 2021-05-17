@@ -1,0 +1,21 @@
+.TH "ioc_create_icq" 9 "ioc_create_icq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ioc_create_icq \- create and link io_cq
+.SH SYNOPSIS
+.B "struct io_cq *" ioc_create_icq
+.BI "(struct io_context *ioc "  ","
+.BI "struct request_queue *q "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+io_context of interest
+.IP "q" 12
+request_queue of interest
+.IP "gfp_mask" 12
+allocation mask
+.SH "DESCRIPTION"
+Make sure io_cq linking \fIioc\fP and \fIq\fP exists.  If icq doesn't exist, they
+will be created using \fIgfp_mask\fP.
+
+The caller is responsible for ensuring \fIioc\fP won't go away and \fIq\fP is
+alive and will stay alive until this function returns.

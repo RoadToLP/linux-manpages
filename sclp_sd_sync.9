@@ -1,0 +1,32 @@
+.TH "sclp_sd_sync" 9 "sclp_sd_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sclp_sd_sync \- Perform Store Data request synchronously
+.SH SYNOPSIS
+.B "int" sclp_sd_sync
+.BI "(unsigned long page "  ","
+.BI "u8 eq "  ","
+.BI "u8 di "  ","
+.BI "u64 sat "  ","
+.BI "u64 sa "  ","
+.BI "u32 *dsize_ptr "  ","
+.BI "u32 *esize_ptr "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+Address of work page - must be below 2GB
+.IP "eq" 12
+Input EQ value
+.IP "di" 12
+Input DI value
+.IP "sat" 12
+Input SAT value
+.IP "sa" 12
+Input SA value used to specify the address of the target buffer
+.IP "dsize_ptr" 12
+Optional pointer to input and output DSIZE value
+.IP "esize_ptr" 12
+Optional pointer to output ESIZE value
+.SH "DESCRIPTION"
+Perform Store Data request with specified parameters and wait for completion.
+
+Return 0 on success and store resulting DSIZE and ESIZE values in
+\fIdsize_ptr\fP and \fIesize_ptr\fP (if provided). Return non-zero on error.

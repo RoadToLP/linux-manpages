@@ -1,0 +1,14 @@
+.TH "skb_get_poff" 9 "skb_get_poff" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_get_poff \- get the offset to the payload
+.SH SYNOPSIS
+.B "u32" skb_get_poff
+.BI "(const struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+sk_buff to get the payload offset from
+.SH "DESCRIPTION"
+The function will get the offset to the payload as far as it could
+be dissected.  The main user is currently BPF, so that we can dynamically
+truncate packets without needing to push actual payload to the user
+space and can analyze headers only, instead.

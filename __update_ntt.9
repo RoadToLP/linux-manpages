@@ -1,0 +1,19 @@
+.TH "__update_ntt" 9 "__update_ntt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__update_ntt \- update a port's ntt variable from a received lacpdu
+.SH SYNOPSIS
+.B "void" __update_ntt
+.BI "(struct lacpdu *lacpdu "  ","
+.BI "struct port *port "  ");"
+.SH ARGUMENTS
+.IP "lacpdu" 12
+the lacpdu we've received
+.IP "port" 12
+the port we're looking at
+.SH "DESCRIPTION"
+Updates the value of the ntt variable, using parameter values from a newly
+received lacpdu. The parameter values for the partner carried in the
+received PDU are compared with the corresponding operational parameter
+values for the Actor. If one or more of the comparisons shows that the
+value(s) received in the PDU differ from the current operational values,
+then ntt is set to TRUE. Otherwise, ntt remains unchanged.

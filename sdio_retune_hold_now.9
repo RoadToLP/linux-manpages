@@ -1,0 +1,22 @@
+.TH "sdio_retune_hold_now" 9 "sdio_retune_hold_now" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_retune_hold_now \- start deferring retuning requests till release
+.SH SYNOPSIS
+.B "void" sdio_retune_hold_now
+.BI "(struct sdio_func *func "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function attached to host
+
+This function can be called if it's currently a bad time to do
+a retune of the SDIO card.  Retune requests made during this time
+will be held and we'll actually do the retune sometime after the
+release.
+
+This function could be useful if an SDIO card is in a power state
+where it can respond to a small subset of commands that doesn't
+include the retuning command.  Care should be taken when using
+this function since (presumably) the retuning request we might be
+deferring was made for a good reason.
+
+This function should be called while the host is claimed.

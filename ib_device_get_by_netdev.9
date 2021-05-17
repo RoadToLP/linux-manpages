@@ -1,0 +1,16 @@
+.TH "ib_device_get_by_netdev" 9 "ib_device_get_by_netdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_device_get_by_netdev \- Find an IB device associated with a netdev
+.SH SYNOPSIS
+.B "struct ib_device *" ib_device_get_by_netdev
+.BI "(struct net_device *ndev "  ","
+.BI "enum rdma_driver_id driver_id "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+netdev to locate
+.IP "driver_id" 12
+The driver ID that must match (RDMA_DRIVER_UNKNOWN matches all)
+.SH "DESCRIPTION"
+Find and hold an ib_device that is associated with a netdev via
+\fBib_device_set_netdev\fP. The caller must call \fBib_device_put\fP on the
+returned pointer.

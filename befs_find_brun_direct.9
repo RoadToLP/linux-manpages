@@ -1,0 +1,40 @@
+.TH "befs_find_brun_direct" 9 "befs_find_brun_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_find_brun_direct \- find a direct block run in the datastream
+.SH SYNOPSIS
+.B "int" befs_find_brun_direct
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *data "  ","
+.BI "befs_blocknr_t blockno "  ","
+.BI "befs_block_run *run "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the superblock
+.IP "data" 12
+the datastream
+.IP "blockno" 12
+the blocknumber to find
+.IP "run" 12
+The found run is passed back through this pointer
+.SH "DESCRIPTION"
+Finds the block run that starts at file block number blockno
+in the file represented by the datastream data, if that
+blockno is in the direct region of the datastream.
+
+Return value is BEFS_OK if the blockrun is found, BEFS_ERR
+otherwise.
+
+Algorithm:
+Linear search. Checks each element of array[] to see if it
+contains the blockno-th filesystem block. This is necessary
+because the block runs map variable amounts of data. Simply
+keeps a count of the number of blocks searched so far (sum),
+incrementing this by the length of each block run as we come
+across it. Adds sum to *count before returning (this is so
+you can search multiple arrays that are logicaly one array,
+as in the indirect region code).
+
+When/if blockno is found, if blockno is inside of a block
+run as stored on disk, we offset the start and length members
+of the block run, so that blockno is the start and len is
+still valid (the run ends in the same place).

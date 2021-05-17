@@ -1,0 +1,16 @@
+.TH "pci_target_state" 9 "pci_target_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_target_state \- find an appropriate low power state for a given PCI dev
+.SH SYNOPSIS
+.B "pci_power_t" pci_target_state
+.BI "(struct pci_dev *dev "  ","
+.BI "bool wakeup "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.IP "wakeup" 12
+Whether or not wakeup functionality will be enabled for the device.
+.SH "DESCRIPTION"
+Use underlying platform code to find a supported low power state for \fIdev\fP.
+If the platform can't manage \fIdev\fP, return the deepest state from which it
+can generate wake events, based on any available PME info.

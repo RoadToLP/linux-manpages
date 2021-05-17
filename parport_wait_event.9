@@ -1,0 +1,22 @@
+.TH "parport_wait_event" 9 "parport_wait_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_wait_event \- wait for an event on a parallel port
+.SH SYNOPSIS
+.B "int" parport_wait_event
+.BI "(struct parport *port "  ","
+.BI "signed long timeout "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+port to wait on
+.IP "timeout" 12
+time to wait (in jiffies)
+
+This function waits for up to \fItimeout\fP jiffies for an
+interrupt to occur on a parallel port.  If the port timeout is
+set to zero, it returns immediately.
+
+If an interrupt occurs before the timeout period elapses, this
+function returns zero immediately.  If it times out, it returns
+one.  An error code less than zero indicates an error (most
+likely a pending signal), and the calling code should finish
+what it's doing as soon as it can.

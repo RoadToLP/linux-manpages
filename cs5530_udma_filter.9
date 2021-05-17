@@ -1,0 +1,23 @@
+.TH "cs5530_udma_filter" 9 "cs5530_udma_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cs5530_udma_filter \- UDMA filter
+.SH SYNOPSIS
+.B "u8" cs5530_udma_filter
+.BI "(ide_drive_t *drive "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive
+
+\fBcs5530_udma_filter\fP does UDMA mask filtering for the given drive
+taking into the consideration capabilities of the mate device.
+
+The CS5530 specifies that two drives sharing a cable cannot mix
+UDMA/MDMA.  It has to be one or the other, for the pair, though
+different timings can still be chosen for each drive.  We could
+set the appropriate timing bits on the fly, but that might be
+a bit confusing.  So, for now we statically handle this requirement
+by looking at our mate drive to see what it is capable of, before
+choosing a mode for our own drive.
+.SH "NOTE"
+This relies on the fact we never fail from UDMA to MWDMA2
+but instead drop to PIO.

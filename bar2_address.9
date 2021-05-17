@@ -1,0 +1,24 @@
+.TH "bar2_address" 9 "bar2_address" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bar2_address \- return the BAR2 address for an SGE Queue's Registers
+.SH SYNOPSIS
+.B "void __iomem *" bar2_address
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int qid "  ","
+.BI "enum t4_bar2_qtype qtype "  ","
+.BI "unsigned int *pbar2_qid "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "qid" 12
+the SGE Queue ID
+.IP "qtype" 12
+the SGE Queue Type (Egress or Ingress)
+.IP "pbar2_qid" 12
+BAR2 Queue ID or 0 for Queue ID inferred SGE Queues
+
+Returns the BAR2 address for the SGE Queue Registers associated with
+\fIqid\fP.  If BAR2 SGE Registers aren't available, returns NULL.  Also
+returns the BAR2 Queue ID to be used with writes to the BAR2 SGE
+Queue Registers.  If the BAR2 Queue ID is 0, then "Inferred Queue ID"
+Registers are supported (e.g. the Write Combining Doorbell Buffer).

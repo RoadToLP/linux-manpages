@@ -1,0 +1,23 @@
+.TH "t3_config_rss" 9 "t3_config_rss" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_config_rss \- configure Rx packet steering
+.SH SYNOPSIS
+.B "void" t3_config_rss
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int rss_config "  ","
+.BI "const u8 * cpus "  ","
+.BI "const u16 *rspq "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "rss_config" 12
+RSS settings (written to TP_RSS_CONFIG)
+.IP "cpus" 12
+values for the CPU lookup table (0xff terminated)
+.IP "rspq" 12
+values for the response queue lookup table (0xffff terminated)
+
+Programs the receive packet steering logic.  \fIcpus\fP and \fIrspq\fP provide
+the values for the CPU and response queue lookup tables.  If they
+provide fewer values than the size of the tables the supplied values
+are used repeatedly until the tables are fully populated.

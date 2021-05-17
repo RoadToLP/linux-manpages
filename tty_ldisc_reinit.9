@@ -1,0 +1,20 @@
+.TH "tty_ldisc_reinit" 9 "tty_ldisc_reinit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_ldisc_reinit \- reinitialise the tty ldisc
+.SH SYNOPSIS
+.B "int" tty_ldisc_reinit
+.BI "(struct tty_struct *tty "  ","
+.BI "int disc "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty to reinit
+.IP "disc" 12
+line discipline to reinitialize
+
+Completely reinitialize the line discipline state, by closing the
+current instance, if there is one, and opening a new instance. If
+an error occurs opening the new non-N_TTY instance, the instance
+is dropped and tty->ldisc reset to NULL. The caller can then retry
+with N_TTY instead.
+
+Returns 0 if successful, otherwise error code < 0

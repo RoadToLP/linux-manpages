@@ -1,0 +1,34 @@
+.TH "ip6_dst_lookup_tunnel" 9 "ip6_dst_lookup_tunnel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ip6_dst_lookup_tunnel \- perform route lookup on tunnel
+.SH SYNOPSIS
+.B "struct dst_entry *" ip6_dst_lookup_tunnel
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "struct net *net "  ","
+.BI "struct socket *sock "  ","
+.BI "struct in6_addr *saddr "  ","
+.BI "const struct ip_tunnel_info *info "  ","
+.BI "u8 protocol "  ","
+.BI "bool use_cache "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+Packet for which lookup is done
+.IP "dev" 12
+Tunnel device
+.IP "net" 12
+Network namespace of tunnel device
+.IP "sock" 12
+Socket which provides route info
+.IP "saddr" 12
+Memory to store the src ip address
+.IP "info" 12
+Tunnel information
+.IP "protocol" 12
+IP protocol
+.IP "use_cache" 12
+Flag to enable cache usage
+This function performs a route lookup on a tunnel
+
+It returns a valid dst pointer and stores src address to be used in
+tunnel in param saddr on success, else a pointer encoded error code.

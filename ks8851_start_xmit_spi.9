@@ -1,0 +1,20 @@
+.TH "ks8851_start_xmit_spi" 9 "ks8851_start_xmit_spi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_start_xmit_spi \- transmit packet using SPI
+.SH SYNOPSIS
+.B "netdev_tx_t" ks8851_start_xmit_spi
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+The buffer to transmit
+.IP "dev" 12
+The device used to transmit the packet.
+.SH "DESCRIPTION"
+Called by the network layer to transmit the \fIskb\fP. Queue the packet for
+the device and schedule the necessary work to transmit the packet when
+it is free.
+
+We do this to firstly avoid sleeping with the network device locked,
+and secondly so we can round up more than one packet to transmit which
+means we can try and avoid generating too many transmit done interrupts.

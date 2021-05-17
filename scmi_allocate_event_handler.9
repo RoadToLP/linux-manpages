@@ -1,0 +1,23 @@
+.TH "scmi_allocate_event_handler" 9 "scmi_allocate_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_allocate_event_handler \- Allocate Event handler
+.SH SYNOPSIS
+.B "struct scmi_event_handler *" scmi_allocate_event_handler
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "u32 evt_key "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "evt_key" 12
+32bit key uniquely bind to the event identified by the tuple
+(proto_id, evt_id, src_id)
+.SH "DESCRIPTION"
+Allocate an event handler and related notification chain associated with
+the provided event handler key.
+Note that, at this point, a related registered_event is still to be
+associated to this handler descriptor (hndl->r_evt == NULL), so the handler
+is initialized as pending.
+.SH "CONTEXT"
+Assumes to be called with \fIpending_mtx\fP already acquired.
+.SH "RETURN"
+the freshly allocated structure on Success

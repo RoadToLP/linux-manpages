@@ -1,0 +1,28 @@
+.TH "efivar_entry_find" 9 "efivar_entry_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_find \- search for an entry
+.SH SYNOPSIS
+.B "struct efivar_entry *" efivar_entry_find
+.BI "(efi_char16_t *name "  ","
+.BI "efi_guid_t guid "  ","
+.BI "struct list_head *head "  ","
+.BI "bool remove "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+the EFI variable name
+.IP "guid" 12
+the EFI variable vendor's guid
+.IP "head" 12
+head of the variable list
+.IP "remove" 12
+should we remove the entry from the list?
+.SH "DESCRIPTION"
+Search for an entry on the variable list that has the EFI variable
+name \fIname\fP and vendor guid \fIguid\fP. If an entry is found on the list
+and \fIremove\fP is true, the entry is removed from the list.
+
+The caller MUST call \fBefivar_entry_iter_begin\fP and
+\fBefivar_entry_iter_end\fP before and after the invocation of this
+function, respectively.
+
+Returns the entry if found on the list, NULL otherwise.

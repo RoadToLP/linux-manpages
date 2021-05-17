@@ -1,0 +1,28 @@
+.TH "dwc2_wait_timer_fn" 9 "dwc2_wait_timer_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_wait_timer_fn \- Timer function to re-queue after waiting
+.SH SYNOPSIS
+.B "enum hrtimer_restart" dwc2_wait_timer_fn
+.BI "(struct hrtimer *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Pointer to wait_timer in a qh.
+.SH "DESCRIPTION"
+
+As per the spec, a NAK indicates that "a function is temporarily unable to
+transmit or receive data, but will eventually be able to do so without need
+of host intervention".
+
+That means that when we encounter a NAK we're supposed to retry.
+
+\&...but if we retry right away (from the interrupt handler that saw the NAK)
+then we can end up with an interrupt storm (if the other side keeps NAKing
+us) because on slow enough CPUs it could take us longer to get out of the
+interrupt routine than it takes for the device to send another NAK.  That
+leads to a constant stream of NAK interrupts and the CPU locks.
+
+\&...so instead of retrying right away in the case of a NAK we'll set a timer
+to retry some time later.  This function handles that timer and moves the
+qh back to the "inactive" list, then queues transactions.
+.SH "RETURN"
+HRTIMER_NORESTART to not automatically restart this timer.

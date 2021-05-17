@@ -1,0 +1,20 @@
+.TH "irq_create_mapping_affinity" 9 "irq_create_mapping_affinity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_create_mapping_affinity \- Map a hardware interrupt into linux irq space
+.SH SYNOPSIS
+.B "unsigned int" irq_create_mapping_affinity
+.BI "(struct irq_domain *domain "  ","
+.BI "irq_hw_number_t hwirq "  ","
+.BI "const struct irq_affinity_desc *affinity "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+domain owning this hardware interrupt or NULL for default domain
+.IP "hwirq" 12
+hardware irq number in that domain space
+.IP "affinity" 12
+irq affinity
+.SH "DESCRIPTION"
+Only one mapping per hardware interrupt is permitted. Returns a linux
+irq number.
+If the sense/trigger is to be specified, \fBset_irq_type\fP should be called
+on the number returned from that call.

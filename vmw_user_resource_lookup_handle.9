@@ -1,0 +1,25 @@
+.TH "vmw_user_resource_lookup_handle" 9 "vmw_user_resource_lookup_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_user_resource_lookup_handle \- lookup a struct resource from a TTM user-space handle and perform basic type checks
+.SH SYNOPSIS
+.B "int" vmw_user_resource_lookup_handle
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct ttm_object_file *tfile "  ","
+.BI "uint32_t handle "  ","
+.BI "const struct vmw_user_resource_conv *converter "  ","
+.BI "struct vmw_resource **p_res "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a device private struct
+.IP "tfile" 12
+Pointer to a struct ttm_object_file identifying the caller
+.IP "handle" 12
+The TTM user-space handle
+.IP "converter" 12
+Pointer to an object describing the resource type
+.IP "p_res" 12
+On successful return the location pointed to will contain
+a pointer to a refcounted struct vmw_resource.
+.SH "DESCRIPTION"
+If the handle can't be found or is associated with an incorrect resource
+type, -EINVAL will be returned.

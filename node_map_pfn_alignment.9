@@ -1,0 +1,26 @@
+.TH "node_map_pfn_alignment" 9 "node_map_pfn_alignment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+node_map_pfn_alignment \- determine the maximum internode alignment
+.SH SYNOPSIS
+.B "unsigned long" node_map_pfn_alignment
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function should be called after node map is populated and sorted.
+It calculates the maximum power of two alignment which can distinguish
+all the nodes.
+
+For example, if all nodes are 1GiB and aligned to 1GiB, the return value
+would indicate 1GiB alignment with (1 << (30 - PAGE_SHIFT)).  If the
+nodes are shifted by 256MiB, 256MiB.  Note that if only the last node is
+shifted, 1GiB is enough and this function will indicate so.
+
+This is used to test whether pfn -> nid mapping of the chosen memory
+model has fine enough granularity to avoid incorrect mapping for the
+populated node map.
+.SH "RETURN"
+the determined alignment in pfn's.  0 if there is no alignment
+requirement (single node).

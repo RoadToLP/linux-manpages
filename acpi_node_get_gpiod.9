@@ -1,0 +1,26 @@
+.TH "acpi_node_get_gpiod" 9 "acpi_node_get_gpiod" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_node_get_gpiod \- get a GPIO descriptor from ACPI resources
+.SH SYNOPSIS
+.B "struct gpio_desc *" acpi_node_get_gpiod
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "const char *propname "  ","
+.BI "int index "  ","
+.BI "struct acpi_gpio_info *info "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+pointer to an ACPI firmware node to get the GPIO information from
+.IP "propname" 12
+Property name of the GPIO
+.IP "index" 12
+index of GpioIo/GpioInt resource (starting from 0)
+.IP "info" 12
+info pointer to fill in (optional)
+.SH "DESCRIPTION"
+If \fIfwnode\fP is an ACPI device object, call \fBacpi_get_gpiod_by_index\fP for it.
+Otherwise (i.e. it is a data-only non-device object), use the property-based
+GPIO lookup to get to the GPIO resource with the relevant information and use
+that to obtain the GPIO descriptor to return.
+
+If the GPIO cannot be translated or there is an error an ERR_PTR is
+returned.

@@ -1,0 +1,40 @@
+.TH "ssam_client_bind" 9 "ssam_client_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_client_bind \- Bind an arbitrary client device to the controller.
+.SH SYNOPSIS
+.B "struct ssam_controller *" ssam_client_bind
+.BI "(struct device *client "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+The client device.
+.SH "DESCRIPTION"
+Link an arbitrary client device to the controller by creating a device link
+between it as consumer and the main controller device as provider. This
+function can be used for non-SSAM devices to guarantee that the controller
+returned by this function is valid for as long as the driver of the client
+device is bound, and that proper suspend and resume ordering is guaranteed.
+
+This function does essentially the same as \fBssam_client_link\fP, except that
+it first fetches the main controller reference, then creates the link, and
+finally returns this reference. Note that this function does not increment
+the reference counter of the controller, as, due to the link, the
+controller lifetime is assured as long as the driver of the client device
+is bound.
+
+It is not valid to use the controller reference obtained by this method
+outside of the driver bound to the client device at the time of calling
+this function, without first incrementing the reference count of the
+controller via \fBssam_controller_get\fP. Even after doing this, care must be
+taken that requests are only submitted and notifiers are only
+(un-)registered when the controller is active and not suspended. In other
+words: The device link only lives as long as the client driver is bound and
+any guarantees enforced by this link (e.g. active controller state) can
+only be relied upon as long as this link exists and may need to be enforced
+in other ways afterwards.
+
+The created device link does not have to be destructed manually. It is
+removed automatically once the driver of the client device unbinds.
+.SH "RETURN"
+Returns the controller on success, an error pointer with -ENODEV
+if the controller is not present, not ready or going to be removed soon, or
+-ENOMEM if the device link could not be created for other reasons.

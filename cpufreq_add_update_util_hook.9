@@ -1,0 +1,27 @@
+.TH "cpufreq_add_update_util_hook" 9 "cpufreq_add_update_util_hook" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_add_update_util_hook \- Populate the CPU's update_util_data pointer.
+.SH SYNOPSIS
+.B "void" cpufreq_add_update_util_hook
+.BI "(int cpu "  ","
+.BI "struct update_util_data *data "  ","
+.BI "void (*func)(struct update_util_data *data, u64 time, unsigned int flags) "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+The CPU to set the pointer for.
+.IP "data" 12
+New pointer value.
+.IP "func" 12
+Callback function to set for the CPU.
+.SH "DESCRIPTION"
+Set and publish the update_util_data pointer for the given CPU.
+
+The update_util_data pointer of \fIcpu\fP is set to \fIdata\fP and the callback
+function pointer in the target struct update_util_data is set to \fIfunc\fP.
+That function will be called by \fBcpufreq_update_util\fP from RCU-sched
+read-side critical sections, so it must not sleep.  \fIdata\fP will always be
+passed to it as the first argument which allows the function to get to the
+target update_util_data structure and its container.
+
+The update_util_data pointer of \fIcpu\fP must be NULL when this function is
+called or it will \fBWARN\fP and return with no effect.

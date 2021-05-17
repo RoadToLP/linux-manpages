@@ -1,0 +1,33 @@
+.TH "__lpfc_sli_issue_iocb_s3" 9 "__lpfc_sli_issue_iocb_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli_issue_iocb_s3 \- SLI3 device lockless ver of lpfc_sli_issue_iocb
+.SH SYNOPSIS
+.B "int" __lpfc_sli_issue_iocb_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t ring_number "  ","
+.BI "struct lpfc_iocbq *piocb "  ","
+.BI "uint32_t flag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "ring_number" 12
+SLI ring number to issue iocb on.
+.IP "piocb" 12
+Pointer to command iocb.
+.IP "flag" 12
+Flag indicating if this command can be put into txq.
+.SH "DESCRIPTION"
+__lpfc_sli_issue_iocb_s3 is used by other functions in the driver to issue
+an iocb command to an HBA with SLI-3 interface spec. If the PCI slot is
+recovering from error state, if HBA is resetting or if LPFC_STOP_IOCB_EVENT
+flag is turned on, the function returns IOCB_ERROR. When the link is down,
+this function allows only iocbs for posting buffers. This function finds
+next available slot in the command ring and posts the command to the
+available slot and writes the port attention register to request HBA start
+processing new iocb. If there is no slot available in the ring and
+flag & SLI_IOCB_RET_IOCB is set, the new iocb is added to the txq, otherwise
+the function returns IOCB_BUSY.
+
+This function is called with hbalock held. The function will return success
+after it successfully submit the iocb to firmware or after adding to the
+txq.

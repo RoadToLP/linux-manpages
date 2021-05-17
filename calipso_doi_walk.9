@@ -1,0 +1,20 @@
+.TH "calipso_doi_walk" 9 "calipso_doi_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_doi_walk \- Iterate through the DOI definitions
+.SH SYNOPSIS
+.B "int" calipso_doi_walk
+.BI "(u32 *skip_cnt "  ","
+.BI "int (*callback)(struct calipso_doi *doi_def, void *arg) "  ","
+.BI "void *cb_arg "  ");"
+.SH ARGUMENTS
+.IP "skip_cnt" 12
+skip past this number of DOI definitions, updated
+.IP "callback" 12
+callback for each DOI definition
+.IP "cb_arg" 12
+argument for the callback function
+.SH "DESCRIPTION"
+Iterate over the DOI definition list, skipping the first \fIskip_cnt\fP entries.
+For each entry call \fIcallback\fP, if \fIcallback\fP returns a negative value stop
+'walking' through the list and return.  Updates the value in \fIskip_cnt\fP upon
+return.  Returns zero on success, negative values on failure.

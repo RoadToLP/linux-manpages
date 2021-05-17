@@ -1,0 +1,17 @@
+.TH "i40e_ptp_restore_hw_time" 9 "i40e_ptp_restore_hw_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_restore_hw_time \- Restore the ptp_prev_hw_time + delta to PTP regs
+.SH SYNOPSIS
+.B "void" i40e_ptp_restore_hw_time
+.BI "(struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.SH "DESCRIPTION"
+Restore the PTP hardware clock registers. We previously cached the PTP
+hardware time as pf->ptp_prev_hw_time. To be as accurate as possible,
+update this value based on the time delta since the time was saved, using
+CLOCK_MONOTONIC (via \fBktime_get\fP) to calculate the time difference.
+
+This ensures that the hardware clock is restored to nearly what it should
+have been if a reset had not occurred.

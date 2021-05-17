@@ -1,0 +1,30 @@
+.TH "ssam_device_add" 9 "ssam_device_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_device_add \- Add a SSAM client device.
+.SH SYNOPSIS
+.B "int" ssam_device_add
+.BI "(struct ssam_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+The SSAM client device to be added.
+.SH "DESCRIPTION"
+Added client devices must be guaranteed to always have a valid and active
+controller. Thus, this function will fail with -ENODEV if the controller
+of the device has not been initialized yet, has been suspended, or has been
+shut down.
+
+The caller of this function should ensure that the corresponding call to
+\fBssam_device_remove\fP is issued before the controller is shut down. If the
+added device is a direct child of the controller device (default), it will
+be automatically removed when the controller is shut down.
+
+By default, the controller device will become the parent of the newly
+created client device. The parent may be changed before ssam_device_add is
+called, but care must be taken that a) the correct suspend/resume ordering
+is guaranteed and b) the client device does not outlive the controller,
+i.e. that the device is removed before the controller is being shut down.
+In case these guarantees have to be manually enforced, please refer to the
+\fBssam_client_link\fP and \fBssam_client_bind\fP functions, which are intended to
+set up device-links for this purpose.
+.SH "RETURN"
+Returns zero on success, a negative error code on failure.

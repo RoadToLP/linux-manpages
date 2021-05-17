@@ -1,0 +1,18 @@
+.TH "rpcrdma_sendctx_get_locked" 9 "rpcrdma_sendctx_get_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_sendctx_get_locked \- Acquire a send context
+.SH SYNOPSIS
+.B "struct rpcrdma_sendctx *" rpcrdma_sendctx_get_locked
+.BI "(struct rpcrdma_xprt *r_xprt "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport instance
+.SH "DESCRIPTION"
+Returns pointer to a free send completion context; or NULL if
+the queue is empty.
+
+Usage: Called to acquire an SGE array before preparing a Send WR.
+
+The caller serializes calls to this function (per transport), and
+provides an effective memory barrier that flushes the new value
+of rb_sc_head.

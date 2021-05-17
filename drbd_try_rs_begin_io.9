@@ -1,0 +1,16 @@
+.TH "drbd_try_rs_begin_io" 9 "drbd_try_rs_begin_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_try_rs_begin_io \- Gets an extent in the resync LRU cache, does not sleep
+.SH SYNOPSIS
+.B "int" drbd_try_rs_begin_io
+.BI "(struct drbd_device *device "  ","
+.BI "sector_t sector "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "sector" 12
+The sector number.
+.SH "DESCRIPTION"
+Gets an extent in the resync LRU cache, sets it to BME_NO_WRITES, then
+tries to set it to BME_LOCKED. Returns 0 upon success, and -EAGAIN
+if there is still application IO going on in this area.

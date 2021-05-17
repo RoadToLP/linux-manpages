@@ -1,0 +1,23 @@
+.TH "attribute_container_device_trigger_safe" 9 "attribute_container_device_trigger_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+attribute_container_device_trigger_safe \- execute a trigger for each matching classdev or fail all of them.
+.SH SYNOPSIS
+.B "int" attribute_container_device_trigger_safe
+.BI "(struct device *dev "  ","
+.BI "int (*fn)(struct attribute_container *, struct device *, struct device *) "  ","
+.BI "int (*undo)(struct attribute_container *, struct device *, struct device *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The generic device to run the trigger for
+\fIfn\fP    the function to execute for each classdev.
+\fIundo\fP  A function to undo the work previously done in case of error
+.IP "fn" 12
+-- undescribed --
+.IP "undo" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function is a safe version of
+attribute_container_device_trigger. It stops on the first error and
+undo the partial work that has been done, on previous classdev.  It
+is guaranteed that either they all succeeded, or none of them
+succeeded.

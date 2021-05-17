@@ -1,0 +1,26 @@
+.TH "mpi_write_to_sgl" 9 "mpi_write_to_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpi_write_to_sgl \- Funnction exports MPI to an sgl (msb first)
+.SH SYNOPSIS
+.B "int" mpi_write_to_sgl
+.BI "(MPI a "  ","
+.BI "struct scatterlist *sgl "  ","
+.BI "unsigned nbytes "  ","
+.BI "int *sign "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+a multi precision integer
+.IP "sgl" 12
+scatterlist to write to. Needs to be at least
+mpi_get_size(a) long.
+.IP "nbytes" 12
+the number of bytes to write.  Leading bytes will be
+filled with zero.
+.IP "sign" 12
+if not NULL, it will be set to the sign of a.
+.SH "DESCRIPTION"
+
+This function works in the same way as the mpi_read_buffer, but it
+takes an sgl instead of u8 * buf.
+.SH "RETURN"
+0 on success or error code in case of error

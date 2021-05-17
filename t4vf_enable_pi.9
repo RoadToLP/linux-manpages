@@ -1,0 +1,23 @@
+.TH "t4vf_enable_pi" 9 "t4vf_enable_pi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4vf_enable_pi \- enable/disable a Port's virtual interface
+.SH SYNOPSIS
+.B "int" t4vf_enable_pi
+.BI "(struct adapter *adapter "  ","
+.BI "struct port_info *pi "  ","
+.BI "bool rx_en "  ","
+.BI "bool tx_en "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "pi" 12
+the Port Information structure
+.IP "rx_en" 12
+1=enable Rx, 0=disable Rx
+.IP "tx_en" 12
+1=enable Tx, 0=disable Tx
+
+Enables/disables a Port's virtual interface.  If the Virtual
+Interface enable/disable operation is successful, we notify the
+OS-specific code of a potential Link Status change via the OS Contract
+API \fBt4vf_os_link_changed\fP.

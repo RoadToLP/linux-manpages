@@ -1,0 +1,39 @@
+.TH "request_nmi" 9 "request_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_nmi \- allocate an interrupt line for NMI delivery
+.SH SYNOPSIS
+.B "int" request_nmi
+.BI "(unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "unsigned long irqflags "  ","
+.BI "const char *name "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+Threaded handler for threaded interrupts.
+.IP "irqflags" 12
+Interrupt type flags
+.IP "name" 12
+An ascii name for the claiming device
+.IP "dev_id" 12
+A cookie passed back to the handler function
+
+This call allocates interrupt resources and enables the
+interrupt line and IRQ handling. It sets up the IRQ line
+to be handled as an NMI.
+
+An interrupt line delivering NMIs cannot be shared and IRQ handling
+cannot be threaded.
+
+Interrupt lines requested for NMI delivering must produce per cpu
+interrupts and have auto enabling setting disabled.
+
+Dev_id must be globally unique. Normally the address of the
+device data structure is used as the cookie. Since the handler
+receives this value it makes sense to use it.
+
+If the interrupt line cannot be used to deliver NMIs, function
+will fail and return a negative value.

@@ -1,0 +1,20 @@
+.TH "cleanup_cgroup_environment" 9 "cleanup_cgroup_environment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cleanup_cgroup_environment \- Cleanup Cgroup Testing Environment
+.SH SYNOPSIS
+.B "void" cleanup_cgroup_environment
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is an idempotent function to delete all temporary cgroups that
+have been created during the test, including the cgroup testing work
+directory.
+
+At call time, it moves the calling process to the root cgroup, and then
+runs the deletion process. It is idempotent, and should not fail, unless
+a process is lingering.
+
+On failure, it will print an error to stderr, and try to continue.

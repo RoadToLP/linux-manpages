@@ -1,0 +1,24 @@
+.TH "pcpu_unmap_pages" 9 "pcpu_unmap_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_unmap_pages \- unmap pages out of a pcpu_chunk
+.SH SYNOPSIS
+.B "void" pcpu_unmap_pages
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "struct page **pages "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "pages" 12
+pages array which can be used to pass information to free
+.IP "page_start" 12
+page index of the first page to unmap
+.IP "page_end" 12
+page index of the last page to unmap + 1
+.SH "DESCRIPTION"
+For each cpu, unmap pages [\fIpage_start\fP,\fIpage_end\fP) out of \fIchunk\fP.
+Corresponding elements in \fIpages\fP were cleared by the caller and can
+be used to carry information to \fBpcpu_free_pages\fP which will be
+called after all unmaps are finished.  The caller should call
+proper pre/post flush functions.

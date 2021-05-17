@@ -1,0 +1,25 @@
+.TH "tpm_cr50_i2c_read" 9 "tpm_cr50_i2c_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_cr50_i2c_read \- Read from TPM register.
+.SH SYNOPSIS
+.B "int" tpm_cr50_i2c_read
+.BI "(struct tpm_chip *chip "  ","
+.BI "u8 addr "  ","
+.BI "u8 *buffer "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+A TPM chip.
+.IP "addr" 12
+Register address to read from.
+.IP "buffer" 12
+Read destination, provided by caller.
+.IP "len" 12
+Number of bytes to read.
+.SH "DESCRIPTION"
+Sends the register address byte to the TPM, then waits until TPM
+is ready via interrupt signal or timeout expiration, then 'len'
+bytes are read from TPM response into the provided 'buffer'.
+.SH "RETURN"
+- 0:         Success.
+- -errno:    A POSIX error code.

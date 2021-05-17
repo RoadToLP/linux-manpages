@@ -1,0 +1,21 @@
+.TH "mmc_regulator_set_ocr" 9 "mmc_regulator_set_ocr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_regulator_set_ocr \- set regulator to match host->ios voltage
+.SH SYNOPSIS
+.B "int" mmc_regulator_set_ocr
+.BI "(struct mmc_host *mmc "  ","
+.BI "struct regulator *supply "  ","
+.BI "unsigned short vdd_bit "  ");"
+.SH ARGUMENTS
+.IP "mmc" 12
+the host to regulate
+.IP "supply" 12
+regulator to use
+.IP "vdd_bit" 12
+zero for power off, else a bit number (host->ios.vdd)
+.SH "DESCRIPTION"
+Returns zero on success, else negative errno.
+
+MMC host drivers may use this to enable or disable a regulator using
+a particular supply voltage.  This would normally be called from the
+\fBset_ios\fP method.

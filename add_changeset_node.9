@@ -1,0 +1,42 @@
+.TH "add_changeset_node" 9 "add_changeset_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_changeset_node \- add @node (and children) to overlay changeset
+.SH SYNOPSIS
+.B "int" add_changeset_node
+.BI "(struct overlay_changeset *ovcs "  ","
+.BI "struct target *target "  ","
+.BI "struct device_node *node "  ");"
+.SH ARGUMENTS
+.IP "ovcs" 12
+overlay changeset
+.IP "target" 12
+where \fInode\fP will be placed in live tree or changeset
+.IP "node" 12
+node from within overlay device tree fragment
+.SH "DESCRIPTION"
+If \fInode\fP does not already exist in \fItarget\fP, add changeset entry
+to add \fInode\fP in \fItarget\fP.
+
+If \fInode\fP already exists in \fItarget\fP, and the existing node has
+a phandle, the overlay node is not allowed to have a phandle.
+
+If \fInode\fP has child nodes, add the children recursively via
+\fBbuild_changeset_next_level\fP.
+
+NOTE_1: A live devicetree created from a flattened device tree (FDT) will
+not contain the full path in node->full_name.  Thus an overlay
+created from an FDT also will not contain the full path in
+node->full_name.  However, a live devicetree created from Open
+Firmware may have the full path in node->full_name.
+
+\fBadd_changeset_node\fP follows the FDT convention and does not include
+the full path in node->full_name.  Even though it expects the overlay
+to not contain the full path, it uses \fBkbasename\fP to remove the
+full path should it exist.  It also uses \fBkbasename\fP in comparisons
+to nodes in the live devicetree so that it can apply an overlay to
+a live devicetree created from Open Firmware.
+
+NOTE_2: Multiple mods of created nodes not supported.
+
+Returns 0 on success, -ENOMEM if memory allocation failure, or -EINVAL if
+invalid \fIoverlay\fP.

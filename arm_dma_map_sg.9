@@ -1,0 +1,30 @@
+.TH "arm_dma_map_sg" 9 "arm_dma_map_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_dma_map_sg \- map a set of SG buffers for streaming mode DMA
+.SH SYNOPSIS
+.B "int" arm_dma_map_sg
+.BI "(struct device *dev "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "int nents "  ","
+.BI "enum dma_data_direction dir "  ","
+.BI "unsigned long attrs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+valid struct device pointer, or NULL for ISA and EISA-like devices
+.IP "sg" 12
+list of buffers
+.IP "nents" 12
+number of buffers to map
+.IP "dir" 12
+DMA transfer direction
+.IP "attrs" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Map a set of buffers described by scatterlist in streaming mode for DMA.
+This is the scatter-gather version of the dma_map_single interface.
+Here the scatter gather list elements are each tagged with the
+appropriate dma address and length.  They are obtained via
+sg_dma_{address,length}.
+
+Device ownership issues as mentioned for dma_map_single are the same
+here.

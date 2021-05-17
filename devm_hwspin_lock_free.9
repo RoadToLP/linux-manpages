@@ -1,0 +1,20 @@
+.TH "devm_hwspin_lock_free" 9 "devm_hwspin_lock_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_hwspin_lock_free \- free a specific hwspinlock for a managed device
+.SH SYNOPSIS
+.B "int" devm_hwspin_lock_free
+.BI "(struct device *dev "  ","
+.BI "struct hwspinlock *hwlock "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device to free the specific hwspinlock
+.IP "hwlock" 12
+the specific hwspinlock to free
+.SH "DESCRIPTION"
+This function mark \fIhwlock\fP as free again.
+Should only be called with an \fIhwlock\fP that was retrieved from
+an earlier call to hwspin_lock_request{_specific}.
+
+Should be called from a process context (might sleep)
+
+Returns 0 on success, or an appropriate error code on failure

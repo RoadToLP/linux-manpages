@@ -1,0 +1,24 @@
+.TH "zd_mac_tx_status" 9 "zd_mac_tx_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zd_mac_tx_status \- reports tx status of a packet if required
+.SH SYNOPSIS
+.B "void" zd_mac_tx_status
+.BI "(struct ieee80211_hw *hw "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int ackssi "  ","
+.BI "struct tx_status *tx_status "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+a \fIstruct ieee80211_hw\fP pointer
+.IP "skb" 12
+a sk-buffer
+.IP "ackssi" 12
+ACK signal strength
+.IP "tx_status" 12
+success and/or retry
+.SH "DESCRIPTION"
+This information calls \fBieee80211_tx_status_irqsafe\fP if required by the
+control information. It copies the control information into the status
+information.
+
+If no status information has been requested, the skb is freed.

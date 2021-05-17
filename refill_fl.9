@@ -1,0 +1,25 @@
+.TH "refill_fl" 9 "refill_fl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+refill_fl \- refill an SGE Rx buffer ring
+.SH SYNOPSIS
+.B "unsigned int" refill_fl
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_fl *q "  ","
+.BI "int n "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the ring to refill
+.IP "n" 12
+the number of new buffers to allocate
+.IP "gfp" 12
+the gfp flags for the allocations
+
+(Re)populate an SGE free-buffer queue with up to \fIn\fP new packet buffers,
+allocated with the supplied gfp flags.  The caller must assure that
+\fIn\fP does not exceed the queue's capacity.  If afterwards the queue is
+found critically low mark it as starving in the bitmap of starving FLs.
+
+Returns the number of buffers allocated.

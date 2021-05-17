@@ -1,0 +1,25 @@
+.TH "hfa384x_cmd" 9 "hfa384x_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfa384x_cmd \- Issue a Prism2 command and wait (sleep) for completion
+.SH SYNOPSIS
+.B "int" hfa384x_cmd
+.BI "(struct net_device *dev "  ","
+.BI "u16 cmd "  ","
+.BI "u16 param0 "  ","
+.BI "u16 *param1 "  ","
+.BI "u16 *resp0 "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to net_device
+.IP "cmd" 12
+Prism2 command code (HFA384X_CMD_CODE_*)
+.IP "param0" 12
+value for Param0 register
+.IP "param1" 12
+value for Param1 register (pointer; NULL if not used)
+.IP "resp0" 12
+pointer for Resp0 data or NULL if Resp0 is not needed
+.SH "DESCRIPTION"
+Issue given command (possibly after waiting in command queue) and sleep
+until the command is completed (or timed out or interrupted). This can be
+called only from user process context.

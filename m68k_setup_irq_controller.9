@@ -1,0 +1,23 @@
+.TH "m68k_setup_irq_controller" 9 "m68k_setup_irq_controller" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+m68k_setup_irq_controller \- 
+.SH SYNOPSIS
+.B "void" m68k_setup_irq_controller
+.BI "(struct irq_chip *chip "  ","
+.BI "irq_flow_handler_t handle "  ","
+.BI "unsigned int irq "  ","
+.BI "unsigned int cnt "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+irq chip which controls specified irq
+.IP "handle" 12
+flow handler which handles specified irq
+.IP "irq" 12
+first irq to be managed by the controller
+.IP "cnt" 12
+number of irqs to be managed by the controller
+.SH "DESCRIPTION"
+Change the controller for the specified range of irq, which will be used to
+manage these irq. auto/user irq already have a default controller, which can
+be changed as well, but the controller probably should use m68k_irq_startup/
+m68k_irq_shutdown.

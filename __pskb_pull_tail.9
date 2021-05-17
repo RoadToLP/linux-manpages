@@ -1,0 +1,24 @@
+.TH "__pskb_pull_tail" 9 "__pskb_pull_tail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pskb_pull_tail \- advance tail of skb header
+.SH SYNOPSIS
+.B "void *" __pskb_pull_tail
+.BI "(struct sk_buff *skb "  ","
+.BI "int delta "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to reallocate
+.IP "delta" 12
+number of bytes to advance tail
+
+The function makes a sense only on a fragmented \fIsk_buff\fP,
+it expands header moving its tail forward and copying necessary
+data from fragmented part.
+
+\fIsk_buff\fP MUST have reference count of 1.
+
+Returns NULL (and \fIsk_buff\fP does not change) if pull failed
+or value of new tail of skb in the case of success.
+
+All the pointers pointing into skb header may change and must be
+reloaded after call to this function.

@@ -1,0 +1,37 @@
+.TH "efx_mcdi_rpc_async" 9 "efx_mcdi_rpc_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efx_mcdi_rpc_async \- Schedule an MCDI command to run asynchronously
+.SH SYNOPSIS
+.B "int" efx_mcdi_rpc_async
+.BI "(struct efx_nic *efx "  ","
+.BI "unsigned int cmd "  ","
+.BI "const efx_dword_t *inbuf "  ","
+.BI "size_t inlen "  ","
+.BI "size_t outlen "  ","
+.BI "efx_mcdi_async_completer *complete "  ","
+.BI "unsigned long cookie "  ");"
+.SH ARGUMENTS
+.IP "efx" 12
+NIC through which to issue the command
+.IP "cmd" 12
+Command type number
+.IP "inbuf" 12
+Command parameters
+.IP "inlen" 12
+Length of command parameters, in bytes
+.IP "outlen" 12
+Length to allocate for response buffer, in bytes
+.IP "complete" 12
+Function to be called on completion or cancellation.
+.IP "cookie" 12
+Arbitrary value to be passed to \fIcomplete\fP.
+.SH "DESCRIPTION"
+This function does not sleep and therefore may be called in atomic
+context.  It will fail if event queues are disabled or if MCDI
+event completions have been disabled due to an error.
+
+If it succeeds, the \fIcomplete\fP function will be called exactly once
+in atomic context, when one of the following occurs:
+(a) the completion event is received (in NAPI context)
+(b) event queues are disabled (in the process that disables them)
+(c) the request times-out (in timer context)

@@ -1,0 +1,20 @@
+.TH "ps3_vuart_write" 9 "ps3_vuart_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_vuart_write \- the entry point for writing data to a port
+.SH SYNOPSIS
+.B "int" ps3_vuart_write
+.BI "(struct ps3_system_bus_device *dev "  ","
+.BI "const void *buf "  ","
+.BI "unsigned int bytes "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The struct ps3_system_bus_device instance.
+.IP "buf" 12
+-- undescribed --
+.IP "bytes" 12
+-- undescribed --
+.SH "DESCRIPTION"
+If the port is idle on entry as much of the incoming data is written to
+the port as the port will accept.  Otherwise a list buffer is created
+and any remaning incoming data is copied to that buffer.  The buffer is
+then enqueued for transmision via the transmit interrupt.

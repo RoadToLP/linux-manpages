@@ -1,0 +1,24 @@
+.TH "drm_dp_mst_atomic_check" 9 "drm_dp_mst_atomic_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_atomic_check \- Check that the new state of an MST topology in an atomic update is valid
+.SH SYNOPSIS
+.B "int" drm_dp_mst_atomic_check
+.BI "(struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Pointer to the new \fIstruct drm_dp_mst_topology_state\fP
+.SH "DESCRIPTION"
+Checks the given topology state for an atomic update to ensure that it's
+valid. This includes checking whether there's enough bandwidth to support
+the new VCPI allocations in the atomic update.
+
+Any atomic drivers supporting DP MST must make sure to call this after
+checking the rest of their state in their
+\fIdrm_mode_config_funcs\fP.\fBatomic_check\fP callback.
+
+See also:
+\fBdrm_dp_atomic_find_vcpi_slots\fP
+\fBdrm_dp_atomic_release_vcpi_slots\fP
+
+0 if the new state is valid, negative error code otherwise.
+.SH "RETURN"

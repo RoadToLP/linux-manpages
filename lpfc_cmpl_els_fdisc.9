@@ -1,0 +1,29 @@
+.TH "lpfc_cmpl_els_fdisc" 9 "lpfc_cmpl_els_fdisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_fdisc \- Completion function for fdisc iocb command
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_fdisc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion callback function to a Fabric Discover
+(FDISC) ELS command. Since all the FDISC ELS commands are issued
+single threaded, each FDISC completion callback function will reset
+the discovery timer for all vports such that the timers will not get
+unnecessary timeout. The function checks the FDISC IOCB status. If error
+detected, the vport will be set to FC_VPORT_FAILED state. Otherwise,the
+vport will set to FC_VPORT_ACTIVE state. It then checks whether the DID
+assigned to the vport has been changed with the completion of the FDISC
+command. If so, both RPI (Remote Port Index) and VPI (Virtual Port Index)
+are unregistered from the HBA, and then the \fBlpfc_register_new_vport\fP
+routine is invoked to register new vport with the HBA. Otherwise, the
+\fBlpfc_do_scr_ns_plogi\fP routine is invoked to issue a PLOGI to the Name
+Server for State Change Request (SCR).

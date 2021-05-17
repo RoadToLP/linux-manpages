@@ -1,0 +1,20 @@
+.TH "dev_pm_genpd_set_next_wakeup" 9 "dev_pm_genpd_set_next_wakeup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_genpd_set_next_wakeup \- Notify PM framework of an impending wakeup.
+.SH SYNOPSIS
+.B "void" dev_pm_genpd_set_next_wakeup
+.BI "(struct device *dev "  ","
+.BI "ktime_t next "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle
+.IP "next" 12
+impending interrupt/wakeup for the device
+.SH "DESCRIPTION"
+Allow devices to inform of the next wakeup. It's assumed that the users
+guarantee that the genpd wouldn't be detached while this routine is getting
+called. Additionally, it's also assumed that \fIdev\fP isn't runtime suspended
+(RPM_SUSPENDED)."
+Although devices are expected to update the next_wakeup after the end of
+their usecase as well, it is possible the devices themselves may not know
+about that, so stale \fInext\fP will be ignored when powering off the domain.

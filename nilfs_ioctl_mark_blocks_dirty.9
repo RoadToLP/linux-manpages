@@ -1,0 +1,27 @@
+.TH "nilfs_ioctl_mark_blocks_dirty" 9 "nilfs_ioctl_mark_blocks_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_mark_blocks_dirty \- mark blocks dirty
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_mark_blocks_dirty
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct nilfs_argv *argv "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "argv" 12
+vector of arguments from userspace
+.IP "buf" 12
+array of block descriptors
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_mark_blocks_dirty\fP function marks
+metadata file or data blocks as dirty.
+
+Return Value: Number of processed block descriptors or
+error code, otherwise.
+
+-ENOMEM - Insufficient memory available.
+
+-EIO - I/O error
+
+-ENOENT - the specified block does not exist (hole block)

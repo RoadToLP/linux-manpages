@@ -1,0 +1,24 @@
+.TH "fsl_mc_object_allocate" 9 "fsl_mc_object_allocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_mc_object_allocate \- Allocates an fsl-mc object of the given pool type from a given fsl-mc bus instance
+.SH SYNOPSIS
+.B "int" fsl_mc_object_allocate
+.BI "(struct fsl_mc_device *mc_dev "  ","
+.BI "enum fsl_mc_pool_type pool_type "  ","
+.BI "struct fsl_mc_device **new_mc_adev "  ");"
+.SH ARGUMENTS
+.IP "mc_dev" 12
+fsl-mc device which is used in conjunction with the
+allocated object
+.IP "pool_type" 12
+pool type
+.IP "new_mc_adev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Allocatable objects are always used in conjunction with some functional
+device.  This function allocates an object of the specified type from
+the DPRC containing the functional device.
+.SH "NOTE"
+pool_type must be different from FSL_MC_POOL_MCP, since MC
+portals are allocated using \fBfsl_mc_portal_allocate\fP, instead of
+this function.

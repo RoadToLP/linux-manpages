@@ -1,0 +1,21 @@
+.TH "drm_ioctl" 9 "drm_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_ioctl \- ioctl callback implementation for DRM drivers
+.SH SYNOPSIS
+.B "long" drm_ioctl
+.BI "(struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file this ioctl is called on
+.IP "cmd" 12
+ioctl cmd number
+.IP "arg" 12
+user argument
+.SH "DESCRIPTION"
+Looks up the ioctl function in the DRM core and the driver dispatch table,
+stored in \fIdrm_driver.ioctls\fP. It checks for necessary permission by calling
+\fBdrm_ioctl_permit\fP, and dispatches to the respective function.
+.SH "RETURN"
+Zero on success, negative error code on failure.

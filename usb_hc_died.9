@@ -1,0 +1,15 @@
+.TH "usb_hc_died" 9 "usb_hc_died" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hc_died \- report abnormal shutdown of a host controller (bus glue)
+.SH SYNOPSIS
+.B "void" usb_hc_died
+.BI "(struct usb_hcd *hcd "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+pointer to the HCD representing the controller
+.SH "DESCRIPTION"
+This is called by bus glue to report a USB host controller that died
+while operations may still have been pending.  It's called automatically
+by the PCI glue, so only glue for non-PCI busses should need to call it.
+
+Only call this function with the primary HCD.

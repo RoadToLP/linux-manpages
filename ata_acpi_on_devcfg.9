@@ -1,0 +1,18 @@
+.TH "ata_acpi_on_devcfg" 9 "ata_acpi_on_devcfg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_on_devcfg \- ATA ACPI hook called on device donfiguration
+.SH SYNOPSIS
+.B "int" ata_acpi_on_devcfg
+.BI "(struct ata_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target ATA device
+.SH "DESCRIPTION"
+This function is called when \fIdev\fP is about to be configured.
+IDENTIFY data might have been modified after this hook is run.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+Positive number if IDENTIFY data needs to be refreshed, 0 if not,
+-errno on failure.

@@ -1,0 +1,29 @@
+.TH "nilfs_ioctl_move_inode_block" 9 "nilfs_ioctl_move_inode_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_move_inode_block \- prepare data/node block for moving by GC
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_move_inode_block
+.BI "(struct inode *inode "  ","
+.BI "struct nilfs_vdesc *vdesc "  ","
+.BI "struct list_head *buffers "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "vdesc" 12
+descriptor of virtual block number
+.IP "buffers" 12
+list of moving buffers
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_move_inode_block\fP function registers data/node
+buffer in the GC pagecache and submit read request.
+
+Return Value: On success, 0 is returned. On error, one of the following
+negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOENT - Requested block doesn't exist.
+
+-EEXIST - Blocks conflict is detected.

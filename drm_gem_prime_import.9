@@ -1,0 +1,20 @@
+.TH "drm_gem_prime_import" 9 "drm_gem_prime_import" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_prime_import \- helper library implementation of the import callback
+.SH SYNOPSIS
+.B "struct drm_gem_object *" drm_gem_prime_import
+.BI "(struct drm_device *dev "  ","
+.BI "struct dma_buf *dma_buf "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm_device to import into
+.IP "dma_buf" 12
+dma-buf object to import
+.SH "DESCRIPTION"
+This is the implementation of the gem_prime_import functions for GEM drivers
+using the PRIME helpers. Drivers can use this as their
+\fIdrm_driver.gem_prime_import\fP implementation. It is used as the default
+implementation in \fBdrm_gem_prime_fd_to_handle\fP.
+
+Drivers must arrange to call \fBdrm_prime_gem_destroy\fP from their
+\fIdrm_gem_object_funcs.free\fP hook when using this function.

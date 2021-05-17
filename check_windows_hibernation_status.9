@@ -1,0 +1,29 @@
+.TH "check_windows_hibernation_status" 9 "check_windows_hibernation_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_windows_hibernation_status \- check if Windows is suspended on a volume
+.SH SYNOPSIS
+.B "int" check_windows_hibernation_status
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs super block of device to check
+.SH "DESCRIPTION"
+Check if Windows is hibernated on the ntfs volume \fIvol\fP.  This is done by
+looking for the file hiberfil.sys in the root directory of the volume.  If
+the file is not present Windows is definitely not suspended.
+
+If hiberfil.sys exists and is less than 4kiB in size it means Windows is
+definitely suspended (this volume is not the system volume).  Caveat:  on a
+system with many volumes it is possible that the < 4kiB check is bogus but
+for now this should do fine.
+
+If hiberfil.sys exists and is larger than 4kiB in size, we need to read the
+hiberfil header (which is the first 4kiB).  If this begins with "hibr",
+Windows is definitely suspended.  If it is completely full of zeroes,
+Windows is definitely not hibernated.  Any other case is treated as if
+Windows is suspended.  This caters for the above mentioned caveat of a
+system with many volumes where no "hibr" magic would be present and there is
+no zero header.
+
+Return 0 if Windows is not hibernated on the volume, >0 if Windows is
+hibernated on the volume, and -errno on error.

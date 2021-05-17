@@ -1,0 +1,23 @@
+.TH "read_cache_pages" 9 "read_cache_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_cache_pages \- populate an address space with some pages & start reads against them
+.SH SYNOPSIS
+.B "int" read_cache_pages
+.BI "(struct address_space *mapping "  ","
+.BI "struct list_head *pages "  ","
+.BI "int (*filler)(void *, struct page *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address_space
+.IP "pages" 12
+The address of a list_head which contains the target pages.  These
+pages have their ->index populated and are otherwise uninitialised.
+.IP "filler" 12
+callback routine for filling a single page.
+.IP "data" 12
+private data for the callback routine.
+.SH "DESCRIPTION"
+Hides the details of the LRU cache etc from the filesystems.
+.SH "RETURN"
+0 on success, error return by \fIfiller\fP otherwise

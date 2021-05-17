@@ -1,0 +1,24 @@
+.TH "tty_ldisc_ref_wait" 9 "tty_ldisc_ref_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_ldisc_ref_wait \- wait for the tty ldisc
+.SH SYNOPSIS
+.B "struct tty_ldisc *" tty_ldisc_ref_wait
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device
+
+Dereference the line discipline for the terminal and take a
+reference to it. If the line discipline is in flux then
+wait patiently until it changes.
+.SH "RETURN"
+NULL if the tty has been hungup and not re-opened with
+a new file descriptor, otherwise valid ldisc reference
+
+Note 1: Must not be called from an IRQ/timer context. The caller
+must also be careful not to hold other locks that will deadlock
+against a discipline change, such as an existing ldisc reference
+(which we check for)
+
+Note 2: a file_operations routine (read/poll/write) should use this
+function to wait for any ldisc lifetime events to finish.

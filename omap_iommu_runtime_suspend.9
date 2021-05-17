@@ -1,0 +1,17 @@
+.TH "omap_iommu_runtime_suspend" 9 "omap_iommu_runtime_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_iommu_runtime_suspend \- disable an iommu device
+.SH SYNOPSIS
+.B "__maybe_unused int" omap_iommu_runtime_suspend
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+iommu device
+.SH "DESCRIPTION"
+This function performs all that is necessary to disable an
+IOMMU device, either during final detachment from a client
+device, or during system/runtime suspend of the device. This
+includes programming all the appropriate IOMMU registers, and
+managing the associated omap_hwmod's state and the device's
+reset line. This function also saves the context of any
+locked TLBs if suspending.

@@ -1,0 +1,18 @@
+.TH "i40e_ptp_init" 9 "i40e_ptp_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_init \- Initialize the 1588 support after device probe or reset
+.SH SYNOPSIS
+.B "void" i40e_ptp_init
+.BI "(struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.SH "DESCRIPTION"
+This function sets device up for 1588 support. The first time it is run, it
+will create a PHC clock device. It does not create a clock device if one
+already exists. It also reconfigures the device after a reset.
+
+The first time a clock is created, i40e_ptp_create_clock will set
+pf->ptp_prev_hw_time to the current system time. During resets, it is
+expected that this timespec will be set to the last known PTP clock time,
+in order to preserve the clock time as close as possible across a reset.

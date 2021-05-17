@@ -1,0 +1,28 @@
+.TH "nilfs_salvage_orphan_logs" 9 "nilfs_salvage_orphan_logs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_salvage_orphan_logs \- salvage logs written after the latest checkpoint
+.SH SYNOPSIS
+.B "int" nilfs_salvage_orphan_logs
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct super_block *sb "  ","
+.BI "struct nilfs_recovery_info *ri "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "sb" 12
+super block instance
+.IP "ri" 12
+pointer to a nilfs_recovery_info struct to store search results.
+.SH "DESCRIPTION"
+Return Value: On success, 0 is returned.  On error, one of the following
+negative error code is returned.
+
+-EINVAL - Inconsistent filesystem state.
+
+-EIO - I/O error
+
+-ENOSPC - No space left on device (only in a panic state).
+
+-ERESTARTSYS - Interrupted.
+
+-ENOMEM - Insufficient memory available.

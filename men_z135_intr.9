@@ -1,0 +1,17 @@
+.TH "men_z135_intr" 9 "men_z135_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+men_z135_intr \- Handle legacy IRQs
+.SH SYNOPSIS
+.B "irqreturn_t" men_z135_intr
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The IRQ number
+.IP "data" 12
+Pointer to UART port
+.SH "DESCRIPTION"
+Check IIR register to find the cause of the interrupt and handle it.
+It is possible that multiple interrupts reason bits are set and reading
+the IIR is a destructive read, so we always need to check for all possible
+interrupts and handle them.

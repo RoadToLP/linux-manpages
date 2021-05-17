@@ -1,0 +1,16 @@
+.TH "asd_init_scbs" 9 "asd_init_scbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_init_scbs \- manually allocate the first SCB.
+.SH SYNOPSIS
+.B "int" asd_init_scbs
+.BI "(struct asd_ha_struct *asd_ha "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to host adapter structure
+.SH "DESCRIPTION"
+This allocates the very first SCB which would be sent to the
+sequencer for execution.  Its bus address is written to
+CSEQ_Q_NEW_POINTER, mode page 2, mode 8.  Since the bus address of
+the _next_ scb to be DMA-ed to the host adapter is read from the last
+SCB DMA-ed to the host adapter, we have to always stay one step
+ahead of the sequencer and keep one SCB already allocated.

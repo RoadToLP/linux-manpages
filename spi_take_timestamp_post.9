@@ -1,0 +1,18 @@
+.TH "spi_take_timestamp_post" 9 "spi_take_timestamp_post" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_take_timestamp_post \- helper for drivers to collect the end of the TX timestamp for the requested byte from the SPI transfer. Can be called with an arbitrary frequency: only the first call where @tx exceeds or is equal to the requested word will be timestamped.
+.SH SYNOPSIS
+.B "void" spi_take_timestamp_post
+.BI "(struct spi_controller *ctlr "  ","
+.BI "struct spi_transfer *xfer "  ","
+.BI "size_t progress "  ","
+.BI "bool irqs_off "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+Pointer to the spi_controller structure of the driver
+.IP "xfer" 12
+Pointer to the transfer being timestamped
+.IP "progress" 12
+How many words (not bytes) have been transferred so far
+.IP "irqs_off" 12
+If true, will re-enable IRQs and preemption for the local CPU.

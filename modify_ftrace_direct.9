@@ -1,0 +1,23 @@
+.TH "modify_ftrace_direct" 9 "modify_ftrace_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+modify_ftrace_direct \- Modify an existing direct call to call something else
+.SH SYNOPSIS
+.B "int" modify_ftrace_direct
+.BI "(unsigned long ip "  ","
+.BI "unsigned long old_addr "  ","
+.BI "unsigned long new_addr "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+The instruction pointer to modify
+.IP "old_addr" 12
+The address that the current \fIip\fP calls directly
+.IP "new_addr" 12
+The address that the \fIip\fP should call
+.SH "DESCRIPTION"
+This modifies a ftrace direct caller at an instruction pointer without
+having to disable it first. The direct call will switch over to the
+\fInew_addr\fP without missing anything.
+.SH "RETURN"
+zero on success. Non zero on error, which includes:
+-ENODEV : the \fIip\fP given has no direct caller attached
+-EINVAL : the \fIold_addr\fP does not match the current direct caller

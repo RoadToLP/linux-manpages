@@ -1,0 +1,32 @@
+.TH "davinci_pll_clk_register" 9 "davinci_pll_clk_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+davinci_pll_clk_register \- Register a PLL clock
+.SH SYNOPSIS
+.B "struct clk *" davinci_pll_clk_register
+.BI "(struct device *dev "  ","
+.BI "const struct davinci_pll_clk_info *info "  ","
+.BI "const char *parent_name "  ","
+.BI "void __iomem *base "  ","
+.BI "struct regmap *cfgchip "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The PLL platform device or NULL
+.IP "info" 12
+The device-specific clock info
+.IP "parent_name" 12
+The parent clock name
+.IP "base" 12
+The PLL's memory region
+.IP "cfgchip" 12
+CFGCHIP syscon regmap for info->unlock_reg or NULL
+.SH "DESCRIPTION"
+This creates a series of clocks that represent the PLL.
+
+OSCIN > [PREDIV >] PLL > [POSTDIV >] PLLEN
+
+- OSCIN is the parent clock (on secondary PLL, may come from primary PLL)
+- PREDIV and POSTDIV are optional (depends on the PLL controller)
+- PLL is the PLL output (aka PLLOUT)
+- PLLEN is the bypass multiplexer
+.SH "RETURN"
+The PLLOUT clock or a negative error code.

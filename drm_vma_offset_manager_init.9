@@ -1,0 +1,24 @@
+.TH "drm_vma_offset_manager_init" 9 "drm_vma_offset_manager_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vma_offset_manager_init \- Initialize new offset-manager
+.SH SYNOPSIS
+.B "void" drm_vma_offset_manager_init
+.BI "(struct drm_vma_offset_manager *mgr "  ","
+.BI "unsigned long page_offset "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+Manager object
+.IP "page_offset" 12
+Offset of available memory area (page-based)
+.IP "size" 12
+Size of available address space range (page-based)
+.SH "DESCRIPTION"
+Initialize a new offset-manager. The offset and area size available for the
+manager are given as \fIpage_offset\fP and \fIsize\fP. Both are interpreted as
+page-numbers, not bytes.
+
+Adding/removing nodes from the manager is locked internally and protected
+against concurrent access. However, node allocation and destruction is left
+for the caller. While calling into the vma-manager, a given node must
+always be guaranteed to be referenced.

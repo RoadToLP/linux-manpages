@@ -1,0 +1,19 @@
+.TH "bnx2i_bind_conn_to_iscsi_cid" 9 "bnx2i_bind_conn_to_iscsi_cid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_bind_conn_to_iscsi_cid \- bind conn structure to 'iscsi_cid'
+.SH SYNOPSIS
+.B "int" bnx2i_bind_conn_to_iscsi_cid
+.BI "(struct bnx2i_hba *hba "  ","
+.BI "struct bnx2i_conn *bnx2i_conn "  ","
+.BI "u32 iscsi_cid "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+pointer to adapter instance
+.IP "bnx2i_conn" 12
+pointer to iscsi connection
+.IP "iscsi_cid" 12
+iscsi context ID, range 0 - (MAX_CONN - 1)
+.SH "DESCRIPTION"
+update iscsi cid table entry with connection pointer. This enables
+driver to quickly get hold of connection structure pointer in
+completion/interrupt thread using iscsi context ID

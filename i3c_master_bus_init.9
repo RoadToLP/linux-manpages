@@ -1,0 +1,37 @@
+.TH "i3c_master_bus_init" 9 "i3c_master_bus_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_bus_init \- initialize an I3C bus
+.SH SYNOPSIS
+.B "int" i3c_master_bus_init
+.BI "(struct i3c_master_controller *master "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+main master initializing the bus
+.SH "DESCRIPTION"
+This function is following all initialisation steps described in the I3C
+specification:
+
+1. Attach I2C devs to the master so that the master can fill its internal
+device table appropriately
+
+2. Call \fIi3c_master_controller_ops\fP->\fBbus_init\fP method to initialize
+the master controller. That's usually where the bus mode is selected
+(pure bus or mixed fast/slow bus)
+
+3. Instruct all devices on the bus to drop their dynamic address. This is
+particularly important when the bus was previously configured by someone
+else (for example the bootloader)
+
+4. Disable all slave events.
+
+5. Reserve address slots for I3C devices with init_dyn_addr. And if devices
+also have static_addr, try to pre-assign dynamic addresses requested by
+the FW with SETDASA and attach corresponding statically defined I3C
+devices to the master.
+
+6. Do a DAA (Dynamic Address Assignment) to assign dynamic addresses to all
+remaining I3C devices
+
+Once this is done, all I3C and I2C devices should be usable.
+.SH "RETURN"
+a 0 in case of success, an negative error code otherwise.

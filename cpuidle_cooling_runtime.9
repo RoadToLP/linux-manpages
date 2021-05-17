@@ -1,0 +1,31 @@
+.TH "cpuidle_cooling_runtime" 9 "cpuidle_cooling_runtime" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_cooling_runtime \- Running time computation
+.SH SYNOPSIS
+.B "unsigned int" cpuidle_cooling_runtime
+.BI "(unsigned int idle_duration_us "  ","
+.BI "unsigned long state "  ");"
+.SH ARGUMENTS
+.IP "idle_duration_us" 12
+CPU idle time to inject in microseconds
+.IP "state" 12
+a percentile based number
+.SH "DESCRIPTION"
+The running duration is computed from the idle injection duration
+which is fixed. If we reach 100% of idle injection ratio, that
+means the running duration is zero. If we have a 50% ratio
+injection, that means we have equal duration for idle and for
+running duration.
+
+The formula is deduced as follows:
+
+running = idle x ((100 / ratio) - 1)
+
+For precision purpose for integer math, we use the following:
+
+running = (idle x 100) / ratio - idle
+
+For example, if we have an injected duration of 50%, then we end up
+with 10ms of idle injection and 10ms of running duration.
+.SH "RETURN"
+An unsigned int for a usec based runtime duration.

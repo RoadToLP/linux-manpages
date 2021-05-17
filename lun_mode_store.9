@@ -1,0 +1,33 @@
+.TH "lun_mode_store" 9 "lun_mode_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lun_mode_store \- sets the LUN mode of the host
+.SH SYNOPSIS
+.B "ssize_t" lun_mode_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Generic device associated with the host.
+.IP "attr" 12
+Device attribute representing the LUN mode.
+.IP "buf" 12
+Buffer of length PAGE_SIZE containing the LUN mode in ASCII.
+.IP "count" 12
+Length of data resizing in \fIbuf\fP.
+.SH "DESCRIPTION"
+The CXL Flash AFU supports a dummy LUN mode where the external
+links and storage are not required. Space on the FPGA is used
+to create 1 or 2 small LUNs which are presented to the system
+as if they were a normal storage device. This feature is useful
+during development and also provides manufacturing with a way
+to test the AFU without an actual device.
+
+0 = external LUN[s] (default)
+1 = internal LUN (1 x 64K, 512B blocks, id 0)
+2 = internal LUN (1 x 64K, 4K blocks, id 0)
+3 = internal LUN (2 x 32K, 512B blocks, ids 0,1)
+4 = internal LUN (2 x 32K, 4K blocks, ids 0,1)
+.SH "RETURN"
+The size of the ASCII string returned in \fIbuf\fP.

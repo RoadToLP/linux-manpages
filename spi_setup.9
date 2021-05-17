@@ -1,0 +1,26 @@
+.TH "spi_setup" 9 "spi_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_setup \- setup SPI mode and clock rate
+.SH SYNOPSIS
+.B "int" spi_setup
+.BI "(struct spi_device *spi "  ");"
+.SH ARGUMENTS
+.IP "spi" 12
+the device whose settings are being modified
+.SH "CONTEXT"
+can sleep, and no requests are queued to the device
+.SH "DESCRIPTION"
+SPI protocol drivers may need to update the transfer mode if the
+device doesn't work with its default.  They may likewise need
+to update clock rates or word sizes from initial values.  This function
+changes those settings, and must be called from a context that can sleep.
+Except for SPI_CS_HIGH, which takes effect immediately, the changes take
+effect the next time the device is selected and data is transferred to
+or from it.  When this function returns, the spi device is deselected.
+
+Note that this call will fail if the protocol driver specifies an option
+that the underlying controller or its driver does not support.  For
+example, not all hardware supports wire transfers using nine bit words,
+LSB-first wire encoding, or active-high chipselects.
+.SH "RETURN"
+zero on success, else a negative error code.

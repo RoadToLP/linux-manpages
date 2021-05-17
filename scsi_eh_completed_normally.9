@@ -1,0 +1,14 @@
+.TH "scsi_eh_completed_normally" 9 "scsi_eh_completed_normally" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_eh_completed_normally \- Disposition a eh cmd on return from LLD.
+.SH SYNOPSIS
+.B "int" scsi_eh_completed_normally
+.BI "(struct scsi_cmnd *scmd "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+SCSI cmd to examine.
+.SH "NOTES"
+This is *only* called when we are examining the status of commands
+queued during error recovery.  the main difference here is that we
+don't allow for the possibility of retries here, and we are a lot
+more restrictive about what we consider acceptable.

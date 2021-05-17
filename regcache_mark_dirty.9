@@ -1,0 +1,17 @@
+.TH "regcache_mark_dirty" 9 "regcache_mark_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regcache_mark_dirty \- Indicate that HW registers were reset to default values
+.SH SYNOPSIS
+.B "void" regcache_mark_dirty
+.BI "(struct regmap *map "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+map to mark
+.SH "DESCRIPTION"
+Inform regcache that the device has been powered down or reset, so that
+on resume, \fBregcache_sync\fP knows to write out all non-default values
+stored in the cache.
+
+If this function is not called, \fBregcache_sync\fP will assume that
+the hardware state still matches the cache state, modulo any writes that
+happened when cache_only was true.

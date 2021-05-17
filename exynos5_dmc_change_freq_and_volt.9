@@ -1,0 +1,31 @@
+.TH "exynos5_dmc_change_freq_and_volt" 9 "exynos5_dmc_change_freq_and_volt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_dmc_change_freq_and_volt \- Changes voltage and frequency of the DMC using safe procedure
+.SH SYNOPSIS
+.B "int" exynos5_dmc_change_freq_and_volt
+.BI "(struct exynos5_dmc *dmc "  ","
+.BI "unsigned long target_rate "  ","
+.BI "unsigned long target_volt "  ");"
+.SH ARGUMENTS
+.IP "dmc" 12
+device for which the frequency is going to be changed
+.IP "target_rate" 12
+requested new frequency
+.IP "target_volt" 12
+requested voltage which corresponds to the new frequency
+.SH "DESCRIPTION"
+The DMC frequency change procedure requires a few steps.
+The main requirement is to change the clock source in the clk mux
+for the time of main clock PLL locking. The assumption is that the
+alternative clock source set as parent is stable.
+The second parent's clock frequency is fixed to 400MHz, it is named 'bypass'
+clock. This requires alignment in DRAM timing parameters for the new
+T-period. There is two bank sets for keeping DRAM
+timings: set 0 and set 1. The set 0 is used when main clock source is
+chosen. The 2nd set of regs is used for 'bypass' clock. Switching between
+the two bank sets is part of the process.
+The voltage must also be aligned to the minimum required level. There is
+this intermediate step with switching to 'bypass' parent clock source.
+if the old voltage is lower, it requires an increase of the voltage level.
+The complexity of the voltage manipulation is hidden in low level function.
+In this function there is last alignment of the voltage level at the end.

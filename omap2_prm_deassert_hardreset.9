@@ -1,0 +1,33 @@
+.TH "omap2_prm_deassert_hardreset" 9 "omap2_prm_deassert_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_prm_deassert_hardreset \- deassert a submodule hardreset line and wait
+.SH SYNOPSIS
+.B "int" omap2_prm_deassert_hardreset
+.BI "(u8 rst_shift "  ","
+.BI "u8 st_shift "  ","
+.BI "u8 part "  ","
+.BI "s16 prm_mod "  ","
+.BI "u16 rst_offset "  ","
+.BI "u16 st_offset "  ");"
+.SH ARGUMENTS
+.IP "rst_shift" 12
+register bit shift corresponding to the reset line to deassert
+.IP "st_shift" 12
+register bit shift for the status of the deasserted submodule
+.IP "part" 12
+PRM partition, not used for OMAP2
+.IP "prm_mod" 12
+PRM submodule base (e.g. CORE_MOD)
+.IP "rst_offset" 12
+reset register offset, not used for OMAP2
+.IP "st_offset" 12
+reset status register offset, not used for OMAP2
+.SH "DESCRIPTION"
+Some IPs like dsp or iva contain processors that require an HW
+reset line to be asserted / deasserted in order to fully enable the
+IP.  These modules may have multiple hard-reset lines that reset
+different 'submodules' inside the IP block.  This function will
+take the submodule out of reset and wait until the PRCM indicates
+that the reset has completed before returning.  Returns 0 upon success or
+-EINVAL upon an argument error, -EEXIST if the submodule was already out
+of reset, or -EBUSY if the submodule did not exit reset promptly.

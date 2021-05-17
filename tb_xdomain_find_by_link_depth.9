@@ -1,0 +1,25 @@
+.TH "tb_xdomain_find_by_link_depth" 9 "tb_xdomain_find_by_link_depth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_xdomain_find_by_link_depth \- Find an XDomain by link and depth
+.SH SYNOPSIS
+.B "struct tb_xdomain *" tb_xdomain_find_by_link_depth
+.BI "(struct tb *tb "  ","
+.BI "u8 link "  ","
+.BI "u8 depth "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Domain where the XDomain belongs to
+.IP "link" 12
+Root switch link number
+.IP "depth" 12
+Depth in the link
+.SH "DESCRIPTION"
+Finds XDomain by walking through the Thunderbolt topology below \fItb\fP.
+The returned XDomain will have its reference count increased so the
+caller needs to call \fBtb_xdomain_put\fP when it is done with the
+object.
+
+This will find all XDomains including the ones that are not yet added
+to the bus (handshake is still in progress).
+
+The caller needs to hold \fItb->lock\fP.

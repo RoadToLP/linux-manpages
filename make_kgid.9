@@ -1,0 +1,20 @@
+.TH "make_kgid" 9 "make_kgid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_kgid \- Map a user-namespace gid pair into a kgid.
+.SH SYNOPSIS
+.B "kgid_t" make_kgid
+.BI "(struct user_namespace *ns "  ","
+.BI "gid_t gid "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+User namespace that the gid is in
+.IP "gid" 12
+group identifier
+
+Maps a user-namespace gid pair into a kernel internal kgid,
+and returns that kgid.
+
+When there is no mapping defined for the user-namespace gid
+pair INVALID_GID is returned.  Callers are expected to test
+for and handle INVALID_GID being returned.  INVALID_GID may be
+tested for using \fBgid_valid\fP.

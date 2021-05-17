@@ -1,0 +1,26 @@
+.TH "fscrypt_set_test_dummy_encryption" 9 "fscrypt_set_test_dummy_encryption" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_set_test_dummy_encryption \- handle '-o test_dummy_encryption'
+.SH SYNOPSIS
+.B "int" fscrypt_set_test_dummy_encryption
+.BI "(struct super_block *sb "  ","
+.BI "const char *arg "  ","
+.BI "struct fscrypt_dummy_policy *dummy_policy "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the filesystem on which test_dummy_encryption is being specified
+.IP "arg" 12
+the argument to the test_dummy_encryption option.  May be NULL.
+.IP "dummy_policy" 12
+the filesystem's current dummy policy (input/output, see
+below)
+.SH "DESCRIPTION"
+Handle the test_dummy_encryption mount option by creating a dummy encryption
+policy, saving it in \fIdummy_policy\fP, and adding the corresponding dummy
+encryption key to the filesystem.  If the \fIdummy_policy\fP is already set, then
+instead validate that it matches \fIarg\fP.  Don't support changing it via
+remount, as that is difficult to do safely.
+.SH "RETURN"
+0 on success (dummy policy set, or the same policy is already set);
+-EEXIST if a different dummy policy is already set;
+or another -errno value.

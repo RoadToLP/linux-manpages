@@ -1,0 +1,20 @@
+.TH "sof_ipc_probe_dma_remove" 9 "sof_ipc_probe_dma_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sof_ipc_probe_dma_remove \- detach from specified dmas
+.SH SYNOPSIS
+.B "int" sof_ipc_probe_dma_remove
+.BI "(struct snd_sof_dev *sdev "  ","
+.BI "unsigned int *stream_tag "  ","
+.BI "size_t num_stream_tag "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SOF sound device
+.IP "stream_tag" 12
+List of stream tags to detach from
+.IP "num_stream_tag" 12
+Number of elements in \fIstream_tag\fP
+.SH "DESCRIPTION"
+Host sends DMA_REMOVE request to free previously attached stream
+from being occupied for injection. Each detach operation should
+match equivalent DMA_ADD. Detach only when all probes tied to
+given stream have been disconnected.

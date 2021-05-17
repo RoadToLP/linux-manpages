@@ -1,0 +1,34 @@
+.TH "import_iovec" 9 "import_iovec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+import_iovec \- Copy an array of &struct iovec from userspace into the kernel, check that it is valid, and initialize a new &struct iov_iter iterator to access it.
+.SH SYNOPSIS
+.B "ssize_t" import_iovec
+.BI "(int type "  ","
+.BI "const struct iovec __user *uvec "  ","
+.BI "unsigned nr_segs "  ","
+.BI "unsigned fast_segs "  ","
+.BI "struct iovec **iovp "  ","
+.BI "struct iov_iter *i "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+One of READ or WRITE.
+.IP "uvec" 12
+Pointer to the userspace array.
+.IP "nr_segs" 12
+Number of elements in userspace array.
+.IP "fast_segs" 12
+Number of elements in \fIiov\fP.
+.IP "iovp" 12
+(input and output parameter) Pointer to pointer to (usually small
+on-stack) kernel array.
+.IP "i" 12
+Pointer to iterator that will be initialized on success.
+.SH "DESCRIPTION"
+If the array pointed to by *\fIiov\fP is large enough to hold all \fInr_segs\fP,
+then this function places NULL in *\fIiov\fP on return. Otherwise, a new
+array will be allocated and the result placed in *\fIiov\fP. This means that
+the caller may call \fBkfree\fP on *\fIiov\fP regardless of whether the small
+on-stack array was used or not (and regardless of whether this function
+returns an error or not).
+.SH "RETURN"
+Negative error code on error, bytes imported on success

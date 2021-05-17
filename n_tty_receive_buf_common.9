@@ -1,0 +1,47 @@
+.TH "n_tty_receive_buf_common" 9 "n_tty_receive_buf_common" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_receive_buf_common \- process input
+.SH SYNOPSIS
+.B "int" n_tty_receive_buf_common
+.BI "(struct tty_struct *tty "  ","
+.BI "const unsigned char *cp "  ","
+.BI "char *fp "  ","
+.BI "int count "  ","
+.BI "int flow "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+device to receive input
+.IP "cp" 12
+input chars
+.IP "fp" 12
+flags for each char (if NULL, all chars are TTY_NORMAL)
+.IP "count" 12
+number of input chars in \fIcp\fP
+.IP "flow" 12
+enable flow control
+
+Called by the terminal driver when a block of characters has
+been received. This function must be called from soft contexts
+not from interrupt context. The driver is responsible for making
+calls one at a time and in order (or using flush_to_ldisc)
+
+Returns the # of input chars from \fIcp\fP which were processed.
+
+In canonical mode, the maximum line length is 4096 chars (including
+the line termination char); lines longer than 4096 chars are
+truncated. After 4095 chars, input data is still processed but
+not stored. Overflow processing ensures the tty can always
+receive more input until at least one line can be read.
+
+In non-canonical mode, the read buffer will only accept 4095 chars;
+this provides the necessary space for a newline char if the input
+mode is switched to canonical.
+
+Note it is possible for the read buffer to _contain_ 4096 chars
+in non-canonical mode: the read buffer could already contain the
+maximum canon line of 4096 chars when the mode is switched to
+non-canonical.
+
+\fBn_tty_receive_buf\fP/producer path:
+claims non-exclusive termios_rwsem
+publishes commit_head or canon_head

@@ -1,0 +1,25 @@
+.TH "bio_split" 9 "bio_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_split \- split a bio
+.SH SYNOPSIS
+.B "struct bio *" bio_split
+.BI "(struct bio *bio "  ","
+.BI "int sectors "  ","
+.BI "gfp_t gfp "  ","
+.BI "struct bio_set *bs "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio to split
+.IP "sectors" 12
+number of sectors to split from the front of \fIbio\fP
+.IP "gfp" 12
+gfp mask
+.IP "bs" 12
+bio set to allocate from
+.SH "DESCRIPTION"
+Allocates and returns a new bio which represents \fIsectors\fP from the start of
+\fIbio\fP, and updates \fIbio\fP to represent the remaining sectors.
+
+Unless this is a discard request the newly allocated bio will point
+to \fIbio\fP's bi_io_vec. It is the caller's responsibility to ensure that
+neither \fIbio\fP nor \fIbs\fP are freed before the split bio.

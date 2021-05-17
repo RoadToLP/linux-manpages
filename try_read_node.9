@@ -1,0 +1,33 @@
+.TH "try_read_node" 9 "try_read_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_read_node \- read a node if it is a node.
+.SH SYNOPSIS
+.B "int" try_read_node
+.BI "(const struct ubifs_info *c "  ","
+.BI "void *buf "  ","
+.BI "int type "  ","
+.BI "struct ubifs_zbranch *zbr "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+buffer to read to
+.IP "type" 12
+node type
+.IP "zbr" 12
+the zbranch describing the node to read
+.SH "DESCRIPTION"
+This function tries to read a node of known type and length, checks it and
+stores it in \fIbuf\fP. This function returns 1 if a node is present and 0 if
+a node is not present. A negative error code is returned for I/O errors.
+This function performs that same function as ubifs_read_node except that
+it does not require that there is actually a node present and instead
+the return code indicates if a node was read.
+
+Note, this function does not check CRC of data nodes if \fIc->no_chk_data_crc\fP
+is true (it is controlled by corresponding mount option). However, if
+\fIc->mounting\fP or \fIc->remounting_rw\fP is true (we are mounting or re-mounting to
+R/W mode), \fIc->no_chk_data_crc\fP is ignored and CRC is checked. This is
+because during mounting or re-mounting from R/O mode to R/W mode we may read
+journal nodes (when replying the journal or doing the recovery) and the
+journal nodes may potentially be corrupted, so checking is required.

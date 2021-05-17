@@ -1,0 +1,19 @@
+.TH "cgroup_calc_subtree_ss_mask" 9 "cgroup_calc_subtree_ss_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_calc_subtree_ss_mask \- calculate subtree_ss_mask
+.SH SYNOPSIS
+.B "u16" cgroup_calc_subtree_ss_mask
+.BI "(u16 subtree_control "  ","
+.BI "u16 this_ss_mask "  ");"
+.SH ARGUMENTS
+.IP "subtree_control" 12
+the new subtree_control mask to consider
+.IP "this_ss_mask" 12
+available subsystems
+.SH "DESCRIPTION"
+On the default hierarchy, a subsystem may request other subsystems to be
+enabled together through its ->depends_on mask.  In such cases, more
+subsystems than specified in "cgroup.subtree_control" may be enabled.
+
+This function calculates which subsystems need to be enabled if
+\fIsubtree_control\fP is to be applied while restricted to \fIthis_ss_mask\fP.

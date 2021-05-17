@@ -1,0 +1,24 @@
+.TH "intel_runtime_pm_get_noresume" 9 "intel_runtime_pm_get_noresume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_runtime_pm_get_noresume \- grab a runtime pm reference
+.SH SYNOPSIS
+.B "intel_wakeref_t" intel_runtime_pm_get_noresume
+.BI "(struct intel_runtime_pm *rpm "  ");"
+.SH ARGUMENTS
+.IP "rpm" 12
+the intel_runtime_pm structure
+.SH "DESCRIPTION"
+This function grabs a device-level runtime pm reference (mostly used for GEM
+code to ensure the GTT or GT is on).
+
+It will _not_ power up the device but instead only check that it's powered
+on.  Therefore it is only valid to call this functions from contexts where
+the device is known to be powered up and where trying to power it up would
+result in hilarity and deadlocks. That pretty much means only the system
+suspend/resume code where this is used to grab runtime pm references for
+delayed setup down in work items.
+
+Any runtime pm reference obtained by this function must have a symmetric
+call to \fBintel_runtime_pm_put\fP to release the reference again.
+.SH "RETURN"
+the wakeref cookie to pass to \fBintel_runtime_pm_put\fP

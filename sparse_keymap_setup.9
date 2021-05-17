@@ -1,0 +1,22 @@
+.TH "sparse_keymap_setup" 9 "sparse_keymap_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sparse_keymap_setup \- set up sparse keymap for an input device
+.SH SYNOPSIS
+.B "int" sparse_keymap_setup
+.BI "(struct input_dev *dev "  ","
+.BI "const struct key_entry *keymap "  ","
+.BI "int (*setup)(struct input_dev *, struct key_entry *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Input device
+.IP "keymap" 12
+Keymap in form of array of \fIkey_entry\fP structures ending
+with KE_END type entry
+.IP "setup" 12
+Function that can be used to adjust keymap entries
+depending on device's needs, may be NULL
+.SH "DESCRIPTION"
+The function calculates size and allocates copy of the original
+keymap after which sets up input device event bits appropriately.
+The allocated copy of the keymap is automatically freed when it
+is no longer needed.

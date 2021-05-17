@@ -1,0 +1,26 @@
+.TH "find_slots" 9 "find_slots" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_slots \- Find a place to write the given message.
+.SH SYNOPSIS
+.B "int" find_slots
+.BI "(struct tcs_group *tcs "  ","
+.BI "const struct tcs_request *msg "  ","
+.BI "int *tcs_id "  ","
+.BI "int *cmd_id "  ");"
+.SH ARGUMENTS
+.IP "tcs" 12
+The tcs group to search.
+.IP "msg" 12
+The message we want to find room for.
+.IP "tcs_id" 12
+If we return 0 from the function, we return the global ID of the
+TCS to write to here.
+.IP "cmd_id" 12
+If we return 0 from the function, we return the index of
+the command array of the returned TCS where the client should
+start writing the message.
+.SH "DESCRIPTION"
+Only for use on sleep/wake TCSes since those are the only ones we maintain
+tcs->slots for.
+.SH "RETURN"
+-ENOMEM if there was no room, else 0.

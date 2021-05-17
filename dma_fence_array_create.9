@@ -1,0 +1,32 @@
+.TH "dma_fence_array_create" 9 "dma_fence_array_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_array_create \- Create a custom fence array
+.SH SYNOPSIS
+.B "struct dma_fence_array *" dma_fence_array_create
+.BI "(int num_fences "  ","
+.BI "struct dma_fence **fences "  ","
+.BI "u64 context "  ","
+.BI "unsigned seqno "  ","
+.BI "bool signal_on_any "  ");"
+.SH ARGUMENTS
+.IP "num_fences" 12
+[in]    number of fences to add in the array
+.IP "fences" 12
+[in]    array containing the fences
+.IP "context" 12
+[in]    fence context to use
+.IP "seqno" 12
+[in]    sequence number to use
+.IP "signal_on_any" 12
+[in]    signal on any fence in the array
+.SH "DESCRIPTION"
+Allocate a dma_fence_array object and initialize the base fence with
+\fBdma_fence_init\fP.
+In case of error it returns NULL.
+
+The caller should allocate the fences array with num_fences size
+and fill it with the fences it wants to add to the object. Ownership of this
+array is taken and \fBdma_fence_put\fP is used on each fence on release.
+
+If \fIsignal_on_any\fP is true the fence array signals if any fence in the array
+signals, otherwise it signals when all fences in the array signal.

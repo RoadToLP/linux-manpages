@@ -1,0 +1,16 @@
+.TH "qla4xxx_do_dpc" 9 "qla4xxx_do_dpc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qla4xxx_do_dpc \- dpc routine
+.SH SYNOPSIS
+.B "void" qla4xxx_do_dpc
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+Context to obtain pointer to host adapter structure.
+.SH "DESCRIPTION"
+This routine is a task that is schedule by the interrupt handler
+to perform the background processing for interrupts.  We put it
+on a task queue that is consumed whenever the scheduler runs; that's
+so you can do anything (i.e. put the process to sleep etc).  In fact,
+the mid-level tries to sleep when it reaches the driver threshold
+"host->can_queue". This can cause a panic if we were in our interrupt code.

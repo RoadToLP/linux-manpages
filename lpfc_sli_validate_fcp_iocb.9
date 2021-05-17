@@ -1,0 +1,35 @@
+.TH "lpfc_sli_validate_fcp_iocb" 9 "lpfc_sli_validate_fcp_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_validate_fcp_iocb \- find commands associated with a vport or LUN
+.SH SYNOPSIS
+.B "int" lpfc_sli_validate_fcp_iocb
+.BI "(struct lpfc_iocbq *iocbq "  ","
+.BI "struct lpfc_vport *vport "  ","
+.BI "uint16_t tgt_id "  ","
+.BI "uint64_t lun_id "  ","
+.BI "lpfc_ctx_cmd ctx_cmd "  ");"
+.SH ARGUMENTS
+.IP "iocbq" 12
+Pointer to driver iocb object.
+.IP "vport" 12
+Pointer to driver virtual port object.
+.IP "tgt_id" 12
+SCSI ID of the target.
+.IP "lun_id" 12
+LUN ID of the scsi device.
+.IP "ctx_cmd" 12
+LPFC_CTX_LUN/LPFC_CTX_TGT/LPFC_CTX_HOST
+.SH "DESCRIPTION"
+This function acts as an iocb filter for functions which abort or count
+all FCP iocbs pending on a lun/SCSI target/SCSI host. It will return
+0 if the filtering criteria is met for the given iocb and will return
+1 if the filtering criteria is not met.
+If ctx_cmd == LPFC_CTX_LUN, the function returns 0 only if the
+given iocb is for the SCSI device specified by vport, tgt_id and
+lun_id parameter.
+If ctx_cmd == LPFC_CTX_TGT,  the function returns 0 only if the
+given iocb is for the SCSI target specified by vport and tgt_id
+parameters.
+If ctx_cmd == LPFC_CTX_HOST, the function returns 0 only if the
+given iocb is for the SCSI host associated with the given vport.
+This function is called with no locks held.

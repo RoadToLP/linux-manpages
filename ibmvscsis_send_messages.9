@@ -1,0 +1,16 @@
+.TH "ibmvscsis_send_messages" 9 "ibmvscsis_send_messages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_send_messages \- Send a Response
+.SH SYNOPSIS
+.B "void" ibmvscsis_send_messages
+.BI "(struct scsi_info *vscsi "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.SH "DESCRIPTION"
+Send a response, first checking the waiting queue. Responses are
+sent in order they are received. If the response cannot be sent,
+because the client queue is full, it stays on the waiting queue.
+
+PRECONDITION:
+Called with interrupt lock held

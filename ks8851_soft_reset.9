@@ -1,0 +1,20 @@
+.TH "ks8851_soft_reset" 9 "ks8851_soft_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_soft_reset \- issue one of the soft reset to the device
+.SH SYNOPSIS
+.B "void" ks8851_soft_reset
+.BI "(struct ks8851_net *ks "  ","
+.BI "unsigned op "  ");"
+.SH ARGUMENTS
+.IP "ks" 12
+The device state.
+.IP "op" 12
+The bit(s) to set in the GRR
+.SH "DESCRIPTION"
+Issue the relevant soft-reset command to the device's GRR register
+specified by \fIop\fP.
+
+Note, the delays are in there as a caution to ensure that the reset
+has time to take effect and then complete. Since the datasheet does
+not currently specify the exact sequence, we have chosen something
+that seems to work with our device.

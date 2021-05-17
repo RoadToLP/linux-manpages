@@ -1,0 +1,22 @@
+.TH "_set_module_autoidle" 9 "_set_module_autoidle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_set_module_autoidle \- set the OCP_SYSCONFIG AUTOIDLE field in @v
+.SH SYNOPSIS
+.B "int" _set_module_autoidle
+.BI "(struct omap_hwmod *oh "  ","
+.BI "u8 autoidle "  ","
+.BI "u32 *v "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "autoidle" 12
+desired AUTOIDLE bitfield value (0 or 1)
+.IP "v" 12
+pointer to register contents to modify
+.SH "DESCRIPTION"
+Update the module autoidle bit in \fIv\fP to be \fIautoidle\fP for the \fIoh\fP
+hwmod.  The autoidle bit controls whether the module can gate
+internal clocks automatically when it isn't doing anything; the
+exact function of this bit varies on a per-module basis.  This
+function does not write to the hardware.  Returns -EINVAL upon
+error or 0 upon success.

@@ -1,0 +1,18 @@
+.TH "vmw_cotable_resize" 9 "vmw_cotable_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cotable_resize \- Resize a cotable.
+.SH SYNOPSIS
+.B "int" vmw_cotable_resize
+.BI "(struct vmw_resource *res "  ","
+.BI "size_t new_size "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+The cotable resource.
+.IP "new_size" 12
+The new size.
+.SH "DESCRIPTION"
+Resizes a cotable and binds the new backup buffer.
+On failure the cotable is left intact.
+Important! This function may not fail once the MOB switch has been
+committed to hardware. That would put the device context in an
+invalid state which we can't currently recover from.

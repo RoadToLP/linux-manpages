@@ -1,0 +1,45 @@
+.TH "kthread_create_worker_on_cpu" 9 "kthread_create_worker_on_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_create_worker_on_cpu \- create a kthread worker and bind it to a given CPU and the associated NUMA node.
+.SH SYNOPSIS
+.B "struct kthread_worker *" kthread_create_worker_on_cpu
+.BI "(int cpu "  ","
+.BI "unsigned int flags "  ","
+.BI "const char namefmt[] "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU number
+.IP "flags" 12
+flags modifying the default behavior of the worker
+.IP "namefmt" 12
+printf-style name for the kthread worker (task).
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Use a valid CPU number if you want to bind the kthread worker
+to the given CPU and the associated NUMA node.
+
+A good practice is to add the cpu number also into the worker name.
+For example, use kthread_create_worker_on_cpu(cpu, "helper/d", cpu).
+
+CPU hotplug:
+The kthread worker API is simple and generic. It just provides a way
+to create, use, and destroy workers.
+
+It is up to the API user how to handle CPU hotplug. They have to decide
+how to handle pending work items, prevent queuing new ones, and
+restore the functionality when the CPU goes off and on. There are a
+few catches:
+
+- CPU affinity gets lost when it is scheduled on an offline CPU.
+
+- The worker might not exist when the CPU was off when the user
+created the workers.
+
+Good practice is to implement two CPU hotplug callbacks and to
+destroy/create the worker when the CPU goes down/up.
+.SH "RETURN"
+The pointer to the allocated worker on success, ERR_PTR(-ENOMEM)
+when the needed structures could not get allocated, and ERR_PTR(-EINTR)
+when the worker was SIGKILLed.

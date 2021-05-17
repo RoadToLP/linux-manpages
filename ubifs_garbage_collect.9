@@ -1,0 +1,43 @@
+.TH "ubifs_garbage_collect" 9 "ubifs_garbage_collect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_garbage_collect \- UBIFS garbage collector.
+.SH SYNOPSIS
+.B "int" ubifs_garbage_collect
+.BI "(struct ubifs_info *c "  ","
+.BI "int anyway "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "anyway" 12
+do GC even if there are free LEBs
+.SH "DESCRIPTION"
+This function does out-of-place garbage collection. The return codes are:
+o positive LEB number if the LEB has been freed and may be used;
+o -EAGAIN if the caller has to run commit;
+o -ENOSPC if GC failed to make any progress;
+o other negative error codes in case of other errors.
+
+Garbage collector writes data to the journal when GC'ing data LEBs, and just
+marking indexing nodes dirty when GC'ing indexing LEBs. Thus, at some point
+commit may be required. But commit cannot be run from inside GC, because the
+caller might be holding the commit lock, so -EAGAIN is returned instead;
+And this error code means that the caller has to run commit, and re-run GC
+if there is still no free space.
+
+There are many reasons why this function may return -EAGAIN:
+o the log is full and there is no space to write an LEB reference for
+\fIc->gc_lnum\fP;
+o the journal is too large and exceeds size limitations;
+o GC moved indexing LEBs, but they can be used only after the commit;
+o the shrinker fails to find clean znodes to free and requests the commit;
+o etc.
+
+Note, if the file-system is close to be full, this function may return
+-EAGAIN infinitely, so the caller has to limit amount of re-invocations of
+the function. E.g., this happens if the limits on the journal size are too
+tough and GC writes too much to the journal before an LEB is freed. This
+might also mean that the journal is too large, and the TNC becomes to big,
+so that the shrinker is constantly called, finds not clean znodes to free,
+and requests commit. Well, this may also happen if the journal is all right,
+but another kernel process consumes too much memory. Anyway, infinite
+-EAGAIN may happen, but in some extreme/misconfiguration cases.

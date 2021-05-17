@@ -1,0 +1,22 @@
+.TH "bpf_prog_create_from_user" 9 "bpf_prog_create_from_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_prog_create_from_user \- create an unattached filter from user buffer
+.SH SYNOPSIS
+.B "int" bpf_prog_create_from_user
+.BI "(struct bpf_prog **pfp "  ","
+.BI "struct sock_fprog *fprog "  ","
+.BI "bpf_aux_classic_check_t trans "  ","
+.BI "bool save_orig "  ");"
+.SH ARGUMENTS
+.IP "pfp" 12
+the unattached filter that is created
+.IP "fprog" 12
+the filter program
+.IP "trans" 12
+post-classic verifier transformation handler
+.IP "save_orig" 12
+save classic BPF program
+.SH "DESCRIPTION"
+This function effectively does the same as \fBbpf_prog_create\fP, only
+that it builds up its insns buffer from user space provided buffer.
+It also allows for passing a bpf_aux_classic_check_t handler.

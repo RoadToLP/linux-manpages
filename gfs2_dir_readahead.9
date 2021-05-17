@@ -1,0 +1,23 @@
+.TH "gfs2_dir_readahead" 9 "gfs2_dir_readahead" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_dir_readahead \- Issue read-ahead requests for leaf blocks.
+.SH SYNOPSIS
+.B "void" gfs2_dir_readahead
+.BI "(struct inode *inode "  ","
+.BI "unsigned hsize "  ","
+.BI "u32 index "  ","
+.BI "struct file_ra_state *f_ra "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+-- undescribed --
+.IP "hsize" 12
+-- undescribed --
+.IP "index" 12
+-- undescribed --
+.IP "f_ra" 12
+-- undescribed --
+.SH "NOTE"
+we can't calculate each index like dir_e_read can because we don't
+have the leaf, and therefore we don't have the depth, and therefore we
+don't have the length. So we have to just read enough ahead to make up
+for the loss of information.

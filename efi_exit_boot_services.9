@@ -1,0 +1,27 @@
+.TH "efi_exit_boot_services" 9 "efi_exit_boot_services" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_exit_boot_services \- Exit boot services
+.SH SYNOPSIS
+.B "efi_status_t" efi_exit_boot_services
+.BI "(void *handle "  ","
+.BI "struct efi_boot_memmap *map "  ","
+.BI "void *priv "  ","
+.BI "efi_exit_boot_map_processing priv_func "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+handle of the exiting image
+.IP "map" 12
+pointer to receive the memory map
+.IP "priv" 12
+argument to be passed to \fIpriv_func\fP
+.IP "priv_func" 12
+function to process the memory map before exiting boot services
+.SH "DESCRIPTION"
+Handle calling ExitBootServices according to the requirements set out by the
+spec.  Obtains the current memory map, and returns that info after calling
+ExitBootServices.  The client must specify a function to perform any
+processing of the memory map data prior to ExitBootServices.  A client
+specific structure may be passed to the function via priv.  The client
+function may be called multiple times.
+.SH "RETURN"
+status code

@@ -1,0 +1,26 @@
+.TH "comedi_buf_write_samples" 9 "comedi_buf_write_samples" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_buf_write_samples \- Write sample data to COMEDI buffer
+.SH SYNOPSIS
+.B "unsigned int" comedi_buf_write_samples
+.BI "(struct comedi_subdevice *s "  ","
+.BI "const void *data "  ","
+.BI "unsigned int nsamples "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "data" 12
+Pointer to source samples.
+.IP "nsamples" 12
+Number of samples to write.
+.SH "DESCRIPTION"
+Write up to \fInsamples\fP samples to the COMEDI acquisition data buffer
+associated with the subdevice, mark it as written and update the
+acquisition scan progress.  If there is not enough room for the specified
+number of samples, the number of samples written is limited to the number
+that will fit and the COMEDI_CB_OVERFLOW event flag is set to cause the
+acquisition to terminate with an overrun error.  Set the COMEDI_CB_BLOCK
+event flag if any samples are written to cause waiting tasks to be woken
+when the event flags are processed.
+.SH "RETURN"
+The amount of data written in bytes.

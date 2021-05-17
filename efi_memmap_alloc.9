@@ -1,0 +1,18 @@
+.TH "efi_memmap_alloc" 9 "efi_memmap_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_memmap_alloc \- Allocate memory for the EFI memory map
+.SH SYNOPSIS
+.B "int" efi_memmap_alloc
+.BI "(unsigned int num_entries "  ","
+.BI "struct efi_memory_map_data *data "  ");"
+.SH ARGUMENTS
+.IP "num_entries" 12
+Number of entries in the allocated map.
+.IP "data" 12
+efi memmap installation parameters
+.SH "DESCRIPTION"
+Depending on whether \fBmm_init\fP has already been invoked or not,
+either memblock or "normal" page allocation is used.
+
+Returns the physical address of the allocated memory map on
+success, zero on failure.

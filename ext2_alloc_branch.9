@@ -1,0 +1,41 @@
+.TH "ext2_alloc_branch" 9 "ext2_alloc_branch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_alloc_branch \- allocate and set up a chain of blocks.
+.SH SYNOPSIS
+.B "int" ext2_alloc_branch
+.BI "(struct inode *inode "  ","
+.BI "int indirect_blks "  ","
+.BI "int *blks "  ","
+.BI "ext2_fsblk_t goal "  ","
+.BI "int *offsets "  ","
+.BI "Indirect *branch "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+owner
+.IP "indirect_blks" 12
+depth of the chain (number of blocks to allocate)
+.IP "blks" 12
+number of allocated direct blocks
+.IP "goal" 12
+preferred place for allocation
+.IP "offsets" 12
+offsets (in the blocks) to store the pointers to next.
+.IP "branch" 12
+place to store the chain in.
+
+This function allocates \fInum\fP blocks, zeroes out all but the last one,
+links them into chain and (if we are synchronous) writes them to disk.
+In other words, it prepares a branch that can be spliced onto the
+inode. It stores the information about that chain in the branch[], in
+the same format as \fBext2_get_branch\fP would do. We are calling it after
+we had read the existing part of chain and partial points to the last
+triple of that (one with zero ->key). Upon the exit we have the same
+picture as after the successful \fBext2_get_block\fP, except that in one
+place chain is disconnected - *branch->p is still zero (we did not
+set the last link), but branch->key contains the number that should
+be placed into *branch->p to fill that gap.
+
+If allocation fails we free all blocks we've allocated (and forget
+their buffer_heads) and return the error value the from failed
+\fBext2_alloc_block\fP (normally -ENOSPC). Otherwise we set the chain
+as described above and return 0.

@@ -1,0 +1,20 @@
+.TH "megaraid_mbox_runpendq" 9 "megaraid_mbox_runpendq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_mbox_runpendq \- execute commands queued in the pending queue
+.SH SYNOPSIS
+.B "void" megaraid_mbox_runpendq
+.BI "(adapter_t *adapter "  ","
+.BI "scb_t *scb_q "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+controller's soft state
+.IP "scb_q" 12
+SCB to be queued in the pending list
+.SH "DESCRIPTION"
+Scan the pending list for commands which are not yet issued and try to
+post to the controller. The SCB can be a null pointer, which would indicate
+no SCB to be queue, just try to execute the ones in the pending list.
+.SH "NOTE"
+We do not actually traverse the pending list. The SCBs are plucked
+out from the head of the pending list. If it is successfully issued, the
+next SCB is at the head now.

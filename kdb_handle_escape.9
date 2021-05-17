@@ -1,0 +1,17 @@
+.TH "kdb_handle_escape" 9 "kdb_handle_escape" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kdb_handle_escape \- validity check on an accumulated escape sequence.
+.SH SYNOPSIS
+.B "int" kdb_handle_escape
+.BI "(char *buf "  ","
+.BI "size_t sz "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+Accumulated escape characters to be examined. Note that buf
+is not a string, it is an array of characters and need not be
+nil terminated.
+.IP "sz" 12
+Number of accumulated escape characters.
+.SH "RETURN"
+-1 if the escape sequence is unwanted, 0 if it is incomplete,
+otherwise it returns a mapped key value to pass to the upper layers.

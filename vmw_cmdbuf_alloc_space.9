@@ -1,0 +1,22 @@
+.TH "vmw_cmdbuf_alloc_space" 9 "vmw_cmdbuf_alloc_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_alloc_space \- Allocate buffer space from the main pool.
+.SH SYNOPSIS
+.B "int" vmw_cmdbuf_alloc_space
+.BI "(struct vmw_cmdbuf_man *man "  ","
+.BI "struct drm_mm_node *node "  ","
+.BI "size_t size "  ","
+.BI "bool interruptible "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+The command buffer manager.
+.IP "node" 12
+Pointer to pre-allocated range-manager node.
+.IP "size" 12
+The size of the allocation.
+.IP "interruptible" 12
+Whether to sleep interruptible while waiting for space.
+.SH "DESCRIPTION"
+This function allocates buffer space from the main pool, and if there is
+no space available ATM, it turns on IRQ handling and sleeps waiting for it to
+become available.

@@ -1,0 +1,19 @@
+.TH "rpmsg_downref_sleepers" 9 "rpmsg_downref_sleepers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_downref_sleepers \- disable "tx-complete" interrupts, if needed
+.SH SYNOPSIS
+.B "void" rpmsg_downref_sleepers
+.BI "(struct virtproc_info *vrp "  ");"
+.SH ARGUMENTS
+.IP "vrp" 12
+virtual remote processor state
+.SH "DESCRIPTION"
+This function is called after a sender, that waited for a tx buffer
+to become available, is unblocked.
+
+If we still have blocking senders, this function merely decreases
+the "sleepers" reference count, and exits.
+
+Otherwise, if there are no more blocking senders, we also disable
+virtio's tx callbacks, to avoid the overhead incurred with handling
+those (now redundant) interrupts.

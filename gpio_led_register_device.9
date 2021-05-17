@@ -1,0 +1,19 @@
+.TH "gpio_led_register_device" 9 "gpio_led_register_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpio_led_register_device \- register a gpio-led device
+.SH SYNOPSIS
+.B "struct platform_device *" gpio_led_register_device
+.BI "(int id "  ","
+.BI "const struct gpio_led_platform_data *pdata "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+-- undescribed --
+.IP "pdata" 12
+the platform data used for the new device
+.SH "DESCRIPTION"
+Makes a copy of pdata and pdata->leds and registers a new leds-gpio device
+with the result. This allows to have pdata and pdata-leds in .init.rodata
+and so saves some bytes compared to a static struct platform_device with
+static platform data.
+
+Returns the registered device or an error pointer.

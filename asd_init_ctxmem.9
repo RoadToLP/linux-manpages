@@ -1,0 +1,17 @@
+.TH "asd_init_ctxmem" 9 "asd_init_ctxmem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_init_ctxmem \- - initialize context memory
+.SH SYNOPSIS
+.B "int" asd_init_ctxmem
+.BI "(struct asd_ha_struct *asd_ha "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to host adapter structure
+.SH "DESCRIPTION"
+This function sets the maximum number of SCBs and
+DDBs which can be used by the sequencer.  This is normally
+512 and 128 respectively.  If support for more SCBs or more DDBs
+is required then CMDCTXBASE, DEVCTXBASE and CTXDOMAIN are
+initialized here to extend context memory to point to host memory,
+thus allowing unlimited support for SCBs and DDBs -- only limited
+by host memory.

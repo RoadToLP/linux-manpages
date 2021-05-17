@@ -1,0 +1,29 @@
+.TH "calipso_opt_find" 9 "calipso_opt_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_opt_find \- Finds the CALIPSO option in an IPv6 hop options header
+.SH SYNOPSIS
+.B "int" calipso_opt_find
+.BI "(struct ipv6_opt_hdr *hop "  ","
+.BI "unsigned int *start "  ","
+.BI "unsigned int *end "  ");"
+.SH ARGUMENTS
+.IP "hop" 12
+the hop options header
+.IP "start" 12
+on return holds the offset of any leading padding
+.IP "end" 12
+on return holds the offset of the first non-pad TLV after CALIPSO
+.SH "DESCRIPTION"
+Finds the space occupied by a CALIPSO option (including any leading and
+trailing padding).
+
+If a CALIPSO option exists set \fIstart\fP and \fIend\fP to the
+offsets within \fIhop\fP of the start of padding before the first
+CALIPSO option and the end of padding after the first CALIPSO
+option.  In this case the function returns 0.
+
+In the absence of a CALIPSO option, \fIstart\fP and \fIend\fP will be
+set to the start and end of any trailing padding in the header.
+This is useful when appending a new option, as the caller may want
+to overwrite some of this padding.  In this case the function will
+return -ENOENT.

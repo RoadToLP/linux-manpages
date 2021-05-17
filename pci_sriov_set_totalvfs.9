@@ -1,0 +1,20 @@
+.TH "pci_sriov_set_totalvfs" 9 "pci_sriov_set_totalvfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_sriov_set_totalvfs \- - reduce the TotalVFs available
+.SH SYNOPSIS
+.B "int" pci_sriov_set_totalvfs
+.BI "(struct pci_dev *dev "  ","
+.BI "u16 numvfs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI PF device
+.IP "numvfs" 12
+number that should be used for TotalVFs supported
+.SH "DESCRIPTION"
+Should be called from PF driver's probe routine with
+device's mutex held.
+
+Returns 0 if PF is an SRIOV-capable device and
+value of numvfs valid. If not a PF return -ENOSYS;
+if numvfs is invalid return -EINVAL;
+if VFs already enabled, return -EBUSY.

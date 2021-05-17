@@ -1,0 +1,32 @@
+.TH "grow_lxt" 9 "grow_lxt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+grow_lxt \- expands the translation table associated with the specified RHTE
+.SH SYNOPSIS
+.B "int" grow_lxt
+.BI "(struct afu *afu "  ","
+.BI "struct scsi_device *sdev "  ","
+.BI "ctx_hndl_t ctxid "  ","
+.BI "res_hndl_t rhndl "  ","
+.BI "struct sisl_rht_entry *rhte "  ","
+.BI "u64 *new_size "  ");"
+.SH ARGUMENTS
+.IP "afu" 12
+AFU associated with the host.
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "ctxid" 12
+Context ID of context owning the RHTE.
+.IP "rhndl" 12
+Resource handle associated with the RHTE.
+.IP "rhte" 12
+Resource handle entry (RHTE).
+.IP "new_size" 12
+Number of translation entries associated with RHTE.
+.SH "DESCRIPTION"
+By design, this routine employs a 'best attempt' allocation and will
+truncate the requested size down if there is not sufficient space in
+the block allocator to satisfy the request but there does exist some
+amount of space. The user is made aware of this by returning the size
+allocated.
+.SH "RETURN"
+0 on success, -errno on failure

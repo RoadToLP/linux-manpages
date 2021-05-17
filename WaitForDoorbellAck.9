@@ -1,0 +1,21 @@
+.TH "WaitForDoorbellAck" 9 "WaitForDoorbellAck" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+WaitForDoorbellAck \- Wait for IOC doorbell handshake acknowledge
+.SH SYNOPSIS
+.B "int" WaitForDoorbellAck
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int howlong "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "howlong" 12
+How long to wait (in seconds)
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+
+This routine waits (up to ~2 seconds max) for IOC doorbell
+handshake ACKnowledge, indicated by the IOP_DOORBELL_STATUS
+bit in its IntStatus register being clear.
+
+Returns a negative value on failure, else wait loop count.

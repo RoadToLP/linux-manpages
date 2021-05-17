@@ -1,0 +1,25 @@
+.TH "tty_release" 9 "tty_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_release \- vfs callback for close
+.SH SYNOPSIS
+.B "int" tty_release
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of tty
+.IP "filp" 12
+file pointer for handle to tty
+
+Called the last time each file handle is closed that references
+this tty. There may however be several such references.
+
+Locking:
+Takes bkl. See tty_release_dev
+.SH "DESCRIPTION"
+Even releasing the tty structures is a tricky business.. We have
+to be very careful that the structures are all released at the
+same time, as interrupts might otherwise get the wrong pointers.
+
+WSH 09/09/97: rewritten to avoid some nasty race conditions that could
+lead to double frees or releasing memory still in use.

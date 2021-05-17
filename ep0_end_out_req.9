@@ -1,0 +1,20 @@
+.TH "ep0_end_out_req" 9 "ep0_end_out_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep0_end_out_req \- Ends control endpoint OUT request (ends data stage)
+.SH SYNOPSIS
+.B "void" ep0_end_out_req
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ","
+.BI "unsigned long *pflags "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+physical endpoint
+.IP "req" 12
+pxa request
+.IP "pflags" 12
+flags of previous \fBspinlock_irq_save\fP or NULL if no lock held
+.SH "CONTEXT"
+ep->lock held or released (see \fBreq_done\fP)
+.SH "DESCRIPTION"
+Ends control endpoint OUT request (completes usb request), and puts
+control endpoint into idle state

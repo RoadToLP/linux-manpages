@@ -1,0 +1,34 @@
+.TH "acpi_dev_pm_get_state" 9 "acpi_dev_pm_get_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_pm_get_state \- Get preferred power state of ACPI device.
+.SH SYNOPSIS
+.B "int" acpi_dev_pm_get_state
+.BI "(struct device *dev "  ","
+.BI "struct acpi_device *adev "  ","
+.BI "u32 target_state "  ","
+.BI "int *d_min_p "  ","
+.BI "int *d_max_p "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device whose preferred target power state to return.
+.IP "adev" 12
+ACPI device node corresponding to \fIdev\fP.
+.IP "target_state" 12
+System state to match the resultant device state.
+.IP "d_min_p" 12
+Location to store the highest power state available to the device.
+.IP "d_max_p" 12
+Location to store the lowest power state available to the device.
+.SH "DESCRIPTION"
+Find the lowest power (highest number) and highest power (lowest number) ACPI
+device power states that the device can be in while the system is in the
+state represented by \fItarget_state\fP.  Store the integer numbers representing
+those stats in the memory locations pointed to by \fId_max_p\fP and \fId_min_p\fP,
+respectively.
+
+Callers must ensure that \fIdev\fP and \fIadev\fP are valid pointers and that \fIadev\fP
+actually corresponds to \fIdev\fP before using this function.
+
+Returns 0 on success or -ENODATA when one of the ACPI methods fails or
+returns a value that doesn't make sense.  The memory locations pointed to by
+\fId_max_p\fP and \fId_min_p\fP are only modified on success.

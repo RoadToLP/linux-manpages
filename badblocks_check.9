@@ -1,0 +1,46 @@
+.TH "badblocks_check" 9 "badblocks_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+badblocks_check \- check a given range for bad sectors
+.SH SYNOPSIS
+.B "int" badblocks_check
+.BI "(struct badblocks *bb "  ","
+.BI "sector_t s "  ","
+.BI "int sectors "  ","
+.BI "sector_t *first_bad "  ","
+.BI "int *bad_sectors "  ");"
+.SH ARGUMENTS
+.IP "bb" 12
+the badblocks structure that holds all badblock information
+.IP "s" 12
+sector (start) at which to check for badblocks
+.IP "sectors" 12
+number of sectors to check for badblocks
+.IP "first_bad" 12
+pointer to store location of the first badblock
+.IP "bad_sectors" 12
+pointer to store number of badblocks after \fIfirst_bad\fP
+.SH "DESCRIPTION"
+We can record which blocks on each device are 'bad' and so just
+fail those blocks, or that stripe, rather than the whole device.
+Entries in the bad-block table are 64bits wide.  This comprises:
+Length of bad-range, in sectors: 0-511 for lengths 1-512
+Start of bad-range, sector offset, 54 bits (allows 8 exbibytes)
+A 'shift' can be set so that larger blocks are tracked and
+consequently larger devices can be covered.
+'Acknowledged' flag - 1 bit. - the most significant bit.
+
+Locking of the bad-block table uses a seqlock so badblocks_check
+might need to retry if it is very unlucky.
+We will sometimes want to check for bad blocks in a bi_end_io function,
+so we use the write_seqlock_irq variant.
+
+When looking for a bad block we specify a range and want to
+know if any block in the range is bad.  So we binary-search
+to the last range that starts at-or-before the given endpoint,
+(or "before the sector after the target range")
+then see if it ends after the given start.
+.SH "RETURN"
+0: there are no known bad blocks in the range
+1: there are known bad block which are all acknowledged
+-1: there are bad blocks which have not yet been acknowledged in metadata.
+plus the start/length of the first bad section we overlap.

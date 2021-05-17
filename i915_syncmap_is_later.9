@@ -1,0 +1,23 @@
+.TH "i915_syncmap_is_later" 9 "i915_syncmap_is_later" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_syncmap_is_later \- - compare against the last know sync point
+.SH SYNOPSIS
+.B "bool" i915_syncmap_is_later
+.BI "(struct i915_syncmap **root "  ","
+.BI "u64 id "  ","
+.BI "u32 seqno "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+pointer to the #i915_syncmap
+.IP "id" 12
+the context id (other timeline) we are synchronising to
+.IP "seqno" 12
+the sequence number along the other timeline
+.SH "DESCRIPTION"
+If we have already synchronised this \fIroot\fP timeline with another (\fIid\fP) then
+we can omit any repeated or earlier synchronisation requests. If the two
+timelines are already coupled, we can also omit the dependency between the
+two as that is already known via the timeline.
+
+Returns true if the two timelines are already synchronised wrt to \fIseqno\fP,
+false if not and the synchronisation must be emitted.

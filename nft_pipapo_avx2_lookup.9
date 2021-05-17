@@ -1,0 +1,25 @@
+.TH "nft_pipapo_avx2_lookup" 9 "nft_pipapo_avx2_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_avx2_lookup \- Lookup function for AVX2 implementation
+.SH SYNOPSIS
+.B "bool" nft_pipapo_avx2_lookup
+.BI "(const struct net *net "  ","
+.BI "const struct nft_set *set "  ","
+.BI "const u32 *key "  ","
+.BI "const struct nft_set_ext **ext "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace
+.IP "set" 12
+nftables API set representation
+.IP "key" 12
+-- undescribed --
+.IP "ext" 12
+nftables API extension pointer, filled with matching reference
+.SH "DESCRIPTION"
+For more details, see DOC: Theory of Operation in nft_set_pipapo.c.
+
+This implementation exploits the repetitive characteristic of the algorithm
+to provide a fast, vectorised version using the AVX2 SIMD instruction set.
+.SH "RETURN"
+true on match, false otherwise.

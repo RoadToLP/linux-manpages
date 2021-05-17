@@ -1,0 +1,17 @@
+.TH "invalidate_inodes" 9 "invalidate_inodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+invalidate_inodes \- attempt to free all inodes on a superblock
+.SH SYNOPSIS
+.B "int" invalidate_inodes
+.BI "(struct super_block *sb "  ","
+.BI "bool kill_dirty "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock to operate on
+.IP "kill_dirty" 12
+flag to guide handling of dirty inodes
+.SH "DESCRIPTION"
+Attempts to free all inodes for a given superblock.  If there were any
+busy inodes return a non-zero value, else zero.
+If \fIkill_dirty\fP is set, discard dirty inodes too, otherwise treat
+them as busy.

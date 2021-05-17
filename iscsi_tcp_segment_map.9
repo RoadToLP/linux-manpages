@@ -1,0 +1,16 @@
+.TH "iscsi_tcp_segment_map" 9 "iscsi_tcp_segment_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_tcp_segment_map \- map the current S/G page
+.SH SYNOPSIS
+.B "void" iscsi_tcp_segment_map
+.BI "(struct iscsi_segment *segment "  ","
+.BI "int recv "  ");"
+.SH ARGUMENTS
+.IP "segment" 12
+iscsi_segment
+.IP "recv" 12
+1 if called from recv path
+.SH "DESCRIPTION"
+We only need to possibly kmap data if scatter lists are being used,
+because the iscsi passthrough and internal IO paths will never use high
+mem pages.

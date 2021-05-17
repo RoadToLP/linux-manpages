@@ -1,0 +1,18 @@
+.TH "software_node_unregister_nodes" 9 "software_node_unregister_nodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+software_node_unregister_nodes \- Unregister an array of software nodes
+.SH SYNOPSIS
+.B "void" software_node_unregister_nodes
+.BI "(const struct software_node *nodes "  ");"
+.SH ARGUMENTS
+.IP "nodes" 12
+Zero terminated array of software nodes to be unregistered
+.SH "DESCRIPTION"
+Unregister multiple software nodes at once. If parent pointers are set up
+in any of the software nodes then the array **must** be ordered such that
+parents come before their children.
+.SH "NOTE"
+If you are uncertain whether the array is ordered such that
+parents will be unregistered before their children, it is wiser to
+remove the nodes individually, in the correct order (child before
+parent).

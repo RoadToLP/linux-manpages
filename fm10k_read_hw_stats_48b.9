@@ -1,0 +1,20 @@
+.TH "fm10k_read_hw_stats_48b" 9 "fm10k_read_hw_stats_48b" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_read_hw_stats_48b \- Reads value of 48-bit registers
+.SH SYNOPSIS
+.B "u64" fm10k_read_hw_stats_48b
+.BI "(struct fm10k_hw *hw "  ","
+.BI "u32 addr "  ","
+.BI "struct fm10k_hw_stat *stat "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "addr" 12
+address of register containing the lower 32-bit value
+.IP "stat" 12
+pointer to structure holding hw stat information
+
+Function reads the content of 2 registers, combined to represent a 48-bit
+statistical value. Extra processing is required to handle overflowing.
+Finally, a delta value is returned representing the difference between the
+values stored in registers and values stored in the statistic counters.

@@ -1,0 +1,21 @@
+.TH "befs_bt_read_super" 9 "befs_bt_read_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_bt_read_super \- read in btree superblock convert to cpu byteorder
+.SH SYNOPSIS
+.B "int" befs_bt_read_super
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *ds "  ","
+.BI "befs_btree_super * sup "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "ds" 12
+Datastream to read from
+.IP "sup" 12
+Buffer in which to place the btree superblock
+.SH "DESCRIPTION"
+Calls befs_read_datastream to read in the btree superblock and
+makes sure it is in cpu byteorder, byteswapping if necessary.
+.SH "RETURN"
+BEFS_OK on success and if *\fIsup\fP contains the btree superblock in cpu
+byte order. Otherwise return BEFS_ERR on error.

@@ -1,0 +1,17 @@
+.TH "drm_flip_work_commit" 9 "drm_flip_work_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_flip_work_commit \- commit queued work
+.SH SYNOPSIS
+.B "void" drm_flip_work_commit
+.BI "(struct drm_flip_work *work "  ","
+.BI "struct workqueue_struct *wq "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+the flip-work
+.IP "wq" 12
+the work-queue to run the queued work on
+.SH "DESCRIPTION"
+Trigger work previously queued by \fBdrm_flip_work_queue\fP to run
+on a workqueue.  The typical usage would be to queue work (via
+\fBdrm_flip_work_queue\fP) at any point (from vblank irq and/or
+prior), and then from vblank irq commit the queued work.

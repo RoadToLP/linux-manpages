@@ -1,0 +1,23 @@
+.TH "ice_read_sr_pointer" 9 "ice_read_sr_pointer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_read_sr_pointer \- Read the value of a Shadow RAM pointer word
+.SH SYNOPSIS
+.B "enum ice_status" ice_read_sr_pointer
+.BI "(struct ice_hw *hw "  ","
+.BI "u16 offset "  ","
+.BI "u32 *pointer "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+the word offset of the Shadow RAM word to read
+.IP "pointer" 12
+pointer value read from Shadow RAM
+.SH "DESCRIPTION"
+Read the given Shadow RAM word, and convert it to a pointer value specified
+in bytes. This function assumes the specified offset is a valid pointer
+word.
+
+Each pointer word specifies whether it is stored in word size or 4KB
+sector size by using the highest bit. The reported pointer value will be in
+bytes, intended for flat NVM reads.

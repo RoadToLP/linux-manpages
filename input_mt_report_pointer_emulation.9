@@ -1,0 +1,18 @@
+.TH "input_mt_report_pointer_emulation" 9 "input_mt_report_pointer_emulation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_mt_report_pointer_emulation \- common pointer emulation
+.SH SYNOPSIS
+.B "void" input_mt_report_pointer_emulation
+.BI "(struct input_dev *dev "  ","
+.BI "bool use_count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+input device with allocated MT slots
+.IP "use_count" 12
+report number of active contacts as finger count
+.SH "DESCRIPTION"
+Performs legacy pointer emulation via BTN_TOUCH, ABS_X, ABS_Y and
+ABS_PRESSURE. Touchpad finger count is emulated if use_count is true.
+
+The input core ensures only the KEY and ABS axes already setup for
+this device will produce output.

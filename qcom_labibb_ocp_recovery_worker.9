@@ -1,0 +1,26 @@
+.TH "qcom_labibb_ocp_recovery_worker" 9 "qcom_labibb_ocp_recovery_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_labibb_ocp_recovery_worker \- Handle OCP event
+.SH SYNOPSIS
+.B "void" qcom_labibb_ocp_recovery_worker
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+OCP work structure
+.SH "DESCRIPTION"
+This is the worker function to handle the Over Current Protection
+hardware event; This will check if the hardware is still
+signaling an over-current condition and will eventually stop
+the regulator if such condition is still signaled after
+LABIBB_MAX_OCP_COUNT times.
+
+If the driver that is consuming the regulator did not take action
+for the OCP condition, or the hardware did not stabilize, a cut
+of the LAB and IBB regulators will be forced (regulators will be
+disabled).
+
+As last, if the writes to shut down the LAB/IBB regulators fail
+for more than LABIBB_MAX_FATAL_COUNT, then a kernel panic will be
+triggered, as a last resort to protect the hardware from burning;
+this, however, is expected to never happen, but this is kept to
+try to further ensure that we protect the hardware at all costs.

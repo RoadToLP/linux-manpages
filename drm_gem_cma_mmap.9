@@ -1,0 +1,19 @@
+.TH "drm_gem_cma_mmap" 9 "drm_gem_cma_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_mmap \- memory-map an exported CMA GEM object
+.SH SYNOPSIS
+.B "int" drm_gem_cma_mmap
+.BI "(struct drm_gem_object *obj "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.IP "vma" 12
+VMA for the area to be mapped
+.SH "DESCRIPTION"
+This function maps a buffer into a userspace process's address space.
+In addition to the usual GEM VMA setup it immediately faults in the entire
+object instead of using on-demand faulting. Drivers that use the CMA
+helpers should set this as their \fIdrm_gem_object_funcs.mmap\fP callback.
+.SH "RETURN"
+0 on success or a negative error code on failure.

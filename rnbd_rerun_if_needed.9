@@ -1,0 +1,17 @@
+.TH "rnbd_rerun_if_needed" 9 "rnbd_rerun_if_needed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rnbd_rerun_if_needed \- rerun next queue marked as stopped
+.SH SYNOPSIS
+.B "bool" rnbd_rerun_if_needed
+.BI "(struct rnbd_clt_session *sess "  ");"
+.SH ARGUMENTS
+.IP "sess" 12
+Session to rerun a queue on
+.SH "DESCRIPTION"
+Each CPU has it's own list of HW queues, which should be rerun.
+Function finds such list with HW queues, takes a list lock, picks up
+the first HW queue out of the list and requeues it.
+.SH "RETURN"
+True if the queue was requeued, false otherwise.
+.SH "CONTEXT"
+Does not matter.

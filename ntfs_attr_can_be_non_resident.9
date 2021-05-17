@@ -1,0 +1,18 @@
+.TH "ntfs_attr_can_be_non_resident" 9 "ntfs_attr_can_be_non_resident" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_can_be_non_resident \- check if an attribute can be non-resident
+.SH SYNOPSIS
+.B "int" ntfs_attr_can_be_non_resident
+.BI "(const ntfs_volume *vol "  ","
+.BI "const ATTR_TYPE type "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume to which the attribute belongs
+.IP "type" 12
+attribute type which to check
+.SH "DESCRIPTION"
+Check whether the attribute of \fItype\fP on the ntfs volume \fIvol\fP is allowed to
+be non-resident.  This information is obtained from $AttrDef system file.
+
+Return 0 if the attribute is allowed to be non-resident, -EPERM if not, and
+-ENOENT if the attribute is not listed in $AttrDef.

@@ -1,0 +1,30 @@
+.TH "__i40e_reprogram_flex_pit" 9 "__i40e_reprogram_flex_pit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__i40e_reprogram_flex_pit \- Re-program specific FLX_PIT table
+.SH SYNOPSIS
+.B "void" __i40e_reprogram_flex_pit
+.BI "(struct i40e_pf *pf "  ","
+.BI "struct list_head *flex_pit_list "  ","
+.BI "int flex_pit_start "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Pointer to the PF structure
+.IP "flex_pit_list" 12
+list of flexible src offsets in use
+.IP "flex_pit_start" 12
+index to first entry for this section of the table
+.SH "DESCRIPTION"
+In order to handle flexible data, the hardware uses a table of values
+called the FLX_PIT table. This table is used to indicate which sections of
+the input correspond to what PIT index values. Unfortunately, hardware is
+very restrictive about programming this table. Entries must be ordered by
+src_offset in ascending order, without duplicates. Additionally, unused
+entries must be set to the unused index value, and must have valid size and
+length according to the src_offset ordering.
+
+This function will reprogram the FLX_PIT register from a book-keeping
+structure that we guarantee is already ordered correctly, and has no more
+than 3 entries.
+
+To make things easier, we only support flexible values of one word length,
+rather than allowing variable length flexible values.

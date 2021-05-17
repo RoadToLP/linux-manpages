@@ -1,0 +1,36 @@
+.TH "scmi_register_protocol_events" 9 "scmi_register_protocol_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_register_protocol_events \- Register Protocol Events with the core
+.SH SYNOPSIS
+.B "int" scmi_register_protocol_events
+.BI "(const struct scmi_handle *handle "  ","
+.BI "u8 proto_id "  ","
+.BI "size_t queue_sz "  ","
+.BI "const struct scmi_event_ops *ops "  ","
+.BI "const struct scmi_event *evt "  ","
+.BI "int num_events "  ","
+.BI "int num_sources "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+The handle identifying the platform instance against which the
+the protocol's events are registered
+.IP "proto_id" 12
+Protocol ID
+.IP "queue_sz" 12
+Size in bytes of the associated queue to be allocated
+.IP "ops" 12
+Protocol specific event-related operations
+.IP "evt" 12
+Event descriptor array
+.IP "num_events" 12
+Number of events in \fIevt\fP array
+.IP "num_sources" 12
+Number of possible sources for this protocol on this
+platform.
+.SH "DESCRIPTION"
+Used by SCMI Protocols initialization code to register with the notification
+core the list of supported events and their descriptors: takes care to
+pre-allocate and store all needed descriptors, scratch buffers and event
+queues.
+.SH "RETURN"
+0 on Success

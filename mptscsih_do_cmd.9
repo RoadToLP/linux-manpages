@@ -1,0 +1,26 @@
+.TH "mptscsih_do_cmd" 9 "mptscsih_do_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptscsih_do_cmd \- Do internal command.
+.SH SYNOPSIS
+.B "int" mptscsih_do_cmd
+.BI "(MPT_SCSI_HOST *hd "  ","
+.BI "INTERNAL_CMD *io "  ");"
+.SH ARGUMENTS
+.IP "hd" 12
+MPT_SCSI_HOST pointer
+.IP "io" 12
+INTERNAL_CMD pointer.
+
+Issue the specified internally generated command and do command
+specific cleanup. For bus scan / DV only.
+.SH "NOTES"
+If command is Inquiry and status is good,
+initialize a target structure, save the data
+
+Remark: Single threaded access only.
+.SH "RETURN"
+< 0 if an illegal command or no resources
+
+0 if good
+
+> 0 if command complete but some type of completion error.

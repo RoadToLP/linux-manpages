@@ -1,0 +1,32 @@
+.TH "drm_bridge_attach" 9 "drm_bridge_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_attach \- attach the bridge to an encoder's chain
+.SH SYNOPSIS
+.B "int" drm_bridge_attach
+.BI "(struct drm_encoder *encoder "  ","
+.BI "struct drm_bridge *bridge "  ","
+.BI "struct drm_bridge *previous "  ","
+.BI "enum drm_bridge_attach_flags flags "  ");"
+.SH ARGUMENTS
+.IP "encoder" 12
+DRM encoder
+.IP "bridge" 12
+bridge to attach
+.IP "previous" 12
+previous bridge in the chain (optional)
+.IP "flags" 12
+DRM_BRIDGE_ATTACH_* flags
+.SH "DESCRIPTION"
+Called by a kms driver to link the bridge to an encoder's chain. The previous
+argument specifies the previous bridge in the chain. If NULL, the bridge is
+linked directly at the encoder's output. Otherwise it is linked at the
+previous bridge's output.
+
+If non-NULL the previous bridge must be already attached by a call to this
+function.
+
+Note that bridges attached to encoders are auto-detached during encoder
+cleanup in \fBdrm_encoder_cleanup\fP, so \fBdrm_bridge_attach\fP should generally
+*not* be balanced with a \fBdrm_bridge_detach\fP in driver code.
+.SH "RETURN"
+Zero on success, error code on failure

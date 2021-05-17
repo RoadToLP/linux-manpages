@@ -1,0 +1,21 @@
+.TH "ssp_read_word" 9 "ssp_read_word" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssp_read_word \- read a word from the SSP port
+.SH SYNOPSIS
+.B "int" ssp_read_word
+.BI "(u16 *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Wait for a data word in the SSP receive FIFO, and return the
+received data.  Data is LSB justified.
+
+The caller is expected to perform the necessary locking.
+.SH "NOTE"
+Currently, if data is not expected to be received, this
+function will wait for ever.
+.SH "RETURN"
+-ETIMEDOUT        timeout occurred
+16-bit data        success

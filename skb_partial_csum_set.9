@@ -1,0 +1,21 @@
+.TH "skb_partial_csum_set" 9 "skb_partial_csum_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_partial_csum_set \- set up and verify partial csum values for packet
+.SH SYNOPSIS
+.B "bool" skb_partial_csum_set
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 start "  ","
+.BI "u16 off "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to set
+.IP "start" 12
+the number of bytes after skb->data to start checksumming.
+.IP "off" 12
+the offset from start to place the checksum.
+.SH "DESCRIPTION"
+For untrusted partially-checksummed packets, we need to make sure the values
+for skb->csum_start and skb->csum_offset are valid so we don't oops.
+
+This function checks and sets those values and skb->ip_summed: if this
+returns false you should drop the packet.

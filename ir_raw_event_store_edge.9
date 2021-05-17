@@ -1,0 +1,18 @@
+.TH "ir_raw_event_store_edge" 9 "ir_raw_event_store_edge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_raw_event_store_edge \- notify raw ir decoders of the start of a pulse/space
+.SH SYNOPSIS
+.B "int" ir_raw_event_store_edge
+.BI "(struct rc_dev *dev "  ","
+.BI "bool pulse "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct rc_dev device descriptor
+.IP "pulse" 12
+true for pulse, false for space
+.SH "DESCRIPTION"
+This routine (which may be called from an interrupt context) is used to
+store the beginning of an ir pulse or space (or the start/end of ir
+reception) for the raw ir decoding state machines. This is used by
+hardware which does not provide durations directly but only interrupts
+(or similar events) on state change.

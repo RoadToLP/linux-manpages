@@ -1,0 +1,25 @@
+.TH "gpio_keys_attr_show_helper" 9 "gpio_keys_attr_show_helper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpio_keys_attr_show_helper \- fill in stringified bitmap of buttons
+.SH SYNOPSIS
+.B "ssize_t" gpio_keys_attr_show_helper
+.BI "(struct gpio_keys_drvdata *ddata "  ","
+.BI "char *buf "  ","
+.BI "unsigned int type "  ","
+.BI "bool only_disabled "  ");"
+.SH ARGUMENTS
+.IP "ddata" 12
+pointer to drvdata
+.IP "buf" 12
+buffer where stringified bitmap is written
+.IP "type" 12
+button type (EV_KEY, EV_SW)
+.IP "only_disabled" 12
+does caller want only those buttons that are
+currently disabled or all buttons that can be
+disabled
+.SH "DESCRIPTION"
+This function writes buttons that can be disabled to \fIbuf\fP. If
+\fIonly_disabled\fP is true, then \fIbuf\fP contains only those buttons
+that are currently disabled. Returns 0 on success or negative
+errno on failure.

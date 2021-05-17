@@ -1,0 +1,31 @@
+.TH "linkmode_resolve_pause" 9 "linkmode_resolve_pause" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+linkmode_resolve_pause \- resolve the allowable pause modes
+.SH SYNOPSIS
+.B "void" linkmode_resolve_pause
+.BI "(const unsigned long *local_adv "  ","
+.BI "const unsigned long *partner_adv "  ","
+.BI "bool *tx_pause "  ","
+.BI "bool *rx_pause "  ");"
+.SH ARGUMENTS
+.IP "local_adv" 12
+local advertisement in ethtool format
+.IP "partner_adv" 12
+partner advertisement in ethtool format
+.IP "tx_pause" 12
+pointer to bool to indicate whether transmit pause should be
+enabled.
+.IP "rx_pause" 12
+pointer to bool to indicate whether receive pause should be
+enabled.
+.SH "DESCRIPTION"
+Flow control is resolved according to our and the link partners
+advertisements using the following drawn from the 802.3 specs:
+Local device  Link partner
+Pause AsymDir Pause AsymDir Result
+0     X       0     X     Disabled
+0     1       1     0     Disabled
+0     1       1     1     TX
+1     0       0     X     Disabled
+1     X       1     X     TX+RX
+1     1       0     1     RX

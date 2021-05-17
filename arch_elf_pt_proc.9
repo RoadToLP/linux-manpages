@@ -1,0 +1,31 @@
+.TH "arch_elf_pt_proc" 9 "arch_elf_pt_proc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arch_elf_pt_proc \- check a PT_LOPROC..PT_HIPROC ELF program header
+.SH SYNOPSIS
+.B "int" arch_elf_pt_proc
+.BI "(struct elfhdr *ehdr "  ","
+.BI "struct elf_phdr *phdr "  ","
+.BI "struct file *elf "  ","
+.BI "bool is_interp "  ","
+.BI "struct arch_elf_state *state "  ");"
+.SH ARGUMENTS
+.IP "ehdr" 12
+The main ELF header
+.IP "phdr" 12
+The program header to check
+.IP "elf" 12
+The open ELF file
+.IP "is_interp" 12
+True if the phdr is from the interpreter of the ELF being
+loaded, else false.
+.IP "state" 12
+Architecture-specific state preserved throughout the process
+of loading the ELF.
+.SH "DESCRIPTION"
+Inspects the program header phdr to validate its correctness and/or
+suitability for the system. Called once per ELF program header in the
+range PT_LOPROC to PT_HIPROC, for both the ELF being loaded and its
+interpreter.
+.SH "RETURN"
+Zero to proceed with the ELF load, non-zero to fail the ELF load
+with that return code.

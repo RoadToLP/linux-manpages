@@ -1,0 +1,21 @@
+.TH "frwr_send" 9 "frwr_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+frwr_send \- post Send WRs containing the RPC Call message
+.SH SYNOPSIS
+.B "int" frwr_send
+.BI "(struct rpcrdma_xprt *r_xprt "  ","
+.BI "struct rpcrdma_req *req "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport instance
+.IP "req" 12
+prepared RPC Call
+.SH "DESCRIPTION"
+For FRWR, chain any FastReg WRs to the Send WR. Only a
+single ib_post_send call is needed to register memory
+and then post the Send WR.
+
+Returns the return code from ib_post_send.
+
+Caller must hold the transport send lock to ensure that the
+pointers to the transport's rdma_cm_id and QP are stable.

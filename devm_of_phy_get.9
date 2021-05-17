@@ -1,0 +1,19 @@
+.TH "devm_of_phy_get" 9 "devm_of_phy_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_of_phy_get \- lookup and obtain a reference to a phy.
+.SH SYNOPSIS
+.B "struct phy *" devm_of_phy_get
+.BI "(struct device *dev "  ","
+.BI "struct device_node *np "  ","
+.BI "const char *con_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that requests this phy
+.IP "np" 12
+node containing the phy
+.IP "con_id" 12
+name of the phy from device's point of view
+.SH "DESCRIPTION"
+Gets the phy using \fBof_phy_get\fP, and associates a device with it using
+devres. On driver detach, release function is invoked on the devres data,
+then, devres data is freed.

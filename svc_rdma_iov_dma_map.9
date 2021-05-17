@@ -1,0 +1,18 @@
+.TH "svc_rdma_iov_dma_map" 9 "svc_rdma_iov_dma_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_iov_dma_map \- DMA map an iovec
+.SH SYNOPSIS
+.B "int" svc_rdma_iov_dma_map
+.BI "(void *data "  ","
+.BI "const struct kvec *iov "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+pointer to arguments
+.IP "iov" 12
+kvec to DMA map
+.SH "DESCRIPTION"
+\fBib_dma_map_page\fP is used here because \fBsvc_rdma_dma_unmap\fP
+handles DMA-unmap and it uses \fBib_dma_unmap_page\fP exclusively.
+.SH "RETURN"
+0 if DMA mapping was successful
+-EIO if the iovec cannot be DMA mapped

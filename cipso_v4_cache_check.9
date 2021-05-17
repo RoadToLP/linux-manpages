@@ -1,0 +1,29 @@
+.TH "cipso_v4_cache_check" 9 "cipso_v4_cache_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_cache_check \- Check the CIPSO cache for a label mapping
+.SH SYNOPSIS
+.B "int" cipso_v4_cache_check
+.BI "(const unsigned char *key "  ","
+.BI "u32 key_len "  ","
+.BI "struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+the buffer to check
+.IP "key_len" 12
+buffer length in bytes
+.IP "secattr" 12
+the security attribute struct to use
+.SH "DESCRIPTION"
+This function checks the cache to see if a label mapping already exists for
+the given key.  If there is a match then the cache is adjusted and the
+\fIsecattr\fP struct is populated with the correct LSM security attributes.  The
+cache is adjusted in the following manner if the entry is not already the
+first in the cache bucket:
+
+1. The cache entry's activity counter is incremented
+2. The previous (higher ranking) entry's activity counter is decremented
+3. If the difference between the two activity counters is geater than
+CIPSO_V4_CACHE_REORDERLIMIT the two entries are swapped
+
+Returns zero on success, -ENOENT for a cache miss, and other negative values
+on error.

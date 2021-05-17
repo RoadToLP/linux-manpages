@@ -1,0 +1,24 @@
+.TH "cgroup_rstat_cpu_pop_updated" 9 "cgroup_rstat_cpu_pop_updated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_rstat_cpu_pop_updated \- iterate and dismantle rstat_cpu updated tree
+.SH SYNOPSIS
+.B "struct cgroup *" cgroup_rstat_cpu_pop_updated
+.BI "(struct cgroup *pos "  ","
+.BI "struct cgroup *root "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "pos" 12
+current position
+.IP "root" 12
+root of the tree to traversal
+.IP "cpu" 12
+target cpu
+.SH "DESCRIPTION"
+Walks the udpated rstat_cpu tree on \fIcpu\fP from \fIroot\fP.  NULL \fIpos\fP starts
+the traversal and NULL return indicates the end.  During traversal,
+each returned cgroup is unlinked from the tree.  Must be called with the
+matching cgroup_rstat_cpu_lock held.
+
+The only ordering guarantee is that, for a parent and a child pair
+covered by a given traversal, if a child is visited, its parent is
+guaranteed to be visited afterwards.

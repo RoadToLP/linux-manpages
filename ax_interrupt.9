@@ -1,0 +1,18 @@
+.TH "ax_interrupt" 9 "ax_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ax_interrupt \- handle the interrupts from an 8390
+.SH SYNOPSIS
+.B "irqreturn_t" ax_interrupt
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number
+.IP "dev_id" 12
+a pointer to the net_device
+.SH "DESCRIPTION"
+Handle the ether interface interrupts. We pull packets from
+the 8390 via the card specific functions and fire them at the networking
+stack. We also handle transmit completions and wake the transmit path if
+necessary. We also update the counters and do other housekeeping as
+needed.

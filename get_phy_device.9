@@ -1,0 +1,27 @@
+.TH "get_phy_device" 9 "get_phy_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_phy_device \- reads the specified PHY device and returns its @phy_device struct
+.SH SYNOPSIS
+.B "struct phy_device *" get_phy_device
+.BI "(struct mii_bus *bus "  ","
+.BI "int addr "  ","
+.BI "bool is_c45 "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the target MII bus
+.IP "addr" 12
+PHY address on the MII bus
+.IP "is_c45" 12
+If true the PHY uses the 802.3 clause 45 protocol
+.SH "DESCRIPTION"
+Probe for a PHY at \fIaddr\fP on \fIbus\fP.
+
+When probing for a clause 22 PHY, then read the ID registers. If we find
+a valid ID, allocate and return a \fIstruct phy_device\fP.
+
+When probing for a clause 45 PHY, read the "devices in package" registers.
+If the "devices in package" appears valid, read the ID registers for each
+MMD, allocate and return a \fIstruct phy_device\fP.
+
+Returns an allocated \fIstruct phy_device\fP on success, -ENODEV if there is
+no PHY present, or -EIO on bus access error.

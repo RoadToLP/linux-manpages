@@ -1,0 +1,17 @@
+.TH "t4_get_exprom_version" 9 "t4_get_exprom_version" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_get_exprom_version \- return the Expansion ROM version (if any)
+.SH SYNOPSIS
+.B "int" t4_get_exprom_version
+.BI "(struct adapter *adap "  ","
+.BI "u32 *vers "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "vers" 12
+where to place the version
+
+Reads the Expansion ROM header from FLASH and returns the version
+number (if present) through the \fIvers\fP return value pointer.  We return
+this in the Firmware Version Format since it's convenient.  Return
+0 on success, -ENOENT if no Expansion ROM is present.

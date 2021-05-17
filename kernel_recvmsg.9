@@ -1,0 +1,30 @@
+.TH "kernel_recvmsg" 9 "kernel_recvmsg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernel_recvmsg \- Receive a message from a socket (kernel space)
+.SH SYNOPSIS
+.B "int" kernel_recvmsg
+.BI "(struct socket *sock "  ","
+.BI "struct msghdr *msg "  ","
+.BI "struct kvec *vec "  ","
+.BI "size_t num "  ","
+.BI "size_t size "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+The socket to receive the message from
+.IP "msg" 12
+Received message
+.IP "vec" 12
+Input s/g array for message data
+.IP "num" 12
+Size of input s/g array
+.IP "size" 12
+Number of bytes to read
+.IP "flags" 12
+Message flags (MSG_DONTWAIT, etc...)
+
+On return the msg structure contains the scatter/gather array passed in the
+vec argument. The array is modified so that it consists of the unfilled
+portion of the original array.
+
+The returned value is the total number of bytes received, or an error.

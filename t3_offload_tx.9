@@ -1,0 +1,16 @@
+.TH "t3_offload_tx" 9 "t3_offload_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_offload_tx \- send an offload packet
+.SH SYNOPSIS
+.B "int" t3_offload_tx
+.BI "(struct t3cdev *tdev "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "tdev" 12
+the offload device to send to
+.IP "skb" 12
+the packet
+
+Sends an offload packet.  We use the packet priority to select the
+appropriate Tx queue as follows: bit 0 indicates whether the packet
+should be sent as regular or control, bits 1-3 select the queue set.

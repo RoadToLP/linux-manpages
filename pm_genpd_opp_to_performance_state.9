@@ -1,0 +1,19 @@
+.TH "pm_genpd_opp_to_performance_state" 9 "pm_genpd_opp_to_performance_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_genpd_opp_to_performance_state \- Gets performance state of the genpd from its OPP node.
+.SH SYNOPSIS
+.B "unsigned int" pm_genpd_opp_to_performance_state
+.BI "(struct device *genpd_dev "  ","
+.BI "struct dev_pm_opp *opp "  ");"
+.SH ARGUMENTS
+.IP "genpd_dev" 12
+Genpd's device for which the performance-state needs to be found.
+.IP "opp" 12
+struct dev_pm_opp of the OPP for which we need to find performance
+state.
+.SH "DESCRIPTION"
+Returns performance state encoded in the OPP of the genpd. This calls
+platform specific genpd->\fBopp_to_performance_state\fP callback to translate
+power domain OPP to performance state.
+
+Returns performance state on success and 0 on failure.

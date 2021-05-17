@@ -1,0 +1,32 @@
+.TH "efivar_entry_set_safe" 9 "efivar_entry_set_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_set_safe \- call set_variable() if enough space in firmware
+.SH SYNOPSIS
+.B "int" efivar_entry_set_safe
+.BI "(efi_char16_t *name "  ","
+.BI "efi_guid_t vendor "  ","
+.BI "u32 attributes "  ","
+.BI "bool block "  ","
+.BI "unsigned long size "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+buffer containing the variable name
+.IP "vendor" 12
+variable vendor guid
+.IP "attributes" 12
+variable attributes
+.IP "block" 12
+can we block in this context?
+.IP "size" 12
+size of \fIdata\fP buffer
+.IP "data" 12
+buffer containing variable data
+.SH "DESCRIPTION"
+Ensures there is enough free storage in the firmware for this variable, and
+if so, calls \fBset_variable\fP. If creating a new EFI variable, this function
+is usually followed by \fBefivar_entry_add\fP.
+
+Returns 0 on success, -ENOSPC if the firmware does not have enough
+space for \fBset_variable\fP to succeed, or a converted EFI status code
+if \fBset_variable\fP fails.

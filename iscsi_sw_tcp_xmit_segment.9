@@ -1,0 +1,20 @@
+.TH "iscsi_sw_tcp_xmit_segment" 9 "iscsi_sw_tcp_xmit_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_sw_tcp_xmit_segment \- transmit segment
+.SH SYNOPSIS
+.B "int" iscsi_sw_tcp_xmit_segment
+.BI "(struct iscsi_tcp_conn *tcp_conn "  ","
+.BI "struct iscsi_segment *segment "  ");"
+.SH ARGUMENTS
+.IP "tcp_conn" 12
+the iSCSI TCP connection
+.IP "segment" 12
+the buffer to transmnit
+.SH "DESCRIPTION"
+This function transmits as much of the buffer as
+the network layer will accept, and returns the number of
+bytes transmitted.
+
+If CRC hashing is enabled, the function will compute the
+hash as it goes. When the entire segment has been transmitted,
+it will retrieve the hash value and send it as well.

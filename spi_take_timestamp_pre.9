@@ -1,0 +1,23 @@
+.TH "spi_take_timestamp_pre" 9 "spi_take_timestamp_pre" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_take_timestamp_pre \- helper for drivers to collect the beginning of the TX timestamp for the requested byte from the SPI transfer. The frequency with which this function must be called (once per word, once for the whole transfer, once per batch of words etc) is arbitrary as long as the @tx buffer offset is greater than or equal to the requested byte at the time of the call. The timestamp is only taken once, at the first such call. It is assumed that the driver advances its @tx buffer pointer monotonically.
+.SH SYNOPSIS
+.B "void" spi_take_timestamp_pre
+.BI "(struct spi_controller *ctlr "  ","
+.BI "struct spi_transfer *xfer "  ","
+.BI "size_t progress "  ","
+.BI "bool irqs_off "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+Pointer to the spi_controller structure of the driver
+.IP "xfer" 12
+Pointer to the transfer being timestamped
+.IP "progress" 12
+How many words (not bytes) have been transferred so far
+.IP "irqs_off" 12
+If true, will disable IRQs and preemption for the duration of the
+transfer, for less jitter in time measurement. Only compatible
+with PIO drivers. If true, must follow up with
+spi_take_timestamp_post or otherwise system will crash.
+WARNING: for fully predictable results, the CPU frequency must
+also be under control (governor).

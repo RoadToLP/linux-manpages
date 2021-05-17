@@ -1,0 +1,31 @@
+.TH "mtd_kmalloc_up_to" 9 "mtd_kmalloc_up_to" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_kmalloc_up_to \- allocate a contiguous buffer up to the specified size
+.SH SYNOPSIS
+.B "void *" mtd_kmalloc_up_to
+.BI "(const struct mtd_info *mtd "  ","
+.BI "size_t *size "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+mtd device description object pointer
+.IP "size" 12
+a pointer to the ideal or maximum size of the allocation, points
+to the actual allocation size on success.
+.SH "DESCRIPTION"
+This routine attempts to allocate a contiguous kernel buffer up to
+the specified size, backing off the size of the request exponentially
+until the request succeeds or until the allocation size falls below
+the system page size. This attempts to make sure it does not adversely
+impact system performance, so when allocating more than one page, we
+ask the memory allocator to avoid re-trying, swapping, writing back
+or performing I/O.
+
+Note, this function also makes sure that the allocated buffer is aligned to
+the MTD device's min. I/O unit, i.e. the "mtd->writesize" value.
+
+This is called, for example by mtd_{read,write} and jffs2_scan_medium,
+to handle smaller (i.e. degraded) buffer allocations under low- or
+fragmented-memory situations where such reduced allocations, from a
+requested ideal, are allowed.
+
+Returns a pointer to the allocated buffer on success; otherwise, NULL.

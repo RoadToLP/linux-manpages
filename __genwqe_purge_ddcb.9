@@ -1,0 +1,22 @@
+.TH "__genwqe_purge_ddcb" 9 "__genwqe_purge_ddcb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__genwqe_purge_ddcb \- Remove a DDCB from the workqueue
+.SH SYNOPSIS
+.B "int" __genwqe_purge_ddcb
+.BI "(struct genwqe_dev *cd "  ","
+.BI "struct ddcb_requ *req "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+genwqe device descriptor
+.IP "req" 12
+DDCB request
+.SH "DESCRIPTION"
+This will fail when the request was already FETCHED. In this case
+we need to wait until it is finished. Else the DDCB can be
+reused. This function also ensures that the request data structure
+is removed from ddcb_req[].
+
+Do not forget to call this function when \fBgenwqe_wait_ddcb\fP fails,
+such that the request gets really removed from ddcb_req[].
+.SH "RETURN"
+0 success

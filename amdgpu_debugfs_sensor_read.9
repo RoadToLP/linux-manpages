@@ -1,0 +1,23 @@
+.TH "amdgpu_debugfs_sensor_read" 9 "amdgpu_debugfs_sensor_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_debugfs_sensor_read \- Read from the powerplay sensors
+.SH SYNOPSIS
+.B "ssize_t" amdgpu_debugfs_sensor_read
+.BI "(struct file *f "  ","
+.BI "char __user *buf "  ","
+.BI "size_t size "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+open file handle
+.IP "buf" 12
+User buffer to store read data in
+.IP "size" 12
+Number of bytes to read
+.IP "pos" 12
+Offset to seek to
+.SH "DESCRIPTION"
+The offset is treated as the BYTE address of one of the sensors
+enumerated in amd/include/kgd_pp_interface.h under the
+'amd_pp_sensors' enumeration.  For instance to read the UVD VCLK
+you would use the offset 3 * 4 = 12.

@@ -1,0 +1,15 @@
+.TH "i40e_addr_unsync" 9 "i40e_addr_unsync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_addr_unsync \- Callback for dev_(mc|uc)_sync to remove address
+.SH SYNOPSIS
+.B "int" i40e_addr_unsync
+.BI "(struct net_device *netdev "  ","
+.BI "const u8 *addr "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the netdevice
+.IP "addr" 12
+address to add
+.SH "DESCRIPTION"
+Called by __dev_(mc|uc)_sync when an address needs to be removed. We call
+__dev_(uc|mc)_sync from .set_rx_mode and guarantee to hold the hash lock.

@@ -1,0 +1,27 @@
+.TH "goal_in_my_reservation" 9 "goal_in_my_reservation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+goal_in_my_reservation \- 
+.SH SYNOPSIS
+.B "int" goal_in_my_reservation
+.BI "(struct ext2_reserve_window *rsv "  ","
+.BI "ext2_grpblk_t grp_goal "  ","
+.BI "unsigned int group "  ","
+.BI "struct super_block * sb "  ");"
+.SH ARGUMENTS
+.IP "rsv" 12
+inode's reservation window
+.IP "grp_goal" 12
+given goal block relative to the allocation block group
+.IP "group" 12
+the current allocation block group
+.IP "sb" 12
+filesystem super block
+.SH "DESCRIPTION"
+Test if the given goal block (group relative) is within the file's
+own block reservation window range.
+
+If the reservation window is outside the goal allocation group, return 0;
+grp_goal (given goal block) could be -1, which means no specific
+goal block. In this case, always return 1.
+If the goal block is within the reservation window, return 1;
+otherwise, return 0;

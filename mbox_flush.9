@@ -1,0 +1,21 @@
+.TH "mbox_flush" 9 "mbox_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_flush \- flush a mailbox channel
+.SH SYNOPSIS
+.B "int" mbox_flush
+.BI "(struct mbox_chan *chan "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+mailbox channel to flush
+.IP "timeout" 12
+time, in milliseconds, to allow the flush operation to succeed
+.SH "DESCRIPTION"
+Mailbox controllers that need to work in atomic context can implement the
+->\fBflush\fP callback to busy loop until a transmission has been completed.
+The implementation must call \fBmbox_chan_txdone\fP upon success. Clients can
+call the \fBmbox_flush\fP function at any time after \fBmbox_send_message\fP to
+flush the transmission. After the function returns success, the mailbox
+transmission is guaranteed to have completed.
+.SH "RETURN"
+0 on success or a negative error code on failure.

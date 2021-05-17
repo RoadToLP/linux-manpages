@@ -1,0 +1,20 @@
+.TH "qib_set_mtu" 9 "qib_set_mtu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_set_mtu \- set the MTU
+.SH SYNOPSIS
+.B "int" qib_set_mtu
+.BI "(struct qib_pportdata *ppd "  ","
+.BI "u16 arg "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+the perport data
+.IP "arg" 12
+the new MTU
+.SH "DESCRIPTION"
+We can handle "any" incoming size, the issue here is whether we
+need to restrict our outgoing size.   For now, we don't do any
+sanity checking on this, and we don't deal with what happens to
+programs that are already running when the size changes.
+.SH "NOTE"
+changing the MTU will usually cause the IBC to go back to
+link INIT state...

@@ -1,0 +1,21 @@
+.TH "throtl_pop_queued" 9 "throtl_pop_queued" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throtl_pop_queued \- pop the first bio form a qnode list
+.SH SYNOPSIS
+.B "struct bio *" throtl_pop_queued
+.BI "(struct list_head *queued "  ","
+.BI "struct throtl_grp **tg_to_put "  ");"
+.SH ARGUMENTS
+.IP "queued" 12
+the qnode list to pop a bio from
+.IP "tg_to_put" 12
+optional out argument for throtl_grp to put
+.SH "DESCRIPTION"
+Pop the first bio from the qnode list \fIqueued\fP.  After popping, the first
+qnode is removed from \fIqueued\fP if empty or moved to the end of \fIqueued\fP so
+that the popping order is round-robin.
+
+When the first qnode is removed, its associated throtl_grp should be put
+too.  If \fItg_to_put\fP is NULL, this function automatically puts it;
+otherwise, *\fItg_to_put\fP is set to the throtl_grp to put and the caller is
+responsible for putting it.

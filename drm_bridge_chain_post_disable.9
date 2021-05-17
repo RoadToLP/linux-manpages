@@ -1,0 +1,15 @@
+.TH "drm_bridge_chain_post_disable" 9 "drm_bridge_chain_post_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_chain_post_disable \- cleans up after disabling all bridges in the encoder chain
+.SH SYNOPSIS
+.B "void" drm_bridge_chain_post_disable
+.BI "(struct drm_bridge *bridge "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.SH "DESCRIPTION"
+Calls \fIdrm_bridge_funcs.post_disable\fP op for all the bridges in the
+encoder chain, starting from the first bridge to the last. These are called
+after completing the encoder's prepare op.
+.SH "NOTE"
+the bridge passed should be the one closest to the encoder

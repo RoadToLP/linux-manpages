@@ -1,0 +1,19 @@
+.TH "from_kqid" 9 "from_kqid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kqid \- Create a qid from a kqid user-namespace pair.
+.SH SYNOPSIS
+.B "qid_t" from_kqid
+.BI "(struct user_namespace *targ "  ","
+.BI "struct kqid kqid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a qid in.
+.IP "kqid" 12
+The kernel internal quota identifier to start with.
+
+Map \fIkqid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting qid.
+
+There is always a mapping into the initial user_namespace.
+
+If \fIkqid\fP has no mapping in \fItarg\fP (qid_t)-1 is returned.

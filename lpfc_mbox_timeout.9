@@ -1,0 +1,17 @@
+.TH "lpfc_mbox_timeout" 9 "lpfc_mbox_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbox_timeout \- Timeout call back function for mbox timer
+.SH SYNOPSIS
+.B "void" lpfc_mbox_timeout
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Context to fetch pointer to hba structure from.
+.SH "DESCRIPTION"
+This is the callback function for mailbox timer. The mailbox
+timer is armed when a new mailbox command is issued and the timer
+is deleted when the mailbox complete. The function is called by
+the kernel timer code when a mailbox does not complete within
+expected time. This function wakes up the worker thread to
+process the mailbox timeout and returns. All the processing is
+done by the worker thread function lpfc_mbox_timeout_handler.

@@ -1,0 +1,13 @@
+.TH "try_to_munlock" 9 "try_to_munlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_munlock \- try to munlock a page
+.SH SYNOPSIS
+.B "void" try_to_munlock
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to be munlocked
+.SH "DESCRIPTION"
+Called from munlock code.  Checks all of the VMAs mapping the page
+to make sure nobody else has this page mlocked. The page will be
+returned with PG_mlocked cleared if no other vmas have it mlocked.

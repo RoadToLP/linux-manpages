@@ -1,0 +1,48 @@
+.TH "hfi1_kern_exp_rcv_setup" 9 "hfi1_kern_exp_rcv_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_kern_exp_rcv_setup \- setup TID's and flow for one segment of a TID RDMA request
+.SH SYNOPSIS
+.B "int" hfi1_kern_exp_rcv_setup
+.BI "(struct tid_rdma_request *req "  ","
+.BI "struct rvt_sge_state *ss "  ","
+.BI "bool *last "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+TID RDMA request for which the segment/flow is being set up
+.IP "ss" 12
+sge state, maintains state across successive segments of a sge
+.IP "last" 12
+set to true after the last sge segment has been processed
+.SH "DESCRIPTION"
+This function
+(1) finds a free flow entry in the flow circular buffer
+(2) finds pages and continuous physical chunks constituing one segment
+of an sge
+(3) allocates TID group entries for those chunks
+(4) programs rcvarray entries in the hardware corresponding to those
+TID's
+(5) computes a tidarray with formatted TID entries which can be sent
+to the sender
+(6) Reserves and programs HW flows.
+(7) It also manages queing the QP when TID/flow resources are not
+available.
+
+\fIreq\fP points to struct tid_rdma_request of which the segments are a part. The
+function uses qp, rcd and seg_len members of \fIreq\fP. In the absence of errors,
+req->flow_idx is the index of the flow which has been prepared in this
+invocation of function call. With flow = \fIreq->flows\fP[req->flow_idx],
+flow->tid_entry contains the TID array which the sender can use for TID RDMA
+sends and flow->npkts contains number of packets required to send the
+segment.
+
+hfi1_check_sge_align should be called prior to calling this function and if
+it signals error TID RDMA cannot be used for this sge and this function
+should not be called.
+
+For the queuing, caller must hold the flow->req->qp s_lock from the send
+engine and the function will procure the exp_lock.
+.SH "RETURN"
+The function returns -EAGAIN if sufficient number of TID/flow resources to
+map the segment could not be allocated. In this case the function should be
+called again with previous arguments to retry the TID allocation. There are
+no other error returns. The function returns 0 on success.

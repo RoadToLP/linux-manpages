@@ -1,0 +1,14 @@
+.TH "bdx_fw_load" 9 "bdx_fw_load" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_fw_load \- loads firmware to NIC
+.SH SYNOPSIS
+.B "int" bdx_fw_load
+.BI "(struct bdx_priv *priv "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+NIC private structure
+.SH "DESCRIPTION"
+Firmware is loaded via TXD fifo, so it must be initialized first.
+Firware must be loaded once per NIC not per PCI device provided by NIC (NIC
+can have few of them). So all drivers use semaphore register to choose one
+that will actually load FW to NIC.

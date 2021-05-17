@@ -1,0 +1,22 @@
+.TH "dev_pm_opp_find_level_exact" 9 "dev_pm_opp_find_level_exact" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_find_level_exact \- search for an exact level
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" dev_pm_opp_find_level_exact
+.BI "(struct device *dev "  ","
+.BI "unsigned int level "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "level" 12
+level to search for
+.SH "RETURN"
+Searches for exact match in the opp table and returns pointer to the
+matching opp if found, else returns ERR_PTR in case of error and should
+be handled using IS_ERR. Error return values can be:
+EINVAL:      for bad pointer
+ERANGE:      no match found for search
+ENODEV:      if device not found in list of registered devices
+.SH "DESCRIPTION"
+The callers are required to call \fBdev_pm_opp_put\fP for the returned OPP after
+use.

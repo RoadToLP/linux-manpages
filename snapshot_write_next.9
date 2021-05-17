@@ -1,0 +1,21 @@
+.TH "snapshot_write_next" 9 "snapshot_write_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snapshot_write_next \- Get the address to store the next image page.
+.SH SYNOPSIS
+.B "int" snapshot_write_next
+.BI "(struct snapshot_handle *handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Snapshot handle structure to guide the writing.
+.SH "DESCRIPTION"
+On the first call, \fIhandle\fP should point to a zeroed snapshot_handle
+structure.  The structure gets populated then and a pointer to it should be
+passed to this function every next time.
+
+On success, the function returns a positive number.  Then, the caller
+is allowed to write up to the returned number of bytes to the memory
+location computed by the \fBdata_of\fP macro.
+
+The function returns 0 to indicate the "end of file" condition.  Negative
+numbers are returned on errors, in which cases the structure pointed to by
+\fIhandle\fP is not updated and should not be used any more.

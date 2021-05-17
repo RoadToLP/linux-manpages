@@ -1,0 +1,21 @@
+.TH "setup_items_for_insert" 9 "setup_items_for_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setup_items_for_insert \- Helper called before inserting one or more items to a leaf. Main purpose is to save stack depth by doing the bulk of the work in a function that doesn't call btrfs_search_slot
+.SH SYNOPSIS
+.B "void" setup_items_for_insert
+.BI "(struct btrfs_root *root "  ","
+.BI "struct btrfs_path *path "  ","
+.BI "const struct btrfs_key *cpu_key "  ","
+.BI "u32 *data_size "  ","
+.BI "int nr "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+root we are inserting items to
+.IP "path" 12
+points to the leaf/slot where we are going to insert new items
+.IP "cpu_key" 12
+array of keys for items to be inserted
+.IP "data_size" 12
+size of the body of each item we are going to insert
+.IP "nr" 12
+size of \fIcpu_key\fP/\fIdata_size\fP arrays

@@ -1,0 +1,18 @@
+.TH "ei_tx_err" 9 "ei_tx_err" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ei_tx_err \- handle transmitter error
+.SH SYNOPSIS
+.B "void" ei_tx_err
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network device which threw the exception
+.SH "DESCRIPTION"
+A transmitter error has happened. Most likely excess collisions (which
+is a fairly normal condition). If the error is one where the Tx will
+have been aborted, we try and send another one right away, instead of
+letting the failed packet sit and collect dust in the Tx buffer. This
+is a much better solution as it avoids kernel based Tx timeouts, and
+an unnecessary card reset.
+
+Called with lock held.

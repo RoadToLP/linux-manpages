@@ -1,0 +1,30 @@
+.TH "do_budget_space" 9 "do_budget_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_budget_space \- reserve flash space for index and data growth.
+.SH SYNOPSIS
+.B "int" do_budget_space
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function makes sure UBIFS has enough free LEBs for index growth and
+data.
+
+When budgeting index space, UBIFS reserves thrice as many LEBs as the index
+would take if it was consolidated and written to the flash. This guarantees
+that the "in-the-gaps" commit method always succeeds and UBIFS will always
+be able to commit dirty index. So this function basically adds amount of
+budgeted index space to the size of the current index, multiplies this by 3,
+and makes sure this does not exceed the amount of free LEBs.
+
+Notes about \fIc->bi.min_idx_lebs\fP and \fIc->lst.idx_lebs\fP variables:
+o \fIc->lst.idx_lebs\fP is the number of LEBs the index currently uses. It might
+be large, because UBIFS does not do any index consolidation as long as
+there is free space. IOW, the index may take a lot of LEBs, but the LEBs
+will contain a lot of dirt.
+o \fIc->bi.min_idx_lebs\fP is the number of LEBS the index presumably takes. IOW,
+the index may be consolidated to take up to \fIc->bi.min_idx_lebs\fP LEBs.
+
+This function returns zero in case of success, and -ENOSPC in case of
+failure.

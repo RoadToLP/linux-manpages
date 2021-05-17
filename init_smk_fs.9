@@ -1,0 +1,20 @@
+.TH "init_smk_fs" 9 "init_smk_fs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_smk_fs \- get the smackfs superblock
+.SH SYNOPSIS
+.B "int" init_smk_fs
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+register the smackfs
+
+Do not register smackfs if Smack wasn't enabled
+on boot. We can not put this method normally under the
+\fBsmack_init\fP code path since the security subsystem get
+initialized before the vfs caches.
+
+Returns true if we were not chosen on boot or if
+we were chosen and filesystem registration succeeded.

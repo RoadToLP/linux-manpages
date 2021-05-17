@@ -1,0 +1,23 @@
+.TH "blk_flush_complete_seq" 9 "blk_flush_complete_seq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_flush_complete_seq \- complete flush sequence
+.SH SYNOPSIS
+.B "void" blk_flush_complete_seq
+.BI "(struct request *rq "  ","
+.BI "struct blk_flush_queue *fq "  ","
+.BI "unsigned int seq "  ","
+.BI "blk_status_t error "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+PREFLUSH/FUA request being sequenced
+.IP "fq" 12
+flush queue
+.IP "seq" 12
+sequences to complete (mask of REQ_FSEQ_*, can be zero)
+.IP "error" 12
+whether an error occurred
+.SH "DESCRIPTION"
+\fIrq\fP just completed \fIseq\fP part of its flush sequence, record the
+completion and trigger the next step.
+.SH "CONTEXT"
+spin_lock_irq(fq->mq_flush_lock)

@@ -1,0 +1,23 @@
+.TH "devm_regulator_bulk_get" 9 "devm_regulator_bulk_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_regulator_bulk_get \- managed get multiple regulator consumers
+.SH SYNOPSIS
+.B "int" devm_regulator_bulk_get
+.BI "(struct device *dev "  ","
+.BI "int num_consumers "  ","
+.BI "struct regulator_bulk_data *consumers "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to supply
+.IP "num_consumers" 12
+number of consumers to register
+.IP "consumers" 12
+configuration of consumers; clients are stored here.
+.SH "DESCRIPTION"
+\fIreturn\fP 0 on success, an errno on failure.
+
+This helper function allows drivers to get several regulator
+consumers in one operation with management, the regulators will
+automatically be freed when the device is unbound.  If any of the
+regulators cannot be acquired then any regulators that were
+allocated will be freed before returning to the caller.

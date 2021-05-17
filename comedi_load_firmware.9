@@ -1,0 +1,28 @@
+.TH "comedi_load_firmware" 9 "comedi_load_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_load_firmware \- Request and load firmware for a device
+.SH SYNOPSIS
+.B "int" comedi_load_firmware
+.BI "(struct comedi_device *dev "  ","
+.BI "struct device *device "  ","
+.BI "const char *name "  ","
+.BI "int (*cb)(struct comedi_device *dev, const u8 *data, size_t size, unsigned long context) "  ","
+.BI "unsigned long context "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "device" 12
+Hardware device.
+.IP "name" 12
+The name of the firmware image.
+.IP "cb" 12
+Callback to the upload the firmware image.
+.IP "context" 12
+Private context from the driver.
+.SH "DESCRIPTION"
+Sends a firmware request for the hardware device and waits for it.  Calls
+the callback function to upload the firmware to the device, them releases
+the firmware.
+
+Returns 0 on success, -EINVAL if \fIcb\fP is NULL, or a negative error number
+from the firmware request or the callback function.

@@ -1,0 +1,20 @@
+.TH "t3_load_fw" 9 "t3_load_fw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_load_fw \- download firmware
+.SH SYNOPSIS
+.B "int" t3_load_fw
+.BI "(struct adapter *adapter "  ","
+.BI "const u8 *fw_data "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "fw_data" 12
+the firmware image to write
+.IP "size" 12
+image size
+
+Write the supplied firmware image to the card's serial flash.
+The FW image has the following sections: \fIsize\fP - 8 bytes of code and
+data, followed by 4 bytes of FW version, followed by the 32-bit
+1's complement checksum of the whole image.

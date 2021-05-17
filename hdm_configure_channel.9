@@ -1,0 +1,23 @@
+.TH "hdm_configure_channel" 9 "hdm_configure_channel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hdm_configure_channel \- receive channel configuration from core
+.SH SYNOPSIS
+.B "int" hdm_configure_channel
+.BI "(struct most_interface *iface "  ","
+.BI "int channel "  ","
+.BI "struct most_channel_config *conf "  ");"
+.SH ARGUMENTS
+.IP "iface" 12
+interface
+.IP "channel" 12
+channel ID
+.IP "conf" 12
+structure that holds the configuration information
+.SH "DESCRIPTION"
+The attached network interface controller (NIC) supports a padding mode
+to avoid short packets on USB, hence increasing the performance due to a
+lower interrupt load. This mode is default for synchronous data and can
+be switched on for isochronous data. In case padding is active the
+driver needs to know the frame size of the payload in order to calculate
+the number of bytes it needs to pad when transmitting or to cut off when
+receiving data.

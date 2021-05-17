@@ -1,0 +1,19 @@
+.TH "fc_block_scsi_eh" 9 "fc_block_scsi_eh" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_block_scsi_eh \- Block SCSI eh thread for blocked fc_rport
+.SH SYNOPSIS
+.B "int" fc_block_scsi_eh
+.BI "(struct scsi_cmnd *cmnd "  ");"
+.SH ARGUMENTS
+.IP "cmnd" 12
+SCSI command that scsi_eh is trying to recover
+.SH "DESCRIPTION"
+This routine can be called from a FC LLD scsi_eh callback. It
+blocks the scsi_eh thread until the fc_rport leaves the
+FC_PORTSTATE_BLOCKED, or the fast_io_fail_tmo fires. This is
+necessary to avoid the scsi_eh failing recovery actions for blocked
+rports which would lead to offlined SCSI devices.
+.SH "RETURN"
+0 if the fc_rport left the state FC_PORTSTATE_BLOCKED.
+FAST_IO_FAIL if the fast_io_fail_tmo fired, this should be
+passed back to scsi_eh.

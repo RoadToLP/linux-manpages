@@ -1,0 +1,16 @@
+.TH "update_pm_runtime_accounting" 9 "update_pm_runtime_accounting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_pm_runtime_accounting \- Update the time accounting of power states
+.SH SYNOPSIS
+.B "void" update_pm_runtime_accounting
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to update the accounting for
+.SH "DESCRIPTION"
+In order to be able to have time accounting of the various power states
+(as used by programs such as PowerTOP to show the effectiveness of runtime
+PM), we need to track the time spent in each state.
+update_pm_runtime_accounting must be called each time before the
+runtime_status field is updated, to account the time in the old state
+correctly.

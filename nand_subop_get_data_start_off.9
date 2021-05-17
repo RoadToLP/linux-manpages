@@ -1,0 +1,18 @@
+.TH "nand_subop_get_data_start_off" 9 "nand_subop_get_data_start_off" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_subop_get_data_start_off \- Get the start offset in a data array
+.SH SYNOPSIS
+.B "unsigned int" nand_subop_get_data_start_off
+.BI "(const struct nand_subop *subop "  ","
+.BI "unsigned int instr_idx "  ");"
+.SH ARGUMENTS
+.IP "subop" 12
+The entire sub-operation
+.IP "instr_idx" 12
+Index of the instruction inside the sub-operation
+.SH "DESCRIPTION"
+During driver development, one could be tempted to directly use the
+->data->buf.{in,out} field of data instructions. This is wrong as data
+instructions might be split.
+
+Given a data instruction, returns the offset to start from.

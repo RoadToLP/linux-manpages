@@ -1,0 +1,23 @@
+.TH "spu_unschedule" 9 "spu_unschedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spu_unschedule \- remove a context from a spu, and possibly release it.
+.SH SYNOPSIS
+.B "void" spu_unschedule
+.BI "(struct spu *spu "  ","
+.BI "struct spu_context *ctx "  ","
+.BI "int free_spu "  ");"
+.SH ARGUMENTS
+.IP "spu" 12
+The SPU to unschedule from
+.IP "ctx" 12
+The context currently scheduled on the SPU
+\fIfree_spu\fP    Whether to free the SPU for other contexts
+.IP "free_spu" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Unbinds the context \fIctx\fP from the SPU \fIspu\fP. If \fIfree_spu\fP is non-zero, the
+SPU is made available for other contexts (ie, may be returned by
+spu_get_idle). If this is zero, the caller is expected to schedule another
+context to this spu.
+
+Should be called with ctx->state_mutex held.

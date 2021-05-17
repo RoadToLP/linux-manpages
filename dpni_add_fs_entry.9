@@ -1,0 +1,31 @@
+.TH "dpni_add_fs_entry" 9 "dpni_add_fs_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_add_fs_entry \- Add Flow Steering entry for a specific traffic class (to select a flow ID)
+.SH SYNOPSIS
+.B "int" dpni_add_fs_entry
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u8 tc_id "  ","
+.BI "u16 index "  ","
+.BI "const struct dpni_rule_cfg *cfg "  ","
+.BI "const struct dpni_fs_action_cfg *action "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "tc_id" 12
+Traffic class selection (0-7)
+.IP "index" 12
+Location in the FS table where to insert the entry.
+Only relevant if MASKING is enabled for FS
+classification on this DPNI, it is ignored for exact match.
+.IP "cfg" 12
+Flow steering rule to add
+.IP "action" 12
+Action to be taken as result of a classification hit
+.SH "RETURN"
+'0' on Success; Error code otherwise.

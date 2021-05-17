@@ -1,0 +1,21 @@
+.TH "gfs2_free_extlen" 9 "gfs2_free_extlen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_free_extlen \- Return extent length of free blocks
+.SH SYNOPSIS
+.B "u32" gfs2_free_extlen
+.BI "(const struct gfs2_rbm *rrbm "  ","
+.BI "u32 len "  ");"
+.SH ARGUMENTS
+.IP "rrbm" 12
+Starting position
+.IP "len" 12
+Max length to check
+.SH "DESCRIPTION"
+Starting at the block specified by the rbm, see how many free blocks
+there are, not reading more than len blocks ahead. This can be done
+using memchr_inv when the blocks are byte aligned, but has to be done
+on a block by block basis in case of unaligned blocks. Also this
+function can cope with bitmap boundaries (although it must stop on
+a resource group boundary)
+.SH "RETURN"
+Number of free blocks in the extent

@@ -1,0 +1,25 @@
+.TH "dev_pm_qos_update_request" 9 "dev_pm_qos_update_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_qos_update_request \- modifies an existing qos request
+.SH SYNOPSIS
+.B "int" dev_pm_qos_update_request
+.BI "(struct dev_pm_qos_request *req "  ","
+.BI "s32 new_value "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+handle to list element holding a dev_pm_qos request to use
+.IP "new_value" 12
+defines the qos request
+.SH "DESCRIPTION"
+Updates an existing dev PM qos request along with updating the
+target value.
+
+Attempts are made to make this code callable on hot code paths.
+
+Returns 1 if the aggregated constraint value has changed,
+0 if the aggregated constraint value has not changed,
+-EINVAL in case of wrong parameters, -ENODEV if the device has been
+removed from the system
+
+Callers should ensure that the target device is not RPM_SUSPENDED before
+using this function for requests of type DEV_PM_QOS_FLAGS.

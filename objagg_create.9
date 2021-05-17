@@ -1,0 +1,37 @@
+.TH "objagg_create" 9 "objagg_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+objagg_create \- creates a new objagg instance
+.SH SYNOPSIS
+.B "struct objagg *" objagg_create
+.BI "(const struct objagg_ops *ops "  ","
+.BI "struct objagg_hints *objagg_hints "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+user-specific callbacks
+.IP "objagg_hints" 12
+hints, can be NULL
+.IP "priv" 12
+pointer to a private data passed to the ops
+.SH "NOTE"
+all locking must be provided by the caller.
+.SH "DESCRIPTION"
+The purpose of the library is to provide an infrastructure to
+aggregate user-specified objects. Library does not care about the type
+of the object. User fills-up ops which take care of the specific
+user object manipulation.
+
+As a very stupid example, consider integer numbers. For example
+number 8 as a root object. That can aggregate number 9 with delta 1,
+number 10 with delta 2, etc. This example is implemented as
+a part of a testing module in test_objagg.c file.
+
+Each objagg instance contains multiple trees. Each tree node is
+represented by "an object". In the current implementation there can be
+only roots and leafs nodes. Leaf nodes are called deltas.
+But in general, this can be easily extended for intermediate nodes.
+In that extension, a delta would be associated with all non-root
+nodes.
+
+Returns a pointer to newly created objagg instance in case of success,
+otherwise it returns pointer error using ERR_PTR macro.

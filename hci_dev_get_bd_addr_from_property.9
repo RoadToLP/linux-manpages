@@ -1,0 +1,15 @@
+.TH "hci_dev_get_bd_addr_from_property" 9 "hci_dev_get_bd_addr_from_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hci_dev_get_bd_addr_from_property \- Get the Bluetooth Device Address (BD_ADDR) for a HCI device from a firmware node property.
+.SH SYNOPSIS
+.B "void" hci_dev_get_bd_addr_from_property
+.BI "(struct hci_dev *hdev "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+The HCI device
+.SH "DESCRIPTION"
+Search the firmware node for 'local-bd-address'.
+
+All-zero BD addresses are rejected, because those could be properties
+that exist in the firmware tables, but were not updated by the firmware. For
+example, the DTS could define 'local-bd-address', with zero BD addresses.

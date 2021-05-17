@@ -1,0 +1,21 @@
+.TH "ldm_validate_privheads" 9 "ldm_validate_privheads" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_validate_privheads \- Compare the primary privhead with its backups
+.SH SYNOPSIS
+.B "bool" ldm_validate_privheads
+.BI "(struct parsed_partitions *state "  ","
+.BI "struct privhead *ph1 "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Partition check state including device holding the LDM Database
+.IP "ph1" 12
+Memory struct to fill with ph contents
+.SH "DESCRIPTION"
+Read and compare all three privheads from disk.
+
+The privheads on disk show the size and location of the main disk area and
+the configuration area (the database).  The values are range-checked against
+\fIhd\fP, which contains the real size of the disk.
+.SH "RETURN"
+'true'   Success
+'false'  Error

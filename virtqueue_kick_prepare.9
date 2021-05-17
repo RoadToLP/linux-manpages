@@ -1,0 +1,16 @@
+.TH "virtqueue_kick_prepare" 9 "virtqueue_kick_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+virtqueue_kick_prepare \- first half of split virtqueue_kick call.
+.SH SYNOPSIS
+.B "bool" virtqueue_kick_prepare
+.BI "(struct virtqueue *_vq "  ");"
+.SH ARGUMENTS
+.IP "_vq" 12
+the struct virtqueue
+.SH "DESCRIPTION"
+Instead of \fBvirtqueue_kick\fP, you can do:
+if (virtqueue_kick_prepare(vq))
+virtqueue_notify(vq);
+
+This is sometimes useful because the \fBvirtqueue_kick_prepare\fP needs
+to be serialized, but the actual \fBvirtqueue_notify\fP call does not.

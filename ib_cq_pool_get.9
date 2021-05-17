@@ -1,0 +1,25 @@
+.TH "ib_cq_pool_get" 9 "ib_cq_pool_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_cq_pool_get \- Find the least used completion queue that matches a given cpu hint (or least used for wild card affinity) and fits nr_cqe.
+.SH SYNOPSIS
+.B "struct ib_cq *" ib_cq_pool_get
+.BI "(struct ib_device *dev "  ","
+.BI "unsigned int nr_cqe "  ","
+.BI "int comp_vector_hint "  ","
+.BI "enum ib_poll_context poll_ctx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+rdma device
+.IP "nr_cqe" 12
+number of needed cqe entries
+.IP "comp_vector_hint" 12
+completion vector hint (-1) for the driver to assign
+a comp vector based on internal counter
+.IP "poll_ctx" 12
+cq polling context
+.SH "DESCRIPTION"
+Finds a cq that satisfies \fIcomp_vector_hint\fP and \fInr_cqe\fP requirements and
+claim entries in it for us.  In case there is no available cq, allocate
+a new cq with the requirements and add it to the device pool.
+IB_POLL_DIRECT cannot be used for shared cqs so it is not a valid value
+for \fIpoll_ctx\fP.

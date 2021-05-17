@@ -1,0 +1,13 @@
+.TH "sc_piobufavail" 9 "sc_piobufavail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sc_piobufavail \- callback when a PIO buffer is available
+.SH SYNOPSIS
+.B "void" sc_piobufavail
+.BI "(struct send_context *sc "  ");"
+.SH ARGUMENTS
+.IP "sc" 12
+the send context
+.SH "DESCRIPTION"
+This is called from the interrupt handler when a PIO buffer is
+available after \fBhfi1_verbs_send\fP returned an error that no buffers were
+available. Disable the interrupt if there are no more QPs waiting.

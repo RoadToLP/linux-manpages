@@ -1,0 +1,26 @@
+.TH "vsp1_dlm_irq_frame_end" 9 "vsp1_dlm_irq_frame_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vsp1_dlm_irq_frame_end \- Display list handler for the frame end interrupt
+.SH SYNOPSIS
+.B "unsigned int" vsp1_dlm_irq_frame_end
+.BI "(struct vsp1_dl_manager *dlm "  ");"
+.SH ARGUMENTS
+.IP "dlm" 12
+the display list manager
+.SH "DESCRIPTION"
+Return a set of flags that indicates display list completion status.
+
+The VSP1_DL_FRAME_END_COMPLETED flag indicates that the previous display list
+has completed at frame end. If the flag is not returned display list
+completion has been delayed by one frame because the display list commit
+raced with the frame end interrupt. The function always returns with the flag
+set in single-shot mode as display list processing is then not continuous and
+races never occur.
+
+The following flags are only supported for continuous mode.
+
+The VSP1_DL_FRAME_END_INTERNAL flag indicates that the display list that just
+became active had been queued with the internal notification flag.
+
+The VSP1_DL_FRAME_END_WRITEBACK flag indicates that the previously active
+display list had been queued with the writeback flag.

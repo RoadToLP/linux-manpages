@@ -1,0 +1,23 @@
+.TH "i915_oa_read" 9 "i915_oa_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_oa_read \- just calls through to &i915_oa_ops->read
+.SH SYNOPSIS
+.B "int" i915_oa_read
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "size_t *offset "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.IP "buf" 12
+destination buffer given by userspace
+.IP "count" 12
+the number of bytes userspace wants to read
+.IP "offset" 12
+(inout): the current position for writing into \fIbuf\fP
+.SH "DESCRIPTION"
+Updates \fIoffset\fP according to the number of bytes successfully copied into
+the userspace buffer.
+.SH "RETURN"
+zero on success or a negative error code

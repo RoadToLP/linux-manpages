@@ -1,0 +1,20 @@
+.TH "target_cmd_size_check" 9 "target_cmd_size_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+target_cmd_size_check \- Check whether there will be a residual.
+.SH SYNOPSIS
+.B "sense_reason_t" target_cmd_size_check
+.BI "(struct se_cmd *cmd "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+SCSI command.
+.IP "size" 12
+Data buffer size derived from CDB. The data buffer size provided by
+the SCSI transport driver is available in \fIcmd->data_length\fP.
+.SH "DESCRIPTION"
+Compare the data buffer size from the CDB with the data buffer limit from the transport
+header. Set \fIcmd->residual_count\fP and SCF_OVERFLOW_BIT or SCF_UNDERFLOW_BIT if necessary.
+.SH "NOTE"
+target drivers set \fIcmd->data_length\fP by calling \fBtransport_init_se_cmd\fP.
+.SH "RETURN"
+TCM_NO_SENSE

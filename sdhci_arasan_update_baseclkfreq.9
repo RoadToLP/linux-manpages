@@ -1,0 +1,20 @@
+.TH "sdhci_arasan_update_baseclkfreq" 9 "sdhci_arasan_update_baseclkfreq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdhci_arasan_update_baseclkfreq \- Set corecfg_baseclkfreq
+.SH SYNOPSIS
+.B "void" sdhci_arasan_update_baseclkfreq
+.BI "(struct sdhci_host *host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The sdhci_host
+.SH "DESCRIPTION"
+The corecfg_baseclkfreq is supposed to contain the MHz of clk_xin.  This
+function can be used to make that happen.
+.SH "NOTES"
+- Many existing devices don't seem to do this and work fine.  To keep
+compatibility for old hardware where the device tree doesn't provide a
+register map, this function is a noop if a soc_ctl_map hasn't been provided
+for this platform.
+- It's assumed that clk_xin is not dynamic and that we use the SDHCI divider
+to achieve lower clock rates.  That means that this function is called once
+at probe time and never called again.

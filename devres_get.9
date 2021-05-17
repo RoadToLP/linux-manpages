@@ -1,0 +1,24 @@
+.TH "devres_get" 9 "devres_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devres_get \- Find devres, if non-existent, add one atomically
+.SH SYNOPSIS
+.B "void *" devres_get
+.BI "(struct device *dev "  ","
+.BI "void *new_res "  ","
+.BI "dr_match_t match "  ","
+.BI "void *match_data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to lookup or add devres for
+.IP "new_res" 12
+Pointer to new initialized devres to add if not found
+.IP "match" 12
+Match function (optional)
+.IP "match_data" 12
+Data for the match function
+.SH "DESCRIPTION"
+Find the latest devres of \fIdev\fP which has the same release function
+as \fInew_res\fP and for which \fImatch\fP return 1.  If found, \fInew_res\fP is
+freed; otherwise, \fInew_res\fP is added atomically.
+.SH "RETURN"
+Pointer to found or added devres.

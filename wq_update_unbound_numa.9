@@ -1,0 +1,31 @@
+.TH "wq_update_unbound_numa" 9 "wq_update_unbound_numa" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wq_update_unbound_numa \- update NUMA affinity of a wq for CPU hot[un]plug
+.SH SYNOPSIS
+.B "void" wq_update_unbound_numa
+.BI "(struct workqueue_struct *wq "  ","
+.BI "int cpu "  ","
+.BI "bool online "  ");"
+.SH ARGUMENTS
+.IP "wq" 12
+the target workqueue
+.IP "cpu" 12
+the CPU coming up or going down
+.IP "online" 12
+whether \fIcpu\fP is coming up or going down
+.SH "DESCRIPTION"
+This function is to be called from CPU_DOWN_PREPARE, CPU_ONLINE and
+CPU_DOWN_FAILED.  \fIcpu\fP is being hot[un]plugged, update NUMA affinity of
+\fIwq\fP accordingly.
+
+If NUMA affinity can't be adjusted due to memory allocation failure, it
+falls back to \fIwq->dfl_pwq\fP which may not be optimal but is always
+correct.
+
+Note that when the last allowed CPU of a NUMA node goes offline for a
+workqueue with a cpumask spanning multiple nodes, the workers which were
+already executing the work items for the workqueue will lose their CPU
+affinity and may execute on any CPU.  This is similar to how per-cpu
+workqueues behave on CPU_DOWN.  If a workqueue user wants strict
+affinity, it's the user's responsibility to flush the work item from
+CPU_DOWN_PREPARE.

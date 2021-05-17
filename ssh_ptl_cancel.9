@@ -1,0 +1,22 @@
+.TH "ssh_ptl_cancel" 9 "ssh_ptl_cancel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_cancel \- Cancel a packet.
+.SH SYNOPSIS
+.B "void" ssh_ptl_cancel
+.BI "(struct ssh_packet *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+The packet to cancel.
+.SH "DESCRIPTION"
+Cancels a packet. There are no guarantees on when completion and release
+callbacks will be called. This may occur during execution of this function
+or may occur at any point later.
+
+Note that it is not guaranteed that the packet will actually be canceled if
+the packet is concurrently completed by another process. The only guarantee
+of this function is that the packet will be completed (with success,
+failure, or cancellation) and released from the transport layer in a
+reasonable time-frame.
+
+May be called before the packet has been submitted, in which case any later
+packet submission fails.

@@ -1,0 +1,13 @@
+.TH "iavf_reset_task" 9 "iavf_reset_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_reset_task \- Call-back task to handle hardware reset
+.SH SYNOPSIS
+.B "void" iavf_reset_task
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+pointer to work_struct
+.SH "DESCRIPTION"
+During reset we need to shut down and reinitialize the admin queue
+before we can use it to communicate with the PF again. We also clear
+and reinit the rings because that context is lost as well.

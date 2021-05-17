@@ -1,0 +1,28 @@
+.TH "bnx2x_sp_post" 9 "bnx2x_sp_post" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_sp_post \- place a single command on an SP ring
+.SH SYNOPSIS
+.B "int" bnx2x_sp_post
+.BI "(struct bnx2x *bp "  ","
+.BI "int command "  ","
+.BI "int cid "  ","
+.BI "u32 data_hi "  ","
+.BI "u32 data_lo "  ","
+.BI "int cmd_type "  ");"
+.SH ARGUMENTS
+.IP "bp" 12
+driver handle
+.IP "command" 12
+command to place (e.g. SETUP, FILTER_RULES, etc.)
+.IP "cid" 12
+SW CID the command is related to
+.IP "data_hi" 12
+command private data address (high 32 bits)
+.IP "data_lo" 12
+command private data address (low 32 bits)
+.IP "cmd_type" 12
+command type (e.g. NONE, ETH)
+.SH "DESCRIPTION"
+SP data is handled as if it's always an address pair, thus data fields are
+not swapped to little endian in upper functions. Instead this function swaps
+data as if it's two u32 fields.

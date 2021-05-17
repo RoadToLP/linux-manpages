@@ -1,0 +1,16 @@
+.TH "NCR5380_queue_command" 9 "NCR5380_queue_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_queue_command \- queue a command
+.SH SYNOPSIS
+.B "int" NCR5380_queue_command
+.BI "(struct Scsi_Host *instance "  ","
+.BI "struct scsi_cmnd *cmd "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+the relevant SCSI adapter
+.IP "cmd" 12
+SCSI command
+.SH "DESCRIPTION"
+cmd is added to the per-instance issue queue, with minor
+twiddling done to the host specific fields of cmd.  If the
+main coroutine is not running, it is restarted.

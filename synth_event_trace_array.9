@@ -1,0 +1,27 @@
+.TH "synth_event_trace_array" 9 "synth_event_trace_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_trace_array \- Trace a synthetic event from an array
+.SH SYNOPSIS
+.B "int" synth_event_trace_array
+.BI "(struct trace_event_file *file "  ","
+.BI "u64 *vals "  ","
+.BI "unsigned int n_vals "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace_event_file representing the synthetic event
+.IP "vals" 12
+Array of values
+.IP "n_vals" 12
+The number of values in vals
+.SH "DESCRIPTION"
+Trace a synthetic event using the values passed in as 'vals'.
+
+The 'vals' array is just an array of 'n_vals' u64.  The number of
+vals must match the number of field in the synthetic event, and
+must be in the same order as the synthetic event fields.
+
+All vals should be cast to u64, and string vals are just pointers
+to strings, cast to u64.  Strings will be copied into space
+reserved in the event for the string, using these pointers.
+.SH "RETURN"
+0 on success, err otherwise.

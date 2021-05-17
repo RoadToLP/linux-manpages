@@ -1,0 +1,21 @@
+.TH "pci_get_class" 9 "pci_get_class" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_get_class \- begin or continue searching for a PCI device by class
+.SH SYNOPSIS
+.B "struct pci_dev *" pci_get_class
+.BI "(unsigned int class "  ","
+.BI "struct pci_dev *from "  ");"
+.SH ARGUMENTS
+.IP "class" 12
+search for a PCI device with this class designation
+.IP "from" 12
+Previous PCI device found in search, or NULL for new search.
+.SH "DESCRIPTION"
+Iterates through the list of known PCI devices.  If a PCI device is
+found with a matching \fIclass\fP, the reference count to the device is
+incremented and a pointer to its device structure is returned.
+Otherwise, NULL is returned.
+A new search is initiated by passing NULL as the \fIfrom\fP argument.
+Otherwise if \fIfrom\fP is not NULL, searches continue from next device
+on the global list.  The reference count for \fIfrom\fP is always decremented
+if it is not NULL.

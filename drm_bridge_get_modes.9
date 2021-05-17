@@ -1,0 +1,19 @@
+.TH "drm_bridge_get_modes" 9 "drm_bridge_get_modes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_get_modes \- fill all modes currently valid for the sink into the @connector
+.SH SYNOPSIS
+.B "int" drm_bridge_get_modes
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_connector *connector "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "connector" 12
+the connector to fill with modes
+.SH "DESCRIPTION"
+If the bridge supports output modes retrieval, as reported by the
+DRM_BRIDGE_OP_MODES bridge ops flag, call \fIdrm_bridge_funcs.get_modes\fP to
+fill the connector with all valid modes and return the number of modes
+added. Otherwise return 0.
+.SH "RETURN"
+The number of modes added to the connector.

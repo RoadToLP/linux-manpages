@@ -1,0 +1,13 @@
+.TH "qib_do_send" 9 "qib_do_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_do_send \- perform a send on a QP
+.SH SYNOPSIS
+.B "void" qib_do_send
+.BI "(struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+pointer to the QP
+.SH "DESCRIPTION"
+Process entries in the send work queue until credit or queue is
+exhausted.  Only allow one CPU to send a packet per QP (tasklet).
+Otherwise, two threads could send packets out of order.

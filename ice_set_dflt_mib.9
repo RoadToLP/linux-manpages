@@ -1,0 +1,16 @@
+.TH "ice_set_dflt_mib" 9 "ice_set_dflt_mib" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_dflt_mib \- send a default config MIB to the FW
+.SH SYNOPSIS
+.B "void" ice_set_dflt_mib
+.BI "(struct ice_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+private PF struct
+.SH "DESCRIPTION"
+This function sends a default configuration MIB to the FW.
+
+If this function errors out at any point, the driver is still able to
+function.  The main impact is that LFC may not operate as expected.
+Therefore an error state in this function should be treated with a DBG
+message and continue on with driver rebuild/reenable.

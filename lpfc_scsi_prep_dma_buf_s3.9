@@ -1,0 +1,21 @@
+.TH "lpfc_scsi_prep_dma_buf_s3" 9 "lpfc_scsi_prep_dma_buf_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_scsi_prep_dma_buf_s3 \- DMA mapping for scsi buffer to SLI3 IF spec
+.SH SYNOPSIS
+.B "int" lpfc_scsi_prep_dma_buf_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_io_buf *lpfc_cmd "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "lpfc_cmd" 12
+The scsi buffer which is going to be mapped.
+.SH "DESCRIPTION"
+This routine does the pci dma mapping for scatter-gather list of scsi cmnd
+field of \fIlpfc_cmd\fP for device with SLI-3 interface spec. This routine scans
+through sg elements and format the bde. This routine also initializes all
+IOCB fields which are dependent on scsi command request buffer.
+
+Return codes:
+1 - Error
+0 - Success

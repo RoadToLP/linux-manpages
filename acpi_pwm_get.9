@@ -1,0 +1,22 @@
+.TH "acpi_pwm_get" 9 "acpi_pwm_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_pwm_get \- request a PWM via parsing "pwms" property in ACPI
+.SH SYNOPSIS
+.B "struct pwm_device *" acpi_pwm_get
+.BI "(struct fwnode_handle *fwnode "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+firmware node to get the "pwm" property from
+.SH "DESCRIPTION"
+Returns the PWM device parsed from the fwnode and index specified in the
+"pwms" property or a negative error-code on failure.
+Values parsed from the device tree are stored in the returned PWM device
+object.
+
+This is analogous to \fBof_pwm_get\fP except con_id is not yet supported.
+ACPI entries must look like
+Package () {"pwms", Package ()
+{ <PWM device reference>, <PWM index>, <PWM period> [, <PWM flags>]}}
+.SH "RETURN"
+A pointer to the requested PWM device or an \fBERR_PTR\fP-encoded
+error code on failure.

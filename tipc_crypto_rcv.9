@@ -1,0 +1,33 @@
+.TH "tipc_crypto_rcv" 9 "tipc_crypto_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_rcv \- Decrypt an encrypted TIPC message from peer
+.SH SYNOPSIS
+.B "int" tipc_crypto_rcv
+.BI "(struct net *net "  ","
+.BI "struct tipc_crypto *rx "  ","
+.BI "struct sk_buff **skb "  ","
+.BI "struct tipc_bearer *b "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+struct net
+.IP "rx" 12
+RX crypto handle
+.IP "skb" 12
+input/output message skb pointer
+.IP "b" 12
+bearer where the message has been received
+.SH "DESCRIPTION"
+If the decryption is successful, the decrypted skb is returned directly or
+as the callback, the encryption header and auth tag will be trimed out
+before forwarding to \fBtipc_rcv\fP via the \fBtipc_crypto_rcv_complete\fP.
+Otherwise, the skb will be freed!
+.SH "NOTE"
+RX key(s) can be re-aligned, or in case of no key suitable, TX
+cluster key(s) can be taken for decryption (- recursive).
+.SH "RETURN"
+* 0                   : the decryption has successfully completed
+* -EINPROGRESS/-EBUSY : the decryption is ongoing, a callback will be made
+* -ENOKEY             : the decryption has failed due to no key
+* -EBADMSG            : the decryption has failed due to bad message
+* -ENOMEM             : the decryption has failed due to no memory
+* < 0                 : the decryption has failed due to other reasons

@@ -1,0 +1,14 @@
+.TH "cpufreq_this_cpu_can_update" 9 "cpufreq_this_cpu_can_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_this_cpu_can_update \- Check if cpufreq policy can be updated.
+.SH SYNOPSIS
+.B "bool" cpufreq_this_cpu_can_update
+.BI "(struct cpufreq_policy *policy "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+cpufreq policy to check.
+.SH "DESCRIPTION"
+Return 'true' if:
+- the local and remote CPUs share \fIpolicy\fP,
+- dvfs_possible_from_any_cpu is set in \fIpolicy\fP and the local CPU is not going
+offline (in which case it is not expected to run cpufreq updates any more).

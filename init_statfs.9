@@ -1,0 +1,15 @@
+.TH "init_statfs" 9 "init_statfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_statfs \- look up and initialize master and local (per node) statfs inodes
+.SH SYNOPSIS
+.B "int" init_statfs
+.BI "(struct gfs2_sbd *sdp "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.SH "DESCRIPTION"
+This should be called after the jindex is initialized in \fBinit_journal\fP and
+before \fBgfs2_journal_recovery\fP is called because we need to be able to write
+to these inodes during recovery.
+.SH "RETURN"
+errno

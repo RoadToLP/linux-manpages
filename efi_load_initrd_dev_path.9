@@ -1,0 +1,22 @@
+.TH "efi_load_initrd_dev_path" 9 "efi_load_initrd_dev_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_load_initrd_dev_path \- load the initrd from the Linux initrd device path
+.SH SYNOPSIS
+.B "efi_status_t" efi_load_initrd_dev_path
+.BI "(unsigned long *load_addr "  ","
+.BI "unsigned long *load_size "  ","
+.BI "unsigned long max "  ");"
+.SH ARGUMENTS
+.IP "load_addr" 12
+pointer to store the address where the initrd was loaded
+.IP "load_size" 12
+pointer to store the size of the loaded initrd
+.IP "max" 12
+upper limit for the initrd memory allocation
+.SH "RETURN"
+* EFI_SUCCESS if the initrd was loaded successfully, in which
+case \fIload_addr\fP and \fIload_size\fP are assigned accordingly
+* EFI_NOT_FOUND if no LoadFile2 protocol exists on the initrd device path
+* EFI_INVALID_PARAMETER if load_addr == NULL or load_size == NULL
+* EFI_OUT_OF_RESOURCES if memory allocation failed
+* EFI_LOAD_ERROR in all other cases

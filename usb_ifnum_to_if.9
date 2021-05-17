@@ -1,0 +1,28 @@
+.TH "usb_ifnum_to_if" 9 "usb_ifnum_to_if" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ifnum_to_if \- get the interface object with a given interface number
+.SH SYNOPSIS
+.B "struct usb_interface *" usb_ifnum_to_if
+.BI "(const struct usb_device *dev "  ","
+.BI "unsigned ifnum "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose current configuration is considered
+.IP "ifnum" 12
+the desired interface
+.SH "DESCRIPTION"
+This walks the device descriptor for the currently active configuration
+to find the interface object with the particular interface number.
+
+Note that configuration descriptors are not required to assign interface
+numbers sequentially, so that it would be incorrect to assume that
+the first interface in that descriptor corresponds to interface zero.
+This routine helps device drivers avoid such mistakes.
+However, you should make sure that you do the right thing with any
+alternate settings available for this interfaces.
+
+Don't call this function unless you are bound to one of the interfaces
+on this device or you have locked the device!
+.SH "RETURN"
+A pointer to the interface that has \fIifnum\fP as interface number,
+if found. NULL otherwise.

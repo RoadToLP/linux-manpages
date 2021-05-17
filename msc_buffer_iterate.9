@@ -1,0 +1,27 @@
+.TH "msc_buffer_iterate" 9 "msc_buffer_iterate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_iterate \- go through multiblock buffer's data
+.SH SYNOPSIS
+.B "ssize_t" msc_buffer_iterate
+.BI "(struct msc_iter *iter "  ","
+.BI "size_t size "  ","
+.BI "void *data "  ","
+.BI "unsigned long (*fn)(void *, void *, size_t) "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+iterator structure
+.IP "size" 12
+amount of data to scan
+.IP "data" 12
+callback's private data
+.IP "fn" 12
+iterator callback
+.SH "DESCRIPTION"
+This will start at the window which will be written to next (containing
+the oldest data) and work its way to the current window, calling \fIfn\fP
+for each chunk of data as it goes.
+
+Caller should have msc::user_count reference to make sure the buffer
+doesn't disappear from under us.
+.SH "RETURN"
+amount of data actually scanned.

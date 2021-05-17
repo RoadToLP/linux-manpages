@@ -1,0 +1,23 @@
+.TH "ice_xdp_xmit" 9 "ice_xdp_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_xdp_xmit \- submit packets to XDP ring for transmission
+.SH SYNOPSIS
+.B "int" ice_xdp_xmit
+.BI "(struct net_device *dev "  ","
+.BI "int n "  ","
+.BI "struct xdp_frame **frames "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+netdev
+.IP "n" 12
+number of XDP frames to be transmitted
+.IP "frames" 12
+XDP frames to be transmitted
+.IP "flags" 12
+transmit flags
+.SH "DESCRIPTION"
+Returns number of frames successfully sent. Frames that fail are
+free'ed via XDP return API.
+For error cases, a negative errno code is returned and no-frames
+are transmitted (caller must handle freeing frames).

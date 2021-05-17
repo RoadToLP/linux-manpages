@@ -1,0 +1,30 @@
+.TH "vringh_getdesc_user" 9 "vringh_getdesc_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vringh_getdesc_user \- get next available descriptor from userspace ring.
+.SH SYNOPSIS
+.B "int" vringh_getdesc_user
+.BI "(struct vringh *vrh "  ","
+.BI "struct vringh_iov *riov "  ","
+.BI "struct vringh_iov *wiov "  ","
+.BI "bool (*getrange)(struct vringh *vrh, u64 addr, struct vringh_range *r) "  ","
+.BI "u16 *head "  ");"
+.SH ARGUMENTS
+.IP "vrh" 12
+the userspace vring.
+.IP "riov" 12
+where to put the readable descriptors (or NULL)
+.IP "wiov" 12
+where to put the writable descriptors (or NULL)
+.IP "getrange" 12
+function to call to check ranges.
+.IP "head" 12
+head index we received, for passing to \fBvringh_complete_user\fP.
+.SH "DESCRIPTION"
+Returns 0 if there was no descriptor, 1 if there was, or -errno.
+
+Note that on error return, you can tell the difference between an
+invalid ring and a single invalid descriptor: in the former case,
+*head will be vrh->vring.num.  You may be able to ignore an invalid
+descriptor, but there's not much you can do with an invalid ring.
+
+Note that you may need to clean up riov and wiov, even on error!

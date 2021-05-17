@@ -1,0 +1,28 @@
+.TH "umip_printk" 9 "umip_printk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+umip_printk \- Print a rate-limited message
+.SH SYNOPSIS
+.B "void" umip_printk
+.BI "(const struct pt_regs *regs "  ","
+.BI "const char *log_level "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Register set with the context in which the warning is printed
+.IP "log_level" 12
+Kernel log level to print the message
+.IP "fmt" 12
+The text string to print
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Print the text contained in \fIfmt\fP. The print rate is limited to bursts of 5
+messages every two minutes. The purpose of this customized version of
+\fBprintk\fP is to print messages when user space processes use any of the
+UMIP-protected instructions. Thus, the printed text is prepended with the
+task name and process ID number of the current task as well as the
+instruction and stack pointers in \fIregs\fP as seen when entering kernel mode.
+
+None.
+.SH "RETURN"

@@ -1,0 +1,44 @@
+.TH "drm_crtc_helper_set_config" 9 "drm_crtc_helper_set_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_helper_set_config \- set a new config from userspace
+.SH SYNOPSIS
+.B "int" drm_crtc_helper_set_config
+.BI "(struct drm_mode_set *set "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+mode set configuration
+.IP "ctx" 12
+lock acquire context, not used here
+.SH "DESCRIPTION"
+The \fBdrm_crtc_helper_set_config\fP helper function implements the of
+\fIdrm_crtc_funcs.set_config\fP callback for drivers using the legacy CRTC
+helpers.
+
+It first tries to locate the best encoder for each connector by calling the
+connector \fIdrm_connector_helper_funcs.best_encoder\fP helper operation.
+
+After locating the appropriate encoders, the helper function will call the
+mode_fixup encoder and CRTC helper operations to adjust the requested mode,
+or reject it completely in which case an error will be returned to the
+application. If the new configuration after mode adjustment is identical to
+the current configuration the helper function will return without performing
+any other operation.
+
+If the adjusted mode is identical to the current mode but changes to the
+frame buffer need to be applied, the \fBdrm_crtc_helper_set_config\fP function
+will call the CRTC \fIdrm_crtc_helper_funcs.mode_set_base\fP helper operation.
+
+If the adjusted mode differs from the current mode, or if the
+->\fBmode_set_base\fP helper operation is not provided, the helper function
+performs a full mode set sequence by calling the ->\fBprepare\fP, ->\fBmode_set\fP
+and ->\fBcommit\fP CRTC and encoder helper operations, in that order.
+Alternatively it can also use the dpms and disable helper operations. For
+details see \fIstruct drm_crtc_helper_funcs\fP and struct
+\fIdrm_encoder_helper_funcs\fP.
+
+This function is deprecated.  New drivers must implement atomic modeset
+support, for which this function is unsuitable. Instead drivers should use
+\fBdrm_atomic_helper_set_config\fP.
+.SH "RETURN"
+Returns 0 on success, negative errno numbers on failure.

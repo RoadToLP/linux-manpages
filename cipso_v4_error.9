@@ -1,0 +1,34 @@
+.TH "cipso_v4_error" 9 "cipso_v4_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_error \- Send the correct response for a bad packet
+.SH SYNOPSIS
+.B "void" cipso_v4_error
+.BI "(struct sk_buff *skb "  ","
+.BI "int error "  ","
+.BI "u32 gateway "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "error" 12
+the error code
+.IP "gateway" 12
+CIPSO gateway flag
+.SH "DESCRIPTION"
+Based on the error code given in \fIerror\fP, send an ICMP error message back to
+the originating host.  From the IETF draft ...
+
+"If the contents of the CIPSO [option] are valid but the security label is
+outside of the configured host or port label range, the datagram is
+discarded and an ICMP 'destination unreachable' (type 3) is generated and
+returned.  The code field of the ICMP is set to 'communication with
+destination network administratively prohibited' (code 9) or to
+'communication with destination host administratively prohibited'
+(code 10).  The value of the code is dependent on whether the originator
+of the ICMP message is acting as a CIPSO host or a CIPSO gateway.  The
+recipient of the ICMP message MUST be able to handle either value.  The
+same procedure is performed if a CIPSO [option] can not be added to an
+IP packet because it is too large to fit in the IP options area."
+
+"If the error is triggered by receipt of an ICMP message, the message is
+discarded and no response is permitted (consistent with general ICMP
+processing rules)."

@@ -1,0 +1,17 @@
+.TH "dccp_flush_write_queue" 9 "dccp_flush_write_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_flush_write_queue \- Drain queue at end of connection
+.SH SYNOPSIS
+.B "void" dccp_flush_write_queue
+.BI "(struct sock *sk "  ","
+.BI "long *time_budget "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to be drained
+.IP "time_budget" 12
+time allowed to drain the queue
+.SH "DESCRIPTION"
+Since dccp_sendmsg queues packets without waiting for them to be sent, it may
+happen that the TX queue is not empty at the end of a connection. We give the
+HC-sender CCID a grace period of up to \fItime_budget\fP jiffies. If this function
+returns with a non-empty write queue, it will be purged later.

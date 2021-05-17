@@ -1,0 +1,19 @@
+.TH "ice_construct_skb" 9 "ice_construct_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_construct_skb \- Allocate skb and populate it
+.SH SYNOPSIS
+.B "struct sk_buff *" ice_construct_skb
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "struct ice_rx_buf *rx_buf "  ","
+.BI "struct xdp_buff *xdp "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring to transact packets on
+.IP "rx_buf" 12
+Rx buffer to pull data from
+.IP "xdp" 12
+xdp_buff pointing to the data
+.SH "DESCRIPTION"
+This function allocates an skb. It then populates it with the page
+data from the current receive descriptor, taking care to set up the
+skb correctly.

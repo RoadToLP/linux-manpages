@@ -1,0 +1,20 @@
+.TH "sysc_legacy_idle_quirk" 9 "sysc_legacy_idle_quirk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysc_legacy_idle_quirk \- handle children in omap_device compatible way
+.SH SYNOPSIS
+.B "void" sysc_legacy_idle_quirk
+.BI "(struct sysc *ddata "  ","
+.BI "struct device *child "  ");"
+.SH ARGUMENTS
+.IP "ddata" 12
+device driver data
+.IP "child" 12
+child device driver
+.SH "DESCRIPTION"
+Allow idle for child devices as done with \fB_od_runtime_suspend\fP.
+Otherwise many child devices will not idle because of the permanent
+parent usecount set in \fBpm_runtime_irq_safe\fP.
+
+Note that the long term solution is to just modify the child device
+drivers to not set \fBpm_runtime_irq_safe\fP and then this can be just
+dropped.

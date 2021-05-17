@@ -1,0 +1,14 @@
+.TH "msc_buffer_free" 9 "msc_buffer_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_free \- free buffers for MSC
+.SH SYNOPSIS
+.B "void" msc_buffer_free
+.BI "(struct msc *msc "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.SH "DESCRIPTION"
+Free MSC's storage buffers.
+
+This modifies msc::win_list and msc::base, which requires msc::buf_mutex to
+serialize, so the caller is expected to hold it.

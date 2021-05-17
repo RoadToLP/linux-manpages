@@ -1,0 +1,19 @@
+.TH "ata_scsi_dma_need_drain" 9 "ata_scsi_dma_need_drain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_dma_need_drain \- Check whether data transfer may overflow
+.SH SYNOPSIS
+.B "bool" ata_scsi_dma_need_drain
+.BI "(struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+request to be checked
+
+ATAPI commands which transfer variable length data to host
+might overflow due to application error or hardware bug.  This
+function checks whether overflow should be drained and ignored
+for \fIrequest\fP.
+
+LOCKING:
+None.
+.SH "RETURN"
+1 if ; otherwise, 0.

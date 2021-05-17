@@ -1,0 +1,37 @@
+.TH "intel_gvt_reset_vgpu_locked" 9 "intel_gvt_reset_vgpu_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_gvt_reset_vgpu_locked \- reset a virtual GPU by DMLR or GT reset
+.SH SYNOPSIS
+.B "void" intel_gvt_reset_vgpu_locked
+.BI "(struct intel_vgpu *vgpu "  ","
+.BI "bool dmlr "  ","
+.BI "intel_engine_mask_t engine_mask "  ");"
+.SH ARGUMENTS
+.IP "vgpu" 12
+virtual GPU
+.IP "dmlr" 12
+vGPU Device Model Level Reset or GT Reset
+.IP "engine_mask" 12
+engines to reset for GT reset
+.SH "DESCRIPTION"
+This function is called when user wants to reset a virtual GPU through
+device model reset or GT reset. The caller should hold the vgpu lock.
+
+vGPU Device Model Level Reset (DMLR) simulates the PCI level reset to reset
+the whole vGPU to default state as when it is created. This vGPU function
+is required both for functionary and security concerns.The ultimate goal
+of vGPU FLR is that reuse a vGPU instance by virtual machines. When we
+assign a vGPU to a virtual machine we must isse such reset first.
+
+Full GT Reset and Per-Engine GT Reset are soft reset flow for GPU engines
+(Render, Blitter, Video, Video Enhancement). It is defined by GPU Spec.
+Unlike the FLR, GT reset only reset particular resource of a vGPU per
+the reset request. Guest driver can issue a GT reset by programming the
+virtual GDRST register to reset specific virtual GPU engine or all
+engines.
+
+The parameter dev_level is to identify if we will do DMLR or GT reset.
+The parameter engine_mask is to specific the engines that need to be
+resetted. If value ALL_ENGINES is given for engine_mask, it means
+the caller requests a full GT reset that we will reset all virtual
+GPU engines. For FLR, engine_mask is ignored.

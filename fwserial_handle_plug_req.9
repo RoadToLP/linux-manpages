@@ -1,0 +1,18 @@
+.TH "fwserial_handle_plug_req" 9 "fwserial_handle_plug_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwserial_handle_plug_req \- handle VIRT_CABLE_PLUG request work
+.SH SYNOPSIS
+.B "void" fwserial_handle_plug_req
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+ptr to peer->work
+.SH "DESCRIPTION"
+Attempts to complete the VIRT_CABLE_PLUG handshake sequence for this peer.
+
+This checks for a collided request-- ie, that a VIRT_CABLE_PLUG request was
+already sent to this peer. If so, the collision is resolved by comparing
+guid values; the loser sends the plug response.
+.SH "NOTE"
+if an error prevents a response, don't do anything -- the
+remote will timeout its request.

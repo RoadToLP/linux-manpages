@@ -1,0 +1,23 @@
+.TH "get_addr_ref_16" 9 "get_addr_ref_16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_addr_ref_16 \- Obtain the 16-bit address referred by instruction
+.SH SYNOPSIS
+.B "void __user *" get_addr_ref_16
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction containing ModRM byte and displacement
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.SH "DESCRIPTION"
+This function is to be used with 16-bit address encodings. Obtain the memory
+address referred by the instruction's ModRM and displacement bytes. Also, the
+segment used as base is determined by either any segment override prefixes in
+\fIinsn\fP or the default segment of the registers involved in the address
+computation. In protected mode, segment limits are enforced.
+
+Linear address referenced by the instruction operands on success.
+
+-1L on error.
+.SH "RETURN"

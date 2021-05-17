@@ -1,0 +1,29 @@
+.TH "mtd_ooblayout_get_bytes" 9 "mtd_ooblayout_get_bytes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_ooblayout_get_bytes \- Extract OOB bytes from the oob buffer
+.SH SYNOPSIS
+.B "int" mtd_ooblayout_get_bytes
+.BI "(struct mtd_info *mtd "  ","
+.BI "u8 *buf "  ","
+.BI "const u8 *oobbuf "  ","
+.BI "int start "  ","
+.BI "int nbytes "  ","
+.BI "int (*iter)(struct mtd_info *, int section, struct mtd_oob_region *oobregion) "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+mtd info structure
+.IP "buf" 12
+destination buffer to store OOB bytes
+.IP "oobbuf" 12
+OOB buffer
+.IP "start" 12
+first byte to retrieve
+.IP "nbytes" 12
+number of bytes to retrieve
+.IP "iter" 12
+section iterator
+.SH "DESCRIPTION"
+Extract bytes attached to a specific category (ECC or free)
+from the OOB buffer and copy them into buf.
+
+Returns zero on success, a negative error code otherwise.

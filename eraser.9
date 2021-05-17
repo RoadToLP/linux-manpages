@@ -1,0 +1,19 @@
+.TH "eraser" 9 "eraser" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eraser \- handle erase function
+.SH SYNOPSIS
+.B "void" eraser
+.BI "(unsigned char c "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+character input
+.IP "tty" 12
+terminal device
+
+Perform erase and necessary output when an erase character is
+present in the stream from the driver layer. Handles the complexities
+of UTF-8 multibyte symbols.
+
+\fBn_tty_receive_buf\fP/producer path:
+caller holds non-exclusive termios_rwsem

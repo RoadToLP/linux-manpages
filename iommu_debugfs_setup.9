@@ -1,0 +1,21 @@
+.TH "iommu_debugfs_setup" 9 "iommu_debugfs_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_debugfs_setup \- create the top-level iommu directory in debugfs
+.SH SYNOPSIS
+.B "void" iommu_debugfs_setup
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Provide base enablement for using debugfs to expose internal data of an
+IOMMU driver. When called, this function creates the
+/sys/kernel/debug/iommu directory.
+
+Emit a strong warning at boot time to indicate that this feature is
+enabled.
+
+This function is called from iommu_init; drivers may then use
+iommu_debugfs_dir to instantiate a vendor-specific directory to be used
+to expose internal data.

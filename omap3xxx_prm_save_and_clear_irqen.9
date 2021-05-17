@@ -1,0 +1,16 @@
+.TH "omap3xxx_prm_save_and_clear_irqen" 9 "omap3xxx_prm_save_and_clear_irqen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3xxx_prm_save_and_clear_irqen \- save/clear PRM_IRQENABLE_MPU reg
+.SH SYNOPSIS
+.B "void" omap3xxx_prm_save_and_clear_irqen
+.BI "(u32 *saved_mask "  ");"
+.SH ARGUMENTS
+.IP "saved_mask" 12
+ptr to a u32 array to save IRQENABLE bits
+.SH "DESCRIPTION"
+Save the PRM_IRQENABLE_MPU register to \fIsaved_mask\fP.  \fIsaved_mask\fP
+must be allocated by the caller.  Intended to be used in the PRM
+interrupt handler suspend callback.  The OCP barrier is needed to
+ensure the write to disable PRM interrupts reaches the PRM before
+returning; otherwise, spurious interrupts might occur.  No return
+value.

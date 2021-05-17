@@ -1,0 +1,22 @@
+.TH "ssh_request_init" 9 "ssh_request_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_request_init \- Initialize SSH request.
+.SH SYNOPSIS
+.B "int" ssh_request_init
+.BI "(struct ssh_request *rqst "  ","
+.BI "enum ssam_request_flags flags "  ","
+.BI "const struct ssh_request_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+The request to initialize.
+.IP "flags" 12
+Request flags, determining the type of the request.
+.IP "ops" 12
+Request operations.
+.SH "DESCRIPTION"
+Initializes the given SSH request and underlying packet. Sets the message
+buffer pointer to NULL and the message buffer length to zero. This buffer
+has to be set separately via \fBssh_request_set_data\fP before submission and
+must contain a valid SSH request message.
+.SH "RETURN"
+Returns zero on success or -EINVAL if the given flags are invalid.

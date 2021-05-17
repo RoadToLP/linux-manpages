@@ -1,0 +1,26 @@
+.TH "adis_single_conversion" 9 "adis_single_conversion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+adis_single_conversion \- Performs a single sample conversion
+.SH SYNOPSIS
+.B "int" adis_single_conversion
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "const struct iio_chan_spec *chan "  ","
+.BI "unsigned int error_mask "  ","
+.BI "int *val "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+The IIO device
+.IP "chan" 12
+The IIO channel
+.IP "error_mask" 12
+Mask for the error bit
+.IP "val" 12
+Result of the conversion
+.SH "DESCRIPTION"
+Returns IIO_VAL_INT on success, a negative error code otherwise.
+
+The function performs a single conversion on a given channel and post
+processes the value accordingly to the channel spec. If a error_mask is given
+the function will check if the mask is set in the returned raw value. If it
+is set the function will perform a self-check. If the device does not report
+a error bit in the channels raw value set error_mask to 0.

@@ -1,0 +1,16 @@
+.TH "migrate_vma_finalize" 9 "migrate_vma_finalize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+migrate_vma_finalize \- restore CPU page table entry
+.SH SYNOPSIS
+.B "void" migrate_vma_finalize
+.BI "(struct migrate_vma *migrate "  ");"
+.SH ARGUMENTS
+.IP "migrate" 12
+migrate struct containing all migration information
+.SH "DESCRIPTION"
+This replaces the special migration pte entry with either a mapping to the
+new page if migration was successful for that page, or to the original page
+otherwise.
+
+This also unlocks the pages and puts them back on the lru, or drops the extra
+refcount, for device pages.

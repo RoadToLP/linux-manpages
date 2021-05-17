@@ -1,0 +1,23 @@
+.TH "kern_reserve_flow" 9 "kern_reserve_flow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kern_reserve_flow \- allocate a hardware flow
+.SH SYNOPSIS
+.B "int" kern_reserve_flow
+.BI "(struct hfi1_ctxtdata *rcd "  ","
+.BI "int last "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the context to use for allocation
+.IP "last" 12
+the index of the preferred flow. Use RXE_NUM_TID_FLOWS to
+signify "don't care".
+.SH "DESCRIPTION"
+Use a bit mask based allocation to reserve a hardware
+flow for use in receiving KDETH data packets. If a preferred flow is
+specified the function will attempt to reserve that flow again, if
+available.
+
+The exp_lock must be held.
+.SH "RETURN"
+On success: a value postive value between 0 and RXE_NUM_TID_FLOWS - 1
+On failure: -EAGAIN

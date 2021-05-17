@@ -1,0 +1,26 @@
+.TH "check_corruption" 9 "check_corruption" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_corruption \- check the data area of PEB.
+.SH SYNOPSIS
+.B "int" check_corruption
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_vid_hdr *vid_hdr "  ","
+.BI "int pnum "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vid_hdr" 12
+the (corrupted) VID header of this PEB
+.IP "pnum" 12
+the physical eraseblock number to check
+.SH "DESCRIPTION"
+This is a helper function which is used to distinguish between VID header
+corruptions caused by power cuts and other reasons. If the PEB contains only
+0xFF bytes in the data area, the VID header is most probably corrupted
+because of a power cut (0 is returned in this case). Otherwise, it was
+probably corrupted for some other reasons (1 is returned in this case). A
+negative error code is returned if a read error occurred.
+
+If the corruption reason was a power cut, UBI can safely erase this PEB.
+Otherwise, it should preserve it to avoid possibly destroying important
+information.

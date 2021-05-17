@@ -1,0 +1,20 @@
+.TH "dma_free_contiguous" 9 "dma_free_contiguous" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_free_contiguous \- release allocated pages
+.SH SYNOPSIS
+.B "void" dma_free_contiguous
+.BI "(struct device *dev "  ","
+.BI "struct page *page "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to device for which the pages were allocated.
+.IP "page" 12
+Pointer to the allocated pages.
+.IP "size" 12
+Size of allocated pages.
+.SH "DESCRIPTION"
+This function releases memory allocated by \fBdma_alloc_contiguous\fP. As the
+cma_release returns false when provided pages do not belong to contiguous
+area and true otherwise, this function then does a fallback \fB__free_pages\fP
+upon a false-return.

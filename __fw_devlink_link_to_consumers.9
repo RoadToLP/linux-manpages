@@ -1,0 +1,22 @@
+.TH "__fw_devlink_link_to_consumers" 9 "__fw_devlink_link_to_consumers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__fw_devlink_link_to_consumers \- Create device links to consumers of a device @dev - Device that needs to be linked to its consumers
+.SH SYNOPSIS
+.B "void" __fw_devlink_link_to_consumers
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function looks at all the consumer fwnodes of \fIdev\fP and creates device
+links between the consumer device and \fIdev\fP (supplier).
+
+If the consumer device has not been added yet, then this function creates a
+SYNC_STATE_ONLY link between \fIdev\fP (supplier) and the closest ancestor device
+of the consumer fwnode. This is necessary to make sure \fIdev\fP doesn't get a
+\fBsync_state\fP callback before the real consumer device gets to be added and
+then probed.
+
+Once device links are created from the real consumer to \fIdev\fP (supplier), the
+fwnode links are deleted.

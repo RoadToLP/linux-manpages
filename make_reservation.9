@@ -1,0 +1,25 @@
+.TH "make_reservation" 9 "make_reservation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_reservation \- reserve journal space.
+.SH SYNOPSIS
+.B "int" make_reservation
+.BI "(struct ubifs_info *c "  ","
+.BI "int jhead "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "jhead" 12
+journal head
+.IP "len" 12
+how many bytes to reserve
+.SH "DESCRIPTION"
+This function makes space reservation in journal head \fIjhead\fP. The function
+takes the commit lock and locks the journal head, and the caller has to
+unlock the head and finish the reservation with '\fBfinish_reservation\fP'.
+Returns zero in case of success and a negative error code in case of
+failure.
+
+Note, the journal head may be unlocked as soon as the data is written, while
+the commit lock has to be released after the data has been added to the
+TNC.

@@ -1,0 +1,34 @@
+.TH "insert_wq_barrier" 9 "insert_wq_barrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insert_wq_barrier \- insert a barrier work
+.SH SYNOPSIS
+.B "void" insert_wq_barrier
+.BI "(struct pool_workqueue *pwq "  ","
+.BI "struct wq_barrier *barr "  ","
+.BI "struct work_struct *target "  ","
+.BI "struct worker *worker "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+pwq to insert barrier into
+.IP "barr" 12
+wq_barrier to insert
+.IP "target" 12
+target work to attach \fIbarr\fP to
+.IP "worker" 12
+worker currently executing \fItarget\fP, NULL if \fItarget\fP is not executing
+.SH "DESCRIPTION"
+\fIbarr\fP is linked to \fItarget\fP such that \fIbarr\fP is completed only after
+\fItarget\fP finishes execution.  Please note that the ordering
+guarantee is observed only with respect to \fItarget\fP and on the local
+cpu.
+
+Currently, a queued barrier can't be canceled.  This is because
+\fBtry_to_grab_pending\fP can't determine whether the work to be
+grabbed is at the head of the queue and thus can't clear LINKED
+flag of the previous work while there must be a valid next work
+after a work with LINKED flag set.
+
+Note that when \fIworker\fP is non-NULL, \fItarget\fP may be modified
+underneath us, so we can't reliably determine pwq from \fItarget\fP.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock).

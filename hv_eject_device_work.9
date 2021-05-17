@@ -1,0 +1,14 @@
+.TH "hv_eject_device_work" 9 "hv_eject_device_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_eject_device_work \- Asynchronously handles ejection
+.SH SYNOPSIS
+.B "void" hv_eject_device_work
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+Work struct embedded in internal device struct
+.SH "DESCRIPTION"
+This function handles ejecting a device.  Windows will
+attempt to gracefully eject a device, waiting 60 seconds to
+hear back from the guest OS that this completed successfully.
+If this timer expires, the device will be forcibly removed.

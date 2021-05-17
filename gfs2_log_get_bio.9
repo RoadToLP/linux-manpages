@@ -1,0 +1,31 @@
+.TH "gfs2_log_get_bio" 9 "gfs2_log_get_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_log_get_bio \- Get cached log bio, or allocate a new one
+.SH SYNOPSIS
+.B "struct bio *" gfs2_log_get_bio
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "u64 blkno "  ","
+.BI "struct bio **biop "  ","
+.BI "int op "  ","
+.BI "bio_end_io_t *end_io "  ","
+.BI "bool flush "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The super block
+.IP "blkno" 12
+The device block number we want to write to
+.IP "biop" 12
+-- undescribed --
+.IP "op" 12
+REQ_OP
+.IP "end_io" 12
+The bi_end_io callback
+.IP "flush" 12
+Always flush the current bio and allocate a new one?
+.SH "DESCRIPTION"
+If there is a cached bio, then if the next block number is sequential
+with the previous one, return it, otherwise flush the bio to the
+device. If there is no cached bio, or we just flushed it, then
+allocate a new one.
+.SH "RETURN"
+The bio to use for log writes

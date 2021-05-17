@@ -1,0 +1,21 @@
+.TH "scsicam_bios_param" 9 "scsicam_bios_param" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsicam_bios_param \- Determine geometry of a disk in cylinders/heads/sectors.
+.SH SYNOPSIS
+.B "int" scsicam_bios_param
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t capacity "  ","
+.BI "int *ip "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+which device
+.IP "capacity" 12
+size of the disk in sectors
+.IP "ip" 12
+return value: ip[0]=heads, ip[1]=sectors, ip[2]=cylinders
+.SH "DESCRIPTION"
+determine the BIOS mapping/geometry used for a drive in a
+SCSI-CAM system, storing the results in ip as required
+by the HDIO_GETGEO \fBioctl\fP.
+.SH "RETURN"
+-1 on failure, 0 on success.

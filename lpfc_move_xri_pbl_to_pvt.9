@@ -1,0 +1,21 @@
+.TH "lpfc_move_xri_pbl_to_pvt" 9 "lpfc_move_xri_pbl_to_pvt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_move_xri_pbl_to_pvt \- Move some XRIs from public to private pool
+.SH SYNOPSIS
+.B "void" lpfc_move_xri_pbl_to_pvt
+.BI "(struct lpfc_hba *phba "  ","
+.BI "u32 hwqid "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "hwqid" 12
+belong to which HWQ.
+.IP "count" 12
+number of XRIs to move
+.SH "DESCRIPTION"
+This routine tries to find some free common bufs in one of public pools with
+Round Robin method. The search always starts from local hwqid, then the next
+HWQ which was found last time (rrb_next_hwqid). Once a public pool is found,
+a batch of free common bufs are moved to private pool on hwqid.
+It might move less than count XRIs if there's not enough in public pool.

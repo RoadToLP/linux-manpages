@@ -1,0 +1,21 @@
+.TH "lpfc_config_link" 9 "lpfc_config_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_config_link \- Prepare a mailbox command for configuring link on a HBA
+.SH SYNOPSIS
+.B "void" lpfc_config_link
+.BI "(struct lpfc_hba * phba "  ","
+.BI "LPFC_MBOXQ_t * pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The configure link mailbox command is used before the initialize link
+mailbox command to override default value and to configure link-oriented
+parameters such as DID address and various timers. Typically, this
+command would be used after an F_Port login to set the returned DID address
+and the fabric timeout values. This command is not valid before a configure
+port command has configured the HBA port.
+
+This routine prepares the mailbox command for configuring link on a HBA.

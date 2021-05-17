@@ -1,0 +1,25 @@
+.TH "read_cache_page" 9 "read_cache_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_cache_page \- read into page cache, fill it if needed
+.SH SYNOPSIS
+.B "struct page *" read_cache_page
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t index "  ","
+.BI "int (*filler)(void *, struct page *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the page's address_space
+.IP "index" 12
+the page index
+.IP "filler" 12
+function to perform the read
+.IP "data" 12
+first arg to filler(data, page) function, often left as NULL
+.SH "DESCRIPTION"
+Read into the page cache. If a page already exists, and \fBPageUptodate\fP is
+not set, try to fill the page and wait for it to become unlocked.
+
+If the page does not get brought uptodate, return -EIO.
+.SH "RETURN"
+up to date page on success, \fBERR_PTR\fP on failure.

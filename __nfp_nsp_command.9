@@ -1,0 +1,22 @@
+.TH "__nfp_nsp_command" 9 "__nfp_nsp_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nfp_nsp_command \- Execute a command on the NFP Service Processor
+.SH SYNOPSIS
+.B "int" __nfp_nsp_command
+.BI "(struct nfp_nsp *state "  ","
+.BI "const struct nfp_nsp_command_arg *arg "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+NFP SP state
+.IP "arg" 12
+NFP command argument structure
+.SH "RETURN"
+0 for success with no result
+
+positive value for NSP completion with a result code
+
+-EAGAIN if the NSP is not yet present
+-ENODEV if the NSP is not a supported model
+-EBUSY if the NSP is stuck
+-EINTR if interrupted while waiting for completion
+-ETIMEDOUT if the NSP took longer than \fItimeout_sec\fP seconds to complete

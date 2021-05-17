@@ -1,0 +1,24 @@
+.TH "llc_rcv" 9 "llc_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_rcv \- 802.2 entry point from net lower layers
+.SH SYNOPSIS
+.B "int" llc_rcv
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "struct packet_type *pt "  ","
+.BI "struct net_device *orig_dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+received pdu
+.IP "dev" 12
+device that receive pdu
+.IP "pt" 12
+packet type
+.IP "orig_dev" 12
+the original receive net device
+
+When the system receives a 802.2 frame this function is called. It
+checks SAP and connection of received pdu and passes frame to
+llc_{station,sap,conn}_rcv for sending to proper state machine. If
+the frame is related to a busy connection (a connection is sending
+data now), it queues this frame in the connection's backlog.

@@ -1,0 +1,24 @@
+.TH "scmi_register_event_handler" 9 "scmi_register_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_register_event_handler \- Register whenever possible an Event handler
+.SH SYNOPSIS
+.B "int" scmi_register_event_handler
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "struct scmi_event_handler *hndl "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "hndl" 12
+The event handler to register
+.SH "DESCRIPTION"
+At first try to bind an event handler to its associated event, then check if
+it was at least a valid pending handler: if it was not bound nor valid return
+false.
+
+Valid pending incomplete bindings will be periodically retried by a dedicated
+worker which is kicked each time a new protocol completes its own
+registration phase.
+.SH "CONTEXT"
+Assumes to be called with \fIpending_mtx\fP acquired.
+.SH "RETURN"
+0 on Success

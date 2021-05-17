@@ -1,0 +1,19 @@
+.TH "read_persistent_wall_and_boot_offset" 9 "read_persistent_wall_and_boot_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_persistent_wall_and_boot_offset \- Read persistent clock, and also offset from the boot.
+.SH SYNOPSIS
+.B "void" read_persistent_wall_and_boot_offset
+.BI "(struct timespec64 *wall_time "  ","
+.BI "struct timespec64 *boot_offset "  ");"
+.SH ARGUMENTS
+.IP "wall_time" 12
+- current time as returned by persistent clock
+.IP "boot_offset" 12
+- offset that is defined as wall_time - boot_time
+.SH "DESCRIPTION"
+
+Weak dummy function for arches that do not yet support it.
+The default function calculates offset based on the current value of
+\fBlocal_clock\fP. This way architectures that support \fBsched_clock\fP but don't
+support dedicated boot time clock will provide the best estimate of the
+boot time.

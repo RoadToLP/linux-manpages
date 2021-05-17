@@ -1,0 +1,17 @@
+.TH "usb_hcd_unlink_urb_from_ep" 9 "usb_hcd_unlink_urb_from_ep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_unlink_urb_from_ep \- remove an URB from its endpoint queue
+.SH SYNOPSIS
+.B "void" usb_hcd_unlink_urb_from_ep
+.BI "(struct usb_hcd *hcd "  ","
+.BI "struct urb *urb "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+host controller to which \fIurb\fP was submitted
+.IP "urb" 12
+URB being unlinked
+.SH "DESCRIPTION"
+Host controller drivers should call this routine before calling
+\fBusb_hcd_giveback_urb\fP.  The HCD's private spinlock must be held and
+interrupts must be disabled.  The actions carried out here are required
+for URB completion.

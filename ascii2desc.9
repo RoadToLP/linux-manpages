@@ -1,0 +1,21 @@
+.TH "ascii2desc" 9 "ascii2desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ascii2desc \- Helper routine for producing UTF-16LE string descriptors
+.SH SYNOPSIS
+.B "unsigned" ascii2desc
+.BI "(char const *s "  ","
+.BI "u8 *buf "  ","
+.BI "unsigned len "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+Null-terminated ASCII (actually ISO-8859-1) string
+.IP "buf" 12
+Buffer for USB string descriptor (header + UTF-16LE)
+.IP "len" 12
+Length (in bytes; may be odd) of descriptor buffer.
+.SH "RETURN"
+The number of bytes filled in: 2 + 2*strlen(s) or \fIlen\fP,
+whichever is less.
+.SH "NOTE"
+USB String descriptors can contain at most 126 characters; input
+strings longer than that are truncated.

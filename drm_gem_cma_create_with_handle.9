@@ -1,0 +1,25 @@
+.TH "drm_gem_cma_create_with_handle" 9 "drm_gem_cma_create_with_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_create_with_handle \- allocate an object with the given size and return a GEM handle to it
+.SH SYNOPSIS
+.B "struct drm_gem_cma_object *" drm_gem_cma_create_with_handle
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct drm_device *drm "  ","
+.BI "size_t size "  ","
+.BI "uint32_t *handle "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+DRM file-private structure to register the handle for
+.IP "drm" 12
+DRM device
+.IP "size" 12
+size of the object to allocate
+.IP "handle" 12
+return location for the GEM handle
+.SH "DESCRIPTION"
+This function creates a CMA GEM object, allocating a physically contiguous
+chunk of memory as backing store. The GEM object is then added to the list
+of object associated with the given file and a handle to it is returned.
+.SH "RETURN"
+A struct drm_gem_cma_object * on success or an \fBERR_PTR\fP-encoded negative
+error code on failure.

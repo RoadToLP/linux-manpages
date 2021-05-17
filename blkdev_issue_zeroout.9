@@ -1,0 +1,25 @@
+.TH "blkdev_issue_zeroout" 9 "blkdev_issue_zeroout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkdev_issue_zeroout \- zero-fill a block range
+.SH SYNOPSIS
+.B "int" blkdev_issue_zeroout
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t sector "  ","
+.BI "sector_t nr_sects "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "unsigned flags "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+blockdev to write
+.IP "sector" 12
+start sector
+.IP "nr_sects" 12
+number of sectors to write
+.IP "gfp_mask" 12
+memory allocation flags (for bio_alloc)
+.IP "flags" 12
+controls detailed behavior
+.SH "DESCRIPTION"
+Zero-fill a block range, either using hardware offload or by explicitly
+writing zeroes to the device.  See \fB__blkdev_issue_zeroout\fP for the
+valid values for flags.

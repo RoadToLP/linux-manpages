@@ -1,0 +1,21 @@
+.TH "lpfc_cmpl_els_logo" 9 "lpfc_cmpl_els_logo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_logo \- Completion callback function for logo
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_logo
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion function for issuing the ELS Logout (LOGO)
+command. If no error status was reported from the LOGO response, the
+state machine of the associated ndlp shall be invoked for transition with
+respect to NLP_EVT_CMPL_LOGO event. Otherwise, if error status was reported,
+the \fBlpfc_els_retry\fP routine will be invoked to retry the LOGO command.

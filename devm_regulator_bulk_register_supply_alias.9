@@ -1,0 +1,30 @@
+.TH "devm_regulator_bulk_register_supply_alias" 9 "devm_regulator_bulk_register_supply_alias" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_regulator_bulk_register_supply_alias \- Managed register multiple aliases
+.SH SYNOPSIS
+.B "int" devm_regulator_bulk_register_supply_alias
+.BI "(struct device *dev "  ","
+.BI "const char *const *id "  ","
+.BI "struct device *alias_dev "  ","
+.BI "const char *const *alias_id "  ","
+.BI "int num_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to supply
+.IP "id" 12
+list of supply names or regulator IDs
+.IP "alias_dev" 12
+device that should be used to lookup the supply
+.IP "alias_id" 12
+list of supply names or regulator IDs that should be used to
+lookup the supply
+.IP "num_id" 12
+number of aliases to register
+.SH "DESCRIPTION"
+\fIreturn\fP 0 on success, an errno on failure.
+
+This helper function allows drivers to register several supply
+aliases in one operation, the aliases will be automatically
+unregisters when the source device is unbound.  If any of the
+aliases cannot be registered any aliases that were registered
+will be removed before returning to the caller.

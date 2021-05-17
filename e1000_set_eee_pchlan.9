@@ -1,0 +1,19 @@
+.TH "e1000_set_eee_pchlan" 9 "e1000_set_eee_pchlan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_set_eee_pchlan \- Enable/disable EEE support
+.SH SYNOPSIS
+.B "s32" e1000_set_eee_pchlan
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+Enable/disable EEE based on setting in dev_spec structure, the duplex of
+the link and the EEE capabilities of the link partner.  The LPI Control
+register bits will remain set only if/when link is up.
+
+EEE LPI must not be asserted earlier than one second after link is up.
+On 82579, EEE LPI should not be enabled until such time otherwise there
+can be link issues with some switches.  Other devices can have EEE LPI
+enabled immediately upon link up since they have a timer in hardware which
+prevents LPI from being asserted too early.

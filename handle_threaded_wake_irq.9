@@ -1,0 +1,25 @@
+.TH "handle_threaded_wake_irq" 9 "handle_threaded_wake_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_threaded_wake_irq \- Handler for dedicated wake-up interrupts
+.SH SYNOPSIS
+.B "irqreturn_t" handle_threaded_wake_irq
+.BI "(int irq "  ","
+.BI "void *_wirq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Device specific dedicated wake-up interrupt
+.IP "_wirq" 12
+Wake IRQ data
+.SH "DESCRIPTION"
+Some devices have a separate wake-up interrupt in addition to the
+device IO interrupt. The wake-up interrupt signals that a device
+should be woken up from it's idle state. This handler uses device
+specific pm_runtime functions to wake the device, and then it's
+up to the device to do whatever it needs to. Note that as the
+device may need to restore context and start up regulators, we
+use a threaded IRQ.
+
+Also note that we are not resending the lost device interrupts.
+We assume that the wake-up interrupt just needs to wake-up the
+device, and then device's \fBpm_runtime_resume\fP can deal with the
+situation.

@@ -1,0 +1,24 @@
+.TH "copy_from_kernel_nofault" 9 "copy_from_kernel_nofault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_from_kernel_nofault \- safely attempt to read from kernel-space
+.SH SYNOPSIS
+.B "long" copy_from_kernel_nofault
+.BI "(void *dst "  ","
+.BI "const void *src "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+pointer to the buffer that shall take the data
+.IP "src" 12
+address to read from
+.IP "size" 12
+size of the data chunk
+.SH "DESCRIPTION"
+Safely read from kernel address \fIsrc\fP to the buffer at \fIdst\fP.  If a kernel
+fault happens, handle that and return -EFAULT.  If \fIsrc\fP is not a valid kernel
+address, return -ERANGE.
+
+We ensure that the copy_from_user is executed in atomic context so that
+\fBdo_page_fault\fP doesn't attempt to take mmap_lock.  This makes
+\fBcopy_from_kernel_nofault\fP suitable for use within regions where the caller
+already holds mmap_lock, or other locks which nest inside mmap_lock.

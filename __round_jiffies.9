@@ -1,0 +1,27 @@
+.TH "__round_jiffies" 9 "__round_jiffies" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__round_jiffies \- function to round jiffies to a full second
+.SH SYNOPSIS
+.B "unsigned long" __round_jiffies
+.BI "(unsigned long j "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "j" 12
+the time in (absolute) jiffies that should be rounded
+.IP "cpu" 12
+the processor number on which the timeout will happen
+.SH "DESCRIPTION"
+\fB__round_jiffies\fP rounds an absolute time in the future (in jiffies)
+up or down to (approximately) full seconds. This is useful for timers
+for which the exact time they fire does not matter too much, as long as
+they fire approximately every X seconds.
+
+By rounding these timers to whole seconds, all such timers will fire
+at the same time, rather than at various times spread out. The goal
+of this is to have the CPU wake up less, which saves power.
+
+The exact rounding is skewed for each processor to avoid all
+processors firing at the exact same time, which could lead
+to lock contention or spurious cache line bouncing.
+
+The return value is the rounded version of the \fIj\fP parameter.

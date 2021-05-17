@@ -1,0 +1,28 @@
+.TH "drm_gem_cma_get_unmapped_area" 9 "drm_gem_cma_get_unmapped_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_get_unmapped_area \- propose address for mapping in noMMU cases
+.SH SYNOPSIS
+.B "unsigned long" drm_gem_cma_get_unmapped_area
+.BI "(struct file *filp "  ","
+.BI "unsigned long addr "  ","
+.BI "unsigned long len "  ","
+.BI "unsigned long pgoff "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file object
+.IP "addr" 12
+memory address
+.IP "len" 12
+buffer size
+.IP "pgoff" 12
+page offset
+.IP "flags" 12
+memory flags
+.SH "DESCRIPTION"
+This function is used in noMMU platforms to propose address mapping
+for a given buffer.
+It's intended to be used as a direct handler for the struct
+\fIfile_operations.get_unmapped_area\fP operation.
+.SH "RETURN"
+mapping address on success or a negative error code on failure.

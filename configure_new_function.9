@@ -1,0 +1,21 @@
+.TH "configure_new_function" 9 "configure_new_function" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+configure_new_function \- Configures the PCI header information of one device
+.SH SYNOPSIS
+.B "int" configure_new_function
+.BI "(struct controller *ctrl "  ","
+.BI "struct pci_func *func "  ","
+.BI "u8 behind_bridge "  ","
+.BI "struct resource_lists *resources "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+pointer to controller structure
+.IP "func" 12
+pointer to function structure
+.IP "behind_bridge" 12
+1 if this is a recursive call, 0 if not
+.IP "resources" 12
+pointer to set of resource lists
+.SH "DESCRIPTION"
+Calls itself recursively for bridged devices.
+Returns 0 if success.

@@ -1,0 +1,19 @@
+.TH "fsverity_alloc_hash_request" 9 "fsverity_alloc_hash_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_alloc_hash_request \- allocate a hash request object
+.SH SYNOPSIS
+.B "struct ahash_request *" fsverity_alloc_hash_request
+.BI "(struct fsverity_hash_alg *alg "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "alg" 12
+the hash algorithm for which to allocate the request
+.IP "gfp_flags" 12
+memory allocation flags
+.SH "DESCRIPTION"
+This is mempool-backed, so this never fails if __GFP_DIRECT_RECLAIM is set in
+\fIgfp_flags\fP.  However, in that case this might need to wait for all
+previously-allocated requests to be freed.  So to avoid deadlocks, callers
+must never need multiple requests at a time to make forward progress.
+.SH "RETURN"
+the request object on success; NULL on failure (but see above)

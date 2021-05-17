@@ -1,0 +1,20 @@
+.TH "cec_notifier_get_conn" 9 "cec_notifier_get_conn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cec_notifier_get_conn \- find or create a new cec_notifier for the given device and connector tuple.
+.SH SYNOPSIS
+.B "struct cec_notifier *" cec_notifier_get_conn
+.BI "(struct device *hdmi_dev "  ","
+.BI "const char *port_name "  ");"
+.SH ARGUMENTS
+.IP "hdmi_dev" 12
+device that sends the events.
+.IP "port_name" 12
+the connector name from which the event occurs
+.SH "DESCRIPTION"
+If a notifier for device \fIdev\fP already exists, then increase the refcount
+and return that notifier.
+
+If it doesn't exist, then allocate a new notifier struct and return a
+pointer to that new struct.
+
+Return NULL if the memory could not be allocated.

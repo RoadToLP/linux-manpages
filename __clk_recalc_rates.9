@@ -1,0 +1,19 @@
+.TH "__clk_recalc_rates" 9 "__clk_recalc_rates" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__clk_recalc_rates \- 
+.SH SYNOPSIS
+.B "void" __clk_recalc_rates
+.BI "(struct clk_core *core "  ","
+.BI "unsigned long msg "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+first clk in the subtree
+.IP "msg" 12
+notification type (see include/linux/clk.h)
+.SH "DESCRIPTION"
+Walks the subtree of clks starting with clk and recalculates rates as it
+goes.  Note that if a clk does not implement the .recalc_rate callback then
+it is assumed that the clock will take on the rate of its parent.
+
+clk_recalc_rates also propagates the POST_RATE_CHANGE notification,
+if necessary.

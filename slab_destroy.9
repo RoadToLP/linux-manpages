@@ -1,0 +1,16 @@
+.TH "slab_destroy" 9 "slab_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+slab_destroy \- destroy and release all objects in a slab
+.SH SYNOPSIS
+.B "void" slab_destroy
+.BI "(struct kmem_cache *cachep "  ","
+.BI "struct page *page "  ");"
+.SH ARGUMENTS
+.IP "cachep" 12
+cache pointer being destroyed
+.IP "page" 12
+page pointer being destroyed
+.SH "DESCRIPTION"
+Destroy all the objs in a slab page, and release the mem back to the system.
+Before calling the slab page must have been unlinked from the cache. The
+kmem_cache_node ->list_lock is not held/needed.

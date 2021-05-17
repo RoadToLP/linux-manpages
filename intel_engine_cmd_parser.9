@@ -1,0 +1,30 @@
+.TH "intel_engine_cmd_parser" 9 "intel_engine_cmd_parser" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_engine_cmd_parser \- parse a batch buffer for privilege violations
+.SH SYNOPSIS
+.B "int" intel_engine_cmd_parser
+.BI "(struct intel_engine_cs *engine "  ","
+.BI "struct i915_vma *batch "  ","
+.BI "unsigned long batch_offset "  ","
+.BI "unsigned long batch_length "  ","
+.BI "struct i915_vma *shadow "  ","
+.BI "bool trampoline "  ");"
+.SH ARGUMENTS
+.IP "engine" 12
+the engine on which the batch is to execute
+.IP "batch" 12
+the batch buffer in question
+.IP "batch_offset" 12
+byte offset in the batch at which execution starts
+.IP "batch_length" 12
+length of the commands in batch_obj
+.IP "shadow" 12
+validated copy of the batch buffer in question
+.IP "trampoline" 12
+whether to emit a conditional trampoline at the end of the batch
+.SH "DESCRIPTION"
+Parses the specified batch buffer looking for privilege violations as
+described in the overview.
+.SH "RETURN"
+non-zero if the parser finds violations or otherwise fails; -EACCES
+if the batch appears legal but should use hardware parsing

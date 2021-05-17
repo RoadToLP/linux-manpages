@@ -1,0 +1,14 @@
+.TH "sd_remove" 9 "sd_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_remove \- called whenever a scsi disk (previously recognized by sd_probe) is detached from the system. It is called (potentially multiple times) during sd module unload.
+.SH SYNOPSIS
+.B "int" sd_remove
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to device object
+.SH "NOTE"
+this function is invoked from the scsi mid-level.
+This function potentially frees up a device name (e.g. /dev/sdc)
+that could be re-used by a subsequent \fBsd_probe\fP.
+This function is not called when the built-in sd driver is "exit-ed".

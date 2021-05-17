@@ -1,0 +1,21 @@
+.TH "skb_copy_and_csum_datagram_msg" 9 "skb_copy_and_csum_datagram_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_copy_and_csum_datagram_msg \- Copy and checksum skb to user iovec.
+.SH SYNOPSIS
+.B "int" skb_copy_and_csum_datagram_msg
+.BI "(struct sk_buff *skb "  ","
+.BI "int hlen "  ","
+.BI "struct msghdr *msg "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skbuff
+.IP "hlen" 12
+hardware length
+.IP "msg" 12
+destination
+
+Caller _must_ check that skb will fit to this iovec.
+.SH "RETURN"
+0       - success.
+-EINVAL - checksum failure.
+-EFAULT - fault during copy.

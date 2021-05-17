@@ -1,0 +1,19 @@
+.TH "uart_add_one_port" 9 "uart_add_one_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_add_one_port \- attach a driver-defined port structure
+.SH SYNOPSIS
+.B "int" uart_add_one_port
+.BI "(struct uart_driver *drv "  ","
+.BI "struct uart_port *uport "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+pointer to the uart low level driver structure for this port
+.IP "uport" 12
+uart port structure to use for this port.
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+This allows the driver to register its own uart_port structure
+with the core driver.  The main purpose is to allow the low
+level uart drivers to expand uart_port, rather than having yet
+more levels of structures.

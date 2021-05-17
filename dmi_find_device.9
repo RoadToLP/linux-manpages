@@ -1,0 +1,21 @@
+.TH "dmi_find_device" 9 "dmi_find_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dmi_find_device \- find onboard device by type/name
+.SH SYNOPSIS
+.B "const struct dmi_device *" dmi_find_device
+.BI "(int type "  ","
+.BI "const char *name "  ","
+.BI "const struct dmi_device *from "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+device type or DMI_DEV_TYPE_ANY to match all device types
+.IP "name" 12
+device name string or NULL to match all
+.IP "from" 12
+previous device found in search, or NULL for new search.
+
+Iterates through the list of known onboard devices. If a device is
+found with a matching \fItype\fP and \fIname\fP, a pointer to its device
+structure is returned.  Otherwise, NULL is returned.
+A new search is initiated by passing NULL as the \fIfrom\fP argument.
+If \fIfrom\fP is not NULL, searches continue from next device.

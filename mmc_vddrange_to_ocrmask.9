@@ -1,0 +1,20 @@
+.TH "mmc_vddrange_to_ocrmask" 9 "mmc_vddrange_to_ocrmask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_vddrange_to_ocrmask \- Convert a voltage range to the OCR mask
+.SH SYNOPSIS
+.B "u32" mmc_vddrange_to_ocrmask
+.BI "(int vdd_min "  ","
+.BI "int vdd_max "  ");"
+.SH ARGUMENTS
+.IP "vdd_min" 12
+minimum voltage value (mV)
+.IP "vdd_max" 12
+maximum voltage value (mV)
+.SH "DESCRIPTION"
+This function returns the OCR mask bits according to the provided \fIvdd_min\fP
+and \fIvdd_max\fP values. If conversion is not possible the function returns 0.
+
+Notes wrt boundary cases:
+This function sets the OCR bits for all boundary voltages, for example
+[3300:3400] range is translated to MMC_VDD_32_33 | MMC_VDD_33_34 |
+MMC_VDD_34_35 mask.

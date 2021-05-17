@@ -1,0 +1,24 @@
+.TH "xvip_enum_frame_size" 9 "xvip_enum_frame_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xvip_enum_frame_size \- Enumerate the media bus frame size
+.SH SYNOPSIS
+.B "int" xvip_enum_frame_size
+.BI "(struct v4l2_subdev *subdev "  ","
+.BI "struct v4l2_subdev_pad_config *cfg "  ","
+.BI "struct v4l2_subdev_frame_size_enum *fse "  ");"
+.SH ARGUMENTS
+.IP "subdev" 12
+V4L2 subdevice
+.IP "cfg" 12
+V4L2 subdev pad configuration
+.IP "fse" 12
+returning media bus frame size
+.SH "DESCRIPTION"
+This function is a drop-in implementation of the subdev enum_frame_size pad
+operation. It assumes that the subdevice has one sink pad and one source
+pad, and that the format on the source pad is always identical to the
+format on the sink pad. Entities with different requirements need to
+implement their own enum_frame_size handlers.
+.SH "RETURN"
+0 if the media bus frame size is found, or -EINVAL
+if the index or the code is not valid.

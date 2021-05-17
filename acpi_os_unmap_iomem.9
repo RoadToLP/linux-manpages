@@ -1,0 +1,21 @@
+.TH "acpi_os_unmap_iomem" 9 "acpi_os_unmap_iomem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_os_unmap_iomem \- Drop a memory mapping reference.
+.SH SYNOPSIS
+.B "void __ref" acpi_os_unmap_iomem
+.BI "(void __iomem *virt "  ","
+.BI "acpi_size size "  ");"
+.SH ARGUMENTS
+.IP "virt" 12
+Start of the address range to drop a reference to.
+.IP "size" 12
+Size of the address range to drop a reference to.
+.SH "DESCRIPTION"
+Look up the given virtual address range in the list of existing ACPI memory
+mappings, drop a reference to it and if there are no more active references
+to it, queue it up for later removal.
+
+During early init (when acpi_permanent_mmap has not been set yet) this
+routine simply calls \fB__acpi_unmap_table\fP to get the job done.  Since
+\fB__acpi_unmap_table\fP is an __init function, the __ref annotation is needed
+here.

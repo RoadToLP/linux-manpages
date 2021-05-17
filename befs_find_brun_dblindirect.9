@@ -1,0 +1,51 @@
+.TH "befs_find_brun_dblindirect" 9 "befs_find_brun_dblindirect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_find_brun_dblindirect \- find a block run in the datastream
+.SH SYNOPSIS
+.B "int" befs_find_brun_dblindirect
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *data "  ","
+.BI "befs_blocknr_t blockno "  ","
+.BI "befs_block_run *run "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the superblock
+.IP "data" 12
+the datastream
+.IP "blockno" 12
+the blocknumber to find
+.IP "run" 12
+The found run is passed back through this pointer
+.SH "DESCRIPTION"
+Finds the block run that starts at file block number blockno
+in the file represented by the datastream data, if that
+blockno is in the double-indirect region of the datastream.
+
+Return value is BEFS_OK if the blockrun is found, BEFS_ERR
+otherwise.
+
+Algorithm:
+The block runs in the double-indirect region are different.
+They are always allocated 4 fs blocks at a time, so each
+block run maps a constant amount of file data. This means
+that we can directly calculate how many block runs into the
+double-indirect region we need to go to get to the one that
+maps a particular filesystem block.
+
+We do this in two stages. First we calculate which of the
+inode addresses in the double-indirect block will point us
+to the indirect block that contains the mapping for the data,
+then we calculate which of the inode addresses in that
+indirect block maps the data block we are after.
+
+Oh, and once we've done that, we actually read in the blocks
+that contain the inode addresses we calculated above. Even
+though the double-indirect run may be several blocks long,
+we can calculate which of those blocks will contain the index
+we are after and only read that one. We then follow it to
+the indirect block and perform a similar process to find
+the actual block run that maps the data block we are interested
+in.
+
+Then we offset the run as in \fBbefs_find_brun_array\fP and we are
+done.

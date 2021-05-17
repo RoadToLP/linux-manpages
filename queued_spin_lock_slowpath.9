@@ -1,0 +1,28 @@
+.TH "queued_spin_lock_slowpath" 9 "queued_spin_lock_slowpath" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queued_spin_lock_slowpath \- acquire the queued spinlock
+.SH SYNOPSIS
+.B "void" queued_spin_lock_slowpath
+.BI "(struct qspinlock *lock "  ","
+.BI "u32 val "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+Pointer to queued spinlock structure
+.IP "val" 12
+Current value of the queued spinlock 32-bit word
+.SH "DESCRIPTION"
+(queue tail, pending bit, lock value)
+
+fast     :    slow                                  :    unlock
+:                                          :
+uncontended  (0,0,0) -:--> (0,0,1) ------------------------------:--> (*,*,0)
+:       | ^--------.------.             /  :
+:       v           \      \            |  :
+pending               :    (0,1,1) +--> (0,1,0)   \           |  :
+:       | ^--'              |           |  :
+:       v                   |           |  :
+uncontended           :    (n,x,y) +--> (n,0,0) --'           |  :
+queue               :       | ^--'                          |  :
+:       v                               |  :
+contended             :    (*,x,y) +--> (*,0,0) ---> (*,0,1) -'  :
+queue               :         ^--'                             :

@@ -1,0 +1,18 @@
+.TH "hvc_iucv_msg_pending" 9 "hvc_iucv_msg_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_msg_pending \- IUCV handler to process an incoming IUCV message.
+.SH SYNOPSIS
+.B "void" hvc_iucv_msg_pending
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_message *msg "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Pending path (struct iucv_path)
+.IP "msg" 12
+Pointer to the IUCV message
+.SH "DESCRIPTION"
+The function puts an incoming message on the input queue for later
+processing (by \fBhvc_iucv_get_chars\fP / \fBhvc_iucv_write\fP).
+If the tty has not yet been opened, the message is rejected.
+
+Locking:     struct hvc_iucv_private->lock

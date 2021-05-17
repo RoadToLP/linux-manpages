@@ -1,0 +1,37 @@
+.TH "t4_load_phy_fw" 9 "t4_load_phy_fw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_load_phy_fw \- download port PHY firmware
+.SH SYNOPSIS
+.B "int" t4_load_phy_fw
+.BI "(struct adapter *adap "  ","
+.BI "int win "  ","
+.BI "int (*phy_fw_version)(const u8 *, size_t) "  ","
+.BI "const u8 *phy_fw_data "  ","
+.BI "size_t phy_fw_size "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "win" 12
+the PCI-E Memory Window index to use for \fBt4_memory_rw\fP
+.IP "phy_fw_version" 12
+function to check PHY firmware versions
+.IP "phy_fw_data" 12
+the PHY firmware image to write
+.IP "phy_fw_size" 12
+image size
+
+Transfer the specified PHY firmware to the adapter.  If a non-NULL
+\fIphy_fw_version\fP is supplied, then it will be used to determine if
+it's necessary to perform the transfer by comparing the version
+of any existing adapter PHY firmware with that of the passed in
+PHY firmware image.
+
+A negative error number will be returned if an error occurs.  If
+version number support is available and there's no need to upgrade
+the firmware, 0 will be returned.  If firmware is successfully
+transferred to the adapter, 1 will be returned.
+.SH "NOTE"
+some adapters only have local RAM to store the PHY firmware.  As
+a result, a RESET of the adapter would cause that RAM to lose its
+contents.  Thus, loading PHY firmware on such adapters must happen
+after any FW_RESET_CMDs ...

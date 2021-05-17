@@ -1,0 +1,25 @@
+.TH "svc_addsock" 9 "svc_addsock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_addsock \- add a listener socket to an RPC service
+.SH SYNOPSIS
+.B "int" svc_addsock
+.BI "(struct svc_serv *serv "  ","
+.BI "const int fd "  ","
+.BI "char *name_return "  ","
+.BI "const size_t len "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "serv" 12
+pointer to RPC service to which to add a new listener
+.IP "fd" 12
+file descriptor of the new listener
+.IP "name_return" 12
+pointer to buffer to fill in with name of listener
+.IP "len" 12
+size of the buffer
+.IP "cred" 12
+credential
+.SH "DESCRIPTION"
+Fills in socket name and returns positive length of name if successful.
+Name is terminated with '\n'.  On error, returns a negative errno
+value.

@@ -1,0 +1,24 @@
+.TH "do_lookup_nm" 9 "do_lookup_nm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_lookup_nm \- look up a "hashed" node.
+.SH SYNOPSIS
+.B "int" do_lookup_nm
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "void *node "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+node key to lookup
+.IP "node" 12
+the node is returned here
+.IP "nm" 12
+node name
+.SH "DESCRIPTION"
+This function looks up and reads a node which contains name hash in the key.
+Since the hash may have collisions, there may be many nodes with the same
+key, so we have to sequentially look to all of them until the needed one is
+found. This function returns zero in case of success, -ENOENT if the node
+was not found, and a negative error code in case of failure.

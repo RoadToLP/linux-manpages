@@ -1,0 +1,28 @@
+.TH "dpmac_open" 9 "dpmac_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpmac_open \- Open a control session for the specified object.
+.SH SYNOPSIS
+.B "int" dpmac_open
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "int dpmac_id "  ","
+.BI "u16 *token "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "dpmac_id" 12
+DPMAC unique ID
+.IP "token" 12
+Returned token; use in subsequent API calls
+.SH "DESCRIPTION"
+This function can be used to open a control session for an
+already created object; an object may have been declared in
+the DPL or by calling the dpmac_create function.
+This function returns a unique authentication token,
+associated with the specific object ID and the specific MC
+portal; this token must be used in all subsequent commands for
+this specific object
+.SH "RETURN"
+'0' on Success; Error code otherwise.

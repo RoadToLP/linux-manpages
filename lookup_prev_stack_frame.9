@@ -1,0 +1,24 @@
+.TH "lookup_prev_stack_frame" 9 "lookup_prev_stack_frame" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lookup_prev_stack_frame \- Find the stack frame of the previous function.
+.SH SYNOPSIS
+.B "int" lookup_prev_stack_frame
+.BI "(unsigned long fp "  ","
+.BI "unsigned long pc "  ","
+.BI "unsigned long leaf_return "  ","
+.BI "unsigned long *pprev_fp "  ","
+.BI "unsigned long *pprev_pc "  ");"
+.SH ARGUMENTS
+.IP "fp" 12
+Frame (stack) pointer for current function
+.IP "pc" 12
+Program counter within current function
+.IP "leaf_return" 12
+r15 value within current function. If the current function
+is a leaf, this is the caller's return address.
+.IP "pprev_fp" 12
+On exit, set to frame (stack) pointer for previous function
+.IP "pprev_pc" 12
+On exit, set to current function caller's return address
+.SH "DESCRIPTION"
+Return - 0 on success, -EINVAL if the previous frame cannot be found

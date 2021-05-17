@@ -1,0 +1,18 @@
+.TH "gfs2_mmap" 9 "gfs2_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_mmap \- 
+.SH SYNOPSIS
+.B "int" gfs2_mmap
+.BI "(struct file *file "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The file to map
+.IP "vma" 12
+The VMA which described the mapping
+.SH "DESCRIPTION"
+There is no need to get a lock here unless we should be updating
+atime. We ignore any locking errors since the only consequence is
+a missed atime update (which will just be deferred until later).
+.SH "RETURN"
+0

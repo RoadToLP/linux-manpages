@@ -1,0 +1,24 @@
+.TH "scsi_eh_test_devices" 9 "scsi_eh_test_devices" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_eh_test_devices \- check if devices are responding from error recovery.
+.SH SYNOPSIS
+.B "int" scsi_eh_test_devices
+.BI "(struct list_head *cmd_list "  ","
+.BI "struct list_head *work_q "  ","
+.BI "struct list_head *done_q "  ","
+.BI "int try_stu "  ");"
+.SH ARGUMENTS
+.IP "cmd_list" 12
+scsi commands in error recovery.
+.IP "work_q" 12
+queue for commands which still need more error recovery
+.IP "done_q" 12
+queue for commands which are finished
+.IP "try_stu" 12
+boolean on if a STU command should be tried in addition to TUR.
+.SH "DESCRIPTION"
+Decription:
+Tests if devices are in a working state.  Commands to devices now in
+a working state are sent to the done_q while commands to devices which
+are still failing to respond are returned to the work_q for more
+processing.

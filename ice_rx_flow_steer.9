@@ -1,0 +1,27 @@
+.TH "ice_rx_flow_steer" 9 "ice_rx_flow_steer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_rx_flow_steer \- steer the Rx flow to where application is being run
+.SH SYNOPSIS
+.B "int" ice_rx_flow_steer
+.BI "(struct net_device *netdev "  ","
+.BI "const struct sk_buff *skb "  ","
+.BI "u16 rxq_idx "  ","
+.BI "u32 flow_id "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+ptr to the netdev being adjusted
+.IP "skb" 12
+buffer with required header information
+.IP "rxq_idx" 12
+queue to which the flow needs to move
+.IP "flow_id" 12
+flow identifier provided by the netdev
+.SH "DESCRIPTION"
+Based on the skb, rxq_idx, and flow_id passed in add/update an entry in the
+aRFS hash table. Iterate over one of the hlists in the aRFS hash table and
+if the flow_id already exists in the hash table but the rxq_idx has changed
+mark the entry as ICE_ARFS_INACTIVE so it can get updated in HW, else
+if the entry is marked as ICE_ARFS_TODEL delete it from the aRFS hash table.
+If neither of the previous conditions are true then add a new entry in the
+aRFS hash table, which gets set to ICE_ARFS_INACTIVE by default so it can be
+added to HW.

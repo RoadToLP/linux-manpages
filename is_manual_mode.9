@@ -1,0 +1,20 @@
+.TH "is_manual_mode" 9 "is_manual_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_manual_mode \- Check if TMCC should be used for parameters settings
+.SH SYNOPSIS
+.B "int" is_manual_mode
+.BI "(struct dtv_frontend_properties *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+struct dvb_frontend_properties
+.SH "DESCRIPTION"
+By default, TMCC table should be used for parameter settings on most
+usercases. However, sometimes it is desirable to lock the demod to
+use the manual parameters.
+
+On manual mode, the current dib8000_tune state machine is very restrict:
+It requires that both per-layer and per-transponder parameters to be
+properly specified, otherwise the device won't lock.
+
+Check if all those conditions are properly satisfied before allowing
+the device to use the manual frequency lock mode.

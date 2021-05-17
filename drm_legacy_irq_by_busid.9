@@ -1,0 +1,21 @@
+.TH "drm_legacy_irq_by_busid" 9 "drm_legacy_irq_by_busid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_legacy_irq_by_busid \- Get interrupt from bus ID
+.SH SYNOPSIS
+.B "int" drm_legacy_irq_by_busid
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "data" 12
+IOCTL parameter pointing to a drm_irq_busid structure
+.IP "file_priv" 12
+DRM file private.
+.SH "DESCRIPTION"
+Finds the PCI device with the specified bus id and gets its IRQ number.
+This IOCTL is deprecated, and will now return EINVAL for any busid not equal
+to that of the device that this DRM instance attached to.
+.SH "RETURN"
+0 on success or a negative error code on failure.

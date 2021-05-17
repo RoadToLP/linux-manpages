@@ -1,0 +1,20 @@
+.TH "ccw_device_clear" 9 "ccw_device_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_clear \- terminate I/O request processing
+.SH SYNOPSIS
+.B "int" ccw_device_clear
+.BI "(struct ccw_device *cdev "  ","
+.BI "unsigned long intparm "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+target ccw device
+.IP "intparm" 12
+interruption parameter to be returned upon conclusion of csch
+.SH "DESCRIPTION"
+\fBccw_device_clear\fP calls csch on \fIcdev\fP's subchannel.
+.SH "RETURN"
+0 on success,
+-ENODEV on device not operational,
+-EINVAL on invalid device state.
+.SH "CONTEXT"
+Interrupts disabled, ccw device lock held

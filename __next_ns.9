@@ -1,0 +1,20 @@
+.TH "__next_ns" 9 "__next_ns" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__next_ns \- find the next namespace to list
+.SH SYNOPSIS
+.B "struct aa_ns *" __next_ns
+.BI "(struct aa_ns *root "  ","
+.BI "struct aa_ns *ns "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+root namespace to stop search at (NOT NULL)
+.IP "ns" 12
+current ns position (NOT NULL)
+.SH "DESCRIPTION"
+Find the next namespace from \fIns\fP under \fIroot\fP and handle all locking needed
+while switching current namespace.
+.SH "RETURN"
+next namespace or NULL if at last namespace under \fIroot\fP
+Requires: ns->parent->lock to be held
+.SH "NOTE"
+will not unlock root->lock

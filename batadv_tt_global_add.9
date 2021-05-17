@@ -1,0 +1,34 @@
+.TH "batadv_tt_global_add" 9 "batadv_tt_global_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tt_global_add \- add a new TT global entry or update an existing one
+.SH SYNOPSIS
+.B "bool" batadv_tt_global_add
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "const unsigned char *tt_addr "  ","
+.BI "unsigned short vid "  ","
+.BI "u16 flags "  ","
+.BI "u8 ttvn "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "orig_node" 12
+the originator announcing the client
+.IP "tt_addr" 12
+the mac address of the non-mesh client
+.IP "vid" 12
+VLAN identifier
+.IP "flags" 12
+TT flags that have to be set for this non-mesh client
+.IP "ttvn" 12
+the tt version number ever announcing this non-mesh client
+.SH "DESCRIPTION"
+Add a new TT global entry for the given originator. If the entry already
+exists add a new reference to the given originator (a global entry can have
+references to multiple originators) and adjust the flags attribute to reflect
+the function argument.
+If a TT local entry exists for this non-mesh client remove it.
+
+The caller must hold the orig_node refcount.
+.SH "RETURN"
+true if the new entry has been added, false otherwise

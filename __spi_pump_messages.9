@@ -1,0 +1,20 @@
+.TH "__spi_pump_messages" 9 "__spi_pump_messages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__spi_pump_messages \- function which processes spi message queue
+.SH SYNOPSIS
+.B "void" __spi_pump_messages
+.BI "(struct spi_controller *ctlr "  ","
+.BI "bool in_kthread "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+controller to process queue for
+.IP "in_kthread" 12
+true if we are in the context of the message pump thread
+.SH "DESCRIPTION"
+This function checks if there is any spi message in the queue that
+needs processing and if so call out to the driver to initialize hardware
+and transfer each message.
+
+Note that it is called both from the kthread itself and also from
+inside \fBspi_sync\fP; the queue extraction handling at the top of the
+function should deal with this safely.

@@ -1,0 +1,21 @@
+.TH "aa_label_is_unconfined_subset" 9 "aa_label_is_unconfined_subset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_label_is_unconfined_subset \- test if @sub is a subset of @set
+.SH SYNOPSIS
+.B "bool" aa_label_is_unconfined_subset
+.BI "(struct aa_label *set "  ","
+.BI "struct aa_label *sub "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+label to test against
+.IP "sub" 12
+label to test if is subset of \fIset\fP
+.SH "DESCRIPTION"
+This checks for subset but taking into account unconfined. IF
+\fIsub\fP contains an unconfined profile that does not have a matching
+unconfined in \fIset\fP then this will not cause the test to fail.
+Conversely we don't care about an unconfined in \fIset\fP that is not in
+\fIsub\fP
+.SH "RETURN"
+true if \fIsub\fP is special_subset of \fIset\fP
+else false

@@ -1,0 +1,34 @@
+.TH "vio_h_cop_sync" 9 "vio_h_cop_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vio_h_cop_sync \- Perform a synchronous PFO co-processor operation
+.SH SYNOPSIS
+.B "int" vio_h_cop_sync
+.BI "(struct vio_dev *vdev "  ","
+.BI "struct vio_pfo_op *op "  ");"
+.SH ARGUMENTS
+.IP "vdev" 12
+-- undescribed --
+.IP "op" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+\fIvdev\fP - Pointer to a struct vio_dev for device
+\fIop\fP - Pointer to a struct vio_pfo_op for the operation parameters
+
+Calls the hypervisor to synchronously perform the PFO operation
+described in \fIop\fP.  In the case of a busy response from the hypervisor,
+the operation will be re-submitted indefinitely unless a non-zero timeout
+is specified or an error occurs. The timeout places a limit on when to
+stop re-submitting a operation, the total time can be exceeded if an
+operation is in progress.
+
+If op->hcall_ret is not NULL, this will be set to the return from the
+last h_cop_op call or it will be 0 if an error not involving the h_call
+was encountered.
+.SH "RETURN"
+0 on success,
+-EINVAL if the h_call fails due to an invalid parameter,
+-E2BIG if the h_call can not be performed synchronously,
+-EBUSY if a timeout is specified and has elapsed,
+-EACCES if the memory area for data/status has been rescinded, or
+-EPERM if a hardware fault has been indicated

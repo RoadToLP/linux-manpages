@@ -1,0 +1,18 @@
+.TH "dfll_read_monitor_rate" 9 "dfll_read_monitor_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfll_read_monitor_rate \- return the DFLL's output rate from internal monitor
+.SH SYNOPSIS
+.B "u64" dfll_read_monitor_rate
+.BI "(struct tegra_dfll *td "  ");"
+.SH ARGUMENTS
+.IP "td" 12
+DFLL instance
+.SH "DESCRIPTION"
+If the DFLL is enabled, return the last rate reported by the DFLL's
+internal monitoring hardware. This works in both open-loop and
+closed-loop mode, and takes the output scaler setting into account.
+Assumes that the monitor was programmed to monitor frequency before
+the sample period started. If the driver believes that the DFLL is
+currently uninitialized or disabled, it will return 0, since
+otherwise the DFLL monitor data register will return the last
+measured rate from when the DFLL was active.

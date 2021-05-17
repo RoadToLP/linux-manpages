@@ -1,0 +1,26 @@
+.TH "llc_ui_connect" 9 "llc_ui_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_ui_connect \- Connect to a remote llc2 mac + sap.
+.SH SYNOPSIS
+.B "int" llc_ui_connect
+.BI "(struct socket *sock "  ","
+.BI "struct sockaddr *uaddr "  ","
+.BI "int addrlen "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+Socket which will be connected to the remote destination.
+.IP "uaddr" 12
+Remote and possibly the local address of the new connection.
+.IP "addrlen" 12
+Size of uaddr structure.
+.IP "flags" 12
+Operational flags specified by the user.
+
+Connect to a remote llc2 mac + sap. The caller must specify the
+destination mac and address to connect to. If the user hasn't previously
+called bind(2) with a smac the address of the first interface of the
+specified arp type will be used.
+This function will autobind if user did not previously call bind.
+.SH "RETURN"
+0 upon success, negative otherwise.

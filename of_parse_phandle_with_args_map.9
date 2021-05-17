@@ -1,0 +1,54 @@
+.TH "of_parse_phandle_with_args_map" 9 "of_parse_phandle_with_args_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_parse_phandle_with_args_map \- Find a node pointed by phandle in a list and remap it
+.SH SYNOPSIS
+.B "int" of_parse_phandle_with_args_map
+.BI "(const struct device_node *np "  ","
+.BI "const char *list_name "  ","
+.BI "const char *stem_name "  ","
+.BI "int index "  ","
+.BI "struct of_phandle_args *out_args "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+pointer to a device tree node containing a list
+.IP "list_name" 12
+property name that contains a list
+.IP "stem_name" 12
+stem of property names that specify phandles' arguments count
+.IP "index" 12
+index of a phandle to parse out
+.IP "out_args" 12
+optional pointer to output arguments structure (will be filled)
+.SH "DESCRIPTION"
+This function is useful to parse lists of phandles and their arguments.
+Returns 0 on success and fills out_args, on error returns appropriate errno
+value. The difference between this function and \fBof_parse_phandle_with_args\fP
+is that this API remaps a phandle if the node the phandle points to has
+a <\fIstem_name\fP>-map property.
+
+Caller is responsible to call \fBof_node_put\fP on the returned out_args->np
+pointer.
+
+phandle1: node1 {
+#list-cells = <2>;
+}
+
+phandle2: node2 {
+#list-cells = <1>;
+}
+
+phandle3: node3 {
+#list-cells = <1>;
+list-map = <0 \fIphandle2\fP 3>,
+<1 \fIphandle2\fP 2>,
+<2 \fIphandle1\fP 5 1>;
+list-map-mask = <0x3>;
+};
+
+node4 {
+list = <\fIphandle1\fP 1 2 \fIphandle3\fP 0>;
+}
+
+To get a device_node of the `node2' node you may call this:
+of_parse_phandle_with_args(node4, "list", "list", 1, \fIargs\fP);
+.SH "EXAMPLE"

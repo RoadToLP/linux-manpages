@@ -1,0 +1,18 @@
+.TH "__batadv_dat_purge" 9 "__batadv_dat_purge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__batadv_dat_purge \- delete entries from the DAT local storage
+.SH SYNOPSIS
+.B "void" __batadv_dat_purge
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "bool (*to_purge)(struct batadv_dat_entry *) "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "to_purge" 12
+function in charge to decide whether an entry has to be purged or
+not. This function takes the dat_entry as argument and has to
+returns a boolean value: true is the entry has to be deleted,
+false otherwise
+.SH "DESCRIPTION"
+Loops over each entry in the DAT local storage and deletes it if and only if
+the to_purge function passed as argument returns true.

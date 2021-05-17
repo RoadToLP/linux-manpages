@@ -1,0 +1,22 @@
+.TH "fm10k_tlv_attr_parse" 9 "fm10k_tlv_attr_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_tlv_attr_parse \- Parses stream of attribute data
+.SH SYNOPSIS
+.B "s32" fm10k_tlv_attr_parse
+.BI "(u32 *attr "  ","
+.BI "u32 **results "  ","
+.BI "const struct fm10k_tlv_attr *tlv_attr "  ");"
+.SH ARGUMENTS
+.IP "attr" 12
+Pointer to attribute list
+.IP "results" 12
+Pointer array to store pointers to attributes
+.IP "tlv_attr" 12
+Type and length info for attributes
+
+This function validates a stream of attributes and parses them
+up into an array of pointers stored in results.  The function will
+return FM10K_ERR_PARAM on any input or message error,
+FM10K_NOT_IMPLEMENTED for any attribute that is outside of the array
+and 0 on success. Any attributes not found in tlv_attr will be silently
+ignored.

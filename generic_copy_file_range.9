@@ -1,0 +1,35 @@
+.TH "generic_copy_file_range" 9 "generic_copy_file_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_copy_file_range \- copy data between two files
+.SH SYNOPSIS
+.B "ssize_t" generic_copy_file_range
+.BI "(struct file *file_in "  ","
+.BI "loff_t pos_in "  ","
+.BI "struct file *file_out "  ","
+.BI "loff_t pos_out "  ","
+.BI "size_t len "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "file_in" 12
+file structure to read from
+.IP "pos_in" 12
+file offset to read from
+.IP "file_out" 12
+file structure to write data to
+.IP "pos_out" 12
+file offset to write data to
+.IP "len" 12
+amount of data to copy
+.IP "flags" 12
+copy flags
+.SH "DESCRIPTION"
+This is a generic filesystem helper to copy data from one file to another.
+It has no constraints on the source or destination file owners - the files
+can belong to different superblocks and different filesystem types. Short
+copies are allowed.
+
+This should be called from the \fIfile_out\fP filesystem, as per the
+->\fBcopy_file_range\fP method.
+
+Returns the number of bytes copied or a negative error indicating the
+failure.

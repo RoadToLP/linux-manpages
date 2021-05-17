@@ -1,0 +1,20 @@
+.TH "cgroup_e_css" 9 "cgroup_e_css" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_e_css \- obtain a cgroup's effective css for the specified subsystem
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" cgroup_e_css
+.BI "(struct cgroup *cgrp "  ","
+.BI "struct cgroup_subsys *ss "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+the cgroup of interest
+.IP "ss" 12
+the subsystem of interest
+.SH "DESCRIPTION"
+Find and get the effective css of \fIcgrp\fP for \fIss\fP.  The effective css is
+defined as the matching css of the nearest ancestor including self which
+has \fIss\fP enabled.  If \fIss\fP is not mounted on the hierarchy \fIcgrp\fP is on,
+the root css is returned, so this function always returns a valid css.
+
+The returned css is not guaranteed to be online, and therefore it is the
+callers responsibility to try get a reference for it.

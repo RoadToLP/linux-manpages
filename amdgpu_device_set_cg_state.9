@@ -1,0 +1,18 @@
+.TH "amdgpu_device_set_cg_state" 9 "amdgpu_device_set_cg_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_device_set_cg_state \- set clockgating for amdgpu device
+.SH SYNOPSIS
+.B "int" amdgpu_device_set_cg_state
+.BI "(struct amdgpu_device *adev "  ","
+.BI "enum amd_clockgating_state state "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "state" 12
+clockgating state (gate or ungate)
+.SH "DESCRIPTION"
+The list of all the hardware IPs that make up the asic is walked and the
+set_clockgating_state callbacks are run.
+Late initialization pass enabling clockgating for hardware IPs.
+Fini or suspend, pass disabling clockgating for hardware IPs.
+Returns 0 on success, negative error code on failure.

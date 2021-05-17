@@ -1,0 +1,20 @@
+.TH "imr_is_enabled" 9 "imr_is_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+imr_is_enabled \- true if an IMR is enabled false otherwise.
+.SH SYNOPSIS
+.B "int" imr_is_enabled
+.BI "(struct imr_regs *imr "  ");"
+.SH ARGUMENTS
+.IP "imr" 12
+pointer to IMR descriptor.
+.SH "DESCRIPTION"
+
+Determines if an IMR is enabled based on address range and read/write
+mask. An IMR set with an address range set to zero and a read/write
+access mask set to all is considered to be disabled. An IMR in any
+other state - for example set to zero but without read/write access
+all is considered to be enabled. This definition of disabled is how
+firmware switches off an IMR and is maintained in kernel for
+consistency.
+.SH "RETURN"
+true if IMR enabled false if disabled.

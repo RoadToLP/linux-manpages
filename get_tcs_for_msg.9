@@ -1,0 +1,17 @@
+.TH "get_tcs_for_msg" 9 "get_tcs_for_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_tcs_for_msg \- Get the tcs_group used to send the given message.
+.SH SYNOPSIS
+.B "struct tcs_group *" get_tcs_for_msg
+.BI "(struct rsc_drv *drv "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The RSC controller.
+.IP "msg" 12
+The message we want to send.
+.SH "DESCRIPTION"
+This is normally pretty straightforward except if we are trying to send
+an ACTIVE_ONLY message but don't have any active_only TCSes.
+.SH "RETURN"
+A pointer to a tcs_group or an ERR_PTR.

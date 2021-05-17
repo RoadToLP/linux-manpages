@@ -1,0 +1,20 @@
+.TH "userspace_tramp" 9 "userspace_tramp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+userspace_tramp \- userspace trampoline
+.SH SYNOPSIS
+.B "int" userspace_tramp
+.BI "(void *stack "  ");"
+.SH ARGUMENTS
+.IP "stack" 12
+pointer to the new userspace stack page, can be NULL, if? FIXME:
+.SH "DESCRIPTION"
+The userspace trampoline is used to setup a new userspace process in \fBstart_userspace\fP after it was \fBclone\fP'ed.
+This function will run on a temporary stack page.
+It \fBptrace\fP'es itself, then
+Two pages are mapped into the userspace address space:
+- STUB_CODE (with EXEC), which contains the skas stub code
+- STUB_DATA (with R/W), which contains a data page that is used to transfer certain data between the UML userspace process and the UML kernel.
+Also for the userspace process a SIGSEGV handler is installed to catch pagefaults in the userspace process.
+And last the process stops itself to give control to the UML kernel for this userspace process.
+.SH "RETURN"
+Always zero, otherwise the current userspace process is ended with non null \fBexit\fP call

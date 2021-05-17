@@ -1,0 +1,19 @@
+.TH "rdma_connect" 9 "rdma_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_connect \- Initiate an active connection request.
+.SH SYNOPSIS
+.B "int" rdma_connect
+.BI "(struct rdma_cm_id *id "  ","
+.BI "struct rdma_conn_param *conn_param "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+Connection identifier to connect.
+.IP "conn_param" 12
+Connection information used for connected QPs.
+.SH "DESCRIPTION"
+Users must have resolved a route for the rdma_cm_id to connect with by having
+called rdma_resolve_route before calling this routine.
+
+This call will either connect to a remote QP or obtain remote QP information
+for unconnected rdma_cm_id's.  The actual operation is based on the
+rdma_cm_id's port space.

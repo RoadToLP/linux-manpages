@@ -1,0 +1,19 @@
+.TH "mmc_wait_for_req" 9 "mmc_wait_for_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_wait_for_req \- start a request and wait for completion
+.SH SYNOPSIS
+.B "void" mmc_wait_for_req
+.BI "(struct mmc_host *host "  ","
+.BI "struct mmc_request *mrq "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+MMC host to start command
+.IP "mrq" 12
+MMC request to start
+
+Start a new MMC custom command request for a host, and wait
+for the command to complete. In the case of 'cap_cmd_during_tfr'
+requests, the transfer is ongoing and the caller can issue further
+commands that do not use the data lines, and then wait by calling
+\fBmmc_wait_for_req_done\fP.
+Does not attempt to parse the response.

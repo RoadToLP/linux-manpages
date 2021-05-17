@@ -1,0 +1,22 @@
+.TH "scsi_report_opcode" 9 "scsi_report_opcode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_report_opcode \- Find out if a given command opcode is supported
+.SH SYNOPSIS
+.B "int" scsi_report_opcode
+.BI "(struct scsi_device *sdev "  ","
+.BI "unsigned char *buffer "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned char opcode "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device to query
+.IP "buffer" 12
+scratch buffer (must be at least 20 bytes long)
+.IP "len" 12
+length of buffer
+.IP "opcode" 12
+opcode for command to look up
+.SH "DESCRIPTION"
+Uses the REPORT SUPPORTED OPERATION CODES to look up the given
+opcode. Returns -EINVAL if RSOC fails, 0 if the command opcode is
+unsupported and 1 if the device claims to support the command.

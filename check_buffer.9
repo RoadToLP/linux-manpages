@@ -1,0 +1,30 @@
+.TH "check_buffer" 9 "check_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_buffer \- verify that buffer/offset is safe to access
+.SH SYNOPSIS
+.B "bool" check_buffer
+.BI "(struct binder_alloc *alloc "  ","
+.BI "struct binder_buffer *buffer "  ","
+.BI "binder_size_t offset "  ","
+.BI "size_t bytes "  ");"
+.SH ARGUMENTS
+.IP "alloc" 12
+binder_alloc for this proc
+.IP "buffer" 12
+binder buffer to be accessed
+.IP "offset" 12
+offset into \fIbuffer\fP data
+.IP "bytes" 12
+bytes to access from offset
+.SH "DESCRIPTION"
+Check that the \fIoffset\fP/\fIbytes\fP are within the size of the given
+\fIbuffer\fP and that the buffer is currently active and not freeable.
+Offsets must also be multiples of sizeof(u32). The kernel is
+allowed to touch the buffer in two cases:
+
+1) when the buffer is being created:
+(buffer->free == 0 && buffer->allow_user_free == 0)
+2) when the buffer is being torn down:
+(buffer->free == 0 && buffer->transaction == NULL).
+.SH "RETURN"
+true if the buffer is safe to access

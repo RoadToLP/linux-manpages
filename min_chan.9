@@ -1,0 +1,18 @@
+.TH "min_chan" 9 "min_chan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+min_chan \- finds the channel with min count and in the same NUMA-node as the CPU
+.SH SYNOPSIS
+.B "struct dma_chan *" min_chan
+.BI "(enum dma_transaction_type cap "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "cap" 12
+capability to match
+.IP "cpu" 12
+CPU index which the channel should be close to
+.SH "DESCRIPTION"
+If some channels are close to the given CPU, the one with the lowest
+reference count is returned. Otherwise, CPU is ignored and only the
+reference count is taken into account.
+
+Must be called under dma_list_mutex.

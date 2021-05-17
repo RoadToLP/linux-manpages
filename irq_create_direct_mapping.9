@@ -1,0 +1,15 @@
+.TH "irq_create_direct_mapping" 9 "irq_create_direct_mapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_create_direct_mapping \- Allocate an irq for direct mapping
+.SH SYNOPSIS
+.B "unsigned int" irq_create_direct_mapping
+.BI "(struct irq_domain *domain "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+domain to allocate the irq for or NULL for default domain
+.SH "DESCRIPTION"
+This routine is used for irq controllers which can choose the hardware
+interrupt numbers they generate. In such a case it's simplest to use
+the linux irq as the hardware interrupt number. It still uses the linear
+or radix tree to store the mapping, but the irq controller can optimize
+the revmap path by using the hwirq directly.

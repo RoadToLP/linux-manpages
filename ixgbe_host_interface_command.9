@@ -1,0 +1,30 @@
+.TH "ixgbe_host_interface_command" 9 "ixgbe_host_interface_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_host_interface_command \- Issue command to manageability block
+.SH SYNOPSIS
+.B "s32" ixgbe_host_interface_command
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "void *buffer "  ","
+.BI "u32 length "  ","
+.BI "u32 timeout "  ","
+.BI "bool return_data "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "buffer" 12
+contains the command to write and where the return status will
+be placed
+.IP "length" 12
+length of buffer, must be multiple of 4 bytes
+.IP "timeout" 12
+time in ms to wait for command completion
+.IP "return_data" 12
+read and return data from the buffer (true) or not (false)
+Needed because FW structures are big endian and decoding of
+these fields can be 8 bit or 16 bit based on command. Decoding
+is not easily understood without making a table of commands.
+So we will leave this up to the caller to read back the data
+in these cases.
+
+Communicates with the manageability block.  On success return 0
+else return IXGBE_ERR_HOST_INTERFACE_COMMAND.

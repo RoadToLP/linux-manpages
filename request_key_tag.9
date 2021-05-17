@@ -1,0 +1,26 @@
+.TH "request_key_tag" 9 "request_key_tag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_key_tag \- Request a key and wait for construction
+.SH SYNOPSIS
+.B "struct key *" request_key_tag
+.BI "(struct key_type *type "  ","
+.BI "const char *description "  ","
+.BI "struct key_tag *domain_tag "  ","
+.BI "const char *callout_info "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+Type of key.
+.IP "description" 12
+The searchable description of the key.
+.IP "domain_tag" 12
+The domain in which the key operates.
+.IP "callout_info" 12
+The data to pass to the instantiation upcall (or NULL).
+.SH "DESCRIPTION"
+As for \fBrequest_key_and_link\fP except that it does not add the returned key
+to a keyring if found, new keys are always allocated in the user's quota,
+the callout_info must be a NUL-terminated string and no auxiliary data can
+be passed.
+
+Furthermore, it then works as \fBwait_for_key_construction\fP to wait for the
+completion of keys undergoing construction with a non-interruptible wait.

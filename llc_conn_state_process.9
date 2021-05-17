@@ -1,0 +1,19 @@
+.TH "llc_conn_state_process" 9 "llc_conn_state_process" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_conn_state_process \- sends event to connection state machine
+.SH SYNOPSIS
+.B "int" llc_conn_state_process
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+connection
+.IP "skb" 12
+occurred event
+
+Sends an event to connection state machine. After processing event
+(executing it's actions and changing state), upper layer will be
+indicated or confirmed, if needed. Returns 0 for success, 1 for
+failure. The socket lock has to be held before calling this function.
+
+This function always consumes a reference to the skb.

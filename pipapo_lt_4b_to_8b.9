@@ -1,0 +1,46 @@
+.TH "pipapo_lt_4b_to_8b" 9 "pipapo_lt_4b_to_8b" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_lt_4b_to_8b \- Switch lookup table group width from 4 bits to 8 bits
+.SH SYNOPSIS
+.B "void" pipapo_lt_4b_to_8b
+.BI "(int old_groups "  ","
+.BI "int bsize "  ","
+.BI "unsigned long *old_lt "  ","
+.BI "unsigned long *new_lt "  ");"
+.SH ARGUMENTS
+.IP "old_groups" 12
+Number of current groups
+.IP "bsize" 12
+Size of one bucket, in longs
+.IP "old_lt" 12
+Pointer to the current lookup table
+.IP "new_lt" 12
+Pointer to the new, pre-allocated lookup table
+.SH "DESCRIPTION"
+Each bucket with index b in the new lookup table, belonging to group g, is
+filled with the bit intersection between:
+- bucket with index given by the upper 4 bits of b, from group g, and
+- bucket with index given by the lower 4 bits of b, from group g + 1
+
+That is, given buckets from the new lookup table N(x, y) and the old lookup
+table O(x, y), with x bucket index, and y group index:
+
+N(b, g) := O(b / 16, g) & O(b % 16, g + 1)
+
+This ensures equivalence of the matching results on lookup. Two examples in
+pictures:
+
+bucket
+group  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 ... 254 255
+0                ^
+1                |                                                 ^
+\&...             ( & )                                               |
+/     \                                              |
+/       \                                         .-( & )-.
+/  bucket \                                        |       |
+group  0 / 1   2   3 \ 4   5   6   7   8   9  10  11  12  13 |14  15 |
+0     /             \                                      |       |
+1                    \                                     |       |
+2                                                          |     --'
+3                                                          '-
+\&...

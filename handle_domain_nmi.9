@@ -1,0 +1,19 @@
+.TH "handle_domain_nmi" 9 "handle_domain_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_domain_nmi \- Invoke the handler for a HW irq belonging to a domain
+.SH SYNOPSIS
+.B "int" handle_domain_nmi
+.BI "(struct irq_domain *domain "  ","
+.BI "unsigned int hwirq "  ","
+.BI "struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+The domain where to perform the lookup
+.IP "hwirq" 12
+The HW irq number to convert to a logical one
+.IP "regs" 12
+Register file coming from the low-level handling code
+
+This function must be called from an NMI context.
+.SH "RETURN"
+0 on success, or -EINVAL if conversion has failed

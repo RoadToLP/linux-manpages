@@ -1,0 +1,19 @@
+.TH "hvc_iucv_msg_complete" 9 "hvc_iucv_msg_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_msg_complete \- IUCV handler to process message completion
+.SH SYNOPSIS
+.B "void" hvc_iucv_msg_complete
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_message *msg "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Pending path (struct iucv_path)
+.IP "msg" 12
+Pointer to the IUCV message
+.SH "DESCRIPTION"
+The function is called upon completion of message delivery to remove the
+message from the outqueue. Additional delivery information can be found
+msg->audit: rejected messages (0x040000 (IPADRJCT)), and
+purged messages   (0x010000 (IPADPGNR)).
+
+Locking:     struct hvc_iucv_private->lock

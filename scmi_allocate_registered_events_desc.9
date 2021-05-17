@@ -1,0 +1,32 @@
+.TH "scmi_allocate_registered_events_desc" 9 "scmi_allocate_registered_events_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_allocate_registered_events_desc \- Allocate a registered events' descriptor
+.SH SYNOPSIS
+.B "struct scmi_registered_events_desc *" scmi_allocate_registered_events_desc
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "u8 proto_id "  ","
+.BI "size_t queue_sz "  ","
+.BI "size_t eh_sz "  ","
+.BI "int num_events "  ","
+.BI "const struct scmi_event_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the \fIstruct scmi_notify_instance\fP notification instance
+to use
+.IP "proto_id" 12
+Protocol ID
+.IP "queue_sz" 12
+Size of the associated queue to allocate
+.IP "eh_sz" 12
+Size of the event header scratch area to pre-allocate
+.IP "num_events" 12
+Number of events to support (size of \fIregistered_events\fP)
+.IP "ops" 12
+Pointer to a struct holding references to protocol specific helpers
+needed during events handling
+.SH "DESCRIPTION"
+It is supposed to be called only once for each protocol at protocol
+initialization time, so it warns if the requested protocol is found already
+registered.
+.SH "RETURN"
+The allocated and registered descriptor on Success

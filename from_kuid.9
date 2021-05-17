@@ -1,0 +1,19 @@
+.TH "from_kuid" 9 "from_kuid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kuid \- Create a uid from a kuid user-namespace pair.
+.SH SYNOPSIS
+.B "uid_t" from_kuid
+.BI "(struct user_namespace *targ "  ","
+.BI "kuid_t kuid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a uid in.
+.IP "kuid" 12
+The kernel internal uid to start with.
+
+Map \fIkuid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting uid.
+
+There is always a mapping into the initial user_namespace.
+
+If \fIkuid\fP has no mapping in \fItarg\fP (uid_t)-1 is returned.

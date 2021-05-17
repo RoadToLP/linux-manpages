@@ -1,0 +1,33 @@
+.TH "__efivar_entry_iter" 9 "__efivar_entry_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__efivar_entry_iter \- iterate over variable list
+.SH SYNOPSIS
+.B "int" __efivar_entry_iter
+.BI "(int (*func)(struct efivar_entry *, void *) "  ","
+.BI "struct list_head *head "  ","
+.BI "void *data "  ","
+.BI "struct efivar_entry **prev "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+callback function
+.IP "head" 12
+head of the variable list
+.IP "data" 12
+function-specific data to pass to callback
+.IP "prev" 12
+entry to begin iterating from
+.SH "DESCRIPTION"
+Iterate over the list of EFI variables and call \fIfunc\fP with every
+entry on the list. It is safe for \fIfunc\fP to remove entries in the
+list via \fBefivar_entry_delete\fP.
+
+You MUST call \fBefivar_entry_iter_begin\fP before this function, and
+\fBefivar_entry_iter_end\fP afterwards.
+
+It is possible to begin iteration from an arbitrary entry within
+the list by passing \fIprev\fP. \fIprev\fP is updated on return to point to
+the last entry passed to \fIfunc\fP. To begin iterating from the
+beginning of the list \fIprev\fP must be NULL.
+
+The restrictions for \fIfunc\fP are the same as documented for
+\fBefivar_entry_iter\fP.

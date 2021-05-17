@@ -1,0 +1,26 @@
+.TH "snd_hda_pick_fixup" 9 "snd_hda_pick_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_pick_fixup \- Pick up a fixup matching with PCI/codec SSID or model string
+.SH SYNOPSIS
+.B "void" snd_hda_pick_fixup
+.BI "(struct hda_codec *codec "  ","
+.BI "const struct hda_model_fixup *models "  ","
+.BI "const struct snd_pci_quirk *quirk "  ","
+.BI "const struct hda_fixup *fixlist "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "models" 12
+NULL-terminated model string list
+.IP "quirk" 12
+zero-terminated PCI/codec SSID quirk list
+.IP "fixlist" 12
+the fixup list
+.SH "DESCRIPTION"
+Pick up a fixup entry matching with the given model string or SSID.
+If a fixup was already set beforehand, the function doesn't do anything.
+When a special model string "nofixup" is given, also no fixup is applied.
+
+The function tries to find the matching model name at first, if given.
+If nothing matched, try to look up the PCI SSID.
+If still nothing matched, try to look up the codec SSID.

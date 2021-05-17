@@ -1,0 +1,18 @@
+.TH "assoc_array_apply_edit" 9 "assoc_array_apply_edit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assoc_array_apply_edit \- Apply an edit script to an associative array
+.SH SYNOPSIS
+.B "void" assoc_array_apply_edit
+.BI "(struct assoc_array_edit *edit "  ");"
+.SH ARGUMENTS
+.IP "edit" 12
+The script to apply.
+.SH "DESCRIPTION"
+Apply an edit script to an associative array to effect an insertion,
+deletion or clearance.  As the edit script includes preallocated memory,
+this is guaranteed not to fail.
+
+The edit script, dead objects and dead metadata will be scheduled for
+destruction after an RCU grace period to permit those doing read-only
+accesses on the array to continue to do so under the RCU read lock whilst
+the edit is taking place.

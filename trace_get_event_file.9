@@ -1,0 +1,29 @@
+.TH "trace_get_event_file" 9 "trace_get_event_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_get_event_file \- Find and return a trace event file
+.SH SYNOPSIS
+.B "struct trace_event_file *" trace_get_event_file
+.BI "(const char *instance "  ","
+.BI "const char *system "  ","
+.BI "const char *event "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+The name of the trace instance containing the event
+.IP "system" 12
+The name of the system containing the event
+.IP "event" 12
+The name of the event
+.SH "DESCRIPTION"
+Return a trace event file given the trace instance name, trace
+system, and trace event name.  If the instance name is NULL, it
+refers to the top-level trace array.
+
+This function will look it up and return it if found, after calling
+\fBtrace_array_get\fP to prevent the instance from going away, and
+increment the event's module refcount to prevent it from being
+removed.
+
+To release the file, call \fBtrace_put_event_file\fP, which will call
+\fBtrace_array_put\fP and decrement the event's module refcount.
+.SH "RETURN"
+The trace event on success, ERR_PTR otherwise.

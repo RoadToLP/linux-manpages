@@ -1,0 +1,17 @@
+.TH "vmw_bo_fence_single" 9 "vmw_bo_fence_single" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_bo_fence_single \- Utility function to fence a single TTM buffer object without unreserving it.
+.SH SYNOPSIS
+.B "void" vmw_bo_fence_single
+.BI "(struct ttm_buffer_object *bo "  ","
+.BI "struct vmw_fence_obj *fence "  ");"
+.SH ARGUMENTS
+.IP "bo" 12
+Pointer to the struct ttm_buffer_object to fence.
+.IP "fence" 12
+Pointer to the fence. If NULL, this function will
+insert a fence into the command stream..
+.SH "DESCRIPTION"
+Contrary to the ttm_eu version of this function, it takes only
+a single buffer object instead of a list, and it also doesn't
+unreserve the buffer object, which needs to be done separately.

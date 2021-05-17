@@ -1,0 +1,26 @@
+.TH "i40e_pf_loop_reset" 9 "i40e_pf_loop_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_pf_loop_reset \- perform reset in a loop.
+.SH SYNOPSIS
+.B "i40e_status" i40e_pf_loop_reset
+.BI "(struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+board private structure
+.SH "DESCRIPTION"
+This function is useful when a NIC is about to enter recovery mode.
+When a NIC's internal data structures are corrupted the NIC's
+firmware is going to enter recovery mode.
+Right after a POR it takes about 7 minutes for firmware to enter
+recovery mode. Until that time a NIC is in some kind of intermediate
+state. After that time period the NIC almost surely enters
+recovery mode. The only way for a driver to detect intermediate
+state is to issue a series of pf-resets and check a return value.
+If a PF reset returns success then the firmware could be in recovery
+mode so the caller of this code needs to check for recovery mode
+if this function returns success. There is a little chance that
+firmware will hang in intermediate state forever.
+Since waiting 7 minutes is quite a lot of time this function waits
+10 seconds and then gives up by returning an error.
+
+Return 0 on success, negative on failure.

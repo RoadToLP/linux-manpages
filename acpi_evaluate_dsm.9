@@ -1,0 +1,27 @@
+.TH "acpi_evaluate_dsm" 9 "acpi_evaluate_dsm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_evaluate_dsm \- evaluate device's _DSM method
+.SH SYNOPSIS
+.B "union acpi_object *" acpi_evaluate_dsm
+.BI "(acpi_handle handle "  ","
+.BI "const guid_t *guid "  ","
+.BI "u64 rev "  ","
+.BI "u64 func "  ","
+.BI "union acpi_object *argv4 "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+ACPI device handle
+.IP "guid" 12
+GUID of requested functions, should be 16 bytes
+.IP "rev" 12
+revision number of requested function
+.IP "func" 12
+requested function number
+.IP "argv4" 12
+the function specific parameter
+.SH "DESCRIPTION"
+Evaluate device's _DSM method with specified GUID, revision id and
+function number. Caller needs to free the returned object.
+
+Though ACPI defines the fourth parameter for _DSM should be a package,
+some old BIOSes do expect a buffer or an integer etc.

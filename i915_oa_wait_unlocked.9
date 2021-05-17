@@ -1,0 +1,19 @@
+.TH "i915_oa_wait_unlocked" 9 "i915_oa_wait_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_oa_wait_unlocked \- handles blocking IO until OA data available
+.SH SYNOPSIS
+.B "int" i915_oa_wait_unlocked
+.BI "(struct i915_perf_stream *stream "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.SH "DESCRIPTION"
+Called when userspace tries to \fBread\fP from a blocking stream FD opened
+for OA metrics. It waits until the hrtimer callback finds a non-empty
+OA buffer and wakes us.
+.SH "NOTE"
+it's acceptable to have this return with some false positives
+since any subsequent read handling will return -EAGAIN if there isn't
+really data ready for userspace yet.
+.SH "RETURN"
+zero on success or a negative error code

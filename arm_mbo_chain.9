@@ -1,0 +1,22 @@
+.TH "arm_mbo_chain" 9 "arm_mbo_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_mbo_chain \- helper function that arms an MBO chain for the HDM
+.SH SYNOPSIS
+.B "int" arm_mbo_chain
+.BI "(struct most_channel *c "  ","
+.BI "int dir "  ","
+.BI "void (*compl)(struct mbo *) "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+pointer to interface channel
+.IP "dir" 12
+direction of the channel
+.IP "compl" 12
+pointer to completion function
+.SH "DESCRIPTION"
+This allocates buffer objects including the containing DMA coherent
+buffer and puts them in the fifo.
+Buffers of Rx channels are put in the kthread fifo, hence immediately
+submitted to the HDM.
+
+Returns the number of allocated and enqueued MBOs.

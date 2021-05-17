@@ -1,0 +1,23 @@
+.TH "drm_connector_set_panel_orientation_with_quirk" 9 "drm_connector_set_panel_orientation_with_quirk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_set_panel_orientation_with_quirk \-  set the connector's panel_orientation after checking for quirks
+.SH SYNOPSIS
+.B "int" drm_connector_set_panel_orientation_with_quirk
+.BI "(struct drm_connector *connector "  ","
+.BI "enum drm_panel_orientation panel_orientation "  ","
+.BI "int width "  ","
+.BI "int height "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+connector for which to init the panel-orientation property.
+.IP "panel_orientation" 12
+drm_panel_orientation value to set
+.IP "width" 12
+width in pixels of the panel, used for panel quirk detection
+.IP "height" 12
+height in pixels of the panel, used for panel quirk detection
+.SH "DESCRIPTION"
+Like \fBdrm_connector_set_panel_orientation\fP, but with a check for platform
+specific (e.g. DMI based) quirks overriding the passed in panel_orientation.
+.SH "RETURN"
+Zero on success, negative errno on failure.

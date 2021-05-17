@@ -1,0 +1,17 @@
+.TH "gsi_channel_poll_one" 9 "gsi_channel_poll_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsi_channel_poll_one \- Return a single completed transaction on a channel
+.SH SYNOPSIS
+.B "struct gsi_trans *" gsi_channel_poll_one
+.BI "(struct gsi_channel *channel "  ");"
+.SH ARGUMENTS
+.IP "channel" 12
+Channel to be polled
+.SH "RETURN"
+Transaction pointer, or null if none are available
+.SH "DESCRIPTION"
+This function returns the first entry on a channel's completed transaction
+list.  If that list is empty, the hardware is consulted to determine
+whether any new transactions have completed.  If so, they're moved to the
+completed list and the new first entry is returned.  If there are no more
+completed transactions, a null pointer is returned.

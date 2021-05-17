@@ -1,0 +1,24 @@
+.TH "drm_gem_create_mmap_offset_size" 9 "drm_gem_create_mmap_offset_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_create_mmap_offset_size \- create a fake mmap offset for an object
+.SH SYNOPSIS
+.B "int" drm_gem_create_mmap_offset_size
+.BI "(struct drm_gem_object *obj "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+obj in question
+.IP "size" 12
+the virtual size
+.SH "DESCRIPTION"
+GEM memory mapping works by handing back to userspace a fake mmap offset
+it can use in a subsequent mmap(2) call.  The DRM core code then looks
+up the object based on the offset and sets up the various memory mapping
+structures.
+
+This routine allocates and attaches a fake offset for \fIobj\fP, in cases where
+the virtual size differs from the physical size (ie. \fIdrm_gem_object.size\fP).
+Otherwise just use \fBdrm_gem_create_mmap_offset\fP.
+
+This function is idempotent and handles an already allocated mmap offset
+transparently. Drivers do not need to check for this case.

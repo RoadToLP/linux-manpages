@@ -1,0 +1,53 @@
+.TH "walk_page_range" 9 "walk_page_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+walk_page_range \- walk page table with caller specific callbacks
+.SH SYNOPSIS
+.B "int" walk_page_range
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long end "  ","
+.BI "const struct mm_walk_ops *ops "  ","
+.BI "void *private "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+mm_struct representing the target process of page table walk
+.IP "start" 12
+start address of the virtual address range
+.IP "end" 12
+end address of the virtual address range
+.IP "ops" 12
+operation to call during the walk
+.IP "private" 12
+private data for callbacks' usage
+.SH "DESCRIPTION"
+Recursively walk the page table tree of the process represented by \fImm\fP
+within the virtual address range [\fIstart\fP, \fIend\fP). During walking, we can do
+some caller-specific works for each entry, by setting up \fBpmd_entry\fP,
+\fBpte_entry\fP, and/or \fBhugetlb_entry\fP. If you don't set up for some of these
+callbacks, the associated entries/pages are just ignored.
+The return values of these callbacks are commonly defined like below:
+
+- 0  : succeeded to handle the current entry, and if you don't reach the
+end address yet, continue to walk.
+- >0 : succeeded to handle the current entry, and return to the caller
+with caller specific value.
+- <0 : failed to handle the current entry, and return to the caller
+with error code.
+
+Before starting to walk page table, some callers want to check whether
+they really want to walk over the current vma, typically by checking
+its vm_flags. \fBwalk_page_test\fP and \fIops\fP->\fBtest_walk\fP are used for this
+purpose.
+
+If operations need to be staged before and committed after a vma is walked,
+there are two callbacks, \fBpre_vma\fP and \fBpost_vma\fP. Note that \fBpost_vma\fP,
+since it is intended to handle commit-type operations, can't return any
+errors.
+
+struct mm_walk keeps current values of some common data like vma and pmd,
+which are useful for the access from callbacks. If you want to pass some
+caller-specific data to callbacks, \fIprivate\fP should be helpful.
+
+Locking:
+Callers of \fBwalk_page_range\fP and \fBwalk_page_vma\fP should hold \fImm->mmap_lock\fP,
+because these function traverse vma list and/or access to vma's data.

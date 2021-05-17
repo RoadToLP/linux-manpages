@@ -1,0 +1,27 @@
+.TH "iommu_register_device_fault_handler" 9 "iommu_register_device_fault_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_register_device_fault_handler \- Register a device fault handler
+.SH SYNOPSIS
+.B "int" iommu_register_device_fault_handler
+.BI "(struct device *dev "  ","
+.BI "iommu_dev_fault_handler_t handler "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device
+.IP "handler" 12
+the fault handler
+.IP "data" 12
+private data passed as argument to the handler
+.SH "DESCRIPTION"
+When an IOMMU fault event is received, this handler gets called with the
+fault event and data as argument. The handler should return 0 on success. If
+the fault is recoverable (IOMMU_FAULT_PAGE_REQ), the consumer should also
+complete the fault by calling \fBiommu_page_response\fP with one of the following
+response code:
+- IOMMU_PAGE_RESP_SUCCESS: retry the translation
+- IOMMU_PAGE_RESP_INVALID: terminate the fault
+- IOMMU_PAGE_RESP_FAILURE: terminate the fault and stop reporting
+page faults if possible.
+
+Return 0 if the fault handler was installed successfully, or an error.

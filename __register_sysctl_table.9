@@ -1,0 +1,51 @@
+.TH "__register_sysctl_table" 9 "__register_sysctl_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__register_sysctl_table \- register a leaf sysctl table
+.SH SYNOPSIS
+.B "struct ctl_table_header *" __register_sysctl_table
+.BI "(struct ctl_table_set *set "  ","
+.BI "const char *path "  ","
+.BI "struct ctl_table *table "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+Sysctl tree to register on
+.IP "path" 12
+The path to the directory the sysctl table is in.
+.IP "table" 12
+the top-level table structure
+.SH "DESCRIPTION"
+Register a sysctl table hierarchy. \fItable\fP should be a filled in ctl_table
+array. A completely 0 filled entry terminates the table.
+
+The members of the \fIstruct ctl_table\fP structure are used as follows:
+
+procname - the name of the sysctl file under /proc/sys. Set to NULL to not
+enter a sysctl file
+
+data - a pointer to data for use by proc_handler
+
+maxlen - the maximum size in bytes of the data
+
+mode - the file permissions for the /proc/sys file
+
+child - must be NULL.
+
+proc_handler - the text handler routine (described below)
+
+extra1, extra2 - extra pointers usable by the proc handler routines
+
+Leaf nodes in the sysctl tree will be represented by a single file
+under /proc; non-leaf nodes will be represented by directories.
+
+There must be a proc_handler routine for any terminal nodes.
+Several default handlers are available to cover common cases -
+
+\fBproc_dostring\fP, \fBproc_dointvec\fP, \fBproc_dointvec_jiffies\fP,
+\fBproc_dointvec_userhz_jiffies\fP, \fBproc_dointvec_minmax\fP,
+\fBproc_doulongvec_ms_jiffies_minmax\fP, \fBproc_doulongvec_minmax\fP
+
+It is the handler's job to read the input buffer from user memory
+and process it. The handler should return 0 on success.
+
+This routine returns NULL on a failure to register, and a pointer
+to the table header on success.

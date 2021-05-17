@@ -1,0 +1,20 @@
+.TH "oom_killer_disable" 9 "oom_killer_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+oom_killer_disable \- disable OOM killer
+.SH SYNOPSIS
+.B "bool" oom_killer_disable
+.BI "(signed long timeout "  ");"
+.SH ARGUMENTS
+.IP "timeout" 12
+maximum timeout to wait for oom victims in jiffies
+.SH "DESCRIPTION"
+Forces all page allocations to fail rather than trigger OOM killer.
+Will block and wait until all OOM victims are killed or the given
+timeout expires.
+
+The function cannot be called when there are runnable user tasks because
+the userspace would see unexpected allocation failures as a result. Any
+new usage of this function should be consulted with MM people.
+
+Returns true if successful and false if the OOM killer cannot be
+disabled.

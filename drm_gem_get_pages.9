@@ -1,0 +1,29 @@
+.TH "drm_gem_get_pages" 9 "drm_gem_get_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_get_pages \- helper to allocate backing pages for a GEM object from shmem
+.SH SYNOPSIS
+.B "struct page **" drm_gem_get_pages
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+obj in question
+.SH "DESCRIPTION"
+This reads the page-array of the shmem-backing storage of the given gem
+object. An array of pages is returned. If a page is not allocated or
+swapped-out, this will allocate/swap-in the required pages. Note that the
+whole object is covered by the page-array and pinned in memory.
+
+Use \fBdrm_gem_put_pages\fP to release the array and unpin all pages.
+
+This uses the GFP-mask set on the shmem-mapping (see \fBmapping_set_gfp_mask\fP).
+If you require other GFP-masks, you have to do those allocations yourself.
+
+Note that you are not allowed to change gfp-zones during runtime. That is,
+\fBshmem_read_mapping_page_gfp\fP must be called with the same gfp_zone(gfp) as
+set during initialization. If you have special zone constraints, set them
+after \fBdrm_gem_object_init\fP via \fBmapping_set_gfp_mask\fP. shmem-core takes care
+to keep pages in the required zone during swap-in.
+
+This function is only valid on objects initialized with
+\fBdrm_gem_object_init\fP, but not for those initialized with
+\fBdrm_gem_private_object_init\fP only.

@@ -1,0 +1,24 @@
+.TH "scribble_alloc" 9 "scribble_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scribble_alloc \- allocate percpu scribble buffer for required size of the scribble region
+.SH SYNOPSIS
+.B "int" scribble_alloc
+.BI "(struct raid5_percpu *percpu "  ","
+.BI "int num "  ","
+.BI "int cnt "  ");"
+.SH ARGUMENTS
+.IP "percpu" 12
+from \fBfor_each_present_cpu\fP of the caller
+.IP "num" 12
+total number of disks in the array
+.IP "cnt" 12
+scribble objs count for required size of the scribble region
+.SH "DESCRIPTION"
+The scribble buffer size must be enough to contain:
+1/ a struct page pointer for each device in the array +2
+2/ room to convert each entry in (1) to its corresponding dma
+(\fBdma_map_page\fP) or page (\fBpage_address\fP) address.
+.SH "NOTE"
+the +2 is for the destination buffers of the ddf/raid6 case where we
+calculate over all devices (not just the data blocks), using zeros in place
+of the P and Q blocks.

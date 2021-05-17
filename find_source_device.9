@@ -1,0 +1,19 @@
+.TH "find_source_device" 9 "find_source_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_source_device \- search through device hierarchy for source device
+.SH SYNOPSIS
+.B "bool" find_source_device
+.BI "(struct pci_dev *parent "  ","
+.BI "struct aer_err_info *e_info "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+pointer to Root Port pci_dev data structure
+.IP "e_info" 12
+including detailed error information such like id
+.SH "DESCRIPTION"
+Return true if found.
+
+Invoked by DPC when error is detected at the Root Port.
+Caller of this function must set id, severity, and multi_error_valid of
+struct aer_err_info pointed by \fIe_info\fP properly.  This function must fill
+e_info->error_dev_num and e_info->dev[], based on the given information.

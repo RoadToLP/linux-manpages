@@ -1,0 +1,30 @@
+.TH "wm8960_configure_pll" 9 "wm8960_configure_pll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8960_configure_pll \- checks if there is a PLL out frequency available The PLL out frequency must be chosen such that: - sysclk = lrclk * dac_divs - freq_out = sysclk * sysclk_divs - 10 * sysclk = bclk * bclk_divs
+.SH SYNOPSIS
+.B "int" wm8960_configure_pll
+.BI "(struct snd_soc_component *component "  ","
+.BI "int freq_in "  ","
+.BI "int *sysclk_idx "  ","
+.BI "int *dac_idx "  ","
+.BI "int *bclk_idx "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+component structure
+.IP "freq_in" 12
+input frequency used to derive freq out via PLL
+.IP "sysclk_idx" 12
+sysclk_divs index for found sysclk
+.IP "dac_idx" 12
+dac_divs index for found lrclk
+.IP "bclk_idx" 12
+bclk_divs index for found bclk
+.SH "DESCRIPTION"
+
+If we cannot find an exact match for (sysclk, lrclk, bclk)
+triplet, we relax the bclk such that bclk is chosen as the
+closest available frequency greater than expected bclk.
+.SH "RETURN"
+< 0, in case no PLL frequency out available was found
+>=0, in case we could derive bclk, lrclk, sysclk from PLL out using
+(\fIsysclk_idx\fP, \fIdac_idx\fP, \fIbclk_idx\fP) dividers

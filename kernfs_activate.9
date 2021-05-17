@@ -1,0 +1,18 @@
+.TH "kernfs_activate" 9 "kernfs_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_activate \- activate a node which started deactivated
+.SH SYNOPSIS
+.B "void" kernfs_activate
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+kernfs_node whose subtree is to be activated
+.SH "DESCRIPTION"
+If the root has KERNFS_ROOT_CREATE_DEACTIVATED set, a newly created node
+needs to be explicitly activated.  A node which hasn't been activated
+isn't visible to userland and deactivation is skipped during its
+removal.  This is useful to construct atomic init sequences where
+creation of multiple nodes should either succeed or fail atomically.
+
+The caller is responsible for ensuring that this function is not called
+after kernfs_remove*() is invoked on \fIkn\fP.

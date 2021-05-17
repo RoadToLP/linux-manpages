@@ -1,0 +1,36 @@
+.TH "setattr_copy" 9 "setattr_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setattr_copy \- copy simple metadata updates into the generic inode
+.SH SYNOPSIS
+.B "void" setattr_copy
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct iattr *attr "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+the inode to be updated
+.IP "attr" 12
+the new attributes
+.SH "DESCRIPTION"
+setattr_copy must be called with i_mutex held.
+
+setattr_copy updates the inode's metadata with that specified
+in attr on idmapped mounts. If file ownership is changed setattr_copy
+doesn't map ia_uid and ia_gid. It will asssume the caller has already
+provided the intended values. Necessary permission checks to determine
+whether or not the S_ISGID property needs to be removed are performed with
+the correct idmapped mount permission helpers.
+Noticeably missing is inode size update, which is more complex
+as it requires pagecache updates.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.
+
+The inode is not marked as dirty after this operation. The rationale is
+that for "simple" filesystems, the struct inode is the inode storage.
+The caller is free to mark the inode dirty afterwards if needed.

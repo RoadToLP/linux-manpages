@@ -1,0 +1,32 @@
+.TH "fill_rx_buffers" 9 "fill_rx_buffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fill_rx_buffers \- Allocates the Rx side skbs
+.SH SYNOPSIS
+.B "int" fill_rx_buffers
+.BI "(struct s2io_nic *nic "  ","
+.BI "struct ring_info *ring "  ","
+.BI "int from_card_up "  ");"
+.SH ARGUMENTS
+.IP "nic" 12
+device private variable.
+.IP "ring" 12
+per ring structure
+.IP "from_card_up" 12
+If this is true, we will map the buffer to get
+the dma address for buf0 and buf1 to give it to the card.
+Else we will sync the already mapped buffer to give it to the card.
+.SH "DESCRIPTION"
+The function allocates Rx side skbs and puts the physical
+address of these buffers into the RxD buffer pointers, so that the NIC
+can DMA the received frame into these locations.
+The NIC supports 3 receive modes, viz
+1. single buffer,
+2. three buffer and
+3. Five buffer modes.
+Each mode defines how many fragments the received frame will be split
+up into by the NIC. The frame is split into L3 header, L4 Header,
+L4 payload in three buffer mode and in 5 buffer mode, L4 payload itself
+is split into 3 fragments. As of now only single buffer mode is
+supported.
+Return Value:
+SUCCESS on success or an appropriate -ve value on failure.

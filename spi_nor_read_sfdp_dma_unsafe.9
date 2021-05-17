@@ -1,0 +1,24 @@
+.TH "spi_nor_read_sfdp_dma_unsafe" 9 "spi_nor_read_sfdp_dma_unsafe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_read_sfdp_dma_unsafe \- read Serial Flash Discoverable Parameters.
+.SH SYNOPSIS
+.B "int" spi_nor_read_sfdp_dma_unsafe
+.BI "(struct spi_nor *nor "  ","
+.BI "u32 addr "  ","
+.BI "size_t len "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "nor" 12
+pointer to a 'struct spi_nor'
+.IP "addr" 12
+offset in the SFDP area to start reading data from
+.IP "len" 12
+number of bytes to read
+.IP "buf" 12
+buffer where the SFDP data are copied into
+.SH "DESCRIPTION"
+Wrap \fBspi_nor_read_sfdp\fP using a kmalloc'ed bounce buffer as \fIbuf\fP is now not
+guaranteed to be dma-safe.
+.SH "RETURN"
+-ENOMEM if \fBkmalloc\fP fails, the return code of \fBspi_nor_read_sfdp\fP
+otherwise.

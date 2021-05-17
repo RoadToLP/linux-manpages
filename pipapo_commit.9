@@ -1,0 +1,16 @@
+.TH "pipapo_commit" 9 "pipapo_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_commit \- Replace lookup data with current working copy
+.SH SYNOPSIS
+.B "void" pipapo_commit
+.BI "(const struct nft_set *set "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+nftables API set representation
+.SH "DESCRIPTION"
+While at it, check if we should perform garbage collection on the working
+copy before committing it for lookup, and don't replace the table if the
+working copy doesn't have pending changes.
+
+We also need to create a new working copy for subsequent insertions and
+deletions.

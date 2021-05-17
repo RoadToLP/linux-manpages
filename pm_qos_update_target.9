@@ -1,0 +1,28 @@
+.TH "pm_qos_update_target" 9 "pm_qos_update_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_qos_update_target \- Update a list of PM QoS constraint requests.
+.SH SYNOPSIS
+.B "int" pm_qos_update_target
+.BI "(struct pm_qos_constraints *c "  ","
+.BI "struct plist_node *node "  ","
+.BI "enum pm_qos_req_action action "  ","
+.BI "int value "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+List of PM QoS requests.
+.IP "node" 12
+Target list entry.
+.IP "action" 12
+Action to carry out (add, update or remove).
+.IP "value" 12
+New request value for the target list entry.
+.SH "DESCRIPTION"
+Update the given list of PM QoS constraint requests, \fIc\fP, by carrying an
+\fIaction\fP involving the \fInode\fP list entry and \fIvalue\fP on it.
+
+The recognized values of \fIaction\fP are PM_QOS_ADD_REQ (store \fIvalue\fP in \fInode\fP
+and add it to the list), PM_QOS_UPDATE_REQ (remove \fInode\fP from the list, store
+\fIvalue\fP in it and add it to the list again), and PM_QOS_REMOVE_REQ (remove
+\fInode\fP from the list, ignore \fIvalue\fP).
+.SH "RETURN"
+1 if the aggregate constraint value has changed, 0  otherwise.

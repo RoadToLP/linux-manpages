@@ -1,0 +1,29 @@
+.TH "i915_request_await_object" 9 "i915_request_await_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_request_await_object \- set this request to (async) wait upon a bo
+.SH SYNOPSIS
+.B "int" i915_request_await_object
+.BI "(struct i915_request *to "  ","
+.BI "struct drm_i915_gem_object *obj "  ","
+.BI "bool write "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+request we are wishing to use
+.IP "obj" 12
+object which may be in use on another ring.
+.IP "write" 12
+whether the wait is on behalf of a writer
+.SH "DESCRIPTION"
+This code is meant to abstract object synchronization with the GPU.
+Conceptually we serialise writes between engines inside the GPU.
+We only allow one engine to write into a buffer at any time, but
+multiple readers. To ensure each has a coherent view of memory, we must:
+
+- If there is an outstanding write request to the object, the new
+request must wait for it to complete (either CPU or in hw, requests
+on the same ring will be naturally ordered).
+
+- If we are a write request (pending_write_domain is set), the new
+request must wait for outstanding read requests to complete.
+
+Returns 0 if successful, else propagates up the lower layer error.

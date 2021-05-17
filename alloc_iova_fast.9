@@ -1,0 +1,21 @@
+.TH "alloc_iova_fast" 9 "alloc_iova_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_iova_fast \- allocates an iova from rcache
+.SH SYNOPSIS
+.B "unsigned long" alloc_iova_fast
+.BI "(struct iova_domain *iovad "  ","
+.BI "unsigned long size "  ","
+.BI "unsigned long limit_pfn "  ","
+.BI "bool flush_rcache "  ");"
+.SH ARGUMENTS
+.IP "iovad" 12
+- iova domain in question
+.IP "size" 12
+- size of page frames to allocate
+.IP "limit_pfn" 12
+- max limit address
+.IP "flush_rcache" 12
+- set to flush rcache on regular allocation failure
+This function tries to satisfy an iova allocation from the rcache,
+and falls back to regular allocation on failure. If regular allocation
+fails too and the flush_rcache flag is set then the rcache will be flushed.

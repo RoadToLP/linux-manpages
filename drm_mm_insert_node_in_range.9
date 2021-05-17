@@ -1,0 +1,34 @@
+.TH "drm_mm_insert_node_in_range" 9 "drm_mm_insert_node_in_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mm_insert_node_in_range \- ranged search for space and insert @node
+.SH SYNOPSIS
+.B "int" drm_mm_insert_node_in_range
+.BI "(struct drm_mm * const mm "  ","
+.BI "struct drm_mm_node * const node "  ","
+.BI "u64 size "  ","
+.BI "u64 alignment "  ","
+.BI "unsigned long color "  ","
+.BI "u64 range_start "  ","
+.BI "u64 range_end "  ","
+.BI "enum drm_mm_insert_mode mode "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+drm_mm to allocate from
+.IP "node" 12
+preallocate node to insert
+.IP "size" 12
+size of the allocation
+.IP "alignment" 12
+alignment of the allocation
+.IP "color" 12
+opaque tag value to use for this node
+.IP "range_start" 12
+start of the allowed range for this node
+.IP "range_end" 12
+end of the allowed range for this node
+.IP "mode" 12
+fine-tune the allocation search and placement
+.SH "DESCRIPTION"
+The preallocated \fInode\fP must be cleared to 0.
+.SH "RETURN"
+0 on success, -ENOSPC if there's no suitable hole.

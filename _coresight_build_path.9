@@ -1,0 +1,21 @@
+.TH "_coresight_build_path" 9 "_coresight_build_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_coresight_build_path \- recursively build a path from a @csdev to a sink.
+.SH SYNOPSIS
+.B "int" _coresight_build_path
+.BI "(struct coresight_device *csdev "  ","
+.BI "struct coresight_device *sink "  ","
+.BI "struct list_head *path "  ");"
+.SH ARGUMENTS
+.IP "csdev" 12
+The device to start from.
+.IP "sink" 12
+The final sink we want in this path.
+.IP "path" 12
+The list to add devices to.
+.SH "DESCRIPTION"
+The tree of Coresight device is traversed until an activated sink is
+found.  From there the sink is added to the list along with all the
+devices that led to that point - the end result is a list from source
+to sink. In that list the source is the first device and the sink the
+last one.

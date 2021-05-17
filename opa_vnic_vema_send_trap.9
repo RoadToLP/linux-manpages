@@ -1,0 +1,24 @@
+.TH "opa_vnic_vema_send_trap" 9 "opa_vnic_vema_send_trap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+opa_vnic_vema_send_trap \- - This function sends a trap to the EM
+.SH SYNOPSIS
+.B "void" opa_vnic_vema_send_trap
+.BI "(struct opa_vnic_adapter *adapter "  ","
+.BI "struct __opa_veswport_trap *data "  ","
+.BI "u32 lid "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+pointer to vnic adapter
+.IP "data" 12
+pointer to trap data filled by calling function
+.IP "lid" 12
+issuers lid (encap_slid from vesw_port_info)
+.SH "DESCRIPTION"
+This function is called from the VNIC driver to send a trap if there
+is somethng the EM should be notified about. These events currently
+are
+1) UNICAST INTERFACE MACADDRESS changes
+2) MULTICAST INTERFACE MACADDRESS changes
+3) ETHERNET LINK STATUS changes
+While allocating the send mad the remote site qpn used is 1
+as this is the well known QP.

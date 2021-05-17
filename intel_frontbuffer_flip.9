@@ -1,0 +1,18 @@
+.TH "intel_frontbuffer_flip" 9 "intel_frontbuffer_flip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_frontbuffer_flip \- synchronous frontbuffer flip
+.SH SYNOPSIS
+.B "void" intel_frontbuffer_flip
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "unsigned frontbuffer_bits "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device
+.IP "frontbuffer_bits" 12
+frontbuffer plane tracking bits
+.SH "DESCRIPTION"
+This function gets called after scheduling a flip on \fIobj\fP. This is for
+synchronous plane updates which will happen on the next vblank and which will
+not get delayed by pending gpu rendering.
+
+Can be called without any locks held.

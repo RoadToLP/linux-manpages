@@ -1,0 +1,21 @@
+.TH "tuner_probe" 9 "tuner_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tuner_probe \- Probes the existing tuners on an I2C bus
+.SH SYNOPSIS
+.B "int" tuner_probe
+.BI "(struct i2c_client *client "  ","
+.BI "const struct i2c_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+i2c_client descriptor
+.IP "id" 12
+not used
+.SH "DESCRIPTION"
+This routine probes for tuners at the expected I2C addresses. On most
+cases, if a device answers to a given I2C address, it assumes that the
+device is a tuner. On a few cases, however, an additional logic is needed
+to double check if the device is really a tuner, or to identify the tuner
+type, like on tea5767/5761 devices.
+
+During client attach, set_type is called by adapter's attach_inform callback.
+set_type must then be completed by tuner_probe.

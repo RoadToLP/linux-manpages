@@ -1,0 +1,30 @@
+.TH "__request_percpu_irq" 9 "__request_percpu_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__request_percpu_irq \- allocate a percpu interrupt line
+.SH SYNOPSIS
+.B "int" __request_percpu_irq
+.BI "(unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "unsigned long flags "  ","
+.BI "const char *devname "  ","
+.BI "void __percpu *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+.IP "flags" 12
+Interrupt type flags (IRQF_TIMER only)
+.IP "devname" 12
+An ascii name for the claiming device
+.IP "dev_id" 12
+A percpu cookie passed back to the handler function
+
+This call allocates interrupt resources and enables the
+interrupt on the local CPU. If the interrupt is supposed to be
+enabled on other CPUs, it has to be done on each CPU using
+\fBenable_percpu_irq\fP.
+
+Dev_id must be globally unique. It is a per-cpu variable, and
+the handler gets called with the interrupted CPU's instance of
+that variable.

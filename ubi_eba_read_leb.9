@@ -1,0 +1,36 @@
+.TH "ubi_eba_read_leb" 9 "ubi_eba_read_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_eba_read_leb \- read data.
+.SH SYNOPSIS
+.B "int" ubi_eba_read_leb
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "int lnum "  ","
+.BI "void *buf "  ","
+.BI "int offset "  ","
+.BI "int len "  ","
+.BI "int check "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+buffer to store the read data
+.IP "offset" 12
+offset from where to read
+.IP "len" 12
+how many bytes to read
+.IP "check" 12
+data CRC check flag
+.SH "DESCRIPTION"
+If the logical eraseblock \fIlnum\fP is unmapped, \fIbuf\fP is filled with 0xFF
+bytes. The \fIcheck\fP flag only makes sense for static volumes and forces
+eraseblock data CRC checking.
+
+In case of success this function returns zero. In case of a static volume,
+if data CRC mismatches - -EBADMSG is returned. -EBADMSG may also be
+returned for any volume type if an ECC error was detected by the MTD device
+driver. Other negative error cored may be returned in case of other errors.

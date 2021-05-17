@@ -1,0 +1,14 @@
+.TH "hfi1_reset_device" 9 "hfi1_reset_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_reset_device \- reset the chip if possible
+.SH SYNOPSIS
+.B "int" hfi1_reset_device
+.BI "(int unit "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+the device to reset
+.SH "DESCRIPTION"
+Whether or not reset is successful, we attempt to re-initialize the chip
+(that is, much like a driver unload/reload).  We clear the INITTED flag
+so that the various entry points will fail until we reinitialize.  For
+now, we only allow this if no user contexts are open that use chip resources

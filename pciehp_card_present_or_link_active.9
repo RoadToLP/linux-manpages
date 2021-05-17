@@ -1,0 +1,17 @@
+.TH "pciehp_card_present_or_link_active" 9 "pciehp_card_present_or_link_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pciehp_card_present_or_link_active \- whether given slot is occupied
+.SH SYNOPSIS
+.B "int" pciehp_card_present_or_link_active
+.BI "(struct controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+PCIe hotplug controller
+.SH "DESCRIPTION"
+Unlike \fBpciehp_card_present\fP, which determines presence solely from the
+Presence Detect State bit, this helper also returns true if the Link Active
+bit is set.  This is a concession to broken hotplug ports which hardwire
+Presence Detect State to zero, such as Wilocity's [1ae9:0200].
+.SH "RETURN"
+1 if the slot is occupied and 0 if it is not. If the hotplug
+port is not present anymore returns -ENODEV.

@@ -1,0 +1,19 @@
+.TH "rdtgroup_pseudo_lock_remove" 9 "rdtgroup_pseudo_lock_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_pseudo_lock_remove \- Remove a pseudo-locked region
+.SH SYNOPSIS
+.B "void" rdtgroup_pseudo_lock_remove
+.BI "(struct rdtgroup *rdtgrp "  ");"
+.SH ARGUMENTS
+.IP "rdtgrp" 12
+resource group to which the pseudo-locked region belongs
+.SH "DESCRIPTION"
+The removal of a pseudo-locked region can be initiated when the resource
+group is removed from user space via a "rmdir" from userspace or the
+unmount of the resctrl filesystem. On removal the resource group does
+not go back to pseudo-locksetup mode before it is removed, instead it is
+removed directly. There is thus assymmetry with the creation where the
+\fIstruct pseudo_lock_region\fP is removed here while it was not created in
+\fBrdtgroup_pseudo_lock_create\fP.
+.SH "RETURN"
+void

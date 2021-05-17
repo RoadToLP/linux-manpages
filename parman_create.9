@@ -1,0 +1,46 @@
+.TH "parman_create" 9 "parman_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parman_create \- creates a new parman instance
+.SH SYNOPSIS
+.B "struct parman *" parman_create
+.BI "(const struct parman_ops *ops "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+caller-specific callbacks
+.IP "priv" 12
+pointer to a private data passed to the ops
+.SH "NOTE"
+all locking must be provided by the caller.
+.SH "DESCRIPTION"
+Each parman instance manages an array area with chunks of entries
+with the same priority. Consider following example:
+
+item 1 with prio 10
+item 2 with prio 10
+item 3 with prio 10
+item 4 with prio 20
+item 5 with prio 20
+item 6 with prio 30
+item 7 with prio 30
+item 8 with prio 30
+
+In this example, there are 3 priority chunks. The order of the priorities
+matters, however the order of items within a single priority chunk does not
+matter. So the same array could be ordered as follows:
+
+item 2 with prio 10
+item 3 with prio 10
+item 1 with prio 10
+item 5 with prio 20
+item 4 with prio 20
+item 7 with prio 30
+item 8 with prio 30
+item 6 with prio 30
+
+The goal of parman is to maintain the priority ordering. The caller
+provides \fIops\fP with callbacks parman uses to move the items
+and resize the array area.
+
+Returns a pointer to newly created parman instance in case of success,
+otherwise it returns NULL.

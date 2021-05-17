@@ -1,0 +1,15 @@
+.TH "pm_save_wakeup_count" 9 "pm_save_wakeup_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_save_wakeup_count \- Save the current number of registered wakeup events.
+.SH SYNOPSIS
+.B "bool" pm_save_wakeup_count
+.BI "(unsigned int count "  ");"
+.SH ARGUMENTS
+.IP "count" 12
+Value to compare with the current number of registered wakeup events.
+.SH "DESCRIPTION"
+If \fIcount\fP is equal to the current number of registered wakeup events and the
+current number of wakeup events being processed is zero, store \fIcount\fP as the
+old number of registered wakeup events for \fBpm_check_wakeup_events\fP, enable
+wakeup events detection and return 'true'.  Otherwise disable wakeup events
+detection and return 'false'.

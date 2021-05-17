@@ -1,0 +1,23 @@
+.TH "ath5k_get_linear_pcdac_min" 9 "ath5k_get_linear_pcdac_min" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_get_linear_pcdac_min \- Find vertical boundary (min pwr) for the linear PCDAC curve
+.SH SYNOPSIS
+.B "s16" ath5k_get_linear_pcdac_min
+.BI "(const u8 *stepL "  ","
+.BI "const u8 *stepR "  ","
+.BI "const s16 *pwrL "  ","
+.BI "const s16 *pwrR "  ");"
+.SH ARGUMENTS
+.IP "stepL" 12
+Left array with y values (pcdac steps)
+.IP "stepR" 12
+Right array with y values (pcdac steps)
+.IP "pwrL" 12
+Left array with x values (power steps)
+.IP "pwrR" 12
+Right array with x values (power steps)
+.SH "DESCRIPTION"
+Since we have the top of the curve and we draw the line below
+until we reach 1 (1 pcdac step) we need to know which point
+(x value) that is so that we don't go below x axis and have negative
+pcdac values when creating the curve, or fill the table with zeros.

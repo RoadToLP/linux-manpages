@@ -1,0 +1,24 @@
+.TH "drm_atomic_helper_update_legacy_modeset_state" 9 "drm_atomic_helper_update_legacy_modeset_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_update_legacy_modeset_state \- update legacy modeset state
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_update_legacy_modeset_state
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+This function updates all the various legacy modeset state pointers in
+connectors, encoders and CRTCs.
+
+Drivers can use this for building their own atomic commit if they don't have
+a pure helper-based modeset implementation.
+
+Since these updates are not synchronized with lockings, only code paths
+called from \fIdrm_mode_config_helper_funcs.atomic_commit_tail\fP can look at the
+legacy state filled out by this helper. Defacto this means this helper and
+the legacy state pointers are only really useful for transitioning an
+existing driver to the atomic world.

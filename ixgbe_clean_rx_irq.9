@@ -1,0 +1,22 @@
+.TH "ixgbe_clean_rx_irq" 9 "ixgbe_clean_rx_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_clean_rx_irq \- Clean completed descriptors from Rx ring - bounce buf
+.SH SYNOPSIS
+.B "int" ixgbe_clean_rx_irq
+.BI "(struct ixgbe_q_vector *q_vector "  ","
+.BI "struct ixgbe_ring *rx_ring "  ","
+.BI "const int budget "  ");"
+.SH ARGUMENTS
+.IP "q_vector" 12
+structure containing interrupt and ring information
+.IP "rx_ring" 12
+rx descriptor ring to transact packets on
+.IP "budget" 12
+Total limit on number of packets to process
+.SH "DESCRIPTION"
+This function provides a "bounce buffer" approach to Rx interrupt
+processing.  The advantage to this is that on systems that have
+expensive overhead for IOMMU access this provides a means of avoiding
+it by maintaining the mapping of the page to the syste.
+
+Returns amount of work completed

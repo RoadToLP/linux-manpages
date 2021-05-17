@@ -1,0 +1,19 @@
+.TH "intel_display_power_get_if_enabled" 9 "intel_display_power_get_if_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_display_power_get_if_enabled \- grab a reference for an enabled display power domain
+.SH SYNOPSIS
+.B "intel_wakeref_t" intel_display_power_get_if_enabled
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum intel_display_power_domain domain "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "domain" 12
+power domain to reference
+.SH "DESCRIPTION"
+This function grabs a power domain reference for \fIdomain\fP and ensures that the
+power domain and all its parents are powered up. Therefore users should only
+grab a reference to the innermost power domain they need.
+
+Any power domain reference obtained by this function must have a symmetric
+call to \fBintel_display_power_put\fP to release the reference again.

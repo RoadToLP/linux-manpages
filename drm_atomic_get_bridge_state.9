@@ -1,0 +1,21 @@
+.TH "drm_atomic_get_bridge_state" 9 "drm_atomic_get_bridge_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_get_bridge_state \- get bridge state
+.SH SYNOPSIS
+.B "struct drm_bridge_state *" drm_atomic_get_bridge_state
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_bridge *bridge "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+global atomic state object
+.IP "bridge" 12
+bridge to get state object for
+.SH "DESCRIPTION"
+This function returns the bridge state for the given bridge, allocating it
+if needed. It will also grab the relevant bridge lock to make sure that the
+state is consistent.
+
+Either the allocated state or the error code encoded into the pointer. When
+the error is EDEADLK then the w/w mutex code has detected a deadlock and the
+entire atomic sequence must be restarted.
+.SH "RETURN"

@@ -1,0 +1,25 @@
+.TH "__nla_reserve_64bit" 9 "__nla_reserve_64bit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nla_reserve_64bit \- reserve room for attribute on the skb and align it
+.SH SYNOPSIS
+.B "struct nlattr *" __nla_reserve_64bit
+.BI "(struct sk_buff *skb "  ","
+.BI "int attrtype "  ","
+.BI "int attrlen "  ","
+.BI "int padattr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+socket buffer to reserve room on
+.IP "attrtype" 12
+attribute type
+.IP "attrlen" 12
+length of attribute payload
+.IP "padattr" 12
+attribute type for the padding
+.SH "DESCRIPTION"
+Adds a netlink attribute header to a socket buffer and reserves
+room for the payload but does not copy it. It also ensure that this
+attribute will have a 64-bit aligned \fBnla_data\fP area.
+
+The caller is responsible to ensure that the skb provides enough
+tailroom for the attribute header and payload.

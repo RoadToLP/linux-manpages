@@ -1,0 +1,18 @@
+.TH "iscsi_host_alloc" 9 "iscsi_host_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_host_alloc \- allocate a host and driver data
+.SH SYNOPSIS
+.B "struct Scsi_Host *" iscsi_host_alloc
+.BI "(struct scsi_host_template *sht "  ","
+.BI "int dd_data_size "  ","
+.BI "bool xmit_can_sleep "  ");"
+.SH ARGUMENTS
+.IP "sht" 12
+scsi host template
+.IP "dd_data_size" 12
+driver host data size
+.IP "xmit_can_sleep" 12
+bool indicating if LLD will queue IO from a work queue
+.SH "DESCRIPTION"
+This should be called by partial offload and software iscsi drivers.
+To access the driver specific memory use the \fBiscsi_host_priv\fP macro.

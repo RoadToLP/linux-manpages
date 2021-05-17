@@ -1,0 +1,63 @@
+.TH "Kernel API" 9 "struct testvec_config" "May 2021" "API Manual" LINUX
+.SH NAME
+struct testvec_config \- configuration for testing a crypto test vector
+.SH SYNOPSIS
+struct testvec_config {
+.br
+.BI "    const char *name;"
+.br
+.BI "    bool inplace;"
+.br
+.BI "    u32 req_flags;"
+.br
+.BI "    struct test_sg_division src_divs[XBUFSIZE];"
+.br
+.BI "    struct test_sg_division dst_divs[XBUFSIZE];"
+.br
+.BI "    unsigned int iv_offset;"
+.br
+.BI "    unsigned int key_offset;"
+.br
+.BI "    bool iv_offset_relative_to_alignmask;"
+.br
+.BI "    bool key_offset_relative_to_alignmask;"
+.br
+.BI "    enum finalization_type finalization_type;"
+.br
+.BI "    bool nosimd;"
+.br
+.BI "
+};
+.br
+
+.SH Members
+.IP "name" 12
+name of this config, logged for debugging purposes if a test fails
+.IP "inplace" 12
+operate on the data in-place, if applicable for the algorithm type?
+.IP "req_flags" 12
+extra request_flags, e.g. CRYPTO_TFM_REQ_MAY_SLEEP
+.IP "src_divs" 12
+description of how to arrange the source scatterlist
+.IP "dst_divs" 12
+description of how to arrange the dst scatterlist, if applicable
+for the algorithm type.  Defaults to \fIsrc_divs\fP if unset.
+.IP "iv_offset" 12
+misalignment of the IV in the range [0..MAX_ALGAPI_ALIGNMASK+1],
+where 0 is aligned to a 2*(MAX_ALGAPI_ALIGNMASK+1) byte boundary
+.IP "key_offset" 12
+misalignment of the key, where 0 is default alignment
+.IP "iv_offset_relative_to_alignmask" 12
+if true, add the algorithm's alignmask to
+the \fIiv_offset\fP
+.IP "key_offset_relative_to_alignmask" 12
+if true, add the algorithm's alignmask to
+the \fIkey_offset\fP
+.IP "finalization_type" 12
+what finalization function to use for hashes
+.IP "nosimd" 12
+execute with SIMD disabled?  Requires !CRYPTO_TFM_REQ_MAY_SLEEP.
+.SH "Description"
+
+This struct describes the data layout and other parameters with which each
+crypto test vector can be tested.

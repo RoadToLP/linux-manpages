@@ -1,0 +1,30 @@
+.TH "jbd2_journal_dirty_metadata" 9 "jbd2_journal_dirty_metadata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_dirty_metadata \- mark a buffer as containing dirty metadata
+.SH SYNOPSIS
+.B "int" jbd2_journal_dirty_metadata
+.BI "(handle_t *handle "  ","
+.BI "struct buffer_head *bh "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+transaction to add buffer to.
+.IP "bh" 12
+buffer to mark
+.SH "DESCRIPTION"
+mark dirty metadata which needs to be journaled as part of the current
+transaction.
+
+The buffer must have previously had \fBjbd2_journal_get_write_access\fP
+called so that it has a valid journal_head attached to the buffer
+head.
+
+The buffer is placed on the transaction's metadata list and is marked
+as belonging to the transaction.
+
+Returns error number or 0 on success.
+
+Special care needs to be taken if the buffer already belongs to the
+current committing transaction (in which case we should have frozen
+data present for that commit).  In that case, we don't relink the
+buffer: that only gets done when the old transaction finally
+completes its commit.

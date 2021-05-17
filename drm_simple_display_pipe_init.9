@@ -1,0 +1,40 @@
+.TH "drm_simple_display_pipe_init" 9 "drm_simple_display_pipe_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_simple_display_pipe_init \- Initialize a simple display pipeline
+.SH SYNOPSIS
+.B "int" drm_simple_display_pipe_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_simple_display_pipe *pipe "  ","
+.BI "const struct drm_simple_display_pipe_funcs *funcs "  ","
+.BI "const uint32_t *formats "  ","
+.BI "unsigned int format_count "  ","
+.BI "const uint64_t *format_modifiers "  ","
+.BI "struct drm_connector *connector "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "pipe" 12
+simple display pipe object to initialize
+.IP "funcs" 12
+callbacks for the display pipe (optional)
+.IP "formats" 12
+array of supported formats (DRM_FORMAT\_\*)
+.IP "format_count" 12
+number of elements in \fIformats\fP
+.IP "format_modifiers" 12
+array of formats modifiers
+.IP "connector" 12
+connector to attach and register (optional)
+.SH "DESCRIPTION"
+Sets up a display pipeline which consist of a really simple
+plane-crtc-encoder pipe.
+
+If a connector is supplied, the pipe will be coupled with the provided
+connector. You may supply a NULL connector when using drm bridges, that
+handle connectors themselves (see \fBdrm_simple_display_pipe_attach_bridge\fP).
+
+Teardown of a simple display pipe is all handled automatically by the drm
+core through calling \fBdrm_mode_config_cleanup\fP. Drivers afterwards need to
+release the memory for the structure themselves.
+.SH "RETURN"
+Zero on success, negative error code on failure.

@@ -1,0 +1,19 @@
+.TH "gfs2_dirty_inode" 9 "gfs2_dirty_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_dirty_inode \- check for atime updates
+.SH SYNOPSIS
+.B "void" gfs2_dirty_inode
+.BI "(struct inode *inode "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode in question
+.IP "flags" 12
+The type of dirty
+.SH "DESCRIPTION"
+Unfortunately it can be called under any combination of inode
+glock and transaction lock, so we have to check carefully.
+
+At the moment this deals only with atime - it should be possible
+to expand that role in future, once a review of the locking has
+been carried out.

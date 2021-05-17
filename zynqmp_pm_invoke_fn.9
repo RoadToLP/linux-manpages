@@ -1,0 +1,39 @@
+.TH "zynqmp_pm_invoke_fn" 9 "zynqmp_pm_invoke_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_pm_invoke_fn \- Invoke the system-level platform management layer caller function depending on the configuration
+.SH SYNOPSIS
+.B "int" zynqmp_pm_invoke_fn
+.BI "(u32 pm_api_id "  ","
+.BI "u32 arg0 "  ","
+.BI "u32 arg1 "  ","
+.BI "u32 arg2 "  ","
+.BI "u32 arg3 "  ","
+.BI "u32 *ret_payload "  ");"
+.SH ARGUMENTS
+.IP "pm_api_id" 12
+Requested PM-API call
+.IP "arg0" 12
+Argument 0 to requested PM-API call
+.IP "arg1" 12
+Argument 1 to requested PM-API call
+.IP "arg2" 12
+Argument 2 to requested PM-API call
+.IP "arg3" 12
+Argument 3 to requested PM-API call
+.IP "ret_payload" 12
+Returned value array
+.SH "DESCRIPTION"
+Invoke platform management function for SMC or HVC call, depending on
+configuration.
+Following SMC Calling Convention (SMCCC) for SMC64:
+Pm Function Identifier,
+PM_SIP_SVC + PM_API_ID =
+((SMC_TYPE_FAST << FUNCID_TYPE_SHIFT)
+((SMC_64) << FUNCID_CC_SHIFT)
+((SIP_START) << FUNCID_OEN_SHIFT)
+((PM_API_ID) & FUNCID_NUM_MASK))
+
+PM_SIP_SVC   - Registered ZynqMP SIP Service Call.
+PM_API_ID    - Platform Management API ID.
+.SH "RETURN"
+Returns status, either success or error+reason

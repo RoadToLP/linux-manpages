@@ -1,0 +1,21 @@
+.TH "scmi_xfer_get" 9 "scmi_xfer_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_xfer_get \- Allocate one message
+.SH SYNOPSIS
+.B "struct scmi_xfer *" scmi_xfer_get
+.BI "(const struct scmi_handle *handle "  ","
+.BI "struct scmi_xfers_info *minfo "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Pointer to SCMI entity handle
+.IP "minfo" 12
+Pointer to Tx/Rx Message management info based on channel type
+.SH "DESCRIPTION"
+Helper function which is used by various message functions that are
+exposed to clients of this driver for allocating a message traffic event.
+
+This function can sleep depending on pending requests already in the system
+for the SCMI entity. Further, this also holds a spinlock to maintain
+integrity of internal data structures.
+.SH "RETURN"
+0 if all went fine, else corresponding error.

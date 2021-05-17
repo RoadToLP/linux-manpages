@@ -1,0 +1,18 @@
+.TH "map__rip_2objdump" 9 "map__rip_2objdump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+map__rip_2objdump \- convert symbol start address to objdump address.
+.SH SYNOPSIS
+.B "u64" map__rip_2objdump
+.BI "(struct map *map "  ","
+.BI "u64 rip "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+memory map
+.IP "rip" 12
+symbol start address
+.SH "DESCRIPTION"
+objdump wants/reports absolute IPs for ET_EXEC, and RIPs for ET_DYN.
+map->dso->adjust_symbols==1 for ET_EXEC-like cases except ET_REL which is
+relative to section start.
+.SH "RETURN"
+Address suitable for passing to "objdump --start-address="

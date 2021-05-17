@@ -1,0 +1,41 @@
+.TH "_setup_postsetup" 9 "_setup_postsetup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_setup_postsetup \- transition to the appropriate state after _setup
+.SH SYNOPSIS
+.B "void" _setup_postsetup
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Place an IP block represented by \fIoh\fP into a "post-setup" state --
+either IDLE, ENABLED, or DISABLED.  ("post-setup" simply means that
+this function is called at the end of \fB_setup\fP.)  The postsetup
+state for an IP block can be changed by calling
+\fBomap_hwmod_enter_postsetup_state\fP early in the boot process,
+before one of the omap_hwmod_setup*() functions are called for the
+IP block.
+
+The IP block stays in this state until a PM runtime-based driver is
+loaded for that IP block.  A post-setup state of IDLE is
+appropriate for almost all IP blocks with runtime PM-enabled
+drivers, since those drivers are able to enable the IP block.  A
+post-setup state of ENABLED is appropriate for kernels with PM
+runtime disabled.  The DISABLED state is appropriate for unusual IP
+blocks such as the MPU WDTIMER on kernels without WDTIMER drivers
+included, since the WDTIMER starts running on reset and will reset
+the MPU if left active.
+
+This post-setup mechanism is deprecated.  Once all of the OMAP
+drivers have been converted to use PM runtime, and all of the IP
+block data and interconnect data is available to the hwmod code, it
+should be possible to replace this mechanism with a "lazy reset"
+arrangement.  In a "lazy reset" setup, each IP block is enabled
+when the driver first probes, then all remaining IP blocks without
+drivers are either shut down or enabled after the drivers have
+loaded.  However, this cannot take place until the above
+preconditions have been met, since otherwise the late reset code
+has no way of knowing which IP blocks are in use by drivers, and
+which ones are unused.
+
+No return value.

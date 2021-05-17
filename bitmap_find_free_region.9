@@ -1,0 +1,23 @@
+.TH "bitmap_find_free_region" 9 "bitmap_find_free_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_find_free_region \- find a contiguous aligned mem region
+.SH SYNOPSIS
+.B "int" bitmap_find_free_region
+.BI "(unsigned long *bitmap "  ","
+.BI "unsigned int bits "  ","
+.BI "int order "  ");"
+.SH ARGUMENTS
+.IP "bitmap" 12
+array of unsigned longs corresponding to the bitmap
+.IP "bits" 12
+number of bits in the bitmap
+.IP "order" 12
+region size (log base 2 of number of bits) to find
+.SH "DESCRIPTION"
+Find a region of free (zero) bits in a \fIbitmap\fP of \fIbits\fP bits and
+allocate them (set them to one).  Only consider regions of length
+a power (\fIorder\fP) of two, aligned to that power of two, which
+makes the search algorithm much faster.
+
+Return the bit offset in bitmap of the allocated region,
+or -errno on failure.

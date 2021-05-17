@@ -1,0 +1,21 @@
+.TH "s3c2410_iotiming_get" 9 "s3c2410_iotiming_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c2410_iotiming_get \- Get the timing information from current registers.
+.SH SYNOPSIS
+.B "int" s3c2410_iotiming_get
+.BI "(struct s3c_cpufreq_config *cfg "  ","
+.BI "struct s3c_iotimings *timings "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+The frequency configuration
+.IP "timings" 12
+The IO timing information to fill out.
+.SH "DESCRIPTION"
+Calculate the \fItimings\fP timing information from the current frequency
+information in \fIcfg\fP, and the new frequency configuration
+through all the IO banks, reading the state and then updating \fIiot\fP
+as necessary.
+
+This is used at the moment on initialisation to get the current
+configuration so that boards do not have to carry their own setup
+if the timings are correct on initialisation.

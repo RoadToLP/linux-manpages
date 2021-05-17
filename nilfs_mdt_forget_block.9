@@ -1,0 +1,22 @@
+.TH "nilfs_mdt_forget_block" 9 "nilfs_mdt_forget_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_mdt_forget_block \- discard dirty state and try to remove the page
+.SH SYNOPSIS
+.B "int" nilfs_mdt_forget_block
+.BI "(struct inode *inode "  ","
+.BI "unsigned long block "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the meta data file
+.IP "block" 12
+block offset
+.SH "DESCRIPTION"
+\fBnilfs_mdt_forget_block\fP clears a dirty flag of the specified buffer, and
+tries to release the page including the buffer from a page cache.
+
+Return Value: On success, 0 is returned. On error, one of the following
+negative error code is returned.
+
+-EBUSY - page has an active buffer.
+
+-ENOENT - page cache has no page addressed by the offset.

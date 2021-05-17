@@ -1,0 +1,17 @@
+.TH "binder_proc_dec_tmpref" 9 "binder_proc_dec_tmpref" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_proc_dec_tmpref \- decrement proc->tmp_ref
+.SH SYNOPSIS
+.B "void" binder_proc_dec_tmpref
+.BI "(struct binder_proc *proc "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+proc to decrement
+.SH "DESCRIPTION"
+A binder_proc needs to be kept alive while being used to create or
+handle a transaction. proc->tmp_ref is incremented when
+creating a new transaction or the binder_proc is currently in-use
+by threads that are being released. When done with the binder_proc,
+this function is called to decrement the counter and free the
+proc if appropriate (proc has been released, all threads have
+been released and not currenly in-use to process a transaction).

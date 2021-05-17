@@ -1,0 +1,24 @@
+.TH "snd_ac97_controller_register" 9 "snd_ac97_controller_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ac97_controller_register \- register an ac97 controller
+.SH SYNOPSIS
+.B "struct ac97_controller *" snd_ac97_controller_register
+.BI "(const struct ac97_controller_ops *ops "  ","
+.BI "struct device *dev "  ","
+.BI "unsigned short slots_available "  ","
+.BI "void **codecs_pdata "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+the ac97 bus operations
+.IP "dev" 12
+the device providing the ac97 DC function
+.IP "slots_available" 12
+mask of the ac97 codecs that can be scanned and probed
+bit0 => codec 0, bit1 => codec 1 ... bit 3 => codec 3
+.IP "codecs_pdata" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Register a digital controller which can control up to 4 ac97 codecs. This is
+the controller side of the AC97 AC-link, while the slave side are the codecs.
+
+Returns a valid controller upon success, negative pointer value upon error

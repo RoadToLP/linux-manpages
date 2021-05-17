@@ -1,0 +1,25 @@
+.TH "vmballoon_dequeue_page_list" 9 "vmballoon_dequeue_page_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmballoon_dequeue_page_list \- Dequeues page lists for deflation.
+.SH SYNOPSIS
+.B "void" vmballoon_dequeue_page_list
+.BI "(struct vmballoon *b "  ","
+.BI "struct list_head *pages "  ","
+.BI "unsigned int *n_pages "  ","
+.BI "enum vmballoon_page_size_type page_size "  ","
+.BI "unsigned int n_req_pages "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+pointer to balloon.
+.IP "pages" 12
+list of pages to enqueue.
+.IP "n_pages" 12
+pointer to number of pages in list. The value is zeroed.
+.IP "page_size" 12
+whether the pages are 2MB or 4KB pages.
+.IP "n_req_pages" 12
+the number of requested pages.
+.SH "DESCRIPTION"
+Dequeues the number of requested pages from the balloon for deflation. The
+number of dequeued pages may be lower, if not enough pages in the requested
+size are available.

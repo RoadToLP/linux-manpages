@@ -1,0 +1,28 @@
+.TH "gb_operation_request_send" 9 "gb_operation_request_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gb_operation_request_send \- send an operation request message
+.SH SYNOPSIS
+.B "int" gb_operation_request_send
+.BI "(struct gb_operation *operation "  ","
+.BI "gb_operation_callback callback "  ","
+.BI "unsigned int timeout "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "operation" 12
+the operation to initiate
+.IP "callback" 12
+the operation completion callback
+.IP "timeout" 12
+operation timeout in milliseconds, or zero for no timeout
+.IP "gfp" 12
+the memory flags to use for any allocations
+.SH "DESCRIPTION"
+The caller has filled in any payload so the request message is ready to go.
+The callback function supplied will be called when the response message has
+arrived, a unidirectional request has been sent, or the operation is
+cancelled, indicating that the operation is complete. The callback function
+can fetch the result of the operation using \fBgb_operation_result\fP if
+desired.
+.SH "RETURN"
+0 if the request was successfully queued in the host-driver queues,
+or a negative errno.

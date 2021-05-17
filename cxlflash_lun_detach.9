@@ -1,0 +1,15 @@
+.TH "cxlflash_lun_detach" 9 "cxlflash_lun_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_lun_detach \- detaches a user from a LUN and resets the LUN's mode
+.SH SYNOPSIS
+.B "void" cxlflash_lun_detach
+.BI "(struct glun_info *gli "  ");"
+.SH ARGUMENTS
+.IP "gli" 12
+LUN to detach.
+.SH "DESCRIPTION"
+When resetting the mode, terminate block allocation resources as they
+are no longer required (service is safe to call even when block allocation
+resources were not present - such as when transitioning from physical mode).
+These resources will be reallocated when needed (subsequent transition to
+virtual mode).

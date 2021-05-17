@@ -1,0 +1,17 @@
+.TH "e1000_k1_gig_workaround_hv" 9 "e1000_k1_gig_workaround_hv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_k1_gig_workaround_hv \- K1 Si workaround
+.SH SYNOPSIS
+.B "s32" e1000_k1_gig_workaround_hv
+.BI "(struct e1000_hw *hw "  ","
+.BI "bool link "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "link" 12
+link up bool flag
+
+If K1 is enabled for 1Gbps, the MAC might stall when transitioning
+from a lower speed.  This workaround disables K1 whenever link is at 1Gig
+If link is down, the function will restore the default K1 setting located
+in the NVM.

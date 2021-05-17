@@ -1,0 +1,20 @@
+.TH "make_kprojid" 9 "make_kprojid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_kprojid \- Map a user-namespace projid pair into a kprojid.
+.SH SYNOPSIS
+.B "kprojid_t" make_kprojid
+.BI "(struct user_namespace *ns "  ","
+.BI "projid_t projid "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+User namespace that the projid is in
+.IP "projid" 12
+Project identifier
+
+Maps a user-namespace uid pair into a kernel internal kuid,
+and returns that kuid.
+
+When there is no mapping defined for the user-namespace projid
+pair INVALID_PROJID is returned.  Callers are expected to test
+for and handle INVALID_PROJID being returned.  INVALID_PROJID
+may be tested for using \fBprojid_valid\fP.

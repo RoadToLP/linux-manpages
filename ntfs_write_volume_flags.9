@@ -1,0 +1,22 @@
+.TH "ntfs_write_volume_flags" 9 "ntfs_write_volume_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_write_volume_flags \- write new flags to the volume information flags
+.SH SYNOPSIS
+.B "int" ntfs_write_volume_flags
+.BI "(ntfs_volume *vol "  ","
+.BI "const VOLUME_FLAGS flags "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume on which to modify the flags
+.IP "flags" 12
+new flags value for the volume information flags
+.SH "DESCRIPTION"
+Internal function.  You probably want to use ntfs_{set,clear}\fB_volume_flags\fP
+instead (see below).
+
+Replace the volume information flags on the volume \fIvol\fP with the value
+supplied in \fIflags\fP.  Note, this overwrites the volume information flags, so
+make sure to combine the flags you want to modify with the old flags and use
+the result when calling \fBntfs_write_volume_flags\fP.
+
+Return 0 on success and -errno on error.

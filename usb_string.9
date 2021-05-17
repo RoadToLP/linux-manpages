@@ -1,0 +1,29 @@
+.TH "usb_string" 9 "usb_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_string \- returns UTF-8 version of a string descriptor
+.SH SYNOPSIS
+.B "int" usb_string
+.BI "(struct usb_device *dev "  ","
+.BI "int index "  ","
+.BI "char *buf "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose string descriptor is being retrieved
+.IP "index" 12
+the number of the descriptor
+.IP "buf" 12
+where to put the string
+.IP "size" 12
+how big is "buf"?
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+This converts the UTF-16LE encoded strings returned by devices, from
+\fBusb_get_string_descriptor\fP, to null-terminated UTF-8 encoded ones
+that are more usable in most kernel contexts.  Note that this function
+chooses strings in the first language supported by the device.
+
+This call is synchronous, and may not be used in an interrupt context.
+.SH "RETURN"
+length of the string (>= 0) or usb_control_msg status (< 0).

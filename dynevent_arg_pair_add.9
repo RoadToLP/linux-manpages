@@ -1,0 +1,33 @@
+.TH "dynevent_arg_pair_add" 9 "dynevent_arg_pair_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dynevent_arg_pair_add \- Add an arg pair to a dynevent_cmd
+.SH SYNOPSIS
+.B "int" dynevent_arg_pair_add
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "struct dynevent_arg_pair *arg_pair "  ","
+.BI "dynevent_check_arg_fn_t check_arg "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event cmd
+.IP "arg_pair" 12
+The argument pair to append to the current cmd
+.IP "check_arg" 12
+An (optional) pointer to a function checking arg sanity
+.SH "DESCRIPTION"
+Append an argument pair to a dynevent_cmd.  An argument pair
+consists of a left-hand-side argument and a right-hand-side
+argument separated by an operator, which can be whitespace, all
+followed by a separator, if applicable.  This can be used to add
+arguments of the form 'type variable_name;' or 'x+y'.
+
+The lhs argument string will be appended to the current cmd string,
+followed by an operator, if applicable, followed by the rhs string,
+followed finally by a separator, if applicable.  Before the
+argument is added, the \fIcheck_arg\fP function, if present, will be
+used to check the sanity of the current arg strings.
+
+The cmd strings, operator, and separator should be set using the
+\fBdynevent_arg_pair_init\fP before any arguments are added using this
+function.
+.SH "RETURN"
+0 if successful, error otherwise.

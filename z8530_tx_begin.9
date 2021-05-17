@@ -1,0 +1,18 @@
+.TH "z8530_tx_begin" 9 "z8530_tx_begin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_tx_begin \- Begin packet transmission
+.SH SYNOPSIS
+.B "void" z8530_tx_begin
+.BI "(struct z8530_channel *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The Z8530 channel to kick
+
+This is the speed sensitive side of transmission. If we are called
+and no buffer is being transmitted we commence the next buffer. If
+nothing is queued we idle the sync. 
+.SH "NOTE"
+We are handling this code path in the interrupt path, keep it
+fast or bad things will happen.
+
+Called with the lock held.

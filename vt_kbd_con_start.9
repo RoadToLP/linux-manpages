@@ -1,0 +1,18 @@
+.TH "vt_kbd_con_start" 9 "vt_kbd_con_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vt_kbd_con_start \- Keyboard side of console start
+.SH SYNOPSIS
+.B "void" vt_kbd_con_start
+.BI "(int console "  ");"
+.SH ARGUMENTS
+.IP "console" 12
+console
+
+Handle console start. This is a wrapper for the VT layer
+so that we can keep kbd knowledge internal
+
+FIXME: We eventually need to hold the kbd lock here to protect
+the LED updating. We can't do it yet because fn_hold calls stop_tty
+and start_tty under the kbd_event_lock, while normal tty paths
+don't hold the lock. We probably need to split out an LED lock
+but not during an -rc release!

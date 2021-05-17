@@ -1,0 +1,25 @@
+.TH "drm_atomic_normalize_zpos" 9 "drm_atomic_normalize_zpos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_normalize_zpos \- calculate normalized zpos values for all crtcs
+.SH SYNOPSIS
+.B "int" drm_atomic_normalize_zpos
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+atomic state of DRM device
+.SH "DESCRIPTION"
+This function calculates normalized zpos value for all modified planes in
+the provided atomic state of DRM device.
+
+For every CRTC this function checks new states of all planes assigned to
+it and calculates normalized zpos value for these planes. Planes are compared
+first by their zpos values, then by plane id (if zpos is equal). The plane
+with lowest zpos value is at the bottom. The \fIdrm_plane_state.normalized_zpos\fP
+is then filled with unique values from 0 to number of active planes in crtc
+minus one.
+
+RETURNS
+Zero for success or -errno

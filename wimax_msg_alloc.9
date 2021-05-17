@@ -1,0 +1,43 @@
+.TH "wimax_msg_alloc" 9 "wimax_msg_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_msg_alloc \- Create a new skb for sending a message to userspace
+.SH SYNOPSIS
+.B "struct sk_buff *" wimax_msg_alloc
+.BI "(struct wimax_dev *wimax_dev "  ","
+.BI "const char *pipe_name "  ","
+.BI "const void *msg "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor
+.IP "pipe_name" 12
+"named pipe" the message will be sent to
+.IP "msg" 12
+pointer to the message data to send
+.IP "size" 12
+size of the message to send (in bytes), including the header.
+.IP "gfp_flags" 12
+flags for memory allocation.
+.SH "RETURN"
+0 if ok, negative errno code on error
+.SH "DESCRIPTION"
+
+Allocates an skb that will contain the message to send to user
+space over the messaging pipe and initializes it, copying the
+payload.
+
+Once this call is done, you can deliver it with
+\fBwimax_msg_send\fP.
+
+IMPORTANT:
+
+Don't use \fBskb_push\fP/\fBskb_pull\fP/\fBskb_reserve\fP on the skb, as
+\fBwimax_msg_send\fP depends on skb->data being placed at the
+beginning of the user message.
+
+Unlike other WiMAX stack calls, this call can be used way early,
+even before \fBwimax_dev_add\fP is called, as long as the
+wimax_dev->net_dev pointer is set to point to a proper
+net_dev. This is so that drivers can use it early in case they need
+to send stuff around or communicate with user space.

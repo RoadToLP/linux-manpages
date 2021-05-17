@@ -1,0 +1,50 @@
+.TH "bitmap_cut" 9 "bitmap_cut" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_cut \- remove bit region from bitmap and right shift remaining bits
+.SH SYNOPSIS
+.B "void" bitmap_cut
+.BI "(unsigned long *dst "  ","
+.BI "const unsigned long *src "  ","
+.BI "unsigned int first "  ","
+.BI "unsigned int cut "  ","
+.BI "unsigned int nbits "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+destination bitmap, might overlap with src
+.IP "src" 12
+source bitmap
+.IP "first" 12
+start bit of region to be removed
+.IP "cut" 12
+number of bits to remove
+.IP "nbits" 12
+bitmap size, in bits
+.SH "DESCRIPTION"
+Set the n-th bit of \fIdst\fP iff the n-th bit of \fIsrc\fP is set and
+n is less than \fIfirst\fP, or the m-th bit of \fIsrc\fP is set for any
+m such that \fIfirst\fP <= n < nbits, and m = n + \fIcut\fP.
+
+In pictures, example for a big-endian 32-bit architecture:
+
+The \fIsrc\fP bitmap is::
+
+31                                   63
+|                                    |
+10000000 11000001 11110010 00010101  10000000 11000001 01110010 00010101
+|  |              |                                    |
+16  14             0                                   32
+
+if \fIcut\fP is 3, and \fIfirst\fP is 14, bits 14-16 in \fIsrc\fP are cut and \fIdst\fP is::
+
+31                                   63
+|                                    |
+10110000 00011000 00110010 00010101  00010000 00011000 00101110 01000010
+|              |                                    |
+14 (bit 17     0                                   32
+from \fIsrc\fP)
+
+Note that \fIdst\fP and \fIsrc\fP might overlap partially or entirely.
+
+This is implemented in the obvious way, with a shift and carry
+step for each moved bit. Optimisation is left as an exercise
+for the compiler.

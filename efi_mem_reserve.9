@@ -1,0 +1,19 @@
+.TH "efi_mem_reserve" 9 "efi_mem_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_mem_reserve \- Reserve an EFI memory region
+.SH SYNOPSIS
+.B "void" efi_mem_reserve
+.BI "(phys_addr_t addr "  ","
+.BI "u64 size "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+Physical address to reserve
+.IP "size" 12
+Size of reservation
+.SH "DESCRIPTION"
+Mark a region as reserved from general kernel allocation and
+prevent it being released by \fBefi_free_boot_services\fP.
+
+This function should be called drivers once they've parsed EFI
+configuration tables to figure out where their data lives, e.g.
+\fBefi_esrt_init\fP.

@@ -1,0 +1,22 @@
+.TH "gfs2_update_reply_times" 9 "gfs2_update_reply_times" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_update_reply_times \- Update locking statistics
+.SH SYNOPSIS
+.B "void" gfs2_update_reply_times
+.BI "(struct gfs2_glock *gl "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+The glock to update
+.SH "DESCRIPTION"
+This assumes that gl->gl_dstamp has been set earlier.
+
+The rtt (lock round trip time) is an estimate of the time
+taken to perform a dlm lock request. We update it on each
+reply from the dlm.
+
+The blocking flag is set on the glock for all dlm requests
+which may potentially block due to lock requests from other nodes.
+DLM requests where the current lock state is exclusive, the
+requested state is null (or unlocked) or where the TRY or
+TRY_1CB flags are set are classified as non-blocking. All
+other DLM requests are counted as (potentially) blocking.

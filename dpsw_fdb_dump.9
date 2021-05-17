@@ -1,0 +1,35 @@
+.TH "dpsw_fdb_dump" 9 "dpsw_fdb_dump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpsw_fdb_dump \- Dump the content of FDB table into memory.
+.SH SYNOPSIS
+.B "int" dpsw_fdb_dump
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 fdb_id "  ","
+.BI "u64 iova_addr "  ","
+.BI "u32 iova_size "  ","
+.BI "u16 *num_entries "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPSW object
+.IP "fdb_id" 12
+Forwarding Database Identifier
+.IP "iova_addr" 12
+Data will be stored here as an array of struct fdb_dump_entry
+.IP "iova_size" 12
+Memory size allocated at iova_addr
+.IP "num_entries" 12
+Number of entries written at iova_addr
+.SH "RETURN"
+Completion status. '0' on Success; Error code otherwise.
+.SH "DESCRIPTION"
+The memory allocated at iova_addr must be initialized with zero before
+command execution. If the FDB table does not fit into memory MC will stop
+after the memory is filled up.
+The struct fdb_dump_entry array must be parsed until the end of memory
+area or until an entry with mac_addr set to zero is found.

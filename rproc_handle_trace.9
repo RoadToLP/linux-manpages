@@ -1,0 +1,28 @@
+.TH "rproc_handle_trace" 9 "rproc_handle_trace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_handle_trace \- handle a shared trace buffer resource
+.SH SYNOPSIS
+.B "int" rproc_handle_trace
+.BI "(struct rproc *rproc "  ","
+.BI "struct fw_rsc_trace *rsc "  ","
+.BI "int offset "  ","
+.BI "int avail "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+the remote processor
+.IP "rsc" 12
+the trace resource descriptor
+.IP "offset" 12
+offset of the resource entry
+.IP "avail" 12
+size of available data (for sanity checking the image)
+.SH "DESCRIPTION"
+In case the remote processor dumps trace logs into memory,
+export it via debugfs.
+
+Currently, the 'da' member of \fIrsc\fP should contain the device address
+where the remote processor is dumping the traces. Later we could also
+support dynamically allocating this address using the generic
+DMA API (but currently there isn't a use case for that).
+
+Returns 0 on success, or an appropriate error code otherwise

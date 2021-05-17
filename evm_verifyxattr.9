@@ -1,0 +1,30 @@
+.TH "evm_verifyxattr" 9 "evm_verifyxattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evm_verifyxattr \- verify the integrity of the requested xattr
+.SH SYNOPSIS
+.B "enum integrity_status" evm_verifyxattr
+.BI "(struct dentry *dentry "  ","
+.BI "const char *xattr_name "  ","
+.BI "void *xattr_value "  ","
+.BI "size_t xattr_value_len "  ","
+.BI "struct integrity_iint_cache *iint "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+object of the verify xattr
+.IP "xattr_name" 12
+requested xattr
+.IP "xattr_value" 12
+requested xattr value
+.IP "xattr_value_len" 12
+requested xattr value length
+.IP "iint" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Calculate the HMAC for the given dentry and verify it against the stored
+security.evm xattr. For performance, use the xattr value and length
+previously retrieved to calculate the HMAC.
+
+Returns the xattr integrity status.
+
+This function requires the caller to lock the inode's i_mutex before it
+is executed.

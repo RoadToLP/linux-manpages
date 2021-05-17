@@ -1,0 +1,21 @@
+.TH "drm_gem_fence_array_add_implicit" 9 "drm_gem_fence_array_add_implicit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fence_array_add_implicit \- Adds the implicit dependencies tracked in the GEM object's reservation object to an array of dma_fences for use in scheduling a rendering job.
+.SH SYNOPSIS
+.B "int" drm_gem_fence_array_add_implicit
+.BI "(struct xarray *fence_array "  ","
+.BI "struct drm_gem_object *obj "  ","
+.BI "bool write "  ");"
+.SH ARGUMENTS
+.IP "fence_array" 12
+array of dma_fence * for the job to block on.
+.IP "obj" 12
+the gem object to add new dependencies from.
+.IP "write" 12
+whether the job might write the object (so we need to depend on
+shared fences in the reservation object).
+.SH "DESCRIPTION"
+
+This should be called after \fBdrm_gem_lock_reservations\fP on your array of
+GEM objects used in the job but before updating the reservations with your
+own fences.

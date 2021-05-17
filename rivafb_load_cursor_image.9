@@ -1,0 +1,32 @@
+.TH "rivafb_load_cursor_image" 9 "rivafb_load_cursor_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rivafb_load_cursor_image \- load cursor image to hardware
+.SH SYNOPSIS
+.B "void" rivafb_load_cursor_image
+.BI "(struct riva_par *par "  ","
+.BI "u8 *data8 "  ","
+.BI "u16 bg "  ","
+.BI "u16 fg "  ","
+.BI "u32 w "  ","
+.BI "u32 h "  ");"
+.SH ARGUMENTS
+.IP "par" 12
+pointer to private data
+.IP "data8" 12
+address to monochrome bitmap (1 = foreground color, 0 = background)
+.IP "bg" 12
+background color (ARGB1555) - alpha bit determines opacity
+.IP "fg" 12
+foreground color (ARGB1555)
+.IP "w" 12
+width of cursor image in pixels
+.IP "h" 12
+height of cursor image in scanlines
+.SH "DESCRIPTION"
+Loads cursor image based on a monochrome source and mask bitmap.  The
+image bits determines the color of the pixel, 0 for background, 1 for
+foreground.  Only the affected region (as determined by \fIw\fP and \fIh\fP 
+parameters) will be updated.
+
+CALLED FROM:
+\fBrivafb_cursor\fP

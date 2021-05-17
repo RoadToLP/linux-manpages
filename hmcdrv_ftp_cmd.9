@@ -1,0 +1,22 @@
+.TH "hmcdrv_ftp_cmd" 9 "hmcdrv_ftp_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hmcdrv_ftp_cmd \- Perform a HMC drive FTP, with data from user-space
+.SH SYNOPSIS
+.B "ssize_t" hmcdrv_ftp_cmd
+.BI "(char __kernel *cmd "  ","
+.BI "loff_t offset "  ","
+.BI "char __user *buf "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+FTP command string "<cmd> <filename>"
+.IP "offset" 12
+file position to read/write
+.IP "buf" 12
+user-space buffer for read/written directory/file
+.IP "len" 12
+size of \fIbuf\fP (read/dir) or number of bytes to write
+.SH "DESCRIPTION"
+This function must not be called before \fBhmcdrv_ftp_startup\fP was called.
+.SH "RETURN"
+number of bytes read/written or a negative error code

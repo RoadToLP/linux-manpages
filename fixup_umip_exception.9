@@ -1,0 +1,22 @@
+.TH "fixup_umip_exception" 9 "fixup_umip_exception" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fixup_umip_exception \- Fixup a general protection fault caused by UMIP
+.SH SYNOPSIS
+.B "bool" fixup_umip_exception
+.BI "(struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Registers as saved when entering the #GP handler
+.SH "DESCRIPTION"
+The instructions SGDT, SIDT, STR, SMSW and SLDT cause a general protection
+fault if executed with CPL > 0 (i.e., from user space). This function fixes
+the exception up and provides dummy results for SGDT, SIDT and SMSW; STR
+and SLDT are not fixed up.
+
+If operands are memory addresses, results are copied to user-space memory as
+indicated by the instruction pointed by eIP using the registers indicated in
+the instruction operands. If operands are registers, results are copied into
+the context that was saved when entering kernel mode.
+
+True if emulation was successful; false if not.
+.SH "RETURN"

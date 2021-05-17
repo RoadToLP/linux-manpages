@@ -1,0 +1,24 @@
+.TH "copy_mc_to_kernel" 9 "copy_mc_to_kernel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_mc_to_kernel \- memory copy that handles source exceptions
+.SH SYNOPSIS
+.B "unsigned long" copy_mc_to_kernel
+.BI "(void *dst "  ","
+.BI "const void *src "  ","
+.BI "unsigned len "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+destination address
+.IP "src" 12
+source address
+.IP "len" 12
+number of bytes to copy
+.SH "DESCRIPTION"
+Call into the 'fragile' version on systems that benefit from avoiding
+corner case poison consumption scenarios, For example, accessing
+poison across 2 cachelines with a single instruction. Almost all
+other uses case can use \fBcopy_mc_enhanced_fast_string\fP for a fast
+recoverable copy, or fallback to plain memcpy.
+
+Return 0 for success, or number of bytes not copied if there was an
+exception.

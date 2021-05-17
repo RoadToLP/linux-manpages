@@ -1,0 +1,27 @@
+.TH "__xa_store" 9 "__xa_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__xa_store \- Store this entry in the XArray.
+.SH SYNOPSIS
+.B "void *" __xa_store
+.BI "(struct xarray *xa "  ","
+.BI "unsigned long index "  ","
+.BI "void *entry "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "index" 12
+Index into array.
+.IP "entry" 12
+New entry.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+You must already be holding the xa_lock when calling this function.
+It will drop the lock if needed to allocate memory, and then reacquire
+it afterwards.
+.SH "CONTEXT"
+Any context.  Expects xa_lock to be held on entry.  May
+release and reacquire xa_lock if \fIgfp\fP flags permit.
+.SH "RETURN"
+The old entry at this index or \fBxa_err\fP if an error happened.

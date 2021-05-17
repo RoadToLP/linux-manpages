@@ -1,0 +1,28 @@
+.TH "vmw_diff_memcpy" 9 "vmw_diff_memcpy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_diff_memcpy \- memcpy that creates a bounding box of modified content.
+.SH SYNOPSIS
+.B "void" vmw_diff_memcpy
+.BI "(struct vmw_diff_cpy *diff "  ","
+.BI "u8 *dest "  ","
+.BI "const u8 *src "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "diff" 12
+The struct vmw_diff_cpy used to track the modified bounding box.
+.IP "dest" 12
+The copy destination.
+.IP "src" 12
+The copy source.
+.IP "n" 12
+Number of bytes to copy.
+.SH "DESCRIPTION"
+In order to correctly track the modified content, the field \fIdiff->line\fP must
+be pre-loaded with the current line number, the field \fIdiff->line_offset\fP must
+be pre-loaded with the line offset in bytes where the copy starts, and
+finally the field \fIdiff->cpp\fP need to be preloaded with the number of bytes
+per unit in the horizontal direction of the area we're examining.
+Typically bytes per pixel.
+This is needed to know the needed granularity of the difference computing
+operations. A higher cpp generally leads to faster execution at the cost of
+bounding box width precision.

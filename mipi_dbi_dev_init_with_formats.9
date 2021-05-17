@@ -1,0 +1,38 @@
+.TH "mipi_dbi_dev_init_with_formats" 9 "mipi_dbi_dev_init_with_formats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mipi_dbi_dev_init_with_formats \- MIPI DBI device initialization with custom formats
+.SH SYNOPSIS
+.B "int" mipi_dbi_dev_init_with_formats
+.BI "(struct mipi_dbi_dev *dbidev "  ","
+.BI "const struct drm_simple_display_pipe_funcs *funcs "  ","
+.BI "const uint32_t *formats "  ","
+.BI "unsigned int format_count "  ","
+.BI "const struct drm_display_mode *mode "  ","
+.BI "unsigned int rotation "  ","
+.BI "size_t tx_buf_size "  ");"
+.SH ARGUMENTS
+.IP "dbidev" 12
+MIPI DBI device structure to initialize
+.IP "funcs" 12
+Display pipe functions
+.IP "formats" 12
+Array of supported formats (DRM_FORMAT\_\*).
+.IP "format_count" 12
+Number of elements in \fIformats\fP
+.IP "mode" 12
+Display mode
+.IP "rotation" 12
+Initial rotation in degrees Counter Clock Wise
+.IP "tx_buf_size" 12
+Allocate a transmit buffer of this size.
+.SH "DESCRIPTION"
+This function sets up a \fIdrm_simple_display_pipe\fP with a \fIdrm_connector\fP that
+has one fixed \fIdrm_display_mode\fP which is rotated according to \fIrotation\fP.
+This mode is used to set the mode config min/max width/height properties.
+
+Use \fBmipi_dbi_dev_init\fP if you don't need custom formats.
+.SH "NOTE"
+Some of the helper functions expects RGB565 to be the default format and the
+transmit buffer sized to fit that.
+.SH "RETURN"
+Zero on success, negative error code on failure.

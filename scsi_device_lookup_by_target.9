@@ -1,0 +1,16 @@
+.TH "scsi_device_lookup_by_target" 9 "scsi_device_lookup_by_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_device_lookup_by_target \- find a device given the target
+.SH SYNOPSIS
+.B "struct scsi_device *" scsi_device_lookup_by_target
+.BI "(struct scsi_target *starget "  ","
+.BI "u64 lun "  ");"
+.SH ARGUMENTS
+.IP "starget" 12
+SCSI target pointer
+.IP "lun" 12
+SCSI Logical Unit Number
+.SH "DESCRIPTION"
+Looks up the scsi_device with the specified \fIlun\fP for a given
+\fIstarget\fP.  The returned scsi_device has an additional reference that
+needs to be released with scsi_device_put once you're done with it.

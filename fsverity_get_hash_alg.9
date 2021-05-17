@@ -1,0 +1,19 @@
+.TH "fsverity_get_hash_alg" 9 "fsverity_get_hash_alg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_get_hash_alg \- validate and prepare a hash algorithm
+.SH SYNOPSIS
+.B "struct fsverity_hash_alg *" fsverity_get_hash_alg
+.BI "(const struct inode *inode "  ","
+.BI "unsigned int num "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+optional inode for logging purposes
+.IP "num" 12
+the hash algorithm number
+.SH "DESCRIPTION"
+Get the struct fsverity_hash_alg for the given hash algorithm number, and
+ensure it has a hash transform ready to go.  The hash transforms are
+allocated on-demand so that we don't waste resources unnecessarily, and
+because the crypto modules may be initialized later than fs/verity/.
+.SH "RETURN"
+pointer to the hash alg on success, else an \fBERR_PTR\fP

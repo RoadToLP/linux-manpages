@@ -1,0 +1,15 @@
+.TH "igb_set_pcie_completion_timeout" 9 "igb_set_pcie_completion_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_set_pcie_completion_timeout \- set pci-e completion timeout
+.SH SYNOPSIS
+.B "s32" igb_set_pcie_completion_timeout
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+The defaults for 82575 and 82576 should be in the range of 50us to 50ms,
+however the hardware default for these parts is 500us to 1ms which is less
+than the 10ms recommended by the pci-e spec.  To address this we need to
+increase the value to either 10ms to 200ms for capability version 1 config,
+or 16ms to 55ms for version 2.

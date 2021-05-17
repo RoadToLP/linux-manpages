@@ -1,0 +1,15 @@
+.TH "auditd_reset" 9 "auditd_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+auditd_reset \- Disconnect the auditd connection
+.SH SYNOPSIS
+.B "void" auditd_reset
+.BI "(const struct auditd_connection *ac "  ");"
+.SH ARGUMENTS
+.IP "ac" 12
+auditd connection state
+.SH "DESCRIPTION"
+Break the auditd/kauditd connection and move all the queued records into the
+hold queue in case auditd reconnects.  It is important to note that the \fIac\fP
+pointer should never be dereferenced inside this function as it may be NULL
+or invalid, you can only compare the memory address!  If \fIac\fP is NULL then
+the connection will always be reset.

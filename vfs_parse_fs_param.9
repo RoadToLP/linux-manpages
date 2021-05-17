@@ -1,0 +1,23 @@
+.TH "vfs_parse_fs_param" 9 "vfs_parse_fs_param" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_parse_fs_param \- Add a single parameter to a superblock config
+.SH SYNOPSIS
+.B "int" vfs_parse_fs_param
+.BI "(struct fs_context *fc "  ","
+.BI "struct fs_parameter *param "  ");"
+.SH ARGUMENTS
+.IP "fc" 12
+The filesystem context to modify
+.IP "param" 12
+The parameter
+.SH "DESCRIPTION"
+A single mount option in string form is applied to the filesystem context
+being set up.  Certain standard options (for example "ro") are translated
+into flag bits without going to the filesystem.  The active security module
+is allowed to observe and poach options.  Any other options are passed over
+to the filesystem to parse.
+
+This may be called multiple times for a context.
+
+Returns 0 on success and a negative error code on failure.  In the event of
+failure, supplementary error information may have been set.

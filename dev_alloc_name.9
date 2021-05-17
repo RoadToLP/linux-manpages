@@ -1,0 +1,20 @@
+.TH "dev_alloc_name" 9 "dev_alloc_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_alloc_name \- allocate a name for a device
+.SH SYNOPSIS
+.B "int" dev_alloc_name
+.BI "(struct net_device *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "name" 12
+name format string
+
+Passed a format string - eg "ltd" it will try and find a suitable
+id. It scans list of devices to build up a free map, then chooses
+the first empty slot. The caller must hold the dev_base or rtnl lock
+while allocating the name and adding the device in order to avoid
+duplicates.
+Limited to bits_per_byte * page size devices (ie 32K on most platforms).
+Returns the number of the unit assigned or a negative errno code.

@@ -1,0 +1,21 @@
+.TH "trace_buffered_event_enable" 9 "trace_buffered_event_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_buffered_event_enable \- enable buffering events
+.SH SYNOPSIS
+.B "void" trace_buffered_event_enable
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+When events are being filtered, it is quicker to use a temporary
+buffer to write the event data into if there's a likely chance
+that it will not be committed. The discard of the ring buffer
+is not as fast as committing, and is much slower than copying
+a commit.
+
+When an event is to be filtered, allocate per cpu buffers to
+write the event data into, and if the event is filtered and discarded
+it is simply dropped, otherwise, the entire data is to be committed
+in one shot.

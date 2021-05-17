@@ -1,0 +1,19 @@
+.TH "tep_register_comm" 9 "tep_register_comm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_register_comm \- register a pid / comm mapping
+.SH SYNOPSIS
+.B "int" tep_register_comm
+.BI "(struct tep_handle *tep "  ","
+.BI "const char *comm "  ","
+.BI "int pid "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+a handle to the trace event parser context
+.IP "comm" 12
+the command line to register
+.IP "pid" 12
+the pid to map the command line to
+.SH "DESCRIPTION"
+This adds a mapping to search for command line names with
+a given pid. The comm is duplicated. If a command with the same pid
+already exist, -1 is returned and errno is set to EEXIST

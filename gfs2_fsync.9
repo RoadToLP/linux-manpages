@@ -1,0 +1,31 @@
+.TH "gfs2_fsync" 9 "gfs2_fsync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_fsync \- sync the dirty data for a file (across the cluster)
+.SH SYNOPSIS
+.B "int" gfs2_fsync
+.BI "(struct file *file "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "int datasync "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+the file that points to the dentry
+.IP "start" 12
+the start position in the file to sync
+.IP "end" 12
+the end position in the file to sync
+.IP "datasync" 12
+set if we can ignore timestamp changes
+.SH "DESCRIPTION"
+We split the data flushing here so that we don't wait for the data
+until after we've also sent the metadata to disk. Note that for
+data=ordered, we will write & wait for the data at the log flush
+stage anyway, so this is unlikely to make much of a difference
+except in the data=writeback case.
+
+If the fdatawrite fails due to any reason except -EIO, we will
+continue the remainder of the fsync, although we'll still report
+the error at the end. This is to match \fBfilemap_write_and_wait_range\fP
+behaviour.
+.SH "RETURN"
+errno

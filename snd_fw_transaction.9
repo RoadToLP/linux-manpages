@@ -1,0 +1,31 @@
+.TH "snd_fw_transaction" 9 "snd_fw_transaction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_fw_transaction \- send a request and wait for its completion
+.SH SYNOPSIS
+.B "int" snd_fw_transaction
+.BI "(struct fw_unit *unit "  ","
+.BI "int tcode "  ","
+.BI "u64 offset "  ","
+.BI "void *buffer "  ","
+.BI "size_t length "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+the driver's unit on the target device
+.IP "tcode" 12
+the transaction code
+.IP "offset" 12
+the address in the target's address space
+.IP "buffer" 12
+input/output data
+.IP "length" 12
+length of \fIbuffer\fP
+.IP "flags" 12
+use FW_FIXED_GENERATION and add the generation value to attempt the
+request only in that generation; use FW_QUIET to suppress error
+messages
+.SH "DESCRIPTION"
+Submits an asynchronous request to the target device, and waits for the
+response.  The node ID and the current generation are derived from \fIunit\fP.
+On a bus reset or an error, the transaction is retried a few times.
+Returns zero on success, or a negative error code.

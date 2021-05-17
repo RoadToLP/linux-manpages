@@ -1,0 +1,20 @@
+.TH "bus_set_iommu" 9 "bus_set_iommu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bus_set_iommu \- set iommu-callbacks for the bus
+.SH SYNOPSIS
+.B "int" bus_set_iommu
+.BI "(struct bus_type *bus "  ","
+.BI "const struct iommu_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus.
+.IP "ops" 12
+the callbacks provided by the iommu-driver
+.SH "DESCRIPTION"
+This function is called by an iommu driver to set the iommu methods
+used for a particular bus. Drivers for devices on that bus can use
+the iommu-api after these ops are registered.
+This special function is needed because IOMMUs are usually devices on
+the bus itself, so the iommu drivers are not initialized when the bus
+is set up. With this function the iommu-driver can set the iommu-ops
+afterwards.

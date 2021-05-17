@@ -1,0 +1,26 @@
+.TH "swap_bits_in_byte" 9 "swap_bits_in_byte" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swap_bits_in_byte \- mirror the bits in a byte
+.SH SYNOPSIS
+.B "u8" swap_bits_in_byte
+.BI "(u8 b "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+the byte to be mirrored
+.SH "DESCRIPTION"
+The bits are swapped the following way:
+Byte b include bits 0-7, nibble 1 (n1) include bits 0-3 and
+nibble 2 (n2) bits 4-7.
+
+Nibble 1 (n1):
+(The "old" (moved) bit is replaced with a zero)
+1. Move bit 6 and 7, 4 positions to the left.
+2. Move bit 3 and 5, 2 positions to the left.
+3. Move bit 1-4, 1 position to the left.
+
+Nibble 2 (n2):
+1. Move bit 0 and 1, 4 positions to the right.
+2. Move bit 2 and 4, 2 positions to the right.
+3. Move bit 3-6, 1 position to the right.
+
+Combine the two nibbles to a complete and swapped byte.

@@ -1,0 +1,13 @@
+.TH "locked_inode_to_wb_and_lock_list" 9 "locked_inode_to_wb_and_lock_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+locked_inode_to_wb_and_lock_list \- determine a locked inode's wb and lock it
+.SH SYNOPSIS
+.B "struct bdi_writeback *" locked_inode_to_wb_and_lock_list
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of interest with i_lock held
+.SH "DESCRIPTION"
+Returns \fIinode\fP's wb with its list_lock held.  \fIinode->i_lock\fP must be
+held on entry and is released on return.  The returned wb is guaranteed
+to stay \fIinode\fP's associated wb until its list_lock is released.

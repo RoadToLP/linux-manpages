@@ -1,0 +1,16 @@
+.TH "clk_debug_init" 9 "clk_debug_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_debug_init \- lazily populate the debugfs clk directory
+.SH SYNOPSIS
+.B "int" clk_debug_init
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+clks are often initialized very early during boot before memory can be
+dynamically allocated and well before debugfs is setup. This function
+populates the debugfs clk directory once at boot-time when we know that
+debugfs is setup. It should only be called once at boot-time, all other clks
+added dynamically will be done so with clk_debug_register.

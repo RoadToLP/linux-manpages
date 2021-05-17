@@ -1,0 +1,33 @@
+.TH "tty_port_block_til_ready" 9 "tty_port_block_til_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_port_block_til_ready \- Waiting logic for tty open
+.SH SYNOPSIS
+.B "int" tty_port_block_til_ready
+.BI "(struct tty_port *port "  ","
+.BI "struct tty_struct *tty "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+the tty port being opened
+.IP "tty" 12
+the tty device being bound
+.IP "filp" 12
+the file pointer of the opener or NULL
+
+Implement the core POSIX/SuS tty behaviour when opening a tty device.
+Handles:
+- hangup (both before and during)
+- non blocking open
+- rts/dtr/dcd
+- signals
+- port flags and counts
+
+The passed tty_port must implement the carrier_raised method if it can
+do carrier detect and the dtr_rts method if it supports software
+management of these lines. Note that the dtr/rts raise is done each
+iteration as a hangup may have previously dropped them while we wait.
+
+Caller holds tty lock.
+
+NB: May drop and reacquire tty lock when blocking, so tty and tty_port
+may have changed state (eg., may have been hung up).

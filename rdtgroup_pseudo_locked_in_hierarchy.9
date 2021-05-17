@@ -1,0 +1,18 @@
+.TH "rdtgroup_pseudo_locked_in_hierarchy" 9 "rdtgroup_pseudo_locked_in_hierarchy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_pseudo_locked_in_hierarchy \- Pseudo-locked region in cache hierarchy
+.SH SYNOPSIS
+.B "bool" rdtgroup_pseudo_locked_in_hierarchy
+.BI "(struct rdt_domain *d "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+RDT domain under test
+.SH "DESCRIPTION"
+The setup of a pseudo-locked region affects all cache instances within
+the hierarchy of the region. It is thus essential to know if any
+pseudo-locked regions exist within a cache hierarchy to prevent any
+attempts to create new pseudo-locked regions in the same hierarchy.
+.SH "RETURN"
+true if a pseudo-locked region exists in the hierarchy of \fId\fP or
+if it is not possible to test due to memory allocation issue,
+false otherwise.

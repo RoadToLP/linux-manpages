@@ -1,0 +1,20 @@
+.TH "mock_drm_getfile" 9 "mock_drm_getfile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mock_drm_getfile \- Create a new struct file for the drm device
+.SH SYNOPSIS
+.B "struct file *" mock_drm_getfile
+.BI "(struct drm_minor *minor "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "minor" 12
+drm minor to wrap (e.g. #drm_device.primary)
+.IP "flags" 12
+file creation mode (O_RDWR etc)
+.SH "DESCRIPTION"
+This create a new struct file that wraps a DRM file context around a
+DRM minor. This mimicks userspace opening e.g. /dev/dri/card0, but without
+invoking userspace. The struct file may be operated on using its f_op
+(the drm_device.driver.fops) to mimick userspace operations, or be supplied
+to userspace facing functions as an internal/anonymous client.
+.SH "RETURN"
+Pointer to newly created struct file, ERR_PTR on failure.

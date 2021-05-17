@@ -1,0 +1,29 @@
+.TH "audit_send_reply" 9 "audit_send_reply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_send_reply \- send an audit reply message via netlink
+.SH SYNOPSIS
+.B "void" audit_send_reply
+.BI "(struct sk_buff *request_skb "  ","
+.BI "int seq "  ","
+.BI "int type "  ","
+.BI "int done "  ","
+.BI "int multi "  ","
+.BI "const void *payload "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "request_skb" 12
+skb of request we are replying to (used to target the reply)
+.IP "seq" 12
+sequence number
+.IP "type" 12
+audit message type
+.IP "done" 12
+done (last) flag
+.IP "multi" 12
+multi-part message flag
+.IP "payload" 12
+payload data
+.IP "size" 12
+payload size
+.SH "DESCRIPTION"
+Allocates a skb, builds the netlink message, and sends it to the port id.

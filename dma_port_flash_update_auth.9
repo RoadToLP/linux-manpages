@@ -1,0 +1,16 @@
+.TH "dma_port_flash_update_auth" 9 "dma_port_flash_update_auth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_port_flash_update_auth \- Starts flash authenticate cycle
+.SH SYNOPSIS
+.B "int" dma_port_flash_update_auth
+.BI "(struct tb_dma_port *dma "  ");"
+.SH ARGUMENTS
+.IP "dma" 12
+DMA control port
+.SH "DESCRIPTION"
+Starts the flash update authentication cycle. If the image in the
+non-active area was valid, the switch starts upgrade process where
+active and non-active area get swapped in the end. Caller should call
+\fBdma_port_flash_update_auth_status\fP to get status of this command.
+This is because if the switch in question is root switch the
+thunderbolt host controller gets reset as well.

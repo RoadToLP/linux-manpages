@@ -1,0 +1,15 @@
+.TH "gsm_control_retransmit" 9 "gsm_control_retransmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_control_retransmit \- retransmit a control frame
+.SH SYNOPSIS
+.B "void" gsm_control_retransmit
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer contained in our gsm object
+
+Called off the T2 timer expiry in order to retransmit control frames
+that have been lost in the system somewhere. The control_lock protects
+us from colliding with another sender or a receive completion event.
+In that situation the timer may still occur in a small window but
+gsm->pending_cmd will be NULL and we just let the timer expire.

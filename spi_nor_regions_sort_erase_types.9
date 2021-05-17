@@ -1,0 +1,17 @@
+.TH "spi_nor_regions_sort_erase_types" 9 "spi_nor_regions_sort_erase_types" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_regions_sort_erase_types \- sort erase types in each region
+.SH SYNOPSIS
+.B "void" spi_nor_regions_sort_erase_types
+.BI "(struct spi_nor_erase_map *map "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+the erase map of the SPI NOR
+.SH "DESCRIPTION"
+Function assumes that the erase types defined in the erase map are already
+sorted in ascending order, with the smallest erase type size being the first
+member in the erase_type array. It replicates the sort done for the map's
+erase types. Each region's erase bitmask will indicate which erase types are
+supported from the sorted erase types defined in the erase map.
+Sort the all region's erase type at init in order to speed up the process of
+finding the best erase command at runtime.

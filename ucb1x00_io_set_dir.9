@@ -1,0 +1,25 @@
+.TH "ucb1x00_io_set_dir" 9 "ucb1x00_io_set_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ucb1x00_io_set_dir \- set IO direction
+.SH SYNOPSIS
+.B "void" ucb1x00_io_set_dir
+.BI "(struct ucb1x00 *ucb "  ","
+.BI "unsigned int in "  ","
+.BI "unsigned int out "  ");"
+.SH ARGUMENTS
+.IP "ucb" 12
+UCB1x00 structure describing chip
+.IP "in" 12
+bitfield of IO pins to be set as inputs
+.IP "out" 12
+bitfield of IO pins to be set as outputs
+
+Set the IO direction of the ten general purpose IO pins on
+the UCB1x00 chip.  The \fIin\fP bitfield has priority over the
+\fIout\fP bitfield, in that if you specify a pin as both input
+and output, it will end up as an input.
+
+ucb1x00_enable must have been called to enable the comms
+before using this function.
+
+This function takes a spinlock, disabling interrupts.

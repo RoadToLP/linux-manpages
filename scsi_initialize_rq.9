@@ -1,0 +1,16 @@
+.TH "scsi_initialize_rq" 9 "scsi_initialize_rq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_initialize_rq \- initialize struct scsi_cmnd partially
+.SH SYNOPSIS
+.B "void" scsi_initialize_rq
+.BI "(struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+Request associated with the SCSI command to be initialized.
+.SH "DESCRIPTION"
+This function initializes the members of struct scsi_cmnd that must be
+initialized before request processing starts and that won't be
+reinitialized if a SCSI command is requeued.
+
+Called from inside \fBblk_get_request\fP for pass-through requests and from
+inside \fBscsi_init_command\fP for filesystem requests.

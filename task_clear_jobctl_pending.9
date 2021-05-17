@@ -1,0 +1,21 @@
+.TH "task_clear_jobctl_pending" 9 "task_clear_jobctl_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_clear_jobctl_pending \- clear jobctl pending bits
+.SH SYNOPSIS
+.B "void" task_clear_jobctl_pending
+.BI "(struct task_struct *task "  ","
+.BI "unsigned long mask "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+target task
+.IP "mask" 12
+pending bits to clear
+.SH "DESCRIPTION"
+Clear \fImask\fP from \fItask->jobctl\fP.  \fImask\fP must be subset of
+JOBCTL_PENDING_MASK.  If JOBCTL_STOP_PENDING is being cleared, other
+STOP bits are cleared together.
+
+If clearing of \fImask\fP leaves no stop or trap pending, this function calls
+\fBtask_clear_jobctl_trapping\fP.
+.SH "CONTEXT"
+Must be called with \fItask->sighand->siglock\fP held.

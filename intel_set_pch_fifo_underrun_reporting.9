@@ -1,0 +1,23 @@
+.TH "intel_set_pch_fifo_underrun_reporting" 9 "intel_set_pch_fifo_underrun_reporting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_set_pch_fifo_underrun_reporting \- set PCH fifo underrun reporting state
+.SH SYNOPSIS
+.B "bool" intel_set_pch_fifo_underrun_reporting
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum pipe pch_transcoder "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "pch_transcoder" 12
+the PCH transcoder (same as pipe on IVB and older)
+.IP "enable" 12
+whether underruns should be reported or not
+.SH "DESCRIPTION"
+This function makes us disable or enable PCH fifo underruns for a specific
+PCH transcoder. Notice that on some PCHs (e.g. CPT/PPT), disabling FIFO
+underrun reporting for one transcoder may also disable all the other PCH
+error interruts for the other transcoders, due to the fact that there's just
+one interrupt mask/enable bit for all the transcoders.
+
+Returns the previous state of underrun reporting.

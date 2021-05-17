@@ -1,0 +1,21 @@
+.TH "fw_devlink_relax_cycle" 9 "fw_devlink_relax_cycle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_devlink_relax_cycle \- Convert cyclic links to SYNC_STATE_ONLY links
+.SH SYNOPSIS
+.B "int" fw_devlink_relax_cycle
+.BI "(struct device *con "  ","
+.BI "void *sup "  ");"
+.SH ARGUMENTS
+.IP "con" 12
+Device to check dependencies for.
+.IP "sup" 12
+Device to check against.
+.SH "DESCRIPTION"
+Check if \fIsup\fP depends on \fIcon\fP or any device dependent on it (its child or
+its consumer etc).  When such a cyclic dependency is found, convert all
+device links created solely by fw_devlink into SYNC_STATE_ONLY device links.
+This is the equivalent of doing fw_devlink=permissive just between the
+devices in the cycle. We need to do this because, at this point, fw_devlink
+can't tell which of these dependencies is not a real dependency.
+
+Return 1 if a cycle is found. Otherwise, return 0.

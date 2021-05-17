@@ -1,0 +1,32 @@
+.TH "ice_add_update_vsi_list" 9 "ice_add_update_vsi_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_update_vsi_list \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_add_update_vsi_list
+.BI "(struct ice_hw *hw "  ","
+.BI "struct ice_fltr_mgmt_list_entry *m_entry "  ","
+.BI "struct ice_fltr_info *cur_fltr "  ","
+.BI "struct ice_fltr_info *new_fltr "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "m_entry" 12
+pointer to current filter management list entry
+.IP "cur_fltr" 12
+filter information from the book keeping entry
+.IP "new_fltr" 12
+filter information with the new VSI to be added
+.SH "DESCRIPTION"
+Call AQ command to add or update previously created VSI list with new VSI.
+
+Helper function to do book keeping associated with adding filter information
+The algorithm to do the book keeping is described below :
+When a VSI needs to subscribe to a given filter (MAC/VLAN/Ethtype etc.)
+if only one VSI has been added till now
+Allocate a new VSI list and add two VSIs
+to this list using switch rule command
+Update the previously created switch rule with the
+newly created VSI list ID
+if a VSI list was previously created
+Add the new VSI to the previously created VSI list set
+using the update switch rule command

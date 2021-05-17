@@ -1,0 +1,24 @@
+.TH "hdm_enqueue" 9 "hdm_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hdm_enqueue \- receive a buffer to be used for data transfer
+.SH SYNOPSIS
+.B "int" hdm_enqueue
+.BI "(struct most_interface *iface "  ","
+.BI "int channel "  ","
+.BI "struct mbo *mbo "  ");"
+.SH ARGUMENTS
+.IP "iface" 12
+interface to enqueue to
+.IP "channel" 12
+ID of the channel
+.IP "mbo" 12
+pointer to the buffer object
+.SH "DESCRIPTION"
+This allocates a new URB and fills it according to the channel
+that is being used for transmission of data. Before the URB is
+submitted it is stored in the private anchor list.
+
+Returns 0 on success. On any error the URB is freed and a error code
+is returned.
+.SH "CONTEXT"
+Could in _some_ cases be interrupt!

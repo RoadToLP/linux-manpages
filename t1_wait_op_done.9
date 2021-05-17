@@ -1,0 +1,28 @@
+.TH "t1_wait_op_done" 9 "t1_wait_op_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t1_wait_op_done \- wait until an operation is completed
+.SH SYNOPSIS
+.B "int" t1_wait_op_done
+.BI "(adapter_t *adapter "  ","
+.BI "int reg "  ","
+.BI "u32 mask "  ","
+.BI "int polarity "  ","
+.BI "int attempts "  ","
+.BI "int delay "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter performing the operation
+.IP "reg" 12
+the register to check for completion
+.IP "mask" 12
+a single-bit field within \fIreg\fP that indicates completion
+.IP "polarity" 12
+the value of the field when the operation is completed
+.IP "attempts" 12
+number of check iterations
+.IP "delay" 12
+delay in usecs between iterations
+
+Wait until an operation is completed by checking a bit in a register
+up to \fIattempts\fP times.  Returns 0 if the operation completes and 1
+otherwise.

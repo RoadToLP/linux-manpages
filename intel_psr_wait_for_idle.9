@@ -1,0 +1,17 @@
+.TH "intel_psr_wait_for_idle" 9 "intel_psr_wait_for_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_psr_wait_for_idle \- wait for PSR1 to idle
+.SH SYNOPSIS
+.B "int" intel_psr_wait_for_idle
+.BI "(const struct intel_crtc_state *new_crtc_state "  ","
+.BI "u32 *out_value "  ");"
+.SH ARGUMENTS
+.IP "new_crtc_state" 12
+new CRTC state
+.IP "out_value" 12
+PSR status in case of failure
+.SH "DESCRIPTION"
+This function is expected to be called from \fBpipe_update_start\fP where it is
+not expected to race with PSR enable or disable.
+.SH "RETURN"
+0 on success or -ETIMEOUT if PSR status does not idle.

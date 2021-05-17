@@ -1,0 +1,25 @@
+.TH "iavf_virtchnl_completion" 9 "iavf_virtchnl_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_virtchnl_completion \- 
+.SH SYNOPSIS
+.B "void" iavf_virtchnl_completion
+.BI "(struct iavf_adapter *adapter "  ","
+.BI "enum virtchnl_ops v_opcode "  ","
+.BI "enum iavf_status v_retval "  ","
+.BI "u8 *msg "  ","
+.BI "u16 msglen "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+adapter structure
+.IP "v_opcode" 12
+opcode sent by PF
+.IP "v_retval" 12
+retval sent by PF
+.IP "msg" 12
+message sent by PF
+.IP "msglen" 12
+message length
+.SH "DESCRIPTION"
+Asynchronous completion function for admin queue messages. Rather than busy
+wait, we fire off our requests and assume that no errors will be returned.
+This function handles the reply messages.

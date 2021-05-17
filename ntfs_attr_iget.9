@@ -1,0 +1,34 @@
+.TH "ntfs_attr_iget" 9 "ntfs_attr_iget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_iget \- obtain a struct inode corresponding to an attribute
+.SH SYNOPSIS
+.B "struct inode *" ntfs_attr_iget
+.BI "(struct inode *base_vi "  ","
+.BI "ATTR_TYPE type "  ","
+.BI "ntfschar *name "  ","
+.BI "u32 name_len "  ");"
+.SH ARGUMENTS
+.IP "base_vi" 12
+vfs base inode containing the attribute
+.IP "type" 12
+attribute type
+.IP "name" 12
+Unicode name of the attribute (NULL if unnamed)
+.IP "name_len" 12
+length of \fIname\fP in Unicode characters (0 if unnamed)
+.SH "DESCRIPTION"
+Obtain the (fake) struct inode corresponding to the attribute specified by
+\fItype\fP, \fIname\fP, and \fIname_len\fP, which is present in the base mft record
+specified by the vfs inode \fIbase_vi\fP.
+
+If the attribute inode is in the cache, it is just returned with an
+increased reference count. Otherwise, a new struct inode is allocated and
+initialized, and finally \fBntfs_read_locked_attr_inode\fP is called to read the
+attribute and fill in the inode structure.
+
+Note, for index allocation attributes, you need to use \fBntfs_index_iget\fP
+instead of \fBntfs_attr_iget\fP as working with indices is a lot more complex.
+
+Return the struct inode of the attribute inode on success. Check the return
+value with \fBIS_ERR\fP and if true, the function failed and the error code is
+obtained from \fBPTR_ERR\fP.

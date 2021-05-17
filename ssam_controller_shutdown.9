@@ -1,0 +1,27 @@
+.TH "ssam_controller_shutdown" 9 "ssam_controller_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_controller_shutdown \- Shut down the controller.
+.SH SYNOPSIS
+.B "void" ssam_controller_shutdown
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller.
+.SH "DESCRIPTION"
+Shuts down the controller by flushing all pending requests and stopping the
+transmitter and receiver threads. All requests submitted after this call
+will fail with -ESHUTDOWN. While it is discouraged to do so, this function
+is safe to use in parallel with ongoing request submission.
+
+In the course of this shutdown procedure, all currently registered
+notifiers will be unregistered. It is, however, strongly recommended to not
+rely on this behavior, and instead the party registering the notifier
+should unregister it before the controller gets shut down, e.g. via the
+SSAM bus which guarantees client devices to be removed before a shutdown.
+
+Note that events may still be pending after this call, but, due to the
+notifiers being unregistered, these events will be dropped when the
+controller is subsequently destroyed via \fBssam_controller_destroy\fP.
+
+This function must be called with the main controller lock held (i.e. by
+calling \fBssam_controller_lock\fP).

@@ -1,0 +1,15 @@
+.TH "kvm_vcpu_put_sysregs_vhe" 9 "kvm_vcpu_put_sysregs_vhe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_vcpu_put_sysregs_vhe \- Restore host system registers to the physical CPU
+.SH SYNOPSIS
+.B "void" kvm_vcpu_put_sysregs_vhe
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+The VCPU pointer
+.SH "DESCRIPTION"
+Save guest system registers that do not affect the host's execution, for
+example EL1 system registers on a VHE system where the host kernel
+runs at EL2.  This function is called from KVM's \fBvcpu_put\fP function
+and deferring saving system register state until we're no longer running the
+VCPU avoids having to save them on every exit from the VM.

@@ -1,0 +1,17 @@
+.TH "ep93xx_dma_advance_active" 9 "ep93xx_dma_advance_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep93xx_dma_advance_active \- advances to the next active descriptor
+.SH SYNOPSIS
+.B "bool" ep93xx_dma_advance_active
+.BI "(struct ep93xx_dma_chan *edmac "  ");"
+.SH ARGUMENTS
+.IP "edmac" 12
+channel
+.SH "DESCRIPTION"
+Function advances active descriptor to the next in the \fIedmac->active\fP and
+returns true if we still have descriptors in the chain to process.
+Otherwise returns false.
+
+When the channel is in cyclic mode always returns true.
+
+Called with \fIedmac->lock\fP held and interrupts disabled.

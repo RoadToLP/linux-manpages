@@ -1,0 +1,27 @@
+.TH "qeth_send_control_data" 9 "qeth_send_control_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qeth_send_control_data \- send control command to the card
+.SH SYNOPSIS
+.B "int" qeth_send_control_data
+.BI "(struct qeth_card *card "  ","
+.BI "struct qeth_cmd_buffer *iob "  ","
+.BI "int (*reply_cb)(struct qeth_card *cb_card, struct qeth_reply *cb_reply, unsigned long cb_cmd) "  ","
+.BI "void *reply_param "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+qeth_card structure pointer
+.IP "iob" 12
+qeth_cmd_buffer pointer
+.IP "reply_cb" 12
+callback function pointer
+.IP "reply_param" 12
+private pointer passed to the callback
+.SH "DESCRIPTION"
+Callback function gets called one or more times, with cb_cmd
+pointing to the response returned by the hardware. Callback
+function must return
+> 0 if more reply blocks are expected,
+0 if the last or only reply block is received, and
+< 0 on error.
+Callback function can get the value of the reply_param pointer from the
+field 'param' of the structure qeth_reply.

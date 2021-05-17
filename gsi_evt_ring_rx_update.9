@@ -1,0 +1,26 @@
+.TH "gsi_evt_ring_rx_update" 9 "gsi_evt_ring_rx_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsi_evt_ring_rx_update \- Record lengths of received data
+.SH SYNOPSIS
+.B "void" gsi_evt_ring_rx_update
+.BI "(struct gsi_evt_ring *evt_ring "  ","
+.BI "u32 index "  ");"
+.SH ARGUMENTS
+.IP "evt_ring" 12
+Event ring associated with channel that received packets
+.IP "index" 12
+Event index in ring reported by hardware
+.SH "DESCRIPTION"
+Events for RX channels contain the actual number of bytes received into
+the buffer.  Every event has a transaction associated with it, and here
+we update transactions to record their actual received lengths.
+
+This function is called whenever we learn that the GSI hardware has filled
+new events since the last time we checked.  The ring's index field tells
+the first entry in need of processing.  The index provided is the
+first *unfilled* event in the ring (following the last filled one).
+
+Events are sequential within the event ring, and transactions are
+sequential within the transaction pool.
+
+Note that \fIindex\fP always refers to an element *within* the event ring.

@@ -1,0 +1,25 @@
+.TH "file_write_and_wait_range" 9 "file_write_and_wait_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+file_write_and_wait_range \- write out & wait on a file range
+.SH SYNOPSIS
+.B "int" file_write_and_wait_range
+.BI "(struct file *file "  ","
+.BI "loff_t lstart "  ","
+.BI "loff_t lend "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointing to address_space with pages
+.IP "lstart" 12
+offset in bytes where the range starts
+.IP "lend" 12
+offset in bytes where the range ends (inclusive)
+.SH "DESCRIPTION"
+Write out and wait upon file offsets lstart->lend, inclusive.
+
+Note that \fIlend\fP is inclusive (describes the last byte to be written) so
+that this function can be used to write to the very end-of-file (end = -1).
+
+After writing out and waiting on the data, we check and advance the
+f_wb_err cursor to the latest value, and return any errors detected there.
+.SH "RETURN"
+0 on success, negative error code otherwise.

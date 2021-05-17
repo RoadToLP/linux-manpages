@@ -1,0 +1,51 @@
+.TH "mpc52xx_lpbfifo_irq" 9 "mpc52xx_lpbfifo_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpc52xx_lpbfifo_irq \- IRQ handler for LPB FIFO
+.SH SYNOPSIS
+.B "irqreturn_t" mpc52xx_lpbfifo_irq
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+-- undescribed --
+.IP "dev_id" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+On transmit, the dma completion irq triggers before the fifo completion
+triggers.  Handle the dma completion here instead of the LPB FIFO Bestcomm
+task completion irq because everything is not really done until the LPB FIFO
+completion irq triggers.
+
+In other words:
+For DMA, on receive, the "Fat Lady" is the bestcom completion irq. on
+transmit, the fifo completion irq is the "Fat Lady". The opera (or in this
+case the DMA/FIFO operation) is not finished until the "Fat Lady" sings.
+
+Reasons for entering this routine:
+1) PIO mode rx and tx completion irq
+2) DMA interrupt mode tx completion irq
+3) DMA polled mode tx
+
+Exit conditions:
+1) Transfer aborted
+2) FIFO complete without DMA; more data to do
+3) FIFO complete without DMA; all data transferred
+4) FIFO complete using DMA
+
+Condition 1 can occur regardless of whether or not DMA is used.
+It requires executing the callback to report the error and exiting
+immediately.
+
+Condition 2 requires programming the FIFO with the next block of data
+
+Condition 3 requires executing the callback to report completion
+
+Condition 4 means the same as 3, except that we also retrieve the bcom
+buffer so DMA doesn't get clogged up.
+
+To make things trickier, the spinlock must be dropped before
+executing the callback, otherwise we could end up with a deadlock
+or nested spinlock condition.  The out path is non-trivial, so
+extra fiddling is done to make sure all paths lead to the same
+outbound code.

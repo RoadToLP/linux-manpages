@@ -1,0 +1,24 @@
+.TH "batadv_frag_create" 9 "batadv_frag_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_frag_create \- create a fragment from skb
+.SH SYNOPSIS
+.B "struct sk_buff *" batadv_frag_create
+.BI "(struct net_device *net_dev "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct batadv_frag_packet *frag_head "  ","
+.BI "unsigned int fragment_size "  ");"
+.SH ARGUMENTS
+.IP "net_dev" 12
+outgoing device for fragment
+.IP "skb" 12
+skb to create fragment from
+.IP "frag_head" 12
+header to use in new fragment
+.IP "fragment_size" 12
+size of new fragment
+.SH "DESCRIPTION"
+Split the passed skb into two fragments: A new one with size matching the
+passed mtu and the old one with the rest. The new skb contains data from the
+tail of the old skb.
+.SH "RETURN"
+the new fragment, NULL on error.

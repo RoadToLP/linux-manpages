@@ -1,0 +1,21 @@
+.TH "sched_set_itmt_core_prio" 9 "sched_set_itmt_core_prio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sched_set_itmt_core_prio \- Set CPU priority based on ITMT
+.SH SYNOPSIS
+.B "void" sched_set_itmt_core_prio
+.BI "(int prio "  ","
+.BI "int core_cpu "  ");"
+.SH ARGUMENTS
+.IP "prio" 12
+Priority of cpu core
+.IP "core_cpu" 12
+The cpu number associated with the core
+.SH "DESCRIPTION"
+The pstate driver will find out the max boost frequency
+and call this function to set a priority proportional
+to the max boost frequency. CPU with higher boost
+frequency will receive higher priority.
+
+No need to rebuild sched domain after updating
+the CPU priorities. The sched domains have no
+dependency on CPU priorities.

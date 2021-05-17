@@ -1,0 +1,17 @@
+.TH "dev_pm_opp_register_set_opp_helper" 9 "dev_pm_opp_register_set_opp_helper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_register_set_opp_helper \- Register custom set OPP helper
+.SH SYNOPSIS
+.B "struct opp_table *" dev_pm_opp_register_set_opp_helper
+.BI "(struct device *dev "  ","
+.BI "int (*set_opp)(struct dev_pm_set_opp_data *data) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which the helper is getting registered.
+.IP "set_opp" 12
+Custom set OPP helper.
+.SH "DESCRIPTION"
+This is useful to support complex platforms (like platforms with multiple
+regulators per device), instead of the generic OPP set rate helper.
+
+This must be called before any OPPs are initialized for the device.

@@ -1,0 +1,27 @@
+.TH "hwmp_route_info_get" 9 "hwmp_route_info_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hwmp_route_info_get \- Update routing info to originator and transmitter
+.SH SYNOPSIS
+.B "u32" hwmp_route_info_get
+.BI "(struct ieee80211_sub_if_data *sdata "  ","
+.BI "struct ieee80211_mgmt *mgmt "  ","
+.BI "const u8 *hwmp_ie "  ","
+.BI "enum mpath_frame_type action "  ");"
+.SH ARGUMENTS
+.IP "sdata" 12
+local mesh subif
+.IP "mgmt" 12
+mesh management frame
+.IP "hwmp_ie" 12
+hwmp information element (PREP or PREQ)
+.IP "action" 12
+type of hwmp ie
+.SH "DESCRIPTION"
+This function updates the path routing information to the originator and the
+transmitter of a HWMP PREQ or PREP frame.
+.SH "RETURN"
+metric to frame originator or 0 if the frame should not be further
+processed
+.SH "NOTES"
+this function is the only place (besides user-provided info) where
+path routing information is updated.

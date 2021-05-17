@@ -1,0 +1,21 @@
+.TH "nilfs_find_uncommitted_extent" 9 "nilfs_find_uncommitted_extent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_find_uncommitted_extent \- find extent of uncommitted data
+.SH SYNOPSIS
+.B "unsigned long" nilfs_find_uncommitted_extent
+.BI "(struct inode *inode "  ","
+.BI "sector_t start_blk "  ","
+.BI "sector_t *blkoff "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode
+.IP "start_blk" 12
+start block offset (in)
+.IP "blkoff" 12
+start offset of the found extent (out)
+.SH "DESCRIPTION"
+This function searches an extent of buffers marked "delayed" which
+starts from a block offset equal to or larger than \fIstart_blk\fP.  If
+such an extent was found, this will store the start offset in
+\fIblkoff\fP and return its length in blocks.  Otherwise, zero is
+returned.

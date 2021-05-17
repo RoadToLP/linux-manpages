@@ -1,0 +1,22 @@
+.TH "iscsi_iser_conn_bind" 9 "iscsi_iser_conn_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_conn_bind \- bind iscsi and iser connection structures
+.SH SYNOPSIS
+.B "int" iscsi_iser_conn_bind
+.BI "(struct iscsi_cls_session *cls_session "  ","
+.BI "struct iscsi_cls_conn *cls_conn "  ","
+.BI "uint64_t transport_eph "  ","
+.BI "int is_leading "  ");"
+.SH ARGUMENTS
+.IP "cls_session" 12
+iscsi class session
+.IP "cls_conn" 12
+iscsi class connection
+.IP "transport_eph" 12
+transport end-point handle
+.IP "is_leading" 12
+indicate if this is the session leading connection (MCS)
+.SH "RETURN"
+zero on success, $error if iscsi_conn_bind fails and
+-EINVAL in case end-point doesn't exsits anymore or iser connection
+state is not UP (teardown already started).

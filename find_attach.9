@@ -1,0 +1,33 @@
+.TH "find_attach" 9 "find_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_attach \- do attachment search for unconfined processes @bprm - binprm structure of transitioning task
+.SH SYNOPSIS
+.B "struct aa_label *" find_attach
+.BI "(const struct linux_binprm *bprm "  ","
+.BI "struct aa_ns *ns "  ","
+.BI "struct list_head *head "  ","
+.BI "const char *name "  ","
+.BI "const char **info "  ");"
+.SH ARGUMENTS
+.IP "bprm" 12
+-- undescribed --
+.IP "ns" 12
+the current namespace  (NOT NULL)
+\fIhead\fP - profile list to walk  (NOT NULL)
+\fIname\fP - to match against  (NOT NULL)
+\fIinfo\fP - info message if there was an error (NOT NULL)
+.IP "head" 12
+-- undescribed --
+.IP "name" 12
+-- undescribed --
+.IP "info" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Do a linear search on the profiles in the list.  There is a matching
+preference where an exact match is preferred over a name which uses
+expressions to match, and matching expressions with the greatest
+xmatch_len are preferred.
+
+Requires: \fIhead\fP not be shared or have appropriate locks held
+.SH "RETURN"
+label or NULL if no match found

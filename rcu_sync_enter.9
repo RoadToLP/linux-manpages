@@ -1,0 +1,20 @@
+.TH "rcu_sync_enter" 9 "rcu_sync_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_sync_enter \- Force readers onto slowpath
+.SH SYNOPSIS
+.B "void" rcu_sync_enter
+.BI "(struct rcu_sync *rsp "  ");"
+.SH ARGUMENTS
+.IP "rsp" 12
+Pointer to rcu_sync structure to use for synchronization
+.SH "DESCRIPTION"
+This function is used by updaters who need readers to make use of
+a slowpath during the update.  After this function returns, all
+subsequent calls to \fBrcu_sync_is_idle\fP will return false, which
+tells readers to stay off their fastpaths.  A later call to
+\fBrcu_sync_exit\fP re-enables reader slowpaths.
+
+When called in isolation, \fBrcu_sync_enter\fP must wait for a grace
+period, however, closely spaced calls to \fBrcu_sync_enter\fP can
+optimize away the grace-period wait via a state machine implemented
+by \fBrcu_sync_enter\fP, \fBrcu_sync_exit\fP, and \fBrcu_sync_func\fP.

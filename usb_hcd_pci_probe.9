@@ -1,0 +1,25 @@
+.TH "usb_hcd_pci_probe" 9 "usb_hcd_pci_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_pci_probe \- initialize PCI-based HCDs
+.SH SYNOPSIS
+.B "int" usb_hcd_pci_probe
+.BI "(struct pci_dev *dev "  ","
+.BI "const struct pci_device_id *id "  ","
+.BI "const struct hc_driver *driver "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+USB Host Controller being probed
+.IP "id" 12
+pci hotplug id connecting controller to HCD framework
+.IP "driver" 12
+USB HC driver handle
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+Allocates basic PCI resources for this USB host controller, and
+then invokes the \fBstart\fP method for the HCD associated with it
+through the hotplug entry's driver_data.
+
+Store this function in the HCD's struct pci_driver as \fBprobe\fP.
+.SH "RETURN"
+0 if successful.

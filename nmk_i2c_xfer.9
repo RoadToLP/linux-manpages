@@ -1,0 +1,55 @@
+.TH "nmk_i2c_xfer" 9 "nmk_i2c_xfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nmk_i2c_xfer \- I2C transfer function used by kernel framework
+.SH SYNOPSIS
+.B "int" nmk_i2c_xfer
+.BI "(struct i2c_adapter *i2c_adap "  ","
+.BI "struct i2c_msg msgs[] "  ","
+.BI "int num_msgs "  ");"
+.SH ARGUMENTS
+.IP "i2c_adap" 12
+Adapter pointer to the controller
+.IP "msgs" 12
+Pointer to data to be written.
+.IP "num_msgs" 12
+Number of messages to be executed
+.SH "DESCRIPTION"
+This is the function called by the generic kernel \fBi2c_transfer\fP
+or i2c_smbus...() API calls. Note that this code is protected by the
+semaphore set in the kernel \fBi2c_transfer\fP function.
+
+WRITE TRANSFER : The I2C standard interface interprets all data as payload.
+If you want to emulate an SMBUS write transaction put the
+index as first byte(or first and second) in the payload.
+eg. a I2C transation to write 2 bytes from index 1
+wr_buff[0] = 0x1;
+wr_buff[1] = 0x23;
+wr_buff[2] = 0x46;
+msg[0].flags = 0x0;
+msg[0].len = 3;
+msg[0].buf = wr_buff;
+i2c_transfer(adap, msg, 1);
+
+To read or write a block of data (multiple bytes) using SMBUS emulation
+please use the \fBi2c_smbus_read_i2c_block_data\fP
+or \fBi2c_smbus_write_i2c_block_data\fP API
+.SH "NOTE"
+READ TRANSFER : We impose a restriction of the first message to be the
+index message for any read transaction.
+- a no index is coded as '0',
+- 2byte big endian index is coded as '3'
+!!! msg[0].buf holds the actual index.
+This is compatible with generic messages of smbus emulator
+that send a one byte index.
+eg. a I2C transation to read 2 bytes from index 0
+idx = 0;
+msg[0].addr = client->addr;
+msg[0].flags = 0x0;
+msg[0].len = 1;
+msg[0].buf = \fIidx\fP;
+
+msg[1].addr = client->addr;
+msg[1].flags = I2C_M_RD;
+msg[1].len = 2;
+msg[1].buf = rd_buff
+i2c_transfer(adap, msg, 2);

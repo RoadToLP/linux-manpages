@@ -1,0 +1,25 @@
+.TH "usb_new_device" 9 "usb_new_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_new_device \- perform initial device setup (usbcore-internal)
+.SH SYNOPSIS
+.B "int" usb_new_device
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+newly addressed device (in ADDRESS state)
+.SH "DESCRIPTION"
+This is called with devices which have been detected but not fully
+enumerated.  The device descriptor is available, but not descriptors
+for any device configuration.  The caller must have locked either
+the parent hub (if udev is a normal device) or else the
+usb_bus_idr_lock (if udev is a root hub).  The parent's pointer to
+udev has already been installed, but udev is not yet visible through
+sysfs or other filesystem code.
+
+This call is synchronous, and may not be used in an interrupt context.
+
+Only the hub driver or root-hub registrar should ever call this.
+.SH "RETURN"
+Whether the device is configured properly or not. Zero if the
+interface was registered with the driver core; else a negative errno
+value.

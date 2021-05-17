@@ -1,0 +1,25 @@
+.TH "ssam_nf_refcount_inc" 9 "ssam_nf_refcount_inc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_nf_refcount_inc \- Increment reference-/activation-count of the given event.
+.SH SYNOPSIS
+.B "struct ssam_nf_refcount_entry *" ssam_nf_refcount_inc
+.BI "(struct ssam_nf *nf "  ","
+.BI "struct ssam_event_registry reg "  ","
+.BI "struct ssam_event_id id "  ");"
+.SH ARGUMENTS
+.IP "nf" 12
+The notifier system reference.
+.IP "reg" 12
+The registry used to enable/disable the event.
+.IP "id" 12
+The event ID.
+.SH "DESCRIPTION"
+Increments the reference-/activation-count associated with the specified
+event type/ID, allocating a new entry for this event ID if necessary. A
+newly allocated entry will have a refcount of one.
+.SH "NOTE"
+``nf->lock`` must be held when calling this function.
+.SH "RETURN"
+Returns the refcount entry on success. Returns an error pointer
+with -ENOSPC if there have already been INT_MAX events of the specified
+ID and type registered, or -ENOMEM if the entry could not be allocated.

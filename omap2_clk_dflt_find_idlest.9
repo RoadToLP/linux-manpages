@@ -1,0 +1,25 @@
+.TH "omap2_clk_dflt_find_idlest" 9 "omap2_clk_dflt_find_idlest" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_clk_dflt_find_idlest \- find CM_IDLEST reg va, bit shift for @clk
+.SH SYNOPSIS
+.B "void" omap2_clk_dflt_find_idlest
+.BI "(struct clk_hw_omap *clk "  ","
+.BI "struct clk_omap_reg *idlest_reg "  ","
+.BI "u8 *idlest_bit "  ","
+.BI "u8 *idlest_val "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk * to find IDLEST info for
+.IP "idlest_reg" 12
+void __iomem ** to return the CM_IDLEST va in
+.IP "idlest_bit" 12
+u8 * to return the CM_IDLEST bit shift in
+.IP "idlest_val" 12
+u8 * to return the idle status indicator
+.SH "DESCRIPTION"
+Return the CM_IDLEST register address and bit shift corresponding
+to the module that "owns" this clock.  This default code assumes
+that the CM_IDLEST bit shift is the CM_*CLKEN bit shift, and that
+the IDLEST register address ID corresponds to the CM_*CLKEN
+register address ID (e.g., that CM_FCLKEN2 corresponds to
+CM_IDLEST2).  This is not true for all modules.  No return value.

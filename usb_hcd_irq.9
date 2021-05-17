@@ -1,0 +1,17 @@
+.TH "usb_hcd_irq" 9 "usb_hcd_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_irq \- hook IRQs to HCD framework (bus glue)
+.SH SYNOPSIS
+.B "irqreturn_t" usb_hcd_irq
+.BI "(int irq "  ","
+.BI "void *__hcd "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+the IRQ being raised
+.IP "__hcd" 12
+pointer to the HCD whose IRQ is being signaled
+.SH "DESCRIPTION"
+If the controller isn't HALTed, calls the driver's irq handler.
+Checks whether the controller is now dead.
+.SH "RETURN"
+IRQ_HANDLED if the IRQ was handled. IRQ_NONE otherwise.

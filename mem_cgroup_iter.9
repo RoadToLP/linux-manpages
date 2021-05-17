@@ -1,0 +1,26 @@
+.TH "mem_cgroup_iter" 9 "mem_cgroup_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_iter \- iterate over memory cgroup hierarchy
+.SH SYNOPSIS
+.B "struct mem_cgroup *" mem_cgroup_iter
+.BI "(struct mem_cgroup *root "  ","
+.BI "struct mem_cgroup *prev "  ","
+.BI "struct mem_cgroup_reclaim_cookie *reclaim "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+hierarchy root
+.IP "prev" 12
+previously returned memcg, NULL on first invocation
+.IP "reclaim" 12
+cookie for shared reclaim walks, NULL for full walks
+.SH "DESCRIPTION"
+Returns references to children of the hierarchy below \fIroot\fP, or
+\fIroot\fP itself, or NULL after a full round-trip.
+
+Caller must pass the return value in \fIprev\fP on subsequent
+invocations for reference counting, or use \fBmem_cgroup_iter_break\fP
+to cancel a hierarchy walk before the round-trip is complete.
+
+Reclaimers can specify a node in \fIreclaim\fP to divide up the memcgs
+in the hierarchy among all concurrent reclaimers operating on the
+same node.

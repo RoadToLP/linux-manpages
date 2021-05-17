@@ -1,0 +1,23 @@
+.TH "enclosure_add_device" 9 "enclosure_add_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enclosure_add_device \- add a device as being part of an enclosure
+.SH SYNOPSIS
+.B "int" enclosure_add_device
+.BI "(struct enclosure_device *edev "  ","
+.BI "int component "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+the enclosure device being added to.
+.IP "component" 12
+the number of the component
+.IP "dev" 12
+the device being added
+.SH "DESCRIPTION"
+Declares a real device to reside in slot (or identifier) \fInum\fP of an
+enclosure.  This will cause the relevant sysfs links to appear.
+This function may also be used to change a device associated with
+an enclosure without having to call \fBenclosure_remove_device\fP in
+between.
+
+Returns zero on success or an error.

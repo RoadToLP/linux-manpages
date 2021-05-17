@@ -1,0 +1,29 @@
+.TH "ftrace_modify_direct_caller" 9 "ftrace_modify_direct_caller" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_modify_direct_caller \- modify ftrace nop directly
+.SH SYNOPSIS
+.B "int" ftrace_modify_direct_caller
+.BI "(struct ftrace_func_entry *entry "  ","
+.BI "struct dyn_ftrace *rec "  ","
+.BI "unsigned long old_addr "  ","
+.BI "unsigned long new_addr "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+The ftrace hash entry of the direct helper for \fIrec\fP
+.IP "rec" 12
+The record representing the function site to patch
+.IP "old_addr" 12
+The location that the site at \fIrec->ip\fP currently calls
+.IP "new_addr" 12
+The location that the site at \fIrec->ip\fP should call
+.SH "DESCRIPTION"
+An architecture may overwrite this function to optimize the
+changing of the direct callback on an ftrace nop location.
+This is called with the ftrace_lock mutex held, and no other
+ftrace callbacks are on the associated record (\fIrec\fP). Thus,
+it is safe to modify the ftrace record, where it should be
+currently calling \fIold_addr\fP directly, to call \fInew_addr\fP.
+
+Safety checks should be made to make sure that the code at
+\fIrec->ip\fP is currently calling \fIold_addr\fP. And this must
+also update entry->direct to \fInew_addr\fP.

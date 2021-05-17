@@ -1,0 +1,33 @@
+.TH "fscrypt_fname_disk_to_usr" 9 "fscrypt_fname_disk_to_usr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_fname_disk_to_usr \- convert an encrypted filename to user-presentable form
+.SH SYNOPSIS
+.B "int" fscrypt_fname_disk_to_usr
+.BI "(const struct inode *inode "  ","
+.BI "u32 hash "  ","
+.BI "u32 minor_hash "  ","
+.BI "const struct fscrypt_str *iname "  ","
+.BI "struct fscrypt_str *oname "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the parent directory (for regular filenames)
+or of the symlink (for symlink targets)
+.IP "hash" 12
+first part of the name's dirhash, if applicable.  This only needs to
+be provided if the filename is located in an indexed directory whose
+encryption key may be unavailable.  Not needed for symlink targets.
+.IP "minor_hash" 12
+second part of the name's dirhash, if applicable
+.IP "iname" 12
+encrypted filename to convert.  May also be "." or "..", which
+aren't actually encrypted.
+.IP "oname" 12
+output buffer for the user-presentable filename.  The caller must
+have allocated enough space for this, e.g. using
+\fBfscrypt_fname_alloc_buffer\fP.
+.SH "DESCRIPTION"
+If the key is available, we'll decrypt the disk name.  Otherwise, we'll
+encode it for presentation in fscrypt_nokey_name format.
+See struct fscrypt_nokey_name for details.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,23 @@
+.TH "radix_tree_tag_clear" 9 "radix_tree_tag_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_tag_clear \- clear a tag on a radix tree node
+.SH SYNOPSIS
+.B "void *" radix_tree_tag_clear
+.BI "(struct radix_tree_root *root "  ","
+.BI "unsigned long index "  ","
+.BI "unsigned int tag "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "index" 12
+index key
+.IP "tag" 12
+tag index
+
+Clear the search tag (which must be < RADIX_TREE_MAX_TAGS)
+corresponding to \fIindex\fP in the radix tree.  If this causes
+the leaf node to have no tags set then clear the tag in the
+next-to-leaf node, etc.
+
+Returns the address of the tagged item on success, else NULL.  ie:
+has the same return value and semantics as \fBradix_tree_lookup\fP.

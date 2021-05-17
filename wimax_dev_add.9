@@ -1,0 +1,24 @@
+.TH "wimax_dev_add" 9 "wimax_dev_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_dev_add \- Register a new WiMAX device
+.SH SYNOPSIS
+.B "int" wimax_dev_add
+.BI "(struct wimax_dev *wimax_dev "  ","
+.BI "struct net_device *net_dev "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor (as embedded in your \fInet_dev\fP's
+priv data). You must have called \fBwimax_dev_init\fP on it before.
+.IP "net_dev" 12
+net device the \fIwimax_dev\fP is associated with. The
+function expects \fBSET_NETDEV_DEV\fP and \fBregister_netdev\fP were
+already called on it.
+.SH "DESCRIPTION"
+Registers the new WiMAX device, sets up the user-kernel control
+interface (generic netlink) and common WiMAX infrastructure.
+
+Note that the parts that will allow interaction with user space are
+setup at the very end, when the rest is in place, as once that
+happens, the driver might get user space control requests via
+netlink or from debugfs that might translate into calls into
+wimax_dev->op_*().

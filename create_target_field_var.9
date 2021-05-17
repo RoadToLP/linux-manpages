@@ -1,0 +1,30 @@
+.TH "create_target_field_var" 9 "create_target_field_var" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_target_field_var \- Automatically create a variable for a field
+.SH SYNOPSIS
+.B "struct field_var *" create_target_field_var
+.BI "(struct hist_trigger_data *target_hist_data "  ","
+.BI "char *subsys_name "  ","
+.BI "char *event_name "  ","
+.BI "char *var_name "  ");"
+.SH ARGUMENTS
+.IP "target_hist_data" 12
+The target hist trigger
+.IP "subsys_name" 12
+Optional subsystem name
+.IP "event_name" 12
+Optional event name
+.IP "var_name" 12
+The name of the field (and the resulting variable)
+.SH "DESCRIPTION"
+Hist trigger actions fetch data from variables, not directly from
+events.  However, for convenience, users are allowed to directly
+specify an event field in an action, which will be automatically
+converted into a variable on their behalf.
+This function creates a field variable with the name var_name on
+the hist trigger currently being defined on the target event.  If
+subsys_name and event_name are specified, this function simply
+verifies that they do in fact match the target event subsystem and
+event name.
+.SH "RETURN"
+The variable created for the field.

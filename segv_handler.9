@@ -1,0 +1,19 @@
+.TH "segv_handler" 9 "segv_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+segv_handler \- the SIGSEGV handler
+.SH SYNOPSIS
+.B "void" segv_handler
+.BI "(int sig "  ","
+.BI "struct siginfo *unused_si "  ","
+.BI "struct uml_pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "sig" 12
+the signal number
+.IP "unused_si" 12
+the signal info struct; unused in this handler
+.IP "regs" 12
+the ptrace register information
+.SH "DESCRIPTION"
+The handler first extracts the faultinfo from the UML ptrace regs struct.
+If the userfault did not happen in an UML userspace process, bad_segv is called.
+Otherwise the signal did happen in a cloned userspace process, handle it.

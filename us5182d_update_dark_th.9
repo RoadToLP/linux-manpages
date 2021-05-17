@@ -1,0 +1,16 @@
+.TH "us5182d_update_dark_th" 9 "us5182d_update_dark_th" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+us5182d_update_dark_th \- update Darh_Th registers
+.SH SYNOPSIS
+.B "int" us5182d_update_dark_th
+.BI "(struct us5182d_data *data "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+us5182d_data structure
+.IP "index" 12
+index in us5182d_dark_ths array to use for the updated value
+.SH "DESCRIPTION"
+Function needs to be called with a lock held because it needs two i2c write
+byte operations as these registers (0x27 0x28) don't work in word mode
+accessing.

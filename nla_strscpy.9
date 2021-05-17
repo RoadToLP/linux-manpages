@@ -1,0 +1,22 @@
+.TH "nla_strscpy" 9 "nla_strscpy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nla_strscpy \- Copy string attribute payload into a sized buffer
+.SH SYNOPSIS
+.B "ssize_t" nla_strscpy
+.BI "(char *dst "  ","
+.BI "const struct nlattr *nla "  ","
+.BI "size_t dstsize "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+Where to copy the string to.
+.IP "nla" 12
+Attribute to copy the string from.
+.IP "dstsize" 12
+Size of destination buffer.
+.SH "DESCRIPTION"
+Copies at most dstsize - 1 bytes into the destination buffer.
+Unlike strlcpy the destination buffer is always padded out.
+.SH "RETURN"
+* srclen - Returns \fInla\fP length (not including the trailing NUL).
+* -E2BIG - If \fIdstsize\fP is 0 or greater than U16_MAX or \fInla\fP length greater
+than \fIdstsize\fP.

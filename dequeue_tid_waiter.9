@@ -1,0 +1,26 @@
+.TH "dequeue_tid_waiter" 9 "dequeue_tid_waiter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dequeue_tid_waiter \- dequeue the qp from the list
+.SH SYNOPSIS
+.B "void" dequeue_tid_waiter
+.BI "(struct hfi1_ctxtdata *rcd "  ","
+.BI "struct tid_queue *queue "  ","
+.BI "struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the receive context
+.IP "queue" 12
+the queue to operate on
+.IP "qp" 12
+the qp to remove the wait list
+.SH "DESCRIPTION"
+This routine removes the indicated qp from the
+wait list if it is there.
+
+This should be done after the hardware flow and
+tid array resources have been allocated.
+
+Must hold the qp s_lock and the rcd exp_lock.
+
+It assumes the s_lock to protect the s_flags
+field and to reliably test the HFI1_S_WAIT_TID_SPACE flag.

@@ -1,0 +1,16 @@
+.TH "ice_chk_linearize" 9 "ice_chk_linearize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_chk_linearize \- Check if there are more than 8 fragments per packet
+.SH SYNOPSIS
+.B "bool" ice_chk_linearize
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int count "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+send buffer
+.IP "count" 12
+number of buffers used
+.SH "NOTE"
+Our HW can't scatter-gather more than 8 fragments to build
+a packet on the wire and so we need to figure out the cases where we
+need to linearize the skb.

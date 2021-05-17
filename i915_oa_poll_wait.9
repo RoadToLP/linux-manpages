@@ -1,0 +1,19 @@
+.TH "i915_oa_poll_wait" 9 "i915_oa_poll_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_oa_poll_wait \- call poll_wait() for an OA stream poll()
+.SH SYNOPSIS
+.B "void" i915_oa_poll_wait
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "struct file *file "  ","
+.BI "poll_table *wait "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.IP "file" 12
+An i915 perf stream file
+.IP "wait" 12
+\fBpoll\fP state table
+.SH "DESCRIPTION"
+For handling userspace polling on an i915 perf stream opened for OA metrics,
+this starts a poll_wait with the wait queue that our hrtimer callback wakes
+when it sees data ready to read in the circular OA buffer.

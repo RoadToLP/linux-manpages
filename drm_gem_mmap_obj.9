@@ -1,0 +1,33 @@
+.TH "drm_gem_mmap_obj" 9 "drm_gem_mmap_obj" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_mmap_obj \- memory map a GEM object
+.SH SYNOPSIS
+.B "int" drm_gem_mmap_obj
+.BI "(struct drm_gem_object *obj "  ","
+.BI "unsigned long obj_size "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+the GEM object to map
+.IP "obj_size" 12
+the object size to be mapped, in bytes
+.IP "vma" 12
+VMA for the area to be mapped
+.SH "DESCRIPTION"
+Set up the VMA to prepare mapping of the GEM object using the GEM object's
+vm_ops. Depending on their requirements, GEM objects can either
+provide a fault handler in their vm_ops (in which case any accesses to
+the object will be trapped, to perform migration, GTT binding, surface
+register allocation, or performance monitoring), or mmap the buffer memory
+synchronously after calling drm_gem_mmap_obj.
+
+This function is mainly intended to implement the DMABUF mmap operation, when
+the GEM object is not looked up based on its fake offset. To implement the
+DRM mmap operation, drivers should use the \fBdrm_gem_mmap\fP function.
+
+\fBdrm_gem_mmap_obj\fP assumes the user is granted access to the buffer while
+\fBdrm_gem_mmap\fP prevents unprivileged users from mapping random objects. So
+callers must verify access restrictions before calling this helper.
+
+Return 0 or success or -EINVAL if the object size is smaller than the VMA
+size, or if no vm_ops are provided.

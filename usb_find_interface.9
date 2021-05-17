@@ -1,0 +1,18 @@
+.TH "usb_find_interface" 9 "usb_find_interface" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_find_interface \- find usb_interface pointer for driver and device
+.SH SYNOPSIS
+.B "struct usb_interface *" usb_find_interface
+.BI "(struct usb_driver *drv "  ","
+.BI "int minor "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+the driver whose current configuration is considered
+.IP "minor" 12
+the minor number of the desired device
+.SH "DESCRIPTION"
+This walks the bus device list and returns a pointer to the interface
+with the matching minor and driver.  Note, this only works for devices
+that share the USB major number.
+.SH "RETURN"
+A pointer to the interface with the matching major and \fIminor\fP.

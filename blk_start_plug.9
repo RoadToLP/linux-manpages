@@ -1,0 +1,27 @@
+.TH "blk_start_plug" 9 "blk_start_plug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_start_plug \- initialize blk_plug and track it inside the task_struct
+.SH SYNOPSIS
+.B "void" blk_start_plug
+.BI "(struct blk_plug *plug "  ");"
+.SH ARGUMENTS
+.IP "plug" 12
+The \fIstruct blk_plug\fP that needs to be initialized
+.SH "DESCRIPTION"
+\fBblk_start_plug\fP indicates to the block layer an intent by the caller
+to submit multiple I/O requests in a batch.  The block layer may use
+this hint to defer submitting I/Os from the caller until \fBblk_finish_plug\fP
+is called.  However, the block layer may choose to submit requests
+before a call to \fBblk_finish_plug\fP if the number of queued I/Os
+exceeds BLK_MAX_REQUEST_COUNT, or if the size of the I/O is larger than
+BLK_PLUG_FLUSH_SIZE.  The queued I/Os may also be submitted early if
+the task schedules (see below).
+
+Tracking blk_plug inside the task_struct will help with auto-flushing the
+pending I/O should the task end up blocking between \fBblk_start_plug\fP and
+\fBblk_finish_plug\fP. This is important from a performance perspective, but
+also ensures that we don't deadlock. For instance, if the task is blocking
+for a memory allocation, memory reclaim could end up wanting to free a
+page belonging to that request that is currently residing in our private
+plug. By flushing the pending I/O when the process goes to sleep, we avoid
+this kind of deadlock.

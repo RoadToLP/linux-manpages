@@ -1,0 +1,17 @@
+.TH "dwc2_unreserve_timer_fn" 9 "dwc2_unreserve_timer_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_unreserve_timer_fn \- Timer function to release periodic reservation
+.SH SYNOPSIS
+.B "void" dwc2_unreserve_timer_fn
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Address to a qh unreserve_work.
+.SH "DESCRIPTION"
+
+According to the kernel doc for \fBusb_submit_urb\fP (specifically the part about
+"Reserved Bandwidth Transfers"), we need to keep a reservation active as
+long as a device driver keeps submitting.  Since we're using HCD_BH to give
+back the URB we need to give the driver a little bit of time before we
+release the reservation.  This worker is called after the appropriate
+delay.

@@ -1,0 +1,23 @@
+.TH "lpfc_cmpl_els_npiv_logo" 9 "lpfc_cmpl_els_npiv_logo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_npiv_logo \- Completion function with vport logo
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_npiv_logo
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion callback function to the issuing of a LOGO
+ELS command off a vport. It frees the command IOCB and then decrement the
+reference count held on ndlp for this completion function, indicating that
+the reference to the ndlp is no long needed. Note that the
+\fBlpfc_els_free_iocb\fP routine decrements the ndlp reference held for this
+callback function and an additional explicit ndlp reference decrementation
+will trigger the actual release of the ndlp.

@@ -1,0 +1,23 @@
+.TH "write_imm" 9 "write_imm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_imm \- write a packet into a Tx descriptor as immediate data
+.SH SYNOPSIS
+.B "void" write_imm
+.BI "(struct tx_desc *d "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int gen "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+the Tx descriptor to write
+.IP "skb" 12
+the packet
+.IP "len" 12
+the length of packet data to write as immediate data
+.IP "gen" 12
+the generation bit value to write
+
+Writes a packet as immediate data into a Tx descriptor.  The packet
+contains a work request at its beginning.  We must write the packet
+carefully so the SGE doesn't read it accidentally before it's written
+in its entirety.

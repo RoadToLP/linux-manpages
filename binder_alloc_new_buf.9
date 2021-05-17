@@ -1,0 +1,31 @@
+.TH "binder_alloc_new_buf" 9 "binder_alloc_new_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_alloc_new_buf \- Allocate a new binder buffer
+.SH SYNOPSIS
+.B "struct binder_buffer *" binder_alloc_new_buf
+.BI "(struct binder_alloc *alloc "  ","
+.BI "size_t data_size "  ","
+.BI "size_t offsets_size "  ","
+.BI "size_t extra_buffers_size "  ","
+.BI "int is_async "  ","
+.BI "int pid "  ");"
+.SH ARGUMENTS
+.IP "alloc" 12
+binder_alloc for this proc
+.IP "data_size" 12
+size of user data buffer
+.IP "offsets_size" 12
+user specified buffer offset
+.IP "extra_buffers_size" 12
+size of extra space for meta-data (eg, security context)
+.IP "is_async" 12
+buffer for async transaction
+.IP "pid" 12
+pid to attribute allocation to (used for debugging)
+.SH "DESCRIPTION"
+Allocate a new buffer given the requested sizes. Returns
+the kernel version of the buffer pointer. The size allocated
+is the sum of the three given sizes (each rounded up to
+pointer-sized boundary)
+.SH "RETURN"
+The allocated buffer or NULL if error

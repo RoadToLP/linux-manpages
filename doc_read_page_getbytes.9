@@ -1,0 +1,27 @@
+.TH "doc_read_page_getbytes" 9 "doc_read_page_getbytes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_read_page_getbytes \- Reads bytes from a prepared page
+.SH SYNOPSIS
+.B "int" doc_read_page_getbytes
+.BI "(struct docg3 *docg3 "  ","
+.BI "int len "  ","
+.BI "u_char *buf "  ","
+.BI "int first "  ","
+.BI "int last_odd "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "len" 12
+the number of bytes to be read (must be a multiple of 4)
+.IP "buf" 12
+the buffer to be filled in (or NULL is forget bytes)
+.IP "first" 12
+1 if first time read, DOC_READADDRESS should be set
+.IP "last_odd" 12
+1 if last read ended up on an odd byte
+.SH "DESCRIPTION"
+Reads bytes from a prepared page. There is a trickery here : if the last read
+ended up on an odd offset in the 1024 bytes double page, ie. between the 2
+planes, the first byte must be read apart. If a word (16bit) read was used,
+the read would return the byte of plane 2 as low *and* high endian, which
+will mess the read.

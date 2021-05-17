@@ -1,0 +1,38 @@
+.TH "lookup_znode" 9 "lookup_znode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lookup_znode \- find a particular indexing node from TNC.
+.SH SYNOPSIS
+.B "struct ubifs_znode *" lookup_znode
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int level "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+index node key to lookup
+.IP "level" 12
+index node level
+.IP "lnum" 12
+index node LEB number
+.IP "offs" 12
+index node offset
+.SH "DESCRIPTION"
+This function searches an indexing node by its first key \fIkey\fP and its
+address \fIlnum\fP:\fIoffs\fP. It looks up the indexing tree by pulling all indexing
+nodes it traverses to TNC. This function is called for indexing nodes which
+were found on the media by scanning, for example when garbage-collecting or
+when doing in-the-gaps commit. This means that the indexing node which is
+looked for does not have to have exactly the same leftmost key \fIkey\fP, because
+the leftmost key may have been changed, in which case TNC will contain a
+dirty znode which still refers the same \fIlnum\fP:\fIoffs\fP. This function is clever
+enough to recognize such indexing nodes.
+
+Note, if a znode was deleted or changed too much, then this function will
+not find it. For situations like this UBIFS has the old index RB-tree
+(indexed by \fIlnum\fP:\fIoffs\fP).
+
+This function returns a pointer to the znode found or NULL if it is not
+found. A negative error code is returned on failure.

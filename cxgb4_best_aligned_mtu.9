@@ -1,0 +1,29 @@
+.TH "cxgb4_best_aligned_mtu" 9 "cxgb4_best_aligned_mtu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4_best_aligned_mtu \- find best MTU, [hopefully] data size aligned
+.SH SYNOPSIS
+.B "unsigned int" cxgb4_best_aligned_mtu
+.BI "(const unsigned short *mtus "  ","
+.BI "unsigned short header_size "  ","
+.BI "unsigned short data_size_max "  ","
+.BI "unsigned short data_size_align "  ","
+.BI "unsigned int *mtu_idxp "  ");"
+.SH ARGUMENTS
+.IP "mtus" 12
+the HW MTU table
+.IP "header_size" 12
+Header Size
+.IP "data_size_max" 12
+maximum Data Segment Size
+.IP "data_size_align" 12
+desired Data Segment Size Alignment (2^N)
+.IP "mtu_idxp" 12
+HW MTU Table Index return value pointer (possibly NULL)
+
+Similar to \fBcxgb4_best_mtu\fP but instead of searching the Hardware
+MTU Table based solely on a Maximum MTU parameter, we break that
+parameter up into a Header Size and Maximum Data Segment Size, and
+provide a desired Data Segment Size Alignment.  If we find an MTU in
+the Hardware MTU Table which will result in a Data Segment Size with
+the requested alignment _and_ that MTU isn't "too far" from the
+closest MTU, then we'll return that rather than the closest MTU.

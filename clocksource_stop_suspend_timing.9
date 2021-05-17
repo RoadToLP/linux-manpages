@@ -1,0 +1,21 @@
+.TH "clocksource_stop_suspend_timing" 9 "clocksource_stop_suspend_timing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clocksource_stop_suspend_timing \- Stop measuring the suspend timing
+.SH SYNOPSIS
+.B "u64" clocksource_stop_suspend_timing
+.BI "(struct clocksource *cs "  ","
+.BI "u64 cycle_now "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+current clocksource from timekeeping
+.IP "cycle_now" 12
+current cycles from timekeeping
+.SH "DESCRIPTION"
+This function will calculate the suspend time from suspend timer.
+
+Returns nanoseconds since suspend started, 0 if no usable suspend clocksource.
+
+This function is called early in the resume process from \fBtimekeeping_resume\fP,
+that means there is only one cpu, no processes are running and the interrupts
+are disabled. It is therefore possible to stop the suspend timer without
+taking the clocksource mutex.

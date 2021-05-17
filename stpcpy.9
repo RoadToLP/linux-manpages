@@ -1,0 +1,21 @@
+.TH "stpcpy" 9 "stpcpy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stpcpy \- copy a string from src to dest returning a pointer to the new end of dest, including src's %NUL-terminator. May overrun dest.
+.SH SYNOPSIS
+.B "char *" stpcpy
+.BI "(char *__restrict__ dest "  ","
+.BI "const char *__restrict__ src "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+pointer to end of string being copied into. Must be large enough
+to receive copy.
+.IP "src" 12
+pointer to the beginning of string being copied from. Must not overlap
+dest.
+.SH "DESCRIPTION"
+stpcpy differs from strcpy in a key way: the return value is a pointer
+to the new NUL-terminating character in \fIdest\fP. (For strcpy, the return
+value is a pointer to the start of \fIdest\fP). This interface is considered
+unsafe as it doesn't perform bounds checking of the inputs. As such it's
+not recommended for usage. Instead, its definition is provided in case
+the compiler lowers other libcalls to stpcpy.

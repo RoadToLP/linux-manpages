@@ -1,0 +1,24 @@
+.TH "vidioc_try_fmt_vid_cap" 9 "vidioc_try_fmt_vid_cap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vidioc_try_fmt_vid_cap \- set video capture format
+.SH SYNOPSIS
+.B "int" vidioc_try_fmt_vid_cap
+.BI "(struct file *file "  ","
+.BI "void *priv "  ","
+.BI "struct v4l2_format *f "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+descriptor of device
+.IP "priv" 12
+unused
+.IP "f" 12
+new format
+.SH "DESCRIPTION"
+new video format is set which includes width and
+field type. width is fixed to 720, no scaling.
+Only UYVY is supported by this hardware.
+the minimum height is 200, the maximum is 576 (PAL)
+
+return value: 0, no error
+
+-EINVAL, pixel or field format not supported

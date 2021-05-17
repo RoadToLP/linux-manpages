@@ -1,0 +1,22 @@
+.TH "ext2_free_branches" 9 "ext2_free_branches" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_free_branches \- free an array of branches
+.SH SYNOPSIS
+.B "void" ext2_free_branches
+.BI "(struct inode *inode "  ","
+.BI "__le32 *p "  ","
+.BI "__le32 *q "  ","
+.BI "int depth "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode we are dealing with
+.IP "p" 12
+array of block numbers
+.IP "q" 12
+pointer immediately past the end of array
+.IP "depth" 12
+depth of the branches to free
+
+We are freeing all blocks referred from these branches (numbers are
+stored as little-endian 32-bit) and updating \fIinode->i_blocks\fP
+appropriately.

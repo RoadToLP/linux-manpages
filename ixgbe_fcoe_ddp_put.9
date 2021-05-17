@@ -1,0 +1,18 @@
+.TH "ixgbe_fcoe_ddp_put" 9 "ixgbe_fcoe_ddp_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_fcoe_ddp_put \- free the ddp context for a given xid
+.SH SYNOPSIS
+.B "int" ixgbe_fcoe_ddp_put
+.BI "(struct net_device *netdev "  ","
+.BI "u16 xid "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the corresponding net_device
+.IP "xid" 12
+the xid that corresponding ddp will be freed
+.SH "DESCRIPTION"
+This is the implementation of net_device_ops.ndo_fcoe_ddp_done
+and it is expected to be called by ULD, i.e., FCP layer of libfc
+to release the corresponding ddp context when the I/O is done.
+.SH "RETURN"
+data length already ddp-ed in bytes

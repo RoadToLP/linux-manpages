@@ -1,0 +1,13 @@
+.TH "vdso_update_end" 9 "vdso_update_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vdso_update_end \- End of a VDSO update section
+.SH SYNOPSIS
+.B "void" vdso_update_end
+.BI "(unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "flags" 12
+Interrupt flags as returned from \fBvdso_update_begin\fP
+.SH "DESCRIPTION"
+Pairs with \fBvdso_update_begin\fP. Marks vdso data consistent, invokes data
+synchronization if the architecture requires it, drops timekeeper lock
+and restores interrupt flags.

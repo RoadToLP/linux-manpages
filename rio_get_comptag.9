@@ -1,0 +1,19 @@
+.TH "rio_get_comptag" 9 "rio_get_comptag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_get_comptag \- Begin or continue searching for a RIO device by component tag
+.SH SYNOPSIS
+.B "struct rio_dev *" rio_get_comptag
+.BI "(u32 comp_tag "  ","
+.BI "struct rio_dev *from "  ");"
+.SH ARGUMENTS
+.IP "comp_tag" 12
+RIO component tag to match
+.IP "from" 12
+Previous RIO device found in search, or NULL for new search
+.SH "DESCRIPTION"
+Iterates through the list of known RIO devices. If a RIO device is
+found with a matching \fIcomp_tag\fP, a pointer to its device
+structure is returned. Otherwise, NULL is returned. A new search
+is initiated by passing NULL to the \fIfrom\fP argument. Otherwise, if
+\fIfrom\fP is not NULL, searches continue from next device on the global
+list.

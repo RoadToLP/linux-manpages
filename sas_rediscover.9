@@ -1,0 +1,21 @@
+.TH "sas_rediscover" 9 "sas_rediscover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sas_rediscover \- revalidate the domain.
+.SH SYNOPSIS
+.B "int" sas_rediscover
+.BI "(struct domain_device *dev "  ","
+.BI "const int phy_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+domain device to be detect.
+.IP "phy_id" 12
+the phy id will be detected.
+.SH "NOTE"
+this process _must_ quit (return) as soon as any connection
+errors are encountered.  Connection recovery is done elsewhere.
+Discover process only interrogates devices in order to discover the
+domain.For plugging out, we un-register the device only when it is
+the last phy in the port, for other phys in this port, we just delete it
+from the port.For inserting, we do discovery when it is the
+first phy,for other phys in this port, we add it to the port to
+forming the wide-port.

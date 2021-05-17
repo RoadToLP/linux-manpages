@@ -1,0 +1,22 @@
+.TH "tipc_sendmsg" 9 "tipc_sendmsg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_sendmsg \- send message in connectionless manner
+.SH SYNOPSIS
+.B "int" tipc_sendmsg
+.BI "(struct socket *sock "  ","
+.BI "struct msghdr *m "  ","
+.BI "size_t dsz "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+socket structure
+.IP "m" 12
+message to send
+.IP "dsz" 12
+amount of user data to be sent
+.SH "DESCRIPTION"
+Message must have an destination specified explicitly.
+Used for SOCK_RDM and SOCK_DGRAM messages,
+and for 'SYN' messages on SOCK_SEQPACKET and SOCK_STREAM connections.
+(Note: 'SYN+' is prohibited on SOCK_STREAM.)
+.SH "RETURN"
+the number of bytes sent on success, or errno otherwise

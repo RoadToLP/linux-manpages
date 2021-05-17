@@ -1,0 +1,25 @@
+.TH "vfio_ap_mdev_set_kvm" 9 "vfio_ap_mdev_set_kvm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfio_ap_mdev_set_kvm \- 
+.SH SYNOPSIS
+.B "int" vfio_ap_mdev_set_kvm
+.BI "(struct ap_matrix_mdev *matrix_mdev "  ","
+.BI "struct kvm *kvm "  ");"
+.SH ARGUMENTS
+.IP "matrix_mdev" 12
+a mediated matrix device
+.IP "kvm" 12
+reference to KVM instance
+.SH "DESCRIPTION"
+Sets all data for \fImatrix_mdev\fP that are needed to manage AP resources
+for the guest whose state is represented by \fIkvm\fP.
+
+Return 0 if no other mediated matrix device has a reference to \fIkvm\fP;
+otherwise, returns an -EPERM.
+.SH "NOTE"
+The matrix_dev->lock must be taken prior to calling
+this function; however, the lock will be temporarily released while the
+guest's AP configuration is set to avoid a potential lockdep splat.
+The kvm->lock is taken to set the guest's AP configuration which, under
+certain circumstances, will result in a circular lock dependency if this is
+done under the \fImatrix_mdev->lock\fP.

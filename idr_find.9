@@ -1,0 +1,21 @@
+.TH "idr_find" 9 "idr_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_find \- Return pointer for given ID.
+.SH SYNOPSIS
+.B "void *" idr_find
+.BI "(const struct idr *idr "  ","
+.BI "unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "id" 12
+Pointer ID.
+.SH "DESCRIPTION"
+Looks up the pointer associated with this ID.  A NULL pointer may
+indicate that \fIid\fP is not allocated or that the NULL pointer was
+associated with this ID.
+
+This function can be called under \fBrcu_read_lock\fP, given that the leaf
+pointers lifetimes are correctly managed.
+.SH "RETURN"
+The pointer associated with this ID.

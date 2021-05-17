@@ -1,0 +1,40 @@
+.TH "i915_gem_gtt_reserve" 9 "i915_gem_gtt_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_gtt_reserve \- reserve a node in an address_space (GTT)
+.SH SYNOPSIS
+.B "int" i915_gem_gtt_reserve
+.BI "(struct i915_address_space *vm "  ","
+.BI "struct drm_mm_node *node "  ","
+.BI "u64 size "  ","
+.BI "u64 offset "  ","
+.BI "unsigned long color "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "vm" 12
+the \fIstruct i915_address_space\fP
+.IP "node" 12
+the \fIstruct drm_mm_node\fP (typically i915_vma.mode)
+.IP "size" 12
+how much space to allocate inside the GTT,
+must be #I915_GTT_PAGE_SIZE aligned
+.IP "offset" 12
+where to insert inside the GTT,
+must be #I915_GTT_MIN_ALIGNMENT aligned, and the node
+(\fIoffset\fP + \fIsize\fP) must fit within the address space
+.IP "color" 12
+color to apply to node, if this node is not from a VMA,
+color must be #I915_COLOR_UNEVICTABLE
+.IP "flags" 12
+control search and eviction behaviour
+.SH "DESCRIPTION"
+\fBi915_gem_gtt_reserve\fP tries to insert the \fInode\fP at the exact \fIoffset\fP inside
+the address space (using \fIsize\fP and \fIcolor\fP). If the \fInode\fP does not fit, it
+tries to evict any overlapping nodes from the GTT, including any
+neighbouring nodes if the colors do not match (to ensure guard pages between
+differing domains). See \fBi915_gem_evict_for_node\fP for the gory details
+on the eviction algorithm. #PIN_NONBLOCK may used to prevent waiting on
+evicting active overlapping objects, and any overlapping node that is pinned
+or marked as unevictable will also result in failure.
+.SH "RETURN"
+0 on success, -ENOSPC if no suitable hole is found, -EINTR if
+asked to wait for eviction and interrupted.

@@ -1,0 +1,17 @@
+.TH "sata_async_notification" 9 "sata_async_notification" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_async_notification \- SATA async notification handler
+.SH SYNOPSIS
+.B "int" sata_async_notification
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port where async notification is received
+
+Handler to be called when async notification via SDB FIS is
+received.  This function schedules EH if necessary.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.SH "RETURN"
+1 if EH is scheduled, 0 otherwise.

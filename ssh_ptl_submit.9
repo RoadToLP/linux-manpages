@@ -1,0 +1,20 @@
+.TH "ssh_ptl_submit" 9 "ssh_ptl_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_submit \- Submit a packet to the transport layer.
+.SH SYNOPSIS
+.B "int" ssh_ptl_submit
+.BI "(struct ssh_ptl *ptl "  ","
+.BI "struct ssh_packet *p "  ");"
+.SH ARGUMENTS
+.IP "ptl" 12
+The packet transport layer to submit the packet to.
+.IP "p" 12
+The packet to submit.
+.SH "DESCRIPTION"
+Submits a new packet to the transport layer, queuing it to be sent. This
+function should not be used for re-submission.
+.SH "RETURN"
+Returns zero on success, -EINVAL if a packet field is invalid or
+the packet has been canceled prior to submission, -EALREADY if the packet
+has already been submitted, or -ESHUTDOWN if the packet transport layer
+has been shut down.

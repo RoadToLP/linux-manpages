@@ -1,0 +1,18 @@
+.TH "binder_do_fd_close" 9 "binder_do_fd_close" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_do_fd_close \- close list of file descriptors
+.SH SYNOPSIS
+.B "void" binder_do_fd_close
+.BI "(struct callback_head *twork "  ");"
+.SH ARGUMENTS
+.IP "twork" 12
+callback head for task work
+.SH "DESCRIPTION"
+It is not safe to call \fBksys_close\fP during the \fBbinder_ioctl\fP
+function if there is a chance that binder's own file descriptor
+might be closed. This is to meet the requirements for using
+\fBfdget\fP (see comments for \fB__fget_light\fP). Therefore use
+\fBtask_work_add\fP to schedule the close operation once we have
+returned from \fBbinder_ioctl\fP. This function is a callback
+for that mechanism and does the actual \fBksys_close\fP on the
+given file descriptor.

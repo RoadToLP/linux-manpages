@@ -1,0 +1,17 @@
+.TH "regcache_cache_bypass" 9 "regcache_cache_bypass" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regcache_cache_bypass \- Put a register map into cache bypass mode
+.SH SYNOPSIS
+.B "void" regcache_cache_bypass
+.BI "(struct regmap *map "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+map to configure
+.IP "enable" 12
+flag if changes should not be written to the cache
+.SH "DESCRIPTION"
+When a register map is marked with the cache bypass option, writes
+to the register map API will only update the hardware and not the
+the cache directly.  This is useful when syncing the cache back to
+the hardware.

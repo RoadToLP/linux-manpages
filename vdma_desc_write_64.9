@@ -1,0 +1,22 @@
+.TH "vdma_desc_write_64" 9 "vdma_desc_write_64" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vdma_desc_write_64 \- 64-bit descriptor write
+.SH SYNOPSIS
+.B "void" vdma_desc_write_64
+.BI "(struct xilinx_dma_chan *chan "  ","
+.BI "u32 reg "  ","
+.BI "u32 value_lsb "  ","
+.BI "u32 value_msb "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Driver specific VDMA channel
+.IP "reg" 12
+Register to write
+.IP "value_lsb" 12
+lower address of the descriptor.
+.IP "value_msb" 12
+upper address of the descriptor.
+.SH "DESCRIPTION"
+Since vdma driver is trying to write to a register offset which is not a
+multiple of 64 bits(ex : 0x5c), we are writing as two separate 32 bits
+instead of a single 64 bit register write.

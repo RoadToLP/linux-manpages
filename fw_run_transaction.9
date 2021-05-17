@@ -1,0 +1,35 @@
+.TH "fw_run_transaction" 9 "fw_run_transaction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_run_transaction \- send request and sleep until transaction is completed
+.SH SYNOPSIS
+.B "int" fw_run_transaction
+.BI "(struct fw_card *card "  ","
+.BI "int tcode "  ","
+.BI "int destination_id "  ","
+.BI "int generation "  ","
+.BI "int speed "  ","
+.BI "unsigned long long offset "  ","
+.BI "void *payload "  ","
+.BI "size_t length "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+card interface for this request
+.IP "tcode" 12
+transaction code
+.IP "destination_id" 12
+destination node ID, consisting of bus_ID and phy_ID
+.IP "generation" 12
+bus generation in which request and response are valid
+.IP "speed" 12
+transmission speed
+.IP "offset" 12
+48bit wide offset into destination's address space
+.IP "payload" 12
+data payload for the request subaction
+.IP "length" 12
+length of the payload, in bytes
+.SH "DESCRIPTION"
+Returns the RCODE.  See \fBfw_send_request\fP for parameter documentation.
+Unlike \fBfw_send_request\fP, \fIdata\fP points to the payload of the request or/and
+to the payload of the response.  DMA mapping restrictions apply to outbound
+request payloads of >= 8 bytes but not to inbound response payloads.

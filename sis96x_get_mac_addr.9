@@ -1,0 +1,22 @@
+.TH "sis96x_get_mac_addr" 9 "sis96x_get_mac_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sis96x_get_mac_addr \- Get MAC address for SiS962 or SiS963 model
+.SH SYNOPSIS
+.B "int" sis96x_get_mac_addr
+.BI "(struct pci_dev *pci_dev "  ","
+.BI "struct net_device *net_dev "  ");"
+.SH ARGUMENTS
+.IP "pci_dev" 12
+the sis900 pci device
+.IP "net_dev" 12
+the net device to get address for
+
+SiS962 or SiS963 model, use EEPROM to store MAC address. And EEPROM
+is shared by
+LAN and 1394. When accessing EEPROM, send EEREQ signal to hardware first
+and wait for EEGNT. If EEGNT is ON, EEPROM is permitted to be accessed
+by LAN, otherwise it is not. After MAC address is read from EEPROM, send
+EEDONE signal to refuse EEPROM access by LAN.
+The EEPROM map of SiS962 or SiS963 is different to SiS900.
+The signature field in SiS962 or SiS963 spec is meaningless.
+MAC address is read into \fInet_dev->dev_addr\fP.

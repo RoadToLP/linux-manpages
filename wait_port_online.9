@@ -1,0 +1,21 @@
+.TH "wait_port_online" 9 "wait_port_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_port_online \- waits for the specified host FC port come online
+.SH SYNOPSIS
+.B "bool" wait_port_online
+.BI "(__be64 __iomem *fc_regs "  ","
+.BI "u32 delay_us "  ","
+.BI "u32 nretry "  ");"
+.SH ARGUMENTS
+.IP "fc_regs" 12
+Top of MMIO region defined for specified port.
+.IP "delay_us" 12
+Number of microseconds to delay between reading port status.
+.IP "nretry" 12
+Number of cycles to retry reading port status.
+.SH "DESCRIPTION"
+The provided MMIO region must be mapped prior to call. This will timeout
+when the cable is not plugged in.
+.SH "RETURN"
+TRUE (1) when the specified port is online
+FALSE (0) when the specified port fails to come online after timeout

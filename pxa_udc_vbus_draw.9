@@ -1,0 +1,19 @@
+.TH "pxa_udc_vbus_draw" 9 "pxa_udc_vbus_draw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pxa_udc_vbus_draw \- Called by gadget driver after SET_CONFIGURATION completed
+.SH SYNOPSIS
+.B "int" pxa_udc_vbus_draw
+.BI "(struct usb_gadget *_gadget "  ","
+.BI "unsigned mA "  ");"
+.SH ARGUMENTS
+.IP "_gadget" 12
+usb gadget
+.IP "mA" 12
+current drawn
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+Called after a configuration was chosen by a USB host, to inform how much
+current can be drawn by the device from VBus line.
+
+Returns 0 or -EOPNOTSUPP if no transceiver is handling the udc

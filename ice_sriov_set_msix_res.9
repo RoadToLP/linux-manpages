@@ -1,0 +1,22 @@
+.TH "ice_sriov_set_msix_res" 9 "ice_sriov_set_msix_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sriov_set_msix_res \- Set any used MSIX resources
+.SH SYNOPSIS
+.B "int" ice_sriov_set_msix_res
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 num_msix_needed "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+pointer to PF structure
+.IP "num_msix_needed" 12
+number of MSIX vectors needed for all SR-IOV VFs
+.SH "DESCRIPTION"
+This function allows SR-IOV resources to be taken from the end of the PF's
+allowed HW MSIX vectors so that the irq_tracker will not be affected. We
+just set the pf->sriov_base_vector and return success.
+
+If there are not enough resources available, return an error. This should
+always be caught by \fBice_set_per_vf_res\fP.
+
+Return 0 on success, and -EINVAL when there are not enough MSIX vectors
+in the PF's space available for SR-IOV.

@@ -1,0 +1,78 @@
+.TH "ntfs_lookup" 9 "ntfs_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_lookup \- find the inode represented by a dentry in a directory inode
+.SH SYNOPSIS
+.B "struct dentry *" ntfs_lookup
+.BI "(struct inode *dir_ino "  ","
+.BI "struct dentry *dent "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "dir_ino" 12
+directory inode in which to look for the inode
+.IP "dent" 12
+dentry representing the inode to look for
+.IP "flags" 12
+lookup flags
+.SH "DESCRIPTION"
+In short, \fBntfs_lookup\fP looks for the inode represented by the dentry \fIdent\fP
+in the directory inode \fIdir_ino\fP and if found attaches the inode to the
+dentry \fIdent\fP.
+
+In more detail, the dentry \fIdent\fP specifies which inode to look for by
+supplying the name of the inode in \fIdent->d_name.name\fP. \fBntfs_lookup\fP
+converts the name to Unicode and walks the contents of the directory inode
+\fIdir_ino\fP looking for the converted Unicode name. If the name is found in the
+directory, the corresponding inode is loaded by calling \fBntfs_iget\fP on its
+inode number and the inode is associated with the dentry \fIdent\fP via a call to
+\fBd_splice_alias\fP.
+
+If the name is not found in the directory, a NULL inode is inserted into the
+dentry \fIdent\fP via a call to \fBd_add\fP. The dentry is then termed a negative
+dentry.
+
+Only if an actual error occurs, do we return an error via \fBERR_PTR\fP.
+
+In order to handle the case insensitivity issues of NTFS with regards to the
+dcache and the dcache requiring only one dentry per directory, we deal with
+dentry aliases that only differ in case in ->\fBntfs_lookup\fP while maintaining
+a case sensitive dcache. This means that we get the full benefit of dcache
+speed when the file/directory is looked up with the same case as returned by
+->\fBntfs_readdir\fP but that a lookup for any other case (or for the short file
+name) will not find anything in dcache and will enter ->\fBntfs_lookup\fP
+instead, where we search the directory for a fully matching file name
+(including case) and if that is not found, we search for a file name that
+matches with different case and if that has non-POSIX semantics we return
+that. We actually do only one search (case sensitive) and keep tabs on
+whether we have found a case insensitive match in the process.
+
+To simplify matters for us, we do not treat the short vs long filenames as
+two hard links but instead if the lookup matches a short filename, we
+return the dentry for the corresponding long filename instead.
+
+There are three cases we need to distinguish here:
+
+1) \fIdent\fP perfectly matches (i.e. including case) a directory entry with a
+file name in the WIN32 or POSIX namespaces. In this case
+\fBntfs_lookup_inode_by_name\fP will return with name set to NULL and we
+just \fBd_splice_alias\fP \fIdent\fP.
+2) \fIdent\fP matches (not including case) a directory entry with a file name in
+the WIN32 namespace. In this case \fBntfs_lookup_inode_by_name\fP will return
+with name set to point to a \fBkmalloc\fPed ntfs_name structure containing
+the properly cased little endian Unicode name. We convert the name to the
+current NLS code page, search if a dentry with this name already exists
+and if so return that instead of \fIdent\fP.  At this point things are
+complicated by the possibility of 'disconnected' dentries due to NFS
+which we deal with appropriately (see the code comments).  The VFS will
+then destroy the old \fIdent\fP and use the one we returned.  If a dentry is
+not found, we allocate a new one, \fBd_splice_alias\fP it, and return it as
+above.
+3) \fIdent\fP matches either perfectly or not (i.e. we don't care about case) a
+directory entry with a file name in the DOS namespace. In this case
+\fBntfs_lookup_inode_by_name\fP will return with name set to point to a
+\fBkmalloc\fPed ntfs_name structure containing the mft reference (cpu endian)
+of the inode. We use the mft reference to read the inode and to find the
+file name in the WIN32 namespace corresponding to the matched short file
+name. We then convert the name to the current NLS code page, and proceed
+searching for a dentry with this name, etc, as in case 2), above.
+
+Locking: Caller must hold i_mutex on the directory.

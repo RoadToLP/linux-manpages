@@ -1,0 +1,21 @@
+.TH "mv_interrupt" 9 "mv_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_interrupt \- Main interrupt event handler
+.SH SYNOPSIS
+.B "irqreturn_t" mv_interrupt
+.BI "(int irq "  ","
+.BI "void *dev_instance "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+unused
+.IP "dev_instance" 12
+private data; in this case the host structure
+
+Read the read only register to determine if any host
+controllers have pending interrupts.  If so, call lower level
+routine to handle.  Also check for PCI errors which are only
+reported here.
+
+LOCKING:
+This routine holds the host lock while processing pending
+interrupts.

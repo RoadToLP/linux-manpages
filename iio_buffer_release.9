@@ -1,0 +1,14 @@
+.TH "iio_buffer_release" 9 "iio_buffer_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_buffer_release \- Free a buffer's resources
+.SH SYNOPSIS
+.B "void" iio_buffer_release
+.BI "(struct kref *ref "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+Pointer to the kref embedded in the iio_buffer struct
+.SH "DESCRIPTION"
+This function is called when the last reference to the buffer has been
+dropped. It will typically free all resources allocated by the buffer. Do not
+call this function manually, always use \fBiio_buffer_put\fP when done using a
+buffer.

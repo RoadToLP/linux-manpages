@@ -1,0 +1,25 @@
+.TH "text_poke" 9 "text_poke" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+text_poke \- Update instructions on a live kernel
+.SH SYNOPSIS
+.B "void *" text_poke
+.BI "(void *addr "  ","
+.BI "const void *opcode "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+address to modify
+.IP "opcode" 12
+source of the copy
+.IP "len" 12
+length to copy
+.SH "DESCRIPTION"
+Only atomic text poke/set should be allowed when not doing early patching.
+It means the size must be writable atomically and the address must be aligned
+in a way that permits an atomic write. It also makes sure we fit on a single
+page.
+
+Note that the caller must ensure that if the modified code is part of a
+module, the module would not be removed during poking. This can be achieved
+by registering a module notifier, and ordering module removal and patching
+trough a mutex.

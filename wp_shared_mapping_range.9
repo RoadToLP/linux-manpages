@@ -1,0 +1,23 @@
+.TH "wp_shared_mapping_range" 9 "wp_shared_mapping_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wp_shared_mapping_range \- Write-protect all ptes in an address space range
+.SH SYNOPSIS
+.B "unsigned long" wp_shared_mapping_range
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t first_index "  ","
+.BI "pgoff_t nr "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address_space we want to write protect
+.IP "first_index" 12
+The first page offset in the range
+.IP "nr" 12
+Number of incremental page offsets to cover
+.SH "NOTE"
+This function currently skips transhuge page-table entries, since
+it's intended for dirty-tracking on the PTE level. It will warn on
+encountering transhuge write-enabled entries, though, and can easily be
+extended to handle them as well.
+.SH "RETURN"
+The number of ptes actually write-protected. Note that
+already write-protected ptes are not counted.

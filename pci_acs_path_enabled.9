@@ -1,0 +1,18 @@
+.TH "pci_acs_path_enabled" 9 "pci_acs_path_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_acs_path_enabled \- test ACS flags from start to end in a hierarchy
+.SH SYNOPSIS
+.B "bool" pci_acs_path_enabled
+.BI "(struct pci_dev *start "  ","
+.BI "struct pci_dev *end "  ","
+.BI "u16 acs_flags "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting downstream device
+.IP "end" 12
+ending upstream device or NULL to search to the root bus
+.IP "acs_flags" 12
+required flags
+.SH "DESCRIPTION"
+Walk up a device tree from start to end testing PCI ACS support.  If
+any step along the way does not support the required flags, return false.

@@ -1,0 +1,27 @@
+.TH "dma_direct_set_offset" 9 "dma_direct_set_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_direct_set_offset \- Assign scalar offset for a single DMA range.
+.SH SYNOPSIS
+.B "int" dma_direct_set_offset
+.BI "(struct device *dev "  ","
+.BI "phys_addr_t cpu_start "  ","
+.BI "dma_addr_t dma_start "  ","
+.BI "u64 size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer; needed to "own" the alloced memory.
+.IP "cpu_start" 12
+beginning of memory region covered by this offset.
+.IP "dma_start" 12
+beginning of DMA/PCI region covered by this offset.
+.IP "size" 12
+size of the region.
+.SH "DESCRIPTION"
+This is for the simple case of a uniform offset which cannot
+be discovered by "dma-ranges".
+
+It returns -ENOMEM if out of memory, -EINVAL if a map
+already exists, 0 otherwise.
+.SH "NOTE"
+any call to this from a driver is a bug.  The mapping needs
+to be described by the device tree or other firmware interfaces.

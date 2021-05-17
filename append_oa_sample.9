@@ -1,0 +1,30 @@
+.TH "append_oa_sample" 9 "append_oa_sample" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+append_oa_sample \- Copies single OA report into userspace read() buffer.
+.SH SYNOPSIS
+.B "int" append_oa_sample
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "size_t *offset "  ","
+.BI "const u8 *report "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.IP "buf" 12
+destination buffer given by userspace
+.IP "count" 12
+the number of bytes userspace wants to read
+.IP "offset" 12
+(inout): the current position for writing into \fIbuf\fP
+.IP "report" 12
+A single OA report to (optionally) include as part of the sample
+.SH "DESCRIPTION"
+The contents of a sample are configured through `DRM_I915_PERF_PROP_SAMPLE_*`
+properties when opening a stream, tracked as `stream->sample_flags`. This
+function copies the requested components of a single sample to the given
+\fBread\fP \fIbuf\fP.
+
+The \fIbuf\fP \fIoffset\fP will only be updated on success.
+.SH "RETURN"
+0 on success, negative error code on failure.

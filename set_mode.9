@@ -1,0 +1,16 @@
+.TH "set_mode" 9 "set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_mode \- Switch tuner to other mode.
+.SH SYNOPSIS
+.B "int" set_mode
+.BI "(struct tuner *t "  ","
+.BI "enum v4l2_tuner_type mode "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+a pointer to the module's internal struct_tuner
+.IP "mode" 12
+enum v4l2_type (radio or TV)
+.SH "DESCRIPTION"
+If tuner doesn't support the needed mode (radio or TV), prints a
+debug message and returns -EINVAL, changing its state to standby.
+Otherwise, changes the mode and returns 0.

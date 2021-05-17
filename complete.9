@@ -1,0 +1,17 @@
+.TH "complete" 9 "complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+complete \- - signals a single thread waiting on this completion
+.SH SYNOPSIS
+.B "void" complete
+.BI "(struct completion *x "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+holds the state of this particular completion
+.SH "DESCRIPTION"
+This will wake up a single thread waiting on this completion. Threads will be
+awakened in the same order in which they were queued.
+
+See also \fBcomplete_all\fP, \fBwait_for_completion\fP and related routines.
+
+If this function wakes up a task, it executes a full memory barrier before
+accessing the task state.

@@ -1,0 +1,23 @@
+.TH "max9611_read_single" 9 "max9611_read_single" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+max9611_read_single \- read a single value from ADC interface
+.SH SYNOPSIS
+.B "int" max9611_read_single
+.BI "(struct max9611_dev *max9611 "  ","
+.BI "enum max9611_conf_ids selector "  ","
+.BI "u16 *raw_val "  ");"
+.SH ARGUMENTS
+.IP "max9611" 12
+max9611 device
+.IP "selector" 12
+index for mux and register configuration
+.IP "raw_val" 12
+the value returned from ADC
+.SH "DESCRIPTION"
+
+Data registers are 16 bit long, spread between two 8 bit registers
+with consecutive addresses.
+Configure ADC mux first, then read register at address "reg_addr".
+The smbus_read_word routine asks for 16 bits and the ADC is kind enough
+to return values from "reg_addr" and "reg_addr + 1" consecutively.
+Data are transmitted with big-endian ordering: MSB arrives first.

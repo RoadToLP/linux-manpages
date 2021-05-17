@@ -1,0 +1,26 @@
+.TH "drm_gem_cma_dumb_create" 9 "drm_gem_cma_dumb_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_dumb_create \- create a dumb buffer object
+.SH SYNOPSIS
+.B "int" drm_gem_cma_dumb_create
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct drm_device *drm "  ","
+.BI "struct drm_mode_create_dumb *args "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+DRM file-private structure to create the dumb buffer for
+.IP "drm" 12
+DRM device
+.IP "args" 12
+IOCTL data
+.SH "DESCRIPTION"
+This function computes the pitch of the dumb buffer and rounds it up to an
+integer number of bytes per pixel. Drivers for hardware that doesn't have
+any additional restrictions on the pitch can directly use this function as
+their \fIdrm_driver.dumb_create\fP callback.
+
+For hardware with additional restrictions, drivers can adjust the fields
+set up by userspace and pass the IOCTL data along to the
+\fBdrm_gem_cma_dumb_create_internal\fP function.
+.SH "RETURN"
+0 on success or a negative error code on failure.

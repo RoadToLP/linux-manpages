@@ -1,0 +1,22 @@
+.TH "optidma_mode_setup" 9 "optidma_mode_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+optidma_mode_setup \- set mode data
+.SH SYNOPSIS
+.B "void" optidma_mode_setup
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "u8 mode "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA interface
+.IP "adev" 12
+ATA device
+.IP "mode" 12
+Mode to set
+
+Called to do the DMA or PIO mode setup. Timing numbers are all
+pre computed to keep the code clean. There are two tables depending
+on the hardware clock speed.
+
+WARNING: While we do this the IDE registers vanish. If we take an
+IRQ here we depend on the host set locking to avoid catastrophe.

@@ -1,0 +1,21 @@
+.TH "device_links_check_suppliers" 9 "device_links_check_suppliers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_links_check_suppliers \- Check presence of supplier drivers.
+.SH SYNOPSIS
+.B "int" device_links_check_suppliers
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Consumer device.
+.SH "DESCRIPTION"
+Check links from this device to any suppliers.  Walk the list of the device's
+links to suppliers and see if all of them are available.  If not, simply
+return -EPROBE_DEFER.
+
+We need to guarantee that the supplier will not go away after the check has
+been positive here.  It only can go away in \fB__device_release_driver\fP and
+that function  checks the device's links to consumers.  This means we need to
+mark the link as "consumer probe in progress" to make the supplier removal
+wait for us to complete (or bad things may happen).
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

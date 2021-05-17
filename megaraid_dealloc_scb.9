@@ -1,0 +1,17 @@
+.TH "megaraid_dealloc_scb" 9 "megaraid_dealloc_scb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_dealloc_scb \- return the scb to the free pool
+.SH SYNOPSIS
+.B "void" megaraid_dealloc_scb
+.BI "(adapter_t *adapter "  ","
+.BI "scb_t *scb "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+controller's soft state
+.IP "scb" 12
+scb to be freed
+.SH "DESCRIPTION"
+Return the scb back to the free list of scbs. The caller must 'flush' the
+SCB before calling us. E.g., performing pci_unamp and/or pci_sync etc.
+NOTE NOTE: Make sure the scb is not on any list before calling this
+routine.

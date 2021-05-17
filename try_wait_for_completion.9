@@ -1,0 +1,17 @@
+.TH "try_wait_for_completion" 9 "try_wait_for_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_wait_for_completion \- try to decrement a completion without blocking
+.SH SYNOPSIS
+.B "bool" try_wait_for_completion
+.BI "(struct completion *x "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+completion structure
+.SH "RETURN"
+0 if a decrement cannot be done without blocking
+1 if a decrement succeeded.
+
+If a completion is being used as a counting completion,
+attempt to decrement the counter without blocking. This
+enables us to avoid waiting if the resource the completion
+is protecting is not available.

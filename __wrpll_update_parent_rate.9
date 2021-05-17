@@ -1,0 +1,20 @@
+.TH "__wrpll_update_parent_rate" 9 "__wrpll_update_parent_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__wrpll_update_parent_rate \- update PLL data when parent rate changes
+.SH SYNOPSIS
+.B "int" __wrpll_update_parent_rate
+.BI "(struct wrpll_cfg *c "  ","
+.BI "unsigned long parent_rate "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+ptr to a struct wrpll_cfg record to write PLL data to
+.IP "parent_rate" 12
+PLL input refclk rate (pre-R-divider)
+.SH "DESCRIPTION"
+Pre-compute some data used by the PLL configuration algorithm when
+the PLL's reference clock rate changes.  The intention is to avoid
+computation when the parent rate remains constant - expected to be
+the common case.
+.SH "RETURN"
+0 upon success or -ERANGE if the reference clock rate is
+out of range.

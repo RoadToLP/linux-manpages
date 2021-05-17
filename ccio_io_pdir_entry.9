@@ -1,0 +1,40 @@
+.TH "ccio_io_pdir_entry" 9 "ccio_io_pdir_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccio_io_pdir_entry \- Initialize an I/O Pdir.
+.SH SYNOPSIS
+.B "void CCIO_INLINE" ccio_io_pdir_entry
+.BI "(u64 *pdir_ptr "  ","
+.BI "space_t sid "  ","
+.BI "unsigned long vba "  ","
+.BI "unsigned long hints "  ");"
+.SH ARGUMENTS
+.IP "pdir_ptr" 12
+A pointer into I/O Pdir.
+.IP "sid" 12
+The Space Identifier.
+.IP "vba" 12
+The virtual address.
+.IP "hints" 12
+The DMA Hint.
+.SH "DESCRIPTION"
+Given a virtual address (vba, arg2) and space id, (sid, arg1),
+load the I/O PDIR entry pointed to by pdir_ptr (arg0). Each IO Pdir
+entry consists of 8 bytes as shown below (MSB == bit 0):
+
+
+WORD 0:
++------+----------------+-----------------------------------------------+
+| Phys | Virtual Index  |               Phys                            |
+| 0:3  |     0:11       |               4:19                            |
+|4 bits|   12 bits      |              16 bits                          |
++------+----------------+-----------------------------------------------+
+WORD 1:
++-----------------------+-----------------------------------------------+
+|      Phys    |  Rsvd  | Prefetch |Update |Rsvd  |Lock  |Safe  |Valid  |
+|     20:39    |        | Enable   |Enable |      |Enable|DMA   |       |
+|    20 bits   | 5 bits | 1 bit    |1 bit  |2 bits|1 bit |1 bit |1 bit  |
++-----------------------+-----------------------------------------------+
+
+The virtual index field is filled with the results of the LCI
+(Load Coherence Index) instruction.  The 8 bits used for the virtual
+index are bits 12:19 of the value returned by LCI.

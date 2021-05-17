@@ -1,0 +1,27 @@
+.TH "test__insn_x86" 9 "test__insn_x86" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+test__insn_x86 \- test x86 instruction decoder - new instructions.
+.SH SYNOPSIS
+.B "int" test__insn_x86
+.BI "(int subtest __maybe_unused "  ","
+.BI "int subtest __maybe_unused "  ");"
+.SH ARGUMENTS
+.IP "__maybe_unused" 12
+-- undescribed --
+.IP "__maybe_unused" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function implements a test that decodes a selection of instructions and
+checks the results.  The Intel PT function that further categorizes
+instructions (i.e. \fBintel_pt_get_insn\fP) is also checked.
+
+The instructions are originally in insn-x86-dat-src.c which has been
+processed by scripts gen-insn-x86-dat.sh and gen-insn-x86-dat.awk to produce
+insn-x86-dat-32.c and insn-x86-dat-64.c which are included into this program.
+i.e. to add new instructions to the test, edit insn-x86-dat-src.c, run the
+gen-insn-x86-dat.sh script, make perf, and then run the test.
+
+If the test passes 0 is returned, otherwise -1 is returned.  Use the
+verbose (-v) option to see all the instructions and whether or not they
+decoded successfully.

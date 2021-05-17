@@ -1,0 +1,28 @@
+.TH "cpupri_find_fitness" 9 "cpupri_find_fitness" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpupri_find_fitness \- find the best (lowest-pri) CPU in the system
+.SH SYNOPSIS
+.B "int" cpupri_find_fitness
+.BI "(struct cpupri *cp "  ","
+.BI "struct task_struct *p "  ","
+.BI "struct cpumask *lowest_mask "  ","
+.BI "bool (*fitness_fn)(struct task_struct *p, int cpu) "  ");"
+.SH ARGUMENTS
+.IP "cp" 12
+The cpupri context
+.IP "p" 12
+The task
+.IP "lowest_mask" 12
+A mask to fill in with selected CPUs (or NULL)
+.IP "fitness_fn" 12
+A pointer to a function to do custom checks whether the CPU
+fits a specific criteria so that we only return those CPUs.
+.SH "NOTE"
+This function returns the recommended CPUs as calculated during the
+current invocation.  By the time the call returns, the CPUs may have in
+fact changed priorities any number of times.  While not ideal, it is not
+an issue of correctness since the normal rebalancer logic will correct
+any discrepancies created by racing against the uncertainty of the current
+priority configuration.
+.SH "RETURN"
+(int)bool - CPUs were found

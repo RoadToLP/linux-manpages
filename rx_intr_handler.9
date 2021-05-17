@@ -1,0 +1,20 @@
+.TH "rx_intr_handler" 9 "rx_intr_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rx_intr_handler \- Rx interrupt handler
+.SH SYNOPSIS
+.B "int" rx_intr_handler
+.BI "(struct ring_info *ring_data "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "ring_data" 12
+per ring structure.
+.IP "budget" 12
+budget for napi processing.
+.SH "DESCRIPTION"
+If the interrupt is because of a received frame or if the
+receive ring contains fresh as yet un-processed frames,this function is
+called. It picks out the RxD at which place the last Rx processing had
+stopped and sends the skb to the OSM's Rx handler and then increments
+the offset.
+Return Value:
+No. of napi packets processed.

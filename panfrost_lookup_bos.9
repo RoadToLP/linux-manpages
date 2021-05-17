@@ -1,0 +1,23 @@
+.TH "panfrost_lookup_bos" 9 "panfrost_lookup_bos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+panfrost_lookup_bos \- Sets up job->bo[] with the GEM objects referenced by the job.
+.SH SYNOPSIS
+.B "int" panfrost_lookup_bos
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct drm_panfrost_submit *args "  ","
+.BI "struct panfrost_job *job "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "file_priv" 12
+DRM file for this fd
+.IP "args" 12
+IOCTL args
+.IP "job" 12
+job being set up
+.SH "DESCRIPTION"
+Resolve handles from userspace to BOs and attach them to job.
+
+Note that this function doesn't need to unreference the BOs on
+failure, because that will happen at \fBpanfrost_job_cleanup\fP time.

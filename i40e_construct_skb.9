@@ -1,0 +1,19 @@
+.TH "i40e_construct_skb" 9 "i40e_construct_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_construct_skb \- Allocate skb and populate it
+.SH SYNOPSIS
+.B "struct sk_buff *" i40e_construct_skb
+.BI "(struct i40e_ring *rx_ring "  ","
+.BI "struct i40e_rx_buffer *rx_buffer "  ","
+.BI "struct xdp_buff *xdp "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring to transact packets on
+.IP "rx_buffer" 12
+rx buffer to pull data from
+.IP "xdp" 12
+xdp_buff pointing to the data
+.SH "DESCRIPTION"
+This function allocates an skb.  It then populates it with the page
+data from the current receive descriptor, taking care to set up the
+skb correctly.

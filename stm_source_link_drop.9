@@ -1,0 +1,15 @@
+.TH "stm_source_link_drop" 9 "stm_source_link_drop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm_source_link_drop \- detach stm_source from its stm device
+.SH SYNOPSIS
+.B "void" stm_source_link_drop
+.BI "(struct stm_source_device *src "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+stm_source device
+.SH "DESCRIPTION"
+Unlinking means disconnecting from source's STM device; after this
+writes will be unsuccessful until it is linked to a new STM device.
+
+This will happen on "stm_source_link" sysfs attribute write to undo
+the existing link (if any), or on linked STM device's de-registration.

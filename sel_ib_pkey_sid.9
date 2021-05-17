@@ -1,0 +1,20 @@
+.TH "sel_ib_pkey_sid" 9 "sel_ib_pkey_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sel_ib_pkey_sid \- Lookup the SID of a PKEY
+.SH SYNOPSIS
+.B "int" sel_ib_pkey_sid
+.BI "(u64 subnet_prefix "  ","
+.BI "u16 pkey_num "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "subnet_prefix" 12
+subnet_prefix
+.IP "pkey_num" 12
+pkey number
+.IP "sid" 12
+pkey SID
+.SH "DESCRIPTION"
+This function determines the SID of a PKEY using the fastest method
+possible.  First the pkey table is queried, but if an entry can't be found
+then the policy is queried and the result is added to the table to speedup
+future queries.  Returns zero on success, negative values on failure.

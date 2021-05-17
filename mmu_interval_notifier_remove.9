@@ -1,0 +1,15 @@
+.TH "mmu_interval_notifier_remove" 9 "mmu_interval_notifier_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_interval_notifier_remove \- Remove a interval notifier
+.SH SYNOPSIS
+.B "void" mmu_interval_notifier_remove
+.BI "(struct mmu_interval_notifier *interval_sub "  ");"
+.SH ARGUMENTS
+.IP "interval_sub" 12
+Interval subscription to unregister
+.SH "DESCRIPTION"
+This function must be paired with \fBmmu_interval_notifier_insert\fP. It cannot
+be called from any ops callback.
+
+Once this returns ops callbacks are no longer running on other CPUs and
+will not be called in future.

@@ -1,0 +1,15 @@
+.TH "_add_link" 9 "_add_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_add_link \- add an interconnect between two IP blocks
+.SH SYNOPSIS
+.B "int" _add_link
+.BI "(struct omap_hwmod_ocp_if *oi "  ");"
+.SH ARGUMENTS
+.IP "oi" 12
+pointer to a struct omap_hwmod_ocp_if record
+.SH "DESCRIPTION"
+Add struct omap_hwmod_link records connecting the slave IP block
+specified in \fIoi->slave\fP to \fIoi\fP.  This code is assumed to run before
+preemption or SMP has been enabled, thus avoiding the need for
+locking in this code.  Changes to this assumption will require
+additional locking.  Returns 0.

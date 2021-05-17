@@ -1,0 +1,33 @@
+.TH "security_net_peersid_resolve" 9 "security_net_peersid_resolve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_net_peersid_resolve \- Compare and resolve two network peer SIDs
+.SH SYNOPSIS
+.B "int" security_net_peersid_resolve
+.BI "(struct selinux_state *state "  ","
+.BI "u32 nlbl_sid "  ","
+.BI "u32 nlbl_type "  ","
+.BI "u32 xfrm_sid "  ","
+.BI "u32 *peer_sid "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "nlbl_sid" 12
+NetLabel SID
+.IP "nlbl_type" 12
+NetLabel labeling protocol type
+.IP "xfrm_sid" 12
+XFRM SID
+.IP "peer_sid" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Compare the \fInlbl_sid\fP and \fIxfrm_sid\fP values and if the two SIDs can be
+resolved into a single SID it is returned via \fIpeer_sid\fP and the function
+returns zero.  Otherwise \fIpeer_sid\fP is set to SECSID_NULL and the function
+returns a negative value.  A table summarizing the behavior is below:
+
+| function return |      \fIsid\fP
+------------------------------+-----------------+-----------------
+no peer labels                |        0        |    SECSID_NULL
+single peer label             |        0        |    <peer_label>
+multiple, consistent labels   |        0        |    <peer_label>
+multiple, inconsistent labels |    -<errno>     |    SECSID_NULL

@@ -1,0 +1,18 @@
+.TH "copy_from_user_nofault" 9 "copy_from_user_nofault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_from_user_nofault \- safely attempt to read from a user-space location
+.SH SYNOPSIS
+.B "long" copy_from_user_nofault
+.BI "(void *dst "  ","
+.BI "const void __user *src "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+pointer to the buffer that shall take the data
+.IP "src" 12
+address to read from. This must be a user address.
+.IP "size" 12
+size of the data chunk
+.SH "DESCRIPTION"
+Safely read from user address \fIsrc\fP to the buffer at \fIdst\fP. If a kernel fault
+happens, handle that and return -EFAULT.

@@ -1,0 +1,16 @@
+.TH "bond_3ad_update_lacp_rate" 9 "bond_3ad_update_lacp_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bond_3ad_update_lacp_rate \- change the lacp rate
+.SH SYNOPSIS
+.B "void" bond_3ad_update_lacp_rate
+.BI "(struct bonding *bond "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+bonding struct
+.SH "DESCRIPTION"
+When modify lacp_rate parameter via sysfs,
+update actor_oper_port_state of each port.
+
+Hold bond->mode_lock,
+so we can modify port->actor_oper_port_state,
+no matter bond is up or down.

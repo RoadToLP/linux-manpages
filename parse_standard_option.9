@@ -1,0 +1,18 @@
+.TH "parse_standard_option" 9 "parse_standard_option" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_standard_option \- parse a standard mount option.
+.SH SYNOPSIS
+.B "int" parse_standard_option
+.BI "(const char *option "  ");"
+.SH ARGUMENTS
+.IP "option" 12
+the option to parse
+.SH "DESCRIPTION"
+Normally, standard mount options like "sync" are passed to file-systems as
+flags. However, when a "rootflags=" kernel boot parameter is used, they may
+be present in the options string. This function tries to deal with this
+situation and parse standard options. Returns 0 if the option was not
+recognized, and the corresponding integer flag if it was.
+
+UBIFS is only interested in the "sync" option, so do not check for anything
+else.

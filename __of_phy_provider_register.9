@@ -1,0 +1,29 @@
+.TH "__of_phy_provider_register" 9 "__of_phy_provider_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__of_phy_provider_register \- create/register phy provider with the framework
+.SH SYNOPSIS
+.B "struct phy_provider *" __of_phy_provider_register
+.BI "(struct device *dev "  ","
+.BI "struct device_node *children "  ","
+.BI "struct module *owner "  ","
+.BI "struct phy * (*of_xlate)(struct device *dev, struct of_phandle_args *args) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device of the phy provider
+.IP "children" 12
+device node containing children (if different from dev->of_node)
+.IP "owner" 12
+the module owner containing of_xlate
+.IP "of_xlate" 12
+function pointer to obtain phy instance from phy provider
+.SH "DESCRIPTION"
+Creates struct phy_provider from dev and of_xlate function pointer.
+This is used in the case of dt boot for finding the phy instance from
+phy provider.
+
+If the PHY provider doesn't nest children directly but uses a separate
+child node to contain the individual children, the \fIchildren\fP parameter
+can be used to override the default. If NULL, the default (dev->of_node)
+will be used. If non-NULL, the device node must be a child (or further
+descendant) of dev->of_node. Otherwise an \fBERR_PTR\fP-encoded -EINVAL
+error code is returned.

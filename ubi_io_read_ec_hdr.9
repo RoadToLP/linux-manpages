@@ -1,0 +1,33 @@
+.TH "ubi_io_read_ec_hdr" 9 "ubi_io_read_ec_hdr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_read_ec_hdr \- read and check an erase counter header.
+.SH SYNOPSIS
+.B "int" ubi_io_read_ec_hdr
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "struct ubi_ec_hdr *ec_hdr "  ","
+.BI "int verbose "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+physical eraseblock to read from
+.IP "ec_hdr" 12
+a \fIstruct ubi_ec_hdr\fP object where to store the read erase counter
+header
+.IP "verbose" 12
+be verbose if the header is corrupted or was not found
+.SH "DESCRIPTION"
+This function reads erase counter header from physical eraseblock \fIpnum\fP and
+stores it in \fIec_hdr\fP. This function also checks CRC checksum of the read
+erase counter header. The following codes may be returned:
+
+o 0 if the CRC checksum is correct and the header was successfully read;
+o UBI_IO_BITFLIPS if the CRC is correct, but bit-flips were detected
+and corrected by the flash driver; this is harmless but may indicate that
+this eraseblock may become bad soon (but may be not);
+o UBI_IO_BAD_HDR if the erase counter header is corrupted (a CRC error);
+o UBI_IO_BAD_HDR_EBADMSG is the same as UBI_IO_BAD_HDR, but there also was
+a data integrity error (uncorrectable ECC error in case of NAND);
+o UBI_IO_FF if only 0xFF bytes were read (the PEB is supposedly empty)
+o a negative error code in case of failure.

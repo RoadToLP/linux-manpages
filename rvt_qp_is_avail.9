@@ -1,0 +1,23 @@
+.TH "rvt_qp_is_avail" 9 "rvt_qp_is_avail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_qp_is_avail \- determine queue capacity
+.SH SYNOPSIS
+.B "int" rvt_qp_is_avail
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct rvt_dev_info *rdi "  ","
+.BI "bool reserved_op "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the qp
+.IP "rdi" 12
+the rdmavt device
+.IP "reserved_op" 12
+is reserved operation
+.SH "DESCRIPTION"
+This assumes the s_hlock is held but the s_last
+qp variable is uncontrolled.
+
+For non reserved operations, the qp->s_avail
+may be changed.
+
+The return value is zero or a -ENOMEM.

@@ -1,0 +1,16 @@
+.TH "sync_mapping_buffers" 9 "sync_mapping_buffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sync_mapping_buffers \- write out & wait upon a mapping's "associated" buffers
+.SH SYNOPSIS
+.B "int" sync_mapping_buffers
+.BI "(struct address_space *mapping "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the mapping which wants those buffers written
+.SH "DESCRIPTION"
+Starts I/O against the buffers at mapping->private_list, and waits upon
+that I/O.
+
+Basically, this is a convenience function for \fBfsync\fP.
+\fImapping\fP is a file or directory which needs those buffers to be written for
+a successful \fBfsync\fP.

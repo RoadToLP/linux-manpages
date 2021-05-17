@@ -1,0 +1,26 @@
+.TH "ishtp_send_msg" 9 "ishtp_send_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ishtp_send_msg \- Send ishtp message
+.SH SYNOPSIS
+.B "int" ishtp_send_msg
+.BI "(struct ishtp_device *dev "  ","
+.BI "struct ishtp_msg_hdr *hdr "  ","
+.BI "void *msg "  ","
+.BI "void(*ipc_send_compl)(void *) "  ","
+.BI "void *ipc_send_compl_prm "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ishtp device
+.IP "hdr" 12
+Message header
+.IP "msg" 12
+Message contents
+.IP "ipc_send_compl" 12
+completion callback
+.IP "ipc_send_compl_prm" 12
+completion callback parameter
+.SH "DESCRIPTION"
+Send a multi fragment message via IPC. After sending the first fragment
+the completion callback is called to schedule transmit of next fragment.
+.SH "RETURN"
+This returns IPC send message status.

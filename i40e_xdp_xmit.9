@@ -1,0 +1,24 @@
+.TH "i40e_xdp_xmit" 9 "i40e_xdp_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_xdp_xmit \- Implements ndo_xdp_xmit
+.SH SYNOPSIS
+.B "int" i40e_xdp_xmit
+.BI "(struct net_device *dev "  ","
+.BI "int n "  ","
+.BI "struct xdp_frame **frames "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+netdev
+.IP "n" 12
+number of frames
+.IP "frames" 12
+array of XDP buffer pointers
+.IP "flags" 12
+XDP extra info
+.SH "DESCRIPTION"
+Returns number of frames successfully sent. Frames that fail are
+free'ed via XDP return API.
+
+For error cases, a negative errno code is returned and no-frames
+are transmitted (caller must handle freeing frames).

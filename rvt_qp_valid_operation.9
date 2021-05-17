@@ -1,0 +1,27 @@
+.TH "rvt_qp_valid_operation" 9 "rvt_qp_valid_operation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_qp_valid_operation \- validate post send wr request
+.SH SYNOPSIS
+.B "int" rvt_qp_valid_operation
+.BI "(struct rvt_qp *qp "  ","
+.BI "const struct rvt_operation_params *post_parms "  ","
+.BI "const struct ib_send_wr *wr "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the qp
+.IP "post_parms" 12
+the post send table for the driver
+.IP "wr" 12
+the work request
+.SH "DESCRIPTION"
+The routine validates the operation based on the
+validation table an returns the length of the operation
+which can extend beyond the ib_send_bw.  Operation
+dependent flags key atomic operation validation.
+
+There is an exception for UD qps that validates the pd and
+overrides the length to include the additional UD specific
+length.
+
+Returns a negative error or the length of the work request
+for building the swqe.

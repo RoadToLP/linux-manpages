@@ -1,0 +1,22 @@
+.TH "fc_fcp_lock_pkt" 9 "fc_fcp_lock_pkt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_lock_pkt \- Lock a fcp_pkt and increase its reference count
+.SH SYNOPSIS
+.B "int" fc_fcp_lock_pkt
+.BI "(struct fc_fcp_pkt *fsp "  ");"
+.SH ARGUMENTS
+.IP "fsp" 12
+The FCP packet to be locked and incremented
+.SH "DESCRIPTION"
+We should only return error if we return a command to SCSI-ml before
+getting a response. This can happen in cases where we send a abort, but
+do not wait for the response and the abort and command can be passing
+each other on the wire/network-layer.
+
+TODO: Maybe we should just have callers grab/release the lock and
+have a function that they call to verify the fsp and grab a ref if
+needed.
+.SH "NOTE"
+this function locks the packet and gets a reference to allow
+callers to call the completion function while the lock is held and
+not have to worry about the packets refcount.

@@ -1,0 +1,27 @@
+.TH "__scsi_device_lookup" 9 "__scsi_device_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__scsi_device_lookup \- find a device given the host (UNLOCKED)
+.SH SYNOPSIS
+.B "struct scsi_device *" __scsi_device_lookup
+.BI "(struct Scsi_Host *shost "  ","
+.BI "uint channel "  ","
+.BI "uint id "  ","
+.BI "u64 lun "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+SCSI host pointer
+.IP "channel" 12
+SCSI channel (zero if only one channel)
+.IP "id" 12
+SCSI target number (physical unit number)
+.IP "lun" 12
+SCSI Logical Unit Number
+.SH "DESCRIPTION"
+Looks up the scsi_device with the specified \fIchannel\fP, \fIid\fP, \fIlun\fP
+for a given host. The returned scsi_device does not have an additional
+reference.  You must hold the host's host_lock over this call and any access
+to the returned scsi_device.
+.SH "NOTE"
+The only reason why drivers would want to use this is because
+they need to access the device list in irq context.  Otherwise you
+really want to use scsi_device_lookup instead.

@@ -1,0 +1,19 @@
+.TH "ata_std_qc_defer" 9 "ata_std_qc_defer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_std_qc_defer \- Check whether a qc needs to be deferred
+.SH SYNOPSIS
+.B "int" ata_std_qc_defer
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+ATA command in question
+
+Non-NCQ commands cannot run with any other command, NCQ or
+not.  As upper layer only knows the queue depth, we are
+responsible for maintaining exclusion.  This function checks
+whether a new command \fIqc\fP can be issued.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.SH "RETURN"
+ATA_DEFER_* if deferring is needed, 0 otherwise.

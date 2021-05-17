@@ -1,0 +1,22 @@
+.TH "drm_gem_handle_create" 9 "drm_gem_handle_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_handle_create \- create a gem handle for an object
+.SH SYNOPSIS
+.B "int" drm_gem_handle_create
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct drm_gem_object *obj "  ","
+.BI "u32 *handlep "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+drm file-private structure to register the handle for
+.IP "obj" 12
+object to register
+.IP "handlep" 12
+pointer to return the created handle to the caller
+.SH "DESCRIPTION"
+Create a handle for this object. This adds a handle reference to the object,
+which includes a regular reference count. Callers will likely want to
+dereference the object afterwards.
+
+Since this publishes \fIobj\fP to userspace it must be fully set up by this point,
+drivers must call this last in their buffer object creation callbacks.

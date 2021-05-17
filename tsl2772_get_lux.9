@@ -1,0 +1,16 @@
+.TH "tsl2772_get_lux" 9 "tsl2772_get_lux" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tsl2772_get_lux \- Reads and calculates current lux value.
+.SH SYNOPSIS
+.B "int" tsl2772_get_lux
+.BI "(struct iio_dev *indio_dev "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+pointer to IIO device
+.SH "DESCRIPTION"
+The raw ch0 and ch1 values of the ambient light sensed in the last
+integration cycle are read from the device. The raw values are multiplied
+by a device-specific scale factor, and divided by the integration time and
+device gain. The code supports multiple lux equations through the lux table
+coefficients. A lux gain trim is applied to each lux equation, and then the
+maximum lux within the interval 0..65535 is selected.

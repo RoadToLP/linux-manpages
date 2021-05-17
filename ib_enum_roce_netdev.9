@@ -1,0 +1,25 @@
+.TH "ib_enum_roce_netdev" 9 "ib_enum_roce_netdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_enum_roce_netdev \- enumerate all RoCE ports
+.SH SYNOPSIS
+.B "void" ib_enum_roce_netdev
+.BI "(struct ib_device *ib_dev "  ","
+.BI "roce_netdev_filter filter "  ","
+.BI "void *filter_cookie "  ","
+.BI "roce_netdev_callback cb "  ","
+.BI "void *cookie "  ");"
+.SH ARGUMENTS
+.IP "ib_dev" 12
+IB device we want to query
+.IP "filter" 12
+Should we call the callback?
+.IP "filter_cookie" 12
+Cookie passed to filter
+.IP "cb" 12
+Callback to call for each found RoCE ports
+.IP "cookie" 12
+Cookie passed back to the callback
+.SH "DESCRIPTION"
+Enumerates all of the physical RoCE ports of ib_dev
+which are related to netdevice and calls \fBcallback\fP on each
+device for which \fBfilter\fP function returns non zero.

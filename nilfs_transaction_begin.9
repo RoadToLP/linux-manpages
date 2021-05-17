@@ -1,0 +1,36 @@
+.TH "nilfs_transaction_begin" 9 "nilfs_transaction_begin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_transaction_begin \- start indivisible file operations.
+.SH SYNOPSIS
+.B "int" nilfs_transaction_begin
+.BI "(struct super_block *sb "  ","
+.BI "struct nilfs_transaction_info *ti "  ","
+.BI "int vacancy_check "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block
+.IP "ti" 12
+nilfs_transaction_info
+.IP "vacancy_check" 12
+flags for vacancy rate checks
+.SH "DESCRIPTION"
+\fBnilfs_transaction_begin\fP acquires a reader/writer semaphore, called
+the segment semaphore, to make a segment construction and write tasks
+exclusive.  The function is used with \fBnilfs_transaction_commit\fP in pairs.
+The region enclosed by these two functions can be nested.  To avoid a
+deadlock, the semaphore is only acquired or released in the outermost call.
+
+This function allocates a nilfs_transaction_info struct to keep context
+information on it.  It is initialized and hooked onto the current task in
+the outermost call.  If a pre-allocated struct is given to \fIti\fP, it is used
+instead; otherwise a new struct is assigned from a slab.
+
+When \fIvacancy_check\fP flag is set, this function will check the amount of
+free space, and will wait for the GC to reclaim disk space if low capacity.
+
+Return Value: On success, 0 is returned. On error, one of the following
+negative error code is returned.
+
+-ENOMEM - Insufficient memory available.
+
+-ENOSPC - No space left on device

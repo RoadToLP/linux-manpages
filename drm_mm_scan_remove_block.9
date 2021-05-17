@@ -1,0 +1,25 @@
+.TH "drm_mm_scan_remove_block" 9 "drm_mm_scan_remove_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mm_scan_remove_block \- remove a node from the scan list
+.SH SYNOPSIS
+.B "bool" drm_mm_scan_remove_block
+.BI "(struct drm_mm_scan *scan "  ","
+.BI "struct drm_mm_node *node "  ");"
+.SH ARGUMENTS
+.IP "scan" 12
+the active drm_mm scanner
+.IP "node" 12
+drm_mm_node to remove
+.SH "DESCRIPTION"
+Nodes **must** be removed in exactly the reverse order from the scan list as
+they have been added (e.g. using \fBlist_add\fP as they are added and then
+\fBlist_for_each\fP over that eviction list to remove), otherwise the internal
+state of the memory manager will be corrupted.
+
+When the scan list is empty, the selected memory nodes can be freed. An
+immediately following \fBdrm_mm_insert_node_in_range_generic\fP or one of the
+simpler versions of that function with !DRM_MM_SEARCH_BEST will then return
+the just freed block (because it's at the top of the free_stack list).
+.SH "RETURN"
+True if this block should be evicted, false otherwise. Will always
+return false when no hole has been found.

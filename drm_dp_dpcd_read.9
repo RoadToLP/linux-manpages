@@ -1,0 +1,25 @@
+.TH "drm_dp_dpcd_read" 9 "drm_dp_dpcd_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_dpcd_read \- read a series of bytes from the DPCD
+.SH SYNOPSIS
+.B "ssize_t" drm_dp_dpcd_read
+.BI "(struct drm_dp_aux *aux "  ","
+.BI "unsigned int offset "  ","
+.BI "void *buffer "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "aux" 12
+DisplayPort AUX channel (SST or MST)
+.IP "offset" 12
+address of the (first) register to read
+.IP "buffer" 12
+buffer to store the register values
+.IP "size" 12
+number of bytes in \fIbuffer\fP
+.SH "DESCRIPTION"
+Returns the number of bytes transferred on success, or a negative error
+code on failure. -EIO is returned if the request was NAKed by the sink or
+if the retry count was exceeded. If not all bytes were transferred, this
+function returns -EPROTO. Errors from the underlying AUX channel transfer
+function, with the exception of -EBUSY (which causes the transaction to
+be retried), are propagated to the caller.

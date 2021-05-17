@@ -1,0 +1,18 @@
+.TH "llc_sap_state_process" 9 "llc_sap_state_process" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_sap_state_process \- sends event to SAP state machine
+.SH SYNOPSIS
+.B "void" llc_sap_state_process
+.BI "(struct llc_sap *sap "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sap" 12
+sap to use
+.IP "skb" 12
+pointer to occurred event
+
+After executing actions of the event, upper layer will be indicated
+if needed(on receiving an UI frame). sk can be null for the
+datalink_proto case.
+
+This function always consumes a reference to the skb.

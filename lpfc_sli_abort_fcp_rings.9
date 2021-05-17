@@ -1,0 +1,14 @@
+.TH "lpfc_sli_abort_fcp_rings" 9 "lpfc_sli_abort_fcp_rings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_abort_fcp_rings \- Abort all iocbs in all FCP rings
+.SH SYNOPSIS
+.B "void" lpfc_sli_abort_fcp_rings
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function aborts all iocbs in FCP rings and frees all the iocb
+objects in txq. This function issues an abort iocb for all the iocb commands
+in txcmplq. The iocbs in the txcmplq is not guaranteed to complete before
+the return of this function. The caller is not required to hold any locks.

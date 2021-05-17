@@ -1,0 +1,22 @@
+.TH "i915_perf_add_config_ioctl" 9 "i915_perf_add_config_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_perf_add_config_ioctl \- DRM ioctl() for userspace to add a new OA config
+.SH SYNOPSIS
+.B "int" i915_perf_add_config_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "data" 12
+ioctl data (pointer to struct drm_i915_perf_oa_config) copied from
+userspace (unvalidated)
+.IP "file" 12
+drm file
+.SH "DESCRIPTION"
+Validates the submitted OA register to be saved into a new OA config that
+can then be used for programming the OA unit and its NOA network.
+.SH "RETURN"
+A new allocated config number to be used with the perf open ioctl
+or a negative error code on failure.

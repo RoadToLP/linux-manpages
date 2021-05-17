@@ -1,0 +1,24 @@
+.TH "sys_flock" 9 "sys_flock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_flock \- - flock() system call.
+.SH SYNOPSIS
+.B "long" sys_flock
+.BI "(unsigned int fd "  ","
+.BI "unsigned int cmd "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+the file descriptor to lock.
+.IP "cmd" 12
+the type of lock to apply.
+
+Apply a FL_FLOCK style lock to an open file descriptor.
+The \fIcmd\fP can be one of:
+
+- LOCK_SH -- a shared lock.
+- LOCK_EX -- an exclusive lock.
+- LOCK_UN -- remove an existing lock.
+- LOCK_MAND -- a 'mandatory' flock.
+This exists to emulate Windows Share Modes.
+
+LOCK_MAND can be combined with LOCK_READ or LOCK_WRITE to allow other
+processes read and write access respectively.

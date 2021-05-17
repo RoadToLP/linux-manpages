@@ -1,0 +1,17 @@
+.TH "ima_inode_post_setattr" 9 "ima_inode_post_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_inode_post_setattr \- reflect file metadata changes
+.SH SYNOPSIS
+.B "void" ima_inode_post_setattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dentry" 12
+pointer to the affected dentry
+.SH "DESCRIPTION"
+Changes to a dentry's metadata might result in needing to appraise.
+
+This function is called from \fBnotify_change\fP, which expects the caller
+to lock the inode's i_mutex.

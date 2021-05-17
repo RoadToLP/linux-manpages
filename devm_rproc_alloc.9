@@ -1,0 +1,26 @@
+.TH "devm_rproc_alloc" 9 "devm_rproc_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_rproc_alloc \- resource managed rproc_alloc()
+.SH SYNOPSIS
+.B "struct rproc *" devm_rproc_alloc
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct rproc_ops *ops "  ","
+.BI "const char *firmware "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the underlying device
+.IP "name" 12
+name of this remote processor
+.IP "ops" 12
+platform-specific handlers (mainly start/stop)
+.IP "firmware" 12
+name of firmware file to load, can be NULL
+.IP "len" 12
+length of private data needed by the rproc driver (in bytes)
+.SH "DESCRIPTION"
+This function performs like \fBrproc_alloc\fP but the acquired rproc device will
+automatically be released on driver detach.
+.SH "RETURN"
+new rproc instance, or NULL on failure

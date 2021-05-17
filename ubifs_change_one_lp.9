@@ -1,0 +1,32 @@
+.TH "ubifs_change_one_lp" 9 "ubifs_change_one_lp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_change_one_lp \- change LEB properties.
+.SH SYNOPSIS
+.B "int" ubifs_change_one_lp
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int free "  ","
+.BI "int dirty "  ","
+.BI "int flags_set "  ","
+.BI "int flags_clean "  ","
+.BI "int idx_gc_cnt "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "lnum" 12
+LEB to change properties for
+.IP "free" 12
+amount of free space
+.IP "dirty" 12
+amount of dirty space
+.IP "flags_set" 12
+flags to set
+.IP "flags_clean" 12
+flags to clean
+.IP "idx_gc_cnt" 12
+change to the count of idx_gc list
+.SH "DESCRIPTION"
+This function changes properties of LEB \fIlnum\fP. It is a helper wrapper over
+'\fBubifs_change_lp\fP' which hides lprops get/release. The arguments are the
+same as in case of '\fBubifs_change_lp\fP'. Returns zero in case of success and
+a negative error code in case of failure.

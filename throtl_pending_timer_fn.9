@@ -1,0 +1,20 @@
+.TH "throtl_pending_timer_fn" 9 "throtl_pending_timer_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throtl_pending_timer_fn \- timer function for service_queue->pending_timer
+.SH SYNOPSIS
+.B "void" throtl_pending_timer_fn
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+the pending_timer member of the throtl_service_queue being serviced
+.SH "DESCRIPTION"
+This timer is armed when a child throtl_grp with active bio's become
+pending and queued on the service_queue's pending_tree and expires when
+the first child throtl_grp should be dispatched.  This function
+dispatches bio's from the children throtl_grps to the parent
+service_queue.
+
+If the parent's parent is another throtl_grp, dispatching is propagated
+by either arming its pending_timer or repeating dispatch directly.  If
+the top-level service_tree is reached, throtl_data->dispatch_work is
+kicked so that the ready bio's are issued.

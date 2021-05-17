@@ -1,0 +1,18 @@
+.TH "lpfc_handle_rrq_active" 9 "lpfc_handle_rrq_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_handle_rrq_active \- Checks if RRQ has waithed RATOV.
+.SH SYNOPSIS
+.B "void" lpfc_handle_rrq_active
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is called with hbalock held. This function
+Checks if stop_time (ratov from setting rrq active) has
+been reached, if it has and the send_rrq flag is set then
+it will call lpfc_send_rrq. If the send_rrq flag is not set
+then it will just call the routine to clear the rrq and
+free the rrq resource.
+The timer is set to the next rrq that is going to expire before
+leaving the routine.

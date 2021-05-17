@@ -1,0 +1,30 @@
+.TH "z_comp_init" 9 "z_comp_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z_comp_init \- initialize a previously-allocated compressor.
+.SH SYNOPSIS
+.B "int" z_comp_init
+.BI "(void *arg "  ","
+.BI "unsigned char *options "  ","
+.BI "int opt_len "  ","
+.BI "int unit "  ","
+.BI "int hdrlen "  ","
+.BI "int debug "  ");"
+.SH ARGUMENTS
+.IP "arg" 12
+pointer to the private state for the compressor
+.IP "options" 12
+pointer to the CCP option data describing the
+compression that was negotiated with the peer
+.IP "opt_len" 12
+length of the CCP option data at \fIoptions\fP
+.IP "unit" 12
+PPP unit number for diagnostic messages
+.IP "hdrlen" 12
+ignored (present for backwards compatibility)
+.IP "debug" 12
+debug flag; if non-zero, debug messages are printed.
+
+The CCP options described by \fIoptions\fP must match the options
+specified when the compressor was allocated.  The compressor
+history is reset.  Returns 0 for failure (CCP options don't
+match) or 1 for success.

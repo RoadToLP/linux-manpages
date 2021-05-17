@@ -1,0 +1,21 @@
+.TH "lpfc_sli_next_iocb_slot" 9 "lpfc_sli_next_iocb_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_next_iocb_slot \- Get next iocb slot in the ring
+.SH SYNOPSIS
+.B "IOCB_t *" lpfc_sli_next_iocb_slot
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.SH "DESCRIPTION"
+This function is called with hbalock held and the caller must post the
+iocb without releasing the lock. If the caller releases the lock,
+iocb slot returned by the function is not guaranteed to be available.
+The function returns pointer to the next available iocb slot if there
+is available slot in the ring, else it returns NULL.
+If the get index of the ring is ahead of the put index, the function
+will post an error attention event to the worker thread to take the
+HBA to offline state.

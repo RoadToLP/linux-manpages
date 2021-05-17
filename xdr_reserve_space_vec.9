@@ -1,0 +1,20 @@
+.TH "xdr_reserve_space_vec" 9 "xdr_reserve_space_vec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_reserve_space_vec \- Reserves a large amount of buffer space for sending
+.SH SYNOPSIS
+.B "int" xdr_reserve_space_vec
+.BI "(struct xdr_stream *xdr "  ","
+.BI "struct kvec *vec "  ","
+.BI "size_t nbytes "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream
+.IP "vec" 12
+pointer to a kvec array
+.IP "nbytes" 12
+number of bytes to reserve
+.SH "DESCRIPTION"
+Reserves enough buffer space to encode 'nbytes' of data and stores the
+pointers in 'vec'. The size argument passed to \fBxdr_reserve_space\fP is
+determined based on the number of bytes remaining in the current page to
+avoid invalidating iov_base pointers when \fBxdr_commit_encode\fP is called.

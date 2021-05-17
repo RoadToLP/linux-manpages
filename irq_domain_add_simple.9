@@ -1,0 +1,31 @@
+.TH "irq_domain_add_simple" 9 "irq_domain_add_simple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_domain_add_simple \- Register an irq_domain and optionally map a range of irqs
+.SH SYNOPSIS
+.B "struct irq_domain *" irq_domain_add_simple
+.BI "(struct device_node *of_node "  ","
+.BI "unsigned int size "  ","
+.BI "unsigned int first_irq "  ","
+.BI "const struct irq_domain_ops *ops "  ","
+.BI "void *host_data "  ");"
+.SH ARGUMENTS
+.IP "of_node" 12
+pointer to interrupt controller's device tree node.
+.IP "size" 12
+total number of irqs in mapping
+.IP "first_irq" 12
+first number of irq block assigned to the domain,
+pass zero to assign irqs on-the-fly. If first_irq is non-zero, then
+pre-map all of the irqs in the domain to virqs starting at first_irq.
+.IP "ops" 12
+domain callbacks
+.IP "host_data" 12
+Controller private data pointer
+.SH "DESCRIPTION"
+Allocates an irq_domain, and optionally if first_irq is positive then also
+allocate irq_descs and map all of the hwirqs to virqs starting at first_irq.
+
+This is intended to implement the expected behaviour for most
+interrupt controllers. If device tree is used, then first_irq will be 0 and
+irqs get mapped dynamically on the fly. However, if the controller requires
+static virq assignments (non-DT boot) then it will set that up correctly.

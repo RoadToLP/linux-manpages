@@ -1,0 +1,16 @@
+.TH "register_root_hub" 9 "register_root_hub" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_root_hub \- called by usb_add_hcd() to register a root hub
+.SH SYNOPSIS
+.B "int" register_root_hub
+.BI "(struct usb_hcd *hcd "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+host controller for this root hub
+.SH "DESCRIPTION"
+This function registers the root hub with the USB subsystem.  It sets up
+the device properly in the device tree and then calls \fBusb_new_device\fP
+to register the usb device.  It also assigns the root hub's USB address
+(always 1).
+.SH "RETURN"
+0 if successful. A negative error code otherwise.

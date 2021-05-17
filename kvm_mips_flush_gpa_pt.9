@@ -1,0 +1,22 @@
+.TH "kvm_mips_flush_gpa_pt" 9 "kvm_mips_flush_gpa_pt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_flush_gpa_pt \- Flush a range of guest physical addresses.
+.SH SYNOPSIS
+.B "bool" kvm_mips_flush_gpa_pt
+.BI "(struct kvm *kvm "  ","
+.BI "gfn_t start_gfn "  ","
+.BI "gfn_t end_gfn "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+KVM pointer.
+.IP "start_gfn" 12
+Guest frame number of first page in GPA range to flush.
+.IP "end_gfn" 12
+Guest frame number of last page in GPA range to flush.
+.SH "DESCRIPTION"
+Flushes a range of GPA mappings from the GPA page tables.
+
+The caller must hold the \fIkvm->mmu_lock\fP spinlock.
+.SH "RETURN"
+Whether its safe to remove the top level page directory because
+all lower levels have been removed.

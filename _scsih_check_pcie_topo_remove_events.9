@@ -1,0 +1,17 @@
+.TH "_scsih_check_pcie_topo_remove_events" 9 "_scsih_check_pcie_topo_remove_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_scsih_check_pcie_topo_remove_events \- sanity check on topo events
+.SH SYNOPSIS
+.B "void" _scsih_check_pcie_topo_remove_events
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "Mpi26EventDataPCIeTopologyChangeList_t *event_data "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "event_data" 12
+the event data payload
+.SH "DESCRIPTION"
+This handles the case where driver receives multiple switch
+or device add and delete events in a single shot.  When there
+is a delete event the routine will void any pending add
+events waiting in the event queue.

@@ -1,0 +1,22 @@
+.TH "svc_rdma_send_reply_chunk" 9 "svc_rdma_send_reply_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_send_reply_chunk \- Write all segments in the Reply chunk
+.SH SYNOPSIS
+.B "int" svc_rdma_send_reply_chunk
+.BI "(struct svcxprt_rdma *rdma "  ","
+.BI "const struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "const struct xdr_buf *xdr "  ");"
+.SH ARGUMENTS
+.IP "rdma" 12
+controlling RDMA transport
+.IP "rctxt" 12
+Write and Reply chunks from client
+.IP "xdr" 12
+xdr_buf containing an RPC Reply
+.SH "DESCRIPTION"
+Returns a non-negative number of bytes the chunk consumed, or
+-E2BIG if the payload was larger than the Reply chunk,
+-EINVAL if client provided too many segments,
+-ENOMEM if rdma_rw context pool was exhausted,
+-ENOTCONN if posting failed (connection is lost),
+-EIO if rdma_rw initialization failed (DMA mapping, etc).

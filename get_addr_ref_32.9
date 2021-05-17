@@ -1,0 +1,22 @@
+.TH "get_addr_ref_32" 9 "get_addr_ref_32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_addr_ref_32 \- Obtain a 32-bit linear address
+.SH SYNOPSIS
+.B "void __user *" get_addr_ref_32
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction with ModRM, SIB bytes and displacement
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.SH "DESCRIPTION"
+This function is to be used with 32-bit address encodings to obtain the
+linear memory address referred by the instruction's ModRM, SIB,
+displacement bytes and segment base address, as applicable. If in protected
+mode, segment limits are enforced.
+
+Linear address referenced by instruction and registers on success.
+
+-1L on error.
+.SH "RETURN"

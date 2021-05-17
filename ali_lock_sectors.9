@@ -1,0 +1,15 @@
+.TH "ali_lock_sectors" 9 "ali_lock_sectors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ali_lock_sectors \- Keep older devices to 255 sector mode
+.SH SYNOPSIS
+.B "void" ali_lock_sectors
+.BI "(struct ata_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+Device
+
+Called during the bus probe for each device that is found. We use
+this call to lock the sector count of the device to 255 or less on
+older ALi controllers. If we didn't do this then large I/O's would
+require LBA48 commands which the older ALi requires are issued by
+slower PIO methods

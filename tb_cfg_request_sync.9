@@ -1,0 +1,20 @@
+.TH "tb_cfg_request_sync" 9 "tb_cfg_request_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_cfg_request_sync \- Start control request and wait until it completes
+.SH SYNOPSIS
+.B "struct tb_cfg_result" tb_cfg_request_sync
+.BI "(struct tb_ctl *ctl "  ","
+.BI "struct tb_cfg_request *req "  ","
+.BI "int timeout_msec "  ");"
+.SH ARGUMENTS
+.IP "ctl" 12
+Control channel to use
+.IP "req" 12
+Request to start
+.IP "timeout_msec" 12
+Timeout how long to wait \fIreq\fP to complete
+.SH "DESCRIPTION"
+Starts a control request and waits until it completes. If timeout
+triggers the request is canceled before function returns. Note the
+caller needs to make sure only one message for given switch is active
+at a time.

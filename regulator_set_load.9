@@ -1,0 +1,41 @@
+.TH "regulator_set_load" 9 "regulator_set_load" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_set_load \- set regulator load
+.SH SYNOPSIS
+.B "int" regulator_set_load
+.BI "(struct regulator *regulator "  ","
+.BI "int uA_load "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.IP "uA_load" 12
+load current
+.SH "DESCRIPTION"
+Notifies the regulator core of a new device load. This is then used by
+DRMS (if enabled by constraints) to set the most efficient regulator
+operating mode for the new regulator loading.
+
+Consumer devices notify their supply regulator of the maximum power
+they will require (can be taken from device datasheet in the power
+consumption tables) when they change operational status and hence power
+state. Examples of operational state changes that can affect power
+consumption are :-
+
+o Device is opened / closed.
+o Device I/O is about to begin or has just finished.
+o Device is idling in between work.
+
+This information is also exported via sysfs to userspace.
+
+DRMS will sum the total requested load on the regulator and change
+to the most efficient operating mode if platform constraints allow.
+
+If a regulator is an always-on regulator then an individual consumer's
+load will still be removed if that consumer is fully disabled.
+
+On error a negative errno is returned.
+.SH "NOTE"
+when a regulator consumer requests to have a regulator
+disabled then any load that consumer requested no longer counts
+toward the total requested load.  If the regulator is re-enabled
+then the previously requested load will start counting again.

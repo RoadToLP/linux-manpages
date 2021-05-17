@@ -1,0 +1,27 @@
+.TH "scsi_send_eh_cmnd" 9 "scsi_send_eh_cmnd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_send_eh_cmnd \- submit a scsi command as part of error recovery
+.SH SYNOPSIS
+.B "int" scsi_send_eh_cmnd
+.BI "(struct scsi_cmnd *scmd "  ","
+.BI "unsigned char *cmnd "  ","
+.BI "int cmnd_size "  ","
+.BI "int timeout "  ","
+.BI "unsigned sense_bytes "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+SCSI command structure to hijack
+.IP "cmnd" 12
+CDB to send
+.IP "cmnd_size" 12
+size in bytes of \fIcmnd\fP
+.IP "timeout" 12
+timeout for this request
+.IP "sense_bytes" 12
+size of sense data to copy or 0
+.SH "DESCRIPTION"
+This function is used to send a scsi command down to a target device
+as part of the error recovery process. See also \fBscsi_eh_prep_cmnd\fP above.
+
+Return value:
+SUCCESS or FAILED or NEEDS_RETRY

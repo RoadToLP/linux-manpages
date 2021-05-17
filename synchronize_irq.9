@@ -1,0 +1,20 @@
+.TH "synchronize_irq" 9 "synchronize_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synchronize_irq \- wait for pending IRQ handlers (on other CPUs)
+.SH SYNOPSIS
+.B "void" synchronize_irq
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number to wait for
+
+This function waits for any pending IRQ handlers for this interrupt
+to complete before returning. If you use this function while
+holding a resource the IRQ handler may need you will deadlock.
+
+Can only be called from preemptible code as it might sleep when
+an interrupt thread is associated to \fIirq\fP.
+
+It optionally makes sure (when the irq chip supports that method)
+that the interrupt is not pending in any CPU and waiting for
+service.

@@ -1,0 +1,17 @@
+.TH "prepopulate_bars" 9 "prepopulate_bars" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepopulate_bars \- Fill in BARs with defaults
+.SH SYNOPSIS
+.B "void" prepopulate_bars
+.BI "(struct hv_pcibus_device *hbus "  ");"
+.SH ARGUMENTS
+.IP "hbus" 12
+Root PCI bus, as understood by this driver
+.SH "DESCRIPTION"
+The core PCI driver code seems much, much happier if the BARs
+for a device have values upon first scan. So fill them in.
+The algorithm below works down from large sizes to small,
+attempting to pack the assignments optimally. The assumption,
+enforced in other parts of the code, is that the beginning of
+the memory-mapped I/O space will be aligned on the largest
+BAR size.

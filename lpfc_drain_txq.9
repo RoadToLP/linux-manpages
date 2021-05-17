@@ -1,0 +1,15 @@
+.TH "lpfc_drain_txq" 9 "lpfc_drain_txq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_drain_txq \- Drain the txq
+.SH SYNOPSIS
+.B "uint32_t" lpfc_drain_txq
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function attempt to submit IOCBs on the txq
+to the adapter.  For SLI4 adapters, the txq contains
+ELS IOCBs that have been deferred because the there
+are no SGLs.  This congestion can occur with large
+vport counts during node discovery.

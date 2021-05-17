@@ -1,0 +1,30 @@
+.TH "nilfs_cpfile_find_checkpoint_block" 9 "nilfs_cpfile_find_checkpoint_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_cpfile_find_checkpoint_block \- find and get a buffer on cpfile
+.SH SYNOPSIS
+.B "int" nilfs_cpfile_find_checkpoint_block
+.BI "(struct inode *cpfile "  ","
+.BI "__u64 start_cno "  ","
+.BI "__u64 end_cno "  ","
+.BI "__u64 *cnop "  ","
+.BI "struct buffer_head **bhp "  ");"
+.SH ARGUMENTS
+.IP "cpfile" 12
+inode of cpfile
+.IP "start_cno" 12
+start checkpoint number (inclusive)
+.IP "end_cno" 12
+end checkpoint number (inclusive)
+.IP "cnop" 12
+place to store the next checkpoint number
+.IP "bhp" 12
+place to store a pointer to buffer_head struct
+.SH "DESCRIPTION"
+Return Value: On success, it returns 0. On error, the following negative
+error code is returned.
+
+-ENOMEM - Insufficient memory available.
+
+-EIO - I/O error
+
+-ENOENT - no block exists in the range.

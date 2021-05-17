@@ -1,0 +1,20 @@
+.TH "fm10k_mbx_pull_head" 9 "fm10k_mbx_pull_head" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_pull_head \- Pulls data off of head of Tx FIFO
+.SH SYNOPSIS
+.B "void" fm10k_mbx_pull_head
+.BI "(struct fm10k_hw *hw "  ","
+.BI "struct fm10k_mbx_info *mbx "  ","
+.BI "u16 head "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mbx" 12
+pointer to mailbox
+.IP "head" 12
+acknowledgement number last received
+
+This function will push the tail index forward based on the remote
+head index.  It will then pull up to mbmem_len DWORDs off of the
+head of the FIFO and will place it in the MBMEM registers
+associated with the mailbox.

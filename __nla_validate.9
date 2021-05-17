@@ -1,0 +1,31 @@
+.TH "__nla_validate" 9 "__nla_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nla_validate \- Validate a stream of attributes
+.SH SYNOPSIS
+.B "int" __nla_validate
+.BI "(const struct nlattr *head "  ","
+.BI "int len "  ","
+.BI "int maxtype "  ","
+.BI "const struct nla_policy *policy "  ","
+.BI "unsigned int validate "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+head of attribute stream
+.IP "len" 12
+length of attribute stream
+.IP "maxtype" 12
+maximum attribute type to be expected
+.IP "policy" 12
+validation policy
+.IP "validate" 12
+validation strictness
+.IP "extack" 12
+extended ACK report struct
+.SH "DESCRIPTION"
+Validates all attributes in the specified attribute stream against the
+specified policy. Validation depends on the validate flags passed, see
+\fIenum netlink_validation\fP for more details on that.
+See documenation of struct nla_policy for more details.
+
+Returns 0 on success or a negative error code.

@@ -1,0 +1,19 @@
+.TH "pcpu_chunk_relocate" 9 "pcpu_chunk_relocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_chunk_relocate \- put chunk in the appropriate chunk slot
+.SH SYNOPSIS
+.B "void" pcpu_chunk_relocate
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int oslot "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "oslot" 12
+the previous slot it was on
+.SH "DESCRIPTION"
+This function is called after an allocation or free changed \fIchunk\fP.
+New slot according to the changed state is determined and \fIchunk\fP is
+moved to the slot.  Note that the reserved chunk is never put on
+chunk slots.
+.SH "CONTEXT"
+pcpu_lock.

@@ -1,0 +1,17 @@
+.TH "rcar_fcp_enable" 9 "rcar_fcp_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcar_fcp_enable \- Enable an FCP
+.SH SYNOPSIS
+.B "int" rcar_fcp_enable
+.BI "(struct rcar_fcp_device *fcp "  ");"
+.SH ARGUMENTS
+.IP "fcp" 12
+The FCP instance
+.SH "DESCRIPTION"
+Before any memory access through an FCP is performed by a module, the FCP
+must be enabled by a call to this function. The enable calls are reference
+counted, each successful call must be followed by one \fBrcar_fcp_disable\fP
+call when no more memory transfer can occur through the FCP.
+
+Return 0 on success or a negative error code if an error occurs. The enable
+reference count isn't increased when this function returns an error.

@@ -1,0 +1,21 @@
+.TH "i3c_bus_normaluse_lock" 9 "i3c_bus_normaluse_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_bus_normaluse_lock \- Lock the bus for a normal operation
+.SH SYNOPSIS
+.B "void" i3c_bus_normaluse_lock
+.BI "(struct i3c_bus *bus "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+I3C bus to take the lock on
+.SH "DESCRIPTION"
+This function takes the bus lock for any operation that is not a maintenance
+operation (see \fBi3c_bus_maintenance_lock\fP for a non-exhaustive list of
+maintenance operations). Basically all communications with I3C devices are
+normal operations (HDR, SDR transfers or CCC commands that do not change bus
+state or I3C dynamic address).
+
+Note that this lock is not guaranteeing serialization of normal operations.
+In other words, transfer requests passed to the I3C master can be submitted
+in parallel and I3C master drivers have to use their own locking to make
+sure two different communications are not inter-mixed, or access to the
+output/input queue is not done while the engine is busy.

@@ -1,0 +1,21 @@
+.TH "cdns3_ep_onchip_buffer_reserve" 9 "cdns3_ep_onchip_buffer_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns3_ep_onchip_buffer_reserve \- Try to reserve onchip buf for EP
+.SH SYNOPSIS
+.B "int" cdns3_ep_onchip_buffer_reserve
+.BI "(struct cdns3_device *priv_dev "  ","
+.BI "int size "  ","
+.BI "int is_in "  ");"
+.SH ARGUMENTS
+.IP "priv_dev" 12
+extended gadget object
+.IP "size" 12
+the size (KB) for EP would like to allocate
+.IP "is_in" 12
+endpoint direction
+.SH "DESCRIPTION"
+
+The real reservation will occur during write to EP_CFG register,
+this function is used to check if the 'size' reservation is allowed.
+
+Return 0 if the required size can met or negative value on failure

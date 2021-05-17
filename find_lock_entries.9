@@ -1,0 +1,34 @@
+.TH "find_lock_entries" 9 "find_lock_entries" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_lock_entries \- Find a batch of pagecache entries.
+.SH SYNOPSIS
+.B "unsigned" find_lock_entries
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t end "  ","
+.BI "struct pagevec *pvec "  ","
+.BI "pgoff_t *indices "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address_space to search.
+.IP "start" 12
+The starting page cache index.
+.IP "end" 12
+The final page index (inclusive).
+.IP "pvec" 12
+Where the resulting entries are placed.
+.IP "indices" 12
+The cache indices of the entries in \fIpvec\fP.
+.SH "DESCRIPTION"
+\fBfind_lock_entries\fP will return a batch of entries from \fImapping\fP.
+Swap, shadow and DAX entries are included.  Pages are returned
+locked and with an incremented refcount.  Pages which are locked by
+somebody else or under writeback are skipped.  Only the head page of
+a THP is returned.  Pages which are partially outside the range are
+not returned.
+
+The entries have ascending indexes.  The indices may not be consecutive
+due to not-present entries, THP pages, pages which could not be locked
+or pages under writeback.
+.SH "RETURN"
+The number of entries which were found.

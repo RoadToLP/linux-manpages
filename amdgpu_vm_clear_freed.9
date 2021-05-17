@@ -1,0 +1,21 @@
+.TH "amdgpu_vm_clear_freed" 9 "amdgpu_vm_clear_freed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_clear_freed \- clear freed BOs in the PT
+.SH SYNOPSIS
+.B "int" amdgpu_vm_clear_freed
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct amdgpu_vm *vm "  ","
+.BI "struct dma_fence **fence "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "vm" 12
+requested vm
+.IP "fence" 12
+optional resulting fence (unchanged if no work needed to be done
+or if an error occurred)
+.SH "DESCRIPTION"
+Make sure all freed BOs are cleared in the PT.
+PTs have to be reserved and mutex must be locked!
+.SH "RETURN"
+0 for success.

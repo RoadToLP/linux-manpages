@@ -1,0 +1,25 @@
+.TH "move_linked_works" 9 "move_linked_works" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+move_linked_works \- move linked works to a list
+.SH SYNOPSIS
+.B "void" move_linked_works
+.BI "(struct work_struct *work "  ","
+.BI "struct list_head *head "  ","
+.BI "struct work_struct **nextp "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+start of series of works to be scheduled
+.IP "head" 12
+target list to append \fIwork\fP to
+.IP "nextp" 12
+out parameter for nested worklist walking
+.SH "DESCRIPTION"
+Schedule linked works starting from \fIwork\fP to \fIhead\fP.  Work series to
+be scheduled starts at \fIwork\fP and includes any consecutive work with
+WORK_STRUCT_LINKED set in its predecessor.
+
+If \fInextp\fP is not NULL, it's updated to point to the next work of
+the last scheduled work.  This allows \fBmove_linked_works\fP to be
+nested inside outer \fBlist_for_each_entry_safe\fP.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock).

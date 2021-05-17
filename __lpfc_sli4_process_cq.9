@@ -1,0 +1,34 @@
+.TH "__lpfc_sli4_process_cq" 9 "__lpfc_sli4_process_cq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli4_process_cq \- Process elements of a CQ
+.SH SYNOPSIS
+.B "bool" __lpfc_sli4_process_cq
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *cq "  ","
+.BI "bool (*handler)(struct lpfc_hba *, struct lpfc_queue *, struct lpfc_cqe *) "  ","
+.BI "unsigned long *delay "  ","
+.BI "enum lpfc_poll_mode poll_mode "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "cq" 12
+Pointer to CQ to be processed
+.IP "handler" 12
+Routine to process each cqe
+.IP "delay" 12
+Pointer to usdelay to set in case of rescheduling of the handler
+.IP "poll_mode" 12
+Polling mode we were called from
+.SH "DESCRIPTION"
+This routine processes completion queue entries in a CQ. While a valid
+queue element is found, the handler is called. During processing checks
+are made for periodic doorbell writes to let the hardware know of
+element consumption.
+
+If the max limit on cqes to process is hit, or there are no more valid
+entries, the loop stops. If we processed a sufficient number of elements,
+meaning there is sufficient load, rather than rearming and generating
+another interrupt, a cq rescheduling delay will be set. A delay of 0
+indicates no rescheduling.
+
+Returns True if work scheduled, False otherwise.

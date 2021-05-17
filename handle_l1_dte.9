@@ -1,0 +1,22 @@
+.TH "handle_l1_dte" 9 "handle_l1_dte" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_l1_dte \- callback used for L1 device table entries (2 stage case)
+.SH SYNOPSIS
+.B "int" handle_l1_dte
+.BI "(struct vgic_its *its "  ","
+.BI "u32 id "  ","
+.BI "void *addr "  ","
+.BI "void *opaque "  ");"
+.SH ARGUMENTS
+.IP "its" 12
+its handle
+.IP "id" 12
+index of the entry in the L1 table
+.IP "addr" 12
+kernel VA
+.IP "opaque" 12
+unused
+.SH "DESCRIPTION"
+L1 table entries are scanned by steps of 1 entry
+Return < 0 if error, 0 if last dte was found when scanning the L2
+table, +1 otherwise (meaning next L1 entry must be scanned)

@@ -1,0 +1,17 @@
+.TH "i40e_can_reuse_rx_page" 9 "i40e_can_reuse_rx_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_can_reuse_rx_page \- Determine if page can be reused for another Rx
+.SH SYNOPSIS
+.B "bool" i40e_can_reuse_rx_page
+.BI "(struct i40e_rx_buffer *rx_buffer "  ","
+.BI "int rx_buffer_pgcnt "  ");"
+.SH ARGUMENTS
+.IP "rx_buffer" 12
+buffer containing the page
+.IP "rx_buffer_pgcnt" 12
+buffer page refcount pre \fBxdp_do_redirect\fP call
+.SH "DESCRIPTION"
+If page is reusable, we have a green light for calling i40e_reuse_rx_page,
+which will assign the current buffer to the buffer that next_to_alloc is
+pointing to; otherwise, the DMA mapping needs to be destroyed and
+page freed

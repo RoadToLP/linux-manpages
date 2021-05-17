@@ -1,0 +1,17 @@
+.TH "msc_buffer_win_alloc" 9 "msc_buffer_win_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_win_alloc \- alloc a window for a multiblock mode
+.SH SYNOPSIS
+.B "int" msc_buffer_win_alloc
+.BI "(struct msc *msc "  ","
+.BI "unsigned int nr_blocks "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.IP "nr_blocks" 12
+number of pages in this window
+.SH "DESCRIPTION"
+This modifies msc::win_list and msc::base, which requires msc::buf_mutex
+to serialize, so the caller is expected to hold it.
+.SH "RETURN"
+0 on success, -errno otherwise.

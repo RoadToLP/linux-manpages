@@ -1,0 +1,19 @@
+.TH "drm_panel_bridge_add_typed" 9 "drm_panel_bridge_add_typed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_panel_bridge_add_typed \- Creates a &drm_bridge and &drm_connector with an explicit connector type.
+.SH SYNOPSIS
+.B "struct drm_bridge *" drm_panel_bridge_add_typed
+.BI "(struct drm_panel *panel "  ","
+.BI "u32 connector_type "  ");"
+.SH ARGUMENTS
+.IP "panel" 12
+The drm_panel being wrapped.  Must be non-NULL.
+.IP "connector_type" 12
+The connector type (DRM_MODE_CONNECTOR_*)
+.SH "DESCRIPTION"
+This is just like \fBdrm_panel_bridge_add\fP, but forces the connector type to
+\fIconnector_type\fP instead of infering it from the panel.
+
+This function is deprecated and should not be used in new drivers. Use
+\fBdrm_panel_bridge_add\fP instead, and fix panel drivers as necessary if they
+don't report a connector type.

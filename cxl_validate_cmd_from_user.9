@@ -1,0 +1,26 @@
+.TH "cxl_validate_cmd_from_user" 9 "cxl_validate_cmd_from_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxl_validate_cmd_from_user \- Check fields for CXL_MEM_SEND_COMMAND.
+.SH SYNOPSIS
+.B "int" cxl_validate_cmd_from_user
+.BI "(struct cxl_mem *cxlm "  ","
+.BI "const struct cxl_send_command *send_cmd "  ","
+.BI "struct cxl_mem_command *out_cmd "  ");"
+.SH ARGUMENTS
+.IP "cxlm" 12
+\fIstruct cxl_mem\fP device whose mailbox will be used.
+.IP "send_cmd" 12
+\fIstruct cxl_send_command\fP copied in from userspace.
+.IP "out_cmd" 12
+Sanitized and populated \fIstruct cxl_mem_command\fP.
+.SH "RETURN"
+* 0        - \fIout_cmd\fP is ready to send.
+* -ENOTTY  - Invalid command specified.
+* -EINVAL  - Reserved fields or invalid values were used.
+* -ENOMEM  - Input or output buffer wasn't sized properly.
+* -EPERM   - Attempted to use a protected command.
+.SH "DESCRIPTION"
+The result of this command is a fully validated command in \fIout_cmd\fP that is
+safe to send to the hardware.
+
+See \fBhandle_mailbox_cmd_from_user\fP

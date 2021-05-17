@@ -1,0 +1,25 @@
+.TH "dprc_scan_objects" 9 "dprc_scan_objects" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dprc_scan_objects \- Discover objects in a DPRC
+.SH SYNOPSIS
+.B "int" dprc_scan_objects
+.BI "(struct fsl_mc_device *mc_bus_dev "  ","
+.BI "bool alloc_interrupts "  ");"
+.SH ARGUMENTS
+.IP "mc_bus_dev" 12
+pointer to the fsl-mc device that represents a DPRC object
+.IP "alloc_interrupts" 12
+if true the function allocates the interrupt pool,
+otherwise the interrupt allocation is delayed
+.SH "DESCRIPTION"
+Detects objects added and removed from a DPRC and synchronizes the
+state of the Linux bus driver, MC by adding and removing
+devices accordingly.
+Two types of devices can be found in a DPRC: allocatable objects (e.g.,
+dpbp, dpmcp) and non-allocatable devices (e.g., dprc, dpni).
+All allocatable devices needed to be probed before all non-allocatable
+devices, to ensure that device drivers for non-allocatable
+devices can allocate any type of allocatable devices.
+That is, we need to ensure that the corresponding resource pools are
+populated before they can get allocation requests from probe callbacks
+of the device drivers for the non-allocatable devices.

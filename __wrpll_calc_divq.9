@@ -1,0 +1,23 @@
+.TH "__wrpll_calc_divq" 9 "__wrpll_calc_divq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__wrpll_calc_divq \- determine DIVQ based on target PLL output clock rate
+.SH SYNOPSIS
+.B "u8" __wrpll_calc_divq
+.BI "(u32 target_rate "  ","
+.BI "u64 *vco_rate "  ");"
+.SH ARGUMENTS
+.IP "target_rate" 12
+target PLL output clock rate
+.IP "vco_rate" 12
+pointer to a u64 to store the computed VCO rate into
+.SH "DESCRIPTION"
+Determine a reasonable value for the PLL Q post-divider, based on the
+target output rate \fItarget_rate\fP for the PLL.  Along with returning the
+computed Q divider value as the return value, this function stores the
+desired target VCO rate into the variable pointed to by \fIvco_rate\fP.
+.SH "CONTEXT"
+Any context.  Caller must protect the memory pointed to by
+\fIvco_rate\fP from simultaneous access or modification.
+.SH "RETURN"
+a positive integer DIVQ value to be programmed into the hardware
+upon success, or 0 upon error (since 0 is an invalid DIVQ value)

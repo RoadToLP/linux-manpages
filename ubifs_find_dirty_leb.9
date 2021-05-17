@@ -1,0 +1,43 @@
+.TH "ubifs_find_dirty_leb" 9 "ubifs_find_dirty_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_find_dirty_leb \- find a dirty LEB for the Garbage Collector.
+.SH SYNOPSIS
+.B "int" ubifs_find_dirty_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_lprops *ret_lp "  ","
+.BI "int min_space "  ","
+.BI "int pick_free "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "ret_lp" 12
+LEB properties are returned here on exit
+.IP "min_space" 12
+minimum amount free plus dirty space the returned LEB has to
+have
+.IP "pick_free" 12
+controls whether it is OK to pick empty or index LEBs
+.SH "DESCRIPTION"
+This function tries to find a dirty logical eraseblock which has at least
+\fImin_space\fP free and dirty space. It prefers to take an LEB from the dirty or
+dirty index heap, and it falls-back to LPT scanning if the heaps are empty
+or do not have an LEB which satisfies the \fImin_space\fP criteria.
+
+Note, LEBs which have less than dead watermark of free + dirty space are
+never picked by this function.
+
+The additional \fIpick_free\fP argument controls if this function has to return a
+free or freeable LEB if one is present. For example, GC must to set it to 1,
+when called from the journal space reservation function, because the
+appearance of free space may coincide with the loss of enough dirty space
+for GC to succeed anyway.
+
+In contrast, if the Garbage Collector is called from budgeting, it should
+just make free space, not return LEBs which are already free or freeable.
+
+In addition \fIpick_free\fP is set to 2 by the recovery process in order to
+recover gc_lnum in which case an index LEB must not be returned.
+
+This function returns zero and the LEB properties of found dirty LEB in case
+of success, -ENOSPC if no dirty LEB was found and a negative error code in
+case of other failures. The returned LEB is marked as "taken".

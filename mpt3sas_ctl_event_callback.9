@@ -1,0 +1,23 @@
+.TH "mpt3sas_ctl_event_callback" 9 "mpt3sas_ctl_event_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt3sas_ctl_event_callback \- firmware event handler (called at ISR time)
+.SH SYNOPSIS
+.B "u8" mpt3sas_ctl_event_callback
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "u8 msix_index "  ","
+.BI "u32 reply "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "msix_index" 12
+MSIX table index supplied by the OS
+.IP "reply" 12
+reply message frame(lower 32bit addr)
+.SH "CONTEXT"
+interrupt.
+.SH "DESCRIPTION"
+This function merely adds a new work task into ioc->firmware_event_thread.
+The tasks are worked from _firmware_event_work in user context.
+.SH "RETURN"
+1 meaning mf should be freed from _base_interrupt
+0 means the mf is freed from this function.

@@ -1,0 +1,16 @@
+.TH "pcmcia_load_firmware" 9 "pcmcia_load_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_load_firmware \- load CIS from userspace if device-provided is broken
+.SH SYNOPSIS
+.B "int" pcmcia_load_firmware
+.BI "(struct pcmcia_device *dev "  ","
+.BI "char *filename "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the pcmcia device which needs a CIS override
+.IP "filename" 12
+requested filename in /lib/firmware/
+.SH "DESCRIPTION"
+This uses the in-kernel firmware loading mechanism to use a "fake CIS" if
+the one provided by the card is broken. The firmware files reside in
+/lib/firmware/ in userspace.

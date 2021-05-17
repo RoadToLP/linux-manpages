@@ -1,0 +1,29 @@
+.TH "ubifs_scan" 9 "ubifs_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_scan \- scan a logical eraseblock.
+.SH SYNOPSIS
+.B "struct ubifs_scan_leb *" ubifs_scan
+.BI "(const struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "void *sbuf "  ","
+.BI "int quiet "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "offs" 12
+offset to start at (usually zero)
+.IP "sbuf" 12
+scan buffer (must be of \fIc->leb_size\fP bytes in size)
+.IP "quiet" 12
+print no messages
+.SH "DESCRIPTION"
+This function scans LEB number \fIlnum\fP and returns complete information about
+its contents. Returns the scanned information in case of success and,
+-EUCLEAN if the LEB neads recovery, and other negative error codes in case
+of failure.
+
+If \fIquiet\fP is non-zero, this function does not print large and scary
+error messages and flash dumps in case of errors.

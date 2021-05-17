@@ -1,0 +1,40 @@
+.TH "synchronize_rcu" 9 "synchronize_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synchronize_rcu \- wait until a grace period has elapsed.
+.SH SYNOPSIS
+.B "void" synchronize_rcu
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Control will return to the caller some time after a full grace
+period has elapsed, in other words after all currently executing RCU
+read-side critical sections have completed.  Note, however, that
+upon return from \fBsynchronize_rcu\fP, the caller might well be executing
+concurrently with new RCU read-side critical sections that began while
+\fBsynchronize_rcu\fP was waiting.  RCU read-side critical sections are
+delimited by \fBrcu_read_lock\fP and \fBrcu_read_unlock\fP, and may be nested.
+In addition, regions of code across which interrupts, preemption, or
+softirqs have been disabled also serve as RCU read-side critical
+sections.  This includes hardware interrupt handlers, softirq handlers,
+and NMI handlers.
+
+Note that this guarantee implies further memory-ordering guarantees.
+On systems with more than one CPU, when \fBsynchronize_rcu\fP returns,
+each CPU is guaranteed to have executed a full memory barrier since
+the end of its last RCU read-side critical section whose beginning
+preceded the call to \fBsynchronize_rcu\fP.  In addition, each CPU having
+an RCU read-side critical section that extends beyond the return from
+\fBsynchronize_rcu\fP is guaranteed to have executed a full memory barrier
+after the beginning of \fBsynchronize_rcu\fP and before the beginning of
+that RCU read-side critical section.  Note that these guarantees include
+CPUs that are offline, idle, or executing in user mode, as well as CPUs
+that are executing in the kernel.
+
+Furthermore, if CPU A invoked \fBsynchronize_rcu\fP, which returned
+to its caller on CPU B, then both CPU A and CPU B are guaranteed
+to have executed a full memory barrier during the execution of
+\fBsynchronize_rcu\fP -- even if CPU A and CPU B are the same CPU (but
+again only if the system has more than one CPU).

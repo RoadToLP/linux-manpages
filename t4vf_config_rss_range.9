@@ -1,0 +1,30 @@
+.TH "t4vf_config_rss_range" 9 "t4vf_config_rss_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4vf_config_rss_range \- configure a portion of the RSS mapping table
+.SH SYNOPSIS
+.B "int" t4vf_config_rss_range
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int viid "  ","
+.BI "int start "  ","
+.BI "int n "  ","
+.BI "const u16 *rspq "  ","
+.BI "int nrspq "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "viid" 12
+Virtual Interface of RSS Table Slice
+.IP "start" 12
+starting entry in the table to write
+.IP "n" 12
+how many table entries to write
+.IP "rspq" 12
+values for the "Response Queue" (Ingress Queue) lookup table
+.IP "nrspq" 12
+number of values in \fIrspq\fP
+
+Programs the selected part of the VI's RSS mapping table with the
+provided values.  If \fInrspq\fP < \fIn\fP the supplied values are used repeatedly
+until the full table range is populated.
+
+The caller must ensure the values in \fIrspq\fP are in the range 0..1023.

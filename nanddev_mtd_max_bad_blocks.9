@@ -1,0 +1,21 @@
+.TH "nanddev_mtd_max_bad_blocks" 9 "nanddev_mtd_max_bad_blocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nanddev_mtd_max_bad_blocks \- Get the maximum number of bad eraseblock on a specific region of the NAND device
+.SH SYNOPSIS
+.B "int" nanddev_mtd_max_bad_blocks
+.BI "(struct mtd_info *mtd "  ","
+.BI "loff_t offs "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device
+.IP "offs" 12
+offset of the NAND region
+.IP "len" 12
+length of the NAND region
+.SH "DESCRIPTION"
+Default implementation for mtd->\fB_max_bad_blocks\fP. Only works if
+nand->memorg.max_bad_eraseblocks_per_lun is > 0.
+.SH "RETURN"
+a positive number encoding the maximum number of eraseblocks on a
+portion of memory, a negative error code otherwise.

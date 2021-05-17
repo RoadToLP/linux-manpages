@@ -1,0 +1,27 @@
+.TH "cap_inode_removexattr" 9 "cap_inode_removexattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_inode_removexattr \- Determine whether an xattr may be removed
+.SH SYNOPSIS
+.B "int" cap_inode_removexattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+User namespace of the mount the inode was found from
+.IP "dentry" 12
+The inode/dentry being altered
+.IP "name" 12
+The name of the xattr to be changed
+.SH "DESCRIPTION"
+Determine whether an xattr may be removed from an inode, returning 0 if
+permission is granted, -ve if denied.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.
+
+This is used to make sure security xattrs don't get removed by those who
+aren't privileged to remove them.

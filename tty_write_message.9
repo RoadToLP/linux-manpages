@@ -1,0 +1,18 @@
+.TH "tty_write_message" 9 "tty_write_message" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_write_message \- write a message to a certain tty, not just the console.
+.SH SYNOPSIS
+.B "void" tty_write_message
+.BI "(struct tty_struct *tty "  ","
+.BI "char *msg "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+the destination tty_struct
+.IP "msg" 12
+the message to write
+.SH "DESCRIPTION"
+This is used for messages that need to be redirected to a specific tty.
+We don't put it into the syslog queue right now maybe in the future if
+really needed.
+
+We must still hold the BTM and test the CLOSING flag for the moment.

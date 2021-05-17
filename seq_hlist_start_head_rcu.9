@@ -1,0 +1,19 @@
+.TH "seq_hlist_start_head_rcu" 9 "seq_hlist_start_head_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seq_hlist_start_head_rcu \- start an iteration of a hlist protected by RCU
+.SH SYNOPSIS
+.B "struct hlist_node *" seq_hlist_start_head_rcu
+.BI "(struct hlist_head *head "  ","
+.BI "loff_t pos "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+the head of the hlist
+.IP "pos" 12
+the start position of the sequence
+.SH "DESCRIPTION"
+Called at seq_file->op->\fBstart\fP. Call this function if you want to
+print a header at the top of the output.
+
+This list-traversal primitive may safely run concurrently with
+the _rcu list-mutation primitives such as \fBhlist_add_head_rcu\fP
+as long as the traversal is guarded by \fBrcu_read_lock\fP.

@@ -1,0 +1,20 @@
+.TH "rgd_free" 9 "rgd_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rgd_free \- return the number of free blocks we can allocate.
+.SH SYNOPSIS
+.B "u32" rgd_free
+.BI "(struct gfs2_rgrpd *rgd "  ","
+.BI "struct gfs2_blkreserv *rs "  ");"
+.SH ARGUMENTS
+.IP "rgd" 12
+the resource group
+.IP "rs" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function returns the number of free blocks for an rgrp.
+That's the clone-free blocks (blocks that are free, not including those
+still being used for unlinked files that haven't been deleted.)
+
+It also subtracts any blocks reserved by someone else, but does not
+include free blocks that are still part of our current reservation,
+because obviously we can (and will) allocate them.

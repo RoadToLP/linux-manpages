@@ -1,0 +1,25 @@
+.TH "nfc_targets_found" 9 "nfc_targets_found" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfc_targets_found \- inform that targets were found
+.SH SYNOPSIS
+.B "int" nfc_targets_found
+.BI "(struct nfc_dev *dev "  ","
+.BI "struct nfc_target *targets "  ","
+.BI "int n_targets "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The nfc device that found the targets
+.IP "targets" 12
+array of nfc targets found
+.IP "n_targets" 12
+targets array size
+.SH "DESCRIPTION"
+The device driver must call this function when one or many nfc targets
+are found. After calling this function, the device driver must stop
+polling for targets.
+.SH "NOTE"
+This function can be called with targets=NULL and n_targets=0 to
+notify a driver error, meaning that the polling operation cannot complete.
+IMPORTANT: this function must not be called from an atomic context.
+In addition, it must also not be called from a context that would prevent
+the NFC Core to call other nfc ops entry point concurrently.

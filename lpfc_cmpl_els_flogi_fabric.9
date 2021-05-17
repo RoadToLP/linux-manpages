@@ -1,0 +1,31 @@
+.TH "lpfc_cmpl_els_flogi_fabric" 9 "lpfc_cmpl_els_flogi_fabric" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_flogi_fabric \- Completion function for flogi to a fabric port
+.SH SYNOPSIS
+.B "int" lpfc_cmpl_els_flogi_fabric
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "struct serv_parm *sp "  ","
+.BI "IOCB_t *irsp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "sp" 12
+pointer to service parameter data structure.
+.IP "irsp" 12
+pointer to the IOCB within the lpfc response IOCB.
+.SH "DESCRIPTION"
+This routine is invoked by the \fBlpfc_cmpl_els_flogi\fP completion callback
+function to handle the completion of a Fabric Login (FLOGI) into a fabric
+port in a fabric topology. It properly sets up the parameters to the \fIndlp\fP
+from the IOCB response. It also check the newly assigned N_Port ID to the
+\fIvport\fP against the previously assigned N_Port ID. If it is different from
+the previously assigned Destination ID (DID), the \fBlpfc_unreg_rpi\fP routine
+is invoked on all the remaining nodes with the \fIvport\fP to unregister the
+Remote Port Indicators (RPIs). Finally, the \fBlpfc_issue_fabric_reglogin\fP
+is invoked to register login to the fabric.
+
+Return code
+0 - Success (currently, always return 0)

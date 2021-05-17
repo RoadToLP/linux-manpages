@@ -1,0 +1,28 @@
+.TH "async_schedule_node_domain" 9 "async_schedule_node_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_schedule_node_domain \- NUMA specific version of async_schedule_domain
+.SH SYNOPSIS
+.B "async_cookie_t" async_schedule_node_domain
+.BI "(async_func_t func "  ","
+.BI "void *data "  ","
+.BI "int node "  ","
+.BI "struct async_domain *domain "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+function to execute asynchronously
+.IP "data" 12
+data pointer to pass to the function
+.IP "node" 12
+NUMA node that we want to schedule this on or close to
+.IP "domain" 12
+the domain
+.SH "DESCRIPTION"
+Returns an async_cookie_t that may be used for checkpointing later.
+\fIdomain\fP may be used in the async_synchronize_*\fB_domain\fP functions to
+wait within a certain synchronization domain rather than globally.
+
+The node requested will be honored on a best effort basis. If the node
+has no CPUs associated with it then the work is distributed among all
+available CPUs.
+.SH "NOTE"
+This function may be called from atomic or non-atomic contexts.

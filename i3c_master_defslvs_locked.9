@@ -1,0 +1,24 @@
+.TH "i3c_master_defslvs_locked" 9 "i3c_master_defslvs_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_defslvs_locked \- send a DEFSLVS CCC command
+.SH SYNOPSIS
+.B "int" i3c_master_defslvs_locked
+.BI "(struct i3c_master_controller *master "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+master used to send frames on the bus
+.SH "DESCRIPTION"
+Send a DEFSLVS CCC command containing all the devices known to the \fImaster\fP.
+This is useful when you have secondary masters on the bus to propagate
+device information.
+
+This should be called after all I3C devices have been discovered (in other
+words, after the DAA procedure has finished) and instantiated in
+\fIi3c_master_controller_ops\fP->\fBbus_init\fP.
+It should also be called if a master ACKed an Hot-Join request and assigned
+a dynamic address to the device joining the bus.
+
+This function must be called with the bus lock held in write mode.
+.SH "RETURN"
+0 in case of success, a positive I3C error code if the error is
+one of the official Mx error codes, and a negative error code otherwise.

@@ -1,0 +1,22 @@
+.TH "batadv_frag_insert_packet" 9 "batadv_frag_insert_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_frag_insert_packet \- insert a fragment into a fragment chain
+.SH SYNOPSIS
+.B "bool" batadv_frag_insert_packet
+.BI "(struct batadv_orig_node *orig_node "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct hlist_head *chain_out "  ");"
+.SH ARGUMENTS
+.IP "orig_node" 12
+originator that the fragment was received from
+.IP "skb" 12
+skb to insert
+.IP "chain_out" 12
+list head to attach complete chains of fragments to
+.SH "DESCRIPTION"
+Insert a new fragment into the reverse ordered chain in the right table
+entry. The hash table entry is cleared if "old" fragments exist in it.
+.SH "RETURN"
+true if skb is buffered, false on error. If the chain has all the
+fragments needed to merge the packet, the chain is moved to the passed head
+to avoid locking the chain in the table.

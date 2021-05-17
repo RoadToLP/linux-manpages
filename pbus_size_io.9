@@ -1,0 +1,23 @@
+.TH "pbus_size_io" 9 "pbus_size_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pbus_size_io \- Size the I/O window of a given bus
+.SH SYNOPSIS
+.B "void" pbus_size_io
+.BI "(struct pci_bus *bus "  ","
+.BI "resource_size_t min_size "  ","
+.BI "resource_size_t add_size "  ","
+.BI "struct list_head *realloc_head "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+The bus
+.IP "min_size" 12
+The minimum I/O window that must be allocated
+.IP "add_size" 12
+Additional optional I/O window
+.IP "realloc_head" 12
+Track the additional I/O window on this list
+.SH "DESCRIPTION"
+Sizing the I/O windows of the PCI-PCI bridge is trivial, since these
+windows have 1K or 4K granularity and the I/O ranges of non-bridge PCI
+devices are limited to 256 bytes.  We must be careful with the ISA
+aliasing though.

@@ -1,0 +1,22 @@
+.TH "can_send" 9 "can_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+can_send \- transmit a CAN frame (optional with local loopback)
+.SH SYNOPSIS
+.B "int" can_send
+.BI "(struct sk_buff *skb "  ","
+.BI "int loop "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+pointer to socket buffer with CAN frame in data section
+.IP "loop" 12
+loopback for listeners on local CAN sockets (recommended default!)
+.SH "DESCRIPTION"
+Due to the loopback this routine must not be called from hardirq context.
+.SH "RETURN"
+0 on success
+-ENETDOWN when the selected interface is down
+-ENOBUFS on full driver queue (see \fBnet_xmit_errno\fP)
+-ENOMEM when local loopback failed at calling \fBskb_clone\fP
+-EPERM when trying to send on a non-CAN interface
+-EMSGSIZE CAN frame size is bigger than CAN interface MTU
+-EINVAL when the skb->data does not contain a valid CAN frame

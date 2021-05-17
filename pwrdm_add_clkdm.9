@@ -1,0 +1,17 @@
+.TH "pwrdm_add_clkdm" 9 "pwrdm_add_clkdm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_add_clkdm \- add a clockdomain to a powerdomain
+.SH SYNOPSIS
+.B "int" pwrdm_add_clkdm
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "struct clockdomain *clkdm "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to add the clockdomain to
+.IP "clkdm" 12
+struct clockdomain * to associate with a powerdomain
+.SH "DESCRIPTION"
+Associate the clockdomain \fIclkdm\fP with a powerdomain \fIpwrdm\fP.  This
+enables the use of \fBpwrdm_for_each_clkdm\fP.  Returns -EINVAL if
+presented with invalid pointers; -ENOMEM if memory could not be allocated;
+or 0 upon success.

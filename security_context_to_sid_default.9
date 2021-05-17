@@ -1,0 +1,33 @@
+.TH "security_context_to_sid_default" 9 "security_context_to_sid_default" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_context_to_sid_default \- Obtain a SID for a given security context, falling back to specified default if needed.
+.SH SYNOPSIS
+.B "int" security_context_to_sid_default
+.BI "(struct selinux_state *state "  ","
+.BI "const char *scontext "  ","
+.BI "u32 scontext_len "  ","
+.BI "u32 *sid "  ","
+.BI "u32 def_sid "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "scontext" 12
+security context
+.IP "scontext_len" 12
+length in bytes
+.IP "sid" 12
+security identifier, SID
+.IP "def_sid" 12
+default SID to assign on error
+.IP "gfp_flags" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Obtains a SID associated with the security context that
+has the string representation specified by \fIscontext\fP.
+The default SID is passed to the MLS layer to be used to allow
+kernel labeling of the MLS field if the MLS field is not present
+(for upgrading to MLS without full relabel).
+Implicitly forces adding of the context even if it cannot be mapped yet.
+Returns -EINVAL if the context is invalid, -ENOMEM if insufficient
+memory is available, or 0 on success.

@@ -1,0 +1,18 @@
+.TH "kbuffer_load_subbuffer" 9 "kbuffer_load_subbuffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbuffer_load_subbuffer \- load a new subbuffer into the kbuffer
+.SH SYNOPSIS
+.B "int" kbuffer_load_subbuffer
+.BI "(struct kbuffer *kbuf "  ","
+.BI "void *subbuffer "  ");"
+.SH ARGUMENTS
+.IP "kbuf" 12
+The kbuffer to load
+.IP "subbuffer" 12
+The subbuffer to load into \fIkbuf\fP.
+.SH "DESCRIPTION"
+Load a new subbuffer (page) into \fIkbuf\fP. This will reset all
+the pointers and update the \fIkbuf\fP timestamp. The next read will
+return the first event on \fIsubbuffer\fP.
+
+Returns 0 on succes, -1 otherwise.

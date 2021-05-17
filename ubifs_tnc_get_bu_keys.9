@@ -1,0 +1,20 @@
+.TH "ubifs_tnc_get_bu_keys" 9 "ubifs_tnc_get_bu_keys" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_tnc_get_bu_keys \- lookup keys for bulk-read.
+.SH SYNOPSIS
+.B "int" ubifs_tnc_get_bu_keys
+.BI "(struct ubifs_info *c "  ","
+.BI "struct bu_info *bu "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "bu" 12
+bulk-read parameters and results
+.SH "DESCRIPTION"
+Lookup consecutive data node keys for the same inode that reside
+consecutively in the same LEB. This function returns zero in case of success
+and a negative error code in case of failure.
+
+Note, if the bulk-read buffer length (\fIbu->buf_len\fP) is known, this function
+makes sure bulk-read nodes fit the buffer. Otherwise, this function prepares
+maximum possible amount of nodes for bulk-read.

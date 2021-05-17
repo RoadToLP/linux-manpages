@@ -1,0 +1,26 @@
+.TH "usb4_port_retimer_nvm_write" 9 "usb4_port_retimer_nvm_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_port_retimer_nvm_write \- Write to retimer NVM
+.SH SYNOPSIS
+.B "int" usb4_port_retimer_nvm_write
+.BI "(struct tb_port *port "  ","
+.BI "u8 index "  ","
+.BI "unsigned int address "  ","
+.BI "const void *buf "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB4 port
+.IP "index" 12
+Retimer index
+.IP "address" 12
+Byte address where to start the write
+.IP "buf" 12
+Data to write
+.IP "size" 12
+Size in bytes how much to write
+.SH "DESCRIPTION"
+Writes \fIsize\fP bytes from \fIbuf\fP to the retimer NVM. Used for NVM
+upgrade. Returns 0 if the data was written successfully and negative
+errno in case of failure. Specifically returns -ENODEV if there is
+no retimer at \fIindex\fP.

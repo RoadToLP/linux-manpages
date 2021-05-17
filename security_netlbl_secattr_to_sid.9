@@ -1,0 +1,23 @@
+.TH "security_netlbl_secattr_to_sid" 9 "security_netlbl_secattr_to_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_netlbl_secattr_to_sid \- Convert a NetLabel secattr to a SELinux SID
+.SH SYNOPSIS
+.B "int" security_netlbl_secattr_to_sid
+.BI "(struct selinux_state *state "  ","
+.BI "struct netlbl_lsm_secattr *secattr "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "secattr" 12
+the NetLabel packet security attributes
+.IP "sid" 12
+the SELinux SID
+.SH "DESCRIPTION"
+Convert the given NetLabel security attributes in \fIsecattr\fP into a
+SELinux SID.  If the \fIsecattr\fP field does not contain a full SELinux
+SID/context then use SECINITSID_NETMSG as the foundation.  If possible the
+'cache' field of \fIsecattr\fP is set and the CACHE flag is set; this is to
+allow the \fIsecattr\fP to be used by NetLabel to cache the secattr to SID
+conversion for future lookups.  Returns zero on success, negative values on
+failure.

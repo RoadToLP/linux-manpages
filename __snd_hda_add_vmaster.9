@@ -1,0 +1,36 @@
+.TH "__snd_hda_add_vmaster" 9 "__snd_hda_add_vmaster" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__snd_hda_add_vmaster \- create a virtual master control and add followers
+.SH SYNOPSIS
+.B "int" __snd_hda_add_vmaster
+.BI "(struct hda_codec *codec "  ","
+.BI "char *name "  ","
+.BI "unsigned int *tlv "  ","
+.BI "const char * const *followers "  ","
+.BI "const char *suffix "  ","
+.BI "bool init_follower_vol "  ","
+.BI "struct snd_kcontrol **ctl_ret "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+HD-audio codec
+.IP "name" 12
+vmaster control name
+.IP "tlv" 12
+TLV data (optional)
+.IP "followers" 12
+follower control names (optional)
+.IP "suffix" 12
+suffix string to each follower name (optional)
+.IP "init_follower_vol" 12
+initialize followers to unmute/0dB
+.IP "ctl_ret" 12
+store the vmaster kcontrol in return
+.SH "DESCRIPTION"
+Create a virtual master control with the given name.  The TLV data
+must be either NULL or a valid data.
+
+\fIfollowers\fP is a NULL-terminated array of strings, each of which is a
+follower control name.  All controls with these names are assigned to
+the new virtual master control.
+
+This function returns zero if successful or a negative error code.

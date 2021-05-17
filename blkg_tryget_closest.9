@@ -1,0 +1,16 @@
+.TH "blkg_tryget_closest" 9 "blkg_tryget_closest" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkg_tryget_closest \- try and get a blkg ref on the closet blkg
+.SH SYNOPSIS
+.B "struct blkcg_gq *" blkg_tryget_closest
+.BI "(struct bio *bio "  ","
+.BI "struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+target bio
+.IP "css" 12
+target css
+.SH "DESCRIPTION"
+As the failure mode here is to walk up the blkg tree, this ensure that the
+blkg->parent pointers are always valid.  This returns the blkg that it ended
+up taking a reference on or NULL if no reference was taken.

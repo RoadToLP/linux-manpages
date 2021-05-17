@@ -1,0 +1,46 @@
+.TH "ccw_device_start_timeout" 9 "ccw_device_start_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_start_timeout \- start a s390 channel program with timeout
+.SH SYNOPSIS
+.B "int" ccw_device_start_timeout
+.BI "(struct ccw_device *cdev "  ","
+.BI "struct ccw1 *cpa "  ","
+.BI "unsigned long intparm "  ","
+.BI "__u8 lpm "  ","
+.BI "unsigned long flags "  ","
+.BI "int expires "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+target ccw device
+.IP "cpa" 12
+logical start address of channel program
+.IP "intparm" 12
+user specific interruption parameter; will be presented back to
+\fIcdev\fP's interrupt handler. Allows a device driver to associate
+the interrupt with a particular I/O request.
+.IP "lpm" 12
+defines the channel path to be used for a specific I/O request. A
+value of 0 will make cio use the opm.
+.IP "flags" 12
+additional flags; defines the action to be performed for I/O
+processing.
+.IP "expires" 12
+timeout value in jiffies
+.SH "DESCRIPTION"
+Start a S/390 channel program. When the interrupt arrives, the
+IRQ handler is called, either immediately, delayed (dev-end missing,
+or sense required) or never (no IRQ handler registered).
+This function notifies the device driver if the channel program has not
+completed during the time specified by \fIexpires\fP. If a timeout occurs, the
+channel program is terminated via xsch, hsch or csch, and the device's
+interrupt handler will be called with an irb containing ERR_PTR(-ETIMEDOUT).
+The interruption handler will echo back the \fIintparm\fP specified here, unless
+another interruption parameter is specified by a subsequent invocation of
+\fBccw_device_halt\fP or \fBccw_device_clear\fP.
+.SH "RETURN"
+0, if the operation was successful;
+-EBUSY, if the device is busy, or status pending;
+-EACCES, if no path specified in \fIlpm\fP is operational;
+-ENODEV, if the device is not operational.
+.SH "CONTEXT"
+Interrupts disabled, ccw device lock held

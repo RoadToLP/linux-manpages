@@ -1,0 +1,16 @@
+.TH "idr_destroy" 9 "idr_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_destroy \- release all internal memory from an IDR
+.SH SYNOPSIS
+.B "void" idr_destroy
+.BI "(struct idr *idr "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+idr handle
+.SH "DESCRIPTION"
+After this function is called, the IDR is empty, and may be reused or
+the data structure containing it may be freed.
+
+A typical clean-up sequence for objects stored in an idr tree will use
+\fBidr_for_each\fP to free all objects, if necessary, then \fBidr_destroy\fP to
+free the memory used to keep track of those objects.

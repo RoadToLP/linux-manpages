@@ -1,0 +1,17 @@
+.TH "omap_clear_gpio_debounce" 9 "omap_clear_gpio_debounce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_clear_gpio_debounce \- clear debounce settings for a gpio
+.SH SYNOPSIS
+.B "void" omap_clear_gpio_debounce
+.BI "(struct gpio_bank *bank "  ","
+.BI "unsigned offset "  ");"
+.SH ARGUMENTS
+.IP "bank" 12
+the gpio bank we're acting upon
+.IP "offset" 12
+the gpio number on this \fIbank\fP
+.SH "DESCRIPTION"
+If a gpio is using debounce, then clear the debounce enable bit and if
+this is the only gpio in this bank using debounce, then clear the debounce
+time too. The debounce clock will also be disabled when calling this function
+if this is the only gpio in the bank using debounce.

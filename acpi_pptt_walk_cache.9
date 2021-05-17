@@ -1,0 +1,36 @@
+.TH "acpi_pptt_walk_cache" 9 "acpi_pptt_walk_cache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_pptt_walk_cache \- Attempt to find the requested acpi_pptt_cache
+.SH SYNOPSIS
+.B "unsigned int" acpi_pptt_walk_cache
+.BI "(struct acpi_table_header *table_hdr "  ","
+.BI "unsigned int local_level "  ","
+.BI "struct acpi_subtable_header *res "  ","
+.BI "struct acpi_pptt_cache **found "  ","
+.BI "unsigned int level "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "table_hdr" 12
+Pointer to the head of the PPTT table
+.IP "local_level" 12
+passed res reflects this cache level
+.IP "res" 12
+cache resource in the PPTT we want to walk
+.IP "found" 12
+returns a pointer to the requested level if found
+.IP "level" 12
+the requested cache level
+.IP "type" 12
+the requested cache type
+.SH "DESCRIPTION"
+Attempt to find a given cache level, while counting the max number
+of cache levels for the cache node.
+
+Given a pptt resource, verify that it is a cache node, then walk
+down each level of caches, counting how many levels are found
+as well as checking the cache type (icache, dcache, unified). If a
+level & type match, then we set found, and continue the search.
+Once the entire cache branch has been walked return its max
+depth.
+.SH "RETURN"
+The cache structure and the level we terminated with.

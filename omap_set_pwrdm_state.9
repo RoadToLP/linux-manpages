@@ -1,0 +1,20 @@
+.TH "omap_set_pwrdm_state" 9 "omap_set_pwrdm_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_set_pwrdm_state \- change a powerdomain's current power state
+.SH SYNOPSIS
+.B "int" omap_set_pwrdm_state
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 pwrst "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to change the power state of
+.IP "pwrst" 12
+power state to change to
+.SH "DESCRIPTION"
+Change the current hardware power state of the powerdomain
+represented by \fIpwrdm\fP to the power state represented by \fIpwrst\fP.
+Returns -EINVAL if \fIpwrdm\fP is null or invalid or if the
+powerdomain's current power state could not be read, or returns 0
+upon success or if \fIpwrdm\fP does not support \fIpwrst\fP or any
+lower-power state.  XXX Should not return 0 if the \fIpwrdm\fP does not
+support \fIpwrst\fP or any lower-power state: this should be an error.

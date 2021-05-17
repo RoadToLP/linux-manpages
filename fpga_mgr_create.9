@@ -1,0 +1,23 @@
+.TH "fpga_mgr_create" 9 "fpga_mgr_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_mgr_create \- create and initialize a FPGA manager struct
+.SH SYNOPSIS
+.B "struct fpga_manager *" fpga_mgr_create
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct fpga_manager_ops *mops "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+fpga manager device from pdev
+.IP "name" 12
+fpga manager name
+.IP "mops" 12
+pointer to structure of fpga manager ops
+.IP "priv" 12
+fpga manager private data
+.SH "DESCRIPTION"
+The caller of this function is responsible for freeing the struct with
+\fBfpga_mgr_free\fP.  Using \fBdevm_fpga_mgr_create\fP instead is recommended.
+.SH "RETURN"
+pointer to struct fpga_manager or NULL

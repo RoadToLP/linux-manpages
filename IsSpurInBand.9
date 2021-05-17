@@ -1,0 +1,27 @@
+.TH "IsSpurInBand" 9 "IsSpurInBand" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+IsSpurInBand \- Checks to see if a spur will be present within the IF's bandwidth. (fIFOut +/- fIFBW, -fIFOut +/- fIFBW)
+.SH SYNOPSIS
+.B "u32" IsSpurInBand
+.BI "(struct MT2063_AvoidSpursData_t *pAS_Info "  ","
+.BI "u32 *fm "  ","
+.BI "u32 * fp "  ");"
+.SH ARGUMENTS
+.IP "pAS_Info" 12
+Avoid Spurs information block
+.IP "fm" 12
+If spur, amount f_IF1 has to move negative
+.IP "fp" 12
+If spur, amount f_IF1 has to move positive
+
+Returns 1 if an LO spur would be present, otherwise 0.
+.SH "DESCRIPTION"
+
+ma   mb                                     mc   md
+<--+-+-+-------------------+-------------------+-+-+-->
+|   ^                   0                   ^   |
+^   b=-fIFOut+fIFBW/2      -b=+fIFOut-fIFBW/2   ^
+a=-fIFOut-fIFBW/2              -a=+fIFOut+fIFBW/2
+
+Note that some equations are doubled to prevent round-off
+problems when calculating fIFBW/2

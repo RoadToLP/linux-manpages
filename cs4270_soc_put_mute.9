@@ -1,0 +1,20 @@
+.TH "cs4270_soc_put_mute" 9 "cs4270_soc_put_mute" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cs4270_soc_put_mute \- put callback for the 'Master Playback switch' alsa control.
+.SH SYNOPSIS
+.B "int" cs4270_soc_put_mute
+.BI "(struct snd_kcontrol *kcontrol "  ","
+.BI "struct snd_ctl_elem_value *ucontrol "  ");"
+.SH ARGUMENTS
+.IP "kcontrol" 12
+mixer control
+.IP "ucontrol" 12
+control element information
+.SH "DESCRIPTION"
+This function basically passes the arguments on to the generic
+\fBsnd_soc_put_volsw\fP function and saves the mute information in
+our private data structure. This is because we want to prevent
+\fBcs4270_dai_mute\fP neglecting the user's decision to manually
+mute the codec's output.
+
+Returns 0 for success.

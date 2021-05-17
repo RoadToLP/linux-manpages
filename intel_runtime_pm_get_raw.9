@@ -1,0 +1,22 @@
+.TH "intel_runtime_pm_get_raw" 9 "intel_runtime_pm_get_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_runtime_pm_get_raw \- grab a raw runtime pm reference
+.SH SYNOPSIS
+.B "intel_wakeref_t" intel_runtime_pm_get_raw
+.BI "(struct intel_runtime_pm *rpm "  ");"
+.SH ARGUMENTS
+.IP "rpm" 12
+the intel_runtime_pm structure
+.SH "DESCRIPTION"
+This is the unlocked version of \fBintel_display_power_is_enabled\fP and should
+only be used from error capture and recovery code where deadlocks are
+possible.
+This function grabs a device-level runtime pm reference (mostly used for
+asynchronous PM management from display code) and ensures that it is powered
+up. Raw references are not considered during wakelock assert checks.
+
+Any runtime pm reference obtained by this function must have a symmetric
+call to \fBintel_runtime_pm_put_raw\fP to release the reference again.
+.SH "RETURN"
+the wakeref cookie to pass to \fBintel_runtime_pm_put_raw\fP, evaluates
+as True if the wakeref was acquired, or False otherwise.

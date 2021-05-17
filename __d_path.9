@@ -1,0 +1,27 @@
+.TH "__d_path" 9 "__d_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__d_path \- return the path of a dentry
+.SH SYNOPSIS
+.B "char *" __d_path
+.BI "(const struct path *path "  ","
+.BI "const struct path *root "  ","
+.BI "char *buf "  ","
+.BI "int buflen "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+the dentry/vfsmount to report
+.IP "root" 12
+root vfsmnt/dentry
+.IP "buf" 12
+buffer to return value in
+.IP "buflen" 12
+buffer length
+.SH "DESCRIPTION"
+Convert a dentry into an ASCII path name.
+
+Returns a pointer into the buffer or an error code if the
+path was too long.
+
+"buflen" should be positive.
+
+If the path is not reachable from the supplied root, return NULL.

@@ -1,0 +1,15 @@
+.TH "kvm_handle_wfx" 9 "kvm_handle_wfx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_handle_wfx \- handle a wait-for-interrupts or wait-for-event instruction executed by a guest
+.SH SYNOPSIS
+.B "int" kvm_handle_wfx
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+the vcpu pointer
+.SH "DESCRIPTION"
+WFE: Yield the CPU and come back to this vcpu when the scheduler
+decides to.
+WFI: Simply call \fBkvm_vcpu_block\fP, which will halt execution of
+world-switches and schedule other host processes until there is an
+incoming IRQ or FIQ to the VM.

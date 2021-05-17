@@ -1,0 +1,16 @@
+.TH "t3_synchronize_rx" 9 "t3_synchronize_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_synchronize_rx \- wait for current Rx processing on a port to complete
+.SH SYNOPSIS
+.B "void" t3_synchronize_rx
+.BI "(struct adapter *adap "  ","
+.BI "const struct port_info *p "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "p" 12
+the port
+.SH "DESCRIPTION"
+Ensures that current Rx processing on any of the queues associated with
+the given port completes before returning.  We do this by acquiring and
+releasing the locks of the response queues associated with the port.

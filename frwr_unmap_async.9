@@ -1,0 +1,17 @@
+.TH "frwr_unmap_async" 9 "frwr_unmap_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+frwr_unmap_async \- invalidate memory regions that were registered for @req
+.SH SYNOPSIS
+.B "void" frwr_unmap_async
+.BI "(struct rpcrdma_xprt *r_xprt "  ","
+.BI "struct rpcrdma_req *req "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport instance
+.IP "req" 12
+rpcrdma_req with a non-empty list of MRs to process
+.SH "DESCRIPTION"
+This guarantees that registered MRs are properly fenced from the
+server before the RPC consumer accesses the data in them. It also
+ensures proper Send flow control: waking the next RPC waits until
+this RPC has relinquished all its Send Queue entries.

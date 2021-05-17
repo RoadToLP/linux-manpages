@@ -1,0 +1,17 @@
+.TH "rdtgroup_remove" 9 "rdtgroup_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_remove \- the helper to remove resource group safely
+.SH SYNOPSIS
+.B "void" rdtgroup_remove
+.BI "(struct rdtgroup *rdtgrp "  ");"
+.SH ARGUMENTS
+.IP "rdtgrp" 12
+resource group to remove
+.SH "DESCRIPTION"
+On resource group creation via a mkdir, an extra kernfs_node reference is
+taken to ensure that the rdtgroup structure remains accessible for the
+\fBrdtgroup_kn_unlock\fP calls where it is removed.
+
+Drop the extra reference here, then free the rdtgroup structure.
+.SH "RETURN"
+void

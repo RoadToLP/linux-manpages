@@ -1,0 +1,35 @@
+.TH "space_valid" 9 "space_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+space_valid \- validate free dpa space against constraints
+.SH SYNOPSIS
+.B "void" space_valid
+.BI "(struct nd_region *nd_region "  ","
+.BI "struct nvdimm_drvdata *ndd "  ","
+.BI "struct nd_label_id *label_id "  ","
+.BI "struct resource *prev "  ","
+.BI "struct resource *next "  ","
+.BI "struct resource *exist "  ","
+.BI "resource_size_t n "  ","
+.BI "struct resource *valid "  ");"
+.SH ARGUMENTS
+.IP "nd_region" 12
+hosting region of the free space
+.IP "ndd" 12
+dimm device data for debug
+.IP "label_id" 12
+namespace id to allocate space
+.IP "prev" 12
+potential allocation that precedes free space
+.IP "next" 12
+allocation that follows the given free space range
+.IP "exist" 12
+first allocation with same id in the mapping
+.IP "n" 12
+range that must satisfied for pmem allocations
+.IP "valid" 12
+free space range to validate
+.SH "DESCRIPTION"
+BLK-space is valid as long as it does not precede a PMEM
+allocation in a given region. PMEM-space must be contiguous
+and adjacent to an existing existing allocation (if one
+exists).  If reserving PMEM any space is valid.

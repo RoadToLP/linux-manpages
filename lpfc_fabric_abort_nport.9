@@ -1,0 +1,16 @@
+.TH "lpfc_fabric_abort_nport" 9 "lpfc_fabric_abort_nport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fabric_abort_nport \- Abort a ndlp's iocbs from driver fabric iocb list
+.SH SYNOPSIS
+.B "void" lpfc_fabric_abort_nport
+.BI "(struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine aborts all the IOCBs associated with an \fIndlp\fP from the
+driver internal fabric IOCB list. The list contains fabric IOCBs to be
+issued to the ELS IOCB ring. This abort function walks the fabric IOCB
+list, removes each IOCB associated with the \fIndlp\fP off the list, set the
+status feild to IOSTAT_LOCAL_REJECT, and invokes the callback function
+associated with the IOCB.

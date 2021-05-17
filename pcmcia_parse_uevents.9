@@ -1,0 +1,18 @@
+.TH "pcmcia_parse_uevents" 9 "pcmcia_parse_uevents" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_parse_uevents \- tell pccardd to issue manual commands
+.SH SYNOPSIS
+.B "void" pcmcia_parse_uevents
+.BI "(struct pcmcia_socket *s "  ","
+.BI "u_int events "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the PCMCIA socket we wan't to command
+.IP "events" 12
+events to pass to pccardd
+.SH "DESCRIPTION"
+userspace-issued insert, eject, suspend and resume commands must be
+handled by pccardd to avoid any sysfs-related deadlocks. Valid events
+are PCMCIA_UEVENT_EJECT (for eject), PCMCIA_UEVENT__INSERT (for insert),
+PCMCIA_UEVENT_RESUME (for resume), PCMCIA_UEVENT_SUSPEND (for suspend)
+and PCMCIA_UEVENT_REQUERY (for re-querying the PCMCIA card).

@@ -1,0 +1,40 @@
+.TH "ntfs_read_locked_index_inode" 9 "ntfs_read_locked_index_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_locked_index_inode \- read an index inode from its base inode
+.SH SYNOPSIS
+.B "int" ntfs_read_locked_index_inode
+.BI "(struct inode *base_vi "  ","
+.BI "struct inode *vi "  ");"
+.SH ARGUMENTS
+.IP "base_vi" 12
+base inode
+.IP "vi" 12
+index inode to read
+.SH "DESCRIPTION"
+\fBntfs_read_locked_index_inode\fP is called from \fBntfs_index_iget\fP to read the
+index inode described by \fIvi\fP into memory from the base mft record described
+by \fIbase_ni\fP.
+
+\fBntfs_read_locked_index_inode\fP maps, pins and locks the base inode for
+reading and looks up the attributes relating to the index described by \fIvi\fP
+before setting up the necessary fields in \fIvi\fP as well as initializing the
+ntfs inode.
+
+Note, index inodes are essentially attribute inodes (\fBNInoAttr\fP is true)
+with the attribute type set to AT_INDEX_ALLOCATION.  Apart from that, they
+are setup like directory inodes since directories are a special case of
+indices ao they need to be treated in much the same way.  Most importantly,
+for small indices the index allocation attribute might not actually exist.
+However, the index root attribute always exists but this does not need to
+have an inode associated with it and this is why we define a new inode type
+index.  Also, like for directories, we need to have an attribute inode for
+the bitmap attribute corresponding to the index allocation attribute and we
+can store this in the appropriate field of the inode, just like we do for
+normal directory inodes.
+
+Q: What locks are held when the function is called?
+A: i_state has I_NEW set, hence the inode is locked, also
+i_count is set to 1, so it is not going to go away
+
+Return 0 on success and -errno on error.  In the error case, the inode will
+have had \fBmake_bad_inode\fP executed on it.

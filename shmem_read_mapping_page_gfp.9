@@ -1,0 +1,24 @@
+.TH "shmem_read_mapping_page_gfp" 9 "shmem_read_mapping_page_gfp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+shmem_read_mapping_page_gfp \- read into page cache, using specified page allocation flags.
+.SH SYNOPSIS
+.B "struct page *" shmem_read_mapping_page_gfp
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t index "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the page's address_space
+.IP "index" 12
+the page index
+.IP "gfp" 12
+the page allocator flags to use if allocating
+.SH "DESCRIPTION"
+This behaves as a tmpfs "read_cache_page_gfp(mapping, index, gfp)",
+with any new page allocations done using the specified allocation flags.
+But \fBread_cache_page_gfp\fP uses the ->\fBreadpage\fP method: which does not
+suit tmpfs, since it may have pages in swapcache, and needs to find those
+for itself; although drivers/gpu/drm i915 and ttm rely upon this support.
+
+\fBi915_gem_object_get_pages_gtt\fP mixes __GFP_NORETRY | __GFP_NOWARN in
+with the \fBmapping_gfp_mask\fP, to avoid OOMing the machine unnecessarily.

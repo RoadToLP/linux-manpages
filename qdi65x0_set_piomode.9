@@ -1,0 +1,19 @@
+.TH "qdi65x0_set_piomode" 9 "qdi65x0_set_piomode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qdi65x0_set_piomode \- PIO setup for QDI65x0
+.SH SYNOPSIS
+.B "void" qdi65x0_set_piomode
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+Port
+.IP "adev" 12
+Device
+
+In single channel mode the 6580 has one clock per device and we can
+avoid the requirement to clock switch. We also have to load the timing
+into the right clock according to whether we are master or slave.
+
+In dual channel mode the 6580 has one clock per channel and we have
+to software clockswitch in qc_issue.

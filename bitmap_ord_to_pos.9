@@ -1,0 +1,27 @@
+.TH "bitmap_ord_to_pos" 9 "bitmap_ord_to_pos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_ord_to_pos \- find position of n-th set bit in bitmap
+.SH SYNOPSIS
+.B "unsigned int" bitmap_ord_to_pos
+.BI "(const unsigned long *buf "  ","
+.BI "unsigned int ord "  ","
+.BI "unsigned int nbits "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+pointer to bitmap
+.IP "ord" 12
+ordinal bit position (n-th set bit, n >= 0)
+.IP "nbits" 12
+number of valid bit positions in \fIbuf\fP
+.SH "DESCRIPTION"
+Map the ordinal offset of bit \fIord\fP in \fIbuf\fP to its position in \fIbuf\fP.
+Value of \fIord\fP should be in range 0 <= \fIord\fP < weight(buf). If \fIord\fP
+>= weight(buf), returns \fInbits\fP.
+
+If for example, just bits 4 through 7 are set in \fIbuf\fP, then \fIord\fP
+values 0 through 3 will get mapped to 4 through 7, respectively,
+and all other \fIord\fP values returns \fInbits\fP.  When \fIord\fP value 3
+gets mapped to (returns) \fIpos\fP value 7 in this example, that means
+that the 3rd set bit (starting with 0th) is at position 7 in \fIbuf\fP.
+
+The bit positions 0 through \fInbits\fP-1 are valid positions in \fIbuf\fP.

@@ -1,0 +1,26 @@
+.TH "pin_user_pages_fast" 9 "pin_user_pages_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pin_user_pages_fast \- pin user pages in memory without taking locks
+.SH SYNOPSIS
+.B "int" pin_user_pages_fast
+.BI "(unsigned long start "  ","
+.BI "int nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying pin behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long.
+.SH "DESCRIPTION"
+Nearly the same as \fBget_user_pages_fast\fP, except that FOLL_PIN is set. See
+\fBget_user_pages_fast\fP for documentation on the function arguments, because
+the arguments here are identical.
+
+FOLL_PIN means that the pages must be released via \fBunpin_user_page\fP. Please
+see Documentation/core-api/pin_user_pages.rst for further details.

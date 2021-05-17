@@ -1,0 +1,23 @@
+.TH "regulator_get_hardware_vsel_register" 9 "regulator_get_hardware_vsel_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_get_hardware_vsel_register \- get the HW voltage selector register
+.SH SYNOPSIS
+.B "int" regulator_get_hardware_vsel_register
+.BI "(struct regulator *regulator "  ","
+.BI "unsigned *vsel_reg "  ","
+.BI "unsigned *vsel_mask "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.IP "vsel_reg" 12
+voltage selector register, output parameter
+.IP "vsel_mask" 12
+mask for voltage selector bitfield, output parameter
+.SH "DESCRIPTION"
+Returns the hardware register offset and bitmask used for setting the
+regulator voltage. This might be useful when configuring voltage-scaling
+hardware or firmware that can make I2C requests behind the kernel's back,
+for example.
+
+On success, the output parameters \fIvsel_reg\fP and \fIvsel_mask\fP are filled in
+and 0 is returned, otherwise a negative errno is returned.

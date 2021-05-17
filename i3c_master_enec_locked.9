@@ -1,0 +1,23 @@
+.TH "i3c_master_enec_locked" 9 "i3c_master_enec_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_enec_locked \- send an ENEC CCC command
+.SH SYNOPSIS
+.B "int" i3c_master_enec_locked
+.BI "(struct i3c_master_controller *master "  ","
+.BI "u8 addr "  ","
+.BI "u8 evts "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+master used to send frames on the bus
+.IP "addr" 12
+a valid I3C slave address or I3C_BROADCAST_ADDR
+.IP "evts" 12
+events to disable
+.SH "DESCRIPTION"
+Sends an ENEC CCC command to enable some or all events coming from a
+specific slave, or all devices if \fIaddr\fP is I3C_BROADCAST_ADDR.
+
+This function must be called with the bus lock held in write mode.
+.SH "RETURN"
+0 in case of success, a positive I3C error code if the error is
+one of the official Mx error codes, and a negative error code otherwise.

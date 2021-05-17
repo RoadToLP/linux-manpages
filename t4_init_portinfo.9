@@ -1,0 +1,29 @@
+.TH "t4_init_portinfo" 9 "t4_init_portinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_init_portinfo \- allocate a virtual interface and initialize port_info
+.SH SYNOPSIS
+.B "int" t4_init_portinfo
+.BI "(struct port_info *pi "  ","
+.BI "int mbox "  ","
+.BI "int port "  ","
+.BI "int pf "  ","
+.BI "int vf "  ","
+.BI "u8 mac[] "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+the port_info
+.IP "mbox" 12
+mailbox to use for the FW command
+.IP "port" 12
+physical port associated with the VI
+.IP "pf" 12
+the PF owning the VI
+.IP "vf" 12
+the VF owning the VI
+.IP "mac" 12
+the MAC address of the VI
+
+Allocates a virtual interface for the given physical port.  If \fImac\fP is
+not NULL it contains the MAC address of the VI as assigned by FW.
+\fImac\fP should be large enough to hold an Ethernet address.
+Returns < 0 on error.

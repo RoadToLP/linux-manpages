@@ -1,0 +1,15 @@
+.TH "xhci_get_endpoint_index" 9 "xhci_get_endpoint_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xhci_get_endpoint_index \- Used for passing endpoint bitmasks between the core and HCDs. Find the index for an endpoint given its descriptor. Use the return value to right shift 1 for the bitmask.
+.SH SYNOPSIS
+.B "unsigned int" xhci_get_endpoint_index
+.BI "(struct usb_endpoint_descriptor *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Index  = (epnum * 2) + direction - 1,
+where direction = 0 for OUT, 1 for IN.
+For control endpoints, the IN index is used (OUT index is unused), so
+index = (epnum * 2) + direction - 1 = (epnum * 2) + 1 - 1 = (epnum * 2)

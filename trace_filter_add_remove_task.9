@@ -1,0 +1,21 @@
+.TH "trace_filter_add_remove_task" 9 "trace_filter_add_remove_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_filter_add_remove_task \- Add or remove a task from a pid_list
+.SH SYNOPSIS
+.B "void" trace_filter_add_remove_task
+.BI "(struct trace_pid_list *pid_list "  ","
+.BI "struct task_struct *self "  ","
+.BI "struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "pid_list" 12
+The list to modify
+.IP "self" 12
+The current task for fork or NULL for exit
+.IP "task" 12
+The task to add or remove
+.SH "DESCRIPTION"
+If adding a task, if \fIself\fP is defined, the task is only added if \fIself\fP
+is also included in \fIpid_list\fP. This happens on fork and tasks should
+only be added when the parent is listed. If \fIself\fP is NULL, then the
+\fItask\fP pid will be removed from the list, which would happen on exit
+of a task.

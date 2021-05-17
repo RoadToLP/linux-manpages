@@ -1,0 +1,22 @@
+.TH "software_resume" 9 "software_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+software_resume \- Resume from a saved hibernation image.
+.SH SYNOPSIS
+.B "int" software_resume
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This routine is called as a late initcall, when all devices have been
+discovered and initialized already.
+
+The image reading code is called to see if there is a hibernation image
+available for reading.  If that is the case, devices are quiesced and the
+contents of memory is restored from the saved image.
+
+If this is successful, control reappears in the restored target kernel in
+\fBhibernation_snapshot\fP which returns to \fBhibernate\fP.  Otherwise, the routine
+attempts to recover gracefully and make the kernel return to the normal mode
+of operation.

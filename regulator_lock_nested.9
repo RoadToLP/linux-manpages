@@ -1,0 +1,18 @@
+.TH "regulator_lock_nested" 9 "regulator_lock_nested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_lock_nested \- lock a single regulator
+.SH SYNOPSIS
+.B "int" regulator_lock_nested
+.BI "(struct regulator_dev *rdev "  ","
+.BI "struct ww_acquire_ctx *ww_ctx "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+regulator source
+.IP "ww_ctx" 12
+w/w mutex acquire context
+.SH "DESCRIPTION"
+This function can be called many times by one task on
+a single regulator and its mutex will be locked only
+once. If a task, which is calling this function is other
+than the one, which initially locked the mutex, it will
+wait on mutex.

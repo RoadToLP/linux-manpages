@@ -1,0 +1,43 @@
+.TH "xxxfb_check_var" 9 "xxxfb_check_var" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xxxfb_check_var \- Optional function. Validates a var passed in.
+.SH SYNOPSIS
+.B "int" xxxfb_check_var
+.BI "(struct fb_var_screeninfo *var "  ","
+.BI "struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "var" 12
+frame buffer variable screen structure
+.IP "info" 12
+frame buffer structure that represents a single frame buffer 
+
+Checks to see if the hardware supports the state requested by
+var passed in. This function does not alter the hardware state!!! 
+This means the data stored in struct fb_info and struct xxx_par do 
+not change. This includes the var inside of struct fb_info. 
+Do NOT change these. This function can be called on its own if we
+intent to only test a mode and not actually set it. The stuff in 
+modedb.c is a example of this. If the var passed in is slightly 
+off by what the hardware can support then we alter the var PASSED in
+to what we can do.
+
+For values that are off, this function must round them _up_ to the
+next value that is supported by the hardware.  If the value is
+greater than the highest value supported by the hardware, then this
+function must return -EINVAL.
+
+Exception to the above rule:  Some drivers have a fixed mode, ie,
+the hardware is already set at boot up, and cannot be changed.  In
+this case, it is more acceptable that this function just return
+a copy of the currently working var (info->var). Better is to not
+implement this function, as the upper layer will do the copying
+of the current var for you.
+.SH "NOTE"
+This is the only function where the contents of var can be
+freely adjusted after the driver has been registered. If you find
+that you have code outside of this function that alters the content
+of var, then you are doing something wrong.  Note also that the
+contents of info->var must be left untouched at all times after
+driver registration.
+
+Returns negative errno on error, or zero on success.

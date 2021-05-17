@@ -1,0 +1,15 @@
+.TH "aa_free_profile" 9 "aa_free_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_free_profile \- free a profile
+.SH SYNOPSIS
+.B "void" aa_free_profile
+.BI "(struct aa_profile *profile "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+the profile to free  (MAYBE NULL)
+.SH "DESCRIPTION"
+Free a profile, its hats and null_profile. All references to the profile,
+its hats and null_profile must have been put.
+
+If the profile was referenced from a task context, \fBfree_profile\fP will
+be called from an rcu callback routine, so we must not sleep here.

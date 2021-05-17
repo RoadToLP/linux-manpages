@@ -1,0 +1,24 @@
+.TH "trace_array_set_clr_event" 9 "trace_array_set_clr_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_array_set_clr_event \- enable or disable an event for a trace array.
+.SH SYNOPSIS
+.B "int" trace_array_set_clr_event
+.BI "(struct trace_array *tr "  ","
+.BI "const char *system "  ","
+.BI "const char *event "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+concerned trace array.
+.IP "system" 12
+system name to match (NULL for any system)
+.IP "event" 12
+event name to match (NULL for all events, within system)
+.IP "enable" 12
+true to enable, false to disable
+.SH "DESCRIPTION"
+This is a way for other parts of the kernel to enable or disable
+event recording.
+
+Returns 0 on success, -EINVAL if the parameters do not match any
+registered events.

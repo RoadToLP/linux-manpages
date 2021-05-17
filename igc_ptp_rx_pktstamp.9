@@ -1,0 +1,20 @@
+.TH "igc_ptp_rx_pktstamp" 9 "igc_ptp_rx_pktstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igc_ptp_rx_pktstamp \- Retrieve timestamp from Rx packet buffer
+.SH SYNOPSIS
+.B "void" igc_ptp_rx_pktstamp
+.BI "(struct igc_q_vector *q_vector "  ","
+.BI "__le32 *va "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "q_vector" 12
+Pointer to interrupt specific structure
+.IP "va" 12
+Pointer to address containing Rx buffer
+.IP "skb" 12
+Buffer containing timestamp and packet
+.SH "DESCRIPTION"
+This function retrieves the timestamp saved in the beginning of packet
+buffer. While two timestamps are available, one in timer0 reference and the
+other in timer1 reference, this function considers only the timestamp in
+timer0 reference.

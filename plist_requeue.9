@@ -1,0 +1,17 @@
+.TH "plist_requeue" 9 "plist_requeue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+plist_requeue \- Requeue @node at end of same-prio entries.
+.SH SYNOPSIS
+.B "void" plist_requeue
+.BI "(struct plist_node *node "  ","
+.BI "struct plist_head *head "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+\fIstruct plist_node\fP pointer - entry to be moved
+.IP "head" 12
+\fIstruct plist_head\fP pointer - list head
+.SH "DESCRIPTION"
+
+This is essentially an optimized \fBplist_del\fP followed by
+\fBplist_add\fP.  It moves an entry already in the plist to
+after any other same-priority entries.

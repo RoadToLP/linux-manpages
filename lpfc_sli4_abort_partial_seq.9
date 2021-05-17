@@ -1,0 +1,23 @@
+.TH "lpfc_sli4_abort_partial_seq" 9 "lpfc_sli4_abort_partial_seq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_abort_partial_seq \- Abort partially assembled unsol sequence
+.SH SYNOPSIS
+.B "bool" lpfc_sli4_abort_partial_seq
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct hbq_dmabuf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a vitural port
+.IP "dmabuf" 12
+pointer to a dmabuf that describes the FC sequence
+.SH "DESCRIPTION"
+This function tries to abort from the partially assembed sequence, described
+by the information from basic abbort \fIdmabuf\fP. It checks to see whether such
+partially assembled sequence held by the driver. If so, it shall free up all
+the frames from the partially assembled sequence.
+
+Return
+true  -- if there is matching partially assembled sequence present and all
+the frames freed with the sequence;
+false -- if there is no matching partially assembled sequence present so
+nothing got aborted in the lower layer driver

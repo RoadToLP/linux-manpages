@@ -1,0 +1,15 @@
+.TH "start_poll_synchronize_srcu" 9 "start_poll_synchronize_srcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+start_poll_synchronize_srcu \- Provide cookie and start grace period
+.SH SYNOPSIS
+.B "unsigned long" start_poll_synchronize_srcu
+.BI "(struct srcu_struct *ssp "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+srcu_struct to provide cookie for.
+.SH "DESCRIPTION"
+This function returns a cookie that can be passed to
+\fBpoll_state_synchronize_srcu\fP, which will return true if a full grace
+period has elapsed in the meantime.  Unlike \fBget_state_synchronize_srcu\fP,
+this function also ensures that any needed SRCU grace period will be
+started.  This convenience does come at a cost in terms of CPU overhead.

@@ -1,0 +1,46 @@
+.TH "fwserial_probe" 9 "fwserial_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwserial_probe \- bus probe function for firewire 'serial' unit devices
+.SH SYNOPSIS
+.B "int" fwserial_probe
+.BI "(struct fw_unit *unit "  ","
+.BI "const struct ieee1394_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+-- undescribed --
+.IP "id" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+A 'serial' unit device is created and probed as a result of:
+- declaring a ieee1394 bus id table for 'devices' matching a fabricated
+'serial' unit specifier id
+- adding a unit directory to the config ROM(s) for a 'serial' unit
+
+The firewire core registers unit devices by enumerating unit directories
+of a node's config ROM after reading the config ROM when a new node is
+added to the bus topology after a bus reset.
+
+The practical implications of this are:
+- this probe is called for both local and remote nodes that have a 'serial'
+unit directory in their config ROM (that matches the specifiers in
+fwserial_id_table).
+- no specific order is enforced for local vs. remote unit devices
+
+This unit driver copes with the lack of specific order in the same way the
+firewire net driver does -- each probe, for either a local or remote unit
+device, is treated as a 'peer' (has a struct fwtty_peer instance) and the
+first peer created for a given fw_card (tracked by the global fwserial_list)
+creates the underlying TTYs (aggregated in a fw_serial instance).
+
+NB: an early attempt to differentiate local & remote unit devices by creating
+peers only for remote units and fw_serial instances (with their
+associated TTY devices) only for local units was discarded. Managing
+the peer lifetimes on device removal proved too complicated.
+
+fwserial_probe/fwserial_remove are effectively serialized by the
+fwserial_list_mutex. This is necessary because the addition of the first peer
+for a given fw_card will trigger the creation of the fw_serial for that
+fw_card, which must not simultaneously contend with the removal of the
+last peer for a given fw_card triggering the destruction of the same
+fw_serial for the same fw_card.

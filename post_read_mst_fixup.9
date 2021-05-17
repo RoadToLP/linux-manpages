@@ -1,0 +1,24 @@
+.TH "post_read_mst_fixup" 9 "post_read_mst_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+post_read_mst_fixup \- deprotect multi sector transfer protected data
+.SH SYNOPSIS
+.B "int" post_read_mst_fixup
+.BI "(NTFS_RECORD *b "  ","
+.BI "const u32 size "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+pointer to the data to deprotect
+.IP "size" 12
+size in bytes of \fIb\fP
+.SH "DESCRIPTION"
+Perform the necessary post read multi sector transfer fixup and detect the
+presence of incomplete multi sector transfers. - In that case, overwrite the
+magic of the ntfs record header being processed with "BAAD" (in memory only!)
+and abort processing.
+
+Return 0 on success and -EINVAL on error ("BAAD" magic will be present).
+.SH "NOTE"
+We consider the absence / invalidity of an update sequence array to
+mean that the structure is not protected at all and hence doesn't need to
+be fixed up. Thus, we return success and not failure in this case. This is
+in contrast to \fBpre_write_mst_fixup\fP, see below.

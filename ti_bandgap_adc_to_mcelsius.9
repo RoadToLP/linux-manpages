@@ -1,0 +1,22 @@
+.TH "ti_bandgap_adc_to_mcelsius" 9 "ti_bandgap_adc_to_mcelsius" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_bandgap_adc_to_mcelsius \- converts an ADC value to mCelsius scale
+.SH SYNOPSIS
+.B "int" ti_bandgap_adc_to_mcelsius
+.BI "(struct ti_bandgap *bgp "  ","
+.BI "int adc_val "  ","
+.BI "int *t "  ");"
+.SH ARGUMENTS
+.IP "bgp" 12
+struct ti_bandgap pointer
+.IP "adc_val" 12
+value in ADC representation
+.IP "t" 12
+address where to write the resulting temperature in mCelsius
+.SH "DESCRIPTION"
+Simple conversion from ADC representation to mCelsius. In case the ADC value
+is out of the ADC conv table range, it returns -ERANGE, 0 on success.
+The conversion table is indexed by the ADC values.
+.SH "RETURN"
+0 if conversion was successful, else -ERANGE in case the \fIadc_val\fP
+argument is out of the ADC conv table range.

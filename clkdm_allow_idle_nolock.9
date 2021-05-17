@@ -1,0 +1,16 @@
+.TH "clkdm_allow_idle_nolock" 9 "clkdm_allow_idle_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_allow_idle_nolock \- enable hwsup idle transitions for clkdm
+.SH SYNOPSIS
+.B "void" clkdm_allow_idle_nolock
+.BI "(struct clockdomain *clkdm "  ");"
+.SH ARGUMENTS
+.IP "clkdm" 12
+struct clockdomain *
+.SH "DESCRIPTION"
+Allow the hardware to automatically switch the clockdomain \fIclkdm\fP
+into active or idle states, as needed by downstream clocks.  If the
+clockdomain has any downstream clocks enabled in the clock
+framework, wkdep/sleepdep autodependencies are added; this is so
+device drivers can read and write to the device.  Only for use by
+the powerdomain code.  No return value.

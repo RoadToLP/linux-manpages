@@ -1,0 +1,20 @@
+.TH "stmp3xxx_wdt_set_timeout" 9 "stmp3xxx_wdt_set_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stmp3xxx_wdt_set_timeout \- configure the watchdog inside the STMP3xxx RTC
+.SH SYNOPSIS
+.B "void" stmp3xxx_wdt_set_timeout
+.BI "(struct device *dev "  ","
+.BI "u32 timeout "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the parent device of the watchdog (= the RTC)
+.IP "timeout" 12
+the desired value for the timeout register of the watchdog.
+0 disables the watchdog
+.SH "DESCRIPTION"
+The watchdog needs one register and two bits which are in the RTC domain.
+To handle the resource conflict, the RTC driver will create another
+platform_device for the watchdog driver as a child of the RTC device.
+The watchdog driver is passed the below accessor function via platform_data
+to configure the watchdog. Locking is not needed because accessing SET/CLR
+registers is atomic.

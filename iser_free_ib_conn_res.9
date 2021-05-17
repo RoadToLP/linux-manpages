@@ -1,0 +1,18 @@
+.TH "iser_free_ib_conn_res" 9 "iser_free_ib_conn_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iser_free_ib_conn_res \- release IB related resources
+.SH SYNOPSIS
+.B "void" iser_free_ib_conn_res
+.BI "(struct iser_conn *iser_conn "  ","
+.BI "bool destroy "  ");"
+.SH ARGUMENTS
+.IP "iser_conn" 12
+iser connection struct
+.IP "destroy" 12
+indicator if we need to try to release the
+iser device and memory regoins pool (only iscsi
+shutdown and DEVICE_REMOVAL will use this).
+.SH "DESCRIPTION"
+This routine is called with the iser state mutex held
+so the cm_id removal is out of here. It is Safe to
+be invoked multiple times.

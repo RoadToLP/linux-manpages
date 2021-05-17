@@ -1,0 +1,37 @@
+.TH "ni_route_to_register" 9 "ni_route_to_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ni_route_to_register \- Validates and converts the specified signal route (src-->dest) to the value used at the appropriate register.
+.SH SYNOPSIS
+.B "s8" ni_route_to_register
+.BI "(const int src "  ","
+.BI "const int dest "  ","
+.BI "const struct ni_route_tables *tables "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+global-identifier for route source
+.IP "dest" 12
+global-identifier for route destination
+.IP "tables" 12
+pointer to relevant set of routing tables.
+.SH "DESCRIPTION"
+Generally speaking, most routes require the first six bits and a few require
+7 bits.  Special handling is given for the return value when the route is to
+be handled by the RTSI sub-device.  In this case, the returned register may
+not be sufficient to define the entire route path, but rather may only
+indicate the intermediate route.  For example, if the route must go through
+the RGOUT0 pin, the (src->RGOUT0) register value will be returned.
+Similarly, if the route must go through the NI_RTSI_BRD lines, the BIT(6)
+will be set:
+
+if route does not need RTSI_BRD lines:
+bits 0:7 : register value
+for a route that must go through RGOUT0 pin, this will be equal
+to the (src->RGOUT0) register value.
+else: * route is (src->RTSI_BRD(x), RTSI_BRD(x)->TRIGGER_LINE(i)) *
+bits 0:5 : zero
+bits 6   : set to 1
+bits 7:7 : zero
+.SH "RETURN"
+register value to be used for source at destination with special
+cases given above; Otherwise, -1 if the specified route is not valid for
+this particular device.

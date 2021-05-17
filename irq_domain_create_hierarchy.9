@@ -1,0 +1,30 @@
+.TH "irq_domain_create_hierarchy" 9 "irq_domain_create_hierarchy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_domain_create_hierarchy \- Add a irqdomain into the hierarchy
+.SH SYNOPSIS
+.B "struct irq_domain *" irq_domain_create_hierarchy
+.BI "(struct irq_domain *parent "  ","
+.BI "unsigned int flags "  ","
+.BI "unsigned int size "  ","
+.BI "struct fwnode_handle *fwnode "  ","
+.BI "const struct irq_domain_ops *ops "  ","
+.BI "void *host_data "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+Parent irq domain to associate with the new domain
+.IP "flags" 12
+Irq domain flags associated to the domain
+.IP "size" 12
+Size of the domain. See below
+.IP "fwnode" 12
+Optional fwnode of the interrupt controller
+.IP "ops" 12
+Pointer to the interrupt domain callbacks
+.IP "host_data" 12
+Controller private data pointer
+.SH "DESCRIPTION"
+If \fIsize\fP is 0 a tree domain is created, otherwise a linear domain.
+
+If successful the parent is associated to the new domain and the
+domain flags are set.
+Returns pointer to IRQ domain, or NULL on failure.

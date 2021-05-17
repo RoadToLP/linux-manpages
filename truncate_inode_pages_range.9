@@ -1,0 +1,33 @@
+.TH "truncate_inode_pages_range" 9 "truncate_inode_pages_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+truncate_inode_pages_range \- truncate range of pages specified by start & end byte offsets
+.SH SYNOPSIS
+.B "void" truncate_inode_pages_range
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t lstart "  ","
+.BI "loff_t lend "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+mapping to truncate
+.IP "lstart" 12
+offset from which to truncate
+.IP "lend" 12
+offset to which to truncate (inclusive)
+.SH "DESCRIPTION"
+Truncate the page cache, removing the pages that are between
+specified offsets (and zeroing out partial pages
+if lstart or lend + 1 is not page aligned).
+
+Truncate takes two passes - the first pass is nonblocking.  It will not
+block on page locks and it will not block on writeback.  The second pass
+will wait.  This is to prevent as much IO as possible in the affected region.
+The first pass will remove most pages, so the search cost of the second pass
+is low.
+
+We pass down the cache-hot hint to the page freeing code.  Even if the
+mapping is large, it is probably the case that the final pages are the most
+recently touched, and freeing happens in ascending file offset order.
+
+Note that since ->\fBinvalidatepage\fP accepts range to invalidate
+truncate_inode_pages_range is able to handle cases where lend + 1 is not
+page aligned properly.

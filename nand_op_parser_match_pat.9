@@ -1,0 +1,17 @@
+.TH "nand_op_parser_match_pat" 9 "nand_op_parser_match_pat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_op_parser_match_pat \- Checks if a pattern matches the instructions remaining in the parser context
+.SH SYNOPSIS
+.B "bool" nand_op_parser_match_pat
+.BI "(const struct nand_op_parser_pattern *pat "  ","
+.BI "struct nand_op_parser_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "pat" 12
+the pattern to test
+.IP "ctx" 12
+the parser context structure to match with the pattern \fIpat\fP
+.SH "DESCRIPTION"
+Check if \fIpat\fP matches the set or a sub-set of instructions remaining in \fIctx\fP.
+Returns true if this is the case, false ortherwise. When true is returned,
+\fIctx->subop\fP is updated with the set of instructions to be passed to the
+controller driver.

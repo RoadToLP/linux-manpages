@@ -1,0 +1,22 @@
+.TH "pm_wakeup_ws_event" 9 "pm_wakeup_ws_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_wakeup_ws_event \- Notify the PM core of a wakeup event.
+.SH SYNOPSIS
+.B "void" pm_wakeup_ws_event
+.BI "(struct wakeup_source *ws "  ","
+.BI "unsigned int msec "  ","
+.BI "bool hard "  ");"
+.SH ARGUMENTS
+.IP "ws" 12
+Wakeup source object associated with the event source.
+.IP "msec" 12
+Anticipated event processing time (in milliseconds).
+.IP "hard" 12
+If set, abort suspends in progress and wake up from suspend-to-idle.
+.SH "DESCRIPTION"
+Notify the PM core of a wakeup event whose source is \fIws\fP that will take
+approximately \fImsec\fP milliseconds to be processed by the kernel.  If \fIws\fP is
+not active, activate it.  If \fImsec\fP is nonzero, set up the \fIws\fP' timer to
+execute \fBpm_wakeup_timer_fn\fP in future.
+
+It is safe to call this function from interrupt context.

@@ -1,0 +1,22 @@
+.TH "arch_phys_wc_add" 9 "arch_phys_wc_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arch_phys_wc_add \- add a WC MTRR and handle errors if PAT is unavailable
+.SH SYNOPSIS
+.B "int" arch_phys_wc_add
+.BI "(unsigned long base "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+Physical base address
+.IP "size" 12
+Size of region
+.SH "DESCRIPTION"
+If PAT is available, this does nothing.  If PAT is unavailable, it
+attempts to add a WC MTRR covering size bytes starting at base and
+logs an error if this fails.
+
+The called should provide a power of two size on an equivalent
+power of two boundary.
+
+Drivers must store the return value to pass to mtrr_del_wc_if_needed,
+but drivers should not try to interpret that return value.

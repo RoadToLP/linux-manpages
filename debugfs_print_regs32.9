@@ -1,0 +1,28 @@
+.TH "debugfs_print_regs32" 9 "debugfs_print_regs32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_print_regs32 \- use seq_print to describe a set of registers
+.SH SYNOPSIS
+.B "void" debugfs_print_regs32
+.BI "(struct seq_file *s "  ","
+.BI "const struct debugfs_reg32 *regs "  ","
+.BI "int nregs "  ","
+.BI "void __iomem *base "  ","
+.BI "char *prefix "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the seq_file structure being used to generate output
+.IP "regs" 12
+an array if struct debugfs_reg32 structures
+.IP "nregs" 12
+the length of the above array
+.IP "base" 12
+the base address to be used in reading the registers
+.IP "prefix" 12
+a string to be prefixed to every output line
+.SH "DESCRIPTION"
+This function outputs a text block describing the current values of
+some 32-bit hardware registers. It is meant to be used within debugfs
+files based on seq_file that need to show registers, intermixed with other
+information. The prefix argument may be used to specify a leading string,
+because some peripherals have several blocks of identical registers,
+for example configuration of dma channels

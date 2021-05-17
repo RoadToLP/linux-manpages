@@ -1,0 +1,17 @@
+.TH "__ew32_prepare" 9 "__ew32_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ew32_prepare \- prepare to write to MAC CSR register on certain parts
+.SH SYNOPSIS
+.B "void" __ew32_prepare
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.SH "DESCRIPTION"
+When updating the MAC CSR registers, the Manageability Engine (ME) could
+be accessing the registers at the same time.  Normally, this is handled in
+h/w by an arbiter but on some parts there is a bug that acknowledges Host
+accesses later than it should which could result in the register to have
+an incorrect value.  Workaround this by checking the FWSM register which
+has bit 24 set while ME is accessing MAC CSR registers, wait if it is set
+and try again a number of times.

@@ -1,0 +1,33 @@
+.TH "__blkdev_issue_zeroout" 9 "__blkdev_issue_zeroout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__blkdev_issue_zeroout \- generate number of zero filed write bios
+.SH SYNOPSIS
+.B "int" __blkdev_issue_zeroout
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t sector "  ","
+.BI "sector_t nr_sects "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "struct bio **biop "  ","
+.BI "unsigned flags "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+blockdev to issue
+.IP "sector" 12
+start sector
+.IP "nr_sects" 12
+number of sectors to write
+.IP "gfp_mask" 12
+memory allocation flags (for bio_alloc)
+.IP "biop" 12
+pointer to anchor bio
+.IP "flags" 12
+controls detailed behavior
+.SH "DESCRIPTION"
+Zero-fill a block range, either using hardware offload or by explicitly
+writing zeroes to the device.
+
+If a device is using logical block provisioning, the underlying space will
+not be released if flags contains BLKDEV_ZERO_NOUNMAP.
+
+If flags contains BLKDEV_ZERO_NOFALLBACK, the function will return
+-EOPNOTSUPP if no explicit hardware offload for zeroing is provided.

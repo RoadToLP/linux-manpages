@@ -1,0 +1,21 @@
+.TH "comedi_dio_update_state" 9 "comedi_dio_update_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_dio_update_state \- Update the internal state of DIO subdevices
+.SH SYNOPSIS
+.B "unsigned int" comedi_dio_update_state
+.BI "(struct comedi_subdevice *s "  ","
+.BI "unsigned int *data "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "data" 12
+The channel mask and bits to update.
+.SH "DESCRIPTION"
+Updates \fIs->state\fP which holds the internal state of the outputs for DIO
+or DO subdevices (up to 32 channels).  \fIdata\fP[0] contains a bit-mask of
+the channels to be updated.  \fIdata\fP[1] contains a bit-mask of those
+channels to be set to '1'.  The caller is responsible for updating the
+outputs in hardware according to \fIs->state\fP.  As a minimum, the channels
+in the returned bit-mask need to be updated.
+
+Returns \fImask\fP with non-existent channels removed.

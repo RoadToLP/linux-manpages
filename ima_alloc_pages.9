@@ -1,0 +1,24 @@
+.TH "ima_alloc_pages" 9 "ima_alloc_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_alloc_pages \- Allocate contiguous pages.
+.SH SYNOPSIS
+.B "void *" ima_alloc_pages
+.BI "(loff_t max_size "  ","
+.BI "size_t *allocated_size "  ","
+.BI "int last_warn "  ");"
+.SH ARGUMENTS
+.IP "max_size" 12
+Maximum amount of memory to allocate.
+.IP "allocated_size" 12
+Returned size of actual allocation.
+.IP "last_warn" 12
+Should the min_size allocation warn or not.
+.SH "DESCRIPTION"
+Tries to do opportunistic allocation for memory first trying to allocate
+max_size amount of memory and then splitting that until zero order is
+reached. Allocation is tried without generating allocation warnings unless
+last_warn is set. Last_warn set affects only last allocation of zero order.
+
+By default, ima_maxorder is 0 and it is equivalent to kmalloc(GFP_KERNEL)
+
+Return pointer to allocated memory, or NULL on failure.

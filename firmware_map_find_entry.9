@@ -1,0 +1,21 @@
+.TH "firmware_map_find_entry" 9 "firmware_map_find_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_map_find_entry \- Search memmap entry in map_entries.
+.SH SYNOPSIS
+.B "struct firmware_map_entry *" firmware_map_find_entry
+.BI "(u64 start "  ","
+.BI "u64 end "  ","
+.BI "const char *type "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+Start of the memory range.
+.IP "end" 12
+End of the memory range (exclusive).
+.IP "type" 12
+Type of the memory range.
+.SH "DESCRIPTION"
+This function is to find the memmap entey of a given memory range.
+The caller must hold map_entries_lock, and must not release the lock
+until the processing of the returned entry has completed.
+.SH "RETURN"
+Pointer to the entry to be found on success, or NULL on failure.

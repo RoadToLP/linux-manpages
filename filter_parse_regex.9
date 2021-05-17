@@ -1,0 +1,28 @@
+.TH "filter_parse_regex" 9 "filter_parse_regex" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filter_parse_regex \- parse a basic regex
+.SH SYNOPSIS
+.B "enum regex_type" filter_parse_regex
+.BI "(char *buff "  ","
+.BI "int len "  ","
+.BI "char **search "  ","
+.BI "int *not "  ");"
+.SH ARGUMENTS
+.IP "buff" 12
+the raw regex
+.IP "len" 12
+length of the regex
+.IP "search" 12
+will point to the beginning of the string to compare
+.IP "not" 12
+tell whether the match will have to be inverted
+.SH "DESCRIPTION"
+This passes in a buffer containing a regex and this function will
+set search to point to the search part of the buffer and
+return the type of search it is (see enum above).
+This does modify buff.
+
+Returns enum type.
+search returns the pointer to use for comparison.
+not returns 1 if buff started with a '!'
+0 otherwise.

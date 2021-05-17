@@ -1,0 +1,21 @@
+.TH "blk_mq_all_tag_iter" 9 "blk_mq_all_tag_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_all_tag_iter \- iterate over all requests in a tag map
+.SH SYNOPSIS
+.B "void" blk_mq_all_tag_iter
+.BI "(struct blk_mq_tags *tags "  ","
+.BI "busy_tag_iter_fn *fn "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "tags" 12
+Tag map to iterate over.
+.IP "fn" 12
+Pointer to the function that will be called for each
+request. \fIfn\fP will be called as follows: \fIfn\fP(rq, \fIpriv\fP,
+reserved) where rq is a pointer to a request. 'reserved'
+indicates whether or not \fIrq\fP is a reserved request. Return
+true to continue iterating tags, false to stop.
+.IP "priv" 12
+Will be passed as second argument to \fIfn\fP.
+.SH "DESCRIPTION"
+Caller has to pass the tag map from which requests are allocated.

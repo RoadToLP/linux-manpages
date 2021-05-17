@@ -1,0 +1,14 @@
+.TH "ibmvfc_tgt_adisc_cancel_done" 9 "ibmvfc_tgt_adisc_cancel_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvfc_tgt_adisc_cancel_done \- Completion handler when cancelling an ADISC
+.SH SYNOPSIS
+.B "void" ibmvfc_tgt_adisc_cancel_done
+.BI "(struct ibmvfc_event *evt "  ");"
+.SH ARGUMENTS
+.IP "evt" 12
+ibmvfc event struct
+.SH "DESCRIPTION"
+Just cleanup this event struct. Everything else is handled by
+the ADISC completion handler. If the ADISC never actually comes
+back, we still have the timer running on the ADISC event struct
+which will fire and cause the CRQ to get reset.

@@ -1,0 +1,17 @@
+.TH "qib_ud_loopback" 9 "qib_ud_loopback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_ud_loopback \- handle send on loopback QPs
+.SH SYNOPSIS
+.B "void" qib_ud_loopback
+.BI "(struct rvt_qp *sqp "  ","
+.BI "struct rvt_swqe *swqe "  ");"
+.SH ARGUMENTS
+.IP "sqp" 12
+the sending QP
+.IP "swqe" 12
+the send work request
+.SH "DESCRIPTION"
+This is called from \fBqib_make_ud_req\fP to forward a WQE addressed
+to the same HCA.
+Note that the receive interrupt handler may be calling \fBqib_ud_rcv\fP
+while this is being called.

@@ -1,0 +1,26 @@
+.TH "ima_measure_critical_data" 9 "ima_measure_critical_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_measure_critical_data \- measure kernel integrity critical data
+.SH SYNOPSIS
+.B "void" ima_measure_critical_data
+.BI "(const char *event_label "  ","
+.BI "const char *event_name "  ","
+.BI "const void *buf "  ","
+.BI "size_t buf_len "  ","
+.BI "bool hash "  ");"
+.SH ARGUMENTS
+.IP "event_label" 12
+unique event label for grouping and limiting critical data
+.IP "event_name" 12
+event name for the record in the IMA measurement list
+.IP "buf" 12
+pointer to buffer data
+.IP "buf_len" 12
+length of buffer data (in bytes)
+.IP "hash" 12
+measure buffer data hash
+.SH "DESCRIPTION"
+Measure data critical to the integrity of the kernel into the IMA log
+and extend the pcr.  Examples of critical data could be various data
+structures, policies, and states stored in kernel memory that can
+impact the integrity of the system.

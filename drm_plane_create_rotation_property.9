@@ -1,0 +1,43 @@
+.TH "drm_plane_create_rotation_property" 9 "drm_plane_create_rotation_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_plane_create_rotation_property \- create a new rotation property
+.SH SYNOPSIS
+.B "int" drm_plane_create_rotation_property
+.BI "(struct drm_plane *plane "  ","
+.BI "unsigned int rotation "  ","
+.BI "unsigned int supported_rotations "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+drm plane
+.IP "rotation" 12
+initial value of the rotation property
+.IP "supported_rotations" 12
+bitmask of supported rotations and reflections
+.SH "DESCRIPTION"
+This creates a new property with the selected support for transformations.
+
+Since a rotation by 180° degress is the same as reflecting both along the x
+and the y axis the rotation property is somewhat redundant. Drivers can use
+\fBdrm_rotation_simplify\fP to normalize values of this property.
+
+The property exposed to userspace is a bitmask property (see
+\fBdrm_property_create_bitmask\fP) called "rotation" and has the following
+bitmask enumaration values:
+
+DRM_MODE_ROTATE_0:
+"rotate-0"
+DRM_MODE_ROTATE_90:
+"rotate-90"
+DRM_MODE_ROTATE_180:
+"rotate-180"
+DRM_MODE_ROTATE_270:
+"rotate-270"
+DRM_MODE_REFLECT_X:
+"reflect-x"
+DRM_MODE_REFLECT_Y:
+"reflect-y"
+
+Rotation is the specified amount in degrees in counter clockwise direction,
+the X and Y axis are within the source rectangle, i.e.  the X/Y axis before
+rotation. After reflection, the rotation is applied to the image sampled from
+the source rectangle, before scaling it to fit the destination rectangle.

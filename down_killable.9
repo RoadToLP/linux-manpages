@@ -1,0 +1,15 @@
+.TH "down_killable" 9 "down_killable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+down_killable \- acquire the semaphore unless killed
+.SH SYNOPSIS
+.B "int" down_killable
+.BI "(struct semaphore *sem "  ");"
+.SH ARGUMENTS
+.IP "sem" 12
+the semaphore to be acquired
+.SH "DESCRIPTION"
+Attempts to acquire the semaphore.  If no more tasks are allowed to
+acquire the semaphore, calling this function will put the task to sleep.
+If the sleep is interrupted by a fatal signal, this function will return
+-EINTR.  If the semaphore is successfully acquired, this function returns
+0.

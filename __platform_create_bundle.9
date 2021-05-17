@@ -1,0 +1,32 @@
+.TH "__platform_create_bundle" 9 "__platform_create_bundle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__platform_create_bundle \- register driver and create corresponding device
+.SH SYNOPSIS
+.B "struct platform_device *" __platform_create_bundle
+.BI "(struct platform_driver *driver "  ","
+.BI "int (*probe)(struct platform_device *) "  ","
+.BI "struct resource *res "  ","
+.BI "unsigned int n_res "  ","
+.BI "const void *data "  ","
+.BI "size_t size "  ","
+.BI "struct module *module "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+platform driver structure
+.IP "probe" 12
+the driver probe routine, probably from an __init section
+.IP "res" 12
+set of resources that needs to be allocated for the device
+.IP "n_res" 12
+number of resources
+.IP "data" 12
+platform specific data for this platform device
+.IP "size" 12
+size of platform specific data
+.IP "module" 12
+module which will be the owner of the driver
+.SH "DESCRIPTION"
+Use this in legacy-style modules that probe hardware directly and
+register a single platform device and corresponding platform driver.
+
+Returns \fIstruct platform_device\fP pointer on success, or \fBERR_PTR\fP on error.

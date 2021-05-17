@@ -1,0 +1,17 @@
+.TH "ccw_device_set_online" 9 "ccw_device_set_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_set_online \- enable a ccw device for I/O
+.SH SYNOPSIS
+.B "int" ccw_device_set_online
+.BI "(struct ccw_device *cdev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+target ccw device
+.SH "DESCRIPTION"
+This function first enables \fIcdev\fP and then calls the driver's \fBset_online\fP
+function for \fIcdev\fP, if given. If \fBset_online\fP returns an error, \fIcdev\fP is
+disabled again.
+.SH "RETURN"
+0 on success and a negative error value on failure.
+.SH "CONTEXT"
+enabled, ccw device lock not held

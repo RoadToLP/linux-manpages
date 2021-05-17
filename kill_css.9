@@ -1,0 +1,14 @@
+.TH "kill_css" 9 "kill_css" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kill_css \- destroy a css
+.SH SYNOPSIS
+.B "void" kill_css
+.BI "(struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "css" 12
+css to destroy
+.SH "DESCRIPTION"
+This function initiates destruction of \fIcss\fP by removing cgroup interface
+files and putting its base reference.  ->\fBcss_offline\fP will be invoked
+asynchronously once \fBcss_tryget_online\fP is guaranteed to fail and when
+the reference count reaches zero, \fIcss\fP will be released.

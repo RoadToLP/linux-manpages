@@ -1,0 +1,26 @@
+.TH "tm_cgpr_get" 9 "tm_cgpr_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tm_cgpr_get \- get CGPR registers
+.SH SYNOPSIS
+.B "int" tm_cgpr_get
+.BI "(struct task_struct *target "  ","
+.BI "const struct user_regset *regset "  ","
+.BI "struct membuf to "  ");"
+.SH ARGUMENTS
+.IP "target" 12
+The target task.
+.IP "regset" 12
+The user regset structure.
+.IP "to" 12
+Destination of copy.
+.SH "DESCRIPTION"
+This function gets transaction checkpointed GPR registers.
+
+When the transaction is active, 'ckpt_regs' holds all the checkpointed
+GPR register values for the current transaction to fall back on if it
+aborts in between. This function gets those checkpointed GPR registers.
+The userspace interface buffer layout is as follows.
+
+struct data {
+struct pt_regs ckpt_regs;
+};

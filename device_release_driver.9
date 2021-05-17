@@ -1,0 +1,16 @@
+.TH "device_release_driver" 9 "device_release_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_release_driver \- manually detach device from driver.
+.SH SYNOPSIS
+.B "void" device_release_driver
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+Manually detach device from driver.
+When called for a USB interface, \fIdev->parent\fP lock must be held.
+
+If this function is to be called with \fIdev->parent\fP lock held, ensure that
+the device's consumers are unbound in advance or that their locks can be
+acquired under the \fIdev->parent\fP lock.

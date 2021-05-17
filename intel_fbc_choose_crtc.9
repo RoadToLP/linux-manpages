@@ -1,0 +1,19 @@
+.TH "intel_fbc_choose_crtc" 9 "intel_fbc_choose_crtc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_fbc_choose_crtc \- select a CRTC to enable FBC on
+.SH SYNOPSIS
+.B "void" intel_fbc_choose_crtc
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "struct intel_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "state" 12
+the atomic state structure
+.SH "DESCRIPTION"
+This function looks at the proposed state for CRTCs and planes, then chooses
+which pipe is going to have FBC by setting intel_crtc_state->enable_fbc to
+true.
+
+Later, intel_fbc_enable is going to look for state->enable_fbc and then maybe
+enable FBC for the chosen CRTC. If it does, it will set dev_priv->fbc.crtc.

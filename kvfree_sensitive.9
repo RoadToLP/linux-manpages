@@ -1,0 +1,16 @@
+.TH "kvfree_sensitive" 9 "kvfree_sensitive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvfree_sensitive \- Free a data object containing sensitive information.
+.SH SYNOPSIS
+.B "void" kvfree_sensitive
+.BI "(const void *addr "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+address of the data object to be freed.
+.IP "len" 12
+length of the data object.
+.SH "DESCRIPTION"
+Use the special \fBmemzero_explicit\fP function to clear the content of a
+kvmalloc'ed object containing sensitive data to make sure that the
+compiler won't optimize out the data clearing.

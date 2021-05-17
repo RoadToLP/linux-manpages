@@ -1,0 +1,22 @@
+.TH "hidpp_scroll_counter_handle_scroll" 9 "hidpp_scroll_counter_handle_scroll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hidpp_scroll_counter_handle_scroll \- Send high- and low-resolution scroll events given a high-resolution wheel movement.
+.SH SYNOPSIS
+.B "void" hidpp_scroll_counter_handle_scroll
+.BI "(struct input_dev *input_dev "  ","
+.BI "struct hidpp_scroll_counter *counter "  ","
+.BI "int hi_res_value "  ");"
+.SH ARGUMENTS
+.IP "input_dev" 12
+-- undescribed --
+.IP "counter" 12
+a hid_scroll_counter struct describing the wheel.
+.IP "hi_res_value" 12
+the movement of the wheel, in the mouse's high-resolution
+units.
+.SH "DESCRIPTION"
+Given a high-resolution movement, this function converts the movement into
+fractions of 120 and emits high-resolution scroll events for the input
+device. It also uses the multiplier from \fIstruct hid_scroll_counter\fP to
+emit low-resolution scroll events when appropriate for
+backwards-compatibility with userspace input libraries.

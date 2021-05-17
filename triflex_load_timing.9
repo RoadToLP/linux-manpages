@@ -1,0 +1,20 @@
+.TH "triflex_load_timing" 9 "triflex_load_timing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+triflex_load_timing \- timing configuration
+.SH SYNOPSIS
+.B "void" triflex_load_timing
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "int speed "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA interface
+.IP "adev" 12
+Device on the bus
+.IP "speed" 12
+speed to configure
+
+The Triflex has one set of timings per device per channel. This
+means we must do some switching. As the PIO and DMA timings don't
+match we have to do some reloading unlike PIIX devices where tuning
+tricks can avoid it.

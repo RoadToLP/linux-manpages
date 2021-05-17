@@ -1,0 +1,20 @@
+.TH "finish_no_open" 9 "finish_no_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+finish_no_open \- finish ->atomic_open() without opening the file
+.SH SYNOPSIS
+.B "int" finish_no_open
+.BI "(struct file *file "  ","
+.BI "struct dentry *dentry "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "dentry" 12
+dentry or NULL (as returned from ->\fBlookup\fP)
+.SH "DESCRIPTION"
+This can be used to set the result of a successful lookup in ->\fBatomic_open\fP.
+
+NB: unlike \fBfinish_open\fP this function does consume the dentry reference and
+the caller need not \fBdput\fP it.
+
+Returns "0" which must be the return value of ->\fBatomic_open\fP after having
+called this function.

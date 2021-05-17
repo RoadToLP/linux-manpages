@@ -1,0 +1,14 @@
+.TH "drbd_al_shrink" 9 "drbd_al_shrink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_al_shrink \- Removes all active extents form the activity log
+.SH SYNOPSIS
+.B "void" drbd_al_shrink
+.BI "(struct drbd_device *device "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.SH "DESCRIPTION"
+Removes all active extents form the activity log, waiting until
+the reference count of each entry dropped to 0 first, of course.
+
+You need to lock device->act_log with \fBlc_try_lock\fP / \fBlc_unlock\fP

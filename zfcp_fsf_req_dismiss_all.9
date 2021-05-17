@@ -1,0 +1,14 @@
+.TH "zfcp_fsf_req_dismiss_all" 9 "zfcp_fsf_req_dismiss_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_fsf_req_dismiss_all \- dismiss all fsf requests
+.SH SYNOPSIS
+.B "void" zfcp_fsf_req_dismiss_all
+.BI "(struct zfcp_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+pointer to struct zfcp_adapter
+.SH "DESCRIPTION"
+Never ever call this without shutting down the adapter first.
+Otherwise the adapter would continue using and corrupting s390 storage.
+Included \fBBUG_ON\fP call to ensure this is done.
+ERP is supposed to be the only user of this function.

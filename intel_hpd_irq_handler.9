@@ -1,0 +1,25 @@
+.TH "intel_hpd_irq_handler" 9 "intel_hpd_irq_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_hpd_irq_handler \- main hotplug irq handler
+.SH SYNOPSIS
+.B "void" intel_hpd_irq_handler
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "u32 pin_mask "  ","
+.BI "u32 long_mask "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+drm_i915_private
+.IP "pin_mask" 12
+a mask of hpd pins that have triggered the irq
+.IP "long_mask" 12
+a mask of hpd pins that may be long hpd pulses
+.SH "DESCRIPTION"
+This is the main hotplug irq handler for all platforms. The platform specific
+irq handlers call the platform specific hotplug irq handlers, which read and
+decode the appropriate registers into bitmasks about hpd pins that have
+triggered (\fIpin_mask\fP), and which of those pins may be long pulses
+(\fIlong_mask\fP). The \fIlong_mask\fP is ignored if the port corresponding to the pin
+is not a digital port.
+
+Here, we do hotplug irq storm detection and mitigation, and pass further
+processing to appropriate bottom halves.

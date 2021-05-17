@@ -1,0 +1,20 @@
+.TH "__remove_pages" 9 "__remove_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__remove_pages \- remove sections of pages
+.SH SYNOPSIS
+.B "void" __remove_pages
+.BI "(unsigned long pfn "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "struct vmem_altmap *altmap "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+starting pageframe (must be aligned to start of a section)
+.IP "nr_pages" 12
+number of pages to remove (must be multiple of section size)
+.IP "altmap" 12
+alternative device page map or NULL if default memmap is used
+.SH "DESCRIPTION"
+Generic helper function to remove section mappings and sysfs entries
+for the section of the memory we are removing. Caller needs to make
+sure that pages are marked reserved and zones are adjust properly by
+calling \fBoffline_pages\fP.

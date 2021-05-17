@@ -1,0 +1,24 @@
+.TH "ath5k_check_timer_win" 9 "ath5k_check_timer_win" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_check_timer_win \- Check if timer B is timer A + window
+.SH SYNOPSIS
+.B "bool" ath5k_check_timer_win
+.BI "(int a "  ","
+.BI "int b "  ","
+.BI "int window "  ","
+.BI "int intval "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+timer a (before b)
+.IP "b" 12
+timer b (after a)
+.IP "window" 12
+difference between a and b
+.IP "intval" 12
+timers are increased by this interval
+.SH "DESCRIPTION"
+This helper function checks if timer B is timer A + window and covers
+cases where timer A or B might have already been updated or wrapped
+around (Timers are 16 bit).
+
+Returns true if O.K.

@@ -1,0 +1,26 @@
+.TH "ir_raw_encode_scancode" 9 "ir_raw_encode_scancode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_raw_encode_scancode \- Encode a scancode as raw events
+.SH SYNOPSIS
+.B "int" ir_raw_encode_scancode
+.BI "(enum rc_proto protocol "  ","
+.BI "u32 scancode "  ","
+.BI "struct ir_raw_event *events "  ","
+.BI "unsigned int max "  ");"
+.SH ARGUMENTS
+.IP "protocol" 12
+protocol
+.IP "scancode" 12
+scancode filter describing a single scancode
+.IP "events" 12
+array of raw events to write into
+.IP "max" 12
+max number of raw events
+.SH "DESCRIPTION"
+Attempts to encode the scancode as raw events.
+.SH "RETURN"
+The number of events written.
+-ENOBUFS if there isn't enough space in the array to fit the
+encoding. In this case all \fImax\fP events will have been written.
+-EINVAL if the scancode is ambiguous or invalid, or if no
+compatible encoder was found.

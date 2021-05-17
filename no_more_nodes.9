@@ -1,0 +1,25 @@
+.TH "no_more_nodes" 9 "no_more_nodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+no_more_nodes \- determine if there are no more nodes in a buffer.
+.SH SYNOPSIS
+.B "int" no_more_nodes
+.BI "(const struct ubifs_info *c "  ","
+.BI "void *buf "  ","
+.BI "int len "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+buffer to check
+.IP "len" 12
+length of buffer
+.IP "lnum" 12
+LEB number of the LEB from which \fIbuf\fP was read
+.IP "offs" 12
+offset from which \fIbuf\fP was read
+.SH "DESCRIPTION"
+This function ensures that the corrupted node at \fIoffs\fP is the last thing
+written to a LEB. This function returns 1 if more data is not found and
+0 if more data is found.

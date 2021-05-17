@@ -1,0 +1,14 @@
+.TH "igb_probe_vfs" 9 "igb_probe_vfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_probe_vfs \- Initialize vf data storage and add VFs to pci config space
+.SH SYNOPSIS
+.B "void" igb_probe_vfs
+.BI "(struct igb_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private structure to initialize
+
+This function initializes the vf specific data storage and then attempts to
+allocate the VFs.  The reason for ordering it this way is because it is much
+mor expensive time wise to disable SR-IOV than it is to allocate and free
+the memory for the VFs.

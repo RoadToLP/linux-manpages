@@ -1,0 +1,16 @@
+.TH "rnbd_get_cpu_qlist" 9 "rnbd_get_cpu_qlist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rnbd_get_cpu_qlist \- finds a list with HW queues to be rerun
+.SH SYNOPSIS
+.B "struct rnbd_cpu_qlist *" rnbd_get_cpu_qlist
+.BI "(struct rnbd_clt_session *sess "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "sess" 12
+Session to find a queue for
+.IP "cpu" 12
+Cpu to start the search from
+.SH "DESCRIPTION"
+Each CPU has a list of HW queues, which needs to be rerun.  If a list
+is not empty - it is marked with a bit.  This function finds first
+set bit in a bitmap and returns corresponding CPU list.

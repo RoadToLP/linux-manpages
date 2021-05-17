@@ -1,0 +1,25 @@
+.TH "devm_rtc_device_register" 9 "devm_rtc_device_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_rtc_device_register \- resource managed rtc_device_register()
+.SH SYNOPSIS
+.B "struct rtc_device *" devm_rtc_device_register
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct rtc_class_ops *ops "  ","
+.BI "struct module *owner "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device to register
+.IP "name" 12
+the name of the device (unused)
+.IP "ops" 12
+the rtc operations structure
+.IP "owner" 12
+the module owner
+.SH "DESCRIPTION"
+\fIreturn\fP a struct rtc on success, or an ERR_PTR on error
+
+Managed \fBrtc_device_register\fP. The rtc_device returned from this function
+are automatically freed on driver detach.
+This function is deprecated, use devm_rtc_allocate_device and
+rtc_register_device instead

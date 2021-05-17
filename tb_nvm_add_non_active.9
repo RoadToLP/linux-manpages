@@ -1,0 +1,21 @@
+.TH "tb_nvm_add_non_active" 9 "tb_nvm_add_non_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_nvm_add_non_active \- Adds non-active NVMem device to NVM
+.SH SYNOPSIS
+.B "int" tb_nvm_add_non_active
+.BI "(struct tb_nvm *nvm "  ","
+.BI "size_t size "  ","
+.BI "nvmem_reg_write_t reg_write "  ");"
+.SH ARGUMENTS
+.IP "nvm" 12
+NVM structure
+.IP "size" 12
+Size of the non-active NVM in bytes
+.IP "reg_write" 12
+Pointer to the function to write the NVM (passed directly
+to the NVMem device)
+.SH "DESCRIPTION"
+Registers new non-active NVmem device for \fInvm\fP. The \fIreg_write\fP is called
+directly from NVMem so it must handle possible concurrent access if
+needed. The first parameter passed to \fIreg_write\fP is \fInvm\fP structure.
+Returns 0 in success and negative errno otherwise.

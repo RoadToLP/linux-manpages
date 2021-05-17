@@ -1,0 +1,23 @@
+.TH "fnic_set_port_id" 9 "fnic_set_port_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fnic_set_port_id \- set the port_ID after successful FLOGI.
+.SH SYNOPSIS
+.B "void" fnic_set_port_id
+.BI "(struct fc_lport *lport "  ","
+.BI "u32 port_id "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+local port.
+.IP "port_id" 12
+assigned FC_ID.
+.IP "fp" 12
+received frame containing the FLOGI accept or NULL.
+.SH "DESCRIPTION"
+This is called from libfc when a new FC_ID has been assigned.
+This causes us to reset the firmware to FC_MODE and setup the new MAC
+address and FC_ID.
+
+It is also called with FC_ID 0 when we're logged off.
+
+If the FC_ID is due to point-to-point, fp may be NULL.

@@ -1,0 +1,22 @@
+.TH "asd_build_control_phy" 9 "asd_build_control_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_build_control_phy \- - build a CONTROL PHY SCB
+.SH SYNOPSIS
+.B "void" asd_build_control_phy
+.BI "(struct asd_ascb *ascb "  ","
+.BI "int phy_id "  ","
+.BI "u8 subfunc "  ");"
+.SH ARGUMENTS
+.IP "ascb" 12
+pointer to an ascb
+.IP "phy_id" 12
+phy id to control, integer
+.IP "subfunc" 12
+subfunction, what to actually to do the phy
+.SH "DESCRIPTION"
+This function builds a CONTROL PHY scb.  No allocation of any kind
+is performed. \fIascb\fP is allocated with the list function.
+The caller can override the ascb->tasklet_complete to point
+to its own callback function.  It must call \fBasd_ascb_free\fP
+at its tasklet complete function.
+See the default implementation.

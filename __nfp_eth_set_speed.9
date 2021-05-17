@@ -1,0 +1,19 @@
+.TH "__nfp_eth_set_speed" 9 "__nfp_eth_set_speed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nfp_eth_set_speed \- set interface speed/rate
+.SH SYNOPSIS
+.B "int" __nfp_eth_set_speed
+.BI "(struct nfp_nsp *nsp "  ","
+.BI "unsigned int speed "  ");"
+.SH ARGUMENTS
+.IP "nsp" 12
+NFP NSP handle returned from \fBnfp_eth_config_start\fP
+.IP "speed" 12
+Desired speed (per lane)
+.SH "DESCRIPTION"
+Set lane speed.  Provided \fIspeed\fP value should be subport speed divided
+by number of lanes this subport is spanning (i.e. 10000 for 40G, 25000 for
+50G, etc.)
+Will write to hwinfo overrides in the flash (persistent config).
+.SH "RETURN"
+0 or -ERRNO.

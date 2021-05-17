@@ -1,0 +1,34 @@
+.TH "t4_memory_rw" 9 "t4_memory_rw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_memory_rw \- read/write EDC 0, EDC 1 or MC via PCIE memory window
+.SH SYNOPSIS
+.B "int" t4_memory_rw
+.BI "(struct adapter *adap "  ","
+.BI "int win "  ","
+.BI "int mtype "  ","
+.BI "u32 addr "  ","
+.BI "u32 len "  ","
+.BI "void *hbuf "  ","
+.BI "int dir "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "win" 12
+PCI-E Memory Window to use
+.IP "mtype" 12
+memory type: MEM_EDC0, MEM_EDC1 or MEM_MC
+.IP "addr" 12
+address within indicated memory type
+.IP "len" 12
+amount of memory to transfer
+.IP "hbuf" 12
+host memory buffer
+.IP "dir" 12
+direction of transfer T4_MEMORY_READ (1) or T4_MEMORY_WRITE (0)
+
+Reads/writes an [almost] arbitrary memory region in the firmware: the
+firmware memory address and host buffer must be aligned on 32-bit
+boundaries; the length may be arbitrary.  The memory is transferred as
+a raw byte sequence from/to the firmware's memory.  If this memory
+contains data structures which contain multi-byte integers, it's the
+caller's responsibility to perform appropriate byte order conversions.

@@ -1,0 +1,16 @@
+.TH "hfi1_rcd_eoi_intr" 9 "hfi1_rcd_eoi_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_rcd_eoi_intr \- End of Interrupt processing action
+.SH SYNOPSIS
+.B "void" hfi1_rcd_eoi_intr
+.BI "(struct hfi1_ctxtdata *rcd "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+Ptr to hfi1_ctxtdata of receive context
+
+Hold IRQs so we can safely clear the interrupt and
+recheck for a packet that may have arrived after the previous
+check and the interrupt clear.  If a packet arrived, force another
+interrupt. This routine can be called at the end of receive packet
+processing in interrupt service routines, interrupt service thread
+and softirqs

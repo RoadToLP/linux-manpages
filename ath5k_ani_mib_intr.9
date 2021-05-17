@@ -1,0 +1,16 @@
+.TH "ath5k_ani_mib_intr" 9 "ath5k_ani_mib_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_ani_mib_intr \- Interrupt handler for ANI MIB counters
+.SH SYNOPSIS
+.B "void" ath5k_ani_mib_intr
+.BI "(struct ath5k_hw *ah "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.SH "DESCRIPTION"
+Just read & reset the registers quickly, so they don't generate more
+interrupts, save the counters and schedule the tasklet to decide whether
+to raise immunity or not.
+
+We just need to handle PHY error counters, \fBath5k_hw_update_mib_counters\fP
+should take care of all "normal" MIB interrupts.

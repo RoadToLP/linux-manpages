@@ -1,0 +1,18 @@
+.TH "ibmvscsis_adapter_idle" 9 "ibmvscsis_adapter_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_adapter_idle \- Helper function to handle idle adapter
+.SH SYNOPSIS
+.B "void" ibmvscsis_adapter_idle
+.BI "(struct scsi_info *vscsi "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.SH "DESCRIPTION"
+This function is called when the adapter is idle when the driver
+is attempting to clear an error condition.
+The adapter is considered busy if any of its cmd queues
+are non-empty. This function can be invoked
+from the off level disconnect function.
+
+EXECUTION ENVIRONMENT:
+Process environment called with interrupt lock held

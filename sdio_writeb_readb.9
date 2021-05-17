@@ -1,0 +1,24 @@
+.TH "sdio_writeb_readb" 9 "sdio_writeb_readb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_writeb_readb \- write and read a byte from SDIO function
+.SH SYNOPSIS
+.B "u8" sdio_writeb_readb
+.BI "(struct sdio_func *func "  ","
+.BI "u8 write_byte "  ","
+.BI "unsigned int addr "  ","
+.BI "int *err_ret "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function to access
+.IP "write_byte" 12
+byte to write
+.IP "addr" 12
+address to write to
+.IP "err_ret" 12
+optional status value from transfer
+
+Performs a RAW (Read after Write) operation as defined by SDIO spec -
+single byte is written to address space of a given SDIO function and
+response is read back from the same address, both using single request.
+If there is a problem with the operation, 0xff is returned and
+\fIerr_ret\fP will contain the error code.

@@ -1,0 +1,16 @@
+.TH "css_tryget_online_from_dir" 9 "css_tryget_online_from_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_tryget_online_from_dir \- get corresponding css from a cgroup dentry
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" css_tryget_online_from_dir
+.BI "(struct dentry *dentry "  ","
+.BI "struct cgroup_subsys *ss "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+directory dentry of interest
+.IP "ss" 12
+subsystem of interest
+.SH "DESCRIPTION"
+If \fIdentry\fP is a directory for a cgroup which has \fIss\fP enabled on it, try
+to get the corresponding css and return it.  If such css doesn't exist
+or can't be pinned, an ERR_PTR value is returned.

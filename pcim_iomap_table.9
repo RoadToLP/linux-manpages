@@ -1,0 +1,18 @@
+.TH "pcim_iomap_table" 9 "pcim_iomap_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcim_iomap_table \- access iomap allocation table
+.SH SYNOPSIS
+.B "void __iomem * const *" pcim_iomap_table
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device to access iomap table for
+.SH "DESCRIPTION"
+Access iomap allocation table for \fIdev\fP.  If iomap table doesn't
+exist and \fIpdev\fP is managed, it will be allocated.  All iomaps
+recorded in the iomap table are automatically unmapped on driver
+detach.
+
+This function might sleep when the table is first allocated but can
+be safely called without context and guaranteed to succed once
+allocated.

@@ -1,0 +1,21 @@
+.TH "genpd_power_off" 9 "genpd_power_off" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genpd_power_off \- Remove power from a given PM domain.
+.SH SYNOPSIS
+.B "int" genpd_power_off
+.BI "(struct generic_pm_domain *genpd "  ","
+.BI "bool one_dev_on "  ","
+.BI "unsigned int depth "  ");"
+.SH ARGUMENTS
+.IP "genpd" 12
+PM domain to power down.
+.IP "one_dev_on" 12
+If invoked from genpd's ->runtime_suspend|\fBresume\fP callback, the
+RPM status of the releated device is in an intermediate state, not yet turned
+into RPM_SUSPENDED. This means \fBgenpd_power_off\fP must allow one device to not
+be RPM_SUSPENDED, while it tries to power off the PM domain.
+.IP "depth" 12
+-- undescribed --
+.SH "DESCRIPTION"
+If all of the \fIgenpd\fP's devices have been suspended and all of its subdomains
+have been powered down, remove power from \fIgenpd\fP.

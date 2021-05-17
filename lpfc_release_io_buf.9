@@ -1,0 +1,21 @@
+.TH "lpfc_release_io_buf" 9 "lpfc_release_io_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_release_io_buf \- Return one IO buf back to free pool
+.SH SYNOPSIS
+.B "void" lpfc_release_io_buf
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_io_buf *lpfc_ncmd "  ","
+.BI "struct lpfc_sli4_hdw_queue *qp "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "lpfc_ncmd" 12
+IO buf to be returned.
+.IP "qp" 12
+belong to which HWQ.
+.SH "DESCRIPTION"
+This routine returns one IO buf back to free pool. If this is an urgent IO,
+the IO buf is returned to expedite pool. If cfg_xri_rebalancing==1,
+the IO buf is returned to pbl_pool or pvt_pool based on watermark and
+xri_limit.  If cfg_xri_rebalancing==0, the IO buf is returned to
+lpfc_io_buf_list_put.

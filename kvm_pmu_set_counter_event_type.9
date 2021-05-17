@@ -1,0 +1,19 @@
+.TH "kvm_pmu_set_counter_event_type" 9 "kvm_pmu_set_counter_event_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_pmu_set_counter_event_type \- set selected counter to monitor some event
+.SH SYNOPSIS
+.B "void" kvm_pmu_set_counter_event_type
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "u64 data "  ","
+.BI "u64 select_idx "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+The vcpu pointer
+.IP "data" 12
+The data guest writes to PMXEVTYPER_EL0
+.IP "select_idx" 12
+The number of selected counter
+.SH "DESCRIPTION"
+When OS accesses PMXEVTYPER_EL0, that means it wants to set a PMC to count an
+event with given hardware event number. Here we call perf_event API to
+emulate this action and create a kernel perf event for it.

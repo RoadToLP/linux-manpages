@@ -1,0 +1,51 @@
+.TH "start_isolate_page_range" 9 "start_isolate_page_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+start_isolate_page_range \- make page-allocation-type of range of pages to be MIGRATE_ISOLATE.
+.SH SYNOPSIS
+.B "int" start_isolate_page_range
+.BI "(unsigned long start_pfn "  ","
+.BI "unsigned long end_pfn "  ","
+.BI "unsigned migratetype "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "start_pfn" 12
+The lower PFN of the range to be isolated.
+.IP "end_pfn" 12
+The upper PFN of the range to be isolated.
+start_pfn/end_pfn must be aligned to pageblock_order.
+.IP "migratetype" 12
+Migrate type to set in error recovery.
+.IP "flags" 12
+The following flags are allowed (they can be combined in
+a bit mask)
+MEMORY_OFFLINE - isolate to offline (!allocate) memory
+e.g., skip over \fBPageHWPoison\fP pages
+and \fBPageOffline\fP pages.
+REPORT_FAILURE - report details about the failure to
+isolate the range
+.SH "DESCRIPTION"
+Making page-allocation-type to be MIGRATE_ISOLATE means free pages in
+the range will never be allocated. Any free pages and pages freed in the
+future will not be allocated again. If specified range includes migrate types
+other than MOVABLE or CMA, this will fail with -EBUSY. For isolating all
+pages in the range finally, the caller have to free all pages in the range.
+\fBtest_page_isolated\fP can be used for test it.
+
+There is no high level synchronization mechanism that prevents two threads
+from trying to isolate overlapping ranges. If this happens, one thread
+will notice pageblocks in the overlapping range already set to isolate.
+This happens in set_migratetype_isolate, and set_migratetype_isolate
+returns an error. We then clean up by restoring the migration type on
+pageblocks we may have modified and return -EBUSY to caller. This
+prevents two threads from simultaneously working on overlapping ranges.
+
+Please note that there is no strong synchronization with the page allocator
+either. Pages might be freed while their page blocks are marked ISOLATED.
+A call to \fBdrain_all_pages\fP after isolation can flush most of them. However
+in some cases pages might still end up on pcp lists and that would allow
+for their allocation even when they are in fact isolated already. Depending
+on how strong of a guarantee the caller needs, zone_pcp_disable/\fBenable\fP
+might be used to flush and disable pcplist before isolation and enable after
+unisolation.
+.SH "RETURN"
+0 on success and -EBUSY if any part of range cannot be isolated.

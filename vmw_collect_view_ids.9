@@ -1,0 +1,21 @@
+.TH "vmw_collect_view_ids" 9 "vmw_collect_view_ids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_collect_view_ids \- Build view id data for a view binding command without checking which bindings actually need to be emitted
+.SH SYNOPSIS
+.B "void" vmw_collect_view_ids
+.BI "(struct vmw_ctx_binding_state *cbs "  ","
+.BI "const struct vmw_ctx_bindinfo *bi "  ","
+.BI "u32 max_num "  ");"
+.SH ARGUMENTS
+.IP "cbs" 12
+Pointer to the context's struct vmw_ctx_binding_state
+.IP "bi" 12
+Pointer to where the binding info array is stored in \fIcbs\fP
+.IP "max_num" 12
+Maximum number of entries in the \fIbi\fP array.
+.SH "DESCRIPTION"
+Scans the \fIbi\fP array for bindings and builds a buffer of view id data.
+Stops at the first non-existing binding in the \fIbi\fP array.
+On output, \fIcbs->bind_cmd_count\fP contains the number of bindings to be
+emitted, \fIcbs->bind_first_slot\fP is set to zero, and \fIcbs->bind_cmd_buffer\fP
+contains the command data.

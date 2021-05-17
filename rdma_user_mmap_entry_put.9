@@ -1,0 +1,16 @@
+.TH "rdma_user_mmap_entry_put" 9 "rdma_user_mmap_entry_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_entry_put \- Drop reference to the mmap entry
+.SH SYNOPSIS
+.B "void" rdma_user_mmap_entry_put
+.BI "(struct rdma_user_mmap_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+an entry in the mmap_xa
+.SH "DESCRIPTION"
+This function is called when the mapping is closed if it was
+an io mapping or when the driver is done with the entry for
+some other reason.
+Should be called after rdma_user_mmap_entry_get was called
+and entry is no longer needed. This function will erase the
+entry and free it if its refcnt reaches zero.

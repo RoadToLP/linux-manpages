@@ -1,0 +1,26 @@
+.TH "ufshcd_runtime_resume" 9 "ufshcd_runtime_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_runtime_resume \- runtime resume routine
+.SH SYNOPSIS
+.B "int" ufshcd_runtime_resume
+.BI "(struct ufs_hba *hba "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per adapter instance
+.SH "DESCRIPTION"
+This function basically brings the UFS device, UniPro link and controller
+to active state. Following operations are done in this function:
+
+1. Turn on all the controller related clocks
+2. Bring the UniPro link out of Hibernate state
+3. If UFS device is in sleep state, turn ON VCC rail and bring the UFS device
+to active state.
+4. If auto-bkops is enabled on the device, disable it.
+
+So following would be the possible power state after this function return
+successfully:
+S1: UFS device in Active state with VCC rail ON
+UniPro link in Active state
+All the UFS/UniPro controller clocks are ON
+
+Returns 0 for success and non-zero for failure

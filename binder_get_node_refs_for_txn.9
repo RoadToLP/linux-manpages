@@ -1,0 +1,30 @@
+.TH "binder_get_node_refs_for_txn" 9 "binder_get_node_refs_for_txn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_get_node_refs_for_txn \- Get required refs on node for txn
+.SH SYNOPSIS
+.B "struct binder_node *" binder_get_node_refs_for_txn
+.BI "(struct binder_node *node "  ","
+.BI "struct binder_proc **procp "  ","
+.BI "uint32_t *error "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+struct binder_node for which to get refs
+.IP "procp" 12
+-- undescribed --
+.IP "error" 12
+if no \fIproc\fP then returns BR_DEAD_REPLY
+.SH "DESCRIPTION"
+User-space normally keeps the node alive when creating a transaction
+since it has a reference to the target. The local strong ref keeps it
+alive if the sending process dies before the target process processes
+the transaction. If the source process is malicious or has a reference
+counting bug, relying on the local strong ref can fail.
+
+Since user-space can cause the local strong ref to go away, we also take
+a tmpref on the node to ensure it survives while we are constructing
+the transaction. We also need a tmpref on the proc while we are
+constructing the transaction, so we take that here as well.
+.SH "RETURN"
+The target_node with refs taken or NULL if no \fInode->proc\fP is NULL.
+Also sets \fIproc\fP if valid. If the \fInode->proc\fP is NULL indicating that the
+target proc has died, \fIerror\fP is set to BR_DEAD_REPLY

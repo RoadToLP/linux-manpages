@@ -1,0 +1,20 @@
+.TH "batadv_send_skb_via_gw" 9 "batadv_send_skb_via_gw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_send_skb_via_gw \- send an skb via gateway lookup
+.SH SYNOPSIS
+.B "int" batadv_send_skb_via_gw
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+payload to send
+.IP "vid" 12
+the vid to be used to search the translation table
+.SH "DESCRIPTION"
+Look up the currently selected gateway. Wrap the given skb into a batman-adv
+unicast header and send this frame to this gateway node.
+.SH "RETURN"
+NET_XMIT_DROP in case of error or NET_XMIT_SUCCESS otherwise.

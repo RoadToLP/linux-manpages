@@ -1,0 +1,18 @@
+.TH "get_index" 9 "get_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_index \- assign stream index number based on v4l2_dev
+.SH SYNOPSIS
+.B "int" get_index
+.BI "(struct video_device *vdev "  ");"
+.SH ARGUMENTS
+.IP "vdev" 12
+video_device to assign index number to, vdev->v4l2_dev should be assigned
+.SH "DESCRIPTION"
+Note that when this is called the new device has not yet been registered
+in the video_device array, but it was able to obtain a minor number.
+
+This means that we can always obtain a free stream index number since
+the worst case scenario is that there are VIDEO_NUM_DEVICES - 1 slots in
+use of the video_device array.
+
+Returns a free index number.

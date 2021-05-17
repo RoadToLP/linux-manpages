@@ -1,0 +1,23 @@
+.TH "mmu_notifier_get_locked" 9 "mmu_notifier_get_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_notifier_get_locked \- Return the single struct mmu_notifier for the mm & ops
+.SH SYNOPSIS
+.B "struct mmu_notifier *" mmu_notifier_get_locked
+.BI "(const struct mmu_notifier_ops *ops "  ","
+.BI "struct mm_struct *mm "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+The operations struct being subscribe with
+.IP "mm" 12
+The mm to attach notifiers too
+.SH "DESCRIPTION"
+This function either allocates a new mmu_notifier via
+ops->\fBalloc_notifier\fP, or returns an already existing notifier on the
+list. The value of the ops pointer is used to determine when two notifiers
+are the same.
+
+Each call to \fBmmu_notifier_get\fP must be paired with a call to
+\fBmmu_notifier_put\fP. The caller must hold the write side of mm->mmap_lock.
+
+While the caller has a mmu_notifier get the mm pointer will remain valid,
+and can be converted to an active mm pointer via \fBmmget_not_zero\fP.

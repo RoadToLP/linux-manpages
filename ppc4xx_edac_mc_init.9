@@ -1,0 +1,29 @@
+.TH "ppc4xx_edac_mc_init" 9 "ppc4xx_edac_mc_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ppc4xx_edac_mc_init \- initialize driver instance
+.SH SYNOPSIS
+.B "int" ppc4xx_edac_mc_init
+.BI "(struct mem_ctl_info *mci "  ","
+.BI "struct platform_device *op "  ","
+.BI "const dcr_host_t *dcr_host "  ","
+.BI "u32 mcopt1 "  ");"
+.SH ARGUMENTS
+.IP "mci" 12
+A pointer to the EDAC memory controller instance being
+initialized.
+.IP "op" 12
+A pointer to the OpenFirmware device tree node associated
+with the controller this EDAC instance is bound to.
+.IP "dcr_host" 12
+A pointer to the DCR data containing the DCR mapping
+for this controller instance.
+.IP "mcopt1" 12
+The 32-bit Memory Controller Option 1 register value
+currently set for the controller, from which ECC capabilities
+and scrub mode are derived.
+.SH "DESCRIPTION"
+This routine performs initialization of the EDAC memory controller
+instance and related driver-private data associated with the
+ibm,sdram-4xx-ddr2 memory controller the instance is bound to.
+
+Returns 0 if OK; otherwise, < 0 on error.

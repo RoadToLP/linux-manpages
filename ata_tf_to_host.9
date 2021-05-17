@@ -1,0 +1,19 @@
+.TH "ata_tf_to_host" 9 "ata_tf_to_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_tf_to_host \- issue ATA taskfile to host controller
+.SH SYNOPSIS
+.B "void" ata_tf_to_host
+.BI "(struct ata_port *ap "  ","
+.BI "const struct ata_taskfile *tf "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port to which command is being issued
+.IP "tf" 12
+ATA taskfile register set
+
+Issues ATA taskfile register set to ATA host controller,
+with proper synchronization with interrupt handler and
+other threads.
+
+LOCKING:
+spin_lock_irqsave(host lock)

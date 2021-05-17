@@ -1,0 +1,21 @@
+.TH "rpaphp_add_slot" 9 "rpaphp_add_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpaphp_add_slot \- - declare a hotplug slot to the hotplug subsystem.
+.SH SYNOPSIS
+.B "int" rpaphp_add_slot
+.BI "(struct device_node *dn "  ");"
+.SH ARGUMENTS
+.IP "dn" 12
+device node of slot
+.SH "DESCRIPTION"
+This subroutine will register a hotpluggable slot with the
+PCI hotplug infrastructure. This routine is typically called
+during boot time, if the hotplug slots are present at boot time,
+or is called later, by the dlpar add code, if the slot is
+being dynamically added during runtime.
+
+If the device node points at an embedded (built-in) slot, this
+routine will just return without doing anything, since embedded
+slots cannot be hotplugged.
+
+To remove a slot, it suffices to call \fBrpaphp_deregister_slot\fP.

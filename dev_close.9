@@ -1,0 +1,14 @@
+.TH "dev_close" 9 "dev_close" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_close \- shutdown an interface.
+.SH SYNOPSIS
+.B "void" dev_close
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to shutdown
+
+This function moves an active device into down state. A
+NETDEV_GOING_DOWN is sent to the netdev notifier chain. The device
+is then deactivated and finally a NETDEV_DOWN is sent to the notifier
+chain.

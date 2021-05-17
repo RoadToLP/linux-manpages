@@ -1,0 +1,26 @@
+.TH "percpu_ref_init" 9 "percpu_ref_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_init \- initialize a percpu refcount
+.SH SYNOPSIS
+.B "int" percpu_ref_init
+.BI "(struct percpu_ref *ref "  ","
+.BI "percpu_ref_func_t *release "  ","
+.BI "unsigned int flags "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+percpu_ref to initialize
+.IP "release" 12
+function which will be called when refcount hits 0
+.IP "flags" 12
+PERCPU_REF_INIT_* flags
+.IP "gfp" 12
+allocation mask to use
+.SH "DESCRIPTION"
+Initializes \fIref\fP.  \fIref\fP starts out in percpu mode with a refcount of 1 unless
+\fIflags\fP contains PERCPU_REF_INIT_ATOMIC or PERCPU_REF_INIT_DEAD.  These flags
+change the start state to atomic with the latter setting the initial refcount
+to 0.  See the definitions of PERCPU_REF_INIT_* flags for flag behaviors.
+
+Note that \fIrelease\fP must not sleep - it may potentially be called from RCU
+callback context by \fBpercpu_ref_kill\fP.

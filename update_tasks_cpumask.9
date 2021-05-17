@@ -1,0 +1,13 @@
+.TH "update_tasks_cpumask" 9 "update_tasks_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_tasks_cpumask \- Update the cpumasks of tasks in the cpuset.
+.SH SYNOPSIS
+.B "void" update_tasks_cpumask
+.BI "(struct cpuset *cs "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+the cpuset in which each task's cpus_allowed mask needs to be changed
+.SH "DESCRIPTION"
+Iterate through each task of \fIcs\fP updating its cpus_allowed to the
+effective cpuset's.  As this function is called with cpuset_mutex held,
+cpuset membership stays stable.

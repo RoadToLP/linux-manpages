@@ -1,0 +1,13 @@
+.TH "__rtnl_link_unregister" 9 "__rtnl_link_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__rtnl_link_unregister \- Unregister rtnl_link_ops from rtnetlink.
+.SH SYNOPSIS
+.B "void" __rtnl_link_unregister
+.BI "(struct rtnl_link_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+struct rtnl_link_ops * to unregister
+.SH "DESCRIPTION"
+The caller must hold the rtnl_mutex and guarantee net_namespace_list
+integrity (hold pernet_ops_rwsem for writing to close the race
+with \fBsetup_net\fP and \fBcleanup_net\fP).

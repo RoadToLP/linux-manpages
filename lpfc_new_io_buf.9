@@ -1,0 +1,21 @@
+.TH "lpfc_new_io_buf" 9 "lpfc_new_io_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_new_io_buf \- IO buffer allocator for HBA with SLI4 IF spec
+.SH SYNOPSIS
+.B "int" lpfc_new_io_buf
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int num_to_alloc "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to lpfc hba data structure.
+.IP "num_to_alloc" 12
+The requested number of buffers to allocate.
+.SH "DESCRIPTION"
+This routine allocates nvme buffers for device with SLI-4 interface spec,
+the nvme buffer contains all the necessary information needed to initiate
+an I/O. After allocating up to \fInum_to_allocate\fP IO buffers and put
+them on a list, it post them to the port by using SGL block post.
+
+Return codes:
+int - number of IO buffers that were allocated and posted.
+0 = failure, less than num_to_alloc is a partial failure.

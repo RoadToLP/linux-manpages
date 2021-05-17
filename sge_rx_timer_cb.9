@@ -1,0 +1,16 @@
+.TH "sge_rx_timer_cb" 9 "sge_rx_timer_cb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sge_rx_timer_cb \- perform periodic maintenance of SGE RX queues
+.SH SYNOPSIS
+.B "void" sge_rx_timer_cb
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Rx timer
+
+Runs periodically from a timer to perform maintenance of SGE RX queues.
+
+a) Replenishes RX queues that have run out due to memory shortage.
+Normally new RX buffers are added when existing ones are consumed but
+when out of memory a queue can become empty.  We schedule NAPI to do
+the actual refill.

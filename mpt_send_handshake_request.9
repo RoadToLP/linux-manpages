@@ -1,0 +1,29 @@
+.TH "mpt_send_handshake_request" 9 "mpt_send_handshake_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_send_handshake_request \- Send MPT request via doorbell handshake method.
+.SH SYNOPSIS
+.B "int" mpt_send_handshake_request
+.BI "(u8 cb_idx "  ","
+.BI "MPT_ADAPTER *ioc "  ","
+.BI "int reqBytes "  ","
+.BI "u32 *req "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "cb_idx" 12
+Handle of registered MPT protocol driver
+.IP "ioc" 12
+Pointer to MPT adapter structure
+.IP "reqBytes" 12
+Size of the request in bytes
+.IP "req" 12
+Pointer to MPT request frame
+.IP "sleepFlag" 12
+Use schedule if CAN_SLEEP else use udelay.
+
+This routine is used exclusively to send MptScsiTaskMgmt
+requests since they are required to be sent via doorbell handshake.
+.SH "NOTE"
+It is the callers responsibility to byte-swap fields in the
+request which are greater than 1 byte in size.
+
+Returns 0 for success, non-zero for failure.

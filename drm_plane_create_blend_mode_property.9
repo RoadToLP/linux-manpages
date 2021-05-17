@@ -1,0 +1,35 @@
+.TH "drm_plane_create_blend_mode_property" 9 "drm_plane_create_blend_mode_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_plane_create_blend_mode_property \- create a new blend mode property
+.SH SYNOPSIS
+.B "int" drm_plane_create_blend_mode_property
+.BI "(struct drm_plane *plane "  ","
+.BI "unsigned int supported_modes "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+drm plane
+.IP "supported_modes" 12
+bitmask of supported modes, must include
+BIT(DRM_MODE_BLEND_PREMULTI). Current DRM assumption is
+that alpha is premultiplied, and old userspace can break if
+the property defaults to anything else.
+.SH "DESCRIPTION"
+This creates a new property describing the blend mode.
+
+The property exposed to userspace is an enumeration property (see
+\fBdrm_property_create_enum\fP) called "pixel blend mode" and has the
+following enumeration values:
+
+"None":
+Blend formula that ignores the pixel alpha.
+
+"Pre-multiplied":
+Blend formula that assumes the pixel color values have been already
+pre-multiplied with the alpha channel values.
+
+"Coverage":
+Blend formula that assumes the pixel color values have not been
+pre-multiplied and will do so when blending them to the background color
+values.
+.SH "RETURN"
+Zero for success or -errno

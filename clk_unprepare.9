@@ -1,0 +1,16 @@
+.TH "clk_unprepare" 9 "clk_unprepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_unprepare \- undo preparation of a clock source
+.SH SYNOPSIS
+.B "void" clk_unprepare
+.BI "(struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+the clk being unprepared
+.SH "DESCRIPTION"
+clk_unprepare may sleep, which differentiates it from clk_disable.  In a
+simple case, clk_unprepare can be used instead of clk_disable to gate a clk
+if the operation may sleep.  One example is a clk which is accessed over
+I2c.  In the complex case a clk gate operation may require a fast and a slow
+part.  It is this reason that clk_unprepare and clk_disable are not mutually
+exclusive.  In fact clk_disable must be called before clk_unprepare.

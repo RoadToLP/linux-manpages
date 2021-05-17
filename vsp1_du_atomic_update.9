@@ -1,0 +1,41 @@
+.TH "vsp1_du_atomic_update" 9 "vsp1_du_atomic_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vsp1_du_atomic_update \- Setup one RPF input of the VSP pipeline
+.SH SYNOPSIS
+.B "int" vsp1_du_atomic_update
+.BI "(struct device *dev "  ","
+.BI "unsigned int pipe_index "  ","
+.BI "unsigned int rpf_index "  ","
+.BI "const struct vsp1_du_atomic_config *cfg "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the VSP device
+.IP "pipe_index" 12
+the DRM pipeline index
+.IP "rpf_index" 12
+index of the RPF to setup (0-based)
+.IP "cfg" 12
+the RPF configuration
+.SH "DESCRIPTION"
+Configure the VSP to perform image composition through RPF \fIrpf_index\fP as
+described by the \fIcfg\fP configuration. The image to compose is referenced by
+\fIcfg.mem\fP and composed using the \fIcfg.src\fP crop rectangle and the \fIcfg.dst\fP
+composition rectangle. The Z-order is configurable with higher \fIzpos\fP values
+displayed on top.
+
+If the \fIcfg\fP configuration is NULL, the RPF will be disabled. Calling the
+function on a disabled RPF is allowed.
+
+Image format as stored in memory is expressed as a V4L2 \fIcfg.pixelformat\fP
+value. The memory pitch is configurable to allow for padding at end of lines,
+or simply for images that extend beyond the crop rectangle boundaries. The
+\fIcfg.pitch\fP value is expressed in bytes and applies to all planes for
+multiplanar formats.
+
+The source memory buffer is referenced by the DMA address of its planes in
+the \fIcfg.mem\fP array. Up to two planes are supported. The second plane DMA
+address is ignored for formats using a single plane.
+
+This function isn't reentrant, the caller needs to serialize calls.
+
+Return 0 on success or a negative error code on failure.

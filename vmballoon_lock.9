@@ -1,0 +1,25 @@
+.TH "vmballoon_lock" 9 "vmballoon_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmballoon_lock \- lock or unlock a batch of pages.
+.SH SYNOPSIS
+.B "int" vmballoon_lock
+.BI "(struct vmballoon *b "  ","
+.BI "struct vmballoon_ctl *ctl "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+pointer to the balloon.
+.IP "ctl" 12
+pointer for the struct vmballoon_ctl, which defines the operation.
+.SH "DESCRIPTION"
+Notifies the host of about ballooned pages (after inflation or deflation,
+according to \fIctl\fP). If the host rejects the page put it on the
+\fIctl\fP refuse list. These refused page are then released when moving to the
+next size of pages.
+
+Note that we neither free any \fIpage\fP here nor put them back on the ballooned
+pages list. Instead we queue it for later processing. We do that for several
+reasons. First, we do not want to free the page under the lock. Second, it
+allows us to unify the handling of lock and unlock. In the inflate case, the
+caller will check if there are too many refused pages and release them.
+Although it is not identical to the past behavior, it should not affect
+performance.

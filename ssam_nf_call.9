@@ -1,0 +1,30 @@
+.TH "ssam_nf_call" 9 "ssam_nf_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_nf_call \- Call notification callbacks for the provided event.
+.SH SYNOPSIS
+.B "void" ssam_nf_call
+.BI "(struct ssam_nf *nf "  ","
+.BI "struct device *dev "  ","
+.BI "u16 rqid "  ","
+.BI "struct ssam_event *event "  ");"
+.SH ARGUMENTS
+.IP "nf" 12
+The notifier system
+.IP "dev" 12
+The associated device, only used for logging.
+.IP "rqid" 12
+The request ID of the event.
+.IP "event" 12
+The event provided to the callbacks.
+.SH "DESCRIPTION"
+Execute registered callbacks in order of their priority until either no
+callback is left or a callback returns a value with the SSAM_NOTIF_STOP
+bit set. Note that this bit is set automatically when converting non-zero
+error values via \fBssam_notifier_from_errno\fP to notifier values.
+
+Also note that any callback that could handle an event should return a value
+with bit SSAM_NOTIF_HANDLED set, indicating that the event does not go
+unhandled/ignored. In case no registered callback could handle an event,
+this function will emit a warning.
+
+In case a callback failed, this function will emit an error message.

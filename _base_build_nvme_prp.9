@@ -1,0 +1,63 @@
+.TH "_base_build_nvme_prp" 9 "_base_build_nvme_prp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_base_build_nvme_prp \- This function is called for NVMe end devices to build a native SGL (NVMe PRP). The native SGL is built starting in the first PRP entry of the NVMe message (PRP1). If the data buffer is small enough to be described entirely using PRP1, then PRP2 is not used. If needed, PRP2 is used to describe a larger data buffer. If the data buffer is too large to describe using the two PRP entriess inside the NVMe message, then PRP1 describes the first data memory segment, and PRP2 contains a pointer to a PRP list located elsewhere in memory to describe the remaining data memory segments. The PRP list will be contiguous.
+.SH SYNOPSIS
+.B "void" _base_build_nvme_prp
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "u16 smid "  ","
+.BI "Mpi26NVMeEncapsulatedRequest_t *nvme_encap_request "  ","
+.BI "dma_addr_t data_out_dma "  ","
+.BI "size_t data_out_sz "  ","
+.BI "dma_addr_t data_in_dma "  ","
+.BI "size_t data_in_sz "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "smid" 12
+system request message index for getting asscociated SGL
+.IP "nvme_encap_request" 12
+the NVMe request msg frame pointer
+.IP "data_out_dma" 12
+physical address for WRITES
+.IP "data_out_sz" 12
+data xfer size for WRITES
+.IP "data_in_dma" 12
+physical address for READS
+.IP "data_in_sz" 12
+data xfer size for READS
+.SH "DESCRIPTION"
+
+The native SGL for NVMe devices is a Physical Region Page (PRP).  A PRP
+consists of a list of PRP entries to describe a number of noncontigous
+physical memory segments as a single memory buffer, just as a SGL does.  Note
+however, that this function is only used by the IOCTL call, so the memory
+given will be guaranteed to be contiguous.  There is no need to translate
+non-contiguous SGL into a PRP in this case.  All PRPs will describe
+contiguous space that is one page size each.
+
+Each NVMe message contains two PRP entries.  The first (PRP1) either contains
+a PRP list pointer or a PRP element, depending upon the command.  PRP2
+contains the second PRP element if the memory being described fits within 2
+PRP entries, or a PRP list pointer if the PRP spans more than two entries.
+
+A PRP list pointer contains the address of a PRP list, structured as a linear
+array of PRP entries.  Each PRP entry in this list describes a segment of
+physical memory.
+
+Each 64-bit PRP entry comprises an address and an offset field.  The address
+always points at the beginning of a 4KB physical memory page, and the offset
+describes where within that 4KB page the memory segment begins.  Only the
+first element in a PRP list may contain a non-zero offest, implying that all
+memory segments following the first begin at the start of a 4KB page.
+
+Each PRP element normally describes 4KB of physical memory, with exceptions
+for the first and last elements in the list.  If the memory being described
+by the list begins at a non-zero offset within the first 4KB page, then the
+first PRP element will contain a non-zero offset indicating where the region
+begins within the 4KB page.  The last memory segment may end before the end
+of the 4KB segment, depending upon the overall size of the memory being
+described by the PRP list.
+
+Since PRP entries lack any indication of size, the overall data buffer length
+is used to determine where the end of the data memory buffer is located, and
+how many PRP entries are required to describe it.

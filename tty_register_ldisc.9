@@ -1,0 +1,19 @@
+.TH "tty_register_ldisc" 9 "tty_register_ldisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_register_ldisc \- install a line discipline
+.SH SYNOPSIS
+.B "int" tty_register_ldisc
+.BI "(int disc "  ","
+.BI "struct tty_ldisc_ops *new_ldisc "  ");"
+.SH ARGUMENTS
+.IP "disc" 12
+ldisc number
+.IP "new_ldisc" 12
+pointer to the ldisc object
+
+Installs a new line discipline into the kernel. The discipline
+is set up as unreferenced and then made available to the kernel
+from this point onwards.
+
+Locking:
+takes tty_ldiscs_lock to guard against ldisc races

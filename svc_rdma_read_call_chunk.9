@@ -1,0 +1,16 @@
+.TH "svc_rdma_read_call_chunk" 9 "svc_rdma_read_call_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_read_call_chunk \- Build RDMA Read WQEs to pull a Long Message
+.SH SYNOPSIS
+.B "int" svc_rdma_read_call_chunk
+.BI "(struct svc_rdma_read_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.SH "DESCRIPTION"
+Return values:
+0: RDMA Read WQEs were successfully built
+-EINVAL: there were not enough resources to finish
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

@@ -1,0 +1,20 @@
+.TH "release_tty" 9 "release_tty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+release_tty \- release tty structure memory
+.SH SYNOPSIS
+.B "void" release_tty
+.BI "(struct tty_struct *tty "  ","
+.BI "int idx "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device release
+.IP "idx" 12
+index of the tty device release
+
+Release both \fItty\fP and a possible linked partner (think pty pair),
+and decrement the refcount of the backing module.
+
+Locking:
+tty_mutex
+takes the file list lock internally when working on the list
+of ttys that the driver keeps.

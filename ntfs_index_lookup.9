@@ -1,0 +1,50 @@
+.TH "ntfs_index_lookup" 9 "ntfs_index_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_index_lookup \- find a key in an index and return its index entry
+.SH SYNOPSIS
+.B "int" ntfs_index_lookup
+.BI "(const void *key "  ","
+.BI "const int key_len "  ","
+.BI "ntfs_index_context *ictx "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+[IN] key for which to search in the index
+.IP "key_len" 12
+[IN] length of \fIkey\fP in bytes
+.IP "ictx" 12
+[IN/OUT] context describing the index and the returned entry
+.SH "DESCRIPTION"
+Before calling \fBntfs_index_lookup\fP, \fIictx\fP must have been obtained from a
+call to \fBntfs_index_ctx_get\fP.
+
+Look for the \fIkey\fP in the index specified by the index lookup context \fIictx\fP.
+\fBntfs_index_lookup\fP walks the contents of the index looking for the \fIkey\fP.
+
+If the \fIkey\fP is found in the index, 0 is returned and \fIictx\fP is setup to
+describe the index entry containing the matching \fIkey\fP.  \fIictx->entry\fP is the
+index entry and \fIictx->data\fP and \fIictx->data_len\fP are the index entry data and
+its length in bytes, respectively.
+
+If the \fIkey\fP is not found in the index, -ENOENT is returned and \fIictx\fP is
+setup to describe the index entry whose key collates immediately after the
+search \fIkey\fP, i.e. this is the position in the index at which an index entry
+with a key of \fIkey\fP would need to be inserted.
+
+If an error occurs return the negative error code and \fIictx\fP is left
+untouched.
+
+When finished with the entry and its data, call \fBntfs_index_ctx_put\fP to free
+the context and other associated resources.
+
+If the index entry was modified, call \fBflush_dcache_index_entry_page\fP
+immediately after the modification and either \fBntfs_index_entry_mark_dirty\fP
+or \fBntfs_index_entry_write\fP before the call to \fBntfs_index_ctx_put\fP to
+ensure that the changes are written to disk.
+
+Locking:  - Caller must hold i_mutex on the index inode.
+- Each page cache page in the index allocation mapping must be
+locked whilst being accessed otherwise we may find a corrupt
+page due to it being under ->writepage at the moment which
+applies the mst protection fixups before writing out and then
+removes them again after the write is complete after which it 
+unlocks the page.

@@ -1,0 +1,19 @@
+.TH "tty_port_install" 9 "tty_port_install" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_port_install \- generic tty->ops->install handler
+.SH SYNOPSIS
+.B "int" tty_port_install
+.BI "(struct tty_port *port "  ","
+.BI "struct tty_driver *driver "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty_port of the device
+.IP "driver" 12
+tty_driver for this device
+.IP "tty" 12
+tty to be installed
+.SH "DESCRIPTION"
+It is the same as tty_standard_install except the provided \fIport\fP is linked
+to a concrete tty specified by \fItty\fP. Use this or tty_port_register_device
+(or both). Call tty_port_link_device as a last resort.

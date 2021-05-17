@@ -1,0 +1,26 @@
+.TH "fsverity_hash_page" 9 "fsverity_hash_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_hash_page \- hash a single data or hash page
+.SH SYNOPSIS
+.B "int" fsverity_hash_page
+.BI "(const struct merkle_tree_params *params "  ","
+.BI "const struct inode *inode "  ","
+.BI "struct ahash_request *req "  ","
+.BI "struct page *page "  ","
+.BI "u8 *out "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+the Merkle tree's parameters
+.IP "inode" 12
+inode for which the hashing is being done
+.IP "req" 12
+preallocated hash request
+.IP "page" 12
+the page to hash
+.IP "out" 12
+output digest, size 'params->digest_size' bytes
+.SH "DESCRIPTION"
+Hash a single data or hash block, assuming block_size == PAGE_SIZE.
+The hash is salted if a salt is specified in the Merkle tree parameters.
+.SH "RETURN"
+0 on success, -errno on failure

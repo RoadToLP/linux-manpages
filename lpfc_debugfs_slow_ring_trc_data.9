@@ -1,0 +1,26 @@
+.TH "lpfc_debugfs_slow_ring_trc_data" 9 "lpfc_debugfs_slow_ring_trc_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_debugfs_slow_ring_trc_data \- Dump slow ring logging to a buffer
+.SH SYNOPSIS
+.B "int" lpfc_debugfs_slow_ring_trc_data
+.BI "(struct lpfc_hba *phba "  ","
+.BI "char *buf "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The HBA to gather the log info from.
+.IP "buf" 12
+The buffer to dump log into.
+.IP "size" 12
+The maximum amount of data to process.
+.SH "DESCRIPTION"
+This routine gathers the lpfc slow ring debugfs data from the \fIphba\fP and
+dumps it to \fIbuf\fP up to \fIsize\fP number of bytes. It will start at the next entry
+in the log and process the log until the end of the buffer. Then it will
+gather from the beginning of the log and process until the current entry.
+
+Return Value:
+This routine returns the amount of bytes that were dumped into \fIbuf\fP and will
+not exceed \fIsize\fP.
+.SH "NOTES"
+Slow ring logging will be disabled while while this routine dumps the log.

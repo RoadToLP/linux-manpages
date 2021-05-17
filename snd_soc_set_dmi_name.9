@@ -1,0 +1,38 @@
+.TH "snd_soc_set_dmi_name" 9 "snd_soc_set_dmi_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_soc_set_dmi_name \- Register DMI names to card
+.SH SYNOPSIS
+.B "int" snd_soc_set_dmi_name
+.BI "(struct snd_soc_card *card "  ","
+.BI "const char *flavour "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+The card to register DMI names
+.IP "flavour" 12
+The flavour "differentiator" for the card amongst its peers.
+.SH "DESCRIPTION"
+An Intel machine driver may be used by many different devices but are
+difficult for userspace to differentiate, since machine drivers ususally
+use their own name as the card short name and leave the card long name
+blank. To differentiate such devices and fix bugs due to lack of
+device-specific configurations, this function allows DMI info to be used
+as the sound card long name, in the format of
+"vendor-product-version-board"
+(Character '-' is used to separate different DMI fields here).
+This will help the user space to load the device-specific Use Case Manager
+(UCM) configurations for the card.
+
+Possible card long names may be:
+DellInc.-XPS139343-01-0310JH
+ASUSTeKCOMPUTERINC.-T100TA-1.0-T100TA
+Circuitco-MinnowboardMaxD0PLATFORM-D0-MinnowBoardMAX
+
+This function also supports flavoring the card longname to provide
+the extra differentiation, like "vendor-product-version-board-flavor".
+
+We only keep number and alphabet characters and a few separator characters
+in the card long name since UCM in the user space uses the card long names
+as card configuration directory names and AudoConf cannot support special
+charactors like SPACE.
+
+Returns 0 on success, otherwise a negative error code.

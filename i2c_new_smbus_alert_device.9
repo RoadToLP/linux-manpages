@@ -1,0 +1,23 @@
+.TH "i2c_new_smbus_alert_device" 9 "i2c_new_smbus_alert_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_new_smbus_alert_device \- get ara client for SMBus alert support
+.SH SYNOPSIS
+.B "struct i2c_client *" i2c_new_smbus_alert_device
+.BI "(struct i2c_adapter *adapter "  ","
+.BI "struct i2c_smbus_alert_setup *setup "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the target adapter
+.IP "setup" 12
+setup data for the SMBus alert handler
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+Setup handling of the SMBus alert protocol on a given I2C bus segment.
+
+Handling can be done either through our IRQ handler, or by the
+adapter (from its handler, periodic polling, or whatever).
+
+This returns the ara client, which should be saved for later use with
+\fBi2c_handle_smbus_alert\fP and ultimately \fBi2c_unregister_device\fP; or an
+ERRPTR to indicate an error.

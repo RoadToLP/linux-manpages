@@ -1,0 +1,42 @@
+.TH "vga_get" 9 "vga_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_get \- acquire & locks VGA resources
+.SH SYNOPSIS
+.B "int" vga_get
+.BI "(struct pci_dev *pdev "  ","
+.BI "unsigned int rsrc "  ","
+.BI "int interruptible "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pci device of the VGA card or NULL for the system default
+.IP "rsrc" 12
+bit mask of resources to acquire and lock
+.IP "interruptible" 12
+blocking should be interruptible by signals ?
+.SH "DESCRIPTION"
+This function acquires VGA resources for the given card and mark those
+resources locked. If the resource requested are "normal" (and not legacy)
+resources, the arbiter will first check whether the card is doing legacy
+decoding for that type of resource. If yes, the lock is "converted" into a
+legacy resource lock.
+
+The arbiter will first look for all VGA cards that might conflict and disable
+their IOs and/or Memory access, including VGA forwarding on P2P bridges if
+necessary, so that the requested resources can be used. Then, the card is
+marked as locking these resources and the IO and/or Memory accesses are
+enabled on the card (including VGA forwarding on parent P2P bridges if any).
+
+This function will block if some conflicting card is already locking one of
+the required resources (or any resource on a different bus segment, since P2P
+bridges don't differentiate VGA memory and IO afaik). You can indicate
+whether this blocking should be interruptible by a signal (for userland
+interface) or not.
+
+Must not be called at interrupt time or in atomic context.  If the card
+already owns the resources, the function succeeds.  Nested calls are
+supported (a per-resource counter is maintained)
+
+On success, release the VGA resource again with \fBvga_put\fP.
+
+0 on success, negative error code on failure.
+.SH "RETURN"

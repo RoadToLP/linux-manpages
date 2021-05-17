@@ -1,0 +1,22 @@
+.TH "blk_set_runtime_active" 9 "blk_set_runtime_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_set_runtime_active \- Force runtime status of the queue to be active
+.SH SYNOPSIS
+.B "void" blk_set_runtime_active
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue of the device
+.SH "DESCRIPTION"
+If the device is left runtime suspended during system suspend the resume
+hook typically resumes the device and corrects runtime status
+accordingly. However, that does not affect the queue runtime PM status
+which is still "suspended". This prevents processing requests from the
+queue.
+
+This function can be used in driver's resume hook to correct queue
+runtime PM status and re-enable peeking requests from the queue. It
+should be called before first request is added to the queue.
+
+This function is also called by \fBblk_post_runtime_resume\fP for successful
+runtime resumes.  It does everything necessary to restart the queue.

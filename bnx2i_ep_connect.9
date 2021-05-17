@@ -1,0 +1,21 @@
+.TH "bnx2i_ep_connect" 9 "bnx2i_ep_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_ep_connect \- establish TCP connection to target portal
+.SH SYNOPSIS
+.B "struct iscsi_endpoint *" bnx2i_ep_connect
+.BI "(struct Scsi_Host *shost "  ","
+.BI "struct sockaddr *dst_addr "  ","
+.BI "int non_blocking "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+scsi host
+.IP "dst_addr" 12
+target IP address
+.IP "non_blocking" 12
+blocking or non-blocking call
+.SH "DESCRIPTION"
+this routine initiates the TCP/IP connection by invoking Option-2 i/f
+with l5_core and the CNIC. This is a multi-step process of resolving
+route to target, create a iscsi connection context, handshaking with
+CNIC module to create/initialize the socket struct and finally
+sending down option-2 request to complete TCP 3-way handshake

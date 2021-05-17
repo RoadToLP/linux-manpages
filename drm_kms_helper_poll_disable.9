@@ -1,0 +1,19 @@
+.TH "drm_kms_helper_poll_disable" 9 "drm_kms_helper_poll_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_kms_helper_poll_disable \- disable output polling
+.SH SYNOPSIS
+.B "void" drm_kms_helper_poll_disable
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm_device
+.SH "DESCRIPTION"
+This function disables the output polling work.
+
+Drivers can call this helper from their device suspend implementation. It is
+not an error to call this even when output polling isn't enabled or already
+disabled. Polling is re-enabled by calling \fBdrm_kms_helper_poll_enable\fP.
+
+Note that calls to enable and disable polling must be strictly ordered, which
+is automatically the case when they're only call from suspend/resume
+callbacks.

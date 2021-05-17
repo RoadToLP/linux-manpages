@@ -1,0 +1,21 @@
+.TH "lpfc_sli_hbq_to_firmware" 9 "lpfc_sli_hbq_to_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_hbq_to_firmware \- Post the hbq buffer to firmware
+.SH SYNOPSIS
+.B "int" lpfc_sli_hbq_to_firmware
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t hbqno "  ","
+.BI "struct hbq_dmabuf *hbq_buf "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "hbqno" 12
+HBQ number.
+.IP "hbq_buf" 12
+Pointer to HBQ buffer.
+.SH "DESCRIPTION"
+This function is called with the hbalock held to post a
+hbq buffer to the firmware. If the function finds an empty
+slot in the HBQ, it will post the buffer. The function will return
+pointer to the hbq entry if it successfully post the buffer
+else it will return NULL.

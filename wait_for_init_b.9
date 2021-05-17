@@ -1,0 +1,19 @@
+.TH "wait_for_init_b" 9 "wait_for_init_b" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_init_b \- wait for the INIT_B pin to have a given state, or wait a given delay if the pin is unavailable
+.SH SYNOPSIS
+.B "int" wait_for_init_b
+.BI "(struct fpga_manager *mgr "  ","
+.BI "int value "  ","
+.BI "unsigned long alt_udelay "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+The FPGA manager object
+.IP "value" 12
+Value INIT_B to wait for (1 = asserted = low)
+.IP "alt_udelay" 12
+Delay to wait if the INIT_B GPIO is not available
+.SH "DESCRIPTION"
+Returns 0 when the INIT_B GPIO reached the given state or -ETIMEDOUT if
+too much time passed waiting for that. If no INIT_B GPIO is available
+then always return 0.

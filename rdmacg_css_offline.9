@@ -1,0 +1,14 @@
+.TH "rdmacg_css_offline" 9 "rdmacg_css_offline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdmacg_css_offline \- cgroup css_offline callback
+.SH SYNOPSIS
+.B "void" rdmacg_css_offline
+.BI "(struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "css" 12
+css of interest
+.SH "DESCRIPTION"
+This function is called when \fIcss\fP is about to go away and responsible
+for shooting down all rdmacg associated with \fIcss\fP. As part of that it
+marks all the resource pool entries to max value, so that when resources are
+uncharged, associated resource pool can be freed as well.

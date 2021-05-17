@@ -1,0 +1,24 @@
+.TH "of_alias_get_alias_list" 9 "of_alias_get_alias_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_alias_get_alias_list \- Get alias list for the given device driver
+.SH SYNOPSIS
+.B "int" of_alias_get_alias_list
+.BI "(const struct of_device_id *matches "  ","
+.BI "const char *stem "  ","
+.BI "unsigned long *bitmap "  ","
+.BI "unsigned int nbits "  ");"
+.SH ARGUMENTS
+.IP "matches" 12
+Array of OF device match structures to search in
+.IP "stem" 12
+Alias stem of the given device_node
+.IP "bitmap" 12
+Bitmap field pointer
+.IP "nbits" 12
+Maximum number of alias IDs which can be recorded in bitmap
+.SH "DESCRIPTION"
+The function travels the lookup table to record alias ids for the given
+device match structures and alias stem.
+.SH "RETURN"
+0 or -ENOSYS when !CONFIG_OF or
+-EOVERFLOW if alias ID is greater then allocated nbits

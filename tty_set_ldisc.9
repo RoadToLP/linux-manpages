@@ -1,0 +1,17 @@
+.TH "tty_set_ldisc" 9 "tty_set_ldisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_set_ldisc \- set line discipline
+.SH SYNOPSIS
+.B "int" tty_set_ldisc
+.BI "(struct tty_struct *tty "  ","
+.BI "int disc "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+the terminal to set
+.IP "disc" 12
+the line discipline number
+
+Set the discipline of a tty line. Must be called from a process
+context. The ldisc change logic has to protect itself against any
+overlapping ldisc change (including on the other end of pty pairs),
+the close of one side of a tty/pty pair, and eventually hangup.

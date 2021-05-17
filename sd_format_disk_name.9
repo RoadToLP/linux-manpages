@@ -1,0 +1,31 @@
+.TH "sd_format_disk_name" 9 "sd_format_disk_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_format_disk_name \- format disk name
+.SH SYNOPSIS
+.B "int" sd_format_disk_name
+.BI "(char *prefix "  ","
+.BI "int index "  ","
+.BI "char *buf "  ","
+.BI "int buflen "  ");"
+.SH ARGUMENTS
+.IP "prefix" 12
+name prefix - ie. "sd" for SCSI disks
+.IP "index" 12
+index of the disk to format name for
+.IP "buf" 12
+output buffer
+.IP "buflen" 12
+length of the output buffer
+
+SCSI disk names starts at sda.  The 26th device is sdz and the
+27th is sdaa.  The last one for two lettered suffix is sdzz
+which is followed by sdaaa.
+
+This is basically 26 base counting with one extra 'nil' entry
+at the beginning from the second digit on and can be
+determined using similar method as 26 base conversion with the
+index shifted -1 after each digit is computed.
+.SH "CONTEXT"
+Don't care.
+.SH "RETURN"
+0 on success, -errno on failure.

@@ -1,0 +1,22 @@
+.TH "scan_read_oob" 9 "scan_read_oob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scan_read_oob \- [GENERIC] Scan data+OOB region to buffer
+.SH SYNOPSIS
+.B "int" scan_read_oob
+.BI "(struct nand_chip *this "  ","
+.BI "uint8_t *buf "  ","
+.BI "loff_t offs "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+NAND chip object
+.IP "buf" 12
+temporary buffer
+.IP "offs" 12
+offset at which to scan
+.IP "len" 12
+length of data region to read
+.SH "DESCRIPTION"
+Scan read data from data+OOB. May traverse multiple pages, interleaving
+page,OOB,page,OOB,... in buf. Completes transfer and returns the "strongest"
+ECC condition (error or bitflip). May quit on the first (non-ECC) error.

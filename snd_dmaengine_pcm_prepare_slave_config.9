@@ -1,0 +1,22 @@
+.TH "snd_dmaengine_pcm_prepare_slave_config" 9 "snd_dmaengine_pcm_prepare_slave_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_dmaengine_pcm_prepare_slave_config \- Generic prepare_slave_config callback
+.SH SYNOPSIS
+.B "int" snd_dmaengine_pcm_prepare_slave_config
+.BI "(struct snd_pcm_substream *substream "  ","
+.BI "struct snd_pcm_hw_params *params "  ","
+.BI "struct dma_slave_config *slave_config "  ");"
+.SH ARGUMENTS
+.IP "substream" 12
+PCM substream
+.IP "params" 12
+hw_params
+.IP "slave_config" 12
+DMA slave config to prepare
+.SH "DESCRIPTION"
+This function can be used as a generic prepare_slave_config callback for
+platforms which make use of the snd_dmaengine_dai_dma_data struct for their
+DAI DMA data. Internally the function will first call
+snd_hwparams_to_dma_slave_config to fill in the slave config based on the
+hw_params, followed by snd_dmaengine_set_config_from_dai_data to fill in the
+remaining fields based on the DAI DMA data.

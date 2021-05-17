@@ -1,0 +1,20 @@
+.TH "dev_pm_opp_enable" 9 "dev_pm_opp_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_enable \- Enable a specific OPP
+.SH SYNOPSIS
+.B "int" dev_pm_opp_enable
+.BI "(struct device *dev "  ","
+.BI "unsigned long freq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+OPP frequency to enable
+.SH "DESCRIPTION"
+Enables a provided opp. If the operation is valid, this returns 0, else the
+corresponding error value. It is meant to be used for users an OPP available
+after being temporarily made unavailable with dev_pm_opp_disable.
+.SH "RETURN"
+-EINVAL for bad pointers, -ENOMEM if no memory available for the
+copy operation, returns 0 if no modification was done OR modification was
+successful.

@@ -1,0 +1,27 @@
+.TH "lpfc_nvme_create_queue" 9 "lpfc_nvme_create_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_create_queue \- 
+.SH SYNOPSIS
+.B "int" lpfc_nvme_create_queue
+.BI "(struct nvme_fc_local_port *pnvme_lport "  ","
+.BI "unsigned int qidx "  ","
+.BI "u16 qsize "  ","
+.BI "void **handle "  ");"
+.SH ARGUMENTS
+.IP "pnvme_lport" 12
+Transport localport that LS is to be issued from
+.IP "qidx" 12
+An cpu index used to affinitize IO queues and MSIX vectors.
+.IP "qsize" 12
+Size of the queue in bytes
+.IP "handle" 12
+An opaque driver handle used in follow-up calls.
+.SH "DESCRIPTION"
+Driver registers this routine to preallocate and initialize any
+internal data structures to bind the \fIqidx\fP to its internal IO queues.
+A hardware queue maps (qidx) to a specific driver MSI-X vector/EQ/CQ/WQ.
+
+Return value :
+0 - Success
+-EINVAL - Unsupported input value.
+-ENOMEM - Could not alloc necessary memory

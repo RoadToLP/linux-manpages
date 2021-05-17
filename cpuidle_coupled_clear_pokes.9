@@ -1,0 +1,18 @@
+.TH "cpuidle_coupled_clear_pokes" 9 "cpuidle_coupled_clear_pokes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_coupled_clear_pokes \- spin until the poke interrupt is processed
+.SH SYNOPSIS
+.B "int" cpuidle_coupled_clear_pokes
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+this cpu
+.SH "DESCRIPTION"
+Turns on interrupts and spins until any outstanding poke interrupts have
+been processed and the poke bit has been cleared.
+
+Other interrupts may also be processed while interrupts are enabled, so
+\fBneed_resched\fP must be tested after this function returns to make sure
+the interrupt didn't schedule work that should take the cpu out of idle.
+
+Returns 0 if no poke was pending, 1 if a poke was cleared.

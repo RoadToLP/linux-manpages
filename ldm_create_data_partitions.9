@@ -1,0 +1,24 @@
+.TH "ldm_create_data_partitions" 9 "ldm_create_data_partitions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_create_data_partitions \- Create data partitions for this device
+.SH SYNOPSIS
+.B "bool" ldm_create_data_partitions
+.BI "(struct parsed_partitions *pp "  ","
+.BI "const struct ldmdb *ldb "  ");"
+.SH ARGUMENTS
+.IP "pp" 12
+List of the partitions parsed so far
+.IP "ldb" 12
+Cache of the database structures
+.SH "DESCRIPTION"
+The database contains ALL the partitions for ALL disk groups, so we need to
+filter out this specific disk. Using the disk's object id, we can find all
+the partitions in the database that belong to this disk.
+
+Add each partition in our database, to the parsed_partitions structure.
+
+N.B.  This function creates the partitions in the order it finds partition
+objects in the linked list.
+.SH "RETURN"
+'true'   Partition created
+'false'  Error, probably a range checking problem

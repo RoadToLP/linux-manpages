@@ -1,0 +1,22 @@
+.TH "cpcap_battery_read_accumulated" 9 "cpcap_battery_read_accumulated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpcap_battery_read_accumulated \- reads cpcap coulomb counter
+.SH SYNOPSIS
+.B "int" cpcap_battery_read_accumulated
+.BI "(struct cpcap_battery_ddata *ddata "  ","
+.BI "struct cpcap_coulomb_counter_data *ccd "  ");"
+.SH ARGUMENTS
+.IP "ddata" 12
+device driver data
+.IP "ccd" 12
+coulomb counter values
+.SH "DESCRIPTION"
+Based on Motorola mapphone kernel function \fBdata_read_regs\fP.
+Looking at the registers, the coulomb counter seems similar to
+the coulomb counter in TWL6030. See "TWL6030 Gas Gauging Basics
+(Rev. A) swca095a.pdf for "10 Calculating Accumulated Current".
+
+Note that swca095a.pdf instructs to stop the coulomb counter
+before reading to avoid values changing. Motorola mapphone
+Linux kernel does not do it, so let's assume they've verified
+the data produced is correct.

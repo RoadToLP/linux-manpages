@@ -1,0 +1,27 @@
+.TH "do_drive_get_GTF" 9 "do_drive_get_GTF" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_drive_get_GTF \- get the drive bootup default taskfile settings
+.SH SYNOPSIS
+.B "int" do_drive_get_GTF
+.BI "(ide_drive_t *drive "  ","
+.BI "unsigned int *gtf_length "  ","
+.BI "unsigned long *gtf_address "  ","
+.BI "unsigned long *obj_loc "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+the drive for which the taskfile settings should be retrieved
+.IP "gtf_length" 12
+number of bytes of _GTF data returned at \fIgtf_address\fP
+.IP "gtf_address" 12
+buffer containing _GTF taskfile arrays
+.IP "obj_loc" 12
+-- undescribed --
+.SH "DESCRIPTION"
+The _GTF method has no input parameters.
+It returns a variable number of register set values (registers
+hex 1F1..1F7, taskfiles).
+The <variable number> is not known in advance, so have ACPI-CA
+allocate the buffer as needed and return it, then free it later.
+
+The returned \fIgtf_length\fP and \fIgtf_address\fP are only valid if the
+function return value is 0.

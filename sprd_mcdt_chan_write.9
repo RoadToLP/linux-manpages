@@ -1,0 +1,23 @@
+.TH "sprd_mcdt_chan_write" 9 "sprd_mcdt_chan_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sprd_mcdt_chan_write \- write data to the MCDT channel's fifo
+.SH SYNOPSIS
+.B "int" sprd_mcdt_chan_write
+.BI "(struct sprd_mcdt_chan *chan "  ","
+.BI "char *tx_buf "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+the MCDT channel
+.IP "tx_buf" 12
+send buffer
+.IP "size" 12
+data size
+.SH "NOTE"
+We can not write data to the channel fifo when enabling the DMA mode,
+otherwise the channel fifo data will be invalid.
+.SH "DESCRIPTION"
+If there are not enough space of the channel fifo, it will return errors
+to users.
+
+Returns 0 on success, or an appropriate error code on failure.

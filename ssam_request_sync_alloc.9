@@ -1,0 +1,31 @@
+.TH "ssam_request_sync_alloc" 9 "ssam_request_sync_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_sync_alloc \- Allocate a synchronous request.
+.SH SYNOPSIS
+.B "int" ssam_request_sync_alloc
+.BI "(size_t payload_len "  ","
+.BI "gfp_t flags "  ","
+.BI "struct ssam_request_sync **rqst "  ","
+.BI "struct ssam_span *buffer "  ");"
+.SH ARGUMENTS
+.IP "payload_len" 12
+The length of the request payload.
+.IP "flags" 12
+Flags used for allocation.
+.IP "rqst" 12
+Where to store the pointer to the allocated request.
+.IP "buffer" 12
+Where to store the buffer descriptor for the message buffer of
+the request.
+.SH "DESCRIPTION"
+Allocates a synchronous request with corresponding message buffer. The
+request still needs to be initialized \fBssam_request_sync_init\fP before
+it can be submitted, and the message buffer data must still be set to the
+returned buffer via \fBssam_request_sync_set_data\fP after it has been filled,
+if need be with adjusted message length.
+
+After use, the request and its corresponding message buffer should be freed
+via \fBssam_request_sync_free\fP. The buffer must not be freed separately.
+.SH "RETURN"
+Returns zero on success, -ENOMEM if the request could not be
+allocated.

@@ -1,0 +1,24 @@
+.TH "sata_scr_read" 9 "sata_scr_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_scr_read \- read SCR register of the specified port
+.SH SYNOPSIS
+.B "int" sata_scr_read
+.BI "(struct ata_link *link "  ","
+.BI "int reg "  ","
+.BI "u32 *val "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to read SCR for
+.IP "reg" 12
+SCR to read
+.IP "val" 12
+Place to store read value
+
+Read SCR register \fIreg\fP of \fIlink\fP into *\fIval\fP.  This function is
+guaranteed to succeed if \fIlink\fP is ap->link, the cable type of
+the port is SATA and the port implements ->scr_read.
+
+LOCKING:
+None if \fIlink\fP is ap->link.  Kernel thread context otherwise.
+.SH "RETURN"
+0 on success, negative errno on failure.

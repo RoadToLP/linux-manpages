@@ -1,0 +1,19 @@
+.TH "pcpu_mem_zalloc" 9 "pcpu_mem_zalloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_mem_zalloc \- allocate memory
+.SH SYNOPSIS
+.B "void *" pcpu_mem_zalloc
+.BI "(size_t size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+bytes to allocate
+.IP "gfp" 12
+allocation flags
+.SH "DESCRIPTION"
+Allocate \fIsize\fP bytes.  If \fIsize\fP is smaller than PAGE_SIZE,
+\fBkzalloc\fP is used; otherwise, the equivalent of \fBvzalloc\fP is used.
+This is to facilitate passing through whitelisted flags.  The
+returned memory is always zeroed.
+.SH "RETURN"
+Pointer to the allocated area on success, NULL on failure.

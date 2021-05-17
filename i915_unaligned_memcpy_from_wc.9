@@ -1,0 +1,20 @@
+.TH "i915_unaligned_memcpy_from_wc" 9 "i915_unaligned_memcpy_from_wc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_unaligned_memcpy_from_wc \- perform a mostly accelerated read from WC
+.SH SYNOPSIS
+.B "void" i915_unaligned_memcpy_from_wc
+.BI "(void *dst "  ","
+.BI "void *src "  ","
+.BI "unsigned long len "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+destination pointer
+.IP "src" 12
+source pointer
+.IP "len" 12
+how many bytes to copy
+.SH "DESCRIPTION"
+Like \fBi915_memcpy_from_wc\fP, the unaligned variant copies \fIlen\fP bytes from
+\fIsrc\fP to \fIdst\fP using * non-temporal instructions where available, but
+accepts that its arguments may not be aligned, but are valid for the
+potential 16-byte read past the end.

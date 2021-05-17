@@ -1,0 +1,22 @@
+.TH "irq_update_affinity_desc" 9 "irq_update_affinity_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_update_affinity_desc \- Update affinity management for an interrupt
+.SH SYNOPSIS
+.B "int" irq_update_affinity_desc
+.BI "(unsigned int irq "  ","
+.BI "struct irq_affinity_desc *affinity "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The interrupt number to update
+.IP "affinity" 12
+Pointer to the affinity descriptor
+.SH "DESCRIPTION"
+This interface can be used to configure the affinity management of
+interrupts which have been allocated already.
+
+There are certain limitations on when it may be used - attempts to use it
+for when the kernel is configured for generic IRQ reservation mode (in
+config GENERIC_IRQ_RESERVATION_MODE) will fail, as it may conflict with
+managed/non-managed interrupt accounting. In addition, attempts to use it on
+an interrupt which is already started or which has already been configured
+as managed will also fail, as these mean invalid init state or double init.

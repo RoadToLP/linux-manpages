@@ -1,0 +1,21 @@
+.TH "__hw_addr_unsync_dev" 9 "__hw_addr_unsync_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__hw_addr_unsync_dev \- Remove synchronized addresses from device
+.SH SYNOPSIS
+.B "void" __hw_addr_unsync_dev
+.BI "(struct netdev_hw_addr_list *list "  ","
+.BI "struct net_device *dev "  ","
+.BI "int (*unsync)(struct net_device *, const unsigned char *) "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+address list to remove synchronized addresses from
+.IP "dev" 12
+device to sync
+.IP "unsync" 12
+function to call if address should be removed
+
+Remove all addresses that were added to the device by \fB__hw_addr_sync_dev\fP.
+This function is intended to be called from the ndo_stop or ndo_open
+functions on devices that require explicit address add/remove
+notifications.  If the unsync function pointer is NULL then this function
+can be used to just reset the sync_cnt for the addresses in the list.

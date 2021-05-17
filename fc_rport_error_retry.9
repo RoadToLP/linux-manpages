@@ -1,0 +1,17 @@
+.TH "fc_rport_error_retry" 9 "fc_rport_error_retry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_rport_error_retry \- Handler for remote port state retries
+.SH SYNOPSIS
+.B "void" fc_rport_error_retry
+.BI "(struct fc_rport_priv *rdata "  ","
+.BI "int err "  ");"
+.SH ARGUMENTS
+.IP "rdata" 12
+The remote port whose state is to be retried
+.IP "err" 12
+The error code
+.SH "DESCRIPTION"
+If the error was an exchange timeout retry immediately,
+otherwise wait for E_D_TOV.
+
+Reference counting: increments kref when scheduling retry_work

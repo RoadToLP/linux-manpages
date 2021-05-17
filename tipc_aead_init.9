@@ -1,0 +1,22 @@
+.TH "tipc_aead_init" 9 "tipc_aead_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_aead_init \- Initiate TIPC AEAD
+.SH SYNOPSIS
+.B "int" tipc_aead_init
+.BI "(struct tipc_aead **aead "  ","
+.BI "struct tipc_aead_key *ukey "  ","
+.BI "u8 mode "  ");"
+.SH ARGUMENTS
+.IP "aead" 12
+returned new TIPC AEAD key handle pointer
+.IP "ukey" 12
+pointer to user key data
+.IP "mode" 12
+the key mode
+.SH "DESCRIPTION"
+Allocate a (list of) new cipher transformation (TFM) with the specific user
+key data if valid. The number of the allocated TFMs can be set via the sysfs
+"net/tipc/max_tfms" first.
+Also, all the other AEAD data are also initialized.
+.SH "RETURN"
+0 if the initiation is successful, otherwise: < 0

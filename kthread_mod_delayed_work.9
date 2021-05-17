@@ -1,0 +1,32 @@
+.TH "kthread_mod_delayed_work" 9 "kthread_mod_delayed_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_mod_delayed_work \- modify delay of or queue a kthread delayed work
+.SH SYNOPSIS
+.B "bool" kthread_mod_delayed_work
+.BI "(struct kthread_worker *worker "  ","
+.BI "struct kthread_delayed_work *dwork "  ","
+.BI "unsigned long delay "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+kthread worker to use
+.IP "dwork" 12
+kthread delayed work to queue
+.IP "delay" 12
+number of jiffies to wait before queuing
+.SH "DESCRIPTION"
+If \fIdwork\fP is idle, equivalent to \fBkthread_queue_delayed_work\fP. Otherwise,
+modify \fIdwork\fP's timer so that it expires after \fIdelay\fP. If \fIdelay\fP is zero,
+\fIwork\fP is guaranteed to be queued immediately.
+
+A special case is when the work is being canceled in parallel.
+It might be caused either by the real \fBkthread_cancel_delayed_work_sync\fP
+or yet another \fBkthread_mod_delayed_work\fP call. We let the other command
+win and return false here. The caller is supposed to synchronize these
+operations a reasonable way.
+
+This function is safe to call from any context including IRQ handler.
+See \fB__kthread_cancel_work\fP and \fBkthread_delayed_work_timer_fn\fP
+for details.
+.SH "RETURN"
+true if \fIdwork\fP was pending and its timer was modified,
+false otherwise.

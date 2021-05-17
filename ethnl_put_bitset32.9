@@ -1,0 +1,33 @@
+.TH "ethnl_put_bitset32" 9 "ethnl_put_bitset32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_put_bitset32 \- Put a bitset nest into a message
+.SH SYNOPSIS
+.B "int" ethnl_put_bitset32
+.BI "(struct sk_buff *skb "  ","
+.BI "int attrtype "  ","
+.BI "const u32 *val "  ","
+.BI "const u32 *mask "  ","
+.BI "unsigned int nbits "  ","
+.BI "ethnl_string_array_t names "  ","
+.BI "bool compact "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb with the message
+.IP "attrtype" 12
+attribute type for the bitset nest
+.IP "val" 12
+value bitmap (u32 based)
+.IP "mask" 12
+mask bitmap (u32 based, optional)
+.IP "nbits" 12
+bit length of the bitset
+.IP "names" 12
+array of bit names (optional)
+.IP "compact" 12
+use compact format for the output
+.SH "DESCRIPTION"
+Compose a nested attribute representing a bitset. If \fImask\fP is null, simple
+bitmap (bit list) is created, if \fImask\fP is provided, represent a value/mask
+pair. Bit names are only used in verbose mode and when provided by calller.
+.SH "RETURN"
+0 on success, negative error value on error

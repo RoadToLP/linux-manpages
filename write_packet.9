@@ -1,0 +1,21 @@
+.TH "write_packet" 9 "write_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_packet \- transfer 1 packet from request into an IN endpoint
+.SH SYNOPSIS
+.B "int" write_packet
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ","
+.BI "unsigned int max "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+pxa physical endpoint
+.IP "req" 12
+usb request
+.IP "max" 12
+max bytes that fit into endpoint
+.SH "DESCRIPTION"
+Takes bytes from usb request, and transfers them into the physical
+endpoint. If there are no bytes to transfer, doesn't write anything
+to physical endpoint.
+
+Returns how many bytes were actually transferred.

@@ -1,0 +1,18 @@
+.TH "gsm_dlci_data_output" 9 "gsm_dlci_data_output" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_dlci_data_output \- try and push data out of a DLCI
+.SH SYNOPSIS
+.B "int" gsm_dlci_data_output
+.BI "(struct gsm_mux *gsm "  ","
+.BI "struct gsm_dlci *dlci "  ");"
+.SH ARGUMENTS
+.IP "gsm" 12
+mux
+.IP "dlci" 12
+the DLCI to pull data from
+
+Pull data from a DLCI and send it into the transmit queue if there
+is data. Keep to the MRU of the mux. This path handles the usual tty
+interface which is a byte stream with optional modem data.
+
+Caller must hold the tx_lock of the mux.

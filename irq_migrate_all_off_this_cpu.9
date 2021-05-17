@@ -1,0 +1,17 @@
+.TH "irq_migrate_all_off_this_cpu" 9 "irq_migrate_all_off_this_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_migrate_all_off_this_cpu \- Migrate irqs away from offline cpu
+.SH SYNOPSIS
+.B "void" irq_migrate_all_off_this_cpu
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+The current CPU has been marked offline.  Migrate IRQs off this CPU.
+If the affinity settings do not allow other CPUs, force them onto any
+available CPU.
+.SH "NOTE"
+we must iterate over all IRQs, whether they have an attached
+action structure or not, as we need to get chained interrupts too.

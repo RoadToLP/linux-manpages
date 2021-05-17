@@ -1,0 +1,23 @@
+.TH "tiocsti" 9 "tiocsti" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tiocsti \- fake input character
+.SH SYNOPSIS
+.B "int" tiocsti
+.BI "(struct tty_struct *tty "  ","
+.BI "char __user *p "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty to fake input into
+.IP "p" 12
+pointer to character
+
+Fake input to a tty device. Does the necessary locking and
+input management.
+
+FIXME: does not honour flow control ??
+
+Locking:
+Called functions take tty_ldiscs_lock
+current->signal->tty check is safe without locks
+
+FIXME: may race normal receive processing

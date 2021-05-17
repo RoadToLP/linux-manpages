@@ -1,0 +1,25 @@
+.TH "ubi_io_sync_erase" 9 "ubi_io_sync_erase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_sync_erase \- synchronously erase a physical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_io_sync_erase
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "int torture "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+physical eraseblock number to erase
+.IP "torture" 12
+if this physical eraseblock has to be tortured
+.SH "DESCRIPTION"
+This function synchronously erases physical eraseblock \fIpnum\fP. If \fItorture\fP
+flag is not zero, the physical eraseblock is checked by means of writing
+different patterns to it and reading them back. If the torturing is enabled,
+the physical eraseblock is erased more than once.
+
+This function returns the number of erasures made in case of success, -EIO
+if the erasure failed or the torturing test failed, and other negative error
+codes in case of other errors. Note, -EIO means that the physical
+eraseblock is bad.

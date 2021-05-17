@@ -1,0 +1,21 @@
+.TH "clkdm_hwmod_disable" 9 "clkdm_hwmod_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_hwmod_disable \- remove an enabled downstream hwmod from this clkdm
+.SH SYNOPSIS
+.B "int" clkdm_hwmod_disable
+.BI "(struct clockdomain *clkdm "  ","
+.BI "struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "clkdm" 12
+struct clockdomain *
+.IP "oh" 12
+struct omap_hwmod * of the disabled downstream hwmod
+.SH "DESCRIPTION"
+Decrement the usecount of this clockdomain \fIclkdm\fP when \fIoh\fP is
+disabled. Intended to be called by \fBmodule_disable\fP code.
+If the clockdomain usecount goes to 0, put the clockdomain to sleep
+(software-supervised mode) or remove the clkdm autodependencies
+(hardware-supervised mode).
+Returns -EINVAL if passed null pointers; -ERANGE if the \fIclkdm\fP usecount
+underflows; or returns 0 upon success or if the clockdomain is in hwsup
+idle mode.

@@ -1,0 +1,20 @@
+.TH "cancel_delayed_work" 9 "cancel_delayed_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cancel_delayed_work \- cancel a delayed work
+.SH SYNOPSIS
+.B "bool" cancel_delayed_work
+.BI "(struct delayed_work *dwork "  ");"
+.SH ARGUMENTS
+.IP "dwork" 12
+delayed_work to cancel
+.SH "DESCRIPTION"
+Kill off a pending delayed_work.
+
+This function is safe to call from any context including IRQ handler.
+.SH "RETURN"
+true if \fIdwork\fP was pending and canceled; false if it wasn't
+pending.
+.SH "NOTE"
+The work callback function may still be running on return, unless
+it returns true and the work doesn't re-arm itself.  Explicitly flush or
+use \fBcancel_delayed_work_sync\fP to wait on it.

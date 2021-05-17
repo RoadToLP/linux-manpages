@@ -1,0 +1,22 @@
+.TH "tty_lookup_driver" 9 "tty_lookup_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_lookup_driver \- lookup a tty driver for a given device file
+.SH SYNOPSIS
+.B "struct tty_driver *" tty_lookup_driver
+.BI "(dev_t device "  ","
+.BI "struct file *filp "  ","
+.BI "int *index "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+device number
+.IP "filp" 12
+file pointer to tty
+.IP "index" 12
+index for the device in the \fIreturn\fP driver
+.SH "RETURN"
+driver for this inode (with increased refcount)
+
+If \fIreturn\fP is not erroneous, the caller is responsible to decrement the
+refcount by tty_driver_kref_put.
+
+Locking: tty_mutex protects get_tty_driver

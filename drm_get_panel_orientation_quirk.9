@@ -1,0 +1,25 @@
+.TH "drm_get_panel_orientation_quirk" 9 "drm_get_panel_orientation_quirk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_get_panel_orientation_quirk \- Check for panel orientation quirks
+.SH SYNOPSIS
+.B "int" drm_get_panel_orientation_quirk
+.BI "(int width "  ","
+.BI "int height "  ");"
+.SH ARGUMENTS
+.IP "width" 12
+width in pixels of the panel
+.IP "height" 12
+height in pixels of the panel
+.SH "DESCRIPTION"
+This function checks for platform specific (e.g. DMI based) quirks
+providing info on panel_orientation for systems where this cannot be
+probed from the hard-/firm-ware. To avoid false-positive this function
+takes the panel resolution as argument and checks that against the
+resolution expected by the quirk-table entry.
+
+Note this function is also used outside of the drm-subsys, by for example
+the efifb code. Because of this this function gets compiled into its own
+kernel-module when built as a module.
+.SH "RETURN"
+A DRM_MODE_PANEL_ORIENTATION_* value if there is a quirk for this system,
+or DRM_MODE_PANEL_ORIENTATION_UNKNOWN if there is no quirk.

@@ -1,0 +1,21 @@
+.TH "sdio_align_size" 9 "sdio_align_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_align_size \- pads a transfer size to a more optimal value
+.SH SYNOPSIS
+.B "unsigned int" sdio_align_size
+.BI "(struct sdio_func *func "  ","
+.BI "unsigned int sz "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function
+.IP "sz" 12
+original transfer size
+
+Pads the original data size with a number of extra bytes in
+order to avoid controller bugs and/or performance hits
+(e.g. some controllers revert to PIO for certain sizes).
+
+If possible, it will also adjust the size so that it can be
+handled in just a single request.
+
+Returns the improved size, which might be unmodified.

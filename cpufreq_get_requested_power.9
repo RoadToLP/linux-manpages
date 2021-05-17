@@ -1,0 +1,29 @@
+.TH "cpufreq_get_requested_power" 9 "cpufreq_get_requested_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_get_requested_power \- get the current power
+.SH SYNOPSIS
+.B "int" cpufreq_get_requested_power
+.BI "(struct thermal_cooling_device *cdev "  ","
+.BI "u32 *power "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+\fIthermal_cooling_device\fP pointer
+.IP "power" 12
+pointer in which to store the resulting power
+.SH "DESCRIPTION"
+Calculate the current power consumption of the cpus in milliwatts
+and store it in \fIpower\fP.  This function should actually calculate
+the requested power, but it's hard to get the frequency that
+cpufreq would have assigned if there were no thermal limits.
+Instead, we calculate the current power on the assumption that the
+immediate future will look like the immediate past.
+
+We use the current frequency and the average load since this
+function was last called.  In reality, there could have been
+multiple opps since this function was last called and that affects
+the load calculation.  While it's not perfectly accurate, this
+simplification is good enough and works.  REVISIT this, as more
+complex code may be needed if experiments show that it's not
+accurate enough.
+.SH "RETURN"
+0 on success, -E* if getting the static power failed.

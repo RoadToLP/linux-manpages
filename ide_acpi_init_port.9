@@ -1,0 +1,16 @@
+.TH "ide_acpi_init_port" 9 "ide_acpi_init_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_acpi_init_port \- initialize the ACPI link for an IDE interface
+.SH SYNOPSIS
+.B "void" ide_acpi_init_port
+.BI "(ide_hwif_t *hwif "  ");"
+.SH ARGUMENTS
+.IP "hwif" 12
+target IDE interface (channel)
+.SH "DESCRIPTION"
+The ACPI spec is not quite clear when the drive identify buffer
+should be obtained. Calling IDENTIFY DEVICE during shutdown
+is not the best of ideas as the drive might already being put to
+sleep. And obviously we can't call it during resume.
+So we get the information during startup; but this means that
+any changes during run-time will be lost after resume.

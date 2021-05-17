@@ -1,0 +1,23 @@
+.TH "vxfs_blkiget" 9 "vxfs_blkiget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxfs_blkiget \- find inode based on extent #
+.SH SYNOPSIS
+.B "struct inode *" vxfs_blkiget
+.BI "(struct super_block *sbp "  ","
+.BI "u_long extent "  ","
+.BI "ino_t ino "  ");"
+.SH ARGUMENTS
+.IP "sbp" 12
+superblock of the filesystem we search in
+.IP "extent" 12
+number of the extent to search
+.IP "ino" 12
+inode number to search
+.SH "DESCRIPTION"
+vxfs_blkiget searches inode \fIino\fP in the filesystem described by
+\fIsbp\fP in the extent \fIextent\fP.
+Returns the matching VxFS inode on success, else a NULL pointer.
+.SH "NOTE"
+While __vxfs_iget uses the pagecache vxfs_blkiget uses the
+buffercache.  This function should not be used outside the
+\fBread_super\fP method, otherwise the data may be incoherent.

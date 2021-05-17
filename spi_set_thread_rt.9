@@ -1,0 +1,20 @@
+.TH "spi_set_thread_rt" 9 "spi_set_thread_rt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_set_thread_rt \- set the controller to pump at realtime priority
+.SH SYNOPSIS
+.B "void" spi_set_thread_rt
+.BI "(struct spi_controller *ctlr "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+controller to boost priority of
+.SH "DESCRIPTION"
+This can be called because the controller requested realtime priority
+(by setting the ->rt value before calling \fBspi_register_controller\fP) or
+because a device on the bus said that its transfers needed realtime
+priority.
+.SH "NOTE"
+at the moment if any device on a bus says it needs realtime then
+the thread will be at realtime priority for all transfers on that
+controller.  If this eventually becomes a problem we may see if we can
+find a way to boost the priority only temporarily during relevant
+transfers.

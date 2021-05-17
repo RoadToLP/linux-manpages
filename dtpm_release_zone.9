@@ -1,0 +1,16 @@
+.TH "dtpm_release_zone" 9 "dtpm_release_zone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dtpm_release_zone \- Cleanup when the node is released
+.SH SYNOPSIS
+.B "int" dtpm_release_zone
+.BI "(struct powercap_zone *pcz "  ");"
+.SH ARGUMENTS
+.IP "pcz" 12
+a pointer to a powercap_zone structure
+.SH "DESCRIPTION"
+Do some housecleaning and update the weight on the tree. The
+release will be denied if the node has children. This function must
+be called by the specific release callback of the different
+backends.
+.SH "RETURN"
+0 on success, -EBUSY if there are children

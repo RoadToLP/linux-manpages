@@ -1,0 +1,20 @@
+.TH "s2io_tx_watchdog" 9 "s2io_tx_watchdog" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s2io_tx_watchdog \- Watchdog for transmit side.
+.SH SYNOPSIS
+.B "void" s2io_tx_watchdog
+.BI "(struct net_device *dev "  ","
+.BI "unsigned int txqueue "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to net device structure
+.IP "txqueue" 12
+index of the hanging queue
+.SH "DESCRIPTION"
+This function is triggered if the Tx Queue is stopped
+for a pre-defined amount of time when the Interface is still up.
+If the Interface is jammed in such a situation, the hardware is
+reset (by s2io_close) and restarted again (by s2io_open) to
+overcome any problem that might have been caused in the hardware.
+Return value:
+void

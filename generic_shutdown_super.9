@@ -1,0 +1,19 @@
+.TH "generic_shutdown_super" 9 "generic_shutdown_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_shutdown_super \- common helper for ->kill_sb()
+.SH SYNOPSIS
+.B "void" generic_shutdown_super
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock to kill
+
+\fBgeneric_shutdown_super\fP does all fs-independent work on superblock
+shutdown.  Typical ->\fBkill_sb\fP should pick all fs-specific objects
+that need destruction out of superblock, call \fBgeneric_shutdown_super\fP
+and release aforementioned objects.  Note: dentries and inodes _are_
+taken care of and do not need specific handling.
+
+Upon calling this function, the filesystem may no longer alter or
+rearrange the set of dentries belonging to this super_block, nor may it
+change the attachments of dentries to inodes.

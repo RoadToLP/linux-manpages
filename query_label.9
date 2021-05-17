@@ -1,0 +1,33 @@
+.TH "query_label" 9 "query_label" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+query_label \- queries a label and writes permissions to buf
+.SH SYNOPSIS
+.B "ssize_t" query_label
+.BI "(char *buf "  ","
+.BI "size_t buf_len "  ","
+.BI "char *query "  ","
+.BI "size_t query_len "  ","
+.BI "bool view_only "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+the resulting permissions string is stored here (NOT NULL)
+.IP "buf_len" 12
+size of buf
+.IP "query" 12
+binary query string to match against the dfa
+.IP "query_len" 12
+size of query
+.IP "view_only" 12
+only compute for querier's view
+.SH "DESCRIPTION"
+The buffers pointed to by buf and query may overlap. The query buffer is
+parsed before buf is written to.
+
+The query should look like "LABEL_NAME\0DFA_STRING" where LABEL_NAME is
+the name of the label, in the current namespace, that is to be queried and
+DFA_STRING is a binary string to match against the label(s)'s DFA.
+
+LABEL_NAME must be NUL terminated. DFA_STRING may contain NUL characters
+but must *not* be NUL terminated.
+.SH "RETURN"
+number of characters written to buf or -errno on failure

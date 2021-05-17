@@ -1,0 +1,35 @@
+.TH "tb_ring_alloc_rx" 9 "tb_ring_alloc_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_ring_alloc_rx \- Allocate DMA ring for receive
+.SH SYNOPSIS
+.B "struct tb_ring *" tb_ring_alloc_rx
+.BI "(struct tb_nhi *nhi "  ","
+.BI "int hop "  ","
+.BI "int size "  ","
+.BI "unsigned int flags "  ","
+.BI "int e2e_tx_hop "  ","
+.BI "u16 sof_mask "  ","
+.BI "u16 eof_mask "  ","
+.BI "void (*start_poll)(void *) "  ","
+.BI "void *poll_data "  ");"
+.SH ARGUMENTS
+.IP "nhi" 12
+Pointer to the NHI the ring is to be allocated
+.IP "hop" 12
+HopID (ring) to allocate. Pass -1 for automatic allocation.
+.IP "size" 12
+Number of entries in the ring
+.IP "flags" 12
+Flags for the ring
+.IP "e2e_tx_hop" 12
+Transmit HopID when E2E is enabled in \fIflags\fP
+.IP "sof_mask" 12
+Mask of PDF values that start a frame
+.IP "eof_mask" 12
+Mask of PDF values that end a frame
+.IP "start_poll" 12
+If not NULL the ring will call this function when an
+interrupt is triggered and masked, instead of callback
+in each Rx frame.
+.IP "poll_data" 12
+Optional data passed to \fIstart_poll\fP

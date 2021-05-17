@@ -1,0 +1,31 @@
+.TH "sysfs_ctlreg_read" 9 "sysfs_ctlreg_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_ctlreg_read \- Read method for reading from ctlreg
+.SH SYNOPSIS
+.B "ssize_t" sysfs_ctlreg_read
+.BI "(struct file *filp "  ","
+.BI "struct kobject *kobj "  ","
+.BI "struct bin_attribute *bin_attr "  ","
+.BI "char *buf "  ","
+.BI "loff_t off "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+open sysfs file
+.IP "kobj" 12
+kernel kobject that contains the kernel class device.
+.IP "bin_attr" 12
+kernel attributes passed to us.
+.IP "buf" 12
+if successful contains the data from the adapter IOREG space.
+.IP "off" 12
+offset into buffer to beginning of data.
+.IP "count" 12
+bytes to transfer.
+.SH "DESCRIPTION"
+Accessed via /sys/class/scsi_host/hostxxx/ctlreg.
+Uses the adapter io control registers to read data into buf.
+.SH "RETURN"
+-ERANGE off and count combo out of range
+-EINVAL off, count or buff address invalid
+value of count, buf contents read

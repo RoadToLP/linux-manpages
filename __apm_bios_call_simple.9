@@ -1,0 +1,17 @@
+.TH "__apm_bios_call_simple" 9 "__apm_bios_call_simple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__apm_bios_call_simple \- Make an APM BIOS 32bit call (on CPU 0)
+.SH SYNOPSIS
+.B "long" __apm_bios_call_simple
+.BI "(void *_call "  ");"
+.SH ARGUMENTS
+.IP "_call" 12
+pointer to struct apm_bios_call.
+
+Make a BIOS call that returns one value only, or just status.
+If there is an error, then the error code is returned in AH
+(bits 8-15 of eax) and this function returns non-zero (it can
+also return -ENOMEM). This is used for simpler BIOS operations.
+This call may hold interrupts off for a long time on some laptops.
+.SH "NOTE"
+this makes the call on the current CPU.

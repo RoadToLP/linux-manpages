@@ -1,0 +1,19 @@
+.TH "dwc3_gadget_giveback" 9 "dwc3_gadget_giveback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc3_gadget_giveback \- call struct usb_request's ->complete callback
+.SH SYNOPSIS
+.B "void" dwc3_gadget_giveback
+.BI "(struct dwc3_ep *dep "  ","
+.BI "struct dwc3_request *req "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "dep" 12
+The endpoint to whom the request belongs to
+.IP "req" 12
+The request we're giving back
+.IP "status" 12
+completion code for the request
+.SH "DESCRIPTION"
+Must be called with controller's lock held and interrupts disabled. This
+function will unmap \fIreq\fP and call its ->\fBcomplete\fP callback to notify upper
+layers that it has completed.

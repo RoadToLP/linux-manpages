@@ -1,0 +1,32 @@
+.TH "drm_atomic_helper_check" 9 "drm_atomic_helper_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_check \- validate state object
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_check
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+the driver state object
+.SH "DESCRIPTION"
+Check the state object to see if the requested state is physically possible.
+Only CRTCs and planes have check callbacks, so for any additional (global)
+checking that a driver needs it can simply wrap that around this function.
+Drivers without such needs can directly use this as their
+\fIdrm_mode_config_funcs.atomic_check\fP callback.
+
+This just wraps the two parts of the state checking for planes and modeset
+state in the default order: First it calls \fBdrm_atomic_helper_check_modeset\fP
+and then \fBdrm_atomic_helper_check_planes\fP. The assumption is that the
+\fIdrm_plane_helper_funcs.atomic_check\fP and \fIdrm_crtc_helper_funcs.atomic_check\fP
+functions depend upon an updated adjusted_mode.clock to e.g. properly compute
+watermarks.
+
+Note that zpos normalization will add all enable planes to the state which
+might not desired for some drivers.
+For example enable/disable of a cursor plane which have fixed zpos value
+would trigger all other enabled planes to be forced to the state change.
+.SH "RETURN"
+Zero for success or -errno

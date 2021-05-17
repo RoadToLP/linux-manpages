@@ -1,0 +1,24 @@
+.TH "ingenic_ecc_correct" 9 "ingenic_ecc_correct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ingenic_ecc_correct \- detect and correct bit errors
+.SH SYNOPSIS
+.B "int" ingenic_ecc_correct
+.BI "(struct ingenic_ecc *ecc "  ","
+.BI "struct ingenic_ecc_params *params "  ","
+.BI "u8 *buf "  ","
+.BI "u8 *ecc_code "  ");"
+.SH ARGUMENTS
+.IP "ecc" 12
+ECC device.
+.IP "params" 12
+ECC parameters.
+.IP "buf" 12
+raw data read from the chip.
+.IP "ecc_code" 12
+ECC read from the chip.
+.SH "DESCRIPTION"
+Given the raw data and the ECC read from the NAND device, detects and
+corrects errors in the data.
+.SH "RETURN"
+the number of bit errors corrected, -EBADMSG if there are too many
+errors to correct or -ETIMEDOUT if we timed out waiting for the controller.

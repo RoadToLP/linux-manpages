@@ -1,0 +1,27 @@
+.TH "ftrace_regex_open" 9 "ftrace_regex_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_regex_open \- initialize function tracer filter files
+.SH SYNOPSIS
+.B "int" ftrace_regex_open
+.BI "(struct ftrace_ops *ops "  ","
+.BI "int flag "  ","
+.BI "struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+The ftrace_ops that hold the hash filters
+.IP "flag" 12
+The type of filter to process
+.IP "inode" 12
+The inode, usually passed in to your open routine
+.IP "file" 12
+The file, usually passed in to your open routine
+.SH "DESCRIPTION"
+\fBftrace_regex_open\fP initializes the filter files for the
+\fIops\fP. Depending on \fIflag\fP it may process the filter hash or
+the notrace hash of \fIops\fP. With this called from the open
+routine, you can use \fBftrace_filter_write\fP for the write
+routine if \fIflag\fP has FTRACE_ITER_FILTER set, or
+\fBftrace_notrace_write\fP if \fIflag\fP has FTRACE_ITER_NOTRACE set.
+\fBtracing_lseek\fP should be used as the lseek routine, and
+release must call \fBftrace_regex_release\fP.

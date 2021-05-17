@@ -1,0 +1,27 @@
+.TH "scsih_tm_cmd_map_status" 9 "scsih_tm_cmd_map_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsih_tm_cmd_map_status \- map the target reset & LUN reset TM status
+.SH SYNOPSIS
+.B "int" scsih_tm_cmd_map_status
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "uint channel "  ","
+.BI "uint id "  ","
+.BI "uint lun "  ","
+.BI "u8 type "  ","
+.BI "u16 smid_task "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "channel" 12
+the channel assigned by the OS
+.IP "id" 12
+the id assigned by the OS
+.IP "lun" 12
+lun number
+.IP "type" 12
+MPI2_SCSITASKMGMT_TASKTYPE__XXX (defined in mpi2_init.h)
+.IP "smid_task" 12
+smid assigned to the task
+.SH "DESCRIPTION"
+Look whether TM has aborted the timed out SCSI command, if
+TM has aborted the IO then return SUCCESS else return FAILED.

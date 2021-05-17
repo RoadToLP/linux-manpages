@@ -1,0 +1,20 @@
+.TH "pty_write" 9 "pty_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pty_write \- write to a pty
+.SH SYNOPSIS
+.B "int" pty_write
+.BI "(struct tty_struct *tty "  ","
+.BI "const unsigned char *buf "  ","
+.BI "int c "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+the tty we write from
+.IP "buf" 12
+kernel buffer of data
+.IP "c" 12
+bytes to write
+
+Our "hardware" write method. Data is coming from the ldisc which
+may be in a non sleeping state. We simply throw this at the other
+end of the link as if we were an IRQ handler receiving stuff for
+the other side of the pty/tty pair.

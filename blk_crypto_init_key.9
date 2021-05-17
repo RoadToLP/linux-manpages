@@ -1,0 +1,26 @@
+.TH "blk_crypto_init_key" 9 "blk_crypto_init_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_crypto_init_key \- Prepare a key for use with blk-crypto
+.SH SYNOPSIS
+.B "int" blk_crypto_init_key
+.BI "(struct blk_crypto_key *blk_key "  ","
+.BI "const u8 *raw_key "  ","
+.BI "enum blk_crypto_mode_num crypto_mode "  ","
+.BI "unsigned int dun_bytes "  ","
+.BI "unsigned int data_unit_size "  ");"
+.SH ARGUMENTS
+.IP "blk_key" 12
+Pointer to the blk_crypto_key to initialize.
+.IP "raw_key" 12
+Pointer to the raw key. Must be the correct length for the chosen
+\fIcrypto_mode\fP; see blk_crypto_modes[].
+.IP "crypto_mode" 12
+identifier for the encryption algorithm to use
+.IP "dun_bytes" 12
+number of bytes that will be used to specify the DUN when this
+key is used
+.IP "data_unit_size" 12
+the data unit size to use for en/decryption
+.SH "RETURN"
+0 on success, -errno on failure.  The caller is responsible for
+zeroizing both blk_key and raw_key when done with them.

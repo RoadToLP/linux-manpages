@@ -1,0 +1,31 @@
+.TH "usb_gadget_config_buf" 9 "usb_gadget_config_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_config_buf \- builts a complete configuration descriptor
+.SH SYNOPSIS
+.B "int" usb_gadget_config_buf
+.BI "(const struct usb_config_descriptor *config "  ","
+.BI "void *buf "  ","
+.BI "unsigned length "  ","
+.BI "const struct usb_descriptor_header **desc "  ");"
+.SH ARGUMENTS
+.IP "config" 12
+Header for the descriptor, including characteristics such
+as power requirements and number of interfaces.
+.IP "buf" 12
+Buffer for the resulting configuration descriptor.
+.IP "length" 12
+Length of buffer.  If this is not big enough to hold the
+entire configuration descriptor, an error code will be returned.
+.IP "desc" 12
+Null-terminated vector of pointers to the descriptors (interface,
+endpoint, etc) defining all functions in this device configuration.
+.SH "DESCRIPTION"
+This copies descriptors into the response buffer, building a descriptor
+for that configuration.  It returns the buffer length or a negative
+status code.  The config.wTotalLength field is set to match the length
+of the result, but other descriptor fields (including power usage and
+interface count) must be set by the caller.
+
+Gadget drivers could use this when constructing a config descriptor
+in response to USB_REQ_GET_DESCRIPTOR.  They will need to patch the
+resulting bDescriptorType value if USB_DT_OTHER_SPEED_CONFIG is needed.

@@ -1,0 +1,36 @@
+.TH "snd_hdac_acomp_get_eld" 9 "snd_hdac_acomp_get_eld" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_acomp_get_eld \- Get the audio state and ELD via component
+.SH SYNOPSIS
+.B "int" snd_hdac_acomp_get_eld
+.BI "(struct hdac_device *codec "  ","
+.BI "hda_nid_t nid "  ","
+.BI "int dev_id "  ","
+.BI "bool *audio_enabled "  ","
+.BI "char *buffer "  ","
+.BI "int max_bytes "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+HDA codec
+.IP "nid" 12
+the pin widget NID
+.IP "dev_id" 12
+device identifier
+.IP "audio_enabled" 12
+the pointer to store the current audio state
+.IP "buffer" 12
+the buffer pointer to store ELD bytes
+.IP "max_bytes" 12
+the max bytes to be stored on \fIbuffer\fP
+.SH "DESCRIPTION"
+This function is supposed to be used only by a HD-audio controller
+driver that needs the interaction with graphics driver.
+
+This function queries the current state of the audio on the given
+digital port and fetches the ELD bytes onto the given buffer.
+It returns the number of bytes for the total ELD data, zero for
+invalid ELD, or a negative error code.
+
+The return size is the total bytes required for the whole ELD bytes,
+thus it may be over \fImax_bytes\fP.  If it's over \fImax_bytes\fP, it implies
+that only a part of ELD bytes have been fetched.

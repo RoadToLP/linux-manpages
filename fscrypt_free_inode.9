@@ -1,0 +1,12 @@
+.TH "fscrypt_free_inode" 9 "fscrypt_free_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_free_inode \- free an inode's fscrypt data requiring RCU delay
+.SH SYNOPSIS
+.B "void" fscrypt_free_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+an inode being freed
+.SH "DESCRIPTION"
+Free the inode's cached decrypted symlink target, if any.  Filesystems must
+call this after an RCU grace period, just before they free the inode.

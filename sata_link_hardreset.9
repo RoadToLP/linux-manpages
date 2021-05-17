@@ -1,0 +1,36 @@
+.TH "sata_link_hardreset" 9 "sata_link_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_link_hardreset \- reset link via SATA phy reset
+.SH SYNOPSIS
+.B "int" sata_link_hardreset
+.BI "(struct ata_link *link "  ","
+.BI "const unsigned long *timing "  ","
+.BI "unsigned long deadline "  ","
+.BI "bool *online "  ","
+.BI "int (*check_ready)(struct ata_link *) "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link to reset
+.IP "timing" 12
+timing parameters { interval, duration, timeout } in msec
+.IP "deadline" 12
+deadline jiffies for the operation
+.IP "online" 12
+optional out parameter indicating link onlineness
+.IP "check_ready" 12
+optional callback to check link readiness
+
+SATA phy-reset \fIlink\fP using DET bits of SControl register.
+After hardreset, link readiness is waited upon using
+\fBata_wait_ready\fP if \fIcheck_ready\fP is specified.  LLDs are
+allowed to not specify \fIcheck_ready\fP and wait itself after this
+function returns.  Device classification is LLD's
+responsibility.
+
+*\fIonline\fP is set to one iff reset succeeded and \fIlink\fP is online
+after reset.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

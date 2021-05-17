@@ -1,0 +1,21 @@
+.TH "p9_virtio_create" 9 "p9_virtio_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+p9_virtio_create \- allocate a new virtio channel
+.SH SYNOPSIS
+.B "int" p9_virtio_create
+.BI "(struct p9_client *client "  ","
+.BI "const char *devname "  ","
+.BI "char *args "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+client instance invoking this transport
+.IP "devname" 12
+string identifying the channel to connect to (unused)
+.IP "args" 12
+args passed from \fBsys_mount\fP for per-transport options (unused)
+.SH "DESCRIPTION"
+This sets up a transport channel for 9p communication.  Right now
+we only match the first available channel, but eventually we couldlook up
+alternate channels by matching devname versus a virtio_config entry.
+We use a simple reference count mechanism to ensure that only a single
+mount has a channel open at a time.

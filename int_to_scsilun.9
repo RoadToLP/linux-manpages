@@ -1,0 +1,19 @@
+.TH "int_to_scsilun" 9 "int_to_scsilun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+int_to_scsilun \- reverts an int into a scsi_lun
+.SH SYNOPSIS
+.B "void" int_to_scsilun
+.BI "(u64 lun "  ","
+.BI "struct scsi_lun *scsilun "  ");"
+.SH ARGUMENTS
+.IP "lun" 12
+integer to be reverted
+.IP "scsilun" 12
+struct scsi_lun to be set.
+.SH "DESCRIPTION"
+Reverts the functionality of the scsilun_to_int, which packed
+an 8-byte lun value into an int. This routine unpacks the int
+back into the lun value.
+.SH "NOTES"
+Given an integer : 0x0b03d204, this function returns a
+struct scsi_lun of: d2 04 0b 03 00 00 00 00

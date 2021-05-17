@@ -1,0 +1,20 @@
+.TH "scsi_partsize" 9 "scsi_partsize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_partsize \- Parse cylinders/heads/sectors from PC partition table
+.SH SYNOPSIS
+.B "bool" scsi_partsize
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t capacity "  ","
+.BI "int geom[3] "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+block device to parse
+.IP "capacity" 12
+size of the disk in sectors
+.IP "geom" 12
+output in form of [hds, cylinders, sectors]
+.SH "DESCRIPTION"
+Determine the BIOS mapping/geometry used to create the partition
+table, storing the results in \fIgeom\fP.
+.SH "RETURN"
+false on failure, true on success.

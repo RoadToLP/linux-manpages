@@ -1,0 +1,22 @@
+.TH "of_dma_controller_register" 9 "of_dma_controller_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_dma_controller_register \- Register a DMA controller to DT DMA helpers
+.SH SYNOPSIS
+.B "int" of_dma_controller_register
+.BI "(struct device_node *np "  ","
+.BI "struct dma_chan *(*of_dma_xlate) (struct of_phandle_args *, struct of_dma *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node of DMA controller
+.IP "of_dma_xlate" 12
+translation function which converts a phandle
+arguments list into a dma_chan structure
+.IP "data" 12
+pointer to controller specific data to be used by
+translation function
+.SH "DESCRIPTION"
+Returns 0 on success or appropriate errno value on error.
+
+Allocated memory should be freed with appropriate \fBof_dma_controller_free\fP
+call.

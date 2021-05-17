@@ -1,0 +1,27 @@
+.TH "nfs4_update_server" 9 "nfs4_update_server" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_update_server \- Move an nfs_server to a different nfs_client
+.SH SYNOPSIS
+.B "int" nfs4_update_server
+.BI "(struct nfs_server *server "  ","
+.BI "const char *hostname "  ","
+.BI "struct sockaddr *sap "  ","
+.BI "size_t salen "  ","
+.BI "struct net *net "  ");"
+.SH ARGUMENTS
+.IP "server" 12
+represents FSID to be moved
+.IP "hostname" 12
+new end-point's hostname
+.IP "sap" 12
+new end-point's socket address
+.IP "salen" 12
+size of "sap"
+.IP "net" 12
+net namespace
+.SH "DESCRIPTION"
+The nfs_server must be quiescent before this function is invoked.
+Either its session is drained (NFSv4.1+), or its transport is
+plugged and drained (NFSv4.0).
+
+Returns zero on success, or a negative errno value.

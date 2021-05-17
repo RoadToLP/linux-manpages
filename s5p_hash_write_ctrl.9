@@ -1,0 +1,23 @@
+.TH "s5p_hash_write_ctrl" 9 "s5p_hash_write_ctrl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_write_ctrl \- prepare HASH block in SecSS for processing
+.SH SYNOPSIS
+.B "void" s5p_hash_write_ctrl
+.BI "(struct s5p_aes_dev *dd "  ","
+.BI "size_t length "  ","
+.BI "bool final "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+secss device
+.IP "length" 12
+length for request
+.IP "final" 12
+true if final op
+.SH "DESCRIPTION"
+Prepare SSS HASH block for processing bytes in DMA mode. If it is called
+after previous updates, fill up IV words. For final, calculate and set
+lengths for HASH so SecSS can finalize hash. For partial, set SSS HASH
+length as 2^63 so it will be never reached and set to zero prelow and
+prehigh.
+
+This function does not start DMA transfer.

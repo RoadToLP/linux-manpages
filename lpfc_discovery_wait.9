@@ -1,0 +1,20 @@
+.TH "lpfc_discovery_wait" 9 "lpfc_discovery_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_discovery_wait \- Wait for driver discovery to quiesce
+.SH SYNOPSIS
+.B "void" lpfc_discovery_wait
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The virtual port for which this call is being executed.
+.SH "DESCRIPTION"
+This driver calls this routine specifically from lpfc_vport_delete
+to enforce a synchronous execution of vport
+delete relative to discovery activities.  The
+lpfc_vport_delete routine should not return until it
+can reasonably guarantee that discovery has quiesced.
+Post FDISC LOGO, the driver must wait until its SAN teardown is
+complete and all resources recovered before allowing
+cleanup.
+
+This routine does not require any locks held.

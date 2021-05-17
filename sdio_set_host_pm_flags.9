@@ -1,0 +1,20 @@
+.TH "sdio_set_host_pm_flags" 9 "sdio_set_host_pm_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_set_host_pm_flags \- set wanted host power management capabilities
+.SH SYNOPSIS
+.B "int" sdio_set_host_pm_flags
+.BI "(struct sdio_func *func "  ","
+.BI "mmc_pm_flag_t flags "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function attached to host
+.IP "flags" 12
+Power Management flags to set
+
+Set a capability bitmask corresponding to wanted host controller
+power management features for the upcoming suspend state.
+This must be called, if needed, each time the suspend method of
+the function driver is called, and must contain only bits that
+were returned by \fBsdio_get_host_pm_caps\fP.
+The host doesn't need to be claimed, nor the function active,
+for this information to be set.

@@ -1,0 +1,24 @@
+.TH "icc_set_bw" 9 "icc_set_bw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+icc_set_bw \- set bandwidth constraints on an interconnect path
+.SH SYNOPSIS
+.B "int" icc_set_bw
+.BI "(struct icc_path *path "  ","
+.BI "u32 avg_bw "  ","
+.BI "u32 peak_bw "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+reference to the path returned by \fBicc_get\fP
+.IP "avg_bw" 12
+average bandwidth in kilobytes per second
+.IP "peak_bw" 12
+peak bandwidth in kilobytes per second
+.SH "DESCRIPTION"
+This function is used by an interconnect consumer to express its own needs
+in terms of bandwidth for a previously requested path between two endpoints.
+The requests are aggregated and each node is updated accordingly. The entire
+path is locked by a mutex to ensure that the \fBset\fP is completed.
+The \fIpath\fP can be NULL when the "interconnects" DT properties is missing,
+which will mean that no constraints will be set.
+
+Returns 0 on success, or an appropriate error code otherwise.

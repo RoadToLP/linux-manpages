@@ -1,0 +1,21 @@
+.TH "page_referenced" 9 "page_referenced" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_referenced \- test if the page was referenced
+.SH SYNOPSIS
+.B "int" page_referenced
+.BI "(struct page *page "  ","
+.BI "int is_locked "  ","
+.BI "struct mem_cgroup *memcg "  ","
+.BI "unsigned long *vm_flags "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to test
+.IP "is_locked" 12
+caller holds lock on the page
+.IP "memcg" 12
+target memory cgroup
+.IP "vm_flags" 12
+collect encountered vma->vm_flags who actually referenced the page
+.SH "DESCRIPTION"
+Quick test_and_clear_referenced for all mappings to a page,
+returns the number of ptes which referenced the page.

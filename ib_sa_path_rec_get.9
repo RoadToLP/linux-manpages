@@ -1,0 +1,48 @@
+.TH "ib_sa_path_rec_get" 9 "ib_sa_path_rec_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_sa_path_rec_get \- Start a Path get query
+.SH SYNOPSIS
+.B "int" ib_sa_path_rec_get
+.BI "(struct ib_sa_client *client "  ","
+.BI "struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "struct sa_path_rec *rec "  ","
+.BI "ib_sa_comp_mask comp_mask "  ","
+.BI "unsigned long timeout_ms "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "void (*callback)(int status, struct sa_path_rec *resp, void *context) "  ","
+.BI "void *context "  ","
+.BI "struct ib_sa_query **sa_query "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+SA client
+.IP "device" 12
+device to send query on
+.IP "port_num" 12
+port number to send query on
+.IP "rec" 12
+Path Record to send in query
+.IP "comp_mask" 12
+component mask to send in query
+.IP "timeout_ms" 12
+time to wait for response
+.IP "gfp_mask" 12
+GFP mask to use for internal allocations
+.IP "callback" 12
+function called when query completes, times out or is
+canceled
+.IP "context" 12
+opaque user context passed to callback
+.IP "sa_query" 12
+query context, used to cancel query
+.SH "DESCRIPTION"
+Send a Path Record Get query to the SA to look up a path.  The
+callback function will be called when the query completes (or
+fails); status is 0 for a successful response, -EINTR if the query
+is canceled, -ETIMEDOUT is the query timed out, or -EIO if an error
+occurred sending the query.  The resp parameter of the callback is
+only valid if status is 0.
+
+If the return value of \fBib_sa_path_rec_get\fP is negative, it is an
+error code.  Otherwise it is a query ID that can be used to cancel
+the query.

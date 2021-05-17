@@ -1,0 +1,18 @@
+.TH "devm_usb_get_phy" 9 "devm_usb_get_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_usb_get_phy \- find the USB PHY
+.SH SYNOPSIS
+.B "struct usb_phy *" devm_usb_get_phy
+.BI "(struct device *dev "  ","
+.BI "enum usb_phy_type type "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that requests this phy
+.IP "type" 12
+the type of the phy the controller requires
+.SH "DESCRIPTION"
+Gets the phy using \fBusb_get_phy\fP, and associates a device with it using
+devres. On driver detach, release function is invoked on the devres data,
+then, devres data is freed.
+
+For use by USB host and peripheral drivers.

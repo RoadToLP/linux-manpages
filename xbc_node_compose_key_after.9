@@ -1,0 +1,27 @@
+.TH "xbc_node_compose_key_after" 9 "xbc_node_compose_key_after" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xbc_node_compose_key_after \- Compose partial key string of the XBC node
+.SH SYNOPSIS
+.B "int" xbc_node_compose_key_after
+.BI "(struct xbc_node *root "  ","
+.BI "struct xbc_node *node "  ","
+.BI "char *buf "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+Root XBC node
+.IP "node" 12
+Target XBC node.
+.IP "buf" 12
+A buffer to store the key.
+.IP "size" 12
+The size of the \fIbuf\fP.
+.SH "DESCRIPTION"
+Compose the partial key of the \fInode\fP into \fIbuf\fP, which is starting right
+after \fIroot\fP (\fIroot\fP is not included.) If \fIroot\fP is NULL, this returns full
+key words of \fInode\fP.
+Returns the total length of the key stored in \fIbuf\fP. Returns -EINVAL
+if \fInode\fP is NULL or \fIroot\fP is not the ancestor of \fInode\fP or \fIroot\fP is \fInode\fP,
+or returns -ERANGE if the key depth is deeper than max depth.
+This is expected to be used with \fBxbc_find_node\fP to list up all (child)
+keys under given key.

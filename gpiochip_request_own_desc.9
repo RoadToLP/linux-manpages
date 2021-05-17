@@ -1,0 +1,33 @@
+.TH "gpiochip_request_own_desc" 9 "gpiochip_request_own_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_request_own_desc \- Allow GPIO chip to request its own descriptor
+.SH SYNOPSIS
+.B "struct gpio_desc *" gpiochip_request_own_desc
+.BI "(struct gpio_chip *gc "  ","
+.BI "unsigned int hwnum "  ","
+.BI "const char *label "  ","
+.BI "enum gpio_lookup_flags lflags "  ","
+.BI "enum gpiod_flags dflags "  ");"
+.SH ARGUMENTS
+.IP "gc" 12
+GPIO chip
+.IP "hwnum" 12
+hardware number of the GPIO for which to request the descriptor
+.IP "label" 12
+label for the GPIO
+.IP "lflags" 12
+lookup flags for this GPIO or 0 if default, this can be used to
+specify things like line inversion semantics with the machine flags
+such as GPIO_OUT_LOW
+.IP "dflags" 12
+descriptor request flags for this GPIO or 0 if default, this
+can be used to specify consumer semantics such as open drain
+.SH "DESCRIPTION"
+Function allows GPIO chip drivers to request and use their own GPIO
+descriptors via gpiolib API. Difference to \fBgpiod_request\fP is that this
+function will not increase reference count of the GPIO chip module. This
+allows the GPIO chip module to be unloaded as needed (we assume that the
+GPIO chip driver handles freeing the GPIOs it has requested).
+.SH "RETURN"
+A pointer to the GPIO descriptor, or an \fBERR_PTR\fP-encoded negative error
+code on failure.

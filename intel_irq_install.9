@@ -1,0 +1,16 @@
+.TH "intel_irq_install" 9 "intel_irq_install" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_irq_install \- enables the hardware interrupt
+.SH SYNOPSIS
+.B "int" intel_irq_install
+.BI "(struct drm_i915_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.SH "DESCRIPTION"
+This function enables the hardware interrupt handling, but leaves the hotplug
+handling still disabled. It is called after \fBintel_irq_init\fP.
+
+In the driver load and resume code we need working interrupts in a few places
+but don't want to deal with the hassle of concurrent probe and hotplug
+workers. Hence the split into this two-stage approach.

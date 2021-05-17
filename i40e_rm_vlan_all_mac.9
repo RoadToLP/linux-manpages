@@ -1,0 +1,20 @@
+.TH "i40e_rm_vlan_all_mac" 9 "i40e_rm_vlan_all_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_rm_vlan_all_mac \- Remove MAC/VLAN pair for all MAC with the given VLAN
+.SH SYNOPSIS
+.B "void" i40e_rm_vlan_all_mac
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "s16 vid "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the vsi being configured
+.IP "vid" 12
+vlan id to be removed (0 = untagged only , -1 = any)
+.SH "DESCRIPTION"
+This function should be used to remove all VLAN filters which match the
+given VID. It does not schedule the service event and does not take the
+mac_filter_hash_lock so it may be combined with other operations under
+a single invocation of the mac_filter_hash_lock.
+.SH "NOTE"
+this function expects to be called while under the
+mac_filter_hash_lock

@@ -1,0 +1,25 @@
+.TH "mux_chip_alloc" 9 "mux_chip_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mux_chip_alloc \- Allocate a mux-chip.
+.SH SYNOPSIS
+.B "struct mux_chip *" mux_chip_alloc
+.BI "(struct device *dev "  ","
+.BI "unsigned int controllers "  ","
+.BI "size_t sizeof_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The parent device implementing the mux interface.
+.IP "controllers" 12
+The number of mux controllers to allocate for this chip.
+.IP "sizeof_priv" 12
+Size of extra memory area for private use by the caller.
+.SH "DESCRIPTION"
+After allocating the mux-chip with the desired number of mux controllers
+but before registering the chip, the mux driver is required to configure
+the number of valid mux states in the mux_chip->mux[N].states members and
+the desired idle state in the returned mux_chip->mux[N].idle_state members.
+The default idle state is MUX_IDLE_AS_IS. The mux driver also needs to
+provide a pointer to the operations struct in the mux_chip->ops member
+before registering the mux-chip with mux_chip_register.
+.SH "RETURN"
+A pointer to the new mux-chip, or an ERR_PTR with a negative errno.

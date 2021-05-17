@@ -1,0 +1,15 @@
+.TH "omap_msdi_reset" 9 "omap_msdi_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_msdi_reset \- reset the MSDI IP block
+.SH SYNOPSIS
+.B "int" omap_msdi_reset
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+The MSDI IP block on OMAP2420 has to have both the POW and CLKD
+fields set inside its CON register for a reset to complete
+successfully.  This is not documented in the TRM.  For CLKD, we use
+the value that results in the lowest possible clock rate, to attempt
+to avoid disturbing any cards.

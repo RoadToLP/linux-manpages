@@ -1,0 +1,27 @@
+.TH "batadv_dat_forward_data" 9 "batadv_dat_forward_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_forward_data \- copy and send payload to the selected candidates
+.SH SYNOPSIS
+.B "bool" batadv_dat_forward_data
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "__be32 ip "  ","
+.BI "unsigned short vid "  ","
+.BI "int packet_subtype "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+payload to send
+.IP "ip" 12
+the DHT key
+.IP "vid" 12
+VLAN identifier
+.IP "packet_subtype" 12
+unicast4addr packet subtype to use
+.SH "DESCRIPTION"
+This function copies the skb with \fBpskb_copy\fP and is sent as a unicast packet
+to each of the selected candidates.
+.SH "RETURN"
+true if the packet is sent to at least one candidate, false
+otherwise.

@@ -1,0 +1,21 @@
+.TH "vga_switcheroo_unlock_ddc" 9 "vga_switcheroo_unlock_ddc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_switcheroo_unlock_ddc \- switch DDC lines back to previous owner
+.SH SYNOPSIS
+.B "int" vga_switcheroo_unlock_ddc
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+client pci device
+.SH "DESCRIPTION"
+Switch DDC lines back to the previous owner after calling
+\fBvga_switcheroo_lock_ddc\fP. This must be called even if
+\fBvga_switcheroo_lock_ddc\fP returned an error.
+.SH "RETURN"
+Previous DDC owner on success (i.e. the client identifier of \fIpdev\fP)
+or a negative int on error.
+Specifically, -ENODEV if no handler has registered or if the handler
+does not support switching the DDC lines. Also, a negative value
+returned by the handler is propagated back to the caller.
+Finally, invoking this function without calling \fBvga_switcheroo_lock_ddc\fP
+first is not allowed and will result in -EINVAL.

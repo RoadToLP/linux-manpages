@@ -1,0 +1,19 @@
+.TH "netlbl_domhsh_search_def" 9 "netlbl_domhsh_search_def" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_domhsh_search_def \- Search for a domain entry
+.SH SYNOPSIS
+.B "struct netlbl_dom_map *" netlbl_domhsh_search_def
+.BI "(const char *domain "  ","
+.BI "u16 family "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+the domain
+.IP "family" 12
+the address family
+.SH "DESCRIPTION"
+Searches the domain hash table and returns a pointer to the hash table
+entry if an exact match is found, if an exact match is not present in the
+hash table then the default entry is returned if valid otherwise NULL is
+returned.  \fIfamily\fP may be AF_UNSPEC which matches any address family
+entries.  The caller is responsible ensuring that the hash table is
+protected with either a RCU read lock or the hash table lock.

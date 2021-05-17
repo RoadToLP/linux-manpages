@@ -1,0 +1,24 @@
+.TH "build_changeset_next_level" 9 "build_changeset_next_level" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+build_changeset_next_level \- add level of overlay changeset
+.SH SYNOPSIS
+.B "int" build_changeset_next_level
+.BI "(struct overlay_changeset *ovcs "  ","
+.BI "struct target *target "  ","
+.BI "const struct device_node *overlay_node "  ");"
+.SH ARGUMENTS
+.IP "ovcs" 12
+overlay changeset
+.IP "target" 12
+where to place \fIoverlay_node\fP in live tree
+.IP "overlay_node" 12
+node from within an overlay device tree fragment
+.SH "DESCRIPTION"
+Add the properties (if any) and nodes (if any) from \fIoverlay_node\fP to the
+\fIovcs->cset\fP changeset.  If an added node has child nodes, they will
+be added recursively.
+
+Do not allow symbols node to have any children.
+
+Returns 0 on success, -ENOMEM if memory allocation failure, or -EINVAL if
+invalid \fIoverlay_node\fP.

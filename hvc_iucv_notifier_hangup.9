@@ -1,0 +1,24 @@
+.TH "hvc_iucv_notifier_hangup" 9 "hvc_iucv_notifier_hangup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_notifier_hangup \- HVC notifier for TTY hangups.
+.SH SYNOPSIS
+.B "void" hvc_iucv_notifier_hangup
+.BI "(struct hvc_struct *hp "  ","
+.BI "int id "  ");"
+.SH ARGUMENTS
+.IP "hp" 12
+Pointer to the HVC device (struct hvc_struct)
+.IP "id" 12
+Additional data (originally passed to hvc_alloc):
+the index of an struct hvc_iucv_private instance.
+.SH "DESCRIPTION"
+This routine notifies the HVC back-end that a tty hangup (carrier loss,
+virtual or otherwise) has occurred.
+The z/VM IUCV HVC device driver ignores virtual hangups (\fBvhangup\fP)
+to keep an existing IUCV communication path established.
+(Background: \fBvhangup\fP is called from user space (by getty or login) to
+disable writing to the tty by other applications).
+If the tty has been opened and an established IUCV path has been severed
+(we caused the tty hangup), the function calls \fBhvc_iucv_cleanup\fP.
+
+Locking:     struct hvc_iucv_private->lock

@@ -1,0 +1,30 @@
+.TH "ntfs_bmap" 9 "ntfs_bmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_bmap \- map logical file block to physical device block
+.SH SYNOPSIS
+.B "sector_t" ntfs_bmap
+.BI "(struct address_space *mapping "  ","
+.BI "sector_t block "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space mapping to which the block to be mapped belongs
+.IP "block" 12
+logical block to map to its physical device block
+.SH "DESCRIPTION"
+For regular, non-resident files (i.e. not compressed and not encrypted), map
+the logical \fIblock\fP belonging to the file described by the address space
+mapping \fImapping\fP to its physical device block.
+
+The size of the block is equal to the \fIs_blocksize\fP field of the super block
+of the mounted file system which is guaranteed to be smaller than or equal
+to the cluster size thus the block is guaranteed to fit entirely inside the
+cluster which means we do not need to care how many contiguous bytes are
+available after the beginning of the block.
+
+Return the physical device block if the mapping succeeded or 0 if the block
+is sparse or there was an error.
+.SH "NOTE"
+This is a problem if someone tries to run \fBbmap\fP on $Boot system file
+as that really is in block zero but there is nothing we can do.  \fBbmap\fP is
+just broken in that respect (just like it cannot distinguish sparse from
+not available or error).

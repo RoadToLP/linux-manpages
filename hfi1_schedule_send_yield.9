@@ -1,0 +1,22 @@
+.TH "hfi1_schedule_send_yield" 9 "hfi1_schedule_send_yield" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_schedule_send_yield \- test for a yield required for QP send engine
+.SH SYNOPSIS
+.B "bool" hfi1_schedule_send_yield
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct hfi1_pkt_state *ps "  ","
+.BI "bool tid "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+a pointer to QP
+.IP "ps" 12
+a pointer to a structure with commonly lookup values for
+the the send engine progress
+.IP "tid" 12
+true if it is the tid leg
+.SH "DESCRIPTION"
+This routine checks if the time slice for the QP has expired
+for RC QPs, if so an additional work entry is queued. At this
+point, other QPs have an opportunity to be scheduled. It
+returns true if a yield is required, otherwise, false
+is returned.

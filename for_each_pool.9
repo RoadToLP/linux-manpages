@@ -1,0 +1,19 @@
+.TH "for_each_pool" 9 "for_each_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+for_each_pool \- iterate through all worker_pools in the system
+.SH SYNOPSIS
+.B "for_each_pool
+.BI "(pool "  ","
+.BI "pi "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+iteration cursor
+.IP "pi" 12
+integer used for iteration
+.SH "DESCRIPTION"
+This must be called either with wq_pool_mutex held or RCU read
+locked.  If the pool needs to be used beyond the locking in effect, the
+caller is responsible for guaranteeing that the pool stays online.
+
+The if/else clause exists only for the lockdep assertion and can be
+ignored.

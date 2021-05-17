@@ -1,0 +1,39 @@
+.TH "async_xor_offs" 9 "async_xor_offs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_xor_offs \- attempt to xor a set of blocks with a dma engine.
+.SH SYNOPSIS
+.B "struct dma_async_tx_descriptor *" async_xor_offs
+.BI "(struct page *dest "  ","
+.BI "unsigned int offset "  ","
+.BI "struct page **src_list "  ","
+.BI "unsigned int *src_offs "  ","
+.BI "int src_cnt "  ","
+.BI "size_t len "  ","
+.BI "struct async_submit_ctl *submit "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+destination page
+.IP "offset" 12
+dst offset to start transaction
+.IP "src_list" 12
+array of source pages
+.IP "src_offs" 12
+array of source pages offset, NULL means common src/dst offset
+.IP "src_cnt" 12
+number of source pages
+.IP "len" 12
+length in bytes
+.IP "submit" 12
+submission / completion modifiers
+.SH "DESCRIPTION"
+honored flags: ASYNC_TX_ACK, ASYNC_TX_XOR_ZERO_DST, ASYNC_TX_XOR_DROP_DST
+
+xor_blocks always uses the dest as a source so the
+ASYNC_TX_XOR_ZERO_DST flag must be set to not include dest data in
+the calculation.  The assumption with dma eninges is that they only
+use the destination buffer as a source when it is explicity specified
+in the source list.
+
+src_list note: if the dest is also a source it must be at index zero.
+The contents of this array will be overwritten if a scribble region
+is not specified.

@@ -1,0 +1,20 @@
+.TH "rvt_alloc_device" 9 "rvt_alloc_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_alloc_device \- allocate rdi
+.SH SYNOPSIS
+.B "struct rvt_dev_info *" rvt_alloc_device
+.BI "(size_t size "  ","
+.BI "int nports "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+how big of a structure to allocate
+.IP "nports" 12
+number of ports to allocate array slots for
+.SH "DESCRIPTION"
+Use IB core device alloc to allocate space for the rdi which is assumed to be
+inside of the ib_device. Any extra space that drivers require should be
+included in size.
+
+We also allocate a port array based on the number of ports.
+.SH "RETURN"
+pointer to allocated rdi

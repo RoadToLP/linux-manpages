@@ -1,0 +1,16 @@
+.TH "srp_timed_out" 9 "srp_timed_out" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_timed_out \- SRP transport intercept of the SCSI timeout EH
+.SH SYNOPSIS
+.B "enum blk_eh_timer_return" srp_timed_out
+.BI "(struct scsi_cmnd *scmd "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+SCSI command.
+.SH "DESCRIPTION"
+If a timeout occurs while an rport is in the blocked state, ask the SCSI
+EH to continue waiting (BLK_EH_RESET_TIMER). Otherwise let the SCSI core
+handle the timeout (BLK_EH_DONE).
+.SH "NOTE"
+This function is called from soft-IRQ context and with the request
+queue lock held.

@@ -1,0 +1,31 @@
+.TH "ar9003_hw_set_channel" 9 "ar9003_hw_set_channel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ar9003_hw_set_channel \- set channel on single-chip device
+.SH SYNOPSIS
+.B "int" ar9003_hw_set_channel
+.BI "(struct ath_hw *ah "  ","
+.BI "struct ath9k_channel *chan "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+atheros hardware structure
+.IP "chan" 12
+.SH "DESCRIPTION"
+This is the function to change channel on single-chip devices, that is
+for AR9300 family of chipsets.
+
+This function takes the channel value in MHz and sets
+hardware channel value. Assumes writes have been enabled to analog bus.
+
+Actual Expression,
+
+For 2GHz channel,
+Channel Frequency = (3/4) * freq_ref * (chansel[8:0] + chanfrac[16:0]/2^17)
+(freq_ref = 40MHz)
+
+For 5GHz channel,
+Channel Frequency = (3/2) * freq_ref * (chansel[8:0] + chanfrac[16:0]/2^10)
+(freq_ref = 40MHz/(24>>amodeRefSel))
+
+For 5GHz channels which are 5MHz spaced,
+Channel Frequency = (3/2) * freq_ref * (chansel[8:0] + chanfrac[16:0]/2^17)
+(freq_ref = 40MHz)

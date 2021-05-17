@@ -1,0 +1,24 @@
+.TH "slim_ctrl_clk_pause" 9 "slim_ctrl_clk_pause" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+slim_ctrl_clk_pause \- Called by slimbus controller to enter/exit 'clock pause'
+.SH SYNOPSIS
+.B "int" slim_ctrl_clk_pause
+.BI "(struct slim_controller *ctrl "  ","
+.BI "bool wakeup "  ","
+.BI "u8 restart "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+controller requesting bus to be paused or woken up
+.IP "wakeup" 12
+Wakeup this controller from clock pause.
+.IP "restart" 12
+Restart time value per spec used for clock pause. This value
+isn't used when controller is to be woken up.
+.SH "DESCRIPTION"
+Slimbus specification needs this sequence to turn-off clocks for the bus.
+The sequence involves sending 3 broadcast messages (reconfiguration
+sequence) to inform all devices on the bus.
+To exit clock-pause, controller typically wakes up active framer device.
+This API executes clock pause reconfiguration sequence if wakeup is false.
+If wakeup is true, controller's wakeup is called.
+For entering clock-pause, -EBUSY is returned if a message txn in pending.

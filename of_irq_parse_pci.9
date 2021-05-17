@@ -1,0 +1,18 @@
+.TH "of_irq_parse_pci" 9 "of_irq_parse_pci" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_irq_parse_pci \- Resolve the interrupt for a PCI device
+.SH SYNOPSIS
+.B "int" of_irq_parse_pci
+.BI "(const struct pci_dev *pdev "  ","
+.BI "struct of_phandle_args *out_irq "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+the device whose interrupt is to be resolved
+.IP "out_irq" 12
+structure of_phandle_args filled by this function
+.SH "DESCRIPTION"
+This function resolves the PCI interrupt for a given PCI device. If a
+device-node exists for a given pci_dev, it will use normal OF tree
+walking. If not, it will implement standard swizzling and walk up the
+PCI tree until an device-node is found, at which point it will finish
+resolving using the OF tree walking.

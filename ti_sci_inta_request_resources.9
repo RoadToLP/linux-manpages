@@ -1,0 +1,16 @@
+.TH "ti_sci_inta_request_resources" 9 "ti_sci_inta_request_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_inta_request_resources \- Allocate resources for input irq
+.SH SYNOPSIS
+.B "int" ti_sci_inta_request_resources
+.BI "(struct irq_data *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+Pointer to corresponding irq_data
+.SH "NOTE"
+This is the core api where the actual allocation happens for input
+hwirq. This allocation involves creating a parent irq for vint.
+If this is done in irq_domain_ops.\fBalloc\fP then a deadlock is reached
+for allocation. So this allocation is being done in \fBrequest_resources\fP
+.SH "RETURN"
+0 if all went well else corresponding error.

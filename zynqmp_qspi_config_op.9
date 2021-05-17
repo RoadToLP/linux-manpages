@@ -1,0 +1,26 @@
+.TH "zynqmp_qspi_config_op" 9 "zynqmp_qspi_config_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_qspi_config_op \- Configure QSPI controller for specified transfer
+.SH SYNOPSIS
+.B "int" zynqmp_qspi_config_op
+.BI "(struct zynqmp_qspi *xqspi "  ","
+.BI "struct spi_device *qspi "  ");"
+.SH ARGUMENTS
+.IP "xqspi" 12
+Pointer to the zynqmp_qspi structure
+.IP "qspi" 12
+Pointer to the spi_device structure
+.SH "DESCRIPTION"
+Sets the operational mode of QSPI controller for the next QSPI transfer and
+sets the requested clock frequency.
+.SH "RETURN"
+Always 0
+.SH "NOTE"
+If the requested frequency is not an exact match with what can be
+obtained using the pre-scalar value, the driver sets the clock
+frequency which is lower than the requested frequency (maximum lower)
+for the transfer.
+
+If the requested frequency is higher or lower than that is supported
+by the QSPI controller the driver will set the highest or lowest
+frequency supported by controller.

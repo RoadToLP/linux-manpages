@@ -1,0 +1,23 @@
+.TH "xbc_init" 9 "xbc_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xbc_init \- Parse given XBC file and build XBC internal tree
+.SH SYNOPSIS
+.B "int" xbc_init
+.BI "(char *buf "  ","
+.BI "const char **emsg "  ","
+.BI "int *epos "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+boot config text
+.IP "emsg" 12
+A pointer of const char * to store the error message
+.IP "epos" 12
+A pointer of int to store the error position
+.SH "DESCRIPTION"
+This parses the boot config text in \fIbuf\fP. \fIbuf\fP must be a
+null terminated string and smaller than XBC_DATA_MAX.
+Return the number of stored nodes (>0) if succeeded, or -errno
+if there is any error.
+In error cases, \fIemsg\fP will be updated with an error message and
+\fIepos\fP will be updated with the error position which is the byte offset
+of \fIbuf\fP. If the error is not a parser error, \fIepos\fP will be -1.

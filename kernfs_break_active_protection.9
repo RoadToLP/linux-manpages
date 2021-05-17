@@ -1,0 +1,19 @@
+.TH "kernfs_break_active_protection" 9 "kernfs_break_active_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_break_active_protection \- break out of active protection
+.SH SYNOPSIS
+.B "void" kernfs_break_active_protection
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+the self kernfs_node
+.SH "DESCRIPTION"
+The caller must be running off of a kernfs operation which is invoked
+with an active reference - e.g. one of kernfs_ops.  Each invocation of
+this function must also be matched with an invocation of
+\fBkernfs_unbreak_active_protection\fP.
+
+This function releases the active reference of \fIkn\fP the caller is
+holding.  Once this function is called, \fIkn\fP may be removed at any point
+and the caller is solely responsible for ensuring that the objects it
+dereferences are accessible.

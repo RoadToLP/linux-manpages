@@ -1,0 +1,27 @@
+.TH "itcw_add_tidaw" 9 "itcw_add_tidaw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+itcw_add_tidaw \- add a tidaw to the itcw
+.SH SYNOPSIS
+.B "struct tidaw *" itcw_add_tidaw
+.BI "(struct itcw *itcw "  ","
+.BI "u8 flags "  ","
+.BI "void *addr "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "itcw" 12
+address of the itcw
+.IP "flags" 12
+flags for the new tidaw
+.IP "addr" 12
+address value for the new tidaw
+.IP "count" 12
+count value for the new tidaw
+.SH "DESCRIPTION"
+Add a new tidaw to the input/output data tidaw-list of the specified itcw
+(depending on the value of the r-flag and w-flag). Return a pointer to
+the new tidaw on success or -ENOSPC if the new tidaw would exceed the
+available space.
+.SH "NOTE"
+TTIC tidaws are automatically added when needed, so explicitly calling
+this interface with the TTIC flag is not supported. The last-tidaw flag
+for the last tidaw in the list will be set by itcw_finalize.

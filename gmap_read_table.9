@@ -1,0 +1,21 @@
+.TH "gmap_read_table" 9 "gmap_read_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_read_table \- get an unsigned long value from a guest page table using absolute addressing, without marking the page referenced.
+.SH SYNOPSIS
+.B "int" gmap_read_table
+.BI "(struct gmap *gmap "  ","
+.BI "unsigned long gaddr "  ","
+.BI "unsigned long *val "  ");"
+.SH ARGUMENTS
+.IP "gmap" 12
+pointer to guest mapping meta data structure
+.IP "gaddr" 12
+virtual address in the guest address space
+.IP "val" 12
+pointer to the unsigned long value to return
+.SH "DESCRIPTION"
+Returns 0 if the value was read, -ENOMEM if out of memory and -EFAULT
+if reading using the virtual address failed. -EINVAL if called on a gmap
+shadow.
+
+Called with gmap->mm->mmap_lock in read.

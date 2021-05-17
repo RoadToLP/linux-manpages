@@ -1,0 +1,35 @@
+.TH "ata_exec_internal" 9 "ata_exec_internal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_exec_internal \- execute libata internal command
+.SH SYNOPSIS
+.B "unsigned" ata_exec_internal
+.BI "(struct ata_device *dev "  ","
+.BI "struct ata_taskfile *tf "  ","
+.BI "const u8 *cdb "  ","
+.BI "int dma_dir "  ","
+.BI "void *buf "  ","
+.BI "unsigned int buflen "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to which the command is sent
+.IP "tf" 12
+Taskfile registers for the command and the result
+.IP "cdb" 12
+CDB for packet command
+.IP "dma_dir" 12
+Data transfer direction of the command
+.IP "buf" 12
+Data buffer of the command
+.IP "buflen" 12
+Length of data buffer
+.IP "timeout" 12
+Timeout in msecs (0 for default)
+
+Wrapper around \fBata_exec_internal_sg\fP which takes simple
+buffer instead of sg list.
+
+LOCKING:
+None.  Should be called with kernel context, might sleep.
+.SH "RETURN"
+Zero on success, AC_ERR_* mask on failure

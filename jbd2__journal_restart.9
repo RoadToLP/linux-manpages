@@ -1,0 +1,28 @@
+.TH "jbd2__journal_restart" 9 "jbd2__journal_restart" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2__journal_restart \- restart a handle .
+.SH SYNOPSIS
+.B "int" jbd2__journal_restart
+.BI "(handle_t *handle "  ","
+.BI "int nblocks "  ","
+.BI "int revoke_records "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+handle to restart
+.IP "nblocks" 12
+nr credits requested
+.IP "revoke_records" 12
+number of revoke record credits requested
+.IP "gfp_mask" 12
+memory allocation flags (for start_this_handle)
+.SH "DESCRIPTION"
+Restart a handle for a multi-transaction filesystem
+operation.
+
+If the \fBjbd2_journal_extend\fP call above fails to grant new buffer credits
+to a running handle, a call to jbd2_journal_restart will commit the
+handle's transaction so far and reattach the handle to a new
+transaction capable of guaranteeing the requested number of
+credits. We preserve reserved handle if there's any attached to the
+passed in handle.

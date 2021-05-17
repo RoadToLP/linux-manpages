@@ -1,0 +1,17 @@
+.TH "ixgbe_ptp_reset" 9 "ixgbe_ptp_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ptp_reset \- 
+.SH SYNOPSIS
+.B "void" ixgbe_ptp_reset
+.BI "(struct ixgbe_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the ixgbe private board structure
+.SH "DESCRIPTION"
+When the MAC resets, all the hardware bits for timesync are reset. This
+function is used to re-enable the device for PTP based on current settings.
+We do lose the current clock time, so just reset the cyclecounter to the
+system real clock time.
+
+This function will maintain hwtstamp_config settings, and resets the SDP
+output if it was enabled.

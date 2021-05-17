@@ -1,0 +1,31 @@
+.TH "ntfs_read_inode_mount" 9 "ntfs_read_inode_mount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_inode_mount \- special read_inode for mount time use only
+.SH SYNOPSIS
+.B "int" ntfs_read_inode_mount
+.BI "(struct inode *vi "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+inode to read
+.SH "DESCRIPTION"
+Read inode FILE_MFT at mount time, only called with super_block lock
+held from within the \fBread_super\fP code path.
+
+This function exists because when it is called the page cache for $MFT/$DATA
+is not initialized and hence we cannot get at the contents of mft records
+by calling map_mft_record*().
+
+Further it needs to cope with the circular references problem, i.e. cannot
+load any attributes other than $ATTRIBUTE_LIST until $DATA is loaded, because
+we do not know where the other extent mft records are yet and again, because
+we cannot call map_mft_record*() yet.  Obviously this applies only when an
+attribute list is actually present in $MFT inode.
+
+We solve these problems by starting with the $DATA attribute before anything
+else and iterating using ntfs_attr_lookup($DATA) over all extents.  As each
+extent is found, we \fBntfs_mapping_pairs_decompress\fP including the implied
+\fBntfs_runlists_merge\fP.  Each step of the iteration necessarily provides
+sufficient information for the next step to complete.
+
+This should work but there are two possible pit falls (see inline comments
+below), but only time will tell if they are real pits or just smoke...

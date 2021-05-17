@@ -1,0 +1,18 @@
+.TH "usb_gadget_udc_start" 9 "usb_gadget_udc_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_udc_start \- tells usb device controller to start up
+.SH SYNOPSIS
+.B "int" usb_gadget_udc_start
+.BI "(struct usb_udc *udc "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+The UDC to be started
+.SH "DESCRIPTION"
+This call is issued by the UDC Class driver when it's about
+to register a gadget driver to the device controller, before
+calling gadget driver's \fBbind\fP method.
+
+It allows the controller to be powered off until strictly
+necessary to have it powered on.
+
+Returns zero on success, else negative errno.

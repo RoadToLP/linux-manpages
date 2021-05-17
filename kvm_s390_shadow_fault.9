@@ -1,0 +1,25 @@
+.TH "kvm_s390_shadow_fault" 9 "kvm_s390_shadow_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_s390_shadow_fault \- handle fault on a shadow page table
+.SH SYNOPSIS
+.B "int" kvm_s390_shadow_fault
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "struct gmap *sg "  ","
+.BI "unsigned long saddr "  ","
+.BI "unsigned long *datptr "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+virtual cpu
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "saddr" 12
+faulting address in the shadow gmap
+.IP "datptr" 12
+will contain the address of the faulting DAT table entry, or of
+the valid leaf, plus some flags
+.SH "RETURN"
+- 0 if the shadow fault was successfully resolved
+- > 0 (pgm exception code) on exceptions while faulting
+- -EAGAIN if the caller can retry immediately
+- -EFAULT when accessing invalid guest addresses
+- -ENOMEM if out of memory

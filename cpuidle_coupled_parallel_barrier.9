@@ -1,0 +1,25 @@
+.TH "cpuidle_coupled_parallel_barrier" 9 "cpuidle_coupled_parallel_barrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_coupled_parallel_barrier \- synchronize all online coupled cpus
+.SH SYNOPSIS
+.B "void" cpuidle_coupled_parallel_barrier
+.BI "(struct cpuidle_device *dev "  ","
+.BI "atomic_t *a "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+cpuidle_device of the calling cpu
+.IP "a" 12
+atomic variable to hold the barrier
+.SH "DESCRIPTION"
+No caller to this function will return from this function until all online
+cpus in the same coupled group have called this function.  Once any caller
+has returned from this function, the barrier is immediately available for
+reuse.
+
+The atomic variable must be initialized to 0 before any cpu calls
+this function, will be reset to 0 before any cpu returns from this function.
+
+Must only be called from within a coupled idle state handler
+(state.enter when state.flags has CPUIDLE_FLAG_COUPLED set).
+
+Provides full smp barrier semantics before and after calling.

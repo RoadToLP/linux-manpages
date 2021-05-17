@@ -1,0 +1,31 @@
+.TH "sata_pmp_eh_recover_pmp" 9 "sata_pmp_eh_recover_pmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_pmp_eh_recover_pmp \- recover PMP
+.SH SYNOPSIS
+.B "int" sata_pmp_eh_recover_pmp
+.BI "(struct ata_port *ap "  ","
+.BI "ata_prereset_fn_t prereset "  ","
+.BI "ata_reset_fn_t softreset "  ","
+.BI "ata_reset_fn_t hardreset "  ","
+.BI "ata_postreset_fn_t postreset "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port PMP is attached to
+.IP "prereset" 12
+prereset method (can be NULL)
+.IP "softreset" 12
+softreset method
+.IP "hardreset" 12
+hardreset method
+.IP "postreset" 12
+postreset method (can be NULL)
+
+Recover PMP attached to \fIap\fP.  Recovery procedure is somewhat
+similar to that of \fBata_eh_recover\fP except that reset should
+always be performed in hard->soft sequence and recovery
+failure results in PMP detachment.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, -errno on failure.

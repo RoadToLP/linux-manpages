@@ -1,0 +1,21 @@
+.TH "intel_engine_context_size" 9 "intel_engine_context_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_engine_context_size \- return the size of the context for an engine
+.SH SYNOPSIS
+.B "u32" intel_engine_context_size
+.BI "(struct intel_gt *gt "  ","
+.BI "u8 class "  ");"
+.SH ARGUMENTS
+.IP "gt" 12
+the gt
+.IP "class" 12
+engine class
+.SH "DESCRIPTION"
+Each engine class may require a different amount of space for a context
+image.
+.SH "RETURN"
+size (in bytes) of an engine class specific context image
+.SH "NOTE"
+this size includes the HWSP, which is part of the context image
+in LRC mode, but does not include the "shared data page" used with
+GuC submission. The caller should account for this if using the GuC.

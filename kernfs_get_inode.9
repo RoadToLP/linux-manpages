@@ -1,0 +1,21 @@
+.TH "kernfs_get_inode" 9 "kernfs_get_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_get_inode \- get inode for kernfs_node
+.SH SYNOPSIS
+.B "struct inode *" kernfs_get_inode
+.BI "(struct super_block *sb "  ","
+.BI "struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block
+.IP "kn" 12
+kernfs_node to allocate inode for
+
+Get inode for \fIkn\fP.  If such inode doesn't exist, a new inode is
+allocated and basics are initialized.  New inode is returned
+locked.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+Pointer to allocated inode on success, NULL on failure.

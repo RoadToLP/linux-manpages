@@ -1,0 +1,23 @@
+.TH "ioasid_find" 9 "ioasid_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ioasid_find \- Find IOASID data
+.SH SYNOPSIS
+.B "void *" ioasid_find
+.BI "(struct ioasid_set *set "  ","
+.BI "ioasid_t ioasid "  ","
+.BI "bool (*getter)(void *) "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+the IOASID set
+.IP "ioasid" 12
+the IOASID to find
+.IP "getter" 12
+function to call on the found object
+.SH "DESCRIPTION"
+The optional getter function allows to take a reference to the found object
+under the rcu lock. The function can also check if the object is still valid:
+if \fIgetter\fP returns false, then the object is invalid and NULL is returned.
+
+If the IOASID exists, return the private pointer passed to ioasid_alloc.
+Private data can be NULL if not set. Return an error if the IOASID is not
+found, or if \fIset\fP is not NULL and the IOASID does not belong to the set.

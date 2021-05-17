@@ -1,0 +1,20 @@
+.TH "acpi_add_pm_notifier" 9 "acpi_add_pm_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_add_pm_notifier \- Register PM notify handler for given ACPI device.
+.SH SYNOPSIS
+.B "acpi_status" acpi_add_pm_notifier
+.BI "(struct acpi_device *adev "  ","
+.BI "struct device *dev "  ","
+.BI "void (*func)(struct acpi_device_wakeup_context *context) "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device to add the notify handler for.
+.IP "dev" 12
+Device to generate a wakeup event for while handling the notification.
+.IP "func" 12
+Work function to execute when handling the notification.
+.SH "NOTE"
+\fIadev\fP need not be a run-wake or wakeup device to be a valid source of
+PM wakeup events.  For example, wakeup events may be generated for bridges
+if one of the devices below the bridge is signaling wakeup, even if the
+bridge itself doesn't have a wakeup GPE associated with it.

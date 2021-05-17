@@ -1,0 +1,24 @@
+.TH "sst_fill_module_list" 9 "sst_fill_module_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sst_fill_module_list \- populate the list of modules/gains for a pipe
+.SH SYNOPSIS
+.B "int" sst_fill_module_list
+.BI "(struct snd_kcontrol *kctl "  ","
+.BI "struct snd_soc_dapm_widget *w "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "kctl" 12
+kcontrol pointer
+.IP "w" 12
+dapm widget
+.IP "type" 12
+widget type
+.SH "DESCRIPTION"
+Fills the widget pointer in the kcontrol private data, and also fills the
+kcontrol pointer in the widget private data.
+
+Widget pointer is used to send the algo/gain in the .\fBput\fP handler if the
+widget is powerd on.
+
+Kcontrol pointer is used to send the algo/gain in the widget power ON/OFF
+event handler. Each widget (pipe) has multiple algos stored in the algo_list.

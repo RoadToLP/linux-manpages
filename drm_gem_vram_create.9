@@ -1,0 +1,24 @@
+.TH "drm_gem_vram_create" 9 "drm_gem_vram_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_vram_create \- Creates a VRAM-backed GEM object
+.SH SYNOPSIS
+.B "struct drm_gem_vram_object *" drm_gem_vram_create
+.BI "(struct drm_device *dev "  ","
+.BI "size_t size "  ","
+.BI "unsigned long pg_align "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the DRM device
+.IP "size" 12
+the buffer size in bytes
+.IP "pg_align" 12
+the buffer's alignment in multiples of the page size
+.SH "DESCRIPTION"
+GEM objects are allocated by calling struct drm_driver.gem_create_object,
+if set. Otherwise \fBkzalloc\fP will be used. Drivers can set their own GEM
+object functions in struct drm_driver.gem_create_object. If no functions
+are set, the new GEM object will use the default functions from GEM VRAM
+helpers.
+.SH "RETURN"
+A new instance of \fIstruct drm_gem_vram_object\fP on success, or
+an \fBERR_PTR\fP-encoded error code otherwise.

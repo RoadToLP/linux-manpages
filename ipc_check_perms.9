@@ -1,0 +1,26 @@
+.TH "ipc_check_perms" 9 "ipc_check_perms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipc_check_perms \- check security and permissions for an ipc object
+.SH SYNOPSIS
+.B "int" ipc_check_perms
+.BI "(struct ipc_namespace *ns "  ","
+.BI "struct kern_ipc_perm *ipcp "  ","
+.BI "const struct ipc_ops *ops "  ","
+.BI "struct ipc_params *params "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+ipc namespace
+.IP "ipcp" 12
+ipc permission set
+.IP "ops" 12
+the actual security routine to call
+.IP "params" 12
+its parameters
+.SH "DESCRIPTION"
+This routine is called by \fBsys_msgget\fP, \fBsys_semget\fP and \fBsys_shmget\fP
+when the key is not IPC_PRIVATE and that key already exists in the
+ds IDR.
+
+On success, the ipc id is returned.
+
+It is called with ipc_ids.rwsem and ipcp->lock held.

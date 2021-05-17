@@ -1,0 +1,27 @@
+.TH "ieee80211_radiotap_iterator_next" 9 "ieee80211_radiotap_iterator_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ieee80211_radiotap_iterator_next \- return next radiotap parser iterator arg
+.SH SYNOPSIS
+.B "int" ieee80211_radiotap_iterator_next
+.BI "(struct ieee80211_radiotap_iterator *iterator "  ");"
+.SH ARGUMENTS
+.IP "iterator" 12
+radiotap_iterator to move to next arg (if any)
+.SH "RETURN"
+0 if there is an argument to handle,
+-ENOENT if there are no more args or -EINVAL
+if there is something else wrong.
+.SH "DESCRIPTION"
+This function provides the next radiotap arg index (IEEE80211_RADIOTAP_*)
+in \fIthis_arg_index\fP and sets \fIthis_arg\fP to point to the
+payload for the field.  It takes care of alignment handling and extended
+present fields.  \fIthis_arg\fP can be changed by the caller (eg,
+incremented to move inside a compound argument like
+IEEE80211_RADIOTAP_CHANNEL).  The args pointed to are in
+little-endian format whatever the endianess of your CPU.
+
+Alignment Gotcha:
+You must take care when dereferencing iterator.this_arg
+for multibyte types... the pointer is not aligned.  Use
+get_unaligned((type *)iterator.this_arg) to dereference
+iterator.this_arg for type "type" safely on all arches.

@@ -1,0 +1,22 @@
+.TH "ata_scsi_find_dev" 9 "ata_scsi_find_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_find_dev \- lookup ata_device from scsi_cmnd
+.SH SYNOPSIS
+.B "struct ata_device *" ata_scsi_find_dev
+.BI "(struct ata_port *ap "  ","
+.BI "const struct scsi_device *scsidev "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to which the device is attached
+.IP "scsidev" 12
+SCSI device from which we derive the ATA device
+
+Given various information provided in struct scsi_cmnd,
+map that onto an ATA bus, and using that mapping
+determine which ata_device is associated with the
+SCSI command to be sent.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.SH "RETURN"
+Associated ATA device, or NULL if not found.

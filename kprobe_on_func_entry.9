@@ -1,0 +1,22 @@
+.TH "kprobe_on_func_entry" 9 "kprobe_on_func_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kprobe_on_func_entry \- - check whether given address is function entry
+.SH SYNOPSIS
+.B "int" kprobe_on_func_entry
+.BI "(kprobe_opcode_t *addr "  ","
+.BI "const char *sym "  ","
+.BI "unsigned long offset "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+Target address
+.IP "sym" 12
+Target symbol name
+.IP "offset" 12
+The offset from the symbol or the address
+.SH "DESCRIPTION"
+This checks whether the given \fIaddr\fP+\fIoffset\fP or \fIsym\fP+\fIoffset\fP is on the
+function entry address or not.
+This returns 0 if it is the function entry, or -EINVAL if it is not.
+And also it returns -ENOENT if it fails the symbol or address lookup.
+Caller must pass \fIaddr\fP or \fIsym\fP (either one must be NULL), or this
+returns -EINVAL.

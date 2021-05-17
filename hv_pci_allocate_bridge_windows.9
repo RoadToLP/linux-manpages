@@ -1,0 +1,29 @@
+.TH "hv_pci_allocate_bridge_windows" 9 "hv_pci_allocate_bridge_windows" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_pci_allocate_bridge_windows \- Allocate memory regions for the bus
+.SH SYNOPSIS
+.B "int" hv_pci_allocate_bridge_windows
+.BI "(struct hv_pcibus_device *hbus "  ");"
+.SH ARGUMENTS
+.IP "hbus" 12
+Root PCI bus, as understood by this driver
+.SH "DESCRIPTION"
+This function calls \fBvmbus_allocate_mmio\fP, which is itself a
+bit of a compromise.  Ideally, we might change the pnp layer
+in the kernel such that it comprehends either PCI devices
+which are "grandchildren of ACPI," with some intermediate bus
+node (in this case, VMBus) or change it such that it
+understands VMBus.  The pnp layer, however, has been declared
+deprecated, and not subject to change.
+
+The workaround, implemented here, is to ask VMBus to allocate
+MMIO space for this bus.  VMBus itself knows which ranges are
+appropriate by looking at its own ACPI objects.  Then, after
+these ranges are claimed, they're modified to look like they
+would have looked if the ACPI and pnp code had allocated
+bridge windows.  These descriptors have to exist in this form
+in order to satisfy the code which will get invoked when the
+endpoint PCI function driver calls \fBrequest_mem_region\fP or
+\fBrequest_mem_region_exclusive\fP.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,15 @@
+.TH "btrfs_discard_cancel_work" 9 "btrfs_discard_cancel_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_cancel_work \- remove a block_group from the discard lists
+.SH SYNOPSIS
+.B "void" btrfs_discard_cancel_work
+.BI "(struct btrfs_discard_ctl *discard_ctl "  ","
+.BI "struct btrfs_block_group *block_group "  ");"
+.SH ARGUMENTS
+.IP "discard_ctl" 12
+discard control
+.IP "block_group" 12
+block_group of interest
+.SH "DESCRIPTION"
+This removes \fIblock_group\fP from the discard lists.  If necessary, it waits on
+the current work and then reschedules the delayed work.

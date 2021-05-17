@@ -1,0 +1,17 @@
+.TH "guard_bio_eod" 9 "guard_bio_eod" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+guard_bio_eod \- truncate a BIO to fit the block device
+.SH SYNOPSIS
+.B "void" guard_bio_eod
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio to truncate
+.SH "DESCRIPTION"
+This allows us to do IO even on the odd last sectors of a device, even if the
+block size is some multiple of the physical sector size.
+
+We'll just truncate the bio to the size of the device, and clear the end of
+the buffer head manually.  Truly out-of-range accesses will turn into actual
+I/O errors, this only handles the "we need to be able to do I/O at the final
+sector" case.

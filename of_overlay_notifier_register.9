@@ -1,0 +1,17 @@
+.TH "of_overlay_notifier_register" 9 "of_overlay_notifier_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_overlay_notifier_register \- Register notifier for overlay operations
+.SH SYNOPSIS
+.B "int" of_overlay_notifier_register
+.BI "(struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+Notifier block to register
+.SH "DESCRIPTION"
+Register for notification on overlay operations on device tree nodes. The
+reported actions definied by \fIof_reconfig_change\fP. The notifier callback
+furthermore receives a pointer to the affected device tree node.
+
+Note that a notifier callback is not supposed to store pointers to a device
+tree node or its content beyond \fIOF_OVERLAY_POST_REMOVE\fP corresponding to the
+respective node it received.

@@ -1,0 +1,38 @@
+.TH "ata_exec_internal_sg" 9 "ata_exec_internal_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_exec_internal_sg \- execute libata internal command
+.SH SYNOPSIS
+.B "unsigned" ata_exec_internal_sg
+.BI "(struct ata_device *dev "  ","
+.BI "struct ata_taskfile *tf "  ","
+.BI "const u8 *cdb "  ","
+.BI "int dma_dir "  ","
+.BI "struct scatterlist *sgl "  ","
+.BI "unsigned int n_elem "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to which the command is sent
+.IP "tf" 12
+Taskfile registers for the command and the result
+.IP "cdb" 12
+CDB for packet command
+.IP "dma_dir" 12
+Data transfer direction of the command
+.IP "sgl" 12
+sg list for the data buffer of the command
+.IP "n_elem" 12
+Number of sg entries
+.IP "timeout" 12
+Timeout in msecs (0 for default)
+
+Executes libata internal command with timeout.  \fItf\fP contains
+command on entry and result on return.  Timeout and error
+conditions are reported via return value.  No recovery action
+is taken after a command times out.  It's caller's duty to
+clean up after timeout.
+
+LOCKING:
+None.  Should be called with kernel context, might sleep.
+.SH "RETURN"
+Zero on success, AC_ERR_* mask on failure

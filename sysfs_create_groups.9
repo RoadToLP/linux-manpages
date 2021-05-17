@@ -1,0 +1,20 @@
+.TH "sysfs_create_groups" 9 "sysfs_create_groups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_create_groups \- given a directory kobject, create a bunch of attribute groups
+.SH SYNOPSIS
+.B "int" sysfs_create_groups
+.BI "(struct kobject *kobj "  ","
+.BI "const struct attribute_group **groups "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+The kobject to create the group on
+.IP "groups" 12
+The attribute groups to create, NULL terminated
+.SH "DESCRIPTION"
+This function creates a bunch of attribute groups.  If an error occurs when
+creating a group, all previously created groups will be removed, unwinding
+everything back to the original state when this function was called.
+It will explicitly warn and error if any of the attribute files being
+created already exist.
+
+Returns 0 on success or error code from sysfs_create_group on failure.

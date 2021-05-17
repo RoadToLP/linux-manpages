@@ -1,0 +1,21 @@
+.TH "reuseport_select_sock" 9 "reuseport_select_sock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reuseport_select_sock \- Select a socket from an SO_REUSEPORT group.
+.SH SYNOPSIS
+.B "struct sock *" reuseport_select_sock
+.BI "(struct sock *sk "  ","
+.BI "u32 hash "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int hdr_len "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+First socket in the group.
+.IP "hash" 12
+When no BPF filter is available, use this hash to select.
+.IP "skb" 12
+skb to run through BPF filter.
+.IP "hdr_len" 12
+BPF filter expects skb data pointer at payload data.  If
+the skb does not yet point at the payload, this parameter represents
+how far the pointer needs to advance to reach the payload.
+Returns a socket that should receive the packet (or NULL on error).

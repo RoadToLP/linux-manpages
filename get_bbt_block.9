@@ -1,0 +1,24 @@
+.TH "get_bbt_block" 9 "get_bbt_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_bbt_block \- Get the first valid eraseblock suitable to store a BBT
+.SH SYNOPSIS
+.B "int" get_bbt_block
+.BI "(struct nand_chip *this "  ","
+.BI "struct nand_bbt_descr *td "  ","
+.BI "struct nand_bbt_descr *md "  ","
+.BI "int chip "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+the NAND device
+.IP "td" 12
+the BBT description
+.IP "md" 12
+the mirror BBT descriptor
+.IP "chip" 12
+the CHIP selector
+.SH "DESCRIPTION"
+This functions returns a positive block number pointing a valid eraseblock
+suitable to store a BBT (i.e. in the range reserved for BBT), or -ENOSPC if
+all blocks are already used of marked bad. If td->pages[chip] was already
+pointing to a valid block we re-use it, otherwise we search for the next
+valid one.

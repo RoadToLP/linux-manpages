@@ -1,0 +1,29 @@
+.TH "nand_op_parser_must_split_instr" 9 "nand_op_parser_must_split_instr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_op_parser_must_split_instr \- Checks if an instruction must be split
+.SH SYNOPSIS
+.B "bool" nand_op_parser_must_split_instr
+.BI "(const struct nand_op_parser_pattern_elem *pat "  ","
+.BI "const struct nand_op_instr *instr "  ","
+.BI "unsigned int *start_offset "  ");"
+.SH ARGUMENTS
+.IP "pat" 12
+the parser pattern element that matches \fIinstr\fP
+.IP "instr" 12
+pointer to the instruction to check
+.IP "start_offset" 12
+this is an in/out parameter. If \fIinstr\fP has already been
+split, then \fIstart_offset\fP is the offset from which to start
+(either an address cycle or an offset in the data buffer).
+Conversely, if the function returns true (ie. instr must be
+split), this parameter is updated to point to the first
+data/address cycle that has not been taken care of.
+.SH "DESCRIPTION"
+Some NAND controllers are limited and cannot send X address cycles with a
+unique operation, or cannot read/write more than Y bytes at the same time.
+In this case, split the instruction that does not fit in a single
+controller-operation into two or more chunks.
+
+Returns true if the instruction must be split, false otherwise.
+The \fIstart_offset\fP parameter is also updated to the offset at which the next
+bundle of instruction must start (if an address or a data instruction).

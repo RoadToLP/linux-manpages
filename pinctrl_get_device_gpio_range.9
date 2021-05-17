@@ -1,0 +1,20 @@
+.TH "pinctrl_get_device_gpio_range" 9 "pinctrl_get_device_gpio_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pinctrl_get_device_gpio_range \- find device for GPIO range
+.SH SYNOPSIS
+.B "int" pinctrl_get_device_gpio_range
+.BI "(unsigned gpio "  ","
+.BI "struct pinctrl_dev **outdev "  ","
+.BI "struct pinctrl_gpio_range **outrange "  ");"
+.SH ARGUMENTS
+.IP "gpio" 12
+the pin to locate the pin controller for
+.IP "outdev" 12
+the pin control device if found
+.IP "outrange" 12
+the GPIO range if found
+.SH "DESCRIPTION"
+Find the pin controller handling a certain GPIO pin from the pinspace of
+the GPIO subsystem, return the device and the matching GPIO range. Returns
+-EPROBE_DEFER if the GPIO range could not be found in any device since it
+may still have not been registered.

@@ -1,0 +1,32 @@
+.TH "scsi_dev_info_list_add_keyed" 9 "scsi_dev_info_list_add_keyed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_dev_info_list_add_keyed \- add one dev_info list entry.
+.SH SYNOPSIS
+.B "int" scsi_dev_info_list_add_keyed
+.BI "(int compatible "  ","
+.BI "char *vendor "  ","
+.BI "char *model "  ","
+.BI "char *strflags "  ","
+.BI "blist_flags_t flags "  ","
+.BI "enum scsi_devinfo_key key "  ");"
+.SH ARGUMENTS
+.IP "compatible" 12
+if true, null terminate short strings.  Otherwise space pad.
+.IP "vendor" 12
+vendor string
+.IP "model" 12
+model (product) string
+.IP "strflags" 12
+integer string
+.IP "flags" 12
+if strflags NULL, use this flag value
+.IP "key" 12
+specify list to use
+.SH "DESCRIPTION"
+Create and add one dev_info entry for \fIvendor\fP, \fImodel\fP,
+\fIstrflags\fP or \fIflag\fP in list specified by \fIkey\fP. If \fIcompatible\fP,
+add to the tail of the list, do not space pad, and set
+devinfo->compatible. The scsi_static_device_list entries are
+added with \fIcompatible\fP 1 and \fIclfags\fP NULL.
+.SH "RETURN"
+0 OK, -error on failure.

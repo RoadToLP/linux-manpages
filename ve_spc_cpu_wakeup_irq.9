@@ -1,0 +1,20 @@
+.TH "ve_spc_cpu_wakeup_irq" 9 "ve_spc_cpu_wakeup_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ve_spc_cpu_wakeup_irq \- 
+.SH SYNOPSIS
+.B "void" ve_spc_cpu_wakeup_irq
+.BI "(u32 cluster "  ","
+.BI "u32 cpu "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "cluster" 12
+mpidr[15:8] bitfield describing cluster affinity level
+.IP "cpu" 12
+mpidr[7:0] bitfield describing cpu affinity level
+.IP "set" 12
+if true, wake-up IRQs are set, if false they are cleared
+.SH "DESCRIPTION"
+
+Function to set/clear per-CPU wake-up IRQs. Not protected by locking since
+it might be used in code paths where normal cacheable locks are not
+working. Locking must be provided by the caller to ensure atomicity.

@@ -1,0 +1,21 @@
+.TH "free_tx_desc" 9 "free_tx_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+free_tx_desc \- reclaims Tx descriptors and their buffers
+.SH SYNOPSIS
+.B "void" free_tx_desc
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_txq *q "  ","
+.BI "unsigned int n "  ","
+.BI "bool unmap "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the Tx queue to reclaim descriptors from
+.IP "n" 12
+the number of descriptors to reclaim
+.IP "unmap" 12
+whether the buffers should be unmapped for DMA
+
+Reclaims Tx descriptors from an SGE Tx queue and frees the associated
+Tx buffers.  Called with the Tx queue lock held.

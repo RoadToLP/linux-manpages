@@ -1,0 +1,17 @@
+.TH "ixgbe_flap_tx_laser_multispeed_fiber" 9 "ixgbe_flap_tx_laser_multispeed_fiber" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_flap_tx_laser_multispeed_fiber \- Flap Tx laser
+.SH SYNOPSIS
+.B "void" ixgbe_flap_tx_laser_multispeed_fiber
+.BI "(struct ixgbe_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+
+When the driver changes the link speeds that it can support,
+it sets autotry_restart to true to indicate that we need to
+initiate a new autotry session with the link partner.  To do
+so, we set the speed then disable and re-enable the tx laser, to
+alert the link partner that it also needs to restart autotry on its
+end.  This is consistent with true clause 37 autoneg, which also
+involves a loss of signal.

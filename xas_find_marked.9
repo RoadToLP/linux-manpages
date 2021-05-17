@@ -1,0 +1,30 @@
+.TH "xas_find_marked" 9 "xas_find_marked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_find_marked \- Find the next marked entry in the XArray.
+.SH SYNOPSIS
+.B "void *" xas_find_marked
+.BI "(struct xa_state *xas "  ","
+.BI "unsigned long max "  ","
+.BI "xa_mark_t mark "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.IP "max" 12
+Highest index to return.
+.IP "mark" 12
+Mark number to search for.
+.SH "DESCRIPTION"
+If the \fIxas\fP has not yet been walked to an entry, return the marked entry
+which has an index >= xas.xa_index.  If it has been walked, the entry
+currently being pointed at has been processed, and so we return the
+first marked entry with an index > xas.xa_index.
+
+If no marked entry is found and the array is smaller than \fImax\fP, \fIxas\fP is
+set to the bounds state and xas->xa_index is set to the smallest index
+not yet in the array.  This allows \fIxas\fP to be immediately passed to
+\fBxas_store\fP.
+
+If no entry is found before \fImax\fP is reached, \fIxas\fP is set to the restart
+state.
+.SH "RETURN"
+The entry, if found, otherwise NULL.

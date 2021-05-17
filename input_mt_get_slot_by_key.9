@@ -1,0 +1,19 @@
+.TH "input_mt_get_slot_by_key" 9 "input_mt_get_slot_by_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_mt_get_slot_by_key \- return slot matching key
+.SH SYNOPSIS
+.B "int" input_mt_get_slot_by_key
+.BI "(struct input_dev *dev "  ","
+.BI "int key "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+input device with allocated MT slots
+.IP "key" 12
+the key of the sought slot
+.SH "DESCRIPTION"
+Returns the slot of the given key, if it exists, otherwise
+set the key on the first unused slot and return.
+
+If no available slot can be found, -1 is returned.
+Note that for this function to work properly, \fBinput_mt_sync_frame\fP has
+to be called at each frame.

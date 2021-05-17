@@ -1,0 +1,34 @@
+.TH "sort_r" 9 "sort_r" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sort_r \- sort an array of elements
+.SH SYNOPSIS
+.B "void" sort_r
+.BI "(void *base "  ","
+.BI "size_t num "  ","
+.BI "size_t size "  ","
+.BI "cmp_r_func_t cmp_func "  ","
+.BI "swap_func_t swap_func "  ","
+.BI "const void *priv "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+pointer to data to sort
+.IP "num" 12
+number of elements
+.IP "size" 12
+size of each element
+.IP "cmp_func" 12
+pointer to comparison function
+.IP "swap_func" 12
+pointer to swap function or NULL
+.IP "priv" 12
+third argument passed to comparison function
+.SH "DESCRIPTION"
+This function does a heapsort on the given array.  You may provide
+a swap_func function if you need to do something more than a memory
+copy (e.g. fix up pointers or auxiliary data), but the built-in swap
+avoids a slow retpoline and so is significantly faster.
+
+Sorting time is O(n log n) both on average and worst-case. While
+quicksort is slightly faster on average, it suffers from exploitable
+O(n*n) worst-case behavior and extra memory requirements that make
+it less suitable for kernel use.

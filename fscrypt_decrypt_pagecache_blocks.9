@@ -1,0 +1,25 @@
+.TH "fscrypt_decrypt_pagecache_blocks" 9 "fscrypt_decrypt_pagecache_blocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_decrypt_pagecache_blocks \- Decrypt filesystem blocks in a pagecache page
+.SH SYNOPSIS
+.B "int" fscrypt_decrypt_pagecache_blocks
+.BI "(struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offs "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+The locked pagecache page containing the block(s) to decrypt
+.IP "len" 12
+Total size of the block(s) to decrypt.  Must be a nonzero
+multiple of the filesystem's block size.
+.IP "offs" 12
+Byte offset within \fIpage\fP of the first block to decrypt.  Must be
+a multiple of the filesystem's block size.
+.SH "DESCRIPTION"
+The specified block(s) are decrypted in-place within the pagecache page,
+which must still be locked and not uptodate.  Normally, blocksize ==
+PAGE_SIZE and the whole page is decrypted at once.
+
+This is for use by the filesystem's ->\fBreadpages\fP method.
+.SH "RETURN"
+0 on success; -errno on failure

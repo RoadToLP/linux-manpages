@@ -1,0 +1,14 @@
+.TH "cs5530_qc_issue" 9 "cs5530_qc_issue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cs5530_qc_issue \- command issue
+.SH SYNOPSIS
+.B "unsigned int" cs5530_qc_issue
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+command pending
+
+Called when the libata layer is about to issue a command. We wrap
+this interface so that we can load the correct ATA timings if
+necessary.  Specifically we have a problem that there is only
+one MWDMA/UDMA bit.

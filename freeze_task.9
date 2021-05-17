@@ -1,0 +1,15 @@
+.TH "freeze_task" 9 "freeze_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freeze_task \- send a freeze request to given task
+.SH SYNOPSIS
+.B "bool" freeze_task
+.BI "(struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+task to send the request to
+.SH "DESCRIPTION"
+If \fIp\fP is freezing, the freeze request is sent either by sending a fake
+signal (if it's not a kernel thread) or waking it up (if it's a kernel
+thread).
+.SH "RETURN"
+false, if \fIp\fP is not freezing or already frozen; true, otherwise

@@ -1,0 +1,23 @@
+.TH "ubifs_rcvry_gc_commit" 9 "ubifs_rcvry_gc_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_rcvry_gc_commit \- recover the GC LEB number and run the commit.
+.SH SYNOPSIS
+.B "int" ubifs_rcvry_gc_commit
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+Out-of-place garbage collection requires always one empty LEB with which to
+start garbage collection. The LEB number is recorded in c->gc_lnum and is
+written to the master node on unmounting. In the case of an unclean unmount
+the value of gc_lnum recorded in the master node is out of date and cannot
+be used. Instead, recovery must allocate an empty LEB for this purpose.
+However, there may not be enough empty space, in which case it must be
+possible to GC the dirtiest LEB into the GC head LEB.
+
+This function also runs the commit which causes the TNC updates from
+size-recovery and orphans to be written to the flash. That is important to
+ensure correct replay order for subsequent mounts.
+
+This function returns 0 on success and a negative error code on failure.

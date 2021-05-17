@@ -1,0 +1,22 @@
+.TH "efx_enqueue_skb_tso" 9 "efx_enqueue_skb_tso" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efx_enqueue_skb_tso \- segment and transmit a TSO socket buffer
+.SH SYNOPSIS
+.B "int" efx_enqueue_skb_tso
+.BI "(struct efx_tx_queue *tx_queue "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "bool *data_mapped "  ");"
+.SH ARGUMENTS
+.IP "tx_queue" 12
+Efx TX queue
+.IP "skb" 12
+Socket buffer
+.IP "data_mapped" 12
+Did we map the data? Always set to true
+by this on success.
+.SH "CONTEXT"
+You must hold \fBnetif_tx_lock\fP to call this function.
+.SH "DESCRIPTION"
+Add socket buffer \fIskb\fP to \fItx_queue\fP, doing TSO or return != 0 if
+\fIskb\fP was not enqueued.  \fIskb\fP is consumed unless return value is
+EINVAL.

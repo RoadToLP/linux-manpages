@@ -1,0 +1,20 @@
+.TH "ps3_os_area_save_params" 9 "ps3_os_area_save_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_os_area_save_params \- Copy data from os area mirror to @saved_params.
+.SH SYNOPSIS
+.B "void" ps3_os_area_save_params
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+For the convenience of the guest the HV makes a copy of the os area in
+flash to a high address in the boot memory region and then puts that RAM
+address and the byte count into the repository for retrieval by the guest.
+We copy the data we want into a static variable and allow the memory setup
+by the HV to be claimed by the memblock manager.
+
+The os area mirror will not be available to a second stage kernel, and
+the header verify will fail.  In this case, the saved_params values will
+be set from flash memory or the passed in device tree in \fBps3_os_area_init\fP.

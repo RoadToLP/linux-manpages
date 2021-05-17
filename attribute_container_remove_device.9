@@ -1,0 +1,21 @@
+.TH "attribute_container_remove_device" 9 "attribute_container_remove_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+attribute_container_remove_device \- make device eligible for removal.
+.SH SYNOPSIS
+.B "void" attribute_container_remove_device
+.BI "(struct device *dev "  ","
+.BI "void (*fn)(struct attribute_container *, struct device *, struct device *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The generic device
+.IP "fn" 12
+A function to call to remove the device
+.SH "DESCRIPTION"
+This routine triggers device removal.  If fn is NULL, then it is
+simply done via device_unregister (note that if something
+still has a reference to the classdev, then the memory occupied
+will not be freed until the classdev is released).  If you want a
+two phase release: remove from visibility and then delete the
+device, then you should use this routine with a fn that calls
+\fBdevice_del\fP and then use \fBattribute_container_device_trigger\fP
+to do the final put on the classdev.

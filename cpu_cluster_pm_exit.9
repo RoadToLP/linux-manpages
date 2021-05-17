@@ -1,0 +1,22 @@
+.TH "cpu_cluster_pm_exit" 9 "cpu_cluster_pm_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpu_cluster_pm_exit \- CPU cluster low power exit notifier
+.SH SYNOPSIS
+.B "int" cpu_cluster_pm_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Notifies listeners that all cpus in a power domain are exiting form a
+low power state that may have caused some blocks in the same power domain
+to reset.
+
+Must be called after cpu_cluster_pm_enter has been called for the power
+domain, and before cpu_pm_exit has been called on any cpu in the power
+domain. Notified drivers can include VFP co-processor, interrupt controller
+and its PM extensions, local CPU timers context save/restore which
+shouldn't be interrupted. Hence it must be called with interrupts disabled.
+
+Return conditions are same as __raw_notifier_call_chain.

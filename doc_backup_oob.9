@@ -1,0 +1,26 @@
+.TH "doc_backup_oob" 9 "doc_backup_oob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_backup_oob \- Backup OOB into docg3 structure
+.SH SYNOPSIS
+.B "int" doc_backup_oob
+.BI "(struct docg3 *docg3 "  ","
+.BI "loff_t to "  ","
+.BI "struct mtd_oob_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "to" 12
+the page offset in the chip
+.IP "ops" 12
+the OOB size and buffer
+.SH "DESCRIPTION"
+As the docg3 should write a page with its OOB in one pass, and some userland
+applications do \fBwrite_oob\fP to setup the OOB and then \fBwrite\fP, store the OOB
+into a temporary storage. This is very dangerous, as 2 concurrent
+applications could store an OOB, and then write their pages (which will
+result into one having its OOB corrupted).
+
+The only reliable way would be for userland to call \fBdoc_write_oob\fP with both
+the page data _and_ the OOB area.
+
+Returns 0 if success, -EINVAL if ops content invalid

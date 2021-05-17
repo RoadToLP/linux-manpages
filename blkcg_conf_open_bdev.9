@@ -1,0 +1,16 @@
+.TH "blkcg_conf_open_bdev" 9 "blkcg_conf_open_bdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_conf_open_bdev \- parse and open bdev for per-blkg config update
+.SH SYNOPSIS
+.B "struct block_device *" blkcg_conf_open_bdev
+.BI "(char **inputp "  ");"
+.SH ARGUMENTS
+.IP "inputp" 12
+input string pointer
+.SH "DESCRIPTION"
+Parse the device node prefix part, MAJ:MIN, of per-blkg config update
+from \fIinput\fP and get and return the matching bdev.  *\fIinputp\fP is
+updated to point past the device node prefix.  Returns an \fBERR_PTR\fP
+value on error.
+
+Use this function iff \fBblkg_conf_prep\fP can't be used for some reason.

@@ -1,0 +1,20 @@
+.TH "smk_ptrace_rule_check" 9 "smk_ptrace_rule_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_ptrace_rule_check \- helper for ptrace access
+.SH SYNOPSIS
+.B "int" smk_ptrace_rule_check
+.BI "(struct task_struct *tracer "  ","
+.BI "struct smack_known *tracee_known "  ","
+.BI "unsigned int mode "  ","
+.BI "const char *func "  ");"
+.SH ARGUMENTS
+.IP "tracer" 12
+tracer process
+.IP "tracee_known" 12
+label entry of the process that's about to be traced
+.IP "mode" 12
+ptrace attachment mode (PTRACE_MODE_*)
+.IP "func" 12
+name of the function that called us, used for audit
+.SH "DESCRIPTION"
+Returns 0 on access granted, -error on error

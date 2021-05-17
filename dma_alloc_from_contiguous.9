@@ -1,0 +1,23 @@
+.TH "dma_alloc_from_contiguous" 9 "dma_alloc_from_contiguous" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_alloc_from_contiguous \- allocate pages from contiguous area
+.SH SYNOPSIS
+.B "struct page *" dma_alloc_from_contiguous
+.BI "(struct device *dev "  ","
+.BI "size_t count "  ","
+.BI "unsigned int align "  ","
+.BI "bool no_warn "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to device for which the allocation is performed.
+.IP "count" 12
+Requested number of pages.
+.IP "align" 12
+Requested alignment of pages (in PAGE_SIZE order).
+.IP "no_warn" 12
+Avoid printing message about failed allocation.
+.SH "DESCRIPTION"
+This function allocates memory buffer for specified device. It uses
+device specific contiguous memory area if available or the default
+global one. Requires architecture specific \fBdev_get_cma_area\fP helper
+function.

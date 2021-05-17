@@ -1,0 +1,45 @@
+.TH "mpt3sas_scsih_issue_tm" 9 "mpt3sas_scsih_issue_tm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt3sas_scsih_issue_tm \- main routine for sending tm requests
+.SH SYNOPSIS
+.B "int" mpt3sas_scsih_issue_tm
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "u16 handle "  ","
+.BI "uint channel "  ","
+.BI "uint id "  ","
+.BI "u64 lun "  ","
+.BI "u8 type "  ","
+.BI "u16 smid_task "  ","
+.BI "u16 msix_task "  ","
+.BI "u8 timeout "  ","
+.BI "u8 tr_method "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter struct
+.IP "handle" 12
+device handle
+.IP "channel" 12
+the channel assigned by the OS
+.IP "id" 12
+the id assigned by the OS
+.IP "lun" 12
+lun number
+.IP "type" 12
+MPI2_SCSITASKMGMT_TASKTYPE__XXX (defined in mpi2_init.h)
+.IP "smid_task" 12
+smid assigned to the task
+.IP "msix_task" 12
+MSIX table index supplied by the OS
+.IP "timeout" 12
+timeout in seconds
+.IP "tr_method" 12
+Target Reset Method
+.SH "CONTEXT"
+user
+.SH "DESCRIPTION"
+A generic API for sending task management requests to firmware.
+
+The callback index is set inside `ioc->tm_cb_idx`.
+The caller is responsible to check for outstanding commands.
+.SH "RETURN"
+SUCCESS or FAILED.

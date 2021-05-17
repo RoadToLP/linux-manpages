@@ -1,0 +1,16 @@
+.TH "__pcpu_balance_workfn" 9 "__pcpu_balance_workfn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pcpu_balance_workfn \- manage the amount of free chunks and populated pages
+.SH SYNOPSIS
+.B "void" __pcpu_balance_workfn
+.BI "(enum pcpu_chunk_type type "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+chunk type
+.SH "DESCRIPTION"
+Reclaim all fully free chunks except for the first one.  This is also
+responsible for maintaining the pool of empty populated pages.  However,
+it is possible that this is called when physical memory is scarce causing
+OOM killer to be triggered.  We should avoid doing so until an actual
+allocation causes the failure as it is possible that requests can be
+serviced from already backed regions.

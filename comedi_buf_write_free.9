@@ -1,0 +1,22 @@
+.TH "comedi_buf_write_free" 9 "comedi_buf_write_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_buf_write_free \- Free buffer space after it is written
+.SH SYNOPSIS
+.B "unsigned int" comedi_buf_write_free
+.BI "(struct comedi_subdevice *s "  ","
+.BI "unsigned int nbytes "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "nbytes" 12
+Maximum space to free in bytes.
+.SH "DESCRIPTION"
+Free up to \fInbytes\fP bytes of space previously reserved for writing in the
+COMEDI acquisition data buffer associated with the subdevice.  The amount of
+space freed is limited to the amount that was reserved.  The freed space is
+assumed to have been filled with sample data by the writer.
+
+If the samples in the freed space need to be "munged", do so here.  The
+freed space becomes available for allocation by the reader.
+.SH "RETURN"
+The amount of space freed in bytes.

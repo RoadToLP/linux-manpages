@@ -1,0 +1,20 @@
+.TH "work_on_cpu" 9 "work_on_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+work_on_cpu \- run a function in thread context on a particular cpu
+.SH SYNOPSIS
+.B "long" work_on_cpu
+.BI "(int cpu "  ","
+.BI "long (*fn)(void *) "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+the cpu to run on
+.IP "fn" 12
+the function to run
+.IP "arg" 12
+the function arg
+.SH "DESCRIPTION"
+It is up to the caller to ensure that the cpu doesn't go offline.
+The caller must not hold any locks which would prevent \fIfn\fP from completing.
+.SH "RETURN"
+The value \fIfn\fP returns.

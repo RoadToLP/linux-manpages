@@ -1,0 +1,22 @@
+.TH "batadv_mcast_bridge_log" 9 "batadv_mcast_bridge_log" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_mcast_bridge_log \- debug output for topology changes in bridged setups
+.SH SYNOPSIS
+.B "void" batadv_mcast_bridge_log
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_mcast_mla_flags *new_flags "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "new_flags" 12
+flags indicating the new multicast state
+.SH "DESCRIPTION"
+If no bridges are ever used on this node, then this function does nothing.
+
+Otherwise this function outputs debug information to the 'mcast' log level
+which might be relevant to our multicast optimizations.
+
+More precisely, it outputs information when a bridge interface is added or
+removed from a soft interface. And when a bridge is present, it further
+outputs information about the querier state which is relevant for the
+multicast flags this node is going to set.

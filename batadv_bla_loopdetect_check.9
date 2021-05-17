@@ -1,0 +1,24 @@
+.TH "batadv_bla_loopdetect_check" 9 "batadv_bla_loopdetect_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_bla_loopdetect_check \- check and handle a detected loop
+.SH SYNOPSIS
+.B "bool" batadv_bla_loopdetect_check
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct batadv_hard_iface *primary_if "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+the packet to check
+.IP "primary_if" 12
+interface where the request came on
+.IP "vid" 12
+the VLAN ID of the frame
+.SH "DESCRIPTION"
+Checks if this packet is a loop detect frame which has been sent by us,
+throws an uevent and logs the event if that is the case.
+.SH "RETURN"
+true if it is a loop detect frame which is to be dropped, false
+otherwise.

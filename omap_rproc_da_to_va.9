@@ -1,0 +1,23 @@
+.TH "omap_rproc_da_to_va" 9 "omap_rproc_da_to_va" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_rproc_da_to_va \- internal memory translation helper
+.SH SYNOPSIS
+.B "void *" omap_rproc_da_to_va
+.BI "(struct rproc *rproc "  ","
+.BI "u64 da "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+remote processor to apply the address translation for
+.IP "da" 12
+device address to translate
+.IP "len" 12
+length of the memory buffer
+.SH "DESCRIPTION"
+Custom function implementing the rproc .da_to_va ops to provide address
+translation (device address to kernel virtual address) for internal RAMs
+present in a DSP or IPU device). The translated addresses can be used
+either by the remoteproc core for loading, or by any rpmsg bus drivers.
+.SH "RETURN"
+translated virtual address in kernel memory space on success,
+or NULL on failure.

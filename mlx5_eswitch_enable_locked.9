@@ -1,0 +1,26 @@
+.TH "mlx5_eswitch_enable_locked" 9 "mlx5_eswitch_enable_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mlx5_eswitch_enable_locked \- Enable eswitch
+.SH SYNOPSIS
+.B "int" mlx5_eswitch_enable_locked
+.BI "(struct mlx5_eswitch *esw "  ","
+.BI "int mode "  ","
+.BI "int num_vfs "  ");"
+.SH ARGUMENTS
+.IP "esw" 12
+Pointer to eswitch
+.IP "mode" 12
+Eswitch mode to enable
+.IP "num_vfs" 12
+Enable eswitch for given number of VFs. This is optional.
+Valid value are 0, > 0 and MLX5_ESWITCH_IGNORE_NUM_VFS.
+Caller should pass num_vfs > 0 when enabling eswitch for
+vf vports. Caller should pass num_vfs = 0, when eswitch
+is enabled without sriov VFs or when caller
+is unaware of the sriov state of the host PF on ECPF based
+eswitch. Caller should pass < 0 when num_vfs should be
+completely ignored. This is typically the case when eswitch
+is enabled without sriov regardless of PF/ECPF system.
+\fBmlx5_eswitch_enable_locked\fP Enables eswitch in either legacy or offloads
+mode. If num_vfs >=0 is provided, it setup VF related eswitch vports.
+It returns 0 on success or error code on failure.

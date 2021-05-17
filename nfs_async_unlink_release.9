@@ -1,0 +1,12 @@
+.TH "nfs_async_unlink_release" 9 "nfs_async_unlink_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_async_unlink_release \- Release the sillydelete data.
+.SH SYNOPSIS
+.B "void" nfs_async_unlink_release
+.BI "(void *calldata "  ");"
+.SH ARGUMENTS
+.IP "calldata" 12
+struct nfs_unlinkdata to release
+.SH "DESCRIPTION"
+We need to call nfs_put_unlinkdata as a 'tk_release' task since the
+rpc_task would be freed too.

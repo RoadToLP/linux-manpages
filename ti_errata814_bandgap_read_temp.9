@@ -1,0 +1,23 @@
+.TH "ti_errata814_bandgap_read_temp" 9 "ti_errata814_bandgap_read_temp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_errata814_bandgap_read_temp \- helper function to read dra7 sensor temperature
+.SH SYNOPSIS
+.B "u32" ti_errata814_bandgap_read_temp
+.BI "(struct ti_bandgap *bgp "  ","
+.BI "u32 reg "  ");"
+.SH ARGUMENTS
+.IP "bgp" 12
+pointer to ti_bandgap structure
+.IP "reg" 12
+desired register (offset) to be read
+.SH "DESCRIPTION"
+Function to read dra7 bandgap sensor temperature. This is done separately
+so as to workaround the errata "Bandgap Temperature read Dtemp can be
+corrupted" - Errata ID: i814".
+Read accesses to registers listed below can be corrupted due to incorrect
+resynchronization between clock domains.
+Read access to registers below can be corrupted :
+CTRL_CORE_DTEMP_MPU/GPU/CORE/DSPEVE/IVA_n (n = 0 to 4)
+CTRL_CORE_TEMP_SENSOR_MPU/GPU/CORE/DSPEVE/IVA_n
+.SH "RETURN"
+the register value.

@@ -1,0 +1,35 @@
+.TH "btrfs_delalloc_reserve_space" 9 "btrfs_delalloc_reserve_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_delalloc_reserve_space \- reserve data and metadata space for delalloc
+.SH SYNOPSIS
+.B "int" btrfs_delalloc_reserve_space
+.BI "(struct btrfs_inode *inode "  ","
+.BI "struct extent_changeset **reserved "  ","
+.BI "u64 start "  ","
+.BI "u64 len "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode we're writing to
+.IP "reserved" 12
+mandatory parameter, record actually reserved qgroup ranges of
+current reservation.
+.IP "start" 12
+start range we are writing to
+.IP "len" 12
+how long the range we are writing to
+.SH "DESCRIPTION"
+This will do the following things
+
+- reserve space in data space info for num bytes
+and reserve precious corresponding qgroup space
+(Done in check_data_free_space)
+
+- reserve space for metadata space, based on the number of outstanding
+extents and how much csums will be needed
+also reserve metadata space in a per root over-reserve method.
+- add to the inodes->delalloc_bytes
+- add it to the fs_info's delalloc inodes list.
+(Above 3 all done in delalloc_reserve_metadata)
+
+Return 0 for success
+Return <0 for error(-ENOSPC or -EQUOT)

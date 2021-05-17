@@ -1,0 +1,19 @@
+.TH "da8xx_rproc_callback" 9 "da8xx_rproc_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+da8xx_rproc_callback \- inbound virtqueue message handler
+.SH SYNOPSIS
+.B "irqreturn_t" da8xx_rproc_callback
+.BI "(int irq "  ","
+.BI "void *p "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+-- undescribed --
+.IP "p" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This handler is invoked directly by the kernel whenever the remote
+core (DSP) has modified the state of a virtqueue.  There is no
+"payload" message indicating the virtqueue index as is the case with
+mailbox-based implementations on OMAP4.  As such, this handler "polls"
+each known virtqueue index for every invocation.

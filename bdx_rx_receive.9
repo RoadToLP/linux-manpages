@@ -1,0 +1,20 @@
+.TH "bdx_rx_receive" 9 "bdx_rx_receive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_rx_receive \- receives full packets from RXD fifo and pass them to OS
+.SH SYNOPSIS
+.B "int" bdx_rx_receive
+.BI "(struct bdx_priv *priv "  ","
+.BI "struct rxd_fifo *f "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+nic's private structure
+.IP "f" 12
+RXF fifo that needs skbs
+.IP "budget" 12
+maximum number of packets to receive
+.SH "NOTE"
+a special treatment is given to non-continuous descriptors
+that start near the end, wraps around and continue at the beginning. a second
+part is copied right after the first, and then descriptor is interpreted as
+normal. fifo has an extra space to allow such operations

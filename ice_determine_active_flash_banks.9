@@ -1,0 +1,15 @@
+.TH "ice_determine_active_flash_banks" 9 "ice_determine_active_flash_banks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_determine_active_flash_banks \- Discover active bank for each module
+.SH SYNOPSIS
+.B "enum ice_status" ice_determine_active_flash_banks
+.BI "(struct ice_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.SH "DESCRIPTION"
+Read the Shadow RAM control word and determine which banks are active for
+the NVM, OROM, and Netlist modules. Also read and calculate the associated
+pointer and size. These values are then cached into the ice_flash_info
+structure for later use in order to calculate the correct offset to read
+from the active module.

@@ -1,0 +1,37 @@
+.TH "drm_mm_scan_init_with_range" 9 "drm_mm_scan_init_with_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mm_scan_init_with_range \- initialize range-restricted lru scanning
+.SH SYNOPSIS
+.B "void" drm_mm_scan_init_with_range
+.BI "(struct drm_mm_scan *scan "  ","
+.BI "struct drm_mm *mm "  ","
+.BI "u64 size "  ","
+.BI "u64 alignment "  ","
+.BI "unsigned long color "  ","
+.BI "u64 start "  ","
+.BI "u64 end "  ","
+.BI "enum drm_mm_insert_mode mode "  ");"
+.SH ARGUMENTS
+.IP "scan" 12
+scan state
+.IP "mm" 12
+drm_mm to scan
+.IP "size" 12
+size of the allocation
+.IP "alignment" 12
+alignment of the allocation
+.IP "color" 12
+opaque tag value to use for the allocation
+.IP "start" 12
+start of the allowed range for the allocation
+.IP "end" 12
+end of the allowed range for the allocation
+.IP "mode" 12
+fine-tune the allocation search and placement
+.SH "DESCRIPTION"
+This simply sets up the scanning routines with the parameters for the desired
+hole.
+
+Warning:
+As long as the scan list is non-empty, no other operations than
+adding/removing nodes to/from the scan list are allowed.

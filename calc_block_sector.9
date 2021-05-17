@@ -1,0 +1,29 @@
+.TH "calc_block_sector" 9 "calc_block_sector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_block_sector \- Calculate blocks, pages and ofs.
+.SH SYNOPSIS
+.B "void" calc_block_sector
+.BI "(loff_t from "  ","
+.BI "int *block0 "  ","
+.BI "int *block1 "  ","
+.BI "int *page "  ","
+.BI "int *ofs "  ","
+.BI "int reliable "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+offset in flash
+.IP "block0" 12
+first plane block index calculated
+.IP "block1" 12
+second plane block index calculated
+.IP "page" 12
+page calculated
+.IP "ofs" 12
+offset in page
+.IP "reliable" 12
+0 if docg3 in normal mode, 1 if docg3 in fast mode, 2 if docg3 in
+reliable mode.
+.SH "DESCRIPTION"
+The calculation is based on the reliable/normal mode. In normal mode, the 64
+pages of a block are available. In reliable mode, as pages 2*n and 2*n+1 are
+clones, only 32 pages per block are available.

@@ -1,0 +1,43 @@
+.TH "rtrs_clt_request" 9 "rtrs_clt_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtrs_clt_request \- Request data transfer to/from server via RDMA.
+.SH SYNOPSIS
+.B "int" rtrs_clt_request
+.BI "(int dir "  ","
+.BI "struct rtrs_clt_req_ops *ops "  ","
+.BI "struct rtrs_clt *clt "  ","
+.BI "struct rtrs_permit *permit "  ","
+.BI "const struct kvec *vec "  ","
+.BI "size_t nr "  ","
+.BI "size_t data_len "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "unsigned int sg_cnt "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+READ/WRITE
+.IP "ops" 12
+callback function to be called as confirmation, and the pointer.
+.IP "clt" 12
+Session
+.IP "permit" 12
+Preallocated permit
+.IP "vec" 12
+Message that is sent to server together with the request.
+Sum of len of all \fIvec\fP elements limited to <= IO_MSG_SIZE.
+Since the msg is copied internally it can be allocated on stack.
+.IP "nr" 12
+Number of elements in \fIvec\fP.
+.IP "data_len" 12
+length of data sent to/from server
+.IP "sg" 12
+Pages to be sent/received to/from server.
+.IP "sg_cnt" 12
+Number of elements in the \fIsg\fP
+.SH "RETURN"
+0:           Success
+<0:          Error
+.SH "DESCRIPTION"
+On dir=READ rtrs client will request a data transfer from Server to client.
+The data that the server will respond with will be stored in \fIsg\fP when
+the user receives an RTRS_CLT_RDMA_EV_RDMA_REQUEST_WRITE_COMPL event.
+On dir=WRITE rtrs client will rdma write data in sg to server side.

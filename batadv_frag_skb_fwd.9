@@ -1,0 +1,21 @@
+.TH "batadv_frag_skb_fwd" 9 "batadv_frag_skb_fwd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_frag_skb_fwd \- forward fragments that would exceed MTU when merged
+.SH SYNOPSIS
+.B "bool" batadv_frag_skb_fwd
+.BI "(struct sk_buff *skb "  ","
+.BI "struct batadv_hard_iface *recv_if "  ","
+.BI "struct batadv_orig_node *orig_node_src "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb to forward
+.IP "recv_if" 12
+interface that the skb is received on
+.IP "orig_node_src" 12
+originator that the skb is received from
+.SH "DESCRIPTION"
+Look up the next-hop of the fragments payload and check if the merged packet
+will exceed the MTU towards the next-hop. If so, the fragment is forwarded
+without merging it.
+.SH "RETURN"
+true if the fragment is consumed/forwarded, false otherwise.

@@ -1,0 +1,16 @@
+.TH "count_active_contexts" 9 "count_active_contexts" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+count_active_contexts \- count nr of active tasks
+.SH SYNOPSIS
+.B "unsigned long" count_active_contexts
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Return the number of tasks currently running or waiting to run.
+
+Note that we don't take runq_lock / list_mutex here.  Reading
+a single 32bit value is atomic on powerpc, and we don't care
+about memory ordering issues here.

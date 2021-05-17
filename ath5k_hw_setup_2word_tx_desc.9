@@ -1,0 +1,53 @@
+.TH "ath5k_hw_setup_2word_tx_desc" 9 "ath5k_hw_setup_2word_tx_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_setup_2word_tx_desc \- Initialize a 2-word tx control descriptor
+.SH SYNOPSIS
+.B "int" ath5k_hw_setup_2word_tx_desc
+.BI "(struct ath5k_hw *ah "  ","
+.BI "struct ath5k_desc *desc "  ","
+.BI "unsigned int pkt_len "  ","
+.BI "unsigned int hdr_len "  ","
+.BI "int padsize "  ","
+.BI "enum ath5k_pkt_type type "  ","
+.BI "unsigned int tx_power "  ","
+.BI "unsigned int tx_rate0 "  ","
+.BI "unsigned int tx_tries0 "  ","
+.BI "unsigned int key_index "  ","
+.BI "unsigned int antenna_mode "  ","
+.BI "unsigned int flags "  ","
+.BI "unsigned int rtscts_rate "  ","
+.BI "unsigned int rtscts_duration "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "desc" 12
+The \fIstruct ath5k_desc\fP
+.IP "pkt_len" 12
+Frame length in bytes
+.IP "hdr_len" 12
+Header length in bytes (only used on AR5210)
+.IP "padsize" 12
+Any padding we've added to the frame length
+.IP "type" 12
+One of enum ath5k_pkt_type
+.IP "tx_power" 12
+Tx power in 0.5dB steps
+.IP "tx_rate0" 12
+HW idx for transmission rate
+.IP "tx_tries0" 12
+Max number of retransmissions
+.IP "key_index" 12
+Index on key table to use for encryption
+.IP "antenna_mode" 12
+Which antenna to use (0 for auto)
+.IP "flags" 12
+One of AR5K_TXDESC_* flags (desc.h)
+.IP "rtscts_rate" 12
+HW idx for RTS/CTS transmission rate
+.IP "rtscts_duration" 12
+What to put on duration field on the header of RTS/CTS
+.SH "DESCRIPTION"
+Internal function to initialize a 2-Word TX control descriptor
+found on AR5210 and AR5211 MACs chips.
+
+Returns 0 on success or -EINVAL on false input

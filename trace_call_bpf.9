@@ -1,0 +1,21 @@
+.TH "trace_call_bpf" 9 "trace_call_bpf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_call_bpf \- invoke BPF program
+.SH SYNOPSIS
+.B "unsigned int" trace_call_bpf
+.BI "(struct trace_event_call *call "  ","
+.BI "void *ctx "  ");"
+.SH ARGUMENTS
+.IP "call" 12
+tracepoint event
+.IP "ctx" 12
+opaque context pointer
+.SH "DESCRIPTION"
+kprobe handlers execute BPF programs via this helper.
+Can be used from static tracepoints in the future.
+.SH "RETURN"
+BPF programs always return an integer which is interpreted by
+kprobe handler as:
+0 - return from kprobe (event is filtered out)
+1 - store kprobe event into ring buffer
+Other values are reserved and currently alias to 1

@@ -1,0 +1,23 @@
+.TH "nft_pipapo_avx2_fill" 9 "nft_pipapo_avx2_fill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_avx2_fill \- Fill a bitmap region with ones
+.SH SYNOPSIS
+.B "void" nft_pipapo_avx2_fill
+.BI "(unsigned long *data "  ","
+.BI "int start "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+Base memory area
+.IP "start" 12
+First bit to set
+.IP "len" 12
+Count of bits to fill
+.SH "DESCRIPTION"
+This is nothing else than a version of \fBbitmap_set\fP, as used e.g. by
+\fBpipapo_refill\fP, tailored for the microarchitectures using it and better
+suited for the specific usage: it's very likely that we'll set a small number
+of bits, not crossing a word boundary, and correct branch prediction is
+critical here.
+
+This function doesn't actually use any AVX2 instruction.

@@ -1,0 +1,24 @@
+.TH "i40e_check_vf_permission" 9 "i40e_check_vf_permission" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_check_vf_permission \- 
+.SH SYNOPSIS
+.B "int" i40e_check_vf_permission
+.BI "(struct i40e_vf *vf "  ","
+.BI "struct virtchnl_ether_addr_list *al "  ");"
+.SH ARGUMENTS
+.IP "vf" 12
+pointer to the VF info
+.IP "al" 12
+MAC address list from virtchnl
+.SH "DESCRIPTION"
+Check that the given list of MAC addresses is allowed. Will return -EPERM
+if any address in the list is not valid. Checks the following conditions:
+
+1) broadcast and zero addresses are never valid
+2) unicast addresses are not allowed if the VMM has administratively set
+the VF MAC address, unless the VF is marked as privileged.
+3) There is enough space to add all the addresses.
+
+Note that to guarantee consistency, it is expected this function be called
+while holding the mac_filter_hash_lock, as otherwise the current number of
+addresses might not be accurate.

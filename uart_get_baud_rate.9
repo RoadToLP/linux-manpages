@@ -1,0 +1,32 @@
+.TH "uart_get_baud_rate" 9 "uart_get_baud_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_get_baud_rate \- return baud rate for a particular port
+.SH SYNOPSIS
+.B "unsigned int" uart_get_baud_rate
+.BI "(struct uart_port *port "  ","
+.BI "struct ktermios *termios "  ","
+.BI "struct ktermios *old "  ","
+.BI "unsigned int min "  ","
+.BI "unsigned int max "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+uart_port structure describing the port in question.
+.IP "termios" 12
+desired termios settings.
+.IP "old" 12
+old termios (or NULL)
+.IP "min" 12
+minimum acceptable baud rate
+.IP "max" 12
+maximum acceptable baud rate
+
+Decode the termios structure into a numeric baud rate,
+taking account of the magic 38400 baud rate (with spd_*
+flags), and mapping the B0 rate to 9600 baud.
+
+If the new baud rate is invalid, try the old termios setting.
+If it's still invalid, we try 9600 baud.
+
+Update the \fItermios\fP structure to reflect the baud rate
+we're actually going to be using. Don't do this for the case
+where B0 is requested ("hang up").

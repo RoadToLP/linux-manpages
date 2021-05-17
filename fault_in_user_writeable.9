@@ -1,0 +1,17 @@
+.TH "fault_in_user_writeable" 9 "fault_in_user_writeable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fault_in_user_writeable \- Fault in user address and verify RW access
+.SH SYNOPSIS
+.B "int" fault_in_user_writeable
+.BI "(u32 __user *uaddr "  ");"
+.SH ARGUMENTS
+.IP "uaddr" 12
+pointer to faulting user space address
+.SH "DESCRIPTION"
+Slow path to fixup the fault we just took in the atomic write
+access to \fIuaddr\fP.
+
+We have no generic implementation of a non-destructive write to the
+user address. We know that we faulted in the atomic pagefault
+disabled section so we can as well avoid the #PF overhead by
+calling \fBget_user_pages\fP right away.

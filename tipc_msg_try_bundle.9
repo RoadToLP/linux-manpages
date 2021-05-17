@@ -1,0 +1,26 @@
+.TH "tipc_msg_try_bundle" 9 "tipc_msg_try_bundle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_msg_try_bundle \- Try to bundle a new message to the last one
+.SH SYNOPSIS
+.B "bool" tipc_msg_try_bundle
+.BI "(struct sk_buff *tskb "  ","
+.BI "struct sk_buff **skb "  ","
+.BI "u32 mss "  ","
+.BI "u32 dnode "  ","
+.BI "bool *new_bundle "  ");"
+.SH ARGUMENTS
+.IP "tskb" 12
+the last/target message to which the new one will be appended
+.IP "skb" 12
+the new message skb pointer
+.IP "mss" 12
+max message size (header inclusive)
+.IP "dnode" 12
+destination node for the message
+.IP "new_bundle" 12
+if this call made a new bundle or not
+.SH "RETURN"
+"true" if the new message skb is potential for bundling this time or
+later, in the case a bundling has been done this time, the skb is consumed
+(the skb pointer = NULL).
+Otherwise, "false" if the skb cannot be bundled at all.

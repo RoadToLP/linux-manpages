@@ -1,0 +1,22 @@
+.TH "omap2_dpll_round_rate" 9 "omap2_dpll_round_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_dpll_round_rate \- round a target rate for an OMAP DPLL
+.SH SYNOPSIS
+.B "long" omap2_dpll_round_rate
+.BI "(struct clk_hw *hw "  ","
+.BI "unsigned long target_rate "  ","
+.BI "unsigned long *parent_rate "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+struct clk_hw containing the struct clk * for a DPLL
+.IP "target_rate" 12
+desired DPLL clock rate
+.IP "parent_rate" 12
+parent's DPLL clock rate
+.SH "DESCRIPTION"
+Given a DPLL and a desired target rate, round the target rate to a
+possible, programmable rate for this DPLL.  Attempts to select the
+minimum possible n.  Stores the computed (m, n) in the DPLL's
+dpll_data structure so \fBset_rate\fP will not need to call this
+(expensive) function again.  Returns ~0 if the target rate cannot
+be rounded, or the rounded rate upon success.

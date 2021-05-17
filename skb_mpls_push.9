@@ -1,0 +1,26 @@
+.TH "skb_mpls_push" 9 "skb_mpls_push" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_mpls_push \- push a new MPLS header after mac_len bytes from start of the packet
+.SH SYNOPSIS
+.B "int" skb_mpls_push
+.BI "(struct sk_buff *skb "  ","
+.BI "__be32 mpls_lse "  ","
+.BI "__be16 mpls_proto "  ","
+.BI "int mac_len "  ","
+.BI "bool ethernet "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer
+.IP "mpls_lse" 12
+MPLS label stack entry to push
+.IP "mpls_proto" 12
+ethertype of the new MPLS header (expects 0x8847 or 0x8848)
+.IP "mac_len" 12
+length of the MAC header
+.IP "ethernet" 12
+flag to indicate if the resulting packet after skb_mpls_push is
+ethernet
+.SH "DESCRIPTION"
+Expects skb->data at mac header.
+
+Returns 0 on success, -errno otherwise.

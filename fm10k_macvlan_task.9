@@ -1,0 +1,16 @@
+.TH "fm10k_macvlan_task" 9 "fm10k_macvlan_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_macvlan_task \- send queued MAC/VLAN requests to switch manager
+.SH SYNOPSIS
+.B "void" fm10k_macvlan_task
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+pointer to work_struct containing our data
+.SH "DESCRIPTION"
+This work item handles sending MAC/VLAN updates to the switch manager. When
+the interface is up, it will attempt to queue mailbox messages to the
+switch manager requesting updates for MAC/VLAN pairs. If the Tx fifo of the
+mailbox is full, it will reschedule itself to try again in a short while.
+This ensures that the driver does not overload the switch mailbox with too
+many simultaneous requests, causing an unnecessary reset.

@@ -1,0 +1,21 @@
+.TH "handle_skcipher_req" 9 "handle_skcipher_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_skcipher_req \- Submit as much of a block cipher request as fits in a single SPU request message, starting at the current position in the request data.
+.SH SYNOPSIS
+.B "int" handle_skcipher_req
+.BI "(struct iproc_reqctx_s *rctx "  ");"
+.SH ARGUMENTS
+.IP "rctx" 12
+Crypto request context
+.SH "DESCRIPTION"
+This may be called on the crypto API thread, or, when a request is so large
+it must be broken into multiple SPU messages, on the thread used to invoke
+the response callback. When requests are broken into multiple SPU
+messages, we assume subsequent messages depend on previous results, and
+thus always wait for previous results before submitting the next message.
+Because requests are submitted in lock step like this, there is no need
+to synchronize access to request data structures.
+.SH "RETURN"
+-EINPROGRESS: request has been accepted and result will be returned
+asynchronously
+Any other value indicates an error

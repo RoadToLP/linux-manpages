@@ -1,0 +1,19 @@
+.TH "truncate_inode_pages" 9 "truncate_inode_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+truncate_inode_pages \- truncate *all* the pages from an offset
+.SH SYNOPSIS
+.B "void" truncate_inode_pages
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t lstart "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+mapping to truncate
+.IP "lstart" 12
+offset from which to truncate
+.SH "DESCRIPTION"
+Called under (and serialised by) inode->i_mutex.
+.SH "NOTE"
+When this function returns, there can be a page in the process of
+deletion (inside \fB__delete_from_page_cache\fP) in the specified range.  Thus
+mapping->nrpages can be non-zero when this function returns even after
+truncation of the whole mapping.

@@ -1,0 +1,20 @@
+.TH "axienet_check_tx_bd_space" 9 "axienet_check_tx_bd_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axienet_check_tx_bd_space \- Checks if a BD/group of BDs are currently busy
+.SH SYNOPSIS
+.B "int" axienet_check_tx_bd_space
+.BI "(struct axienet_local *lp "  ","
+.BI "int num_frag "  ");"
+.SH ARGUMENTS
+.IP "lp" 12
+Pointer to the axienet_local structure
+.IP "num_frag" 12
+The number of BDs to check for
+.SH "RETURN"
+0, on success
+NETDEV_TX_BUSY, if any of the descriptors are not free
+.SH "DESCRIPTION"
+This function is invoked before BDs are allocated and transmission starts.
+This function returns 0 if a BD or group of BDs can be allocated for
+transmission. If the BD or any of the BDs are not free the function
+returns a busy status. This is invoked from axienet_start_xmit.

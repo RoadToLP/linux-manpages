@@ -1,0 +1,24 @@
+.TH "ti_bandgap_get_trend" 9 "ti_bandgap_get_trend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_bandgap_get_trend \- To fetch the temperature trend of a sensor
+.SH SYNOPSIS
+.B "int" ti_bandgap_get_trend
+.BI "(struct ti_bandgap *bgp "  ","
+.BI "int id "  ","
+.BI "int *trend "  ");"
+.SH ARGUMENTS
+.IP "bgp" 12
+pointer to struct ti_bandgap
+.IP "id" 12
+id of the individual sensor
+.IP "trend" 12
+Pointer to trend.
+.SH "DESCRIPTION"
+This function needs to be called to fetch the temperature trend of a
+Particular sensor. The function computes the difference in temperature
+w.r.t time. For the bandgaps with built in history buffer the temperatures
+are read from the buffer and for those without the Buffer -ENOTSUPP is
+returned.
+.SH "RETURN"
+0 if no error, else return corresponding error. If no
+error then the trend value is passed on to trend parameter

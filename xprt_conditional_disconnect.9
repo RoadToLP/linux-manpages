@@ -1,0 +1,17 @@
+.TH "xprt_conditional_disconnect" 9 "xprt_conditional_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_conditional_disconnect \- force a transport to disconnect
+.SH SYNOPSIS
+.B "void" xprt_conditional_disconnect
+.BI "(struct rpc_xprt *xprt "  ","
+.BI "unsigned int cookie "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+transport to disconnect
+.IP "cookie" 12
+'connection cookie'
+.SH "DESCRIPTION"
+This attempts to break the connection if and only if 'cookie' matches
+the current transport 'connection cookie'. It ensures that we don't
+try to break the connection more than once when we need to retransmit
+a batch of RPC requests.

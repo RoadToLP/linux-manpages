@@ -1,0 +1,26 @@
+.TH "fc_remote_port_rolechg" 9 "fc_remote_port_rolechg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_remote_port_rolechg \- notifies the fc transport that the roles on a remote may have changed.
+.SH SYNOPSIS
+.B "void" fc_remote_port_rolechg
+.BI "(struct fc_rport *rport "  ","
+.BI "u32 roles "  ");"
+.SH ARGUMENTS
+.IP "rport" 12
+The remote port that changed.
+.IP "roles" 12
+New roles for this port.
+.SH "DESCRIPTION"
+The LLDD calls this routine to notify the transport that the
+roles on a remote port may have changed. The largest effect of this is
+if a port now becomes a FCP Target, it must be allocated a
+scsi target id.  If the port is no longer a FCP target, any
+scsi target id value assigned to it will persist in case the
+role changes back to include FCP Target. No changes in the scsi
+midlayer will be invoked if the role changes (in the expectation
+that the role will be resumed. If it doesn't normal error processing
+will take place).
+
+Should not be called from interrupt context.
+.SH "NOTES"
+This routine assumes no locks are held on entry.

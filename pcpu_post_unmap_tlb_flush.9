@@ -1,0 +1,22 @@
+.TH "pcpu_post_unmap_tlb_flush" 9 "pcpu_post_unmap_tlb_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_post_unmap_tlb_flush \- flush TLB after unmapping
+.SH SYNOPSIS
+.B "void" pcpu_post_unmap_tlb_flush
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+pcpu_chunk the regions to be flushed belong to
+.IP "page_start" 12
+page index of the first page to be flushed
+.IP "page_end" 12
+page index of the last page to be flushed + 1
+.SH "DESCRIPTION"
+Pages [\fIpage_start\fP,\fIpage_end\fP) of \fIchunk\fP have been unmapped.  Flush
+TLB for the regions.  This can be skipped if the area is to be
+returned to vmalloc as vmalloc will handle TLB flushing lazily.
+
+As with \fBpcpu_pre_unmap_flush\fP, TLB flushing also is done at once
+for the whole region.

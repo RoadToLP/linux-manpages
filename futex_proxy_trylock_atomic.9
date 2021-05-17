@@ -1,0 +1,44 @@
+.TH "futex_proxy_trylock_atomic" 9 "futex_proxy_trylock_atomic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+futex_proxy_trylock_atomic \- Attempt an atomic lock for the top waiter
+.SH SYNOPSIS
+.B "int" futex_proxy_trylock_atomic
+.BI "(u32 __user *pifutex "  ","
+.BI "struct futex_hash_bucket *hb1 "  ","
+.BI "struct futex_hash_bucket *hb2 "  ","
+.BI "union futex_key *key1 "  ","
+.BI "union futex_key *key2 "  ","
+.BI "struct futex_pi_state **ps "  ","
+.BI "struct task_struct **exiting "  ","
+.BI "int set_waiters "  ");"
+.SH ARGUMENTS
+.IP "pifutex" 12
+the user address of the to futex
+.IP "hb1" 12
+the from futex hash bucket, must be locked by the caller
+.IP "hb2" 12
+the to futex hash bucket, must be locked by the caller
+.IP "key1" 12
+the from futex key
+.IP "key2" 12
+the to futex key
+.IP "ps" 12
+address to store the pi_state pointer
+.IP "exiting" 12
+Pointer to store the task pointer of the owner task
+which is in the middle of exiting
+.IP "set_waiters" 12
+force setting the FUTEX_WAITERS bit (1) or not (0)
+.SH "DESCRIPTION"
+Try and get the lock on behalf of the top waiter if we can do it atomically.
+Wake the top waiter if we succeed.  If the caller specified set_waiters,
+then direct \fBfutex_lock_pi_atomic\fP to force setting the FUTEX_WAITERS bit.
+hb1 and hb2 must be held by the caller.
+
+\fIexiting\fP is only set when the return value is -EBUSY. If so, this holds
+a refcount on the exiting task on return and the caller needs to drop it
+after waiting for the exit to complete.
+.SH "RETURN"
+-  0 - failed to acquire the lock atomically;
+- >0 - acquired the lock, return value is vpid of the top_waiter
+- <0 - error

@@ -1,0 +1,17 @@
+.TH "intel_runtime_pm_put_unchecked" 9 "intel_runtime_pm_put_unchecked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_runtime_pm_put_unchecked \- release an unchecked runtime pm reference
+.SH SYNOPSIS
+.B "void" intel_runtime_pm_put_unchecked
+.BI "(struct intel_runtime_pm *rpm "  ");"
+.SH ARGUMENTS
+.IP "rpm" 12
+the intel_runtime_pm structure
+.SH "DESCRIPTION"
+This function drops the device-level runtime pm reference obtained by
+\fBintel_runtime_pm_get\fP and might power down the corresponding
+hardware block right away if this is the last reference.
+
+This function exists only for historical reasons and should be avoided in
+new code, as the correctness of its use cannot be checked. Always use
+\fBintel_runtime_pm_put\fP instead.

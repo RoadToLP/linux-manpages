@@ -1,0 +1,40 @@
+.TH "call_usermodehelper_setup" 9 "call_usermodehelper_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_usermodehelper_setup \- prepare to call a usermode helper
+.SH SYNOPSIS
+.B "struct subprocess_info *" call_usermodehelper_setup
+.BI "(const char *path "  ","
+.BI "char **argv "  ","
+.BI "char **envp "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int (*init)(struct subprocess_info *info, struct cred *new) "  ","
+.BI "void (*cleanup)(struct subprocess_info *info) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to usermode executable
+.IP "argv" 12
+arg vector for process
+.IP "envp" 12
+environment for process
+.IP "gfp_mask" 12
+gfp mask for memory allocation
+.IP "init" 12
+an init function
+.IP "cleanup" 12
+a cleanup function
+.IP "data" 12
+arbitrary context sensitive data
+.SH "DESCRIPTION"
+Returns either NULL on allocation failure, or a subprocess_info
+structure.  This should be passed to call_usermodehelper_exec to
+exec the process and free the structure.
+
+The init function is used to customize the helper process prior to
+exec.  A non-zero return code causes the process to error out, exit,
+and return the failure to the calling process
+
+The cleanup function is just before ethe subprocess_info is about to
+be freed.  This can be used for freeing the argv and envp.  The
+Function must be runnable in either a process context or the
+context in which call_usermodehelper_exec is called.

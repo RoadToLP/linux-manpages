@@ -1,0 +1,49 @@
+.TH "rpmsg_send_offchannel_raw" 9 "rpmsg_send_offchannel_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_send_offchannel_raw \- send a message across to the remote processor
+.SH SYNOPSIS
+.B "int" rpmsg_send_offchannel_raw
+.BI "(struct rpmsg_device *rpdev "  ","
+.BI "u32 src "  ","
+.BI "u32 dst "  ","
+.BI "void *data "  ","
+.BI "int len "  ","
+.BI "bool wait "  ");"
+.SH ARGUMENTS
+.IP "rpdev" 12
+the rpmsg channel
+.IP "src" 12
+source address
+.IP "dst" 12
+destination address
+.IP "data" 12
+payload of message
+.IP "len" 12
+length of payload
+.IP "wait" 12
+indicates whether caller should block in case no TX buffers available
+.SH "DESCRIPTION"
+This function is the base implementation for all of the rpmsg sending API.
+
+It will send \fIdata\fP of length \fIlen\fP to \fIdst\fP, and say it's from \fIsrc\fP. The
+message will be sent to the remote processor which the \fIrpdev\fP channel
+belongs to.
+
+The message is sent using one of the TX buffers that are available for
+communication with this remote processor.
+
+If \fIwait\fP is true, the caller will be blocked until either a TX buffer is
+available, or 15 seconds elapses (we don't want callers to
+sleep indefinitely due to misbehaving remote processors), and in that
+case -ERESTARTSYS is returned. The number '15' itself was picked
+arbitrarily; there's little point in asking drivers to provide a timeout
+value themselves.
+
+Otherwise, if \fIwait\fP is false, and there are no TX buffers available,
+the function will immediately fail, and -ENOMEM will be returned.
+
+Normally drivers shouldn't use this function directly; instead, drivers
+should use the appropriate rpmsg_{try}send{to, _offchannel} API
+(see include/linux/rpmsg.h).
+
+Returns 0 on success and an appropriate error value on failure.

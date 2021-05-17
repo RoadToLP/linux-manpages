@@ -1,0 +1,17 @@
+.TH "xdr_enter_page" 9 "xdr_enter_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_enter_page \- decode data from the XDR page
+.SH SYNOPSIS
+.B "void" xdr_enter_page
+.BI "(struct xdr_stream *xdr "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream struct
+.IP "len" 12
+number of bytes of page data
+.SH "DESCRIPTION"
+Moves data beyond the current pointer position from the XDR head[] buffer
+into the page list. Any data that lies beyond current position + "len"
+bytes is moved into the XDR tail[]. The current pointer is then
+repositioned at the beginning of the first XDR page.

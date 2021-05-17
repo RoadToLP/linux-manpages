@@ -1,0 +1,34 @@
+.TH "iio_triggered_buffer_setup_ext" 9 "iio_triggered_buffer_setup_ext" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_triggered_buffer_setup_ext \- Setup triggered buffer and pollfunc
+.SH SYNOPSIS
+.B "int" iio_triggered_buffer_setup_ext
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "irqreturn_t (*h)(int irq, void *p) "  ","
+.BI "irqreturn_t (*thread)(int irq, void *p) "  ","
+.BI "const struct iio_buffer_setup_ops *setup_ops "  ","
+.BI "const struct attribute **buffer_attrs "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device structure
+.IP "h" 12
+Function which will be used as pollfunc top half
+.IP "thread" 12
+Function which will be used as pollfunc bottom half
+.IP "setup_ops" 12
+Buffer setup functions to use for this device.
+If NULL the default setup functions for triggered
+buffers will be used.
+.IP "buffer_attrs" 12
+Extra sysfs buffer attributes for this IIO buffer
+.SH "DESCRIPTION"
+This function combines some common tasks which will normally be performed
+when setting up a triggered buffer. It will allocate the buffer and the
+pollfunc.
+
+Before calling this function the indio_dev structure should already be
+completely initialized, but not yet registered. In practice this means that
+this function should be called right before \fBiio_device_register\fP.
+
+To free the resources allocated by this function call
+\fBiio_triggered_buffer_cleanup\fP.

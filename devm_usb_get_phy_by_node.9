@@ -1,0 +1,25 @@
+.TH "devm_usb_get_phy_by_node" 9 "devm_usb_get_phy_by_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_usb_get_phy_by_node \- find the USB PHY by device_node
+.SH SYNOPSIS
+.B "struct  usb_phy *" devm_usb_get_phy_by_node
+.BI "(struct device *dev "  ","
+.BI "struct device_node *node "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that requests this phy
+.IP "node" 12
+the device_node for the phy device.
+.IP "nb" 12
+a notifier_block to register with the phy.
+.SH "DESCRIPTION"
+Returns the phy driver associated with the given device_node,
+after getting a refcount to it, -ENODEV if there is no such phy or
+-EPROBE_DEFER if the device is not yet loaded. While at that, it
+also associates the device with
+the phy using devres. On driver detach, release function is invoked
+on the devres data, then, devres data is freed.
+
+For use by peripheral drivers for devices related to a phy,
+such as a charger.

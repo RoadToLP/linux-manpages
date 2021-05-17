@@ -1,0 +1,67 @@
+.TH "find_metapath" 9 "find_metapath" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_metapath \- Find path through the metadata tree
+.SH SYNOPSIS
+.B "void" find_metapath
+.BI "(const struct gfs2_sbd *sdp "  ","
+.BI "u64 block "  ","
+.BI "struct metapath *mp "  ","
+.BI "unsigned int height "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The superblock
+.IP "block" 12
+The disk block to look up
+.IP "mp" 12
+The metapath to return the result in
+.IP "height" 12
+The pre-calculated height of the metadata tree
+
+This routine returns a struct metapath structure that defines a path
+through the metadata of inode "ip" to get to block "block".
+.SH "EXAMPLE"
+Given:  "ip" is a height 3 file, "offset" is 101342453, and this is a
+filesystem with a blocksize of 4096.
+
+\fBfind_metapath\fP would return a struct metapath structure set to:
+mp_fheight = 3, mp_list[0] = 0, mp_list[1] = 48, and mp_list[2] = 165.
+
+That means that in order to get to the block containing the byte at
+offset 101342453, we would load the indirect block pointed to by pointer
+0 in the dinode.  We would then load the indirect block pointed to by
+pointer 48 in that indirect block.  We would then load the data block
+pointed to by pointer 165 in that indirect block.
+
+----------------------------------------
+| Dinode |                             |
+|        |                            4|
+|        |0 1 2 3 4 5                 9|
+|        |                            6|
+----------------------------------------
+|
+|
+V
+----------------------------------------
+| Indirect Block                       |
+|                                     5|
+|            4 4 4 4 4 5 5            1|
+|0           5 6 7 8 9 0 1            2|
+----------------------------------------
+|
+|
+V
+----------------------------------------
+| Indirect Block                       |
+|                         1 1 1 1 1   5|
+|                         6 6 6 6 6   1|
+|0                        3 4 5 6 7   2|
+----------------------------------------
+|
+|
+V
+----------------------------------------
+| Data block containing offset         |
+|            101342453                 |
+|                                      |
+|                                      |
+----------------------------------------

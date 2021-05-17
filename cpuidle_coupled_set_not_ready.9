@@ -1,0 +1,19 @@
+.TH "cpuidle_coupled_set_not_ready" 9 "cpuidle_coupled_set_not_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_coupled_set_not_ready \- mark a cpu as not ready
+.SH SYNOPSIS
+.B "int" cpuidle_coupled_set_not_ready
+.BI "(struct cpuidle_coupled *coupled "  ");"
+.SH ARGUMENTS
+.IP "coupled" 12
+the struct coupled that contains the current cpu
+.SH "DESCRIPTION"
+Decrements the ready counter, unless the ready (and thus the waiting) counter
+is equal to the number of online cpus.  Prevents a race where one cpu
+decrements the waiting counter and then re-increments it just before another
+cpu has decremented its ready counter, leading to the ready counter going
+down from the number of online cpus without going through the coupled idle
+state.
+
+Returns 0 if the counter was decremented successfully, -EINVAL if the ready
+counter was equal to the number of online cpus.

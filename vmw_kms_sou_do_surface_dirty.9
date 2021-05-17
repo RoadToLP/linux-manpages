@@ -1,0 +1,46 @@
+.TH "vmw_kms_sou_do_surface_dirty" 9 "vmw_kms_sou_do_surface_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_sou_do_surface_dirty \- Dirty part of a surface backed framebuffer
+.SH SYNOPSIS
+.B "int" vmw_kms_sou_do_surface_dirty
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_framebuffer *framebuffer "  ","
+.BI "struct drm_clip_rect *clips "  ","
+.BI "struct drm_vmw_rect *vclips "  ","
+.BI "struct vmw_resource *srf "  ","
+.BI "s32 dest_x "  ","
+.BI "s32 dest_y "  ","
+.BI "unsigned num_clips "  ","
+.BI "int inc "  ","
+.BI "struct vmw_fence_obj **out_fence "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to the device private structure.
+.IP "framebuffer" 12
+Pointer to the surface-buffer backed framebuffer.
+.IP "clips" 12
+Array of clip rects. Either \fIclips\fP or \fIvclips\fP must be NULL.
+.IP "vclips" 12
+Alternate array of clip rects. Either \fIclips\fP or \fIvclips\fP must
+be NULL.
+.IP "srf" 12
+Pointer to surface to blit from. If NULL, the surface attached
+to \fIframebuffer\fP will be used.
+.IP "dest_x" 12
+X coordinate offset to align \fIsrf\fP with framebuffer coordinates.
+.IP "dest_y" 12
+Y coordinate offset to align \fIsrf\fP with framebuffer coordinates.
+.IP "num_clips" 12
+Number of clip rects in \fIclips\fP.
+.IP "inc" 12
+Increment to use when looping over \fIclips\fP.
+.IP "out_fence" 12
+If non-NULL, will return a ref-counted pointer to a
+struct vmw_fence_obj. The returned fence pointer may be NULL in which
+case the device has already synchronized.
+.IP "crtc" 12
+If crtc is passed, perform surface dirty on that crtc only.
+.SH "DESCRIPTION"
+Returns 0 on success, negative error code on failure. -ERESTARTSYS if
+interrupted.

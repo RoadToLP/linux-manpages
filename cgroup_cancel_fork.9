@@ -1,0 +1,16 @@
+.TH "cgroup_cancel_fork" 9 "cgroup_cancel_fork" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_cancel_fork \- called if a fork failed after cgroup_can_fork()
+.SH SYNOPSIS
+.B "void" cgroup_cancel_fork
+.BI "(struct task_struct *child "  ","
+.BI "struct kernel_clone_args *kargs "  ");"
+.SH ARGUMENTS
+.IP "child" 12
+the child process
+.IP "kargs" 12
+the arguments passed to create the child process
+.SH "DESCRIPTION"
+This calls the \fBcancel_fork\fP callbacks if a fork failed *after*
+\fBcgroup_can_fork\fP succeded and cleans up references we took to
+prepare a new css_set for the child process in \fBcgroup_can_fork\fP.

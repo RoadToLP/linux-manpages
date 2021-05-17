@@ -1,0 +1,16 @@
+.TH "intel_pch_fifo_underrun_irq_handler" 9 "intel_pch_fifo_underrun_irq_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pch_fifo_underrun_irq_handler \- handle PCH fifo underrun interrupt
+.SH SYNOPSIS
+.B "void" intel_pch_fifo_underrun_irq_handler
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum pipe pch_transcoder "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "pch_transcoder" 12
+the PCH transcoder (same as pipe on IVB and older)
+.SH "DESCRIPTION"
+This handles a PCH fifo underrun interrupt, generating an underrun warning
+into dmesg if underrun reporting is enabled and then disables the underrun
+interrupt to avoid an irq storm.

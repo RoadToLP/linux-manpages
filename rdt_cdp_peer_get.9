@@ -1,0 +1,34 @@
+.TH "rdt_cdp_peer_get" 9 "rdt_cdp_peer_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdt_cdp_peer_get \- Retrieve CDP peer if it exists
+.SH SYNOPSIS
+.B "int" rdt_cdp_peer_get
+.BI "(struct rdt_resource *r "  ","
+.BI "struct rdt_domain *d "  ","
+.BI "struct rdt_resource **r_cdp "  ","
+.BI "struct rdt_domain **d_cdp "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+RDT resource to which RDT domain \fId\fP belongs
+.IP "d" 12
+Cache instance for which a CDP peer is requested
+.IP "r_cdp" 12
+RDT resource that shares hardware with \fIr\fP (RDT resource peer)
+Used to return the result.
+.IP "d_cdp" 12
+RDT domain that shares hardware with \fId\fP (RDT domain peer)
+Used to return the result.
+.SH "DESCRIPTION"
+RDT resources are managed independently and by extension the RDT domains
+(RDT resource instances) are managed independently also. The Code and
+Data Prioritization (CDP) RDT resources, while managed independently,
+could refer to the same underlying hardware. For example,
+RDT_RESOURCE_L2CODE and RDT_RESOURCE_L2DATA both refer to the L2 cache.
+
+When provided with an RDT resource \fIr\fP and an instance of that RDT
+resource \fId\fP \fBrdt_cdp_peer_get\fP will return if there is a peer RDT
+resource and the exact instance that shares the same hardware.
+.SH "RETURN"
+0 if a CDP peer was found, <0 on error or if no CDP peer exists.
+If a CDP peer was found, \fIr_cdp\fP will point to the peer RDT resource
+and \fId_cdp\fP will point to the peer RDT domain.

@@ -1,0 +1,55 @@
+.TH "i2400m_msg_to_dev" 9 "i2400m_msg_to_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_msg_to_dev \- Send a control message to the device and get a response
+.SH SYNOPSIS
+.B "struct sk_buff *" i2400m_msg_to_dev
+.BI "(struct i2400m *i2400m "  ","
+.BI "const void *buf "  ","
+.BI "size_t buf_len "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.IP "buf" 12
+pointer to the buffer containing the message to be sent; it
+has to start with a \fIstruct i2400M_l3l4_hdr\fP and then
+followed by the payload. Once this function returns, the
+buffer can be reused.
+.IP "buf_len" 12
+buffer size
+.SH "RETURN"
+.SH "DESCRIPTION"
+Pointer to skb containing the ack message. You need to check the
+pointer with \fBIS_ERR\fP, as it might be an error code. Error codes
+could happen because:
+
+- the message wasn't formatted correctly
+- couldn't send the message
+- failed waiting for a response
+- the ack message wasn't formatted correctly
+
+The returned skb has been allocated with \fBwimax_msg_to_user_alloc\fP,
+it contains the response in a netlink attribute and is ready to be
+passed up to user space with \fBwimax_msg_to_user_send\fP. To access
+the payload and its length, use wimax_msg_{data,len}() on the skb.
+
+The skb has to be freed with \fBkfree_skb\fP once done.
+
+
+This function delivers a message/command to the device and waits
+for an ack to be received. The format is described in
+linux/wimax/i2400m.h. In summary, a command/get/set is followed by an
+ack.
+
+This function will not check the ack status, that's left up to the
+caller.  Once done with the ack skb, it has to be \fBkfree_skb\fPed.
+
+The i2400m handles only one message at the same time, thus we need
+the mutex to exclude other players.
+
+We write the message and then wait for an answer to come back. The
+RX path intercepts control messages and handles them in
+\fBi2400m_rx_ctl\fP. Reports (notifications) are (maybe) processed
+locally and then forwarded (as needed) to user space on the WiMAX
+stack message pipe. Acks are saved and passed back to us through an
+skb in i2400m->ack_skb which is ready to be given to generic
+netlink if need be.

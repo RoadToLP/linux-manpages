@@ -1,0 +1,20 @@
+.TH "dpaa2_io_service_rearm" 9 "dpaa2_io_service_rearm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpaa2_io_service_rearm \- Rearm the notification for the given DPIO service.
+.SH SYNOPSIS
+.B "int" dpaa2_io_service_rearm
+.BI "(struct dpaa2_io *d "  ","
+.BI "struct dpaa2_io_notification_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+the given DPIO service.
+.IP "ctx" 12
+the notification context.
+.SH "DESCRIPTION"
+Once a FQDAN/CDAN has been produced, the corresponding FQ/channel is
+considered "disarmed". Ie. the user can issue pull dequeue operations on that
+traffic source for as long as it likes. Eventually it may wish to "rearm"
+that source to allow it to produce another FQDAN/CDAN, that's what this
+function achieves.
+
+Return 0 for success.

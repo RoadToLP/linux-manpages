@@ -1,0 +1,17 @@
+.TH "notify_shutdown" 9 "notify_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+notify_shutdown \- notifies device of pending shutdown
+.SH SYNOPSIS
+.B "void" notify_shutdown
+.BI "(struct cxlflash_cfg *cfg "  ","
+.BI "bool wait "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.IP "wait" 12
+Whether to wait for shutdown processing to complete.
+.SH "DESCRIPTION"
+This function will notify the AFU that the adapter is being shutdown
+and will wait for shutdown processing to complete if wait is true.
+This notification should flush pending I/Os to the device and halt
+further I/Os until the next AFU reset is issued and device restarted.

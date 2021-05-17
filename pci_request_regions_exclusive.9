@@ -1,0 +1,22 @@
+.TH "pci_request_regions_exclusive" 9 "pci_request_regions_exclusive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_request_regions_exclusive \- Reserve PCI I/O and memory resources
+.SH SYNOPSIS
+.B "int" pci_request_regions_exclusive
+.BI "(struct pci_dev *pdev "  ","
+.BI "const char *res_name "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device whose resources are to be reserved
+.IP "res_name" 12
+Name to be associated with resource.
+.SH "DESCRIPTION"
+Mark all PCI regions associated with PCI device \fIpdev\fP as being reserved
+by owner \fIres_name\fP.  Do not access any address inside the PCI regions
+unless this call returns successfully.
+
+\fBpci_request_regions_exclusive\fP will mark the region so that /dev/mem
+and the sysfs MMIO access will not be allowed.
+
+Returns 0 on success, or EBUSY on error.  A warning message is also
+printed on failure.

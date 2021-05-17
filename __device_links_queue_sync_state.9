@@ -1,0 +1,25 @@
+.TH "__device_links_queue_sync_state" 9 "__device_links_queue_sync_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__device_links_queue_sync_state \- Queue a device for sync_state() callback
+.SH SYNOPSIS
+.B "void" __device_links_queue_sync_state
+.BI "(struct device *dev "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to call \fBsync_state\fP on
+.IP "list" 12
+List head to queue the \fIdev\fP on
+.SH "DESCRIPTION"
+Queues a device for a \fBsync_state\fP callback when the device links write lock
+isn't held. This allows the \fBsync_state\fP execution flow to use device links
+APIs.  The caller must ensure this function is called with
+\fBdevice_links_write_lock\fP held.
+
+This function does a \fBget_device\fP to make sure the device is not freed while
+on this list.
+
+So the caller must also ensure that \fBdevice_links_flush_sync_list\fP is called
+as soon as the caller releases \fBdevice_links_write_lock\fP.  This is necessary
+to make sure the \fBsync_state\fP is called in a timely fashion and the
+\fBput_device\fP is called on this device.

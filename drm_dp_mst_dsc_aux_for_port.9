@@ -1,0 +1,20 @@
+.TH "drm_dp_mst_dsc_aux_for_port" 9 "drm_dp_mst_dsc_aux_for_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_dsc_aux_for_port \- Find the correct aux for DSC
+.SH SYNOPSIS
+.B "struct drm_dp_aux *" drm_dp_mst_dsc_aux_for_port
+.BI "(struct drm_dp_mst_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+The port to check. A leaf of the MST tree with an attached display.
+.SH "DESCRIPTION"
+Depending on the situation, DSC may be enabled via the endpoint aux,
+the immediately upstream aux, or the connector's physical aux.
+
+This is both the correct aux to read DSC_CAPABILITY and the
+correct aux to write DSC_ENABLED.
+
+This operation can be expensive (up to four aux reads), so
+the caller should cache the return.
+.SH "RETURN"
+NULL if DSC cannot be enabled on this port, otherwise the aux device

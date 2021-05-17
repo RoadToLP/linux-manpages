@@ -1,0 +1,21 @@
+.TH "fcoe_set_port_id" 9 "fcoe_set_port_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_set_port_id \- Callback from libfc when Port_ID is set.
+.SH SYNOPSIS
+.B "void" fcoe_set_port_id
+.BI "(struct fc_lport *lport "  ","
+.BI "u32 port_id "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+the local port
+.IP "port_id" 12
+the port ID
+.IP "fp" 12
+the received frame, if any, that caused the port_id to be set.
+.SH "DESCRIPTION"
+This routine handles the case where we received a FLOGI and are
+entering point-to-point mode.  We need to call \fBfcoe_ctlr_recv_flogi\fP
+so it can set the non-mapped mode and gateway address.
+
+The FLOGI LS_ACC is handled by \fBfcoe_flogi_resp\fP.

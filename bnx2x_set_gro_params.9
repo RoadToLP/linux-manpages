@@ -1,0 +1,26 @@
+.TH "bnx2x_set_gro_params" 9 "bnx2x_set_gro_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_set_gro_params \- compute GRO values
+.SH SYNOPSIS
+.B "void" bnx2x_set_gro_params
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 parsing_flags "  ","
+.BI "u16 len_on_bd "  ","
+.BI "unsigned int pkt_len "  ","
+.BI "u16 num_of_coalesced_segs "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+packet skb
+.IP "parsing_flags" 12
+parsing flags from the START CQE
+.IP "len_on_bd" 12
+total length of the first packet for the
+aggregation.
+.IP "pkt_len" 12
+length of all segments
+.IP "num_of_coalesced_segs" 12
+count of segments
+.SH "DESCRIPTION"
+Approximate value of the MSS for this aggregation calculated using
+the first packet of it.
+Compute number of aggregated segments, and gso_type.

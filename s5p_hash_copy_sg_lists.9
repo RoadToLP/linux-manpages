@@ -1,0 +1,23 @@
+.TH "s5p_hash_copy_sg_lists" 9 "s5p_hash_copy_sg_lists" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_copy_sg_lists \- copy sg list and make fixes in copy
+.SH SYNOPSIS
+.B "int" s5p_hash_copy_sg_lists
+.BI "(struct s5p_hash_reqctx *ctx "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "unsigned int new_len "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+request context
+.IP "sg" 12
+source scatterlist request
+.IP "new_len" 12
+number of bytes to process from sg
+.SH "DESCRIPTION"
+Allocate new scatterlist table, copy data for HASH into it. If there was
+xmit_buf filled, prepare it first, then copy page, length and offset from
+source sg into it, adjusting begin and/or end for skip offset and
+hash_later value.
+
+Resulting sg table will be assigned to ctx->sg. Set flag so we can free
+it after irq ends processing.

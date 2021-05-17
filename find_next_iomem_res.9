@@ -1,0 +1,35 @@
+.TH "find_next_iomem_res" 9 "find_next_iomem_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_next_iomem_res \- Finds the lowest iomem resource that covers part of [@start..@end].
+.SH SYNOPSIS
+.B "int" find_next_iomem_res
+.BI "(resource_size_t start "  ","
+.BI "resource_size_t end "  ","
+.BI "unsigned long flags "  ","
+.BI "unsigned long desc "  ","
+.BI "bool first_lvl "  ","
+.BI "struct resource *res "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+start address of the resource searched for
+.IP "end" 12
+end address of same resource
+.IP "flags" 12
+flags which the resource must have
+.IP "desc" 12
+descriptor the resource must have
+.IP "first_lvl" 12
+walk only the first level children, if set
+.IP "res" 12
+return ptr, if resource found
+.SH "DESCRIPTION"
+
+If a resource is found, returns 0 and \fI\fP*res is overwritten with the part
+of the resource that's within [\fIstart\fP..\fIend\fP]; if none is found, returns
+-ENODEV.  Returns -EINVAL for invalid parameters.
+
+This function walks the whole tree and not just first level children
+unless \fIfirst_lvl\fP is true.
+
+The caller must specify \fIstart\fP, \fIend\fP, \fIflags\fP, and \fIdesc\fP
+(which may be IORES_DESC_NONE).

@@ -1,0 +1,20 @@
+.TH "iscsi_iser_ep_poll" 9 "iscsi_iser_ep_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_ep_poll \- poll for iser connection establishment to complete
+.SH SYNOPSIS
+.B "int" iscsi_iser_ep_poll
+.BI "(struct iscsi_endpoint *ep "  ","
+.BI "int timeout_ms "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+iscsi endpoint (created at ep_connect)
+.IP "timeout_ms" 12
+polling timeout allowed in ms.
+.SH "DESCRIPTION"
+This routine boils down to waiting for up_completion signaling
+that cma_id got CONNECTED event.
+.SH "RETURN"
+1 if succeeded in connection establishment, 0 if timeout expired
+(libiscsi will retry will kick in) or -1 if interrupted by signal
+or more likely iser connection state transitioned to TEMINATING or
+DOWN during the wait period.

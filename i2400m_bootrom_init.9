@@ -1,0 +1,47 @@
+.TH "i2400m_bootrom_init" 9 "i2400m_bootrom_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_bootrom_init \- Reboots a powered device into boot mode
+.SH SYNOPSIS
+.B "int" i2400m_bootrom_init
+.BI "(struct i2400m *i2400m "  ","
+.BI "enum i2400m_bri flags "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.IP "flags" 12
+I2400M_BRI_SOFT: a reboot barker has been seen
+already, so don't wait for it.
+
+I2400M_BRI_NO_REBOOT: Don't send a reboot command, but wait
+for a reboot barker notification. This is a one shot; if
+the state machine needs to send a reboot command it will.
+.SH "RETURN"
+
+< 0 errno code on error, 0 if ok.
+.SH "DESCRIPTION"
+
+Tries hard enough to put the device in boot-mode. There are two
+main phases to this:
+
+a. (1) send a reboot command and (2) get a reboot barker
+
+b. (1) echo/ack the reboot sending the reboot barker back and (2)
+getting an ack barker in return
+
+We want to skip (a) in some cases [soft]. The state machine is
+horrible, but it is basically: on each phase, send what has to be
+sent (if any), wait for the answer and act on the answer. We might
+have to backtrack and retry, so we keep a max tries counter for
+that.
+
+It sucks because we don't know ahead of time which is going to be
+the reboot barker (the device might send different ones depending
+on its EEPROM config) and once the device reboots and waits for the
+echo/ack reboot barker being sent back, it doesn't understand
+anything else. So we can be left at the point where we don't know
+what to send to it -- cold reset and bus reset seem to have little
+effect. So the function iterates (in this case) through all the
+known barkers and tries them all until an ACK is
+received. Otherwise, it gives up.
+
+If we get a timeout after sending a warm reset, we do it again.

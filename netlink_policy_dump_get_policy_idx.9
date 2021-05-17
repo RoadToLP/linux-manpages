@@ -1,0 +1,24 @@
+.TH "netlink_policy_dump_get_policy_idx" 9 "netlink_policy_dump_get_policy_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlink_policy_dump_get_policy_idx \- retrieve policy index
+.SH SYNOPSIS
+.B "int" netlink_policy_dump_get_policy_idx
+.BI "(struct netlink_policy_dump_state *state "  ","
+.BI "const struct nla_policy *policy "  ","
+.BI "unsigned int maxtype "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+the policy dump state
+.IP "policy" 12
+the policy to find
+.IP "maxtype" 12
+the policy's maxattr
+.SH "RETURN"
+the index of the given policy in the dump state
+.SH "DESCRIPTION"
+Call this to find a policy index when you've added multiple and e.g.
+need to tell userspace which command has which policy (by index).
+.SH "NOTE"
+this will WARN and return 0 if the policy isn't found, which
+means it wasn't added in the first place, which would be an
+internal consistency bug.

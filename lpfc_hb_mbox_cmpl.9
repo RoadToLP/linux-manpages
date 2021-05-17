@@ -1,0 +1,23 @@
+.TH "lpfc_hb_mbox_cmpl" 9 "lpfc_hb_mbox_cmpl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_hb_mbox_cmpl \- The lpfc heart-beat mailbox command callback function
+.SH SYNOPSIS
+.B "void" lpfc_hb_mbox_cmpl
+.BI "(struct lpfc_hba * phba "  ","
+.BI "LPFC_MBOXQ_t * pmboxq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmboxq" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+This is the callback function to the lpfc heart-beat mailbox command.
+If configured, the lpfc driver issues the heart-beat mailbox command to
+the HBA every LPFC_HB_MBOX_INTERVAL (current 5) seconds. At the time the
+heart-beat mailbox command is issued, the driver shall set up heart-beat
+timeout timer to LPFC_HB_MBOX_TIMEOUT (current 30) seconds and marks
+heart-beat outstanding state. Once the mailbox command comes back and
+no error conditions detected, the heart-beat mailbox command timer is
+reset to LPFC_HB_MBOX_INTERVAL seconds and the heart-beat outstanding
+state is cleared for the next heart-beat. If the timer expired with the
+heart-beat outstanding state set, the driver will put the HBA offline.

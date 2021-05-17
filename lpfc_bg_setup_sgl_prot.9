@@ -1,0 +1,53 @@
+.TH "lpfc_bg_setup_sgl_prot" 9 "lpfc_bg_setup_sgl_prot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bg_setup_sgl_prot \- Setup BlockGuard SGL with protection data
+.SH SYNOPSIS
+.B "int" lpfc_bg_setup_sgl_prot
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct scsi_cmnd *sc "  ","
+.BI "struct sli4_sge *sgl "  ","
+.BI "int datacnt "  ","
+.BI "int protcnt "  ","
+.BI "struct lpfc_io_buf *lpfc_cmd "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "sc" 12
+pointer to scsi command we're working on
+.IP "sgl" 12
+pointer to buffer list for protection groups
+.IP "datacnt" 12
+number of segments of data that have been dma mapped
+.IP "protcnt" 12
+number of segment of protection data that have been dma mapped
+.IP "lpfc_cmd" 12
+lpfc scsi command object pointer.
+.SH "DESCRIPTION"
+This function sets up SGL buffer list for protection groups of
+type LPFC_PG_TYPE_DIF
+
+This is usually used when DIFs are in their own buffers,
+separate from the data. The HBA can then by instructed
+to place the DIFs in the outgoing stream.  For read operations,
+The HBA could extract the DIFs and place it in DIF buffers.
+
+The buffer list for this type consists of one or more of the
+protection groups described below:
++-------------------------+
+start of first prot group  -->   |         DISEED          |
++-------------------------+
+|      DIF (Prot SGE)     |
++-------------------------+
+|        Data SGE         |
++-------------------------+
+|more Data SGE's ... (opt)|
++-------------------------+
+start of new  prot group  -->    |         DISEED          |
++-------------------------+
+|          ...            |
++-------------------------+
+
+Returns the number of SGEs added to the SGL.
+.SH "NOTE"
+It is assumed that both data and protection s/g buffers have been
+mapped for DMA

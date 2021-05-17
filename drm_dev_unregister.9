@@ -1,0 +1,19 @@
+.TH "drm_dev_unregister" 9 "drm_dev_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dev_unregister \- Unregister DRM device
+.SH SYNOPSIS
+.B "void" drm_dev_unregister
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to unregister
+.SH "DESCRIPTION"
+Unregister the DRM device from the system. This does the reverse of
+\fBdrm_dev_register\fP but does not deallocate the device. The caller must call
+\fBdrm_dev_put\fP to drop their final reference.
+
+A special form of unregistering for hotpluggable devices is \fBdrm_dev_unplug\fP,
+which can be called while there are still open users of \fIdev\fP.
+
+This should be called first in the device teardown code to make sure
+userspace can't access the device instance any more.

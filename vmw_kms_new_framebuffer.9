@@ -1,0 +1,24 @@
+.TH "vmw_kms_new_framebuffer" 9 "vmw_kms_new_framebuffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_new_framebuffer \- Create a new framebuffer.
+.SH SYNOPSIS
+.B "struct vmw_framebuffer *" vmw_kms_new_framebuffer
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_buffer_object *bo "  ","
+.BI "struct vmw_surface *surface "  ","
+.BI "bool only_2d "  ","
+.BI "const struct drm_mode_fb_cmd2 *mode_cmd "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to device private struct.
+.IP "bo" 12
+Pointer to buffer object to wrap the kms framebuffer around.
+Either \fIbo\fP or \fIsurface\fP must be NULL.
+.IP "surface" 12
+Pointer to a surface to wrap the kms framebuffer around.
+Either \fIbo\fP or \fIsurface\fP must be NULL.
+.IP "only_2d" 12
+No presents will occur to this buffer object based framebuffer.
+This helps the code to do some important optimizations.
+.IP "mode_cmd" 12
+Frame-buffer metadata.

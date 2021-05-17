@@ -1,0 +1,26 @@
+.TH "ethnl_reply_init" 9 "ethnl_reply_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_reply_init \- Create skb for a reply and fill device identification
+.SH SYNOPSIS
+.B "struct sk_buff *" ethnl_reply_init
+.BI "(size_t payload "  ","
+.BI "struct net_device *dev "  ","
+.BI "u8 cmd "  ","
+.BI "u16 hdr_attrtype "  ","
+.BI "struct genl_info *info "  ","
+.BI "void **ehdrp "  ");"
+.SH ARGUMENTS
+.IP "payload" 12
+payload length (without netlink and genetlink header)
+.IP "dev" 12
+device the reply is about (may be null)
+.IP "cmd" 12
+ETHTOOL_MSG_* message type for reply
+.IP "hdr_attrtype" 12
+attribute type for common header
+.IP "info" 12
+genetlink info of the received packet we respond to
+.IP "ehdrp" 12
+place to store payload pointer returned by \fBgenlmsg_new\fP
+.SH "RETURN"
+pointer to allocated skb on success, NULL on error

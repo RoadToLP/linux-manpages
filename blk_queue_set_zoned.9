@@ -1,0 +1,19 @@
+.TH "blk_queue_set_zoned" 9 "blk_queue_set_zoned" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_set_zoned \- configure a disk queue zoned model.
+.SH SYNOPSIS
+.B "void" blk_queue_set_zoned
+.BI "(struct gendisk *disk "  ","
+.BI "enum blk_zoned_model model "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+the gendisk of the queue to configure
+.IP "model" 12
+the zoned model to set
+.SH "DESCRIPTION"
+Set the zoned model of the request queue of \fIdisk\fP according to \fImodel\fP.
+When \fImodel\fP is BLK_ZONED_HM (host managed), this should be called only
+if zoned block device support is enabled (CONFIG_BLK_DEV_ZONED option).
+If \fImodel\fP specifies BLK_ZONED_HA (host aware), the effective model used
+depends on CONFIG_BLK_DEV_ZONED settings and on the existence of partitions
+on the disk.

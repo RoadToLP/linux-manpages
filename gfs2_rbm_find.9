@@ -1,0 +1,31 @@
+.TH "gfs2_rbm_find" 9 "gfs2_rbm_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_rbm_find \- Look for blocks of a particular state
+.SH SYNOPSIS
+.B "int" gfs2_rbm_find
+.BI "(struct gfs2_rbm *rbm "  ","
+.BI "u8 state "  ","
+.BI "u32 *minext "  ","
+.BI "struct gfs2_blkreserv *rs "  ","
+.BI "bool nowrap "  ");"
+.SH ARGUMENTS
+.IP "rbm" 12
+Value/result starting position and final position
+.IP "state" 12
+The state which we want to find
+.IP "minext" 12
+Pointer to the requested extent length
+This is updated to be the actual reservation size.
+.IP "rs" 12
+Our own reservation (NULL to skip checking for reservations)
+.IP "nowrap" 12
+Stop looking at the end of the rgrp, rather than wrapping
+around until we've reached the starting point.
+.SH "DESCRIPTION"
+Side effects:
+- If looking for free blocks, we set GBF_FULL on each bitmap which
+has no free blocks in it.
+- If looking for free blocks, we set rd_extfail_pt on each rgrp which
+has come up short on a free block search.
+.SH "RETURN"
+0 on success, -ENOSPC if there is no block of the requested state

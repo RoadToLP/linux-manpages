@@ -1,0 +1,23 @@
+.TH "ir_rc5_encode" 9 "ir_rc5_encode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_rc5_encode \- Encode a scancode as a stream of raw events
+.SH SYNOPSIS
+.B "int" ir_rc5_encode
+.BI "(enum rc_proto protocol "  ","
+.BI "u32 scancode "  ","
+.BI "struct ir_raw_event *events "  ","
+.BI "unsigned int max "  ");"
+.SH ARGUMENTS
+.IP "protocol" 12
+protocol variant to encode
+.IP "scancode" 12
+scancode to encode
+.IP "events" 12
+array of raw ir events to write into
+.IP "max" 12
+maximum size of \fIevents\fP
+.SH "RETURN"
+The number of events written.
+-ENOBUFS if there isn't enough space in the array to fit the
+encoding. In this case all \fImax\fP events will have been written.
+-EINVAL if the scancode is ambiguous or invalid.

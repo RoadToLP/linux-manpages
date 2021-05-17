@@ -1,0 +1,56 @@
+.TH "request_threaded_irq" 9 "request_threaded_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_threaded_irq \- allocate an interrupt line
+.SH SYNOPSIS
+.B "int" request_threaded_irq
+.BI "(unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "irq_handler_t thread_fn "  ","
+.BI "unsigned long irqflags "  ","
+.BI "const char *devname "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+Primary handler for threaded interrupts
+If NULL and thread_fn != NULL the default
+primary handler is installed
+.IP "thread_fn" 12
+Function called from the irq handler thread
+If NULL, no irq thread is created
+.IP "irqflags" 12
+Interrupt type flags
+.IP "devname" 12
+An ascii name for the claiming device
+.IP "dev_id" 12
+A cookie passed back to the handler function
+
+This call allocates interrupt resources and enables the
+interrupt line and IRQ handling. From the point this
+call is made your handler function may be invoked. Since
+your handler function must clear any interrupt the board
+raises, you must take care both to initialise your hardware
+and to set up the interrupt handler in the right order.
+
+If you want to set up a threaded irq handler for your device
+then you need to supply \fIhandler\fP and \fIthread_fn\fP. \fIhandler\fP is
+still called in hard interrupt context and has to check
+whether the interrupt originates from the device. If yes it
+needs to disable the interrupt on the device and return
+IRQ_WAKE_THREAD which will wake up the handler thread and run
+\fIthread_fn\fP. This split handler design is necessary to support
+shared interrupts.
+
+Dev_id must be globally unique. Normally the address of the
+device data structure is used as the cookie. Since the handler
+receives this value it makes sense to use it.
+
+If your interrupt is shared you must pass a non NULL dev_id
+as this is required when freeing the interrupt.
+
+Flags:
+
+IRQF_SHARED             Interrupt is shared
+IRQF_TRIGGER_*          Specify active edge(s) or level

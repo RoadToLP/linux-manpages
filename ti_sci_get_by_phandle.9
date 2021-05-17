@@ -1,0 +1,21 @@
+.TH "ti_sci_get_by_phandle" 9 "ti_sci_get_by_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_get_by_phandle \- Get the TI SCI handle using DT phandle
+.SH SYNOPSIS
+.B "const struct ti_sci_handle *" ti_sci_get_by_phandle
+.BI "(struct device_node *np "  ","
+.BI "const char *property "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node
+.IP "property" 12
+property name containing phandle on TISCI node
+.SH "NOTE"
+The function does not track individual clients of the framework
+and is expected to be maintained by caller of TI SCI protocol library.
+ti_sci_put_handle must be balanced with successful ti_sci_get_by_phandle
+.SH "RETURN"
+pointer to handle if successful, else:
+-EPROBE_DEFER if the instance is not ready
+-ENODEV if the required node handler is missing
+-EINVAL if invalid conditions are encountered.

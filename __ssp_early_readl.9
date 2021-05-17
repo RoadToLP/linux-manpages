@@ -1,0 +1,22 @@
+.TH "__ssp_early_readl" 9 "__ssp_early_readl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ssp_early_readl \- read from a SiFive serial port register (early)
+.SH SYNOPSIS
+.B "u32" __ssp_early_readl
+.BI "(struct uart_port *port "  ","
+.BI "u16 offs "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+pointer to a struct uart_port record
+.IP "offs" 12
+register address offset from the IP block base address
+.SH "DESCRIPTION"
+Given a pointer \fIport\fP to a struct uart_port record, read the
+contents of the IP block register located at offset \fIoffs\fP from the
+IP block base and return it.  This function is intended for early
+console use.
+.SH "CONTEXT"
+Intended to be called only by the earlyconsole code or by
+\fB__ssp_readl\fP or \fB__ssp_writel\fP (in this driver)
+.SH "RETURN"
+the register value read from the UART.

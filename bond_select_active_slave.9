@@ -1,0 +1,16 @@
+.TH "bond_select_active_slave" 9 "bond_select_active_slave" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bond_select_active_slave \- select a new active slave, if needed
+.SH SYNOPSIS
+.B "void" bond_select_active_slave
+.BI "(struct bonding *bond "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+our bonding struct
+.SH "DESCRIPTION"
+This functions should be called when one of the following occurs:
+- The old curr_active_slave has been released or lost its link.
+- The primary_slave has got its link back.
+- A slave has got its link back and there's no old curr_active_slave.
+
+Caller must hold RTNL.

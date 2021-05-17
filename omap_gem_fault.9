@@ -1,0 +1,17 @@
+.TH "omap_gem_fault" 9 "omap_gem_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_gem_fault \- pagefault handler for GEM objects
+.SH SYNOPSIS
+.B "vm_fault_t" omap_gem_fault
+.BI "(struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+fault detail
+.SH "DESCRIPTION"
+Invoked when a fault occurs on an mmap of a GEM managed area. GEM
+does most of the work for us including the actual map/unmap calls
+but we need to do the actual page work.
+
+The VMA was set up by GEM. In doing so it also ensured that the
+vma->vm_private_data points to the GEM object that is backing this
+mapping.

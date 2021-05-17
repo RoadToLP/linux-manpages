@@ -1,0 +1,20 @@
+.TH "intel_engine_reset" 9 "intel_engine_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_engine_reset \- reset GPU engine to recover from a hang
+.SH SYNOPSIS
+.B "int" intel_engine_reset
+.BI "(struct intel_engine_cs *engine "  ","
+.BI "const char *msg "  ");"
+.SH ARGUMENTS
+.IP "engine" 12
+engine to reset
+.IP "msg" 12
+reason for GPU reset; or NULL for no \fBdrm_notice\fP
+.SH "DESCRIPTION"
+Reset a specific GPU engine. Useful if a hang is detected.
+Returns zero on successful reset or otherwise an error code.
+
+Procedure is:
+- identifies the request that caused the hang and it is dropped
+- reset engine (which will force the engine to idle)
+- re-init/configure engine

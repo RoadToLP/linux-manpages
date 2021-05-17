@@ -1,0 +1,21 @@
+.TH "rdtgroup_pseudo_lock_create" 9 "rdtgroup_pseudo_lock_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_pseudo_lock_create \- Create a pseudo-locked region
+.SH SYNOPSIS
+.B "int" rdtgroup_pseudo_lock_create
+.BI "(struct rdtgroup *rdtgrp "  ");"
+.SH ARGUMENTS
+.IP "rdtgrp" 12
+resource group to which pseudo-lock region belongs
+.SH "DESCRIPTION"
+Called when a resource group in the pseudo-locksetup mode receives a
+valid schemata that should be pseudo-locked. Since the resource group is
+in pseudo-locksetup mode the \fIstruct pseudo_lock_region\fP has already been
+allocated and initialized with the essential information. If a failure
+occurs the resource group remains in the pseudo-locksetup mode with the
+\fIstruct pseudo_lock_region\fP associated with it, but cleared from all
+information and ready for the user to re-attempt pseudo-locking by
+writing the schemata again.
+.SH "RETURN"
+0 if the pseudo-locked region was successfully pseudo-locked, <0
+on failure. Descriptive error will be written to last_cmd_status buffer.

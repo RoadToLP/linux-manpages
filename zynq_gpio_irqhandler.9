@@ -1,0 +1,16 @@
+.TH "zynq_gpio_irqhandler" 9 "zynq_gpio_irqhandler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynq_gpio_irqhandler \- IRQ handler for the gpio banks of a gpio device
+.SH SYNOPSIS
+.B "void" zynq_gpio_irqhandler
+.BI "(struct irq_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+irq descriptor instance of the 'irq'
+.SH "DESCRIPTION"
+This function reads the Interrupt Status Register of each bank to get the
+gpio pin number which has triggered an interrupt. It then acks the triggered
+interrupt and calls the pin specific handler set by the higher layer
+application for that pin.
+.SH "NOTE"
+A bug is reported if no handler is set for the gpio pin.

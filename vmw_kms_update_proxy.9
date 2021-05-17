@@ -1,0 +1,23 @@
+.TH "vmw_kms_update_proxy" 9 "vmw_kms_update_proxy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_update_proxy \- Helper function to update a proxy surface from its backing MOB.
+.SH SYNOPSIS
+.B "int" vmw_kms_update_proxy
+.BI "(struct vmw_resource *res "  ","
+.BI "const struct drm_clip_rect *clips "  ","
+.BI "unsigned num_clips "  ","
+.BI "int increment "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to the surface resource
+.IP "clips" 12
+Clip rects in framebuffer (surface) space.
+.IP "num_clips" 12
+Number of clips in \fIclips\fP.
+.IP "increment" 12
+Integer with which to increment the clip counter when looping.
+Used to skip a predetermined number of clip rects.
+.SH "DESCRIPTION"
+This function makes sure the proxy surface is updated from its backing MOB
+using the region given by \fIclips\fP. The surface resource \fIres\fP and its backing
+MOB needs to be reserved and validated on call.

@@ -1,0 +1,27 @@
+.TH "devm_krealloc" 9 "devm_krealloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_krealloc \- Resource-managed krealloc()
+.SH SYNOPSIS
+.B "void *" devm_krealloc
+.BI "(struct device *dev "  ","
+.BI "void *ptr "  ","
+.BI "size_t new_size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to re-allocate memory for
+.IP "ptr" 12
+Pointer to the memory chunk to re-allocate
+.IP "new_size" 12
+New allocation size
+.IP "gfp" 12
+Allocation gfp flags
+.SH "DESCRIPTION"
+Managed \fBkrealloc\fP. Resizes the memory chunk allocated with \fBdevm_kmalloc\fP.
+Behaves similarly to regular \fBkrealloc\fP: if \fIptr\fP is NULL or ZERO_SIZE_PTR,
+it's the equivalent of \fBdevm_kmalloc\fP. If new_size is zero, it frees the
+previously allocated memory and returns ZERO_SIZE_PTR. This function doesn't
+change the order in which the release callback for the re-alloc'ed devres
+will be called (except when falling back to \fBdevm_kmalloc\fP or when freeing
+resources when new_size is zero). The contents of the memory are preserved
+up to the lesser of new and old sizes.

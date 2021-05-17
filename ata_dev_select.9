@@ -1,0 +1,29 @@
+.TH "ata_dev_select" 9 "ata_dev_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_dev_select \- Select device 0/1 on ATA bus
+.SH SYNOPSIS
+.B "void" ata_dev_select
+.BI "(struct ata_port *ap "  ","
+.BI "unsigned int device "  ","
+.BI "unsigned int wait "  ","
+.BI "unsigned int can_sleep "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA channel to manipulate
+.IP "device" 12
+ATA device (numbered from zero) to select
+.IP "wait" 12
+non-zero to wait for Status register BSY bit to clear
+.IP "can_sleep" 12
+non-zero if context allows sleeping
+
+Use the method defined in the ATA specification to
+make either device 0, or device 1, active on the
+ATA channel.
+
+This is a high-level version of \fBata_sff_dev_select\fP, which
+additionally provides the services of inserting the proper
+pauses and status polling, where needed.
+
+LOCKING:
+caller.

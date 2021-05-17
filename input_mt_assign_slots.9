@@ -1,0 +1,31 @@
+.TH "input_mt_assign_slots" 9 "input_mt_assign_slots" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_mt_assign_slots \- perform a best-match assignment
+.SH SYNOPSIS
+.B "int" input_mt_assign_slots
+.BI "(struct input_dev *dev "  ","
+.BI "int *slots "  ","
+.BI "const struct input_mt_pos *pos "  ","
+.BI "int num_pos "  ","
+.BI "int dmax "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+input device with allocated MT slots
+.IP "slots" 12
+the slot assignment to be filled
+.IP "pos" 12
+the position array to match
+.IP "num_pos" 12
+number of positions
+.IP "dmax" 12
+maximum ABS_MT_POSITION displacement (zero for infinite)
+.SH "DESCRIPTION"
+Performs a best match against the current contacts and returns
+the slot assignment list. New contacts are assigned to unused
+slots.
+
+The assignments are balanced so that all coordinate displacements are
+below the euclidian distance dmax. If no such assignment can be found,
+some contacts are assigned to unused slots.
+
+Returns zero on success, or negative error in case of failure.

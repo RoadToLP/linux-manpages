@@ -1,0 +1,18 @@
+.TH "drm_sched_entity_flush" 9 "drm_sched_entity_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_sched_entity_flush \- Flush a context entity
+.SH SYNOPSIS
+.B "long" drm_sched_entity_flush
+.BI "(struct drm_sched_entity *entity "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+scheduler entity
+.IP "timeout" 12
+time to wait in for Q to become empty in jiffies.
+.SH "DESCRIPTION"
+Splitting \fBdrm_sched_entity_fini\fP into two functions, The first one does the
+waiting, removes the entity from the runqueue and returns an error when the
+process was killed.
+
+Returns the remaining time in jiffies left from the input timeout

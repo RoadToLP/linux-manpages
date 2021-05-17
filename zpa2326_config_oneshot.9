@@ -1,0 +1,24 @@
+.TH "zpa2326_config_oneshot" 9 "zpa2326_config_oneshot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpa2326_config_oneshot \- Setup device for one shot / on demand mode.
+.SH SYNOPSIS
+.B "int" zpa2326_config_oneshot
+.BI "(const struct iio_dev *indio_dev "  ","
+.BI "int irq "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+The IIO device associated with the sampling hardware.
+.IP "irq" 12
+Optional interrupt line the hardware uses to notify new data
+samples are ready. Negative or zero values indicate no interrupts
+are available, meaning polling is required.
+.SH "DESCRIPTION"
+Output Data Rate is configured for the highest possible rate so that
+conversion time and power consumption are reduced to a minimum.
+Note that hardware internal averaging machinery (not implemented in this
+driver) is not applicable in this mode.
+
+Device must have been previously enabled before calling
+\fBzpa2326_config_oneshot\fP.
+.SH "RETURN"
+Zero when successful, a negative error code otherwise.

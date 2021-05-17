@@ -1,0 +1,21 @@
+.TH "kthread_create_on_cpu" 9 "kthread_create_on_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_create_on_cpu \- Create a cpu bound kthread
+.SH SYNOPSIS
+.B "struct task_struct *" kthread_create_on_cpu
+.BI "(int (*threadfn)(void *data) "  ","
+.BI "void *data "  ","
+.BI "unsigned int cpu "  ","
+.BI "const char *namefmt "  ");"
+.SH ARGUMENTS
+.IP "threadfn" 12
+the function to run until signal_pending(current).
+.IP "data" 12
+data ptr for \fIthreadfn\fP.
+.IP "cpu" 12
+The cpu on which the thread should be bound,
+.IP "namefmt" 12
+printf-style name for the thread. Format is restricted
+to "name.*u". Code fills in cpu number.
+.SH "DESCRIPTION"
+This helper function creates and names a kernel thread

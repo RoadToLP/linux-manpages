@@ -1,0 +1,19 @@
+.TH "snd_hdac_bus_queue_event" 9 "snd_hdac_bus_queue_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_bus_queue_event \- add an unsolicited event to queue
+.SH SYNOPSIS
+.B "void" snd_hdac_bus_queue_event
+.BI "(struct hdac_bus *bus "  ","
+.BI "u32 res "  ","
+.BI "u32 res_ex "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the BUS
+.IP "res" 12
+unsolicited event (lower 32bit of RIRB entry)
+.IP "res_ex" 12
+codec addr and flags (upper 32bit or RIRB entry)
+.SH "DESCRIPTION"
+Adds the given event to the queue.  The events are processed in
+the workqueue asynchronously.  Call this function in the interrupt
+hanlder when RIRB receives an unsolicited event.

@@ -1,0 +1,16 @@
+.TH "ntfs_empty_logfile" 9 "ntfs_empty_logfile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_empty_logfile \- empty the contents of the $LogFile journal
+.SH SYNOPSIS
+.B "bool" ntfs_empty_logfile
+.BI "(struct inode *log_vi "  ");"
+.SH ARGUMENTS
+.IP "log_vi" 12
+struct inode of loaded journal $LogFile to empty
+.SH "DESCRIPTION"
+Empty the contents of the $LogFile journal \fIlog_vi\fP and return 'true' on
+success and 'false' on error.
+
+This function assumes that the $LogFile journal has already been consistency
+checked by a call to \fBntfs_check_logfile\fP and that \fBntfs_is_logfile_clean\fP
+has been used to ensure that the $LogFile is clean.

@@ -1,0 +1,22 @@
+.TH "nd_uuid_store" 9 "nd_uuid_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nd_uuid_store \- common implementation for writing 'uuid' sysfs attributes
+.SH SYNOPSIS
+.B "int" nd_uuid_store
+.BI "(struct device *dev "  ","
+.BI "u8 **uuid_out "  ","
+.BI "const char *buf "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+container device for the uuid property
+.IP "uuid_out" 12
+uuid buffer to replace
+.IP "buf" 12
+raw sysfs buffer to parse
+.IP "len" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Enforce that uuids can only be changed while the device is disabled
+(driver detached)
+LOCKING: expects \fBnd_device_lock\fP is held on entry

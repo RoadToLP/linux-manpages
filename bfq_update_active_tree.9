@@ -1,0 +1,15 @@
+.TH "bfq_update_active_tree" 9 "bfq_update_active_tree" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_update_active_tree \- update min_start for the whole active tree.
+.SH SYNOPSIS
+.B "void" bfq_update_active_tree
+.BI "(struct rb_node *node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+the starting node.
+.SH "DESCRIPTION"
+\fInode\fP must be the deepest modified node after an update.  This function
+updates its min_start using the values held by its children, assuming
+that they did not change, and then updates all the nodes that may have
+changed in the path to the root.  The only nodes that may have changed
+are the ones in the path or their siblings.

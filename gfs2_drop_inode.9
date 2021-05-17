@@ -1,0 +1,19 @@
+.TH "gfs2_drop_inode" 9 "gfs2_drop_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_drop_inode \- Drop an inode (test for remote unlink)
+.SH SYNOPSIS
+.B "int" gfs2_drop_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode to drop
+.SH "DESCRIPTION"
+If we've received a callback on an iopen lock then it's because a
+remote node tried to deallocate the inode but failed due to this node
+still having the inode open. Here we mark the link count zero
+since we know that it must have reached zero if the GLF_DEMOTE flag
+is set on the iopen glock. If we didn't do a disk read since the
+remote node removed the final link then we might otherwise miss
+this event. This check ensures that this node will deallocate the
+inode's blocks, or alternatively pass the baton on to another
+node for later deallocation.

@@ -1,0 +1,19 @@
+.TH "s3c_pm_do_restore_core" 9 "s3c_pm_do_restore_core" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c_pm_do_restore_core \- early restore register values from save list.
+.SH SYNOPSIS
+.B "void" s3c_pm_do_restore_core
+.BI "(const struct sleep_save *ptr "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "ptr" 12
+Pointer to an array of registers.
+.IP "count" 12
+Size of the ptr array.
+.SH "DESCRIPTION"
+This is similar to \fBs3c_pm_do_restore\fP except we try and minimise the
+side effects of the function in case registers that hardware might need
+to work has been restored.
+
+WARNING: Do not put any debug in here that may effect memory or use
+peripherals, as things may be changing!

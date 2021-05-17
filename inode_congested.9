@@ -1,0 +1,23 @@
+.TH "inode_congested" 9 "inode_congested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_congested \- test whether an inode is congested
+.SH SYNOPSIS
+.B "int" inode_congested
+.BI "(struct inode *inode "  ","
+.BI "int cong_bits "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to test for congestion (may be NULL)
+.IP "cong_bits" 12
+mask of WB_[a]sync_congested bits to test
+.SH "DESCRIPTION"
+Tests whether \fIinode\fP is congested.  \fIcong_bits\fP is the mask of congestion
+bits to test and the return value is the mask of set bits.
+
+If cgroup writeback is enabled for \fIinode\fP, the congestion state is
+determined by whether the cgwb (cgroup bdi_writeback) for the blkcg
+associated with \fIinode\fP is congested; otherwise, the root wb's congestion
+state is used.
+
+\fIinode\fP is allowed to be NULL as this function is often called on
+mapping->host which is NULL for the swapper space.

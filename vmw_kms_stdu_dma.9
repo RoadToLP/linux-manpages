@@ -1,0 +1,48 @@
+.TH "vmw_kms_stdu_dma" 9 "vmw_kms_stdu_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_stdu_dma \- Perform a DMA transfer between a buffer-object backed framebuffer and the screen target system.
+.SH SYNOPSIS
+.B "int" vmw_kms_stdu_dma
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct vmw_framebuffer *vfb "  ","
+.BI "struct drm_vmw_fence_rep __user *user_fence_rep "  ","
+.BI "struct drm_clip_rect *clips "  ","
+.BI "struct drm_vmw_rect *vclips "  ","
+.BI "uint32_t num_clips "  ","
+.BI "int increment "  ","
+.BI "bool to_surface "  ","
+.BI "bool interruptible "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to the device private structure.
+.IP "file_priv" 12
+Pointer to a struct drm-file identifying the caller. May be
+set to NULL, but then \fIuser_fence_rep\fP must also be set to NULL.
+.IP "vfb" 12
+Pointer to the buffer-object backed framebuffer.
+.IP "user_fence_rep" 12
+-- undescribed --
+.IP "clips" 12
+Array of clip rects. Either \fIclips\fP or \fIvclips\fP must be NULL.
+.IP "vclips" 12
+Alternate array of clip rects. Either \fIclips\fP or \fIvclips\fP must
+be NULL.
+.IP "num_clips" 12
+Number of clip rects in \fIclips\fP or \fIvclips\fP.
+.IP "increment" 12
+Increment to use when looping over \fIclips\fP or \fIvclips\fP.
+.IP "to_surface" 12
+Whether to DMA to the screen target system as opposed to
+from the screen target system.
+.IP "interruptible" 12
+Whether to perform waits interruptible if possible.
+.IP "crtc" 12
+If crtc is passed, perform stdu dma on that crtc only.
+.SH "DESCRIPTION"
+If DMA-ing till the screen target system, the function will also notify
+the screen target system that a bounding box of the cliprects has been
+updated.
+Returns 0 on success, negative error code on failure. -ERESTARTSYS if
+interrupted.

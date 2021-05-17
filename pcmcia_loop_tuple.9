@@ -1,0 +1,23 @@
+.TH "pcmcia_loop_tuple" 9 "pcmcia_loop_tuple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_loop_tuple \- loop over tuples in the CIS
+.SH SYNOPSIS
+.B "int" pcmcia_loop_tuple
+.BI "(struct pcmcia_device *p_dev "  ","
+.BI "cisdata_t code "  ","
+.BI "int (*loop_tuple) (struct pcmcia_device *p_dev, tuple_t *tuple, void *priv_data) "  ","
+.BI "void *priv_data "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+the struct pcmcia_device which we need to loop for.
+.IP "code" 12
+which CIS code shall we look for?
+.IP "loop_tuple" 12
+function to call for each CIS entry of type \fIfunction\fP. IT
+gets passed the raw tuple and \fIpriv_data\fP.
+.IP "priv_data" 12
+private data to be passed to the loop_tuple function.
+.SH "DESCRIPTION"
+\fBpcmcia_loop_tuple\fP loops over all CIS entries of type \fIfunction\fP, and
+calls the \fIloop_tuple\fP function for each entry. If the call to \fIloop_tuple\fP
+returns 0, the loop exits. Returns 0 on success or errorcode otherwise.

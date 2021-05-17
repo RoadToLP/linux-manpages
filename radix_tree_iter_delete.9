@@ -1,0 +1,21 @@
+.TH "radix_tree_iter_delete" 9 "radix_tree_iter_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_iter_delete \- delete the entry at this iterator position
+.SH SYNOPSIS
+.B "void" radix_tree_iter_delete
+.BI "(struct radix_tree_root *root "  ","
+.BI "struct radix_tree_iter *iter "  ","
+.BI "void __rcu **slot "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "iter" 12
+iterator state
+.IP "slot" 12
+pointer to slot
+.SH "DESCRIPTION"
+Delete the entry at the position currently pointed to by the iterator.
+This may result in the current node being freed; if it is, the iterator
+is advanced so that it will not reference the freed memory.  This
+function may be called without any locking if there are no other threads
+which can access this tree.

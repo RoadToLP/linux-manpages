@@ -1,0 +1,26 @@
+.TH "proc_dointvec" 9 "proc_dointvec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_dointvec \- read a vector of integers
+.SH SYNOPSIS
+.B "int" proc_dointvec
+.BI "(struct ctl_table *table "  ","
+.BI "int write "  ","
+.BI "void *buffer "  ","
+.BI "size_t *lenp "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+the sysctl table
+.IP "write" 12
+TRUE if this is a write to the sysctl file
+.IP "buffer" 12
+the user buffer
+.IP "lenp" 12
+the size of the user buffer
+.IP "ppos" 12
+file position
+.SH "DESCRIPTION"
+Reads/writes up to table->maxlen/sizeof(unsigned int) integer
+values from/to the user buffer, treated as an ASCII string. 
+
+Returns 0 on success.

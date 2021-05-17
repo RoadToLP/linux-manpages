@@ -1,0 +1,16 @@
+.TH "ccid3_first_li" 9 "ccid3_first_li" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccid3_first_li \- Implements [RFC 5348, 6.3.1]
+.SH SYNOPSIS
+.B "u32" ccid3_first_li
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to calculate loss interval for
+.SH "DESCRIPTION"
+Determine the length of the first loss interval via inverse lookup.
+Assume that X_recv can be computed by the throughput equation
+s
+X_recv = --------
+R * fval
+Find some p such that f(p) = fval; return 1/p (scaled).

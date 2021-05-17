@@ -1,0 +1,19 @@
+.TH "of_clk_set_defaults" 9 "of_clk_set_defaults" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_clk_set_defaults \- parse and set assigned clocks configuration
+.SH SYNOPSIS
+.B "int" of_clk_set_defaults
+.BI "(struct device_node *node "  ","
+.BI "bool clk_supplier "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+device node to apply clock settings for
+.IP "clk_supplier" 12
+true if clocks supplied by \fInode\fP should also be considered
+.SH "DESCRIPTION"
+This function parses 'assigned-{clocks/clock-parents/clock-rates}' properties
+and sets any specified clock parents and rates. The \fIclk_supplier\fP argument
+should be set to true if \fInode\fP may be also a clock supplier of any clock
+listed in its 'assigned-clocks' or 'assigned-clock-parents' properties.
+If \fIclk_supplier\fP is false the function exits returning 0 as soon as it
+determines the \fInode\fP is also a supplier of any of the clocks.

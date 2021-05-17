@@ -1,0 +1,28 @@
+.TH "text_poke_bp_batch" 9 "text_poke_bp_batch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+text_poke_bp_batch \- - update instructions on live kernel on SMP
+.SH SYNOPSIS
+.B "void" text_poke_bp_batch
+.BI "(struct text_poke_loc *tp "  ","
+.BI "unsigned int nr_entries "  ");"
+.SH ARGUMENTS
+.IP "tp" 12
+vector of instructions to patch
+.IP "nr_entries" 12
+number of entries in the vector
+.SH "DESCRIPTION"
+Modify multi-byte instruction by using int3 breakpoint on SMP.
+We completely avoid \fBstop_machine\fP here, and achieve the
+synchronization using int3 breakpoint.
+
+The way it is done:
+- For each entry in the vector:
+- add a int3 trap to the address that will be patched
+- sync cores
+- For each entry in the vector:
+- update all but the first byte of the patched range
+- sync cores
+- For each entry in the vector:
+- replace the first byte (int3) by the first byte of
+replacing opcode
+- sync cores

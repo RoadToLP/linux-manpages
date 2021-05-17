@@ -1,0 +1,20 @@
+.TH "_init" 9 "_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_init \- initialize internal data for the hwmod @oh
+.SH SYNOPSIS
+.B "int" _init
+.BI "(struct omap_hwmod *oh "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "data" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Look up the clocks and the address space used by the MPU to access
+registers belonging to the hwmod \fIoh\fP.  \fIoh\fP must already be
+registered at this point.  This is the first of two phases for
+hwmod initialization.  Code called here does not touch any hardware
+registers, it simply prepares internal data structures.  Returns 0
+upon success or if the hwmod isn't registered or if the hwmod's
+address space is not defined, or -EINVAL upon failure.

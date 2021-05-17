@@ -1,0 +1,18 @@
+.TH "befs_bt_keylen_index" 9 "befs_bt_keylen_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_bt_keylen_index \- Finds start of keylen index in a node
+.SH SYNOPSIS
+.B "fs16 *" befs_bt_keylen_index
+.BI "(struct befs_btree_node *node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+Pointer to the node structure to find the keylen index within
+.SH "DESCRIPTION"
+Returns a pointer to the start of the key length index array
+of the B+tree node *\fInode\fP
+
+"The length of all the keys in the node is added to the size of the
+header and then rounded up to a multiple of four to get the beginning
+of the key length index" (p.88, practical filesystem design).
+
+Except that rounding up to 8 works, and rounding up to 4 doesn't.

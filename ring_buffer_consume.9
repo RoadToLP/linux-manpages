@@ -1,0 +1,22 @@
+.TH "ring_buffer_consume" 9 "ring_buffer_consume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_consume \- return an event and consume it
+.SH SYNOPSIS
+.B "struct ring_buffer_event *" ring_buffer_consume
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ","
+.BI "u64 *ts "  ","
+.BI "unsigned long *lost_events "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to get the next event from
+.IP "cpu" 12
+the cpu to read the buffer from
+.IP "ts" 12
+a variable to store the timestamp (may be NULL)
+.IP "lost_events" 12
+a variable to store if events were lost (may be NULL)
+.SH "DESCRIPTION"
+Returns the next event in the ring buffer, and that event is consumed.
+Meaning, that sequential reads will keep returning a different event,
+and eventually empty the ring buffer if the producer is slower.

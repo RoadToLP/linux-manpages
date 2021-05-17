@@ -1,0 +1,23 @@
+.TH "__audit_inode_child" 9 "__audit_inode_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__audit_inode_child \- collect inode info for created/removed objects
+.SH SYNOPSIS
+.B "void" __audit_inode_child
+.BI "(struct inode *parent "  ","
+.BI "const struct dentry *dentry "  ","
+.BI "const unsigned char type "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+inode of dentry parent
+.IP "dentry" 12
+dentry being audited
+.IP "type" 12
+AUDIT_TYPE_* value that we're looking for
+.SH "DESCRIPTION"
+For syscalls that create or remove filesystem objects, audit_inode
+can only collect information for the filesystem object's parent.
+This call updates the audit context with the child's information.
+Syscalls that create a new filesystem object must be hooked after
+the object is created.  Syscalls that remove a filesystem object
+must be hooked prior, in order to capture the target inode during
+unsuccessful attempts.

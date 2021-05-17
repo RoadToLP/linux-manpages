@@ -1,0 +1,21 @@
+.TH "refcount_dec_and_lock_irqsave" 9 "refcount_dec_and_lock_irqsave" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+refcount_dec_and_lock_irqsave \- return holding spinlock with disabled interrupts if able to decrement refcount to 0
+.SH SYNOPSIS
+.B "bool" refcount_dec_and_lock_irqsave
+.BI "(refcount_t *r "  ","
+.BI "spinlock_t *lock "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the refcount
+.IP "lock" 12
+the spinlock to be locked
+.IP "flags" 12
+saved IRQ-flags if the is acquired
+.SH "DESCRIPTION"
+Same as \fBrefcount_dec_and_lock\fP above except that the spinlock is acquired
+with disabled interupts.
+.SH "RETURN"
+true and hold spinlock if able to decrement refcount to 0, false
+otherwise

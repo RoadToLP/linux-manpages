@@ -1,0 +1,23 @@
+.TH "igb_write_ivar" 9 "igb_write_ivar" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_write_ivar \- configure ivar for given MSI-X vector
+.SH SYNOPSIS
+.B "void" igb_write_ivar
+.BI "(struct e1000_hw *hw "  ","
+.BI "int msix_vector "  ","
+.BI "int index "  ","
+.BI "int offset "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "msix_vector" 12
+vector number we are allocating to a given ring
+.IP "index" 12
+row index of IVAR register to write within IVAR table
+.IP "offset" 12
+column offset of in IVAR, should be multiple of 8
+
+This function is intended to handle the writing of the IVAR register
+for adapters 82576 and newer.  The IVAR table consists of 2 columns,
+each containing an cause allocation for an Rx and Tx ring, and a
+variable number of rows depending on the number of queues supported.

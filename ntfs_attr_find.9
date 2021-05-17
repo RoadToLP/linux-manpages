@@ -1,0 +1,74 @@
+.TH "ntfs_attr_find" 9 "ntfs_attr_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_find \- find (next) attribute in mft record
+.SH SYNOPSIS
+.B "int" ntfs_attr_find
+.BI "(const ATTR_TYPE type "  ","
+.BI "const ntfschar *name "  ","
+.BI "const u32 name_len "  ","
+.BI "const IGNORE_CASE_BOOL ic "  ","
+.BI "const u8 *val "  ","
+.BI "const u32 val_len "  ","
+.BI "ntfs_attr_search_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+attribute type to find
+.IP "name" 12
+attribute name to find (optional, i.e. NULL means don't care)
+.IP "name_len" 12
+attribute name length (only needed if \fIname\fP present)
+.IP "ic" 12
+IGNORE_CASE or CASE_SENSITIVE (ignored if \fIname\fP not present)
+.IP "val" 12
+attribute value to find (optional, resident attributes only)
+.IP "val_len" 12
+attribute value length
+.IP "ctx" 12
+search context with mft record and attribute to search from
+.SH "DESCRIPTION"
+You should not need to call this function directly.  Use \fBntfs_attr_lookup\fP
+instead.
+
+\fBntfs_attr_find\fP takes a search context \fIctx\fP as parameter and searches the
+mft record specified by \fIctx->mrec\fP, beginning at \fIctx->attr\fP, for an
+attribute of \fItype\fP, optionally \fIname\fP and \fIval\fP.
+
+If the attribute is found, \fBntfs_attr_find\fP returns 0 and \fIctx->attr\fP will
+point to the found attribute.
+
+If the attribute is not found, \fBntfs_attr_find\fP returns -ENOENT and
+\fIctx->attr\fP will point to the attribute before which the attribute being
+searched for would need to be inserted if such an action were to be desired.
+
+On actual error, \fBntfs_attr_find\fP returns -EIO.  In this case \fIctx->attr\fP is
+undefined and in particular do not rely on it not changing.
+
+If \fIctx->is_first\fP is 'true', the search begins with \fIctx->attr\fP itself.  If it
+is 'false', the search begins after \fIctx->attr\fP.
+
+If \fIic\fP is IGNORE_CASE, the \fIname\fP comparisson is not case sensitive and
+\fIctx->ntfs_ino\fP must be set to the ntfs inode to which the mft record
+\fIctx->mrec\fP belongs.  This is so we can get at the ntfs volume and hence at
+the upcase table.  If \fIic\fP is CASE_SENSITIVE, the comparison is case
+sensitive.  When \fIname\fP is present, \fIname_len\fP is the \fIname\fP length in Unicode
+characters.
+
+If \fIname\fP is not present (NULL), we assume that the unnamed attribute is
+being searched for.
+
+Finally, the resident attribute value \fIval\fP is looked for, if present.  If
+\fIval\fP is not present (NULL), \fIval_len\fP is ignored.
+
+\fBntfs_attr_find\fP only searches the specified mft record and it ignores the
+presence of an attribute list attribute (unless it is the one being searched
+for, obviously).  If you need to take attribute lists into consideration,
+use \fBntfs_attr_lookup\fP instead (see below).  This also means that you cannot
+use \fBntfs_attr_find\fP to search for extent records of non-resident
+attributes, as extents with lowest_vcn != 0 are usually described by the
+attribute list attribute only. - Note that it is possible that the first
+extent is only in the attribute list while the last extent is in the base
+mft record, so do not rely on being able to find the first extent in the
+base mft record.
+
+Warning: Never use \fIval\fP when looking for attribute types which can be
+non-resident as this most likely will result in a crash!

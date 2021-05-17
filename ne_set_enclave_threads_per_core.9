@@ -1,0 +1,21 @@
+.TH "ne_set_enclave_threads_per_core" 9 "ne_set_enclave_threads_per_core" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ne_set_enclave_threads_per_core \- Set the threads of the provided core in the enclave data structure.
+.SH SYNOPSIS
+.B "int" ne_set_enclave_threads_per_core
+.BI "(struct ne_enclave *ne_enclave "  ","
+.BI "int core_id "  ","
+.BI "u32 vcpu_id "  ");"
+.SH ARGUMENTS
+.IP "ne_enclave" 12
+Private data associated with the current enclave.
+.IP "core_id" 12
+Core id to get its threads from the NE CPU pool.
+.IP "vcpu_id" 12
+vCPU id part of the provided core.
+.SH "CONTEXT"
+Process context. This function is called with the ne_enclave and
+ne_cpu_pool mutexes held.
+.SH "RETURN"
+* 0 on success.
+* Negative return value on failure.

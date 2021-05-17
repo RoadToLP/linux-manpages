@@ -1,0 +1,26 @@
+.TH "lpfc_config_ring" 9 "lpfc_config_ring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_config_ring \- Prepare a mailbox command for configuring an IOCB ring
+.SH SYNOPSIS
+.B "void" lpfc_config_ring
+.BI "(struct lpfc_hba * phba "  ","
+.BI "int ring "  ","
+.BI "LPFC_MBOXQ_t * pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "ring" 12
+ring number/index
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The configure ring mailbox command is used to configure an IOCB ring. This
+configuration binds from one to six of HBA RC_CTL/TYPE mask entries to the
+ring. This is used to map incoming sequences to a particular ring whose
+RC_CTL/TYPE mask entry matches that of the sequence. The driver should not
+attempt to configure a ring whose number is greater than the number
+specified in the Port Control Block (PCB). It is an error to issue the
+configure ring command more than once with the same ring number. The HBA
+returns an error if the driver attempts this.
+
+This routine prepares the mailbox command for configuring IOCB ring.

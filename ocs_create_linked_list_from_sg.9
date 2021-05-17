@@ -1,0 +1,31 @@
+.TH "ocs_create_linked_list_from_sg" 9 "ocs_create_linked_list_from_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ocs_create_linked_list_from_sg \- Create OCS DMA linked list from SG list.
+.SH SYNOPSIS
+.B "int" ocs_create_linked_list_from_sg
+.BI "(const struct ocs_aes_dev *aes_dev "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "int sg_dma_count "  ","
+.BI "struct ocs_dll_desc *dll_desc "  ","
+.BI "size_t data_size "  ","
+.BI "size_t data_offset "  ");"
+.SH ARGUMENTS
+.IP "aes_dev" 12
+The OCS AES device the list will be created for.
+.IP "sg" 12
+The SG list OCS DMA linked list will be created from. When
+passed to this function, \fIsg\fP must have been already mapped
+with \fBdma_map_sg\fP.
+.IP "sg_dma_count" 12
+The number of DMA-mapped entries in \fIsg\fP. This must be the
+value returned by \fBdma_map_sg\fP when \fIsg\fP was mapped.
+.IP "dll_desc" 12
+The OCS DMA dma_list to use to store information about the
+created linked list.
+.IP "data_size" 12
+The size of the data (from the SG list) to be mapped into the
+OCS DMA linked list.
+.IP "data_offset" 12
+The offset (within the SG list) of the data to be mapped.
+.SH "RETURN"
+0 on success, negative error code otherwise.

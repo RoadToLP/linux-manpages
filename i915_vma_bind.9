@@ -1,0 +1,22 @@
+.TH "i915_vma_bind" 9 "i915_vma_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_vma_bind \- Sets up PTEs for an VMA in it's corresponding address space.
+.SH SYNOPSIS
+.B "int" i915_vma_bind
+.BI "(struct i915_vma *vma "  ","
+.BI "enum i915_cache_level cache_level "  ","
+.BI "u32 flags "  ","
+.BI "struct i915_vma_work *work "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+VMA to map
+.IP "cache_level" 12
+mapping cache level
+.IP "flags" 12
+flags like global or local mapping
+.IP "work" 12
+preallocated worker for allocating and binding the PTE
+.SH "DESCRIPTION"
+DMA addresses are taken from the scatter-gather table of this object (or of
+this VMA in case of non-default GGTT views) and PTE entries set up.
+Note that DMA addresses are also the only part of the SG table we care about.

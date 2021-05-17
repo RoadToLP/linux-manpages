@@ -1,0 +1,24 @@
+.TH "rsu_send_msg" 9 "rsu_send_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rsu_send_msg \- send a message to Intel service layer
+.SH SYNOPSIS
+.B "int" rsu_send_msg
+.BI "(struct stratix10_rsu_priv *priv "  ","
+.BI "enum stratix10_svc_command_code command "  ","
+.BI "unsigned long arg "  ","
+.BI "rsu_callback callback "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+pointer to rsu private data
+.IP "command" 12
+RSU status or update command
+.IP "arg" 12
+the request argument, the bitstream address or notify status
+.IP "callback" 12
+function pointer for the callback (status or update)
+.SH "DESCRIPTION"
+Start an Intel service layer transaction to perform the SMC call that
+is necessary to get RSU boot log or set the address of bitstream to
+boot after reboot.
+
+Returns 0 on success or -ETIMEDOUT on error.

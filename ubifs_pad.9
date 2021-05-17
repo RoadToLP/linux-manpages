@@ -1,0 +1,25 @@
+.TH "ubifs_pad" 9 "ubifs_pad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_pad \- pad flash space.
+.SH SYNOPSIS
+.B "void" ubifs_pad
+.BI "(const struct ubifs_info *c "  ","
+.BI "void *buf "  ","
+.BI "int pad "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+buffer to put padding to
+.IP "pad" 12
+how many bytes to pad
+.SH "DESCRIPTION"
+The flash media obliges us to write only in chunks of c->min_io_size and
+when we have to write less data we add padding node to the write-buffer and
+pad it to the next minimal I/O unit's boundary. Padding nodes help when the
+media is being scanned. If the amount of wasted space is not enough to fit a
+padding node which takes UBIFS_PAD_NODE_SZ bytes, we write padding bytes
+pattern (UBIFS_PADDING_BYTE).
+
+Padding nodes are also used to fill gaps when the "commit-in-gaps" method is
+used.

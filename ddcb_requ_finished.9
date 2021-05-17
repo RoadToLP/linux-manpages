@@ -1,0 +1,21 @@
+.TH "ddcb_requ_finished" 9 "ddcb_requ_finished" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ddcb_requ_finished \- Returns the hardware state of the associated DDCB
+.SH SYNOPSIS
+.B "int" ddcb_requ_finished
+.BI "(struct genwqe_dev *cd "  ","
+.BI "struct ddcb_requ *req "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+pointer to genwqe device descriptor
+.IP "req" 12
+DDCB work request
+.SH "DESCRIPTION"
+Status of ddcb_requ mirrors this hardware state, but is copied in
+the ddcb_requ on interrupt/polling function. The lowlevel code
+should check the hardware state directly, the higher level code
+should check the copy.
+
+This function will also return true if the state of the queue is
+not GENWQE_CARD_USED. This enables us to purge all DDCBs in the
+shutdown case.

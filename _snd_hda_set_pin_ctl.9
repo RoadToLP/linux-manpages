@@ -1,0 +1,24 @@
+.TH "_snd_hda_set_pin_ctl" 9 "_snd_hda_set_pin_ctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_snd_hda_set_pin_ctl \- Helper to set pin ctl value
+.SH SYNOPSIS
+.B "int" _snd_hda_set_pin_ctl
+.BI "(struct hda_codec *codec "  ","
+.BI "hda_nid_t pin "  ","
+.BI "unsigned int val "  ","
+.BI "bool cached "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "pin" 12
+referred pin NID
+.IP "val" 12
+pin control value to set
+.IP "cached" 12
+access over codec pinctl cache or direct write
+.SH "DESCRIPTION"
+This function is a helper to set a pin ctl value more safely.
+It corrects the pin ctl value via \fBsnd_hda_correct_pin_ctl\fP, stores the
+value in pin target array via \fBsnd_hda_codec_set_pin_target\fP, then
+actually writes the value via either \fBsnd_hda_codec_write_cache\fP or
+\fBsnd_hda_codec_write\fP depending on \fIcached\fP flag.

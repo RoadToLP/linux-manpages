@@ -1,0 +1,18 @@
+.TH "dwc2_gadget_handle_ep_disabled" 9 "dwc2_gadget_handle_ep_disabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_gadget_handle_ep_disabled \- handle DXEPINT_EPDISBLD
+.SH SYNOPSIS
+.B "void" dwc2_gadget_handle_ep_disabled
+.BI "(struct dwc2_hsotg_ep *hs_ep "  ");"
+.SH ARGUMENTS
+.IP "hs_ep" 12
+The endpoint on which interrupt is asserted.
+.SH "DESCRIPTION"
+This interrupt indicates that the endpoint has been disabled per the
+application's request.
+
+For IN endpoints flushes txfifo, in case of BULK clears DCTL_CGNPINNAK,
+in case of ISOC completes current request.
+
+For ISOC-OUT endpoints completes expired requests. If there is remaining
+request starts it.

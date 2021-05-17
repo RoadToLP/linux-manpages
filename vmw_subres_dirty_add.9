@@ -1,0 +1,21 @@
+.TH "vmw_subres_dirty_add" 9 "vmw_subres_dirty_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_subres_dirty_add \- Add a dirty region to a subresource
+.SH SYNOPSIS
+.B "void" vmw_subres_dirty_add
+.BI "(struct vmw_surface_dirty *dirty "  ","
+.BI "const struct svga3dsurface_loc *loc_start "  ","
+.BI "const struct svga3dsurface_loc *loc_end "  ");"
+.SH ARGUMENTS
+.IP "dirty" 12
+The surfaces's dirty tracker.
+.IP "loc_start" 12
+The location corresponding to the start of the region.
+.IP "loc_end" 12
+The location corresponding to the end of the region.
+.SH "DESCRIPTION"
+As we are assuming that \fIloc_start\fP and \fIloc_end\fP represent a sequential
+range of backing store memory, if the region spans multiple lines then
+regardless of the x coordinate, the full lines are dirtied.
+Correspondingly if the region spans multiple z slices, then full rather
+than partial z slices are dirtied.

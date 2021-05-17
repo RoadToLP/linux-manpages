@@ -1,0 +1,26 @@
+.TH "lpfc_unreg_did" 9 "lpfc_unreg_did" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_unreg_did \- Prepare a mailbox command for unregistering DID
+.SH SYNOPSIS
+.B "void" lpfc_unreg_did
+.BI "(struct lpfc_hba * phba "  ","
+.BI "uint16_t vpi "  ","
+.BI "uint32_t did "  ","
+.BI "LPFC_MBOXQ_t * pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "vpi" 12
+virtual N_Port identifier.
+.IP "did" 12
+remote port identifier.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The unregister DID mailbox command is used to unregister an N_Port/F_Port
+login for an unknown RPI by specifying the DID of a remote port. This
+command frees an RPI context in the HBA port. This has the effect of
+performing an implicit N_Port/F_Port logout.
+
+This routine prepares the mailbox command for unregistering a remote
+N_Port/F_Port (DID) login.

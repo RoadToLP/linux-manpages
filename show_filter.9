@@ -1,0 +1,26 @@
+.TH "show_filter" 9 "show_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+show_filter \- shows the current scancode filter value or mask
+.SH SYNOPSIS
+.B "ssize_t" show_filter
+.BI "(struct device *device "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "char *buf "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device descriptor
+.IP "attr" 12
+the device attribute struct
+.IP "buf" 12
+a pointer to the output buffer
+.SH "DESCRIPTION"
+This routine is a callback routine to read a scancode filter value or mask.
+It is triggered by reading /sys/class/rc/rc?/[wakeup_]filter[_mask].
+It prints the current scancode filter value or mask of the appropriate filter
+type in hexadecimal into \fIbuf\fP and returns the size of the buffer.
+
+Bits of the filter value corresponding to set bits in the filter mask are
+compared against input scancodes and non-matching scancodes are discarded.
+
+dev->lock is taken to guard against races between
+store_filter and show_filter.

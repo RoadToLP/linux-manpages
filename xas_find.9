@@ -1,0 +1,23 @@
+.TH "xas_find" 9 "xas_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_find \- Find the next present entry in the XArray.
+.SH SYNOPSIS
+.B "void *" xas_find
+.BI "(struct xa_state *xas "  ","
+.BI "unsigned long max "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.IP "max" 12
+Highest index to return.
+.SH "DESCRIPTION"
+If the \fIxas\fP has not yet been walked to an entry, return the entry
+which has an index >= xas.xa_index.  If it has been walked, the entry
+currently being pointed at has been processed, and so we move to the
+next entry.
+
+If no entry is found and the array is smaller than \fImax\fP, the iterator
+is set to the smallest index not yet in the array.  This allows \fIxas\fP
+to be immediately passed to \fBxas_store\fP.
+.SH "RETURN"
+The entry, if found, otherwise NULL.

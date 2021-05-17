@@ -1,0 +1,21 @@
+.TH "ice_fdir_num_avail_fltr" 9 "ice_fdir_num_avail_fltr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_fdir_num_avail_fltr \- return the number of unused flow director filters
+.SH SYNOPSIS
+.B "int" ice_fdir_num_avail_fltr
+.BI "(struct ice_hw *hw "  ","
+.BI "struct ice_vsi *vsi "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "vsi" 12
+software VSI structure
+.SH "DESCRIPTION"
+There are 2 filter pools: guaranteed and best effort(shared). Each VSI can
+use filters from either pool. The guaranteed pool is divided between VSIs.
+The best effort filter pool is common to all VSIs and is a device shared
+resource pool. The number of filters available to this VSI is the sum of
+the VSIs guaranteed filter pool and the global available best effort
+filter pool.
+
+Returns the number of available flow director filters to this VSI

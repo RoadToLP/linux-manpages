@@ -1,0 +1,36 @@
+.TH "gnet_stats_start_copy_compat" 9 "gnet_stats_start_copy_compat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gnet_stats_start_copy_compat \- start dumping procedure in compatibility mode
+.SH SYNOPSIS
+.B "int" gnet_stats_start_copy_compat
+.BI "(struct sk_buff *skb "  ","
+.BI "int type "  ","
+.BI "int tc_stats_type "  ","
+.BI "int xstats_type "  ","
+.BI "spinlock_t *lock "  ","
+.BI "struct gnet_dump *d "  ","
+.BI "int padattr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+socket buffer to put statistics TLVs into
+.IP "type" 12
+TLV type for top level statistic TLV
+.IP "tc_stats_type" 12
+TLV type for backward compatibility struct tc_stats TLV
+.IP "xstats_type" 12
+TLV type for backward compatibility xstats TLV
+.IP "lock" 12
+statistics lock
+.IP "d" 12
+dumping handle
+.IP "padattr" 12
+padding attribute
+.SH "DESCRIPTION"
+Initializes the dumping handle, grabs the statistic lock and appends
+an empty TLV header to the socket buffer for use a container for all
+other statistic TLVS.
+
+The dumping handle is marked to be in backward compatibility mode telling
+all \fBgnet_stats_copy_XXX\fP functions to fill a local copy of struct tc_stats.
+
+Returns 0 on success or -1 if the room in the socket buffer was not sufficient.

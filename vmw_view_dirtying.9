@@ -1,0 +1,17 @@
+.TH "vmw_view_dirtying" 9 "vmw_view_dirtying" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_view_dirtying \- Return whether a view type is dirtying its resource
+.SH SYNOPSIS
+.B "u32" vmw_view_dirtying
+.BI "(struct vmw_resource *res "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to the view
+.SH "DESCRIPTION"
+Each time a resource is put on the validation list as the result of a
+view pointing to it, we need to determine whether that resource will
+be dirtied (written to by the GPU) as a result of the corresponding
+GPU operation. Currently only rendertarget-, depth-stencil and unordered
+access views are capable of dirtying its resource.
+.SH "RETURN"
+Whether the view type of \fIres\fP dirties the resource it points to.

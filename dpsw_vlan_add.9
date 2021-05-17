@@ -1,0 +1,30 @@
+.TH "dpsw_vlan_add" 9 "dpsw_vlan_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpsw_vlan_add \- Adding new VLAN to DPSW.
+.SH SYNOPSIS
+.B "int" dpsw_vlan_add
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 vlan_id "  ","
+.BI "const struct dpsw_vlan_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPSW object
+.IP "vlan_id" 12
+VLAN Identifier
+.IP "cfg" 12
+VLAN configuration
+.SH "DESCRIPTION"
+Only VLAN ID and FDB ID are required parameters here.
+12 bit VLAN ID is defined in IEEE802.1Q.
+Adding a duplicate VLAN ID is not allowed.
+FDB ID can be shared across multiple VLANs. Shared learning
+is obtained by calling dpsw_vlan_add for multiple VLAN IDs
+with same fdb_id
+.SH "RETURN"
+Completion status. '0' on Success; Error code otherwise.

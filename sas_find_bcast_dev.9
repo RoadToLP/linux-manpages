@@ -1,0 +1,21 @@
+.TH "sas_find_bcast_dev" 9 "sas_find_bcast_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sas_find_bcast_dev \- find the device issue BROADCAST(CHANGE).
+.SH SYNOPSIS
+.B "int" sas_find_bcast_dev
+.BI "(struct domain_device *dev "  ","
+.BI "struct domain_device **src_dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+domain device to be detect.
+.IP "src_dev" 12
+the device which originated BROADCAST(CHANGE).
+.SH "DESCRIPTION"
+Add self-configuration expander support. Suppose two expander cascading,
+when the first level expander is self-configuring, hotplug the disks in
+second level expander, BROADCAST(CHANGE) will not only be originated
+in the second level expander, but also be originated in the first level
+expander (see SAS protocol SAS 2r-14, 7.11 for detail), it is to say,
+expander changed count in two level expanders will all increment at least
+once, but the phy which chang count has changed is the source device which
+we concerned.

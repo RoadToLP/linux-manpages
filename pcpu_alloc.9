@@ -1,0 +1,25 @@
+.TH "pcpu_alloc" 9 "pcpu_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_alloc \- the percpu allocator
+.SH SYNOPSIS
+.B "void __percpu *" pcpu_alloc
+.BI "(size_t size "  ","
+.BI "size_t align "  ","
+.BI "bool reserved "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of area to allocate in bytes
+.IP "align" 12
+alignment of area (max PAGE_SIZE)
+.IP "reserved" 12
+allocate from the reserved chunk if available
+.IP "gfp" 12
+allocation flags
+.SH "DESCRIPTION"
+Allocate percpu area of \fIsize\fP bytes aligned at \fIalign\fP.  If \fIgfp\fP doesn't
+contain GFP_KERNEL, the allocation is atomic. If \fIgfp\fP has __GFP_NOWARN
+then no warning will be triggered on invalid or failed allocation
+requests.
+.SH "RETURN"
+Percpu pointer to the allocated area on success, NULL on failure.

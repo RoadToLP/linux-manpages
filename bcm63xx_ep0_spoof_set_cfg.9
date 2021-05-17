@@ -1,0 +1,17 @@
+.TH "bcm63xx_ep0_spoof_set_cfg" 9 "bcm63xx_ep0_spoof_set_cfg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_ep0_spoof_set_cfg \- Synthesize a SET_CONFIGURATION request.
+.SH SYNOPSIS
+.B "int" bcm63xx_ep0_spoof_set_cfg
+.BI "(struct bcm63xx_udc *udc "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+Reference to the device controller.
+.SH "DESCRIPTION"
+Many standard requests are handled automatically in the hardware, but
+we still need to pass them to the gadget driver so that it can
+reconfigure the interfaces/endpoints if necessary.
+
+Unfortunately we are not able to send a STALL response if the host
+requests an invalid configuration.  If this happens, we'll have to be
+content with printing a warning.

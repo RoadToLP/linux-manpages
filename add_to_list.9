@@ -1,0 +1,38 @@
+.TH "add_to_list" 9 "add_to_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_to_list \- add physical eraseblock to a list.
+.SH SYNOPSIS
+.B "int" add_to_list
+.BI "(struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "int vol_id "  ","
+.BI "int lnum "  ","
+.BI "int ec "  ","
+.BI "int to_head "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+physical eraseblock number to add
+.IP "vol_id" 12
+the last used volume id for the PEB
+.IP "lnum" 12
+the last used LEB number for the PEB
+.IP "ec" 12
+erase counter of the physical eraseblock
+.IP "to_head" 12
+if not zero, add to the head of the list
+.IP "list" 12
+the list to add to
+.SH "DESCRIPTION"
+This function allocates a 'struct ubi_ainf_peb' object for physical
+eraseblock \fIpnum\fP and adds it to the "free", "erase", or "alien" lists.
+It stores the \fIlnum\fP and \fIvol_id\fP alongside, which can both be
+UBI_UNKNOWN if they are not available, not readable, or not assigned.
+If \fIto_head\fP is not zero, PEB will be added to the head of the list, which
+basically means it will be processed first later. E.g., we add corrupted
+PEBs (corrupted due to power cuts) to the head of the erase list to make
+sure we erase them first and get rid of corruptions ASAP. This function
+returns zero in case of success and a negative error code in case of
+failure.

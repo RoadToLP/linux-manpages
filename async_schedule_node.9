@@ -1,0 +1,22 @@
+.TH "async_schedule_node" 9 "async_schedule_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_schedule_node \- NUMA specific version of async_schedule
+.SH SYNOPSIS
+.B "async_cookie_t" async_schedule_node
+.BI "(async_func_t func "  ","
+.BI "void *data "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+function to execute asynchronously
+.IP "data" 12
+data pointer to pass to the function
+.IP "node" 12
+NUMA node that we want to schedule this on or close to
+.SH "DESCRIPTION"
+Returns an async_cookie_t that may be used for checkpointing later.
+The node requested will be honored on a best effort basis. If the node
+has no CPUs associated with it then the work is distributed among all
+available CPUs.
+.SH "NOTE"
+This function may be called from atomic or non-atomic contexts.

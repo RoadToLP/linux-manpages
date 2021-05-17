@@ -1,0 +1,22 @@
+.TH "lpfc_els_flush_all_cmd" 9 "lpfc_els_flush_all_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_flush_all_cmd \- Clean up all the outstanding els commands to a HBA
+.SH SYNOPSIS
+.B "void" lpfc_els_flush_all_cmd
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine is used to clean up all the outstanding ELS commands on a
+\fIphba\fP. It first aborts the \fIphba\fP by invoking the \fBlpfc_fabric_abort_hba\fP
+routine. After that, it walks the ELS transmit queue to remove all the
+IOCBs to the \fIphba\fP other than the QUE_RING and ABORT/CLOSE IOCBs. For
+the IOCBs with the completion callback function associated, the callback
+function will be invoked with the status set to IOSTAT_LOCAL_REJECT and
+un.ulpWord[4] set to IOERR_SLI_ABORTED. For IOCBs without the completion
+callback function associated, the IOCB will simply be released. Finally,
+it walks the ELS transmit completion queue to issue an abort IOCB to any
+transmit completion queue IOCB that is not an IOCB from libdfc (i.e., the
+management plane IOCBs that are not part of the discovery state machine)
+out to HBA by invoking the \fBlpfc_sli_issue_abort_iotag\fP routine.

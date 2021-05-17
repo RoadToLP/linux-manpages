@@ -1,0 +1,28 @@
+.TH "ice_sched_cfg_vsi" 9 "ice_sched_cfg_vsi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sched_cfg_vsi \- configure the new/existing VSI
+.SH SYNOPSIS
+.B "enum ice_status" ice_sched_cfg_vsi
+.BI "(struct ice_port_info *pi "  ","
+.BI "u16 vsi_handle "  ","
+.BI "u8 tc "  ","
+.BI "u16 maxqs "  ","
+.BI "u8 owner "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+port information structure
+.IP "vsi_handle" 12
+software VSI handle
+.IP "tc" 12
+TC number
+.IP "maxqs" 12
+max number of queues
+.IP "owner" 12
+LAN or RDMA
+.IP "enable" 12
+TC enabled or disabled
+.SH "DESCRIPTION"
+This function adds/updates VSI nodes based on the number of queues. If TC is
+enabled and VSI is in suspended state then resume the VSI back. If TC is
+disabled then suspend the VSI if it is not already.

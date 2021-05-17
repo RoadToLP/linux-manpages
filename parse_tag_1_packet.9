@@ -1,0 +1,32 @@
+.TH "parse_tag_1_packet" 9 "parse_tag_1_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_tag_1_packet \- 
+.SH SYNOPSIS
+.B "int" parse_tag_1_packet
+.BI "(struct ecryptfs_crypt_stat *crypt_stat "  ","
+.BI "unsigned char *data "  ","
+.BI "struct list_head *auth_tok_list "  ","
+.BI "struct ecryptfs_auth_tok **new_auth_tok "  ","
+.BI "size_t *packet_size "  ","
+.BI "size_t max_packet_size "  ");"
+.SH ARGUMENTS
+.IP "crypt_stat" 12
+The cryptographic context to modify based on packet contents
+.IP "data" 12
+The raw bytes of the packet.
+.IP "auth_tok_list" 12
+eCryptfs parses packets into authentication tokens;
+a new authentication token will be placed at the
+end of this list for this packet.
+.IP "new_auth_tok" 12
+Pointer to a pointer to memory that this function
+allocates; sets the memory address of the pointer to
+NULL on error. This object is added to the
+auth_tok_list.
+.IP "packet_size" 12
+This function writes the size of the parsed packet
+into this memory location; zero on error.
+.IP "max_packet_size" 12
+The maximum allowable packet size
+.SH "DESCRIPTION"
+Returns zero on success; non-zero on error.

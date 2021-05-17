@@ -1,0 +1,23 @@
+.TH "try_to_unlazy_next" 9 "try_to_unlazy_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_unlazy_next \- try to switch to ref-walk mode.
+.SH SYNOPSIS
+.B "bool" try_to_unlazy_next
+.BI "(struct nameidata *nd "  ","
+.BI "struct dentry *dentry "  ","
+.BI "unsigned seq "  ");"
+.SH ARGUMENTS
+.IP "nd" 12
+nameidata pathwalk data
+.IP "dentry" 12
+next dentry to step into
+.IP "seq" 12
+seq number to check \fIdentry\fP against
+.SH "RETURN"
+true on success, false on failure
+.SH "DESCRIPTION"
+Similar to to \fBtry_to_unlazy\fP, but here we have the next dentry already
+picked by rcu-walk and want to legitimize that in addition to the current
+nd->path and nd->root for ref-walk mode.  Must be called from rcu-walk context.
+Nothing should touch nameidata between \fBtry_to_unlazy_next\fP failure and
+\fBterminate_walk\fP.

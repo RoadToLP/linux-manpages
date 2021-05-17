@@ -1,0 +1,17 @@
+.TH "i915_gem_evict_vm" 9 "i915_gem_evict_vm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_evict_vm \- Evict all idle vmas from a vm
+.SH SYNOPSIS
+.B "int" i915_gem_evict_vm
+.BI "(struct i915_address_space *vm "  ");"
+.SH ARGUMENTS
+.IP "vm" 12
+Address space to cleanse
+.SH "DESCRIPTION"
+This function evicts all vmas from a vm.
+
+This is used by the execbuf code as a last-ditch effort to defragment the
+address space.
+
+To clarify: This is for freeing up virtual address space, not for freeing
+memory in e.g. the shrinker.

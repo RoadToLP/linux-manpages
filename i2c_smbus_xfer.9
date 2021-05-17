@@ -1,0 +1,30 @@
+.TH "i2c_smbus_xfer" 9 "i2c_smbus_xfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_smbus_xfer \- execute SMBus protocol operations
+.SH SYNOPSIS
+.B "s32" i2c_smbus_xfer
+.BI "(struct i2c_adapter *adapter "  ","
+.BI "u16 addr "  ","
+.BI "unsigned short flags "  ","
+.BI "char read_write "  ","
+.BI "u8 command "  ","
+.BI "int protocol "  ","
+.BI "union i2c_smbus_data *data "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+Handle to I2C bus
+.IP "addr" 12
+Address of SMBus slave on that bus
+.IP "flags" 12
+I2C_CLIENT_* flags (usually zero or I2C_CLIENT_PEC)
+.IP "read_write" 12
+I2C_SMBUS_READ or I2C_SMBUS_WRITE
+.IP "command" 12
+Byte interpreted by slave, for protocols which use such bytes
+.IP "protocol" 12
+SMBus protocol operation to execute, such as I2C_SMBUS_PROC_CALL
+.IP "data" 12
+Data to be read or written
+.SH "DESCRIPTION"
+This executes an SMBus protocol operation, and returns a negative
+errno code else zero on success.

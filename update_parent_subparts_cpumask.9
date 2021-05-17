@@ -1,0 +1,54 @@
+.TH "update_parent_subparts_cpumask" 9 "update_parent_subparts_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_parent_subparts_cpumask \- update subparts_cpus mask of parent cpuset
+.SH SYNOPSIS
+.B "int" update_parent_subparts_cpumask
+.BI "(struct cpuset *cpuset "  ","
+.BI "int cmd "  ","
+.BI "struct cpumask *newmask "  ","
+.BI "struct tmpmasks *tmp "  ");"
+.SH ARGUMENTS
+.IP "cpuset" 12
+The cpuset that requests change in partition root state
+.IP "cmd" 12
+Partition root state change command
+.IP "newmask" 12
+Optional new cpumask for partcmd_update
+.IP "tmp" 12
+Temporary addmask and delmask
+.SH "RETURN"
+0, 1 or an error code
+.SH "DESCRIPTION"
+For partcmd_enable, the cpuset is being transformed from a non-partition
+root to a partition root. The cpus_allowed mask of the given cpuset will
+be put into parent's subparts_cpus and taken away from parent's
+effective_cpus. The function will return 0 if all the CPUs listed in
+cpus_allowed can be granted or an error code will be returned.
+
+For partcmd_disable, the cpuset is being transofrmed from a partition
+root back to a non-partition root. any CPUs in cpus_allowed that are in
+parent's subparts_cpus will be taken away from that cpumask and put back
+into parent's effective_cpus. 0 should always be returned.
+
+For partcmd_update, if the optional newmask is specified, the cpu
+list is to be changed from cpus_allowed to newmask. Otherwise,
+cpus_allowed is assumed to remain the same. The cpuset should either
+be a partition root or an invalid partition root. The partition root
+state may change if newmask is NULL and none of the requested CPUs can
+be granted by the parent. The function will return 1 if changes to
+parent's subparts_cpus and effective_cpus happen or 0 otherwise.
+Error code should only be returned when newmask is non-NULL.
+
+The partcmd_enable and partcmd_disable commands are used by
+\fBupdate_prstate\fP. The partcmd_update command is used by
+\fBupdate_cpumasks_hier\fP with newmask NULL and \fBupdate_cpumask\fP with
+newmask set.
+
+The checking is more strict when enabling partition root than the
+other two commands.
+
+Because of the implicit cpu exclusive nature of a partition root,
+cpumask changes that violates the cpu exclusivity rule will not be
+permitted when checked by \fBvalidate_change\fP. The \fBvalidate_change\fP
+function will also prevent any changes to the cpu list if it is not
+a superset of children's cpu lists.

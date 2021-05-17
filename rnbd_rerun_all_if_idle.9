@@ -1,0 +1,26 @@
+.TH "rnbd_rerun_all_if_idle" 9 "rnbd_rerun_all_if_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rnbd_rerun_all_if_idle \- rerun all queues left in the list if session is idling (there are no requests in-flight).
+.SH SYNOPSIS
+.B "void" rnbd_rerun_all_if_idle
+.BI "(struct rnbd_clt_session *sess "  ");"
+.SH ARGUMENTS
+.IP "sess" 12
+Session to rerun the queues on
+.SH "DESCRIPTION"
+This function tries to rerun all stopped queues if there are no
+requests in-flight anymore.  This function tries to solve an obvious
+problem, when number of tags < than number of queues (hctx), which
+are stopped and put to sleep.  If last permit, which has been just put,
+does not wake up all left queues (hctxs), IO requests hang forever.
+
+That can happen when all number of permits, say N, have been exhausted
+from one CPU, and we have many block devices per session, say M.
+Each block device has it's own queue (hctx) for each CPU, so eventually
+we can put that number of queues (hctxs) to sleep: M x nr_cpu_ids.
+If number of permits N < M x nr_cpu_ids finally we will get an IO hang.
+
+To avoid this hang last caller of \fBrnbd_put_permit\fP (last caller is the
+one who observes sess->busy == 0) must wake up all remaining queues.
+.SH "CONTEXT"
+Does not matter.

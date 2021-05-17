@@ -1,0 +1,25 @@
+.TH "nfs4_detect_session_trunking" 9 "nfs4_detect_session_trunking" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_detect_session_trunking \- Checks for session trunking.
+.SH SYNOPSIS
+.B "int" nfs4_detect_session_trunking
+.BI "(struct nfs_client *clp "  ","
+.BI "struct nfs41_exchange_id_res *res "  ","
+.BI "struct rpc_xprt *xprt "  ");"
+.SH ARGUMENTS
+.IP "clp" 12
+original mount nfs_client
+.IP "res" 12
+result structure from an exchange_id using the original mount
+nfs_client with a new multi_addr transport
+.IP "xprt" 12
+pointer to the transport to add.
+.SH "DESCRIPTION"
+Called after a successful EXCHANGE_ID on a multi-addr connection.
+Upon success, add the transport.
+
+Returns zero on success, otherwise -EINVAL
+.SH "NOTE"
+since the exchange_id for the new multi_addr transport uses the
+same nfs_client from the original mount, the cl_owner_id is reused,
+so eir_clientowner is the same.

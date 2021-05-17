@@ -1,0 +1,27 @@
+.TH "ccio_mark_invalid" 9 "ccio_mark_invalid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccio_mark_invalid \- Mark the I/O Pdir entries invalid.
+.SH SYNOPSIS
+.B "CCIO_INLINE void" ccio_mark_invalid
+.BI "(struct ioc *ioc "  ","
+.BI "dma_addr_t iova "  ","
+.BI "size_t byte_cnt "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+The I/O Controller.
+.IP "iova" 12
+The I/O Virtual Address.
+.IP "byte_cnt" 12
+The requested number of bytes to be freed from the I/O Pdir.
+.SH "DESCRIPTION"
+Mark the I/O Pdir entries invalid and blow away the corresponding I/O
+TLB entries.
+
+FIXME: at some threshold it might be "cheaper" to just blow
+away the entire I/O TLB instead of individual entries.
+
+FIXME: Uturn has 256 TLB entries. We don't need to purge every
+PDIR entry - just once for each possible TLB entry.
+(We do need to maker I/O PDIR entries invalid regardless).
+
+FIXME: Can we change byte_cnt to pages_mapped?

@@ -1,0 +1,17 @@
+.TH "nfs_refresh_inode" 9 "nfs_refresh_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_refresh_inode \- try to update the inode attribute cache
+.SH SYNOPSIS
+.B "int" nfs_refresh_inode
+.BI "(struct inode *inode "  ","
+.BI "struct nfs_fattr *fattr "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pointer to inode
+.IP "fattr" 12
+updated attributes
+.SH "DESCRIPTION"
+Check that an RPC call that returned attributes has not overlapped with
+other recent updates of the inode metadata, then decide whether it is
+safe to do a full update of the inode attributes, or whether just to
+call nfs_check_inode_attributes.

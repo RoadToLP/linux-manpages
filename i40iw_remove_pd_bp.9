@@ -1,0 +1,27 @@
+.TH "i40iw_remove_pd_bp" 9 "i40iw_remove_pd_bp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_remove_pd_bp \- remove a backing page from a page descriptor
+.SH SYNOPSIS
+.B "enum i40iw_status_code" i40iw_remove_pd_bp
+.BI "(struct i40iw_hw *hw "  ","
+.BI "struct i40iw_hmc_info *hmc_info "  ","
+.BI "u32 idx "  ","
+.BI "bool is_pf "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to our HW structure
+.IP "hmc_info" 12
+pointer to the HMC configuration information structure
+.IP "idx" 12
+the page index
+.IP "is_pf" 12
+distinguishes a VF from a PF
+.SH "DESCRIPTION"
+This function:
+1. Marks the entry in pd table (for paged address mode) or in sd table
+(for direct address mode) invalid.
+2. Write to register PMPDINV to invalidate the backing page in FV cache
+3. Decrement the ref count for the pd _entry
+assumptions:
+1. Caller can deallocate the memory used by backing storage after this
+function returns.

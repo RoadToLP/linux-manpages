@@ -1,0 +1,17 @@
+.TH "blk_mq_unique_tag" 9 "blk_mq_unique_tag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_unique_tag \- return a tag that is unique queue-wide
+.SH SYNOPSIS
+.B "u32" blk_mq_unique_tag
+.BI "(struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+request for which to compute a unique tag
+.SH "DESCRIPTION"
+The tag field in struct request is unique per hardware queue but not over
+all hardware queues. Hence this function that returns a tag with the
+hardware context index in the upper bits and the per hardware queue tag in
+the lower bits.
+.SH "NOTE"
+When called for a request that is queued on a non-multiqueue request
+queue, the hardware context index is set to zero.

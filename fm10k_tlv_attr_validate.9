@@ -1,0 +1,18 @@
+.TH "fm10k_tlv_attr_validate" 9 "fm10k_tlv_attr_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_tlv_attr_validate \- Validate attribute metadata
+.SH SYNOPSIS
+.B "s32" fm10k_tlv_attr_validate
+.BI "(u32 *attr "  ","
+.BI "const struct fm10k_tlv_attr *tlv_attr "  ");"
+.SH ARGUMENTS
+.IP "attr" 12
+Pointer to attribute
+.IP "tlv_attr" 12
+Type and length info for attribute
+
+This function does some basic validation of the input TLV.  It
+verifies the length, and in the case of null terminated strings
+it verifies that the last byte is null.  The function will
+return FM10K_ERR_PARAM if any attribute is malformed, otherwise
+it returns 0.

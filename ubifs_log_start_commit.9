@@ -1,0 +1,20 @@
+.TH "ubifs_log_start_commit" 9 "ubifs_log_start_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_log_start_commit \- start commit.
+.SH SYNOPSIS
+.B "int" ubifs_log_start_commit
+.BI "(struct ubifs_info *c "  ","
+.BI "int *ltail_lnum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "ltail_lnum" 12
+return new log tail LEB number
+.SH "DESCRIPTION"
+The commit operation starts with writing "commit start" node to the log and
+reference nodes for all journal heads which will define new journal after
+the commit has been finished. The commit start and reference nodes are
+written in one go to the nearest empty log LEB (hence, when commit is
+finished UBIFS may safely unmap all the previous log LEBs). This function
+returns zero in case of success and a negative error code in case of
+failure.

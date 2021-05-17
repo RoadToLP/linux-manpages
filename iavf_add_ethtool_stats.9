@@ -1,0 +1,22 @@
+.TH "iavf_add_ethtool_stats" 9 "iavf_add_ethtool_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_add_ethtool_stats \- copy stats into ethtool supplied buffer
+.SH SYNOPSIS
+.B "iavf_add_ethtool_stats
+.BI "(data "  ","
+.BI "pointer "  ","
+.BI "stats "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ethtool stats buffer
+.IP "pointer" 12
+location where stats are stored
+.IP "stats" 12
+static const array of stat definitions
+.SH "DESCRIPTION"
+Macro to ease the use of __iavf_add_ethtool_stats by taking a static
+constant stats array and passing the \fBARRAY_SIZE\fP. This avoids typos by
+ensuring that we pass the size associated with the given stats array.
+
+The parameter \fIstats\fP is evaluated twice, so parameters with side effects
+should be avoided.

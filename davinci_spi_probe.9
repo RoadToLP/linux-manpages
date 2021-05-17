@@ -1,0 +1,16 @@
+.TH "davinci_spi_probe" 9 "davinci_spi_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+davinci_spi_probe \- probe function for SPI Master Controller
+.SH SYNOPSIS
+.B "int" davinci_spi_probe
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+platform_device structure which contains plateform specific data
+.SH "DESCRIPTION"
+According to Linux Device Model this function will be invoked by Linux
+with platform_device struct which contains the device specific info.
+This function will map the SPI controller's memory, register IRQ,
+Reset SPI controller and setting its registers to default value.
+It will invoke spi_bitbang_start to create work queue so that client driver
+can register transfer method to work queue.

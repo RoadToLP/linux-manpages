@@ -1,0 +1,15 @@
+.TH "kvm_trap_emul_gva_lockless_begin" 9 "kvm_trap_emul_gva_lockless_begin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_trap_emul_gva_lockless_begin \- Begin lockless access to GVA space.
+.SH SYNOPSIS
+.B "void" kvm_trap_emul_gva_lockless_begin
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+VCPU pointer.
+.SH "DESCRIPTION"
+Call before a GVA space access outside of guest mode, to ensure that
+asynchronous TLB flush requests are handled or delayed until completion of
+the GVA access (as indicated by a matching \fBkvm_trap_emul_gva_lockless_end\fP).
+
+Should be called with IRQs already enabled.

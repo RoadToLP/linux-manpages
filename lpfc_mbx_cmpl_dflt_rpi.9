@@ -1,0 +1,20 @@
+.TH "lpfc_mbx_cmpl_dflt_rpi" 9 "lpfc_mbx_cmpl_dflt_rpi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbx_cmpl_dflt_rpi \- Completion callbk func for unreg dflt rpi mbox cmd
+.SH SYNOPSIS
+.B "void" lpfc_mbx_cmpl_dflt_rpi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+This routine is the completion callback function for unregister default
+RPI (Remote Port Index) mailbox command to the \fIphba\fP. It simply releases
+the associated lpfc Direct Memory Access (DMA) buffer back to the pool and
+decrements the ndlp reference count held for this completion callback
+function. After that, it invokes the \fBlpfc_nlp_not_used\fP to check
+whether there is only one reference left on the ndlp. If so, it will
+perform one more decrement and trigger the release of the ndlp.

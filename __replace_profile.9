@@ -1,0 +1,19 @@
+.TH "__replace_profile" 9 "__replace_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__replace_profile \- replace @old with @new on a list
+.SH SYNOPSIS
+.B "void" __replace_profile
+.BI "(struct aa_profile *old "  ","
+.BI "struct aa_profile *new "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+profile to be replaced  (NOT NULL)
+.IP "new" 12
+profile to replace \fIold\fP with  (NOT NULL)
+.SH "DESCRIPTION"
+Will duplicate and refcount elements that \fInew\fP inherits from \fIold\fP
+and will inherit \fIold\fP children.
+
+refcount \fInew\fP for list, put \fIold\fP list refcount
+
+Requires: namespace list lock be held, or list not be shared

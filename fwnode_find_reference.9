@@ -1,0 +1,20 @@
+.TH "fwnode_find_reference" 9 "fwnode_find_reference" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_find_reference \- Find named reference to a fwnode_handle
+.SH SYNOPSIS
+.B "struct fwnode_handle *" fwnode_find_reference
+.BI "(const struct fwnode_handle *fwnode "  ","
+.BI "const char *name "  ","
+.BI "unsigned int index "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+Firmware node where to look for the reference
+.IP "name" 12
+The name of the reference
+.IP "index" 12
+Index of the reference
+.SH "DESCRIPTION"
+\fIindex\fP can be used when the named reference holds a table of references.
+
+Returns pointer to the reference fwnode, or ERR_PTR. Caller is responsible to
+call \fBfwnode_handle_put\fP on the returned fwnode pointer.

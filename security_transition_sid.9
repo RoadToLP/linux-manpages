@@ -1,0 +1,30 @@
+.TH "security_transition_sid" 9 "security_transition_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_transition_sid \- Compute the SID for a new subject/object.
+.SH SYNOPSIS
+.B "int" security_transition_sid
+.BI "(struct selinux_state *state "  ","
+.BI "u32 ssid "  ","
+.BI "u32 tsid "  ","
+.BI "u16 tclass "  ","
+.BI "const struct qstr *qstr "  ","
+.BI "u32 *out_sid "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "ssid" 12
+source security identifier
+.IP "tsid" 12
+target security identifier
+.IP "tclass" 12
+target security class
+.IP "qstr" 12
+-- undescribed --
+.IP "out_sid" 12
+security identifier for new subject/object
+.SH "DESCRIPTION"
+Compute a SID to use for labeling a new subject or object in the
+class \fItclass\fP based on a SID pair (\fIssid\fP, \fItsid\fP).
+Return -EINVAL if any of the parameters are invalid, -ENOMEM
+if insufficient memory is available, or 0 if the new SID was
+computed successfully.

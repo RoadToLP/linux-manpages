@@ -1,0 +1,32 @@
+.TH "intel_calculate_wm" 9 "intel_calculate_wm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_calculate_wm \- calculate watermark level
+.SH SYNOPSIS
+.B "unsigned int" intel_calculate_wm
+.BI "(int pixel_rate "  ","
+.BI "const struct intel_watermark_params *wm "  ","
+.BI "int fifo_size "  ","
+.BI "int cpp "  ","
+.BI "unsigned int latency_ns "  ");"
+.SH ARGUMENTS
+.IP "pixel_rate" 12
+pixel clock
+.IP "wm" 12
+chip FIFO params
+.IP "fifo_size" 12
+size of the FIFO buffer
+.IP "cpp" 12
+bytes per pixel
+.IP "latency_ns" 12
+memory latency for the platform
+.SH "DESCRIPTION"
+Calculate the watermark level (the level at which the display plane will
+start fetching from memory again).  Each chip has a different display
+FIFO size and allocation, so the caller needs to figure that out and pass
+in the correct intel_watermark_params structure.
+
+As the pixel clock runs, the FIFO will be drained at a rate that depends
+on the pixel size.  When it reaches the watermark level, it'll start
+fetching FIFO line sized based chunks from memory until the FIFO fills
+past the watermark point.  If the FIFO drains completely, a FIFO underrun
+will occur, and a display engine hang could result.

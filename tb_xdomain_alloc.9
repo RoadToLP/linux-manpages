@@ -1,0 +1,25 @@
+.TH "tb_xdomain_alloc" 9 "tb_xdomain_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_xdomain_alloc \- Allocate new XDomain object
+.SH SYNOPSIS
+.B "struct tb_xdomain *" tb_xdomain_alloc
+.BI "(struct tb *tb "  ","
+.BI "struct device *parent "  ","
+.BI "u64 route "  ","
+.BI "const uuid_t *local_uuid "  ","
+.BI "const uuid_t *remote_uuid "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Domain where the XDomain belongs
+.IP "parent" 12
+Parent device (the switch through the connection to the
+other domain is reached).
+.IP "route" 12
+Route string used to reach the other domain
+.IP "local_uuid" 12
+Our local domain UUID
+.IP "remote_uuid" 12
+UUID of the other domain (optional)
+.SH "DESCRIPTION"
+Allocates new XDomain structure and returns pointer to that. The
+object must be released by calling \fBtb_xdomain_put\fP.

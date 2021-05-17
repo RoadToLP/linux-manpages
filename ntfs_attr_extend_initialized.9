@@ -1,0 +1,43 @@
+.TH "ntfs_attr_extend_initialized" 9 "ntfs_attr_extend_initialized" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_extend_initialized \- extend the initialized size of an attribute
+.SH SYNOPSIS
+.B "int" ntfs_attr_extend_initialized
+.BI "(ntfs_inode *ni "  ","
+.BI "const s64 new_init_size "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode of the attribute to extend
+.IP "new_init_size" 12
+requested new initialized size in bytes
+.SH "DESCRIPTION"
+Extend the initialized size of an attribute described by the ntfs inode \fIni\fP
+to \fInew_init_size\fP bytes.  This involves zeroing any non-sparse space between
+the old initialized size and \fInew_init_size\fP both in the page cache and on
+disk (if relevant complete pages are already uptodate in the page cache then
+these are simply marked dirty).
+
+As a side-effect, the file size (vfs inode->i_size) may be incremented as,
+in the resident attribute case, it is tied to the initialized size and, in
+the non-resident attribute case, it may not fall below the initialized size.
+
+Note that if the attribute is resident, we do not need to touch the page
+cache at all.  This is because if the page cache page is not uptodate we
+bring it uptodate later, when doing the write to the mft record since we
+then already have the page mapped.  And if the page is uptodate, the
+non-initialized region will already have been zeroed when the page was
+brought uptodate and the region may in fact already have been overwritten
+with new data via \fBmmap\fP based writes, so we cannot just zero it.  And since
+POSIX specifies that the behaviour of resizing a file whilst it is \fBmmap\fPped
+is unspecified, we choose not to do zeroing and thus we do not need to touch
+the page at all.  For a more detailed explanation see \fBntfs_truncate\fP in
+fs/ntfs/inode.c.
+
+Return 0 on success and -errno on error.  In the case that an error is
+encountered it is possible that the initialized size will already have been
+incremented some way towards \fInew_init_size\fP but it is guaranteed that if
+this is the case, the necessary zeroing will also have happened and that all
+metadata is self-consistent.
+
+Locking: i_mutex on the vfs inode corrseponsind to the ntfs inode \fIni\fP must be
+held by the caller.

@@ -1,0 +1,31 @@
+.TH "setup_physmem" 9 "setup_physmem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setup_physmem \- Setup physical memory for UML
+.SH SYNOPSIS
+.B "void" setup_physmem
+.BI "(unsigned long start "  ","
+.BI "unsigned long reserve_end "  ","
+.BI "unsigned long len "  ","
+.BI "unsigned long long highmem "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+Start address of the physical kernel memory,
+i.e start address of the executable image.
+.IP "reserve_end" 12
+end address of the physical kernel memory.
+.IP "len" 12
+Length of total physical memory that should be mapped/made
+available, in bytes.
+.IP "highmem" 12
+Number of highmem bytes that should be mapped/made available.
+.SH "DESCRIPTION"
+Creates an unlinked temporary file of size (len + highmem) and memory maps
+it on the last executable image address (uml_reserved).
+
+The offset is needed as the length of the total physical memory
+(len + highmem) includes the size of the memory used be the executable image,
+but the mapped-to address is the last address of the executable image
+(uml_reserved == end address of executable image).
+
+The memory mapped memory of the temporary file is used as backing memory
+of all user space processes/kernel tasks.

@@ -1,0 +1,18 @@
+.TH "ftrace_func_mapper_find_ip" 9 "ftrace_func_mapper_find_ip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_func_mapper_find_ip \- Find some data mapped to an ip
+.SH SYNOPSIS
+.B "void **" ftrace_func_mapper_find_ip
+.BI "(struct ftrace_func_mapper *mapper "  ","
+.BI "unsigned long ip "  ");"
+.SH ARGUMENTS
+.IP "mapper" 12
+The mapper that has the ip maps
+.IP "ip" 12
+the instruction pointer to find the data for
+.SH "DESCRIPTION"
+Returns the data mapped to \fIip\fP if found otherwise NULL. The return
+is actually the address of the mapper data pointer. The address is
+returned for use cases where the data is no bigger than a long, and
+the user can use the data pointer as its data instead of having to
+allocate more memory for the reference.

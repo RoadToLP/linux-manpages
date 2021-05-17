@@ -1,0 +1,18 @@
+.TH "reset_control_reset" 9 "reset_control_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reset_control_reset \- reset the controlled device
+.SH SYNOPSIS
+.B "int" reset_control_reset
+.BI "(struct reset_control *rstc "  ");"
+.SH ARGUMENTS
+.IP "rstc" 12
+reset controller
+.SH "DESCRIPTION"
+On a shared reset line the actual reset pulse is only triggered once for the
+lifetime of the reset_control instance: for all but the first caller this is
+a no-op.
+Consumers must not use reset_control_(de)assert on shared reset lines when
+reset_control_reset has been used.
+
+If rstc is NULL it is an optional reset and the function will just
+return 0.

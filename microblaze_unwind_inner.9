@@ -1,0 +1,26 @@
+.TH "microblaze_unwind_inner" 9 "microblaze_unwind_inner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+microblaze_unwind_inner \- Unwind the stack from the specified point
+.SH SYNOPSIS
+.B "void" microblaze_unwind_inner
+.BI "(struct task_struct *task "  ","
+.BI "unsigned long pc "  ","
+.BI "unsigned long fp "  ","
+.BI "unsigned long leaf_return "  ","
+.BI "struct stack_trace *trace "  ","
+.BI "const char *loglvl "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+Task whose stack we are to unwind (may be NULL)
+.IP "pc" 12
+Program counter from which we start unwinding
+.IP "fp" 12
+Frame (stack) pointer from which we start unwinding
+.IP "leaf_return" 12
+Value of r15 at pc. If the function is a leaf, this is
+the caller's return address.
+.IP "trace" 12
+Where to store stack backtrace (PC values).
+NULL == print backtrace to kernel log
+.IP "loglvl" 12
+Used for printk log level if (trace == NULL).

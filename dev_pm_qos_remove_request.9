@@ -1,0 +1,20 @@
+.TH "dev_pm_qos_remove_request" 9 "dev_pm_qos_remove_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_qos_remove_request \- modifies an existing qos request
+.SH SYNOPSIS
+.B "int" dev_pm_qos_remove_request
+.BI "(struct dev_pm_qos_request *req "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+handle to request list element
+.SH "DESCRIPTION"
+Will remove pm qos request from the list of constraints and
+recompute the current target value. Call this on slow code paths.
+
+Returns 1 if the aggregated constraint value has changed,
+0 if the aggregated constraint value has not changed,
+-EINVAL in case of wrong parameters, -ENODEV if the device has been
+removed from the system
+
+Callers should ensure that the target device is not RPM_SUSPENDED before
+using this function for requests of type DEV_PM_QOS_FLAGS.

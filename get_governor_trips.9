@@ -1,0 +1,22 @@
+.TH "get_governor_trips" 9 "get_governor_trips" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_governor_trips \- get the number of the two trip points that are key for this governor
+.SH SYNOPSIS
+.B "void" get_governor_trips
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "struct power_allocator_params *params "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+thermal zone to operate on
+.IP "params" 12
+pointer to private data for this governor
+.SH "DESCRIPTION"
+The power allocator governor works optimally with two trips points:
+a "switch on" trip point and a "maximum desired temperature".  These
+are defined as the first and last passive trip points.
+
+If there is only one trip point, then that's considered to be the
+"maximum desired temperature" trip point and the governor is always
+on.  If there are no passive or active trip points, then the
+governor won't do anything.  In fact, its throttle function
+won't be called at all.

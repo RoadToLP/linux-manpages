@@ -1,0 +1,24 @@
+.TH "spi_nor_set_erase_settings_from_bfpt" 9 "spi_nor_set_erase_settings_from_bfpt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_set_erase_settings_from_bfpt \- set erase type settings from BFPT
+.SH SYNOPSIS
+.B "void" spi_nor_set_erase_settings_from_bfpt
+.BI "(struct spi_nor_erase_type *erase "  ","
+.BI "u32 size "  ","
+.BI "u8 opcode "  ","
+.BI "u8 i "  ");"
+.SH ARGUMENTS
+.IP "erase" 12
+pointer to a structure that describes a SPI NOR erase type
+.IP "size" 12
+the size of the sector/block erased by the erase type
+.IP "opcode" 12
+the SPI command op code to erase the sector/block
+.IP "i" 12
+erase type index as sorted in the Basic Flash Parameter Table
+.SH "DESCRIPTION"
+The supported Erase Types will be sorted at init in ascending order, with
+the smallest Erase Type size being the first member in the erase_type array
+of the spi_nor_erase_map structure. Save the Erase Type index as sorted in
+the Basic Flash Parameter Table since it will be used later on to
+synchronize with the supported Erase Types defined in SFDP optional tables.

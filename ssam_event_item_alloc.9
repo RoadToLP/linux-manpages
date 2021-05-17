@@ -1,0 +1,20 @@
+.TH "ssam_event_item_alloc" 9 "ssam_event_item_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_event_item_alloc \- Allocate an event item with the given payload size.
+.SH SYNOPSIS
+.B "struct ssam_event_item *" ssam_event_item_alloc
+.BI "(size_t len "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "len" 12
+The event payload length.
+.IP "flags" 12
+The flags used for allocation.
+.SH "DESCRIPTION"
+Allocate an event item with the given payload size, preferring allocation
+from the event item cache if the payload is small enough (i.e. smaller than
+SSAM_EVENT_ITEM_CACHE_PAYLOAD_LEN). Sets the item operations and payload
+length values. The item free callback (``ops.free``) should not be
+overwritten after this call.
+.SH "RETURN"
+Returns the newly allocated event item.

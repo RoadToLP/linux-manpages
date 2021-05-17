@@ -1,0 +1,19 @@
+.TH "skb_page_frag_refill" 9 "skb_page_frag_refill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_page_frag_refill \- check that a page_frag contains enough room
+.SH SYNOPSIS
+.B "bool" skb_page_frag_refill
+.BI "(unsigned int sz "  ","
+.BI "struct page_frag *pfrag "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "sz" 12
+minimum size of the fragment we want to get
+.IP "pfrag" 12
+pointer to page_frag
+.IP "gfp" 12
+priority for memory allocation
+.SH "NOTE"
+While this allocator tries to use high order pages, there is
+no guarantee that allocations succeed. Therefore, \fIsz\fP MUST be
+less or equal than PAGE_SIZE.

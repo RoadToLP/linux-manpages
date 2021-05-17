@@ -1,0 +1,23 @@
+.TH "wimax_dev_rm" 9 "wimax_dev_rm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_dev_rm \- Unregister an existing WiMAX device
+.SH SYNOPSIS
+.B "void" wimax_dev_rm
+.BI "(struct wimax_dev *wimax_dev "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor
+.SH "DESCRIPTION"
+Unregisters a WiMAX device previously registered for use with
+\fBwimax_add_rm\fP.
+
+IMPORTANT! Must call before calling \fBunregister_netdev\fP.
+
+After this function returns, you will not get any more user space
+control requests (via netlink or debugfs) and thus to wimax_dev->ops.
+
+Reentrancy control is ensured by setting the state to
+__WIMAX_ST_QUIESCING. rfkill operations coming through
+wimax_*rfkill*() will be stopped by the quiescing state; ops coming
+from the rfkill subsystem will be stopped by the support being
+removed by \fBwimax_rfkill_rm\fP.

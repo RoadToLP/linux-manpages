@@ -1,0 +1,31 @@
+.TH "usb_hcd_alloc_bandwidth" 9 "usb_hcd_alloc_bandwidth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_alloc_bandwidth \- check whether a new bandwidth setting exceeds the bus bandwidth
+.SH SYNOPSIS
+.B "int" usb_hcd_alloc_bandwidth
+.BI "(struct usb_device *udev "  ","
+.BI "struct usb_host_config *new_config "  ","
+.BI "struct usb_host_interface *cur_alt "  ","
+.BI "struct usb_host_interface *new_alt "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+target \fIusb_device\fP
+.IP "new_config" 12
+new configuration to install
+.IP "cur_alt" 12
+the current alternate interface setting
+.IP "new_alt" 12
+alternate interface setting that is being installed
+.SH "DESCRIPTION"
+To change configurations, pass in the new configuration in new_config,
+and pass NULL for cur_alt and new_alt.
+
+To reset a device's configuration (put the device in the ADDRESSED state),
+pass in NULL for new_config, cur_alt, and new_alt.
+
+To change alternate interface settings, pass in NULL for new_config,
+pass in the current alternate interface setting in cur_alt,
+and pass in the new alternate interface setting in new_alt.
+.SH "RETURN"
+An error if the requested bandwidth change exceeds the
+bus bandwidth or host controller internal resources.

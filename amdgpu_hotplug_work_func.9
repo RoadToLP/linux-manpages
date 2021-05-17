@@ -1,0 +1,20 @@
+.TH "amdgpu_hotplug_work_func" 9 "amdgpu_hotplug_work_func" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_hotplug_work_func \- work handler for display hotplug event
+.SH SYNOPSIS
+.B "void" amdgpu_hotplug_work_func
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work struct pointer
+.SH "DESCRIPTION"
+This is the hotplug event work handler (all ASICs).
+The work gets scheduled from the IRQ handler if there
+was a hotplug interrupt.  It walks through the connector table
+and calls hotplug handler for each connector. After this, it sends
+a DRM hotplug event to alert userspace.
+
+This design approach is required in order to defer hotplug event handling
+from the IRQ handler to a work handler because hotplug handler has to use
+mutexes which cannot be locked in an IRQ handler (since \fImutex_lock\fP may
+sleep).

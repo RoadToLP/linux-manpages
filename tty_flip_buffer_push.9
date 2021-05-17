@@ -1,0 +1,15 @@
+.TH "tty_flip_buffer_push" 9 "tty_flip_buffer_push" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_flip_buffer_push \- terminal
+.SH SYNOPSIS
+.B "void" tty_flip_buffer_push
+.BI "(struct tty_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty port to push
+
+Queue a push of the terminal flip buffers to the line discipline.
+Can be called from IRQ/atomic context.
+
+In the event of the queue being busy for flipping the work will be
+held off and retried later.

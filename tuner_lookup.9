@@ -1,0 +1,22 @@
+.TH "tuner_lookup" 9 "tuner_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tuner_lookup \- Seek for tuner adapters
+.SH SYNOPSIS
+.B "void" tuner_lookup
+.BI "(struct i2c_adapter *adap "  ","
+.BI "struct tuner **radio "  ","
+.BI "struct tuner **tv "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+i2c_adapter struct
+.IP "radio" 12
+pointer to be filled if the adapter is radio
+.IP "tv" 12
+pointer to be filled if the adapter is TV
+.SH "DESCRIPTION"
+Search for existing radio and/or TV tuners on the given I2C adapter,
+discarding demod-only adapters (tda9887).
+
+Note that when this function is called from tuner_probe you can be
+certain no other devices will be added/deleted at the same time, I2C
+core protects against that.

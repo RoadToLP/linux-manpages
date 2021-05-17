@@ -1,0 +1,27 @@
+.TH "mempool_create" 9 "mempool_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mempool_create \- create a memory pool
+.SH SYNOPSIS
+.B "mempool_t *" mempool_create
+.BI "(int min_nr "  ","
+.BI "mempool_alloc_t *alloc_fn "  ","
+.BI "mempool_free_t *free_fn "  ","
+.BI "void *pool_data "  ");"
+.SH ARGUMENTS
+.IP "min_nr" 12
+the minimum number of elements guaranteed to be
+allocated for this pool.
+.IP "alloc_fn" 12
+user-defined element-allocation function.
+.IP "free_fn" 12
+user-defined element-freeing function.
+.IP "pool_data" 12
+optional private data available to the user-defined functions.
+.SH "DESCRIPTION"
+this function creates and allocates a guaranteed size, preallocated
+memory pool. The pool can be used from the \fBmempool_alloc\fP and \fBmempool_free\fP
+functions. This function might sleep. Both the \fBalloc_fn\fP and the \fBfree_fn\fP
+functions might sleep - as long as the \fBmempool_alloc\fP function is not called
+from IRQ contexts.
+.SH "RETURN"
+pointer to the created memory pool object or NULL on error.

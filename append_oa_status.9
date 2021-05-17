@@ -1,0 +1,28 @@
+.TH "append_oa_status" 9 "append_oa_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+append_oa_status \- Appends a status record to a userspace read() buffer.
+.SH SYNOPSIS
+.B "int" append_oa_status
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "size_t *offset "  ","
+.BI "enum drm_i915_perf_record_type type "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.IP "buf" 12
+destination buffer given by userspace
+.IP "count" 12
+the number of bytes userspace wants to read
+.IP "offset" 12
+(inout): the current position for writing into \fIbuf\fP
+.IP "type" 12
+The kind of status to report to userspace
+.SH "DESCRIPTION"
+Writes a status record (such as `DRM_I915_PERF_RECORD_OA_REPORT_LOST`)
+into the userspace \fBread\fP buffer.
+
+The \fIbuf\fP \fIoffset\fP will only be updated on success.
+.SH "RETURN"
+0 on success, negative error code on failure.

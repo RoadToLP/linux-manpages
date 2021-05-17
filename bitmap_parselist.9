@@ -1,0 +1,34 @@
+.TH "bitmap_parselist" 9 "bitmap_parselist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_parselist \- convert list format ASCII string to bitmap
+.SH SYNOPSIS
+.B "int" bitmap_parselist
+.BI "(const char *buf "  ","
+.BI "unsigned long *maskp "  ","
+.BI "int nmaskbits "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+read user string from this buffer; must be terminated
+with a \0 or \n.
+.IP "maskp" 12
+write resulting mask here
+.IP "nmaskbits" 12
+number of bits in mask to be written
+.SH "DESCRIPTION"
+Input format is a comma-separated list of decimal numbers and
+ranges.  Consecutively set bits are shown as two hyphen-separated
+decimal numbers, the smallest and largest bit numbers set in
+the range.
+Optionally each range can be postfixed to denote that only parts of it
+should be set. The range will divided to groups of specific size.
+From each group will be used only defined amount of bits.
+Syntax: range:used_size/group_size
+.SH "EXAMPLE"
+0-1023:2/256 ==> 0,1,256,257,512,513,768,769
+.SH "RETURN"
+0 on success, -errno on invalid input strings. Error values:
+
+- ``-EINVAL``: wrong region format
+- ``-EINVAL``: invalid character in string
+- ``-ERANGE``: bit number specified too large for mask
+- ``-EOVERFLOW``: integer overflow in the input parameters

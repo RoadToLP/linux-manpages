@@ -1,0 +1,58 @@
+.TH "bch_decode" 9 "bch_decode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bch_decode \- decode received codeword and find bit error locations
+.SH SYNOPSIS
+.B "int" bch_decode
+.BI "(struct bch_control *bch "  ","
+.BI "const uint8_t *data "  ","
+.BI "unsigned int len "  ","
+.BI "const uint8_t *recv_ecc "  ","
+.BI "const uint8_t *calc_ecc "  ","
+.BI "const unsigned int *syn "  ","
+.BI "unsigned int *errloc "  ");"
+.SH ARGUMENTS
+.IP "bch" 12
+BCH control structure
+.IP "data" 12
+received data, ignored if \fIcalc_ecc\fP is provided
+.IP "len" 12
+data length in bytes, must always be provided
+.IP "recv_ecc" 12
+received ecc, if NULL then assume it was XORed in \fIcalc_ecc\fP
+.IP "calc_ecc" 12
+calculated ecc, if NULL then calc_ecc is computed from \fIdata\fP
+.IP "syn" 12
+hw computed syndrome data (if NULL, syndrome is calculated)
+.IP "errloc" 12
+output array of error locations
+.SH "RETURN"
+The number of errors found, or -EBADMSG if decoding failed, or -EINVAL if
+invalid parameters were provided
+.SH "DESCRIPTION"
+Depending on the available hw BCH support and the need to compute \fIcalc_ecc\fP
+separately (using \fBbch_encode\fP), this function should be called with one of
+the following parameter configurations -
+
+by providing \fIdata\fP and \fIrecv_ecc\fP only:
+bch_decode(\fIbch\fP, \fIdata\fP, \fIlen\fP, \fIrecv_ecc\fP, NULL, NULL, \fIerrloc\fP)
+
+by providing \fIrecv_ecc\fP and \fIcalc_ecc\fP:
+bch_decode(\fIbch\fP, NULL, \fIlen\fP, \fIrecv_ecc\fP, \fIcalc_ecc\fP, NULL, \fIerrloc\fP)
+
+by providing ecc = recv_ecc XOR calc_ecc:
+bch_decode(\fIbch\fP, NULL, \fIlen\fP, NULL, ecc, NULL, \fIerrloc\fP)
+
+by providing syndrome results \fIsyn\fP:
+bch_decode(\fIbch\fP, NULL, \fIlen\fP, NULL, NULL, \fIsyn\fP, \fIerrloc\fP)
+
+Once \fBbch_decode\fP has successfully returned with a positive value, error
+locations returned in array \fIerrloc\fP should be interpreted as follows -
+
+if (errloc[n] >= 8*len), then n-th error is located in ecc (no need for
+data correction)
+
+if (errloc[n] < 8*len), then n-th error is located in data and can be
+corrected with statement data[errloc[n]/8] ^= 1 << (errloc[n] % 8);
+
+Note that this function does not perform any data correction by itself, it
+merely indicates error locations.

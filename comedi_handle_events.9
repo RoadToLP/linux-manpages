@@ -1,0 +1,23 @@
+.TH "comedi_handle_events" 9 "comedi_handle_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_handle_events \- Handle events and possibly stop acquisition
+.SH SYNOPSIS
+.B "unsigned int" comedi_handle_events
+.BI "(struct comedi_device *dev "  ","
+.BI "struct comedi_subdevice *s "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "s" 12
+COMEDI subdevice.
+.SH "DESCRIPTION"
+Handles outstanding asynchronous acquisition event flags associated
+with the subdevice.  Call the subdevice's \fIs\fP->\fBcancel\fP handler if the
+"end of acquisition", "error" or "overflow" event flags are set in order
+to stop the acquisition at the driver level.
+
+Calls \fBcomedi_event\fP to further process the event flags, which may mark
+the asynchronous command as no longer running, possibly terminated with
+an error, and may wake up tasks.
+
+Return a bit-mask of the handled events.

@@ -1,0 +1,26 @@
+.TH "sys_name_to_handle_at" 9 "sys_name_to_handle_at" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_name_to_handle_at \- convert name to handle
+.SH SYNOPSIS
+.B "long" sys_name_to_handle_at
+.BI "(int dfd "  ","
+.BI "const char __user * name "  ","
+.BI "struct file_handle __user * handle "  ","
+.BI "int __user * mnt_id "  ","
+.BI "int flag "  ");"
+.SH ARGUMENTS
+.IP "dfd" 12
+directory relative to which name is interpreted if not absolute
+.IP "name" 12
+name that should be converted to handle.
+.IP "handle" 12
+resulting file handle
+.IP "mnt_id" 12
+mount id of the file system containing the file
+.IP "flag" 12
+flag value to indicate whether to follow symlink or not
+.SH "DESCRIPTION"
+\fIhandle->handle_size\fP indicate the space available to store the
+variable part of the file handle in bytes. If there is not
+enough space, the field is updated to return the minimum
+value required.

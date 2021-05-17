@@ -1,0 +1,17 @@
+.TH "llc_lookup_listener" 9 "llc_lookup_listener" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_lookup_listener \- Finds listener for local MAC + SAP
+.SH SYNOPSIS
+.B "struct sock *" llc_lookup_listener
+.BI "(struct llc_sap *sap "  ","
+.BI "struct llc_addr *laddr "  ");"
+.SH ARGUMENTS
+.IP "sap" 12
+SAP
+.IP "laddr" 12
+address of local LLC (MAC + SAP)
+
+Search connection list of the SAP and finds connection listening on
+local mac, and local sap. Returns pointer for parent socket found,
+NULL otherwise.
+Caller has to make sure local_bh is disabled.

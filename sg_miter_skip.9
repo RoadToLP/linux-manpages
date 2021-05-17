@@ -1,0 +1,22 @@
+.TH "sg_miter_skip" 9 "sg_miter_skip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sg_miter_skip \- reposition mapping iterator
+.SH SYNOPSIS
+.B "bool" sg_miter_skip
+.BI "(struct sg_mapping_iter *miter "  ","
+.BI "off_t offset "  ");"
+.SH ARGUMENTS
+.IP "miter" 12
+sg mapping iter to be skipped
+.IP "offset" 12
+number of bytes to plus the current location
+.SH "DESCRIPTION"
+Sets the offset of \fImiter\fP to its current location plus \fIoffset\fP bytes.
+If mapping iterator \fImiter\fP has been proceeded by \fBsg_miter_next\fP, this
+stops \fImiter\fP.
+.SH "CONTEXT"
+Don't care if \fImiter\fP is stopped, or not proceeded yet.
+Otherwise, preemption disabled if the SG_MITER_ATOMIC is set.
+.SH "RETURN"
+true if \fImiter\fP contains the valid mapping.  false if end of sg
+list is reached.

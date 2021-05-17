@@ -1,0 +1,24 @@
+.TH "tracing_map_init" 9 "tracing_map_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_init \- Allocate and clear a map's tracing_map_elts
+.SH SYNOPSIS
+.B "int" tracing_map_init
+.BI "(struct tracing_map *map "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The tracing_map to initialize
+.SH "DESCRIPTION"
+Allocates a clears a pool of tracing_map_elts equal to the
+user-specified size of 2 ** map_bits (internally maintained as
+'max_elts' in struct tracing_map).  Before using, the map fields
+should be added to the map with \fBtracing_map_add_sum_field\fP and
+\fBtracing_map_add_key_field\fP.  \fBtracing_map_init\fP should then be
+called to allocate the array of tracing_map_elts, in order to avoid
+allocating anything in the map insertion path.  The user-specified
+map size reflects the max number of elements requested by the user
+- internally we double that in order to keep the table sparse and
+keep collisions manageable.
+
+See tracing_map.h for a description of tracing_map_ops.
+.SH "RETURN"
+the tracing_map pointer if successful, ERR_PTR if not.

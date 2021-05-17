@@ -1,0 +1,25 @@
+.TH "unmap_mapping_range" 9 "unmap_mapping_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_mapping_range \- unmap the portion of all mmaps in the specified address_space corresponding to the specified byte range in the underlying file.
+.SH SYNOPSIS
+.B "void" unmap_mapping_range
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t const holebegin "  ","
+.BI "loff_t const holelen "  ","
+.BI "int even_cows "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address space containing mmaps to be unmapped.
+.IP "holebegin" 12
+byte in first page to unmap, relative to the start of
+the underlying file.  This will be rounded down to a PAGE_SIZE
+boundary.  Note that this is different from \fBtruncate_pagecache\fP, which
+must keep the partial page.  In contrast, we must get rid of
+partial pages.
+.IP "holelen" 12
+size of prospective hole in bytes.  This will be rounded
+up to a PAGE_SIZE boundary.  A holelen of zero truncates to the
+end of the file.
+.IP "even_cows" 12
+1 when truncating a file, unmap even private COWed pages;
+but 0 when invalidating pagecache, don't throw away private data.

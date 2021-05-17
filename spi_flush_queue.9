@@ -1,0 +1,14 @@
+.TH "spi_flush_queue" 9 "spi_flush_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_flush_queue \- Send all pending messages in the queue from the callers' context
+.SH SYNOPSIS
+.B "void" spi_flush_queue
+.BI "(struct spi_controller *ctlr "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+controller to process queue for
+.SH "DESCRIPTION"
+This should be used when one wants to ensure all pending messages have been
+sent before doing something. Is used by the spi-mem code to make sure SPI
+memory operations do not preempt regular SPI transfers that have been queued
+before the spi-mem operation.

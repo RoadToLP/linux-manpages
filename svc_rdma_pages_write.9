@@ -1,0 +1,23 @@
+.TH "svc_rdma_pages_write" 9 "svc_rdma_pages_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_pages_write \- Construct RDMA Writes from pages
+.SH SYNOPSIS
+.B "int" svc_rdma_pages_write
+.BI "(struct svc_rdma_write_info *info "  ","
+.BI "const struct xdr_buf *xdr "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned long length "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+pointer to write arguments
+.IP "xdr" 12
+xdr_buf with pages to write
+.IP "offset" 12
+offset into the content of \fIxdr\fP
+.IP "length" 12
+number of bytes to write
+.SH "RETURN"
+On succes, returns zero
+-E2BIG if the client-provided Write chunk is too small
+-ENOMEM if a resource has been exhausted
+-EIO if an rdma-rw error occurred

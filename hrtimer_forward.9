@@ -1,0 +1,26 @@
+.TH "hrtimer_forward" 9 "hrtimer_forward" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hrtimer_forward \- forward the timer expiry
+.SH SYNOPSIS
+.B "u64" hrtimer_forward
+.BI "(struct hrtimer *timer "  ","
+.BI "ktime_t now "  ","
+.BI "ktime_t interval "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+hrtimer to forward
+.IP "now" 12
+forward past this time
+.IP "interval" 12
+the interval to forward
+.SH "DESCRIPTION"
+Forward the timer expiry so it will expire in the future.
+Returns the number of overruns.
+
+Can be safely called from the callback function of \fItimer\fP. If
+called from other contexts \fItimer\fP must neither be enqueued nor
+running the callback and the caller needs to take care of
+serialization.
+.SH "NOTE"
+This only updates the timer expiry value and does not requeue
+the timer.

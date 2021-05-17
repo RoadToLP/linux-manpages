@@ -1,0 +1,22 @@
+.TH "fsl_dma_pointer" 9 "fsl_dma_pointer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_dma_pointer \- determine the current position of the DMA transfer
+.SH SYNOPSIS
+.B "snd_pcm_uframes_t" fsl_dma_pointer
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_pcm_substream *substream "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+-- undescribed --
+.IP "substream" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function is called by ALSA when ALSA wants to know where in the
+stream buffer the hardware currently is.
+
+For playback, the SAR register contains the physical address of the most
+recent DMA transfer.  For capture, the value is in the DAR register.
+
+The base address of the buffer is stored in the source_addr field of the
+first link descriptor.

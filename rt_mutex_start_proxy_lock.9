@@ -1,0 +1,27 @@
+.TH "rt_mutex_start_proxy_lock" 9 "rt_mutex_start_proxy_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rt_mutex_start_proxy_lock \- Start lock acquisition for another task
+.SH SYNOPSIS
+.B "int" rt_mutex_start_proxy_lock
+.BI "(struct rt_mutex *lock "  ","
+.BI "struct rt_mutex_waiter *waiter "  ","
+.BI "struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex to take
+.IP "waiter" 12
+the pre-initialized rt_mutex_waiter
+.IP "task" 12
+the task to prepare
+.SH "DESCRIPTION"
+Starts the rt_mutex acquire; it enqueues the \fIwaiter\fP and does deadlock
+detection. It does not wait, see \fBrt_mutex_wait_proxy_lock\fP for that.
+
+Special API call for PI-futex support.
+.SH "NOTE"
+unlike __rt_mutex_start_proxy_lock this _DOES_ remove the \fIwaiter\fP
+on failure.
+.SH "RETURN"
+0 - task blocked on lock
+1 - acquired the lock for task, caller should wake it up
+<0 - error

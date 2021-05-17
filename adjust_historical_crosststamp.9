@@ -1,0 +1,30 @@
+.TH "adjust_historical_crosststamp" 9 "adjust_historical_crosststamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+adjust_historical_crosststamp \- adjust crosstimestamp previous to current interval
+.SH SYNOPSIS
+.B "int" adjust_historical_crosststamp
+.BI "(struct system_time_snapshot *history "  ","
+.BI "u64 partial_history_cycles "  ","
+.BI "u64 total_history_cycles "  ","
+.BI "bool discontinuity "  ","
+.BI "struct system_device_crosststamp *ts "  ");"
+.SH ARGUMENTS
+.IP "history" 12
+Snapshot representing start of history
+.IP "partial_history_cycles" 12
+Cycle offset into history (fractional part)
+.IP "total_history_cycles" 12
+Total history length in cycles
+.IP "discontinuity" 12
+True indicates clock was set on history period
+.IP "ts" 12
+Cross timestamp that should be adjusted using
+partial/total ratio
+.SH "DESCRIPTION"
+Helper function used by \fBget_device_system_crosststamp\fP to correct the
+crosstimestamp corresponding to the start of the current interval to the
+system counter value (timestamp point) provided by the driver. The
+total_history_* quantities are the total history starting at the provided
+reference point and ending at the start of the current interval. The cycle
+count between the driver timestamp point and the start of the current
+interval is partial_history_cycles.

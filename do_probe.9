@@ -1,0 +1,27 @@
+.TH "do_probe" 9 "do_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_probe \- probe an IDE device
+.SH SYNOPSIS
+.B "int" do_probe
+.BI "(ide_drive_t *drive "  ","
+.BI "u8 cmd "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive to probe
+.IP "cmd" 12
+command to use
+
+\fBdo_probe\fP has the difficult job of finding a drive if it exists,
+without getting hung up if it doesn't exist, without trampling on
+ethernet cards, and without leaving any IRQs dangling to haunt us later.
+
+If a drive is "known" to exist (from CMOS or kernel parameters),
+but does not respond right away, the probe will "hang in there"
+for the maximum wait time (about 30 seconds), otherwise it will
+exit much more quickly.
+.SH "RETURN"
+0  device was identified
+1  device timed-out (no response to identify request)
+2  device aborted the command (refused to identify itself)
+3  bad status from device (possible for ATAPI drives)
+4  probe was not attempted because failure was obvious

@@ -1,0 +1,19 @@
+.TH "bd70528_wdt_set" 9 "bd70528_wdt_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bd70528_wdt_set \- arm or disarm watchdog timer
+.SH SYNOPSIS
+.B "int" bd70528_wdt_set
+.BI "(struct rohm_regmap_dev *data "  ","
+.BI "int enable "  ","
+.BI "int *old_state "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+device data for the PMIC instance we want to operate on
+.IP "enable" 12
+new state of WDT. zero to disable, non zero to enable
+.IP "old_state" 12
+previous state of WDT will be filled here
+.SH "DESCRIPTION"
+Arm or disarm WDT on BD70528 PMIC. Expected to be called only by
+BD70528 RTC and BD70528 WDT drivers. The rtc_timer_lock must be taken
+by calling bd70528_wdt_lock before calling bd70528_wdt_set.

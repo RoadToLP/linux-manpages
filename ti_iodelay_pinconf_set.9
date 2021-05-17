@@ -1,0 +1,21 @@
+.TH "ti_iodelay_pinconf_set" 9 "ti_iodelay_pinconf_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_iodelay_pinconf_set \- Configure the pin configuration
+.SH SYNOPSIS
+.B "int" ti_iodelay_pinconf_set
+.BI "(struct ti_iodelay_device *iod "  ","
+.BI "struct ti_iodelay_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "iod" 12
+iodelay device
+.IP "cfg" 12
+Configuration
+.SH "DESCRIPTION"
+Update the configuration register as per TRM and lockup once done.
+*IMPORTANT NOTE* SoC TRM does recommend doing iodelay programmation only
+while in Isolation. But, then, isolation also implies that every pin
+on the SoC (including DDR) will be isolated out. The only benefit being
+a glitchless configuration, However, the intent of this driver is purely
+to support a "glitchy" configuration where applicable.
+.SH "RETURN"
+0 in case of success, else appropriate error value

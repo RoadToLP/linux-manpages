@@ -1,0 +1,19 @@
+.TH "region_find_by_minor" 9 "region_find_by_minor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+region_find_by_minor \- Locate a pseudo-lock region by inode minor number
+.SH SYNOPSIS
+.B "struct rdtgroup *" region_find_by_minor
+.BI "(unsigned int minor "  ");"
+.SH ARGUMENTS
+.IP "minor" 12
+The minor number of the device representing pseudo-locked region
+.SH "DESCRIPTION"
+When the character device is accessed we need to determine which
+pseudo-locked region it belongs to. This is done by matching the minor
+number of the device to the pseudo-locked region it belongs.
+
+Minor numbers are assigned at the time a pseudo-locked region is associated
+with a cache instance.
+.SH "RETURN"
+On success return pointer to resource group owning the pseudo-locked
+region, NULL on failure.

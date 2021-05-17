@@ -1,0 +1,43 @@
+.TH "rxrpc_kernel_begin_call" 9 "rxrpc_kernel_begin_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rxrpc_kernel_begin_call \- Allow a kernel service to begin a call
+.SH SYNOPSIS
+.B "struct rxrpc_call *" rxrpc_kernel_begin_call
+.BI "(struct socket *sock "  ","
+.BI "struct sockaddr_rxrpc *srx "  ","
+.BI "struct key *key "  ","
+.BI "unsigned long user_call_ID "  ","
+.BI "s64 tx_total_len "  ","
+.BI "gfp_t gfp "  ","
+.BI "rxrpc_notify_rx_t notify_rx "  ","
+.BI "bool upgrade "  ","
+.BI "enum rxrpc_interruptibility interruptibility "  ","
+.BI "unsigned int debug_id "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+The socket on which to make the call
+.IP "srx" 12
+The address of the peer to contact
+.IP "key" 12
+The security context to use (defaults to socket setting)
+.IP "user_call_ID" 12
+The ID to use
+.IP "tx_total_len" 12
+Total length of data to transmit during the call (or -1)
+.IP "gfp" 12
+The allocation constraints
+.IP "notify_rx" 12
+Where to send notifications instead of socket queue
+.IP "upgrade" 12
+Request service upgrade for call
+.IP "interruptibility" 12
+The call is interruptible, or can be canceled.
+.IP "debug_id" 12
+The debug ID for tracing to be assigned to the call
+.SH "DESCRIPTION"
+Allow a kernel service to begin a call on the nominated socket.  This just
+sets up all the internal tracking structures and allocates connection and
+call IDs as appropriate.  The call to be used is returned.
+
+The default socket destination address and security may be overridden by
+supplying \fIsrx\fP and \fIkey\fP.

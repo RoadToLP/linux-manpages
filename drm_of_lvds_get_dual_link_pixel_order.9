@@ -1,0 +1,36 @@
+.TH "drm_of_lvds_get_dual_link_pixel_order" 9 "drm_of_lvds_get_dual_link_pixel_order" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_of_lvds_get_dual_link_pixel_order \- Get LVDS dual-link pixel order
+.SH SYNOPSIS
+.B "int" drm_of_lvds_get_dual_link_pixel_order
+.BI "(const struct device_node *port1 "  ","
+.BI "const struct device_node *port2 "  ");"
+.SH ARGUMENTS
+.IP "port1" 12
+First DT port node of the Dual-link LVDS source
+.IP "port2" 12
+Second DT port node of the Dual-link LVDS source
+.SH "DESCRIPTION"
+An LVDS dual-link connection is made of two links, with even pixels
+transitting on one link, and odd pixels on the other link. This function
+returns, for two ports of an LVDS dual-link source, which port shall transmit
+the even and odd pixels, based on the requirements of the connected sink.
+
+The pixel order is determined from the dual-lvds-even-pixels and
+dual-lvds-odd-pixels properties in the sink's DT port nodes. If those
+properties are not present, or if their usage is not valid, this function
+returns -EINVAL.
+
+If either port is not connected, this function returns -EPIPE.
+
+\fIport1\fP and \fIport2\fP are typically DT sibling nodes, but may have different
+parents when, for instance, two separate LVDS encoders carry the even and odd
+pixels.
+.SH "RETURN"
+* DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - \fIport1\fP carries even pixels and \fIport2\fP
+carries odd pixels
+* DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - \fIport1\fP carries odd pixels and \fIport2\fP
+carries even pixels
+* -EINVAL - \fIport1\fP and \fIport2\fP are not connected to a dual-link LVDS sink, or
+the sink configuration is invalid
+* -EPIPE - when \fIport1\fP or \fIport2\fP are not connected

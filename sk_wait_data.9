@@ -1,0 +1,20 @@
+.TH "sk_wait_data" 9 "sk_wait_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sk_wait_data \- wait for data to arrive at sk_receive_queue
+.SH SYNOPSIS
+.B "int" sk_wait_data
+.BI "(struct sock *sk "  ","
+.BI "long *timeo "  ","
+.BI "const struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+sock to wait on
+.IP "timeo" 12
+for how long
+.IP "skb" 12
+last skb seen on sk_receive_queue
+.SH "DESCRIPTION"
+Now socket state including sk->sk_err is changed only under lock,
+hence we may omit checks after joining wait queue.
+We check receive queue before \fBschedule\fP only as optimization;
+it is very likely that \fBrelease_sock\fP added new data.

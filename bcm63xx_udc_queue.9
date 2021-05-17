@@ -1,0 +1,23 @@
+.TH "bcm63xx_udc_queue" 9 "bcm63xx_udc_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_udc_queue \- Queue up a new request.
+.SH SYNOPSIS
+.B "int" bcm63xx_udc_queue
+.BI "(struct usb_ep *ep "  ","
+.BI "struct usb_request *req "  ","
+.BI "gfp_t mem_flags "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+Endpoint associated with the request.
+.IP "req" 12
+Request to add.
+.IP "mem_flags" 12
+Unused.
+.SH "DESCRIPTION"
+If the queue is empty, start this request immediately.  Otherwise, add
+it to the list.
+
+ep0 replies are sent through this function from the gadget driver, but
+they are treated differently because they need to be handled by the ep0
+state machine.  (Sometimes they are replies to control requests that
+were spoofed by this driver, and so they shouldn't be transmitted at all.)

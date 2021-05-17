@@ -1,0 +1,21 @@
+.TH "ata_ehi_push_desc" 9 "ata_ehi_push_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_ehi_push_desc \- push error description with separator
+.SH SYNOPSIS
+.B "void" ata_ehi_push_desc
+.BI "(struct ata_eh_info *ehi "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "ehi" 12
+target EHI
+.IP "fmt" 12
+printf format string
+
+Format string according to \fIfmt\fP and append it to \fIehi->desc\fP.
+If \fIehi->desc\fP is not empty, ", " is added in-between.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.IP "..." 12
+variable arguments

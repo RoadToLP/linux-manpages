@@ -1,0 +1,25 @@
+.TH "from_kprojid_munged" 9 "from_kprojid_munged" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kprojid_munged \- Create a projiid from a kprojid user-namespace pair.
+.SH SYNOPSIS
+.B "projid_t" from_kprojid_munged
+.BI "(struct user_namespace *targ "  ","
+.BI "kprojid_t kprojid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a projid in.
+.IP "kprojid" 12
+The kernel internal projid to start with.
+
+Map \fIkprojid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting projid.
+
+There is always a mapping into the initial user_namespace.
+
+Unlike from_kprojid from_kprojid_munged never fails and always
+returns a valid projid.  This makes from_kprojid_munged
+appropriate for use in syscalls like stat and where
+failing the system call and failing to provide a valid projid are
+not an options.
+
+If \fIkprojid\fP has no mapping in \fItarg\fP OVERFLOW_PROJID is returned.

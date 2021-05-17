@@ -1,0 +1,27 @@
+.TH "drm_fb_swab" 9 "drm_fb_swab" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_swab \- Swap bytes into clip buffer
+.SH SYNOPSIS
+.B "void" drm_fb_swab
+.BI "(void *dst "  ","
+.BI "void *src "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_rect *clip "  ","
+.BI "bool cached "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+Destination buffer
+.IP "src" 12
+Source buffer
+.IP "fb" 12
+DRM framebuffer
+.IP "clip" 12
+Clip rectangle area to copy
+.IP "cached" 12
+Source buffer is mapped cached (eg. not write-combined)
+.SH "DESCRIPTION"
+If \fIcached\fP is false a temporary buffer is used to cache one pixel line at a
+time to speed up slow uncached reads.
+
+This function does not apply clipping on dst, i.e. the destination
+is a small buffer containing the clip rect only.

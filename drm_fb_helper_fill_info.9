@@ -1,0 +1,22 @@
+.TH "drm_fb_helper_fill_info" 9 "drm_fb_helper_fill_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_helper_fill_info \- initializes fbdev information
+.SH SYNOPSIS
+.B "void" drm_fb_helper_fill_info
+.BI "(struct fb_info *info "  ","
+.BI "struct drm_fb_helper *fb_helper "  ","
+.BI "struct drm_fb_helper_surface_size *sizes "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+fbdev instance to set up
+.IP "fb_helper" 12
+fb helper instance to use as template
+.IP "sizes" 12
+describes fbdev size and scanout surface size
+.SH "DESCRIPTION"
+Sets up the variable and fixed fbdev metainformation from the given fb helper
+instance and the drm framebuffer allocated in \fIdrm_fb_helper.fb\fP.
+
+Drivers should call this (or their equivalent setup code) from their
+\fIdrm_fb_helper_funcs.fb_probe\fP callback after having allocated the fbdev
+backing storage framebuffer.

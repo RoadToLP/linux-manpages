@@ -1,0 +1,24 @@
+.TH "gfs2_blk2rgrpd" 9 "gfs2_blk2rgrpd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_blk2rgrpd \- Find resource group for a given data/meta block number
+.SH SYNOPSIS
+.B "struct gfs2_rgrpd *" gfs2_blk2rgrpd
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "u64 blk "  ","
+.BI "bool exact "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.IP "blk" 12
+The data block number
+.IP "exact" 12
+True if this needs to be an exact match
+.SH "DESCRIPTION"
+The \fIexact\fP argument should be set to true by most callers. The exception
+is when we need to match blocks which are not represented by the rgrp
+bitmap, but which are part of the rgrp (i.e. padding blocks) which are
+there for alignment purposes. Another way of looking at it is that \fIexact\fP
+matches only valid data/metadata blocks, but with \fIexact\fP false, it will
+match any block within the extent of the rgrp.
+.SH "RETURN"
+The resource group, or NULL if not found

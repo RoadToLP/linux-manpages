@@ -1,0 +1,23 @@
+.TH "gtm_set_timer16" 9 "gtm_set_timer16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gtm_set_timer16 \- (re)set 16 bit timer with arbitrary precision
+.SH SYNOPSIS
+.B "int" gtm_set_timer16
+.BI "(struct gtm_timer *tmr "  ","
+.BI "unsigned long usec "  ","
+.BI "bool reload "  ");"
+.SH ARGUMENTS
+.IP "tmr" 12
+pointer to the gtm_timer structure obtained from gtm_get_timer
+.IP "usec" 12
+timer interval in microseconds
+.IP "reload" 12
+if set, the timer will reset upon expiry rather than
+continue running free.
+.SH "CONTEXT"
+any
+.SH "DESCRIPTION"
+This function (re)sets the GTM timer so that it counts up to the requested
+interval value, and fires the interrupt when the value is reached. This
+function will reduce the precision of the timer as needed in order for the
+requested timeout to fit in a 16-bit register.

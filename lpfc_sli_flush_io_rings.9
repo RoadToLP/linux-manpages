@@ -1,0 +1,15 @@
+.TH "lpfc_sli_flush_io_rings" 9 "lpfc_sli_flush_io_rings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_flush_io_rings \- flush all iocbs in the IO ring
+.SH SYNOPSIS
+.B "void" lpfc_sli_flush_io_rings
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function flushes all iocbs in the IO ring and frees all the iocb
+objects in txq and txcmplq. This function will not issue abort iocbs
+for all the iocb commands in txcmplq, they will just be returned with
+IOERR_SLI_DOWN. This function is invoked with EEH when device's PCI
+slot has been permanently disabled.

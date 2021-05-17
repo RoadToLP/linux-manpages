@@ -1,0 +1,21 @@
+.TH "device_for_each_child" 9 "device_for_each_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_for_each_child \- device child iterator.
+.SH SYNOPSIS
+.B "int" device_for_each_child
+.BI "(struct device *parent "  ","
+.BI "void *data "  ","
+.BI "int (*fn)(struct device *dev, void *data) "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+parent struct device.
+.IP "data" 12
+data for the callback.
+.IP "fn" 12
+function to be called for each device.
+.SH "DESCRIPTION"
+Iterate over \fIparent\fP's child devices, and call \fIfn\fP for each,
+passing it \fIdata\fP.
+
+We check the return of \fIfn\fP each time. If it returns anything
+other than 0, we break out and return that value.

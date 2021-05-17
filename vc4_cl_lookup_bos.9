@@ -1,0 +1,19 @@
+.TH "vc4_cl_lookup_bos" 9 "vc4_cl_lookup_bos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vc4_cl_lookup_bos \- Sets up exec->bo[] with the GEM objects referenced by the job.
+.SH SYNOPSIS
+.B "int" vc4_cl_lookup_bos
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct vc4_exec_info *exec "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "file_priv" 12
+DRM file for this fd
+.IP "exec" 12
+V3D job being set up
+.SH "DESCRIPTION"
+The command validator needs to reference BOs by their index within
+the submitted job's BO list.  This does the validation of the job's
+BO list and reference counting for the lifetime of the job.

@@ -1,0 +1,27 @@
+.TH "tipc_poll" 9 "tipc_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_poll \- read and possibly block on pollmask
+.SH SYNOPSIS
+.B "__poll_t" tipc_poll
+.BI "(struct file *file "  ","
+.BI "struct socket *sock "  ","
+.BI "poll_table *wait "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file structure associated with the socket
+.IP "sock" 12
+socket for which to calculate the poll bits
+.IP "wait" 12
+???
+.SH "RETURN"
+pollmask value
+.SH "DESCRIPTION"
+COMMENTARY:
+It appears that the usual socket locking mechanisms are not useful here
+since the pollmask info is potentially out-of-date the moment this routine
+exits.  TCP and other protocols seem to rely on higher level poll routines
+to handle any preventable race conditions, so TIPC will do the same ...
+
+IMPORTANT: The fact that a read or write operation is indicated does NOT
+imply that the operation will succeed, merely that it should be performed
+and will not block.

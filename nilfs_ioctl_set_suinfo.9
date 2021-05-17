@@ -1,0 +1,35 @@
+.TH "nilfs_ioctl_set_suinfo" 9 "nilfs_ioctl_set_suinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_set_suinfo \- set segment usage info
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_set_suinfo
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.SH "DESCRIPTION"
+Expects an array of nilfs_suinfo_update structures
+encapsulated in nilfs_argv and updates the segment usage info
+according to the flags in nilfs_suinfo_update.
+
+Return Value: On success, 0 is returned. On error, one of the
+following negative error codes is returned.
+
+-EPERM - Not enough permissions
+
+-EFAULT - Error copying input data
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EINVAL - Invalid values in input (segment number, flags or nblocks)

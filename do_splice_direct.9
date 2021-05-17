@@ -1,0 +1,29 @@
+.TH "do_splice_direct" 9 "do_splice_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_splice_direct \- splices data directly between two files
+.SH SYNOPSIS
+.B "long" do_splice_direct
+.BI "(struct file *in "  ","
+.BI "loff_t *ppos "  ","
+.BI "struct file *out "  ","
+.BI "loff_t *opos "  ","
+.BI "size_t len "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+file to splice from
+.IP "ppos" 12
+input file offset
+.IP "out" 12
+file to splice to
+.IP "opos" 12
+output file offset
+.IP "len" 12
+number of bytes to splice
+.IP "flags" 12
+splice modifier flags
+.SH "DESCRIPTION"
+For use by \fBdo_sendfile\fP. splice can easily emulate sendfile, but
+doing it in the application would incur an extra system call
+(splice in + splice out, as compared to just \fBsendfile\fP). So this helper
+can splice directly through a process-private pipe.

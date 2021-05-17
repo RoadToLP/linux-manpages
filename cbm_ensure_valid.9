@@ -1,0 +1,22 @@
+.TH "cbm_ensure_valid" 9 "cbm_ensure_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cbm_ensure_valid \- Enforce validity on provided CBM
+.SH SYNOPSIS
+.B "u32" cbm_ensure_valid
+.BI "(u32 _val "  ","
+.BI "struct rdt_resource *r "  ");"
+.SH ARGUMENTS
+.IP "_val" 12
+Candidate CBM
+.IP "r" 12
+RDT resource to which the CBM belongs
+.SH "DESCRIPTION"
+The provided CBM represents all cache portions available for use. This
+may be represented by a bitmap that does not consist of contiguous ones
+and thus be an invalid CBM.
+Here the provided CBM is forced to be a valid CBM by only considering
+the first set of contiguous bits as valid and clearing all bits.
+The intention here is to provide a valid default CBM with which a new
+resource group is initialized. The user can follow this with a
+modification to the CBM if the default does not satisfy the
+requirements.

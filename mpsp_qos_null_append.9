@@ -1,0 +1,16 @@
+.TH "mpsp_qos_null_append" 9 "mpsp_qos_null_append" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpsp_qos_null_append \- append QoS Null frame to MPSP skb queue if needed
+.SH SYNOPSIS
+.B "void" mpsp_qos_null_append
+.BI "(struct sta_info *sta "  ","
+.BI "struct sk_buff_head *frames "  ");"
+.SH ARGUMENTS
+.IP "sta" 12
+the station to handle
+.IP "frames" 12
+the frame list to append to
+.SH "DESCRIPTION"
+To properly end a mesh MPSP the last transmitted frame has to set the EOSP
+flag in the QoS Control field. In case the current tailing frame is not a
+QoS Data frame, append a QoS Null to carry the flag.

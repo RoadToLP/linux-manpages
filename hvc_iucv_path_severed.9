@@ -1,0 +1,18 @@
+.TH "hvc_iucv_path_severed" 9 "hvc_iucv_path_severed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_path_severed \- IUCV handler to process a path sever.
+.SH SYNOPSIS
+.B "void" hvc_iucv_path_severed
+.BI "(struct iucv_path *path "  ","
+.BI "u8 *ipuser "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Pending path (struct iucv_path)
+.IP "ipuser" 12
+User specified data for this path
+(AF_IUCV: port/service name and originator port)
+.SH "DESCRIPTION"
+This function calls the \fBhvc_iucv_hangup\fP function for the
+respective IUCV HVC terminal.
+
+Locking:     struct hvc_iucv_private->lock

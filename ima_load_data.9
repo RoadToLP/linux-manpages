@@ -1,0 +1,19 @@
+.TH "ima_load_data" 9 "ima_load_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_load_data \- appraise decision based on policy
+.SH SYNOPSIS
+.B "int" ima_load_data
+.BI "(enum kernel_load_data_id id "  ","
+.BI "bool contents "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+kernel load data caller identifier
+.IP "contents" 12
+whether the full contents will be available in a later
+call to \fBima_post_load_data\fP.
+.SH "DESCRIPTION"
+Callers of this LSM hook can not measure, appraise, or audit the
+data provided by userspace.  Enforce policy rules requring a file
+signature (eg. kexec'ed kernel image).
+
+For permission return 0, otherwise return -EACCES.

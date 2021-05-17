@@ -1,0 +1,24 @@
+.TH "ntfs_setattr" 9 "ntfs_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_setattr \- called from notify_change() when an attribute is being changed
+.SH SYNOPSIS
+.B "int" ntfs_setattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct iattr *attr "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dentry" 12
+dentry whose attributes to change
+.IP "attr" 12
+structure describing the attributes and the changes
+.SH "DESCRIPTION"
+We have to trap VFS attempts to truncate the file described by \fIdentry\fP as
+soon as possible, because we do not implement changes in i_size yet.  So we
+abort all i_size changes here.
+
+We also abort all changes of user, group, and mode as we do not implement
+the NTFS ACLs yet.
+
+Called with ->i_mutex held.

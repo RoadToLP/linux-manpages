@@ -1,0 +1,28 @@
+.TH "qla2x00_poll_flash" 9 "qla2x00_poll_flash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qla2x00_poll_flash \- Polls flash for completion.
+.SH SYNOPSIS
+.B "int" qla2x00_poll_flash
+.BI "(struct qla_hw_data *ha "  ","
+.BI "uint32_t addr "  ","
+.BI "uint8_t poll_data "  ","
+.BI "uint8_t man_id "  ","
+.BI "uint8_t flash_id "  ");"
+.SH ARGUMENTS
+.IP "ha" 12
+HA context
+.IP "addr" 12
+Address in flash to poll
+.IP "poll_data" 12
+Data to be polled
+.IP "man_id" 12
+Flash manufacturer ID
+.IP "flash_id" 12
+Flash ID
+.SH "DESCRIPTION"
+This function polls the device until bit 7 of what is read matches data
+bit 7 or until data bit 5 becomes a 1.  If that hapens, the flash ROM timed
+out (a fatal error).  The flash book recommeds reading bit 7 again after
+reading bit 5 as a 1.
+
+Returns 0 on success, else non-zero.

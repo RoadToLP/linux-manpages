@@ -1,0 +1,38 @@
+.TH "ice_flow_set_fld_ext" 9 "ice_flow_set_fld_ext" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_flow_set_fld_ext \- specifies locations of field from entry's input buffer
+.SH SYNOPSIS
+.B "void" ice_flow_set_fld_ext
+.BI "(struct ice_flow_seg_info *seg "  ","
+.BI "enum ice_flow_field fld "  ","
+.BI "enum ice_flow_fld_match_type field_type "  ","
+.BI "u16 val_loc "  ","
+.BI "u16 mask_loc "  ","
+.BI "u16 last_loc "  ");"
+.SH ARGUMENTS
+.IP "seg" 12
+packet segment the field being set belongs to
+.IP "fld" 12
+field to be set
+.IP "field_type" 12
+type of the field
+.IP "val_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of the value to match from
+entry's input buffer
+.IP "mask_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of mask value from entry's
+input buffer
+.IP "last_loc" 12
+if not ICE_FLOW_FLD_OFF_INVAL, location of last/upper value from
+entry's input buffer
+.SH "DESCRIPTION"
+This helper function stores information of a field being matched, including
+the type of the field and the locations of the value to match, the mask, and
+the upper-bound value in the start of the input buffer for a flow entry.
+This function should only be used for fixed-size data structures.
+
+This function also opportunistically determines the protocol headers to be
+present based on the fields being set. Some fields cannot be used alone to
+determine the protocol headers present. Sometimes, fields for particular
+protocol headers are not matched. In those cases, the protocol headers
+must be explicitly set.

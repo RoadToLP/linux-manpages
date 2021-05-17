@@ -1,0 +1,18 @@
+.TH "ssh_rtl_shutdown" 9 "ssh_rtl_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_rtl_shutdown \- Shut down request transport layer.
+.SH SYNOPSIS
+.B "void" ssh_rtl_shutdown
+.BI "(struct ssh_rtl *rtl "  ");"
+.SH ARGUMENTS
+.IP "rtl" 12
+The request transport layer.
+.SH "DESCRIPTION"
+Shuts down the request transport layer, removing and canceling all queued
+and pending requests. Requests canceled by this operation will be completed
+with -ESHUTDOWN as status. Receiver and transmitter threads will be
+stopped, the lower-level packet layer will be shutdown.
+
+As a result of this function, the transport layer will be marked as shut
+down. Submission of requests after the transport layer has been shut down
+will fail with -ESHUTDOWN.

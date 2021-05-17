@@ -1,0 +1,26 @@
+.TH "store_protocols" 9 "store_protocols" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+store_protocols \- changes the current/wakeup IR protocol(s)
+.SH SYNOPSIS
+.B "ssize_t" store_protocols
+.BI "(struct device *device "  ","
+.BI "struct device_attribute *mattr "  ","
+.BI "const char *buf "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device descriptor
+.IP "mattr" 12
+the device attribute struct
+.IP "buf" 12
+a pointer to the input buffer
+.IP "len" 12
+length of the input buffer
+.SH "DESCRIPTION"
+This routine is for changing the IR protocol type.
+It is triggered by writing to /sys/class/rc/rc?/[wakeup_]protocols.
+See \fBparse_protocol_change\fP for the valid commands.
+Returns \fIlen\fP on success or a negative error code.
+
+dev->lock is taken to guard against races between
+store_protocols and show_protocols.

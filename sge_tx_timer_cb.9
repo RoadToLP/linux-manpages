@@ -1,0 +1,16 @@
+.TH "sge_tx_timer_cb" 9 "sge_tx_timer_cb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sge_tx_timer_cb \- perform periodic maintenance of SGE Tx queues
+.SH SYNOPSIS
+.B "void" sge_tx_timer_cb
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Tx timer
+
+Runs periodically from a timer to perform maintenance of SGE TX queues.
+
+b) Reclaims completed Tx packets for the Ethernet queues.  Normally
+packets are cleaned up by new Tx packets, this timer cleans up packets
+when no new packets are being submitted.  This is essential for pktgen,
+at least.

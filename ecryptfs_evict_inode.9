@@ -1,0 +1,17 @@
+.TH "ecryptfs_evict_inode" 9 "ecryptfs_evict_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_evict_inode \- 
+.SH SYNOPSIS
+.B "void" ecryptfs_evict_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+-- undescribed --
+.SH "DESCRIPTION"
+\fIinode\fP - The ecryptfs inode
+
+Called by \fBiput\fP when the inode reference count reached zero
+and the inode is not hashed anywhere.  Used to clear anything
+that needs to be, before the inode is completely destroyed and put
+on the inode free list. We use this to drop out reference to the
+lower inode.

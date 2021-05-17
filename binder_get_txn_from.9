@@ -1,0 +1,15 @@
+.TH "binder_get_txn_from" 9 "binder_get_txn_from" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_get_txn_from \- safely extract the "from" thread in transaction
+.SH SYNOPSIS
+.B "struct binder_thread *" binder_get_txn_from
+.BI "(struct binder_transaction *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+binder transaction for t->from
+.SH "DESCRIPTION"
+Atomically return the "from" thread and increment the tmp_ref
+count for the thread to ensure it stays alive until
+\fBbinder_thread_dec_tmpref\fP is called.
+.SH "RETURN"
+the value of t->from

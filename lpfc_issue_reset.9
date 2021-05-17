@@ -1,0 +1,29 @@
+.TH "lpfc_issue_reset" 9 "lpfc_issue_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_reset \- Selectively resets an adapter
+.SH SYNOPSIS
+.B "ssize_t" lpfc_issue_reset
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+containing the string "selective".
+.IP "count" 12
+unused variable.
+.SH "DESCRIPTION"
+If the buf contains the string "selective" then \fBlpfc_selective_reset\fP
+is called to perform the reset.
+.SH "NOTES"
+Assumes any error from \fBlpfc_selective_reset\fP will be negative.
+If \fBlpfc_selective_reset\fP returns zero then the length of the buffer
+is returned which indicates success
+.SH "RETURN"
+-EINVAL if the buffer does not contain the string "selective"
+length of buf if lpfc-\fBselective_reset\fP if the call succeeds
+return value of \fBlpfc_selective_reset\fP if the call fails

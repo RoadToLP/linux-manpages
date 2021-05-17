@@ -1,0 +1,47 @@
+.TH "lpfc_sriov_nr_virtfn_store" 9 "lpfc_sriov_nr_virtfn_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sriov_nr_virtfn_store \- Enable the adapter for sr-iov virtual functions
+.SH SYNOPSIS
+.B "ssize_t" lpfc_sriov_nr_virtfn_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+containing the string the number of vfs to be enabled.
+.IP "count" 12
+unused variable.
+.SH "DESCRIPTION"
+When this api is called either through user sysfs, the driver shall
+try to enable or disable SR-IOV virtual functions according to the
+following:
+
+If zero virtual function has been enabled to the physical function,
+the driver shall invoke the pci enable virtual function api trying
+to enable the virtual functions. If the nr_vfn provided is greater
+than the maximum supported, the maximum virtual function number will
+be used for invoking the api; otherwise, the nr_vfn provided shall
+be used for invoking the api. If the api call returned success, the
+actual number of virtual functions enabled will be set to the driver
+cfg_sriov_nr_virtfn; otherwise, -EINVAL shall be returned and driver
+cfg_sriov_nr_virtfn remains zero.
+
+If none-zero virtual functions have already been enabled to the
+physical function, as reflected by the driver's cfg_sriov_nr_virtfn,
+-EINVAL will be returned and the driver does nothing;
+
+If the nr_vfn provided is zero and none-zero virtual functions have
+been enabled, as indicated by the driver's cfg_sriov_nr_virtfn, the
+disabling virtual function api shall be invoded to disable all the
+virtual functions and driver's cfg_sriov_nr_virtfn shall be set to
+zero. Otherwise, if zero virtual function has been enabled, do
+nothing.
+.SH "RETURN"
+length of the buf on success if val is in range the intended mode
+is supported.
+-EINVAL if val out of range or intended mode is not supported.

@@ -1,0 +1,21 @@
+.TH "lpfc_initial_flogi" 9 "lpfc_initial_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_initial_flogi \- Issue an initial fabric login for a vport
+.SH SYNOPSIS
+.B "int" lpfc_initial_flogi
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine issues an initial Fabric Login (FLOGI) for the \fIvport\fP
+specified. It first searches the ndlp with the Fabric_DID (0xfffffe) from
+the \fIvport\fP's ndlp list. If no such ndlp found, it will create an ndlp and
+put it into the \fIvport\fP's ndlp list. If an inactive ndlp found on the list,
+it will just be enabled and made active. The \fBlpfc_issue_els_flogi\fP routine
+is then invoked with the \fIvport\fP and the ndlp to perform the FLOGI for the
+\fIvport\fP.
+
+Return code
+0 - failed to issue initial flogi for \fIvport\fP
+1 - successfully issued initial flogi for \fIvport\fP

@@ -1,0 +1,19 @@
+.TH "batadv_forw_packet_steal" 9 "batadv_forw_packet_steal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_forw_packet_steal \- claim a forw_packet for free()
+.SH SYNOPSIS
+.B "bool" batadv_forw_packet_steal
+.BI "(struct batadv_forw_packet *forw_packet "  ","
+.BI "spinlock_t *lock "  ");"
+.SH ARGUMENTS
+.IP "forw_packet" 12
+the forwarding packet to steal
+.IP "lock" 12
+a key to the store to steal from (e.g. forw_{bat,bcast}_list_lock)
+.SH "DESCRIPTION"
+This function tries to steal a specific forw_packet from global
+visibility for the purpose of getting it for \fBfree\fP. That means
+the caller is *not* allowed to requeue it afterwards.
+.SH "RETURN"
+True if stealing was successful. False if someone else stole it
+before us.

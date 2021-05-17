@@ -1,0 +1,25 @@
+.TH "qcom_scm_assign_mem" 9 "qcom_scm_assign_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_scm_assign_mem \- Make a secure call to reassign memory ownership
+.SH SYNOPSIS
+.B "int" qcom_scm_assign_mem
+.BI "(phys_addr_t mem_addr "  ","
+.BI "size_t mem_sz "  ","
+.BI "unsigned int *srcvm "  ","
+.BI "const struct qcom_scm_vmperm *newvm "  ","
+.BI "unsigned int dest_cnt "  ");"
+.SH ARGUMENTS
+.IP "mem_addr" 12
+mem region whose ownership need to be reassigned
+.IP "mem_sz" 12
+size of the region.
+.IP "srcvm" 12
+vmid for current set of owners, each set bit in
+flag indicate a unique owner
+.IP "newvm" 12
+array having new owners and corresponding permission
+flags
+.IP "dest_cnt" 12
+number of owners in next set.
+.SH "DESCRIPTION"
+Return negative errno on failure or 0 on success with \fIsrcvm\fP updated.

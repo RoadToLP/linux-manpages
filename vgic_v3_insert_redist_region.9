@@ -1,0 +1,26 @@
+.TH "vgic_v3_insert_redist_region" 9 "vgic_v3_insert_redist_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vgic_v3_insert_redist_region \- Insert a new redistributor region
+.SH SYNOPSIS
+.B "int" vgic_v3_insert_redist_region
+.BI "(struct kvm *kvm "  ","
+.BI "uint32_t index "  ","
+.BI "gpa_t base "  ","
+.BI "uint32_t count "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+kvm handle
+.IP "index" 12
+redist region index
+.IP "base" 12
+base of the new rdist region
+.IP "count" 12
+number of redistributors the region is made of (0 in the old style
+single region, whose size is induced from the number of vcpus)
+.SH "DESCRIPTION"
+
+Performs various checks before inserting the rdist region in the list.
+Those tests depend on whether the size of the rdist region is known
+(ie. count != 0). The list is sorted by rdist region index.
+
+Return 0 on success, < 0 otherwise

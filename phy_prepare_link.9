@@ -1,0 +1,19 @@
+.TH "phy_prepare_link" 9 "phy_prepare_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_prepare_link \- prepares the PHY layer to monitor link status
+.SH SYNOPSIS
+.B "void" phy_prepare_link
+.BI "(struct phy_device *phydev "  ","
+.BI "void (*handler)(struct net_device *) "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+target phy_device struct
+.IP "handler" 12
+callback function for link status change notifications
+.SH "DESCRIPTION"
+Tells the PHY infrastructure to handle the
+gory details on monitoring link status (whether through
+polling or an interrupt), and to call back to the
+connected device driver when the link status changes.
+If you want to monitor your own link state, don't call
+this function.

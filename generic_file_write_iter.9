@@ -1,0 +1,20 @@
+.TH "generic_file_write_iter" 9 "generic_file_write_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_file_write_iter \- write data to a file
+.SH SYNOPSIS
+.B "ssize_t" generic_file_write_iter
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *from "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+IO state structure
+.IP "from" 12
+iov_iter with data to write
+.SH "DESCRIPTION"
+This is a wrapper around \fB__generic_file_write_iter\fP to be used by most
+filesystems. It takes care of syncing the file in case of O_SYNC file
+and acquires i_mutex as needed.
+.SH "RETURN"
+* negative error code if no data has been written at all of
+\fBvfs_fsync_range\fP failed for a synchronous write
+* number of bytes written, even for truncated writes

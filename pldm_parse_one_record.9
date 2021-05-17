@@ -1,0 +1,22 @@
+.TH "pldm_parse_one_record" 9 "pldm_parse_one_record" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pldm_parse_one_record \- Verify size of one PLDM record
+.SH SYNOPSIS
+.B "int" pldm_parse_one_record
+.BI "(struct pldmfw_priv *data "  ","
+.BI "const struct __pldmfw_record_info *__record "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+pointer to image details
+.IP "__record" 12
+pointer to the record to check
+.SH "DESCRIPTION"
+This function checks that the record size does not exceed either the size
+of the firmware file or the total length specified in the header section.
+
+It also verifies that the recorded length of the start of the record
+matches the size calculated by adding the static structure length, the
+component bitmap length, the version string length, the length of all
+descriptor TLVs, and the length of the package data.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

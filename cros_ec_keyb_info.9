@@ -1,0 +1,30 @@
+.TH "cros_ec_keyb_info" 9 "cros_ec_keyb_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_keyb_info \- Wrap the EC command EC_CMD_MKBP_INFO
+.SH SYNOPSIS
+.B "int" cros_ec_keyb_info
+.BI "(struct cros_ec_device *ec_dev "  ","
+.BI "enum ec_mkbp_info_type info_type "  ","
+.BI "enum ec_mkbp_event event_type "  ","
+.BI "union ec_response_get_next_data *result "  ","
+.BI "size_t result_size "  ");"
+.SH ARGUMENTS
+.IP "ec_dev" 12
+The EC device
+.IP "info_type" 12
+Either EC_MKBP_INFO_SUPPORTED or EC_MKBP_INFO_CURRENT.
+.IP "event_type" 12
+Either EC_MKBP_EVENT_BUTTON or EC_MKBP_EVENT_SWITCH.  Actually
+in some cases this could be EC_MKBP_EVENT_KEY_MATRIX or
+EC_MKBP_EVENT_HOST_EVENT too but we don't use in this driver.
+.IP "result" 12
+Where we'll store the result; a union
+.IP "result_size" 12
+The size of the result.  Expected to be the size of one of
+the elements in the union.
+.SH "DESCRIPTION"
+
+This wraps the EC_CMD_MKBP_INFO, abstracting out all of the marshalling and
+unmarshalling and different version nonsense into something simple.
+
+Returns 0 if no error or -error upon error.

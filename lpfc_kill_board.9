@@ -1,0 +1,22 @@
+.TH "lpfc_kill_board" 9 "lpfc_kill_board" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_kill_board \- Prepare a mailbox command for killing board
+.SH SYNOPSIS
+.B "void" lpfc_kill_board
+.BI "(struct lpfc_hba * phba "  ","
+.BI "LPFC_MBOXQ_t * pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The kill board mailbox command is used to tell firmware to perform a
+graceful shutdown of a channel on a specified board to prepare for reset.
+When the kill board mailbox command is received, the ER3 bit is set to 1
+in the Host Status register and the ER Attention bit is set to 1 in the
+Host Attention register of the HBA function that received the kill board
+command.
+
+This routine prepares the mailbox command for killing the board in
+preparation for a graceful shutdown.

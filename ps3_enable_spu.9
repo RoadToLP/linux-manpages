@@ -1,0 +1,19 @@
+.TH "ps3_enable_spu" 9 "ps3_enable_spu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_enable_spu \- Enable SPU run control.
+.SH SYNOPSIS
+.B "void" ps3_enable_spu
+.BI "(struct spu_context *ctx "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+An outstanding enhancement for the PS3 would be to add a guard to check
+for incorrect access to the spu problem state when the spu context is
+disabled.  This check could be implemented with a flag added to the spu
+context that would inhibit mapping problem state pages, and a routine
+to unmap spu problem state pages.  When the spu is enabled with
+\fBps3_enable_spu\fP the flag would be set allowing pages to be mapped,
+and when the spu is disabled with \fBps3_disable_spu\fP the flag would be
+cleared and the mapped problem state pages would be unmapped.

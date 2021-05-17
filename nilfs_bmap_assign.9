@@ -1,0 +1,30 @@
+.TH "nilfs_bmap_assign" 9 "nilfs_bmap_assign" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_bmap_assign \- assign a new block number to a block
+.SH SYNOPSIS
+.B "int" nilfs_bmap_assign
+.BI "(struct nilfs_bmap *bmap "  ","
+.BI "struct buffer_head **bh "  ","
+.BI "unsigned long blocknr "  ","
+.BI "union nilfs_binfo *binfo "  ");"
+.SH ARGUMENTS
+.IP "bmap" 12
+bmap
+.IP "bh" 12
+pointer to buffer head
+.IP "blocknr" 12
+block number
+.IP "binfo" 12
+block information
+.SH "DESCRIPTION"
+\fBnilfs_bmap_assign\fP assigns the block number \fIblocknr\fP to the
+buffer specified by \fIbh\fP.
+
+Return Value: On success, 0 is returned and the buffer head of a newly
+create buffer and the block information associated with the buffer are
+stored in the place pointed by \fIbh\fP and \fIbinfo\fP, respectively. On error, one
+of the following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.

@@ -1,0 +1,14 @@
+.TH "i2c_wait_for_writes" 9 "i2c_wait_for_writes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_wait_for_writes \- wait for a write
+.SH SYNOPSIS
+.B "void" i2c_wait_for_writes
+.BI "(struct qib_devdata *dd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.SH "DESCRIPTION"
+We use this instead of udelay directly, so we can make sure
+that previous register writes have been flushed all the way
+to the chip.  Since we are delaying anyway, the cost doesn't
+hurt, and makes the bit twiddling more regular

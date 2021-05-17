@@ -1,0 +1,20 @@
+.TH "omap3_set_off_timings" 9 "omap3_set_off_timings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3_set_off_timings \- sets off-mode timings for a channel
+.SH SYNOPSIS
+.B "void" omap3_set_off_timings
+.BI "(struct voltagedomain *voltdm "  ");"
+.SH ARGUMENTS
+.IP "voltdm" 12
+channel to configure
+.SH "DESCRIPTION"
+Calculates and sets up off-mode timings for a channel. Off-mode
+can use either I2C based voltage scaling, or alternatively
+sys_off_mode pad can be used to send a global command to power IC.n,
+sys_off_mode has the additional benefit that voltages can be
+scaled to zero volt level with TWL4030 / TWL5030, I2C can only
+scale to 600mV.
+
+Note that omap is not controlling the voltage scaling during
+off idle signaled by sys_off_mode, so we can keep voltsetup1
+as 0.

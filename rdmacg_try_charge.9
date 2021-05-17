@@ -1,0 +1,30 @@
+.TH "rdmacg_try_charge" 9 "rdmacg_try_charge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdmacg_try_charge \- hierarchically try to charge the rdma resource
+.SH SYNOPSIS
+.B "int" rdmacg_try_charge
+.BI "(struct rdma_cgroup **rdmacg "  ","
+.BI "struct rdmacg_device *device "  ","
+.BI "enum rdmacg_resource_type index "  ");"
+.SH ARGUMENTS
+.IP "rdmacg" 12
+pointer to rdma cgroup which will own this resource
+.IP "device" 12
+pointer to rdmacg device
+.IP "index" 12
+index of the resource to charge in cgroup (resource pool)
+.SH "DESCRIPTION"
+This function follows charging resource in hierarchical way.
+It will fail if the charge would cause the new value to exceed the
+hierarchical limit.
+Returns 0 if the charge succeded, otherwise -EAGAIN, -ENOMEM or -EINVAL.
+Returns pointer to rdmacg for this resource when charging is successful.
+
+Charger needs to account resources on two criteria.
+(a) per cgroup & (b) per device resource usage.
+Per cgroup resource usage ensures that tasks of cgroup doesn't cross
+the configured limits. Per device provides granular configuration
+in multi device usage. It allocates resource pool in the hierarchy
+for each parent it come across for first resource. Later on resource
+pool will be available. Therefore it will be much faster thereon
+to charge/uncharge.

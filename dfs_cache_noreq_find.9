@@ -1,0 +1,23 @@
+.TH "dfs_cache_noreq_find" 9 "dfs_cache_noreq_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfs_cache_noreq_find \- find a DFS cache entry without sending any requests to the currently connected server.
+.SH SYNOPSIS
+.B "int" dfs_cache_noreq_find
+.BI "(const char *path "  ","
+.BI "struct dfs_info3_param *ref "  ","
+.BI "struct dfs_cache_tgt_list *tgt_list "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to lookup in the DFS referral cache.
+.IP "ref" 12
+when non-NULL, store single DFS referral result in it.
+.IP "tgt_list" 12
+when non-NULL, store complete DFS target list in it.
+.SH "NOTE"
+This function will neither update a cache entry in case it was
+expired, nor create a new cache entry if \fIpath\fP hasn't been found. It heavily
+relies on an existing cache entry.
+.SH "DESCRIPTION"
+Return 0 if successful.
+Return -ENOENT if the entry was not found.
+Return non-zero for other errors.

@@ -1,0 +1,28 @@
+.TH "dwc2_queue_transaction" 9 "dwc2_queue_transaction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_queue_transaction \- Attempts to queue a single transaction request for a host channel associated with either a periodic or non-periodic transfer
+.SH SYNOPSIS
+.B "int" dwc2_queue_transaction
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ","
+.BI "u16 fifo_dwords_avail "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure
+.IP "chan" 12
+Host channel descriptor associated with either a periodic or
+non-periodic transfer
+.IP "fifo_dwords_avail" 12
+Number of DWORDs available in the periodic Tx FIFO
+for periodic transfers or the non-periodic Tx FIFO
+for non-periodic transfers
+.SH "RETURN"
+1 if a request is queued and more requests may be needed to
+complete the transfer, 0 if no more requests are required for this
+transfer, -1 if there is insufficient space in the Tx FIFO
+.SH "DESCRIPTION"
+This function assumes that there is space available in the appropriate
+request queue. For an OUT transfer or SETUP transaction in Slave mode,
+it checks whether space is available in the appropriate Tx FIFO.
+
+Must be called with interrupt disabled and spinlock held

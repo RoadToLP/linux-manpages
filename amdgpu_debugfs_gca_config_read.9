@@ -1,0 +1,23 @@
+.TH "amdgpu_debugfs_gca_config_read" 9 "amdgpu_debugfs_gca_config_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_debugfs_gca_config_read \- Read from gfx config data
+.SH SYNOPSIS
+.B "ssize_t" amdgpu_debugfs_gca_config_read
+.BI "(struct file *f "  ","
+.BI "char __user *buf "  ","
+.BI "size_t size "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+open file handle
+.IP "buf" 12
+User buffer to store read data in
+.IP "size" 12
+Number of bytes to read
+.IP "pos" 12
+Offset to seek to
+.SH "DESCRIPTION"
+This file is used to access configuration data in a somewhat
+stable fashion.  The format is a series of DWORDs with the first
+indicating which revision it is.  New content is appended to the
+end so that older software can still read the data.

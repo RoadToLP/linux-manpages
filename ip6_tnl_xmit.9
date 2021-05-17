@@ -1,0 +1,34 @@
+.TH "ip6_tnl_xmit" 9 "ip6_tnl_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ip6_tnl_xmit \- encapsulate packet and send
+.SH SYNOPSIS
+.B "int" ip6_tnl_xmit
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "__u8 dsfield "  ","
+.BI "struct flowi6 *fl6 "  ","
+.BI "int encap_limit "  ","
+.BI "__u32 *pmtu "  ","
+.BI "__u8 proto "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the outgoing socket buffer
+.IP "dev" 12
+the outgoing tunnel device
+.IP "dsfield" 12
+dscp code for outer header
+.IP "fl6" 12
+flow of tunneled packet
+.IP "encap_limit" 12
+encapsulation limit
+.IP "pmtu" 12
+Path MTU is stored if packet is too big
+.IP "proto" 12
+next header value
+.SH "DESCRIPTION"
+Build new header and do some sanity checks on the packet before sending
+it.
+.SH "RETURN"
+0 on success
+-1 fail
+-EMSGSIZE message too big. return mtu in this case.

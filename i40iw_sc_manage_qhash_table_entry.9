@@ -1,0 +1,27 @@
+.TH "i40iw_sc_manage_qhash_table_entry" 9 "i40iw_sc_manage_qhash_table_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_sc_manage_qhash_table_entry \- manage quad hash entries
+.SH SYNOPSIS
+.B "enum i40iw_status_code" i40iw_sc_manage_qhash_table_entry
+.BI "(struct i40iw_sc_cqp *cqp "  ","
+.BI "struct i40iw_qhash_table_info *info "  ","
+.BI "u64 scratch "  ","
+.BI "bool post_sq "  ");"
+.SH ARGUMENTS
+.IP "cqp" 12
+struct for cqp hw
+.IP "info" 12
+info for quad hash to manage
+.IP "scratch" 12
+u64 saved to be used during cqp completion
+.IP "post_sq" 12
+flag for cqp db to ring
+.SH "DESCRIPTION"
+This is called before connection establishment is started. For passive connections, when
+listener is created, it will call with entry type of  I40IW_QHASH_TYPE_TCP_SYN with local
+ip address and tcp port. When SYN is received (passive connections) or
+sent (active connections), this routine is called with entry type of
+I40IW_QHASH_TYPE_TCP_ESTABLISHED and quad is passed in info.
+
+When iwarp connection is done and its state moves to RTS, the quad hash entry in
+the hardware will point to iwarp's qp number and requires no calls from the driver.

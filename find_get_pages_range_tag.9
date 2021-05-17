@@ -1,0 +1,30 @@
+.TH "find_get_pages_range_tag" 9 "find_get_pages_range_tag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_get_pages_range_tag \- Find and return head pages matching @tag.
+.SH SYNOPSIS
+.B "unsigned" find_get_pages_range_tag
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t *index "  ","
+.BI "pgoff_t end "  ","
+.BI "xa_mark_t tag "  ","
+.BI "unsigned int nr_pages "  ","
+.BI "struct page **pages "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address_space to search
+.IP "index" 12
+the starting page index
+.IP "end" 12
+The final page index (inclusive)
+.IP "tag" 12
+the tag index
+.IP "nr_pages" 12
+the maximum number of pages
+.IP "pages" 12
+where the resulting pages are placed
+.SH "DESCRIPTION"
+Like \fBfind_get_pages\fP, except we only return head pages which are tagged
+with \fItag\fP.  \fIindex\fP is updated to the index immediately after the last
+page we return, ready for the next iteration.
+.SH "RETURN"
+the number of pages which were found.

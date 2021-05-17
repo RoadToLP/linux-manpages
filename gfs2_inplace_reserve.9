@@ -1,0 +1,21 @@
+.TH "gfs2_inplace_reserve" 9 "gfs2_inplace_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_inplace_reserve \- Reserve space in the filesystem
+.SH SYNOPSIS
+.B "int" gfs2_inplace_reserve
+.BI "(struct gfs2_inode *ip "  ","
+.BI "struct gfs2_alloc_parms *ap "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+the inode to reserve space for
+.IP "ap" 12
+the allocation parameters
+.SH "DESCRIPTION"
+We try our best to find an rgrp that has at least ap->target blocks
+available. After a couple of passes (loops == 2), the prospects of finding
+such an rgrp diminish. At this stage, we return the first rgrp that has
+at least ap->min_target blocks available.
+.SH "RETURN"
+0 on success,
+-ENOMEM if a suitable rgrp can't be found
+errno otherwise

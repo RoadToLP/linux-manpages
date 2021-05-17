@@ -1,0 +1,21 @@
+.TH "inherit_flags" 9 "inherit_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inherit_flags \- inherit flags of the parent inode.
+.SH SYNOPSIS
+.B "int" inherit_flags
+.BI "(const struct inode *dir "  ","
+.BI "umode_t mode "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+parent inode
+.IP "mode" 12
+new inode mode flags
+.SH "DESCRIPTION"
+This is a helper function for '\fBubifs_new_inode\fP' which inherits flag of the
+parent directory inode \fIdir\fP. UBIFS inodes inherit the following flags:
+o UBIFS_COMPR_FL, which is useful to switch compression on/of on
+sub-directory basis;
+o UBIFS_SYNC_FL - useful for the same reasons;
+o UBIFS_DIRSYNC_FL - similar, but relevant only to directories.
+
+This function returns the inherited flags.

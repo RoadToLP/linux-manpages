@@ -1,0 +1,30 @@
+.TH "bus_for_each_dev" 9 "bus_for_each_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bus_for_each_dev \- device iterator.
+.SH SYNOPSIS
+.B "int" bus_for_each_dev
+.BI "(struct bus_type *bus "  ","
+.BI "struct device *start "  ","
+.BI "void *data "  ","
+.BI "int (*fn)(struct device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus type.
+.IP "start" 12
+device to start iterating from.
+.IP "data" 12
+data for the callback.
+.IP "fn" 12
+function to be called for each device.
+.SH "DESCRIPTION"
+Iterate over \fIbus\fP's list of devices, and call \fIfn\fP for each,
+passing it \fIdata\fP. If \fIstart\fP is not NULL, we use that device to
+begin iterating from.
+
+We check the return of \fIfn\fP each time. If it returns anything
+other than 0, we break out and return that value.
+.SH "NOTE"
+The device that returns a non-zero value is not retained
+in any way, nor is its refcount incremented. If the caller needs
+to retain this data, it should do so, and increment the reference
+count in the supplied callback.

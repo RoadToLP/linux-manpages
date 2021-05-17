@@ -1,0 +1,24 @@
+.TH "mbox_request_channel" 9 "mbox_request_channel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_request_channel \- Request a mailbox channel.
+.SH SYNOPSIS
+.B "struct mbox_chan *" mbox_request_channel
+.BI "(struct mbox_client *cl "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "cl" 12
+Identity of the client requesting the channel.
+.IP "index" 12
+Index of mailbox specifier in 'mboxes' property.
+.SH "DESCRIPTION"
+The Client specifies its requirements and capabilities while asking for
+a mailbox channel. It can't be called from atomic context.
+The channel is exclusively allocated and can't be used by another
+client before the owner calls mbox_free_channel.
+After assignment, any packet received on this channel will be
+handed over to the client via the 'rx_callback'.
+The framework holds reference to the client, so the mbox_client
+structure shouldn't be modified until the mbox_free_channel returns.
+.SH "RETURN"
+Pointer to the channel assigned to the client if successful.
+ERR_PTR for request failure.

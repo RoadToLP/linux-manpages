@@ -1,0 +1,20 @@
+.TH "lpfc_sli4_fcf_rr_index_set" 9 "lpfc_sli4_fcf_rr_index_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_fcf_rr_index_set \- Set bmask with eligible fcf record index
+.SH SYNOPSIS
+.B "int" lpfc_sli4_fcf_rr_index_set
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint16_t fcf_index "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "fcf_index" 12
+index into the FCF table to 'set'
+.SH "DESCRIPTION"
+This routine sets the FCF record index in to the eligible bmask for
+roundrobin failover search. It checks to make sure that the index
+does not go beyond the range of the driver allocated bmask dimension
+before setting the bit.
+
+Returns 0 if the index bit successfully set, otherwise, it returns
+-EINVAL.

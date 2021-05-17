@@ -1,0 +1,34 @@
+.TH "vti6_ioctl" 9 "vti6_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vti6_ioctl \- configure vti6 tunnels from userspace
+.SH SYNOPSIS
+.B "int" vti6_ioctl
+.BI "(struct net_device *dev "  ","
+.BI "struct ifreq *ifr "  ","
+.BI "int cmd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+virtual device associated with tunnel
+.IP "ifr" 12
+parameters passed from userspace
+.IP "cmd" 12
+command to be performed
+.SH "DESCRIPTION"
+\fBvti6_ioctl\fP is used for managing vti6 tunnels
+from userspace.
+
+The possible commands are the following:
+SIOCGETTUNNEL: get tunnel parameters for device
+SIOCADDTUNNEL: add tunnel matching given tunnel parameters
+SIOCCHGTUNNEL: change tunnel parameters to those given
+SIOCDELTUNNEL: delete tunnel
+
+The fallback device "ip6_vti0", created during module
+initialization, can be used for creating other tunnel devices.
+.SH "RETURN"
+0 on success,
+-EFAULT if unable to copy data to or from userspace,
+-EPERM if current process hasn't CAP_NET_ADMIN set
+-EINVAL if passed tunnel parameters are invalid,
+-EEXIST if changing a tunnel's parameters would cause a conflict
+-ENODEV if attempting to change or delete a nonexisting device

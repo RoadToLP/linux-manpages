@@ -1,0 +1,21 @@
+.TH "pcmcia_request_window" 9 "pcmcia_request_window" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_request_window \- attempt to reserve iomem for PCMCIA devices
+.SH SYNOPSIS
+.B "int" pcmcia_request_window
+.BI "(struct pcmcia_device *p_dev "  ","
+.BI "struct resource *res "  ","
+.BI "unsigned int speed "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+the associated PCMCIA device
+.IP "res" 12
+\fIstruct resource\fP pointing to p_dev->resource[2..5]
+.IP "speed" 12
+access speed
+.SH "DESCRIPTION"
+\fBpcmcia_request_window\fP attepts to reserve an iomem ranges specified in
+\fIstruct resource\fP \fIres\fP pointing to one of the entries in
+\fIstruct pcmcia_device\fP \fIp_dev->resource\fP[2..5]. The "start" value is the
+requested start of the IO mem resource; "end" reflects the size
+requested.

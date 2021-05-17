@@ -1,0 +1,27 @@
+.TH "lpfc_debugfs_lockstat_data" 9 "lpfc_debugfs_lockstat_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_debugfs_lockstat_data \- Dump Hardware Queue info to a buffer
+.SH SYNOPSIS
+.B "int" lpfc_debugfs_lockstat_data
+.BI "(struct lpfc_hba *phba "  ","
+.BI "char *buf "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The HBA to gather host buffer info from.
+.IP "buf" 12
+The buffer to dump log into.
+.IP "size" 12
+The maximum amount of data to process.
+.SH "DESCRIPTION"
+This routine dumps the Hardware Queue info from the \fIphba\fP to \fIbuf\fP up to
+\fIsize\fP number of bytes. A header that describes the current hdwq state will be
+dumped to \fIbuf\fP first and then info on each hdwq entry will be dumped to \fIbuf\fP
+until \fIsize\fP bytes have been dumped or all the hdwq info has been dumped.
+
+Return Value:
+This routine returns the amount of bytes that were dumped into \fIbuf\fP and will
+not exceed \fIsize\fP.
+.SH "NOTES"
+This routine will rotate through each configured Hardware Queue each
+time called.

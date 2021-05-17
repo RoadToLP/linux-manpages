@@ -1,0 +1,44 @@
+.TH "kmem_cache_create_usercopy" 9 "kmem_cache_create_usercopy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmem_cache_create_usercopy \- Create a cache with a region suitable for copying to userspace
+.SH SYNOPSIS
+.B "struct kmem_cache *" kmem_cache_create_usercopy
+.BI "(const char *name "  ","
+.BI "unsigned int size "  ","
+.BI "unsigned int align "  ","
+.BI "slab_flags_t flags "  ","
+.BI "unsigned int useroffset "  ","
+.BI "unsigned int usersize "  ","
+.BI "void (*ctor)(void *) "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+A string which is used in /proc/slabinfo to identify this cache.
+.IP "size" 12
+The size of objects to be created in this cache.
+.IP "align" 12
+The required alignment for the objects.
+.IP "flags" 12
+SLAB flags
+.IP "useroffset" 12
+Usercopy region offset
+.IP "usersize" 12
+Usercopy region size
+.IP "ctor" 12
+A constructor for the objects.
+.SH "DESCRIPTION"
+Cannot be called within a interrupt, but can be interrupted.
+The \fIctor\fP is run when new pages are allocated by the cache.
+
+The flags are
+
+SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
+to catch references to uninitialised memory.
+
+SLAB_RED_ZONE - Insert `Red` zones around the allocated memory to check
+for buffer overruns.
+
+SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
+cacheline.  This can be beneficial if you're counting cycles as closely
+as davem.
+.SH "RETURN"
+a pointer to the cache on success, NULL on failure.

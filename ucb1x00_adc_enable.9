@@ -1,0 +1,21 @@
+.TH "ucb1x00_adc_enable" 9 "ucb1x00_adc_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ucb1x00_adc_enable \- enable the ADC converter
+.SH SYNOPSIS
+.B "void" ucb1x00_adc_enable
+.BI "(struct ucb1x00 *ucb "  ");"
+.SH ARGUMENTS
+.IP "ucb" 12
+UCB1x00 structure describing chip
+
+Enable the ucb1x00 and ADC converter on the UCB1x00 for use.
+Any code wishing to use the ADC converter must call this
+function prior to using it.
+
+This function takes the ADC mutex to prevent two or more
+concurrent uses, and therefore may sleep.  As a result, it
+can only be called from process context, not interrupt
+context.
+
+You should release the ADC as soon as possible using
+ucb1x00_adc_disable.

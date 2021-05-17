@@ -1,0 +1,16 @@
+.TH "batadv_v_ogm_aggr_send" 9 "batadv_v_ogm_aggr_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_v_ogm_aggr_send \- flush & send aggregation queue
+.SH SYNOPSIS
+.B "void" batadv_v_ogm_aggr_send
+.BI "(struct batadv_hard_iface *hard_iface "  ");"
+.SH ARGUMENTS
+.IP "hard_iface" 12
+the interface with the aggregation queue to flush
+.SH "DESCRIPTION"
+Aggregates all OGMv2 packets currently in the aggregation queue into a
+single OGMv2 packet and transmits this aggregate.
+
+The aggregation queue is empty after this call.
+
+Caller needs to hold the hard_iface->bat_v.aggr_list.lock.

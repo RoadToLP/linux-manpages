@@ -1,0 +1,18 @@
+.TH "sigmadsp_attach" 9 "sigmadsp_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sigmadsp_attach \- Attach a sigmadsp instance to a ASoC component
+.SH SYNOPSIS
+.B "int" sigmadsp_attach
+.BI "(struct sigmadsp *sigmadsp "  ","
+.BI "struct snd_soc_component *component "  ");"
+.SH ARGUMENTS
+.IP "sigmadsp" 12
+The sigmadsp instance to attach
+.IP "component" 12
+The component to attach to
+.SH "DESCRIPTION"
+Typically called in the components probe callback.
+
+Note, once this function has been called the firmware must not be released
+until after the ALSA snd_card that the component belongs to has been
+disconnected, even if \fBsigmadsp_attach\fP returns an error.

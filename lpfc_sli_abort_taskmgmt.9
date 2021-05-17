@@ -1,0 +1,35 @@
+.TH "lpfc_sli_abort_taskmgmt" 9 "lpfc_sli_abort_taskmgmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_abort_taskmgmt \- issue abort for all commands on a host/target/LUN
+.SH SYNOPSIS
+.B "int" lpfc_sli_abort_taskmgmt
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "uint16_t tgt_id "  ","
+.BI "uint64_t lun_id "  ","
+.BI "lpfc_ctx_cmd cmd "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to virtual port.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "tgt_id" 12
+SCSI ID of the target.
+.IP "lun_id" 12
+LUN ID of the scsi device.
+.IP "cmd" 12
+LPFC_CTX_LUN/LPFC_CTX_TGT/LPFC_CTX_HOST.
+.SH "DESCRIPTION"
+This function sends an abort command for every SCSI command
+associated with the given virtual port pending on the ring
+filtered by lpfc_sli_validate_fcp_iocb function.
+When taskmgmt_cmd == LPFC_CTX_LUN, the function sends abort only to the
+FCP iocbs associated with lun specified by tgt_id and lun_id
+parameters
+When taskmgmt_cmd == LPFC_CTX_TGT, the function sends abort only to the
+FCP iocbs associated with SCSI target specified by tgt_id parameter.
+When taskmgmt_cmd == LPFC_CTX_HOST, the function sends abort to all
+FCP iocbs associated with virtual port.
+This function returns number of iocbs it aborted .
+This function is called with no locks held right after a taskmgmt
+command is sent.

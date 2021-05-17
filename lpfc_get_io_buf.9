@@ -1,0 +1,29 @@
+.TH "lpfc_get_io_buf" 9 "lpfc_get_io_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_get_io_buf \- Get one IO buffer from free pool
+.SH SYNOPSIS
+.B "struct lpfc_io_buf *" lpfc_get_io_buf
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "u32 hwqid "  ","
+.BI "int expedite "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The HBA for which this call is being executed.
+.IP "ndlp" 12
+pointer to lpfc nodelist data structure.
+.IP "hwqid" 12
+belong to which HWQ
+.IP "expedite" 12
+1 means this request is urgent.
+.SH "DESCRIPTION"
+This routine gets one IO buffer from free pool. If cfg_xri_rebalancing==1,
+removes a IO buffer from multiXRI pools. If cfg_xri_rebalancing==0, removes
+a IO buffer from head of \fIhdwq\fP io_buf_list and returns to caller.
+
+Return codes:
+NULL - Error
+Pointer to lpfc_io_buf - Success
+.SH "NOTE"
+ndlp is only used on SCSI side for RRQ testing.
+The caller should pass NULL for ndlp on NVME side.

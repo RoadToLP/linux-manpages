@@ -1,0 +1,40 @@
+.TH "itcw_init" 9 "itcw_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+itcw_init \- initialize incremental tcw data structure
+.SH SYNOPSIS
+.B "struct itcw *" itcw_init
+.BI "(void *buffer "  ","
+.BI "size_t size "  ","
+.BI "int op "  ","
+.BI "int intrg "  ","
+.BI "int max_tidaws "  ","
+.BI "int intrg_max_tidaws "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+address of buffer to use for data structures
+.IP "size" 12
+number of bytes in buffer
+.IP "op" 12
+ITCW_OP_READ for a read operation tcw, ITCW_OP_WRITE for a write
+operation tcw
+.IP "intrg" 12
+if non-zero, add and initialize an interrogate tcw
+.IP "max_tidaws" 12
+maximum number of tidaws to be used for data addressing or zero
+if no tida is to be used.
+.IP "intrg_max_tidaws" 12
+maximum number of tidaws to be used for data addressing
+by the interrogate tcw, if specified
+.SH "DESCRIPTION"
+Prepare the specified buffer to be used as an incremental tcw, i.e. a
+helper data structure that can be used to construct a valid tcw by
+successive calls to other helper functions. Note: the buffer needs to be
+located below the 2G address limit. The resulting tcw has the following
+restrictions:
+- no tccb tidal
+- input/output tidal is contiguous (no ttic)
+- total data should not exceed 4k
+- tcw specifies either read or write operation
+
+On success, return pointer to the resulting incremental tcw data structure,
+ERR_PTR otherwise.

@@ -1,0 +1,25 @@
+.TH "dma_alloc_from_dev_coherent" 9 "dma_alloc_from_dev_coherent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_alloc_from_dev_coherent \- allocate memory from device coherent pool
+.SH SYNOPSIS
+.B "int" dma_alloc_from_dev_coherent
+.BI "(struct device *dev "  ","
+.BI "ssize_t size "  ","
+.BI "dma_addr_t *dma_handle "  ","
+.BI "void **ret "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device from which we allocate memory
+.IP "size" 12
+size of requested memory area
+.IP "dma_handle" 12
+This will be filled with the correct dma handle
+.IP "ret" 12
+This pointer will be filled with the virtual address
+to allocated area.
+.SH "DESCRIPTION"
+This function should be only called from per-arch \fBdma_alloc_coherent\fP
+to support allocation from per-device coherent memory pools.
+
+Returns 0 if dma_alloc_coherent should continue with allocating from
+generic memory areas, or !0 if dma_alloc_coherent should return \fIret\fP.

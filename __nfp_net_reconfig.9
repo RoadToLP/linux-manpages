@@ -1,0 +1,18 @@
+.TH "__nfp_net_reconfig" 9 "__nfp_net_reconfig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nfp_net_reconfig \- Reconfigure the firmware
+.SH SYNOPSIS
+.B "int" __nfp_net_reconfig
+.BI "(struct nfp_net *nn "  ","
+.BI "u32 update "  ");"
+.SH ARGUMENTS
+.IP "nn" 12
+NFP Net device to reconfigure
+.IP "update" 12
+The value for the update field in the BAR config
+.SH "DESCRIPTION"
+Write the update word to the BAR and ping the reconfig queue.  The
+poll until the firmware has acknowledged the update by zeroing the
+update word.
+.SH "RETURN"
+Negative errno on error, 0 on success

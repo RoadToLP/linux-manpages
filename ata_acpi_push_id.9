@@ -1,0 +1,20 @@
+.TH "ata_acpi_push_id" 9 "ata_acpi_push_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_push_id \- send Identify data to drive
+.SH SYNOPSIS
+.B "int" ata_acpi_push_id
+.BI "(struct ata_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target ATA device
+.SH "DESCRIPTION"
+_SDD ACPI object: for SATA mode only
+Must be after Identify (Packet) Device -- uses its data
+ATM this function never returns a failure.  It is an optional
+method and if it fails for whatever reason, we should still
+just keep going.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+0 on success, -ENOENT if _SDD doesn't exist, -errno on failure.

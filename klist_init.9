@@ -1,0 +1,21 @@
+.TH "klist_init" 9 "klist_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klist_init \- Initialize a klist structure.
+.SH SYNOPSIS
+.B "void" klist_init
+.BI "(struct klist *k "  ","
+.BI "void (*get)(struct klist_node *) "  ","
+.BI "void (*put)(struct klist_node *) "  ");"
+.SH ARGUMENTS
+.IP "k" 12
+The klist we're initializing.
+.IP "get" 12
+The get function for the embedding object (NULL if none)
+.IP "put" 12
+The put function for the embedding object (NULL if none)
+.SH "DESCRIPTION"
+Initialises the klist structure.  If the klist_node structures are
+going to be embedded in refcounted objects (necessary for safe
+deletion) then the get/put arguments are used to initialise
+functions that take and release references on the embedding
+objects.

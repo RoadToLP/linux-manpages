@@ -1,0 +1,19 @@
+.TH "hsi_register_port_event" 9 "hsi_register_port_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hsi_register_port_event \- Register a client to receive port events
+.SH SYNOPSIS
+.B "int" hsi_register_port_event
+.BI "(struct hsi_client *cl "  ","
+.BI "void (*handler)(struct hsi_client *, unsigned long) "  ");"
+.SH ARGUMENTS
+.IP "cl" 12
+HSI client that wants to receive port events
+.IP "handler" 12
+Event handler callback
+.SH "DESCRIPTION"
+Clients should register a callback to be able to receive
+events from the ports. Registration should happen after
+claiming the port.
+The handler can be called in interrupt context.
+
+Returns -errno on error, or 0 on success.

@@ -1,0 +1,32 @@
+.TH "xa_store_range" 9 "xa_store_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xa_store_range \- Store this entry at a range of indices in the XArray.
+.SH SYNOPSIS
+.B "void *" xa_store_range
+.BI "(struct xarray *xa "  ","
+.BI "unsigned long first "  ","
+.BI "unsigned long last "  ","
+.BI "void *entry "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "first" 12
+First index to affect.
+.IP "last" 12
+Last index to affect.
+.IP "entry" 12
+New entry.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+After this function returns, loads from any index between \fIfirst\fP and \fIlast\fP,
+inclusive will return \fIentry\fP.
+Storing into an existing multi-index entry updates the entry of every index.
+The marks associated with \fIindex\fP are unaffected unless \fIentry\fP is NULL.
+.SH "CONTEXT"
+Process context.  Takes and releases the xa_lock.  May sleep
+if the \fIgfp\fP flags permit.
+.SH "RETURN"
+NULL on success, xa_err(-EINVAL) if \fIentry\fP cannot be stored in
+an XArray, or xa_err(-ENOMEM) if memory allocation failed.

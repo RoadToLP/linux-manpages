@@ -1,0 +1,21 @@
+.TH "bfq_activate_requeue_entity" 9 "bfq_activate_requeue_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_activate_requeue_entity \- activate or requeue an entity representing a bfq_queue, and activate, requeue or reposition all ancestors for which such an update becomes necessary.
+.SH SYNOPSIS
+.B "void" bfq_activate_requeue_entity
+.BI "(struct bfq_entity *entity "  ","
+.BI "bool non_blocking_wait_rq "  ","
+.BI "bool requeue "  ","
+.BI "bool expiration "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+the entity to activate.
+.IP "non_blocking_wait_rq" 12
+true if this entity was waiting for a request
+.IP "requeue" 12
+true if this is a requeue, which implies that bfqq is
+being expired; thus ALL its ancestors stop being served and must
+therefore be requeued
+.IP "expiration" 12
+true if this function is being invoked in the expiration path
+of the in-service queue

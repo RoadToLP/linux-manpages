@@ -1,0 +1,19 @@
+.TH "ath5k_hw_get_txdp" 9 "ath5k_hw_get_txdp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_get_txdp \- Get TX Descriptor's address for a specific queue
+.SH SYNOPSIS
+.B "u32" ath5k_hw_get_txdp
+.BI "(struct ath5k_hw *ah "  ","
+.BI "unsigned int queue "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "queue" 12
+The hw queue number
+.SH "DESCRIPTION"
+Get TX descriptor's address for a specific queue. For 5210 we ignore
+the queue number and use tx queue type since we only have 2 queues.
+We use TXDP0 for normal data queue and TXDP1 for beacon queue.
+For newer chips with QCU/DCU we just read the corresponding TXDP register.
+
+XXX: Is TXDP read and clear ?

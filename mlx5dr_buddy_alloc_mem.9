@@ -1,0 +1,25 @@
+.TH "mlx5dr_buddy_alloc_mem" 9 "mlx5dr_buddy_alloc_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mlx5dr_buddy_alloc_mem \- Update second level bitmap.
+.SH SYNOPSIS
+.B "int" mlx5dr_buddy_alloc_mem
+.BI "(struct mlx5dr_icm_buddy_mem *buddy "  ","
+.BI "unsigned int order "  ","
+.BI "unsigned int *segment "  ");"
+.SH ARGUMENTS
+.IP "buddy" 12
+Buddy to update.
+.IP "order" 12
+Order of the buddy to update.
+.IP "segment" 12
+Segment number.
+.SH "DESCRIPTION"
+This function finds the first area of the ICM memory managed by this buddy.
+It uses the data structures of the buddy system in order to find the first
+area of free place, starting from the current order till the maximum order
+in the system.
+
+The function returns the location (segment) in the whole buddy ICM memory
+area - the index of the memory segment that is available for use.
+.SH "RETURN"
+0 when segment is set, non-zero error status otherwise.

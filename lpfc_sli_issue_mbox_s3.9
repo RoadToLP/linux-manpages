@@ -1,0 +1,35 @@
+.TH "lpfc_sli_issue_mbox_s3" 9 "lpfc_sli_issue_mbox_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_issue_mbox_s3 \- Issue an SLI3 mailbox command to firmware
+.SH SYNOPSIS
+.B "int" lpfc_sli_issue_mbox_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmbox "  ","
+.BI "uint32_t flag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pmbox" 12
+Pointer to mailbox object.
+.IP "flag" 12
+Flag indicating how the mailbox need to be processed.
+.SH "DESCRIPTION"
+This function is called by discovery code and HBA management code
+to submit a mailbox command to firmware with SLI-3 interface spec. This
+function gets the hbalock to protect the data structures.
+The mailbox command can be submitted in polling mode, in which case
+this function will wait in a polling loop for the completion of the
+mailbox.
+If the mailbox is submitted in no_wait mode (not polling) the
+function will submit the command and returns immediately without waiting
+for the mailbox completion. The no_wait is supported only when HBA
+is in SLI2/SLI3 mode - interrupts are enabled.
+The SLI interface allows only one mailbox pending at a time. If the
+mailbox is issued in polling mode and there is already a mailbox
+pending, then the function will return an error. If the mailbox is issued
+in NO_WAIT mode and there is a mailbox pending already, the function
+will return MBX_BUSY after queuing the mailbox into mailbox queue.
+The sli layer owns the mailbox object until the completion of mailbox
+command if this function return MBX_BUSY or MBX_SUCCESS. For all other
+return codes the caller owns the mailbox command after the return of
+the function.

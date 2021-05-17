@@ -1,0 +1,31 @@
+.TH "kgdb_arch_handle_exception" 9 "kgdb_arch_handle_exception" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kgdb_arch_handle_exception \- Handle architecture specific GDB packets.
+.SH SYNOPSIS
+.B "int" kgdb_arch_handle_exception
+.BI "(int e_vector "  ","
+.BI "int signo "  ","
+.BI "int err_code "  ","
+.BI "char *remcomInBuffer "  ","
+.BI "char *remcomOutBuffer "  ","
+.BI "struct pt_regs *linux_regs "  ");"
+.SH ARGUMENTS
+.IP "e_vector" 12
+The error vector of the exception that happened.
+.IP "signo" 12
+The signal number of the exception that happened.
+.IP "err_code" 12
+The error code of the exception that happened.
+.IP "remcomInBuffer" 12
+The buffer of the packet we have read.
+.IP "remcomOutBuffer" 12
+The buffer of BUFMAX bytes to write a packet into.
+.IP "linux_regs" 12
+The \fIstruct pt_regs\fP of the current process.
+
+This function MUST handle the 'c' and 's' command packets,
+as well packets to set / remove a hardware breakpoint, if used.
+If there are additional packets which the hardware needs to handle,
+they are handled here.  The code should return -1 if it wants to
+process more packets, and a 0 or 1 if it wants to exit from the
+kgdb callback.

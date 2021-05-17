@@ -1,0 +1,30 @@
+.TH "store_filter" 9 "store_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+store_filter \- changes the scancode filter value
+.SH SYNOPSIS
+.B "ssize_t" store_filter
+.BI "(struct device *device "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device descriptor
+.IP "attr" 12
+the device attribute struct
+.IP "buf" 12
+a pointer to the input buffer
+.IP "len" 12
+length of the input buffer
+.SH "DESCRIPTION"
+This routine is for changing a scancode filter value or mask.
+It is triggered by writing to /sys/class/rc/rc?/[wakeup_]filter[_mask].
+Returns -EINVAL if an invalid filter value for the current protocol was
+specified or if scancode filtering is not supported by the driver, otherwise
+returns \fIlen\fP.
+
+Bits of the filter value corresponding to set bits in the filter mask are
+compared against input scancodes and non-matching scancodes are discarded.
+
+dev->lock is taken to guard against races between
+store_filter and show_filter.

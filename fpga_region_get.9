@@ -1,0 +1,15 @@
+.TH "fpga_region_get" 9 "fpga_region_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_region_get \- get an exclusive reference to a fpga region
+.SH SYNOPSIS
+.B "struct fpga_region *" fpga_region_get
+.BI "(struct fpga_region *region "  ");"
+.SH ARGUMENTS
+.IP "region" 12
+FPGA Region struct
+.SH "DESCRIPTION"
+Caller should call \fBfpga_region_put\fP when done with region.
+
+Return fpga_region struct if successful.
+Return -EBUSY if someone already has a reference to the region.
+Return -ENODEV if \fInp\fP is not a FPGA Region.

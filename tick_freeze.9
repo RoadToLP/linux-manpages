@@ -1,0 +1,16 @@
+.TH "tick_freeze" 9 "tick_freeze" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tick_freeze \- Suspend the local tick and (possibly) timekeeping.
+.SH SYNOPSIS
+.B "void" tick_freeze
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Check if this is the last online CPU executing the function and if so,
+suspend timekeeping.  Otherwise suspend the local tick.
+
+Call with interrupts disabled.  Must be balanced with \fBtick_unfreeze\fP.
+Interrupts must not be enabled before the subsequent \fBtick_unfreeze\fP.

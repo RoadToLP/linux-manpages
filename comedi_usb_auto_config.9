@@ -1,0 +1,24 @@
+.TH "comedi_usb_auto_config" 9 "comedi_usb_auto_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_usb_auto_config \- Configure/probe a USB COMEDI driver
+.SH SYNOPSIS
+.B "int" comedi_usb_auto_config
+.BI "(struct usb_interface *intf "  ","
+.BI "struct comedi_driver *driver "  ","
+.BI "unsigned long context "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+USB interface.
+.IP "driver" 12
+Registered COMEDI driver.
+.IP "context" 12
+Driver specific data, passed to \fBcomedi_auto_config\fP.
+.SH "DESCRIPTION"
+Typically called from the usb_driver (*probe) function.  Auto-configure a
+COMEDI device, using a pointer to the \fIstruct device\fP embedded in *\fIintf\fP as
+the hardware device.  The \fIcontext\fP value gets passed through to \fIdriver\fP's
+"auto_attach" handler.  The "auto_attach" handler may call
+\fBcomedi_to_usb_interface\fP on the passed in COMEDI device to recover \fIintf\fP.
+.SH "RETURN"
+The result of calling \fBcomedi_auto_config\fP (0 on success, or
+a negative error number on failure).

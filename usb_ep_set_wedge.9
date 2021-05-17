@@ -1,0 +1,17 @@
+.TH "usb_ep_set_wedge" 9 "usb_ep_set_wedge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ep_set_wedge \- sets the halt feature and ignores clear requests
+.SH SYNOPSIS
+.B "int" usb_ep_set_wedge
+.BI "(struct usb_ep *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint being wedged
+.SH "DESCRIPTION"
+Use this to stall an endpoint and ignore CLEAR_FEATURE(HALT_ENDPOINT)
+requests. If the gadget driver clears the halt status, it will
+automatically unwedge the endpoint.
+
+This routine may be called in interrupt context.
+
+Returns zero on success, else negative errno.

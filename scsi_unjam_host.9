@@ -1,0 +1,27 @@
+.TH "scsi_unjam_host" 9 "scsi_unjam_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_unjam_host \- Attempt to fix a host which has a cmd that failed.
+.SH SYNOPSIS
+.B "void" scsi_unjam_host
+.BI "(struct Scsi_Host *shost "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+Host to unjam.
+.SH "NOTES"
+When we come in here, we *know* that all commands on the bus have
+either completed, failed or timed out.  we also know that no further
+commands are being sent to the host, so things are relatively quiet
+and we have freedom to fiddle with things as we wish.
+
+This is only the *default* implementation.  it is possible for
+individual drivers to supply their own version of this function, and
+if the maintainer wishes to do this, it is strongly suggested that
+this function be taken as a template and modified.  this function
+was designed to correctly handle problems for about 95% of the
+different cases out there, and it should always provide at least a
+reasonable amount of error recovery.
+
+Any command marked 'failed' or 'timeout' must eventually have
+\fBscsi_finish_cmd\fP called for it.  we do all of the retry stuff
+here, so when we restart the host after we return it should have an
+empty queue.

@@ -1,0 +1,34 @@
+.TH "mtrr_type_lookup_variable" 9 "mtrr_type_lookup_variable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtrr_type_lookup_variable \- look up memory type in MTRR variable entries
+.SH SYNOPSIS
+.B "u8" mtrr_type_lookup_variable
+.BI "(u64 start "  ","
+.BI "u64 end "  ","
+.BI "u64 *partial_end "  ","
+.BI "int *repeat "  ","
+.BI "u8 *uniform "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+-- undescribed --
+.IP "end" 12
+-- undescribed --
+.IP "partial_end" 12
+-- undescribed --
+.IP "repeat" 12
+-- undescribed --
+.IP "uniform" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Return Value:
+MTRR_TYPE_(type) - Matched memory type or default memory type (unmatched)
+
+Output Arguments:
+repeat - Set to 1 when [start:end] spanned across MTRR range and type
+returned corresponds only to [start:*partial_end].  Caller has
+to lookup again for [*partial_end:end].
+
+uniform - Set to 1 when an MTRR covers the region uniformly, i.e. the
+region is fully covered by a single MTRR entry or the default
+type.

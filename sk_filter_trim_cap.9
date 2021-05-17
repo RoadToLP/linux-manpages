@@ -1,0 +1,21 @@
+.TH "sk_filter_trim_cap" 9 "sk_filter_trim_cap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sk_filter_trim_cap \- run a packet through a socket filter
+.SH SYNOPSIS
+.B "int" sk_filter_trim_cap
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int cap "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+sock associated with \fIsk_buff\fP
+.IP "skb" 12
+buffer to filter
+.IP "cap" 12
+limit on how short the eBPF program may trim the packet
+.SH "DESCRIPTION"
+Run the eBPF program and then cut skb->data to correct size returned by
+the program. If pkt_len is 0 we toss packet. If skb->len is smaller
+than pkt_len we keep whole skb->data. This is the socket level
+wrapper to BPF_PROG_RUN. It returns 0 if the packet should
+be accepted or -EPERM if the packet should be tossed.

@@ -1,0 +1,15 @@
+.TH "serial8250_em485_start_tx" 9 "serial8250_em485_start_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serial8250_em485_start_tx \- generic ->rs485_start_tx() callback
+.SH SYNOPSIS
+.B "void" serial8250_em485_start_tx
+.BI "(struct uart_8250_port *up "  ");"
+.SH ARGUMENTS
+.IP "up" 12
+uart 8250 port
+.SH "DESCRIPTION"
+Generic callback usable by 8250 uart drivers to start rs485 transmission.
+Assumes that setting the RTS bit in the MCR register means RTS is high.
+(Some chips use inverse semantics.)  Further assumes that reception is
+stoppable by disabling the UART_IER_RDI interrupt.  (Some chips set the
+UART_LSR_DR bit even when UART_IER_RDI is disabled, foiling this approach.)

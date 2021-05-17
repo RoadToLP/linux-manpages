@@ -1,0 +1,33 @@
+.TH "wq_calc_node_cpumask" 9 "wq_calc_node_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wq_calc_node_cpumask \- calculate a wq_attrs' cpumask for the specified node
+.SH SYNOPSIS
+.B "bool" wq_calc_node_cpumask
+.BI "(const struct workqueue_attrs *attrs "  ","
+.BI "int node "  ","
+.BI "int cpu_going_down "  ","
+.BI "cpumask_t *cpumask "  ");"
+.SH ARGUMENTS
+.IP "attrs" 12
+the wq_attrs of the default pwq of the target workqueue
+.IP "node" 12
+the target NUMA node
+.IP "cpu_going_down" 12
+if >= 0, the CPU to consider as offline
+.IP "cpumask" 12
+outarg, the resulting cpumask
+.SH "DESCRIPTION"
+Calculate the cpumask a workqueue with \fIattrs\fP should use on \fInode\fP.  If
+\fIcpu_going_down\fP is >= 0, that cpu is considered offline during
+calculation.  The result is stored in \fIcpumask\fP.
+
+If NUMA affinity is not enabled, \fIattrs->cpumask\fP is always used.  If
+enabled and \fInode\fP has online CPUs requested by \fIattrs\fP, the returned
+cpumask is the intersection of the possible CPUs of \fInode\fP and
+\fIattrs->cpumask\fP.
+
+The caller is responsible for ensuring that the cpumask of \fInode\fP stays
+stable.
+.SH "RETURN"
+true if the resulting \fIcpumask\fP is different from \fIattrs->cpumask\fP,
+false if equal.

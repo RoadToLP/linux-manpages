@@ -1,0 +1,23 @@
+.TH "calc_max_reserv" 9 "calc_max_reserv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_max_reserv \- Reverse of write_calc_reserv. Given a number of blocks, determine how many bytes can be written.
+.SH SYNOPSIS
+.B "void" calc_max_reserv
+.BI "(struct gfs2_inode *ip "  ","
+.BI "loff_t *len "  ","
+.BI "unsigned int *data_blocks "  ","
+.BI "unsigned int *ind_blocks "  ","
+.BI "unsigned int max_blocks "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+The inode in question.
+.IP "len" 12
+Max cap of bytes. What we return in *len must be <= this.
+.IP "data_blocks" 12
+Compute and return the number of data blocks needed
+.IP "ind_blocks" 12
+Compute and return the number of indirect blocks needed
+.IP "max_blocks" 12
+The total blocks available to work with.
+.SH "RETURN"
+void, but \fIlen\fP, \fIdata_blocks\fP and \fIind_blocks\fP are filled in.

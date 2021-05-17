@@ -1,0 +1,21 @@
+.TH "pcmcia_loop_config" 9 "pcmcia_loop_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_loop_config \- loop over configuration options
+.SH SYNOPSIS
+.B "int" pcmcia_loop_config
+.BI "(struct pcmcia_device *p_dev "  ","
+.BI "int (*conf_check) (struct pcmcia_device *p_dev, void *priv_data) "  ","
+.BI "void *priv_data "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+the struct pcmcia_device which we need to loop for.
+.IP "conf_check" 12
+function to call for each configuration option.
+It gets passed the struct pcmcia_device and private data
+being passed to \fBpcmcia_loop_config\fP
+.IP "priv_data" 12
+private data to be passed to the conf_check function.
+.SH "DESCRIPTION"
+\fBpcmcia_loop_config\fP loops over all configuration options, and calls
+the driver-specific \fBconf_check\fP for each one, checking whether
+it is a valid one. Returns 0 on success or errorcode otherwise.

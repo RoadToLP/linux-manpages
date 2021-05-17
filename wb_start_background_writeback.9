@@ -1,0 +1,14 @@
+.TH "wb_start_background_writeback" 9 "wb_start_background_writeback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wb_start_background_writeback \- start background writeback
+.SH SYNOPSIS
+.B "void" wb_start_background_writeback
+.BI "(struct bdi_writeback *wb "  ");"
+.SH ARGUMENTS
+.IP "wb" 12
+bdi_writback to write from
+.SH "DESCRIPTION"
+This makes sure WB_SYNC_NONE background writeback happens. When
+this function returns, it is only guaranteed that for given wb
+some IO is happening if we are over background dirty threshold.
+Caller need not hold sb s_umount semaphore.

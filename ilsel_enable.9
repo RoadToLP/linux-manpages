@@ -1,0 +1,17 @@
+.TH "ilsel_enable" 9 "ilsel_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ilsel_enable \- Enable an ILSEL set.
+.SH SYNOPSIS
+.B "int" ilsel_enable
+.BI "(ilsel_source_t set "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+ILSEL source (see ilsel_source_t enum in include/asm-sh/ilsel.h).
+.SH "DESCRIPTION"
+Enables a given non-aliased ILSEL source (<= ILSEL_KEY) at the highest
+available interrupt level. Callers should take care to order callsites
+noting descending interrupt levels. Aliasing FPGA and external board
+IRQs need to use \fBilsel_enable_fixed\fP.
+
+The return value is an IRQ number that can later be taken down with
+\fBilsel_disable\fP.

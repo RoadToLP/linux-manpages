@@ -1,0 +1,24 @@
+.TH "igb_ptp_set_timestamp_mode" 9 "igb_ptp_set_timestamp_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_ptp_set_timestamp_mode \- setup hardware for timestamping
+.SH SYNOPSIS
+.B "int" igb_ptp_set_timestamp_mode
+.BI "(struct igb_adapter *adapter "  ","
+.BI "struct hwtstamp_config *config "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+networking device structure
+.IP "config" 12
+hwtstamp configuration
+.SH "DESCRIPTION"
+Outgoing time stamping can be enabled and disabled. Play nice and
+disable it when requested, although it shouldn't case any overhead
+when no packet needs it. At most one packet in the queue may be
+marked for time stamping, otherwise it would be impossible to tell
+for sure to which packet the hardware time stamp belongs.
+
+Incoming time stamping has to be configured via the hardware
+filters. Not all combinations are supported, in particular event
+type has to be specified. Matching the kind of event packet is
+not supported, with the exception of "all V2 events regardless of
+level 2 or 4".

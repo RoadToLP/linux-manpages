@@ -1,0 +1,27 @@
+.TH "ntfs_fill_super" 9 "ntfs_fill_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_fill_super \- mount an ntfs filesystem
+.SH SYNOPSIS
+.B "int" ntfs_fill_super
+.BI "(struct super_block *sb "  ","
+.BI "void *opt "  ","
+.BI "const int silent "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of ntfs filesystem to mount
+.IP "opt" 12
+string containing the mount options
+.IP "silent" 12
+silence error output
+.SH "DESCRIPTION"
+\fBntfs_fill_super\fP is called by the VFS to mount the device described by \fIsb\fP
+with the mount otions in \fIdata\fP with the NTFS filesystem.
+
+If \fIsilent\fP is true, remain silent even if errors are detected. This is used
+during bootup, when the kernel tries to mount the root filesystem with all
+registered filesystems one after the other until one succeeds. This implies
+that all filesystems except the correct one will quite correctly and
+expectedly return an error, but nobody wants to see error messages when in
+fact this is what is supposed to happen.
+.SH "NOTE"
+\fIsb->s_flags\fP contains the mount options flags.

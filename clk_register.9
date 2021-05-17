@@ -1,0 +1,20 @@
+.TH "clk_register" 9 "clk_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_register \- allocate a new clock, register it and return an opaque cookie
+.SH SYNOPSIS
+.B "struct clk *" clk_register
+.BI "(struct device *dev "  ","
+.BI "struct clk_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that is registering this clock
+.IP "hw" 12
+link to hardware-specific clock data
+.SH "DESCRIPTION"
+clk_register is the *deprecated* interface for populating the clock tree with
+new clock nodes. Use \fBclk_hw_register\fP instead.
+.SH "RETURN"
+a pointer to the newly allocated struct clk which
+cannot be dereferenced by driver code but may be used in conjunction with the
+rest of the clock API.  In the event of an error clk_register will return an
+error code; drivers must test for an error code after calling clk_register.

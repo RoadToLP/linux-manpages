@@ -1,0 +1,28 @@
+.TH "__alloc_skb" 9 "__alloc_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__alloc_skb \- allocate a network buffer
+.SH SYNOPSIS
+.B "struct sk_buff *" __alloc_skb
+.BI "(unsigned int size "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int flags "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size to allocate
+.IP "gfp_mask" 12
+allocation mask
+.IP "flags" 12
+If SKB_ALLOC_FCLONE is set, allocate from fclone cache
+instead of head cache and allocate a cloned (child) skb.
+If SKB_ALLOC_RX is set, __GFP_MEMALLOC will be used for
+allocations in case the data is required for writeback
+.IP "node" 12
+numa node to allocate memory on
+
+Allocate a new \fIsk_buff\fP. The returned buffer has no headroom and a
+tail room of at least size bytes. The object has a reference count
+of one. The return is the buffer. On a failure the return is NULL.
+
+Buffers may only be allocated from interrupts using a \fIgfp_mask\fP of
+GFP_ATOMIC.

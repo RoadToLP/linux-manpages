@@ -1,0 +1,16 @@
+.TH "pc87413_exit" 9 "pc87413_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pc87413_exit \- module's "destructor"
+.SH SYNOPSIS
+.B "void __exit" pc87413_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Unload the watchdog. You cannot do this with any file handles open.
+If your watchdog is set to continue ticking on close and you unload
+it, well it keeps ticking. We won't get the interrupt but the board
+will not touch PC memory so all is fine. You just have to load a new
+module in 60 seconds or reboot.

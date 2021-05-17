@@ -1,0 +1,31 @@
+.TH "gfs2_block_map" 9 "gfs2_block_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_block_map \- Map one or more blocks of an inode to a disk block
+.SH SYNOPSIS
+.B "int" gfs2_block_map
+.BI "(struct inode *inode "  ","
+.BI "sector_t lblock "  ","
+.BI "struct buffer_head *bh_map "  ","
+.BI "int create "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode
+.IP "lblock" 12
+The logical block number
+.IP "bh_map" 12
+The bh to be mapped
+.IP "create" 12
+True if its ok to alloc blocks to satify the request
+.SH "DESCRIPTION"
+The size of the requested mapping is defined in bh_map->b_size.
+
+Clears buffer_mapped(bh_map) and leaves bh_map->b_size unchanged
+when \fIlblock\fP is not mapped.  Sets buffer_mapped(bh_map) and
+bh_map->b_size to indicate the size of the mapping when \fIlblock\fP and
+successive blocks are mapped, up to the requested size.
+
+Sets \fBbuffer_boundary\fP if a read of metadata will be required
+before the next block can be mapped. Sets \fBbuffer_new\fP if new
+blocks were allocated.
+.SH "RETURN"
+errno

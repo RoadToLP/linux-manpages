@@ -1,0 +1,17 @@
+.TH "prot_queue_add" 9 "prot_queue_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prot_queue_add \- add physical eraseblock to the protection queue.
+.SH SYNOPSIS
+.B "void" prot_queue_add
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_wl_entry *e "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "e" 12
+the physical eraseblock to add
+.SH "DESCRIPTION"
+This function adds \fIe\fP to the tail of the protection queue \fIubi->pq\fP, where
+\fIe\fP will stay for UBI_PROT_QUEUE_LEN erase operations and will be
+temporarily protected from the wear-leveling worker. Note, \fIwl->lock\fP has to
+be locked.

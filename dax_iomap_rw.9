@@ -1,0 +1,19 @@
+.TH "dax_iomap_rw" 9 "dax_iomap_rw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dax_iomap_rw \- Perform I/O to a DAX file
+.SH SYNOPSIS
+.B "ssize_t" dax_iomap_rw
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ","
+.BI "const struct iomap_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+The control block for this I/O
+.IP "iter" 12
+The addresses to do I/O from or to
+.IP "ops" 12
+iomap ops passed from the file system
+.SH "DESCRIPTION"
+This function performs read and write operations to directly mapped
+persistent memory.  The callers needs to take care of read/write exclusion
+and evicting any page cache pages in the region under I/O.

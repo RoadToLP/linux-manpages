@@ -1,0 +1,14 @@
+.TH "drm_lease_destroy" 9 "drm_lease_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_lease_destroy \- a master is going away (idr_mutex not held)
+.SH SYNOPSIS
+.B "void" drm_lease_destroy
+.BI "(struct drm_master *master "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+the drm_master being destroyed
+.SH "DESCRIPTION"
+All lessees will have been destroyed as they
+hold a reference on their lessor. Notify any
+lessor for this master so that it can check
+the list of lessees.

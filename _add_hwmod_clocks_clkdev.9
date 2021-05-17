@@ -1,0 +1,25 @@
+.TH "_add_hwmod_clocks_clkdev" 9 "_add_hwmod_clocks_clkdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_add_hwmod_clocks_clkdev \- Add clkdev entry for hwmod optional clocks and main clock
+.SH SYNOPSIS
+.B "void" _add_hwmod_clocks_clkdev
+.BI "(struct omap_device *od "  ","
+.BI "struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "od" 12
+struct omap_device *od
+.IP "oh" 12
+struct omap_hwmod *oh
+.SH "DESCRIPTION"
+For the main clock and every optional clock present per hwmod per
+omap_device, this function adds an entry in the clkdev table of the
+form <dev-id=dev_name, con-id=role> if it does not exist already.
+
+The function is called from inside \fBomap_device_build_ss\fP, after
+omap_device_register.
+
+This allows drivers to get a pointer to its optional clocks based on its role
+by calling clk_get(<dev*>, <role>).
+In the case of the main clock, a "fck" alias is used.
+
+No return value.

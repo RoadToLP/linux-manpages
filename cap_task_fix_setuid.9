@@ -1,0 +1,18 @@
+.TH "cap_task_fix_setuid" 9 "cap_task_fix_setuid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_task_fix_setuid \- Fix up the results of setuid() call
+.SH SYNOPSIS
+.B "int" cap_task_fix_setuid
+.BI "(struct cred *new "  ","
+.BI "const struct cred *old "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+The proposed credentials
+.IP "old" 12
+The current task's current credentials
+.IP "flags" 12
+Indications of what has changed
+.SH "DESCRIPTION"
+Fix up the results of \fBsetuid\fP call before the credential changes are
+actually applied, returning 0 to grant the changes, -ve to deny them.

@@ -1,0 +1,15 @@
+.TH "gluebi_updated" 9 "gluebi_updated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gluebi_updated \- UBI volume was updated notifier.
+.SH SYNOPSIS
+.B "int" gluebi_updated
+.BI "(struct ubi_volume_info *vi "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+volume info structure
+.SH "DESCRIPTION"
+This function is called every time an UBI volume is updated. It does nothing
+if te volume \fIvol\fP is dynamic, and changes MTD device size if the
+volume is static. This is needed because static volumes cannot be read past
+data they contain. This function returns zero in case of success and a
+negative error code in case of error.

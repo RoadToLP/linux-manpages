@@ -1,0 +1,16 @@
+.TH "submit_bio_wait" 9 "submit_bio_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+submit_bio_wait \- submit a bio, and wait until it completes
+.SH SYNOPSIS
+.B "int" submit_bio_wait
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+The \fIstruct bio\fP which describes the I/O
+.SH "DESCRIPTION"
+Simple wrapper around \fBsubmit_bio\fP. Returns 0 on success, or the error from
+\fBbio_endio\fP on failure.
+
+WARNING: Unlike to how \fBsubmit_bio\fP is usually used, this function does not
+result in bio reference to be consumed. The caller must drop the reference
+on his own.

@@ -1,0 +1,22 @@
+.TH "hpt3x2n_set_clock" 9 "hpt3x2n_set_clock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hpt3x2n_set_clock \- clock control
+.SH SYNOPSIS
+.B "void" hpt3x2n_set_clock
+.BI "(struct ata_port *ap "  ","
+.BI "int source "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port
+.IP "source" 12
+0x21 or 0x23 for PLL or PCI sourced clock
+
+Switch the ATA bus clock between the PLL and PCI clock sources
+while correctly isolating the bus and resetting internal logic
+
+We must use the DPLL for
+-       writing
+-       second channel UDMA7 (SATA ports) or higher
+-       66MHz PCI
+
+or we will underclock the device and get reduced performance.

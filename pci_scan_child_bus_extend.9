@@ -1,0 +1,19 @@
+.TH "pci_scan_child_bus_extend" 9 "pci_scan_child_bus_extend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_scan_child_bus_extend \- Scan devices below a bus
+.SH SYNOPSIS
+.B "unsigned int" pci_scan_child_bus_extend
+.BI "(struct pci_bus *bus "  ","
+.BI "unsigned int available_buses "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+Bus to scan for devices
+.IP "available_buses" 12
+Total number of buses available (0 does not try to
+extend beyond the minimal)
+.SH "DESCRIPTION"
+Scans devices below \fIbus\fP including subordinate buses. Returns new
+subordinate number including all the found devices. Passing
+\fIavailable_buses\fP causes the remaining bus space to be distributed
+equally between hotplug-capable bridges to allow future extension of the
+hierarchy.

@@ -1,0 +1,16 @@
+.TH "tomoyo_set_string" 9 "tomoyo_set_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_set_string \- Queue string to "struct tomoyo_io_buffer" structure.
+.SH SYNOPSIS
+.B "void" tomoyo_set_string
+.BI "(struct tomoyo_io_buffer *head "  ","
+.BI "const char *string "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+Pointer to "struct tomoyo_io_buffer".
+.IP "string" 12
+String to print.
+.SH "DESCRIPTION"
+Note that \fIstring\fP has to be kept valid until \fIhead\fP is \fBkfree\fPd.
+This means that char[] allocated on stack memory cannot be passed to
+this function. Use \fBtomoyo_io_printf\fP for char[] allocated on stack memory.

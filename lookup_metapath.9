@@ -1,0 +1,23 @@
+.TH "lookup_metapath" 9 "lookup_metapath" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lookup_metapath \- Walk the metadata tree to a specific point
+.SH SYNOPSIS
+.B "int" lookup_metapath
+.BI "(struct gfs2_inode *ip "  ","
+.BI "struct metapath *mp "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+The inode
+.IP "mp" 12
+The metapath
+.SH "DESCRIPTION"
+Assumes that the inode's buffer has already been looked up and
+hooked onto mp->mp_bh[0] and that the metapath has been initialised
+by \fBfind_metapath\fP.
+
+If this function encounters part of the tree which has not been
+allocated, it returns the current height of the tree at the point
+at which it found the unallocated block. Blocks which are found are
+added to the mp->mp_bh[] list.
+.SH "RETURN"
+error

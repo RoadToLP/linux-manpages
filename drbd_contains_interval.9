@@ -1,0 +1,20 @@
+.TH "drbd_contains_interval" 9 "drbd_contains_interval" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_contains_interval \- check if a tree contains a given interval
+.SH SYNOPSIS
+.B "bool" drbd_contains_interval
+.BI "(struct rb_root *root "  ","
+.BI "sector_t sector "  ","
+.BI "struct drbd_interval *interval "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+-- undescribed --
+.IP "sector" 12
+start sector of \fIinterval\fP
+.IP "interval" 12
+may not be a valid pointer
+.SH "DESCRIPTION"
+Returns if the tree contains the node \fIinterval\fP with start sector \fIstart\fP.
+Does not dereference \fIinterval\fP until \fIinterval\fP is known to be a valid object
+in \fItree\fP.  Returns false if \fIinterval\fP is in the tree but with a different
+sector number.

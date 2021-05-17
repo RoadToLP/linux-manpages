@@ -1,0 +1,34 @@
+.TH "ice_write_one_nvm_block" 9 "ice_write_one_nvm_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_write_one_nvm_block \- Write an NVM block and await completion response
+.SH SYNOPSIS
+.B "int" ice_write_one_nvm_block
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 module "  ","
+.BI "u32 offset "  ","
+.BI "u16 block_size "  ","
+.BI "u8 *block "  ","
+.BI "bool last_cmd "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+the PF data structure
+.IP "module" 12
+the module to write to
+.IP "offset" 12
+offset in bytes
+.IP "block_size" 12
+size of the block to write, up to 4k
+.IP "block" 12
+pointer to block of data to write
+.IP "last_cmd" 12
+whether this is the last command
+.IP "extack" 12
+netlink extended ACK structure
+.SH "DESCRIPTION"
+Write a block of data to a flash module, and await for the completion
+response message from firmware.
+
+Note this function assumes the caller has acquired the NVM resource.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

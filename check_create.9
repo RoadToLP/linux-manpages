@@ -1,0 +1,20 @@
+.TH "check_create" 9 "check_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_create \- [GENERIC] create and write bbt(s) if necessary
+.SH SYNOPSIS
+.B "int" check_create
+.BI "(struct nand_chip *this "  ","
+.BI "uint8_t *buf "  ","
+.BI "struct nand_bbt_descr *bd "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+the NAND device
+.IP "buf" 12
+temporary buffer
+.IP "bd" 12
+descriptor for the good/bad block search pattern
+.SH "DESCRIPTION"
+The function checks the results of the previous call to read_bbt and creates
+/ updates the bbt(s) if necessary. Creation is necessary if no bbt was found
+for the chip/device. Update is necessary if one of the tables is missing or
+the version nr. of one table is less than the other.

@@ -1,0 +1,26 @@
+.TH "iio_triggered_event_setup" 9 "iio_triggered_event_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_triggered_event_setup \- Setup pollfunc_event for triggered event
+.SH SYNOPSIS
+.B "int" iio_triggered_event_setup
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "irqreturn_t (*h)(int irq, void *p) "  ","
+.BI "irqreturn_t (*thread)(int irq, void *p) "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device structure
+.IP "h" 12
+Function which will be used as pollfunc_event top half
+.IP "thread" 12
+Function which will be used as pollfunc_event bottom half
+.SH "DESCRIPTION"
+This function combines some common tasks which will normally be performed
+when setting up a triggered event. It will allocate the pollfunc_event and
+set mode to use it for triggered event.
+
+Before calling this function the indio_dev structure should already be
+completely initialized, but not yet registered. In practice this means that
+this function should be called right before \fBiio_device_register\fP.
+
+To free the resources allocated by this function call
+\fBiio_triggered_event_cleanup\fP.

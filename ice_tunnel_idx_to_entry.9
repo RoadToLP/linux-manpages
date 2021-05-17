@@ -1,0 +1,19 @@
+.TH "ice_tunnel_idx_to_entry" 9 "ice_tunnel_idx_to_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_tunnel_idx_to_entry \- convert linear index to the sparse one
+.SH SYNOPSIS
+.B "u16" ice_tunnel_idx_to_entry
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_tunnel_type type "  ","
+.BI "u16 idx "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "type" 12
+type of tunnel
+.IP "idx" 12
+linear index
+.SH "DESCRIPTION"
+Stack assumes we have 2 linear tables with indexes [0, count_valid),
+but really the port table may be sprase, and types are mixed, so convert
+the stack index into the device index.

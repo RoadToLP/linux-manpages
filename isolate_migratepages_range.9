@@ -1,0 +1,19 @@
+.TH "isolate_migratepages_range" 9 "isolate_migratepages_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isolate_migratepages_range \- isolate migrate-able pages in a PFN range
+.SH SYNOPSIS
+.B "unsigned long" isolate_migratepages_range
+.BI "(struct compact_control *cc "  ","
+.BI "unsigned long start_pfn "  ","
+.BI "unsigned long end_pfn "  ");"
+.SH ARGUMENTS
+.IP "cc" 12
+Compaction control structure.
+.IP "start_pfn" 12
+The first PFN to start isolating.
+.IP "end_pfn" 12
+The one-past-last PFN.
+.SH "DESCRIPTION"
+Returns zero if isolation fails fatally due to e.g. pending signal.
+Otherwise, function returns one-past-the-last PFN of isolated page
+(which may be greater than end_pfn if end fell in a middle of a THP page).

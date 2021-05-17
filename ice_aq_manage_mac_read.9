@@ -1,0 +1,27 @@
+.TH "ice_aq_manage_mac_read" 9 "ice_aq_manage_mac_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_manage_mac_read \- manage MAC address read command
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_manage_mac_read
+.BI "(struct ice_hw *hw "  ","
+.BI "void *buf "  ","
+.BI "u16 buf_size "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "buf" 12
+a virtual buffer to hold the manage MAC read response
+.IP "buf_size" 12
+Size of the virtual buffer
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+This function is used to return per PF station MAC address (0x0107).
+.SH "NOTE"
+Upon successful completion of this command, MAC address information
+is returned in user specified buffer. Please interpret user specified
+buffer as "manage_mac_read" response.
+Response such as various MAC addresses are stored in HW struct (port.mac)
+ice_discover_dev_caps is expected to be called before this function is
+called.

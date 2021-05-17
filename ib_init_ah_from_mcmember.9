@@ -1,0 +1,29 @@
+.TH "ib_init_ah_from_mcmember" 9 "ib_init_ah_from_mcmember" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_init_ah_from_mcmember \- Initialize AH attribute from multicast member record and gid of the device.
+.SH SYNOPSIS
+.B "int" ib_init_ah_from_mcmember
+.BI "(struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "struct ib_sa_mcmember_rec *rec "  ","
+.BI "struct net_device *ndev "  ","
+.BI "enum ib_gid_type gid_type "  ","
+.BI "struct rdma_ah_attr *ah_attr "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+RDMA device
+.IP "port_num" 12
+Port of the rdma device to consider
+.IP "rec" 12
+Multicast member record to use
+.IP "ndev" 12
+Optional netdevice, applicable only for RoCE
+.IP "gid_type" 12
+GID type to consider
+.IP "ah_attr" 12
+AH attribute to fillup on successful completion
+.SH "DESCRIPTION"
+\fBib_init_ah_from_mcmember\fP initializes AH attribute based on multicast
+member record and other device properties. On success the caller is
+responsible to call rdma_destroy_ah_attr on the ah_attr. Returns 0 on
+success or appropriate error code.

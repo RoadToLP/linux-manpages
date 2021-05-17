@@ -1,0 +1,20 @@
+.TH "xas_pause" 9 "xas_pause" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_pause \- Pause a walk to drop a lock.
+.SH SYNOPSIS
+.B "void" xas_pause
+.BI "(struct xa_state *xas "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.SH "DESCRIPTION"
+Some users need to pause a walk and drop the lock they're holding in
+order to yield to a higher priority thread or carry out an operation
+on an entry.  Those users should call this function before they drop
+the lock.  It resets the \fIxas\fP to be suitable for the next iteration
+of the loop after the user has reacquired the lock.  If most entries
+found during a walk require you to call \fBxas_pause\fP, the \fBxa_for_each\fP
+iterator may be more appropriate.
+
+Note that \fBxas_pause\fP only works for forward iteration.  If a user needs
+to pause a reverse iteration, we will need a \fBxas_pause_rev\fP.

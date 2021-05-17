@@ -1,0 +1,15 @@
+.TH "complete_walk" 9 "complete_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+complete_walk \- successful completion of path walk
+.SH SYNOPSIS
+.B "int" complete_walk
+.BI "(struct nameidata *nd "  ");"
+.SH ARGUMENTS
+.IP "nd" 12
+pointer nameidata
+.SH "DESCRIPTION"
+If we had been in RCU mode, drop out of it and legitimize nd->path.
+Revalidate the final result, unless we'd already done that during
+the path walk or the filesystem doesn't ask for it.  Return 0 on
+success, -error on failure.  In case of failure caller does not
+need to drop nd->path.

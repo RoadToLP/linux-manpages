@@ -1,0 +1,16 @@
+.TH "dwc2_clear_force_mode" 9 "dwc2_clear_force_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_clear_force_mode \- Clears the force mode bits.
+.SH SYNOPSIS
+.B "void" dwc2_clear_force_mode
+.BI "(struct dwc2_hsotg *hsotg "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of DWC_otg controller
+.SH "DESCRIPTION"
+
+After clearing the bits, wait up to 100 ms to account for any
+potential IDDIG filter delay. We can't know if we expect this delay
+or not because the value of the connector ID status is affected by
+the force mode. We only need to call this once during probe if
+dr_mode == OTG.

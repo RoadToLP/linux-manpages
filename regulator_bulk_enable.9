@@ -1,0 +1,18 @@
+.TH "regulator_bulk_enable" 9 "regulator_bulk_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_bulk_enable \- enable multiple regulator consumers
+.SH SYNOPSIS
+.B "int" regulator_bulk_enable
+.BI "(int num_consumers "  ","
+.BI "struct regulator_bulk_data *consumers "  ");"
+.SH ARGUMENTS
+.IP "num_consumers" 12
+Number of consumers
+.IP "consumers" 12
+Consumer data; clients are stored here.
+\fIreturn\fP         0 on success, an errno on failure
+.SH "DESCRIPTION"
+This convenience API allows consumers to enable multiple regulator
+clients in a single API call.  If any consumers cannot be enabled
+then any others that were enabled will be disabled again prior to
+return.

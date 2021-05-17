@@ -1,0 +1,19 @@
+.TH "cxlflash_disk_attach" 9 "cxlflash_disk_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_disk_attach \- attach a LUN to a context
+.SH SYNOPSIS
+.B "int" cxlflash_disk_attach
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct dk_cxlflash_attach *attach "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "attach" 12
+Attach ioctl data structure.
+.SH "DESCRIPTION"
+Creates a context and attaches LUN to it. A LUN can only be attached
+one time to a context (subsequent attaches for the same context/LUN pair
+are not supported). Additional LUNs can be attached to a context by
+specifying the 'reuse' flag defined in the cxlflash_ioctl.h header.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,22 @@
+.TH "gss_check_seq_num" 9 "gss_check_seq_num" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gss_check_seq_num \- GSS sequence number window check
+.SH SYNOPSIS
+.B "bool" gss_check_seq_num
+.BI "(const struct svc_rqst *rqstp "  ","
+.BI "struct rsc *rsci "  ","
+.BI "u32 seq_num "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+RPC Call to use when reporting errors
+.IP "rsci" 12
+cached GSS context state (updated on return)
+.IP "seq_num" 12
+sequence number to check
+.SH "DESCRIPTION"
+Implements sequence number algorithm as specified in
+RFC 2203, Section 5.3.3.1. "Context Management".
+
+Return values:
+true: \fIrqstp\fP's GSS sequence number is inside the window
+false: \fIrqstp\fP's GSS sequence number is outside the window

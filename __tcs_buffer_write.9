@@ -1,0 +1,21 @@
+.TH "__tcs_buffer_write" 9 "__tcs_buffer_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__tcs_buffer_write \- Write to TCS hardware from a request; don't trigger.
+.SH SYNOPSIS
+.B "void" __tcs_buffer_write
+.BI "(struct rsc_drv *drv "  ","
+.BI "int tcs_id "  ","
+.BI "int cmd_id "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "tcs_id" 12
+The global ID of this TCS.
+.IP "cmd_id" 12
+The index within the TCS to start writing.
+.IP "msg" 12
+The message we want to send, which will contain several addr/data
+pairs to program (but few enough that they all fit in one TCS).
+.SH "DESCRIPTION"
+This is used for all types of transfers (active, sleep, and wake).

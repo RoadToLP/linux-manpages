@@ -1,0 +1,22 @@
+.TH "relay_subbufs_consumed" 9 "relay_subbufs_consumed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+relay_subbufs_consumed \- update the buffer's sub-buffers-consumed count
+.SH SYNOPSIS
+.B "void" relay_subbufs_consumed
+.BI "(struct rchan *chan "  ","
+.BI "unsigned int cpu "  ","
+.BI "size_t subbufs_consumed "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+the channel
+.IP "cpu" 12
+the cpu associated with the channel buffer to update
+.IP "subbufs_consumed" 12
+number of sub-buffers to add to current buf's count
+
+Adds to the channel buffer's consumed sub-buffer count.
+subbufs_consumed should be the number of sub-buffers newly consumed,
+not the total consumed.
+
+NOTE. Kernel clients don't need to call this function if the channel
+mode is 'overwrite'.

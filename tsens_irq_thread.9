@@ -1,0 +1,22 @@
+.TH "tsens_irq_thread" 9 "tsens_irq_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tsens_irq_thread \- Threaded interrupt handler for uplow interrupts
+.SH SYNOPSIS
+.B "irqreturn_t" tsens_irq_thread
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+irq number
+.IP "data" 12
+tsens controller private data
+.SH "DESCRIPTION"
+Check all sensors to find ones that violated their threshold limits. If the
+temperature is still outside the limits, call \fBthermal_zone_device_update\fP to
+update the thresholds, else re-enable the interrupts.
+
+The level-triggered interrupt might deassert if the temperature returned to
+within the threshold limits by the time the handler got scheduled. We
+consider the irq to have been handled in that case.
+.SH "RETURN"
+IRQ_HANDLED

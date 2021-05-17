@@ -1,0 +1,34 @@
+.TH "t3_sge_init_rspcntxt" 9 "t3_sge_init_rspcntxt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_sge_init_rspcntxt \- initialize an SGE response queue context
+.SH SYNOPSIS
+.B "int" t3_sge_init_rspcntxt
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int id "  ","
+.BI "int irq_vec_idx "  ","
+.BI "u64 base_addr "  ","
+.BI "unsigned int size "  ","
+.BI "unsigned int fl_thres "  ","
+.BI "int gen "  ","
+.BI "unsigned int cidx "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter to configure
+.IP "id" 12
+the context id
+.IP "irq_vec_idx" 12
+MSI-X interrupt vector index, 0 if no MSI-X, -1 if no IRQ
+.IP "base_addr" 12
+base address of queue
+.IP "size" 12
+number of queue entries
+.IP "fl_thres" 12
+threshold for selecting the normal or jumbo free list
+.IP "gen" 12
+initial generation value for the context
+.IP "cidx" 12
+consumer pointer
+
+Initialize an SGE response queue context and make it ready for use.
+The caller is responsible for ensuring only one context operation
+occurs at a time.

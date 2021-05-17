@@ -1,0 +1,28 @@
+.TH "get_xmit_wait_counters" 9 "get_xmit_wait_counters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_xmit_wait_counters \- Convert HFI 's SendWaitCnt/SendWaitVlCnt counter in unit of TXE cycle times to flit times.
+.SH SYNOPSIS
+.B "u64" get_xmit_wait_counters
+.BI "(struct hfi1_pportdata *ppd "  ","
+.BI "u16 link_width "  ","
+.BI "u16 link_speed "  ","
+.BI "int vl "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+info of physical Hfi port
+.IP "link_width" 12
+width of active link
+.IP "link_speed" 12
+speed of active link
+.IP "vl" 12
+represent VL0-VL7, VL15 for PortVLXmitWait counters request
+and if vl value is C_VL_COUNT, it represent SendWaitCnt
+counter request
+.SH "RETURN"
+return SendWaitCnt/SendWaitVlCnt counter value per vl.
+.SH "DESCRIPTION"
+Convert SendWaitCnt/SendWaitVlCnt counter from TXE cycle times to
+flit times. Call this function to samples these counters. This
+function will calculate for previous state transition and update
+current state at end of function using ppd->prev_link_width and
+ppd->port_vl_xmit_wait_last to port_vl_xmit_wait_curr and link_width.

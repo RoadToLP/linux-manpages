@@ -1,0 +1,24 @@
+.TH "iscsi_iser_ep_connect" 9 "iscsi_iser_ep_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_ep_connect \- Initiate iSER connection establishment
+.SH SYNOPSIS
+.B "struct iscsi_endpoint *" iscsi_iser_ep_connect
+.BI "(struct Scsi_Host *shost "  ","
+.BI "struct sockaddr *dst_addr "  ","
+.BI "int non_blocking "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+scsi_host
+.IP "dst_addr" 12
+destination address
+.IP "non_blocking" 12
+indicate if routine can block
+.SH "DESCRIPTION"
+Allocate an iscsi endpoint, an iser_conn structure and bind them.
+After that start RDMA connection establishment via rdma_cm. We
+don't allocate iser_conn embedded in iscsi_endpoint since in teardown
+the endpoint will be destroyed at ep_disconnect while iser_conn will
+cleanup its resources asynchronuously.
+.SH "RETURN"
+iscsi_endpoint created by iscsi layer or ERR_PTR(error)
+if fails.

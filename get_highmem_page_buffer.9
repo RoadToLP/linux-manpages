@@ -1,0 +1,28 @@
+.TH "get_highmem_page_buffer" 9 "get_highmem_page_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_highmem_page_buffer \- Prepare a buffer to store a highmem image page.
+.SH SYNOPSIS
+.B "void *" get_highmem_page_buffer
+.BI "(struct page *page "  ","
+.BI "struct chain_allocator *ca "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+-- undescribed --
+.IP "ca" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+For a given highmem image page get a buffer that \fBsuspend_write_next\fP should
+return to its caller to write to.
+
+If the page is to be saved to its "original" page frame or a copy of
+the page is to be made in the highmem, \fIbuffer\fP is returned.  Otherwise,
+the copy of the page is to be made in normal memory, so the address of
+the copy is returned.
+
+If \fIbuffer\fP is returned, the caller of \fBsuspend_write_next\fP will write
+the page's contents to \fIbuffer\fP, so they will have to be copied to the
+right location on the next call to \fBsuspend_write_next\fP and it is done
+with the help of \fBcopy_last_highmem_page\fP.  For this purpose, if
+\fIbuffer\fP is returned, \fIlast_highmem_page\fP is set to the page to which
+the data will have to be copied from \fIbuffer\fP.

@@ -1,0 +1,23 @@
+.TH "pcl_alloc_write" 9 "pcl_alloc_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcl_alloc_write \- Construct a parsed chunk list from a Write list
+.SH SYNOPSIS
+.B "bool" pcl_alloc_write
+.BI "(struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "struct svc_rdma_pcl *pcl "  ","
+.BI "__be32 *p "  ");"
+.SH ARGUMENTS
+.IP "rctxt" 12
+Ingress receive context
+.IP "pcl" 12
+Parsed chunk list to populate
+.IP "p" 12
+Start of an un-decoded Write list
+.SH "DESCRIPTION"
+Assumptions:
+- The incoming Write list has already been sanity checked, and
+- cl_count is set to the number of chunks in the un-decoded list.
+
+Return values:
+true: Parsed chunk list was successfully constructed.
+false: Memory allocation failed.

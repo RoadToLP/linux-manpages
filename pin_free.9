@@ -1,0 +1,20 @@
+.TH "pin_free" 9 "pin_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pin_free \- release a single muxed in pin so something else can be muxed
+.SH SYNOPSIS
+.B "const char *" pin_free
+.BI "(struct pinctrl_dev *pctldev "  ","
+.BI "int pin "  ","
+.BI "struct pinctrl_gpio_range *gpio_range "  ");"
+.SH ARGUMENTS
+.IP "pctldev" 12
+pin controller device handling this pin
+.IP "pin" 12
+the pin to free
+.IP "gpio_range" 12
+the range matching the GPIO pin if this is a request for a
+single GPIO pin
+.SH "DESCRIPTION"
+This function returns a pointer to the previous owner. This is used
+for callers that dynamically allocate an owner name so it can be freed
+once the pin is free. This is done for GPIO request functions.

@@ -1,0 +1,17 @@
+.TH "lpfc_rrq_timeout" 9 "lpfc_rrq_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_rrq_timeout \- The RRQ-timer timeout handler
+.SH SYNOPSIS
+.B "void" lpfc_rrq_timeout
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer context used to obtain the pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This is the RRQ-timer timeout handler registered to the lpfc driver. When
+this timer fires, a RRQ timeout event shall be posted to the lpfc driver
+work-port-events bitmap and the worker thread is notified. This timeout
+event will be used by the worker thread to invoke the actual timeout
+handler routine, lpfc_rrq_handler. Any periodical operations will
+be performed in the timeout handler and the RRQ timeout event bit shall
+be cleared by the worker thread after it has taken the event bitmap out.

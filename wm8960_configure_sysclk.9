@@ -1,0 +1,25 @@
+.TH "wm8960_configure_sysclk" 9 "wm8960_configure_sysclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8960_configure_sysclk \- checks if there is a sysclk frequency available The sysclk must be chosen such that: - sysclk = MCLK / sysclk_divs - lrclk = sysclk / dac_divs - 10 * bclk = sysclk / bclk_divs
+.SH SYNOPSIS
+.B "int" wm8960_configure_sysclk
+.BI "(struct wm8960_priv *wm8960 "  ","
+.BI "int mclk "  ","
+.BI "int *sysclk_idx "  ","
+.BI "int *dac_idx "  ","
+.BI "int *bclk_idx "  ");"
+.SH ARGUMENTS
+.IP "wm8960" 12
+codec private data
+.IP "mclk" 12
+MCLK used to derive sysclk
+.IP "sysclk_idx" 12
+sysclk_divs index for found sysclk
+.IP "dac_idx" 12
+dac_divs index for found lrclk
+.IP "bclk_idx" 12
+bclk_divs index for found bclk
+.SH "RETURN"
+-1, in case no sysclk frequency available found
+>=0, in case we could derive bclk and lrclk from sysclk using
+(\fIsysclk_idx\fP, \fIdac_idx\fP, \fIbclk_idx\fP) dividers

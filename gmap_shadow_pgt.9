@@ -1,0 +1,24 @@
+.TH "gmap_shadow_pgt" 9 "gmap_shadow_pgt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_shadow_pgt \- instantiate a shadow page table
+.SH SYNOPSIS
+.B "int" gmap_shadow_pgt
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long saddr "  ","
+.BI "unsigned long pgt "  ","
+.BI "int fake "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "saddr" 12
+faulting address in the shadow gmap
+.IP "pgt" 12
+parent gmap address of the page table to get shadowed
+.IP "fake" 12
+pgt references contiguous guest memory block, not a pgtable
+.SH "DESCRIPTION"
+Returns 0 if successfully shadowed or already shadowed, -EAGAIN if the
+shadow table structure is incomplete, -ENOMEM if out of memory,
+-EFAULT if an address in the parent gmap could not be resolved and
+
+Called with gmap->mm->mmap_lock in read

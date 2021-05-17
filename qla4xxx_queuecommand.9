@@ -1,0 +1,20 @@
+.TH "qla4xxx_queuecommand" 9 "qla4xxx_queuecommand" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qla4xxx_queuecommand \- scsi layer issues scsi command to driver.
+.SH SYNOPSIS
+.B "int" qla4xxx_queuecommand
+.BI "(struct Scsi_Host *host "  ","
+.BI "struct scsi_cmnd *cmd "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+scsi host
+.IP "cmd" 12
+Pointer to Linux's SCSI command structure
+.SH "DESCRIPTION"
+Remarks:
+This routine is invoked by Linux to send a SCSI command to the driver.
+The mid-level driver tries to ensure that queuecommand never gets
+invoked concurrently with itself or the interrupt handler (although
+the interrupt handler may call this routine as part of request-
+completion handling).   Unfortunely, it sometimes calls the scheduler
+in interrupt context which is a big NO! NO!.

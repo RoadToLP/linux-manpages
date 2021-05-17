@@ -1,0 +1,17 @@
+.TH "task_prio" 9 "task_prio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_prio \- return the priority value of a given task.
+.SH SYNOPSIS
+.B "int" task_prio
+.BI "(const struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+the task in question.
+.SH "RETURN"
+The priority value as seen by users in /proc.
+.SH "DESCRIPTION"
+sched policy         return value   kernel prio    user prio/nice
+
+normal, batch, idle     [0 ... 39]  [100 ... 139]          0/[-20 ... 19]
+fifo, rr             [-2 ... -100]     [98 ... 0]  [1 ... 99]
+deadline                     -101             -1           0

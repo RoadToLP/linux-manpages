@@ -1,0 +1,18 @@
+.TH "debugfs_remove" 9 "debugfs_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_remove \- recursively removes a directory
+.SH SYNOPSIS
+.B "void" debugfs_remove
+.BI "(struct dentry *dentry "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+a pointer to a the dentry of the directory to be removed.  If this
+parameter is NULL or an error value, nothing will be done.
+.SH "DESCRIPTION"
+This function recursively removes a directory tree in debugfs that
+was previously created with a call to another debugfs function
+(like \fBdebugfs_create_file\fP or variants thereof.)
+
+This function is required to be called in order for the file to be
+removed, no automatic cleanup of files will happen when a module is
+removed, you are responsible here.

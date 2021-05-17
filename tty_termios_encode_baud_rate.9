@@ -1,0 +1,30 @@
+.TH "tty_termios_encode_baud_rate" 9 "tty_termios_encode_baud_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_termios_encode_baud_rate \- 
+.SH SYNOPSIS
+.B "void" tty_termios_encode_baud_rate
+.BI "(struct ktermios *termios "  ","
+.BI "speed_t ibaud "  ","
+.BI "speed_t obaud "  ");"
+.SH ARGUMENTS
+.IP "termios" 12
+ktermios structure holding user requested state
+.IP "ibaud" 12
+input speed
+.IP "obaud" 12
+output speed
+
+Encode the speeds set into the passed termios structure. This is
+used as a library helper for drivers so that they can report back
+the actual speed selected when it differs from the speed requested
+
+For maximal back compatibility with legacy SYS5/POSIX *nix behaviour
+we need to carefully set the bits when the user does not get the
+desired speed. We allow small margins and preserve as much of possible
+of the input intent to keep compatibility.
+
+Locking: Caller should hold termios lock. This is already held
+when calling this function from the driver termios handler.
+
+The ifdefs deal with platforms whose owners have yet to update them
+and will all go away once this is done.

@@ -1,0 +1,36 @@
+.TH "rproc_alloc" 9 "rproc_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_alloc \- allocate a remote processor handle
+.SH SYNOPSIS
+.B "struct rproc *" rproc_alloc
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct rproc_ops *ops "  ","
+.BI "const char *firmware "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the underlying device
+.IP "name" 12
+name of this remote processor
+.IP "ops" 12
+platform-specific handlers (mainly start/stop)
+.IP "firmware" 12
+name of firmware file to load, can be NULL
+.IP "len" 12
+length of private data needed by the rproc driver (in bytes)
+.SH "DESCRIPTION"
+Allocates a new remote processor handle, but does not register
+it yet. if \fIfirmware\fP is NULL, a default name is used.
+
+This function should be used by rproc implementations during initialization
+of the remote processor.
+
+After creating an rproc handle using this function, and when ready,
+implementations should then call \fBrproc_add\fP to complete
+the registration of the remote processor.
+
+On success the new rproc is returned, and on failure, NULL.
+.SH "NOTE"
+_never_ directly deallocate \fIrproc\fP, even if it was not registered
+yet. Instead, when you need to unroll \fBrproc_alloc\fP, use \fBrproc_free\fP.

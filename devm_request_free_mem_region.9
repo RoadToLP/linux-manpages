@@ -1,0 +1,19 @@
+.TH "devm_request_free_mem_region" 9 "devm_request_free_mem_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_request_free_mem_region \- find free region for device private memory
+.SH SYNOPSIS
+.B "struct resource *" devm_request_free_mem_region
+.BI "(struct device *dev "  ","
+.BI "struct resource *base "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device struct to bind the resource to
+.IP "base" 12
+resource tree to look in
+.IP "size" 12
+size in bytes of the device memory to add
+.SH "DESCRIPTION"
+This function tries to find an empty range of physical address big enough to
+contain the new resource, so that it can later be hotplugged as ZONE_DEVICE
+memory, which in turn allocates struct pages.

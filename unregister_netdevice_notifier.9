@@ -1,0 +1,18 @@
+.TH "unregister_netdevice_notifier" 9 "unregister_netdevice_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unregister_netdevice_notifier \- unregister a network notifier block
+.SH SYNOPSIS
+.B "int" unregister_netdevice_notifier
+.BI "(struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+notifier
+.SH "DESCRIPTION"
+Unregister a notifier previously registered by
+\fBregister_netdevice_notifier\fP. The notifier is unlinked into the
+kernel structures and may then be reused. A negative errno code
+is returned on a failure.
+
+After unregistering unregister and down device events are synthesized
+for all devices on the device list to the removed notifier to remove
+the need for special case cleanup code.

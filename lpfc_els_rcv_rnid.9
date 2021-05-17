@@ -1,0 +1,25 @@
+.TH "lpfc_els_rcv_rnid" 9 "lpfc_els_rcv_rnid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rnid \- Process an unsolicited rnid iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_rnid
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Request Node Identification Data (RNID) IOCB
+received as an ELS unsolicited event. Only when the RNID specified format
+0x0 or 0xDF (Topology Discovery Specific Node Identification Data)
+present, this routine will invoke the \fBlpfc_els_rsp_rnid_acc\fP routine to
+Accept (ACC) the RNID ELS command. All the other RNID formats are
+rejected by invoking the \fBlpfc_els_rsp_reject\fP routine.
+
+Return code
+0 - Successfully processed rnid iocb (currently always return 0)

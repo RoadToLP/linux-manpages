@@ -1,0 +1,35 @@
+.TH "aa_path_name" 9 "aa_path_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_path_name \- get the pathname to a buffer ensure dir / is appended
+.SH SYNOPSIS
+.B "int" aa_path_name
+.BI "(const struct path *path "  ","
+.BI "int flags "  ","
+.BI "char *buffer "  ","
+.BI "const char **name "  ","
+.BI "const char **info "  ","
+.BI "const char *disconnected "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path the file  (NOT NULL)
+.IP "flags" 12
+flags controlling path name generation
+.IP "buffer" 12
+buffer to put name in (NOT NULL)
+.IP "name" 12
+Returns - the generated path name if !error (NOT NULL)
+.IP "info" 12
+Returns - information on why the path lookup failed (MAYBE NULL)
+.IP "disconnected" 12
+string to prepend to disconnected paths
+.SH "DESCRIPTION"
+\fIname\fP is a pointer to the beginning of the pathname (which usually differs
+from the beginning of the buffer), or NULL.  If there is an error \fIname\fP
+may contain a partial or invalid name that can be used for audit purposes,
+but it can not be used for mediation.
+
+We need PATH_IS_DIR to indicate whether the file is a directory or not
+because the file may not yet exist, and so we cannot check the inode's
+file type.
+.SH "RETURN"
+0 else error code if could retrieve name

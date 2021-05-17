@@ -1,0 +1,19 @@
+.TH "drm_open" 9 "drm_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_open \- open method for DRM file
+.SH SYNOPSIS
+.B "int" drm_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+device inode
+.IP "filp" 12
+file pointer.
+.SH "DESCRIPTION"
+This function must be used by drivers as their \fIfile_operations.open\fP method.
+It looks up the correct DRM device and instantiates all the per-file
+resources for it. It also calls the \fIdrm_driver.open\fP driver callback.
+
+0 on success or negative errno value on falure.
+.SH "RETURN"

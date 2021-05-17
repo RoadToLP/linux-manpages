@@ -1,0 +1,19 @@
+.TH "xt_check_proc_name" 9 "xt_check_proc_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xt_check_proc_name \- check that name is suitable for /proc file creation
+.SH SYNOPSIS
+.B "int" xt_check_proc_name
+.BI "(const char *name "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+file name candidate
+.IP "size" 12
+length of buffer
+.SH "DESCRIPTION"
+some x_tables modules wish to create a file in /proc.
+This function makes sure that the name is suitable for this
+purpose, it checks that name is NUL terminated and isn't a 'special'
+name, like "..".
+
+returns negative number on error or 0 if name is useable.

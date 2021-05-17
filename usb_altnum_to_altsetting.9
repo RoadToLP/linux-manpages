@@ -1,0 +1,26 @@
+.TH "usb_altnum_to_altsetting" 9 "usb_altnum_to_altsetting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_altnum_to_altsetting \- get the altsetting structure with a given alternate setting number.
+.SH SYNOPSIS
+.B "struct usb_host_interface *" usb_altnum_to_altsetting
+.BI "(const struct usb_interface *intf "  ","
+.BI "unsigned int altnum "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+the interface containing the altsetting in question
+.IP "altnum" 12
+the desired alternate setting number
+.SH "DESCRIPTION"
+This searches the altsetting array of the specified interface for
+an entry with the correct bAlternateSetting value.
+
+Note that altsettings need not be stored sequentially by number, so
+it would be incorrect to assume that the first altsetting entry in
+the array corresponds to altsetting zero.  This routine helps device
+drivers avoid such mistakes.
+
+Don't call this function unless you are bound to the intf interface
+or you have locked the device!
+.SH "RETURN"
+A pointer to the entry of the altsetting array of \fIintf\fP that
+has \fIaltnum\fP as the alternate setting number. NULL if not found.

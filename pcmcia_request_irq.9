@@ -1,0 +1,18 @@
+.TH "pcmcia_request_irq" 9 "pcmcia_request_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_request_irq \- attempt to request a IRQ for a PCMCIA device
+.SH SYNOPSIS
+.B "int" pcmcia_request_irq
+.BI "(struct pcmcia_device *p_dev "  ","
+.BI "irq_handler_t handler "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+the associated PCMCIA device
+.IP "handler" 12
+IRQ handler to register
+.SH "DESCRIPTION"
+\fBpcmcia_request_irq\fP is a wrapper around \fBrequest_irq\fP which allows
+the PCMCIA core to clean up the registration in \fBpcmcia_disable_device\fP.
+Drivers are free to use \fBrequest_irq\fP directly, but then they need to
+call \fBfree_irq\fP themselfves, too. Also, only IRQF_SHARED capable IRQ
+handlers are allowed.

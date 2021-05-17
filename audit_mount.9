@@ -1,0 +1,44 @@
+.TH "audit_mount" 9 "audit_mount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_mount \- handle the auditing of mount operations
+.SH SYNOPSIS
+.B "int" audit_mount
+.BI "(struct aa_profile *profile "  ","
+.BI "const char *op "  ","
+.BI "const char *name "  ","
+.BI "const char *src_name "  ","
+.BI "const char *type "  ","
+.BI "const char *trans "  ","
+.BI "unsigned long flags "  ","
+.BI "const void *data "  ","
+.BI "u32 request "  ","
+.BI "struct aa_perms *perms "  ","
+.BI "const char *info "  ","
+.BI "int error "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+the profile being enforced  (NOT NULL)
+.IP "op" 12
+operation being mediated (NOT NULL)
+.IP "name" 12
+name of object being mediated (MAYBE NULL)
+.IP "src_name" 12
+src_name of object being mediated (MAYBE_NULL)
+.IP "type" 12
+type of filesystem (MAYBE_NULL)
+.IP "trans" 12
+name of trans (MAYBE NULL)
+.IP "flags" 12
+filesystem independent mount flags
+.IP "data" 12
+filesystem mount flags
+.IP "request" 12
+permissions requested
+.IP "perms" 12
+the permissions computed for the request (NOT NULL)
+.IP "info" 12
+extra information message (MAYBE NULL)
+.IP "error" 12
+0 if operation allowed else failure error code
+.SH "RETURN"
+0 or error on failure

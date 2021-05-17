@@ -1,0 +1,32 @@
+.TH "geni_se_clk_freq_match" 9 "geni_se_clk_freq_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+geni_se_clk_freq_match \- Get the matching or closest SE clock frequency
+.SH SYNOPSIS
+.B "int" geni_se_clk_freq_match
+.BI "(struct geni_se *se "  ","
+.BI "unsigned long req_freq "  ","
+.BI "unsigned int *index "  ","
+.BI "unsigned long *res_freq "  ","
+.BI "bool exact "  ");"
+.SH ARGUMENTS
+.IP "se" 12
+Pointer to the concerned serial engine.
+.IP "req_freq" 12
+Requested clock frequency.
+.IP "index" 12
+Index of the resultant frequency in the table.
+.IP "res_freq" 12
+Resultant frequency of the source clock.
+.IP "exact" 12
+Flag to indicate exact multiple requirement of the requested
+frequency.
+.SH "DESCRIPTION"
+This function is called by the protocol drivers to determine the best match
+of the requested frequency as provided by the serial engine clock in order
+to meet the performance requirements.
+
+If we return success:
+- if \fIexact\fP is true  then \fIres_freq\fP / <an_integer> == \fIreq_freq\fP
+- if \fIexact\fP is false then \fIres_freq\fP / <an_integer> <= \fIreq_freq\fP
+.SH "RETURN"
+0 on success, standard Linux error codes on failure.

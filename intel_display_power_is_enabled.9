@@ -1,0 +1,23 @@
+.TH "intel_display_power_is_enabled" 9 "intel_display_power_is_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_display_power_is_enabled \- check for a power domain
+.SH SYNOPSIS
+.B "bool" intel_display_power_is_enabled
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum intel_display_power_domain domain "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "domain" 12
+power domain to check
+.SH "DESCRIPTION"
+This function can be used to check the hw power domain state. It is mostly
+used in hardware state readout functions. Everywhere else code should rely
+upon explicit power domain reference counting to ensure that the hardware
+block is powered up before accessing it.
+
+Callers must hold the relevant modesetting locks to ensure that concurrent
+threads can't disable the power well while the caller tries to read a few
+registers.
+.SH "RETURN"
+True when the power domain is enabled, false otherwise.

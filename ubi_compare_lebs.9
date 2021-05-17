@@ -1,0 +1,31 @@
+.TH "ubi_compare_lebs" 9 "ubi_compare_lebs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_compare_lebs \- find out which logical eraseblock is newer.
+.SH SYNOPSIS
+.B "int" ubi_compare_lebs
+.BI "(struct ubi_device *ubi "  ","
+.BI "const struct ubi_ainf_peb *aeb "  ","
+.BI "int pnum "  ","
+.BI "const struct ubi_vid_hdr *vid_hdr "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "aeb" 12
+first logical eraseblock to compare
+.IP "pnum" 12
+physical eraseblock number of the second logical eraseblock to
+compare
+.IP "vid_hdr" 12
+volume identifier header of the second logical eraseblock
+.SH "DESCRIPTION"
+This function compares 2 copies of a LEB and informs which one is newer. In
+case of success this function returns a positive value, in case of failure, a
+negative error code is returned. The success return codes use the following
+bits:
+o bit 0 is cleared: the first PEB (described by \fIaeb\fP) is newer than the
+second PEB (described by \fIpnum\fP and \fIvid_hdr\fP);
+o bit 0 is set: the second PEB is newer;
+o bit 1 is cleared: no bit-flips were detected in the newer LEB;
+o bit 1 is set: bit-flips were detected in the newer LEB;
+o bit 2 is cleared: the older LEB is not corrupted;
+o bit 2 is set: the older LEB is corrupted.

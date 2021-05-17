@@ -1,0 +1,21 @@
+.TH "sd_zbc_check_capacity" 9 "sd_zbc_check_capacity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_zbc_check_capacity \- Check the device capacity
+.SH SYNOPSIS
+.B "int" sd_zbc_check_capacity
+.BI "(struct scsi_disk *sdkp "  ","
+.BI "unsigned char *buf "  ","
+.BI "u32 *zblocks "  ");"
+.SH ARGUMENTS
+.IP "sdkp" 12
+Target disk
+.IP "buf" 12
+command buffer
+.IP "zblocks" 12
+zone size in number of blocks
+.SH "DESCRIPTION"
+Get the device zone size and check that the device capacity as reported
+by READ CAPACITY matches the max_lba value (plus one) of the report zones
+command reply for devices with RC_BASIS == 0.
+
+Returns 0 upon success or an error code upon failure.

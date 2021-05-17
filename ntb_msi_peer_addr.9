@@ -1,0 +1,25 @@
+.TH "ntb_msi_peer_addr" 9 "ntb_msi_peer_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntb_msi_peer_addr \- Get the DMA address to trigger a peer's MSI interrupt
+.SH SYNOPSIS
+.B "int" ntb_msi_peer_addr
+.BI "(struct ntb_dev *ntb "  ","
+.BI "int peer "  ","
+.BI "struct ntb_msi_desc *desc "  ","
+.BI "phys_addr_t *msi_addr "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device context
+.IP "peer" 12
+Peer index
+.IP "desc" 12
+MSI descriptor data which triggers the interrupt
+.IP "msi_addr" 12
+Physical address to trigger the interrupt
+.SH "DESCRIPTION"
+This function allows using DMA engines to trigger an interrupt
+(for example, trigger an interrupt to process the data after
+sending it). To trigger the interrupt, write \fIdesc.data\fP to the address
+returned in \fImsi_addr\fP
+.SH "RETURN"
+Zero on success, otherwise a negative error number.

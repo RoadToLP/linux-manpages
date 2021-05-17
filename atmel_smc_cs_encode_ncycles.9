@@ -1,0 +1,29 @@
+.TH "atmel_smc_cs_encode_ncycles" 9 "atmel_smc_cs_encode_ncycles" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atmel_smc_cs_encode_ncycles \- encode a number of MCK clk cycles in the format expected by the SMC engine
+.SH SYNOPSIS
+.B "int" atmel_smc_cs_encode_ncycles
+.BI "(unsigned int ncycles "  ","
+.BI "unsigned int msbpos "  ","
+.BI "unsigned int msbwidth "  ","
+.BI "unsigned int msbfactor "  ","
+.BI "unsigned int *encodedval "  ");"
+.SH ARGUMENTS
+.IP "ncycles" 12
+number of MCK clk cycles
+.IP "msbpos" 12
+position of the MSB part of the timing field
+.IP "msbwidth" 12
+width of the MSB part of the timing field
+.IP "msbfactor" 12
+factor applied to the MSB
+.IP "encodedval" 12
+param used to store the encoding result
+.SH "DESCRIPTION"
+This function encodes the \fIncycles\fP value as described in the datasheet
+(section "SMC Setup/Pulse/Cycle/Timings Register"). This is a generic
+helper which called with different parameter depending on the encoding
+scheme.
+
+If the \fIncycles\fP value is too big to be encoded, -ERANGE is returned and
+the encodedval is contains the maximum val. Otherwise, 0 is returned.

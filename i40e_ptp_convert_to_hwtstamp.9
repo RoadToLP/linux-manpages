@@ -1,0 +1,16 @@
+.TH "i40e_ptp_convert_to_hwtstamp" 9 "i40e_ptp_convert_to_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_convert_to_hwtstamp \- Convert device clock to system time
+.SH SYNOPSIS
+.B "void" i40e_ptp_convert_to_hwtstamp
+.BI "(struct skb_shared_hwtstamps *hwtstamps "  ","
+.BI "u64 timestamp "  ");"
+.SH ARGUMENTS
+.IP "hwtstamps" 12
+Timestamp structure to update
+.IP "timestamp" 12
+Timestamp from the hardware
+.SH "DESCRIPTION"
+We need to convert the NIC clock value into a hwtstamp which can be used by
+the upper level timestamping functions. Since the timestamp is simply a 64-
+bit nanosecond value, we can call ns_to_ktime directly to handle this.

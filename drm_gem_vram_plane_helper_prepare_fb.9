@@ -1,0 +1,19 @@
+.TH "drm_gem_vram_plane_helper_prepare_fb" 9 "drm_gem_vram_plane_helper_prepare_fb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_vram_plane_helper_prepare_fb \- * Implements &struct drm_plane_helper_funcs.prepare_fb
+.SH SYNOPSIS
+.B "int" drm_gem_vram_plane_helper_prepare_fb
+.BI "(struct drm_plane *plane "  ","
+.BI "struct drm_plane_state *new_state "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+a DRM plane
+.IP "new_state" 12
+the plane's new state
+.SH "DESCRIPTION"
+During plane updates, this function sets the plane's fence and
+pins the GEM VRAM objects of the plane's new framebuffer to VRAM.
+Call \fBdrm_gem_vram_plane_helper_cleanup_fb\fP to unpin them.
+.SH "RETURN"
+0 on success, or
+a negative errno code otherwise.

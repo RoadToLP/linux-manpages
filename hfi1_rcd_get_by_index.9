@@ -1,0 +1,18 @@
+.TH "hfi1_rcd_get_by_index" 9 "hfi1_rcd_get_by_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_rcd_get_by_index \- 
+.SH SYNOPSIS
+.B "struct hfi1_ctxtdata *" hfi1_rcd_get_by_index
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "u16 ctxt "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+pointer to a valid devdata structure
+.IP "ctxt" 12
+the index of an possilbe rcd
+.SH "DESCRIPTION"
+We need to protect access to the rcd array.  If access is needed to
+one or more index, get the protecting spinlock and then increment the
+kref.
+
+The caller is responsible for making the \fB_put\fP.

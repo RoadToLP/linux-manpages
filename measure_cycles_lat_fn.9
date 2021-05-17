@@ -1,0 +1,19 @@
+.TH "measure_cycles_lat_fn" 9 "measure_cycles_lat_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+measure_cycles_lat_fn \- Measure cycle latency to read pseudo-locked memory
+.SH SYNOPSIS
+.B "int" measure_cycles_lat_fn
+.BI "(void *_plr "  ");"
+.SH ARGUMENTS
+.IP "_plr" 12
+pseudo-lock region to measure
+.SH "DESCRIPTION"
+There is no deterministic way to test if a memory region is cached. One
+way is to measure how long it takes to read the memory, the speed of
+access is a good way to learn how close to the cpu the data was. Even
+more, if the prefetcher is disabled and the memory is read at a stride
+of half the cache line, then a cache miss will be easy to spot since the
+read of the first half would be significantly slower than the read of
+the second half.
+.SH "RETURN"
+0. Waiter on waitqueue will be woken on completion.

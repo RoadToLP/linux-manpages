@@ -1,0 +1,22 @@
+.TH "usb4_port_retimer_nvm_authenticate_status" 9 "usb4_port_retimer_nvm_authenticate_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_port_retimer_nvm_authenticate_status \- Read status of NVM upgrade
+.SH SYNOPSIS
+.B "int" usb4_port_retimer_nvm_authenticate_status
+.BI "(struct tb_port *port "  ","
+.BI "u8 index "  ","
+.BI "u32 *status "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB4 port
+.IP "index" 12
+Retimer index
+.IP "status" 12
+Raw status code read from metadata
+.SH "DESCRIPTION"
+This can be called after \fBusb4_port_retimer_nvm_authenticate\fP and
+\fBusb4_port_enumerate_retimers\fP to fetch status of the NVM upgrade.
+
+Returns 0 if the authentication status was successfully read. The
+completion metadata (the result) is then stored into \fIstatus\fP. If
+reading the status fails, returns negative errno.

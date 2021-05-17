@@ -1,0 +1,18 @@
+.TH "scsi_device_quiesce" 9 "scsi_device_quiesce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_device_quiesce \- Block all commands except power management.
+.SH SYNOPSIS
+.B "int" scsi_device_quiesce
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device to quiesce.
+
+This works by trying to transition to the SDEV_QUIESCE state
+(which must be a legal transition).  When the device is in this
+state, only power management requests will be accepted, all others will
+be deferred.
+
+Must be called with user context, may sleep.
+
+Returns zero if unsuccessful or an error if not.

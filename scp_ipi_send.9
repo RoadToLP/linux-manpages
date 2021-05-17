@@ -1,0 +1,28 @@
+.TH "scp_ipi_send" 9 "scp_ipi_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scp_ipi_send \- send data from AP to scp.
+.SH SYNOPSIS
+.B "int" scp_ipi_send
+.BI "(struct mtk_scp *scp "  ","
+.BI "u32 id "  ","
+.BI "void *buf "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int wait "  ");"
+.SH ARGUMENTS
+.IP "scp" 12
+mtk_scp structure
+.IP "id" 12
+IPI ID
+.IP "buf" 12
+the data buffer
+.IP "len" 12
+the data buffer length
+.IP "wait" 12
+number of msecs to wait for ack. 0 to skip waiting.
+.SH "DESCRIPTION"
+This function is thread-safe. When this function returns,
+SCP has received the data and starts the processing.
+When the processing completes, IPI handler registered
+by scp_ipi_register will be called in interrupt context.
+
+Returns 0 if sending data successfully, -error on error.

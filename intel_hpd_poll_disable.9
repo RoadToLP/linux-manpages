@@ -1,0 +1,24 @@
+.TH "intel_hpd_poll_disable" 9 "intel_hpd_poll_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_hpd_poll_disable \- disable polling for connectors with hpd
+.SH SYNOPSIS
+.B "void" intel_hpd_poll_disable
+.BI "(struct drm_i915_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.SH "DESCRIPTION"
+This function disables polling for all connectors which support HPD.
+Under certain conditions HPD may not be functional. On most Intel GPUs,
+this happens when we enter runtime suspend.
+On Valleyview and Cherryview systems, this also happens when we shut off all
+of the powerwells.
+
+Since this function can get called in contexts where we're already holding
+dev->mode_config.mutex, we do the actual hotplug enabling in a seperate
+worker.
+
+Also used during driver init to initialize connector->polled
+appropriately for all connectors.
+
+Also see: \fBintel_hpd_init\fP and \fBintel_hpd_poll_enable\fP.

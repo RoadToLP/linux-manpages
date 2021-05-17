@@ -1,0 +1,19 @@
+.TH "vga_switcheroo_init_domain_pm_ops" 9 "vga_switcheroo_init_domain_pm_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_switcheroo_init_domain_pm_ops \- helper for driver power control
+.SH SYNOPSIS
+.B "int" vga_switcheroo_init_domain_pm_ops
+.BI "(struct device *dev "  ","
+.BI "struct dev_pm_domain *domain "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+vga client device
+.IP "domain" 12
+power domain
+.SH "DESCRIPTION"
+Helper for GPUs whose power state is controlled by the driver's runtime pm.
+After the GPU has been suspended, the handler needs to be called to cut
+power to the GPU. Likewise it needs to reinstate power before the GPU
+can resume. To this end, this helper augments the suspend/resume functions
+by the requisite calls to the handler. It needs only be called on platforms
+where the power switch is separate to the device being powered down.

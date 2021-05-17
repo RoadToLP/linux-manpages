@@ -1,0 +1,20 @@
+.TH "__bfq_requeue_entity" 9 "__bfq_requeue_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bfq_requeue_entity \- handle requeueing or repositioning of an entity.
+.SH SYNOPSIS
+.B "void" __bfq_requeue_entity
+.BI "(struct bfq_entity *entity "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+the entity being requeued or repositioned.
+.SH "DESCRIPTION"
+Requeueing is needed if this entity stops being served, which
+happens if a leaf descendant entity has expired. On the other hand,
+repositioning is needed if the next_inservice_entity for the child
+entity has changed. See the comments inside the function for
+details.
+
+Basically, this function: 1) removes entity from its active tree if
+present there, 2) updates the timestamps of entity and 3) inserts
+entity back into its active tree (in the new, right position for
+the new values of the timestamps).

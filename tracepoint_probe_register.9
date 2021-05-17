@@ -1,0 +1,22 @@
+.TH "tracepoint_probe_register" 9 "tracepoint_probe_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracepoint_probe_register \- Connect a probe to a tracepoint
+.SH SYNOPSIS
+.B "int" tracepoint_probe_register
+.BI "(struct tracepoint *tp "  ","
+.BI "void *probe "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "tp" 12
+tracepoint
+.IP "probe" 12
+probe handler
+.IP "data" 12
+tracepoint data
+.SH "DESCRIPTION"
+Returns 0 if ok, error value on error.
+.SH "NOTE"
+if \fItp\fP is within a module, the caller is responsible for
+unregistering the probe before the module is gone. This can be
+performed either with a tracepoint module going notifier, or from
+within module exit functions.

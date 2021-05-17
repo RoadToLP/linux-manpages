@@ -1,0 +1,17 @@
+.TH "tdp_mmu_unlink_page" 9 "tdp_mmu_unlink_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tdp_mmu_unlink_page \- Remove page from the list of pages used by the TDP MMU
+.SH SYNOPSIS
+.B "void" tdp_mmu_unlink_page
+.BI "(struct kvm *kvm "  ","
+.BI "struct kvm_mmu_page *sp "  ","
+.BI "bool shared "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+kvm instance
+.IP "sp" 12
+the page to be removed
+.IP "shared" 12
+This operation may not be running under the exclusive use of
+the MMU lock and the operation must synchronize with other
+threads that might be adding or removing pages.

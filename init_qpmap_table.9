@@ -1,0 +1,26 @@
+.TH "init_qpmap_table" 9 "init_qpmap_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_qpmap_table \- 
+.SH SYNOPSIS
+.B "void" init_qpmap_table
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "u32 first_ctxt "  ","
+.BI "u32 last_ctxt "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+device data
+.IP "first_ctxt" 12
+first context
+.IP "last_ctxt" 12
+first context
+.SH "DESCRIPTION"
+This return sets the qpn mapping table that
+is indexed by qpn[8:1].
+
+The routine will round robin the 256 settings
+from first_ctxt to last_ctxt.
+
+The first/last looks ahead to having specialized
+receive contexts for mgmt and bypass.  Normal
+verbs traffic will assumed to be on a range
+of receive contexts.

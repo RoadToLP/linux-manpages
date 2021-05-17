@@ -1,0 +1,17 @@
+.TH "get_anon_bdev" 9 "get_anon_bdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_anon_bdev \- Allocate a block device for filesystems which don't have one.
+.SH SYNOPSIS
+.B "int" get_anon_bdev
+.BI "(dev_t *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+Pointer to a dev_t.
+.SH "DESCRIPTION"
+Filesystems which don't use real block devices can call this function
+to allocate a virtual block device.
+.SH "CONTEXT"
+Any context.  Frequently called while holding sb_lock.
+.SH "RETURN"
+0 on success, -EMFILE if there are no anonymous bdevs left
+or -ENOMEM if memory allocation failed.

@@ -1,0 +1,21 @@
+.TH "ibmvscsis_ready_for_suspend" 9 "ibmvscsis_ready_for_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_ready_for_suspend \- Helper function to call VIOCTL
+.SH SYNOPSIS
+.B "long" ibmvscsis_ready_for_suspend
+.BI "(struct scsi_info *vscsi "  ","
+.BI "bool idle "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.IP "idle" 12
+Indicates whether we were called from adapter_idle.  This
+is important to know if we need to do a disconnect, since if
+we're called from adapter_idle, we're still processing the
+current disconnect, so we can't just call post_disconnect.
+.SH "DESCRIPTION"
+This function is called when the adapter is idle when phyp has sent
+us a Prepare for Suspend Transport Event.
+
+EXECUTION ENVIRONMENT:
+Process or interrupt environment called with interrupt lock held

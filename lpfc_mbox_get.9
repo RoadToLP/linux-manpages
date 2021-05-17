@@ -1,0 +1,19 @@
+.TH "lpfc_mbox_get" 9 "lpfc_mbox_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbox_get \- Remove a mailbox cmd from the head of driver's mailbox queue
+.SH SYNOPSIS
+.B "LPFC_MBOXQ_t *" lpfc_mbox_get
+.BI "(struct lpfc_hba * phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+Driver maintains a internal mailbox command queue implemented as a linked
+list. When a mailbox command is issued, it shall be put into the mailbox
+command queue such that they shall be processed orderly as HBA can process
+one mailbox command at a time. After HBA finished processing a mailbox
+command, the driver will remove a pending mailbox command from the head of
+the mailbox command queue and send to the HBA for processing.
+
+Return codes
+pointer to the driver internal queue element for mailbox command.

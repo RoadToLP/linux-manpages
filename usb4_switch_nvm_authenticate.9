@@ -1,0 +1,18 @@
+.TH "usb4_switch_nvm_authenticate" 9 "usb4_switch_nvm_authenticate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_switch_nvm_authenticate \- Authenticate new NVM
+.SH SYNOPSIS
+.B "int" usb4_switch_nvm_authenticate
+.BI "(struct tb_switch *sw "  ");"
+.SH ARGUMENTS
+.IP "sw" 12
+USB4 router
+.SH "DESCRIPTION"
+After the new NVM has been written via \fBusb4_switch_nvm_write\fP, this
+function triggers NVM authentication process. The router gets power
+cycled and if the authentication is successful the new NVM starts
+running. In case of failure returns negative errno.
+
+The caller should call \fBusb4_switch_nvm_authenticate_status\fP to read
+the status of the authentication after power cycle. It should be the
+first router operation to avoid the status being lost.

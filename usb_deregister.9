@@ -1,0 +1,17 @@
+.TH "usb_deregister" 9 "usb_deregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_deregister \- unregister a USB interface driver
+.SH SYNOPSIS
+.B "void" usb_deregister
+.BI "(struct usb_driver *driver "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+USB operations of the interface driver to unregister
+.SH "CONTEXT"
+must be able to sleep
+.SH "DESCRIPTION"
+Unlinks the specified driver from the internal USB driver list.
+.SH "NOTE"
+If you called \fBusb_register_dev\fP, you still need to call
+\fBusb_deregister_dev\fP to clean up your driver's allocated minor numbers,
+this * call will no longer do it for you.

@@ -1,0 +1,35 @@
+.TH "lpfc_sli_issue_mbox_wait" 9 "lpfc_sli_issue_mbox_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_issue_mbox_wait \- Synchronous function to issue mailbox
+.SH SYNOPSIS
+.B "int" lpfc_sli_issue_mbox_wait
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmboxq "  ","
+.BI "uint32_t timeout "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pmboxq" 12
+Pointer to driver mailbox object.
+.IP "timeout" 12
+Timeout in number of seconds.
+.SH "DESCRIPTION"
+This function issues the mailbox to firmware and waits for the
+mailbox command to complete. If the mailbox command is not
+completed within timeout seconds, it returns MBX_TIMEOUT.
+The function waits for the mailbox completion using an
+interruptible wait. If the thread is woken up due to a
+signal, MBX_TIMEOUT error is returned to the caller. Caller
+should not free the mailbox resources, if this function returns
+MBX_TIMEOUT.
+This function will sleep while waiting for mailbox completion.
+So, this function should not be called from any context which
+does not allow sleeping. Due to the same reason, this function
+cannot be called with interrupt disabled.
+This function assumes that the mailbox completion occurs while
+this function sleep. So, this function cannot be called from
+the worker thread which processes mailbox completion.
+This function is called in the context of HBA management
+applications.
+This function returns MBX_SUCCESS when successful.
+This function is called with no lock held.

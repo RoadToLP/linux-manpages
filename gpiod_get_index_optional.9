@@ -1,0 +1,22 @@
+.TH "gpiod_get_index_optional" 9 "gpiod_get_index_optional" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiod_get_index_optional \- obtain an optional GPIO from a multi-index GPIO function
+.SH SYNOPSIS
+.B "struct gpio_desc *" gpiod_get_index_optional
+.BI "(struct device *dev "  ","
+.BI "const char *con_id "  ","
+.BI "unsigned int index "  ","
+.BI "enum gpiod_flags flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+GPIO consumer, can be NULL for system-global GPIOs
+.IP "con_id" 12
+function within the GPIO consumer
+.IP "index" 12
+index of the GPIO to obtain in the consumer
+.IP "flags" 12
+optional GPIO initialization flags
+.SH "DESCRIPTION"
+This is equivalent to \fBgpiod_get_index\fP, except that when no GPIO with the
+specified index was assigned to the requested function it will return NULL.
+This is convenient for drivers that need to handle optional GPIOs.

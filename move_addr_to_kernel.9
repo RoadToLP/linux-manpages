@@ -1,0 +1,19 @@
+.TH "move_addr_to_kernel" 9 "move_addr_to_kernel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+move_addr_to_kernel \- copy a socket address into kernel space
+.SH SYNOPSIS
+.B "int" move_addr_to_kernel
+.BI "(void __user *uaddr "  ","
+.BI "int ulen "  ","
+.BI "struct sockaddr_storage *kaddr "  ");"
+.SH ARGUMENTS
+.IP "uaddr" 12
+Address in user space
+.IP "ulen" 12
+Length in user space
+
+The address is copied into kernel space. If the provided address is
+too long an error code of -EINVAL is returned. If the copy gives
+invalid addresses -EFAULT is returned. On a success 0 is returned.
+.IP "kaddr" 12
+Address in kernel space

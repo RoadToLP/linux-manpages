@@ -1,0 +1,21 @@
+.TH "netlink_set_err" 9 "netlink_set_err" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlink_set_err \- report error to broadcast listeners
+.SH SYNOPSIS
+.B "int" netlink_set_err
+.BI "(struct sock *ssk "  ","
+.BI "u32 portid "  ","
+.BI "u32 group "  ","
+.BI "int code "  ");"
+.SH ARGUMENTS
+.IP "ssk" 12
+the kernel netlink socket, as returned by \fBnetlink_kernel_create\fP
+.IP "portid" 12
+the PORTID of a process that we want to skip (if any)
+.IP "group" 12
+the broadcast group that will notice the error
+.IP "code" 12
+error code, must be negative (as usual in kernelspace)
+.SH "DESCRIPTION"
+This function returns the number of broadcast listeners that have set the
+NETLINK_NO_ENOBUFS socket option.

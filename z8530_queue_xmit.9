@@ -1,0 +1,20 @@
+.TH "z8530_queue_xmit" 9 "z8530_queue_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_queue_xmit \- Queue a packet
+.SH SYNOPSIS
+.B "netdev_tx_t" z8530_queue_xmit
+.BI "(struct z8530_channel *c "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The channel to use
+.IP "skb" 12
+The packet to kick down the channel
+
+Queue a packet for transmission. Because we have rather
+hard to hit interrupt latencies for the Z85230 per packet 
+even in DMA mode we do the flip to DMA buffer if needed here
+not in the IRQ.
+
+Called from the network code. The lock is not held at this 
+point.

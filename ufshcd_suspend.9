@@ -1,0 +1,23 @@
+.TH "ufshcd_suspend" 9 "ufshcd_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_suspend \- helper function for suspend operations
+.SH SYNOPSIS
+.B "int" ufshcd_suspend
+.BI "(struct ufs_hba *hba "  ","
+.BI "enum ufs_pm_op pm_op "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per adapter instance
+.IP "pm_op" 12
+desired low power operation type
+.SH "DESCRIPTION"
+This function will try to put the UFS device and link into low power
+mode based on the "rpm_lvl" (Runtime PM level) or "spm_lvl"
+(System PM level).
+
+If this function is called during shutdown, it will make sure that
+both UFS device and UFS link is powered off.
+
+Returns 0 for success and non-zero for failure
+.SH "NOTE"
+UFS device & link must be active before we enter in this function.

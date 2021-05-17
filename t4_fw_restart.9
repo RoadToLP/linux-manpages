@@ -1,0 +1,31 @@
+.TH "t4_fw_restart" 9 "t4_fw_restart" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_fw_restart \- restart the firmware by taking the uP out of RESET
+.SH SYNOPSIS
+.B "int" t4_fw_restart
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "int reset "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW command
+.IP "reset" 12
+if we want to do a RESET to restart things
+
+Restart firmware previously halted by \fBt4_fw_halt\fP.  On successful
+return the previous PF Master remains as the new PF Master and there
+is no need to issue a new HELLO command, etc.
+
+We do this in two ways:
+
+1. If we're dealing with newer firmware we'll simply want to take
+the chip's microprocessor out of RESET.  This will cause the
+firmware to start up from its start vector.  And then we'll loop
+until the firmware indicates it's started again (PCIE_FW.HALT
+reset to 0) or we timeout.
+
+2. If we're dealing with older firmware then we'll need to RESET
+the chip since older firmware won't recognize the PCIE_FW.HALT
+flag and automatically RESET itself on startup.

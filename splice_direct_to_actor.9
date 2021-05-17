@@ -1,0 +1,20 @@
+.TH "splice_direct_to_actor" 9 "splice_direct_to_actor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+splice_direct_to_actor \- splices data directly between two non-pipes
+.SH SYNOPSIS
+.B "ssize_t" splice_direct_to_actor
+.BI "(struct file *in "  ","
+.BI "struct splice_desc *sd "  ","
+.BI "splice_direct_actor *actor "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+file to splice from
+.IP "sd" 12
+actor information on where to splice to
+.IP "actor" 12
+handles the data splicing
+.SH "DESCRIPTION"
+This is a special case helper to splice directly between two
+points, without requiring an explicit pipe. Internally an allocated
+pipe is cached in the process, and reused during the lifetime of
+that process.

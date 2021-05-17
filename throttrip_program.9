@@ -1,0 +1,27 @@
+.TH "throttrip_program" 9 "throttrip_program" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throttrip_program \- Configures the hardware to throttle the pulse if a given sensor group reaches a given temperature
+.SH SYNOPSIS
+.B "int" throttrip_program
+.BI "(struct device *dev "  ","
+.BI "const struct tegra_tsensor_group *sg "  ","
+.BI "struct soctherm_throt_cfg *stc "  ","
+.BI "int trip_temp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ptr to the struct device for the SOC_THERM IP block
+.IP "sg" 12
+pointer to the sensor group to set the thermtrip temperature for
+.IP "stc" 12
+pointer to the throttle need to be triggered
+.IP "trip_temp" 12
+the temperature in millicelsius to trigger the thermal trip at
+.SH "DESCRIPTION"
+Sets the thermal trip threshold and throttle event of the given sensor
+group. If this threshold is crossed, the hardware will trigger the
+throttle.
+
+Note that, although \fItrip_temp\fP is specified in millicelsius, the
+hardware is programmed in degrees Celsius.
+.SH "RETURN"
+0 upon success, or -EINVAL upon failure.

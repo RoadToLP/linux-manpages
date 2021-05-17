@@ -1,0 +1,20 @@
+.TH "get_image_page" 9 "get_image_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_image_page \- Allocate a page for a hibernation image.
+.SH SYNOPSIS
+.B "void *" get_image_page
+.BI "(gfp_t gfp_mask "  ","
+.BI "int safe_needed "  ");"
+.SH ARGUMENTS
+.IP "gfp_mask" 12
+GFP mask for the allocation.
+.IP "safe_needed" 12
+Get pages that were not used before hibernation (restore only)
+.SH "DESCRIPTION"
+During image restoration, for storing the PBE list and the image data, we can
+only use memory pages that do not conflict with the pages used before
+hibernation.  The "unsafe" pages have PageNosaveFree set and we count them
+using allocated_unsafe_pages.
+
+Each allocated image page is marked as PageNosave and PageNosaveFree so that
+\fBswsusp_free\fP can release it.

@@ -1,0 +1,27 @@
+.TH "htb_charge_class" 9 "htb_charge_class" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+htb_charge_class \- charges amount "bytes" to leaf and ancestors
+.SH SYNOPSIS
+.B "void" htb_charge_class
+.BI "(struct htb_sched *q "  ","
+.BI "struct htb_class *cl "  ","
+.BI "int level "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+-- undescribed --
+.IP "cl" 12
+-- undescribed --
+.IP "level" 12
+-- undescribed --
+.IP "skb" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Routine assumes that packet "bytes" long was dequeued from leaf cl
+borrowing from "level". It accounts bytes to ceil leaky bucket for
+leaf and all ancestors and to rate bucket for ancestors at levels
+"level" and higher. It also handles possible change of mode resulting
+from the update. Note that mode can also increase here (MAY_BORROW to
+CAN_SEND) because we can use more precise clock that event queue here.
+In such case we remove class from event queue first.

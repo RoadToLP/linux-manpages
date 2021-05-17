@@ -1,0 +1,29 @@
+.TH "__root_device_register" 9 "__root_device_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__root_device_register \- allocate and register a root device
+.SH SYNOPSIS
+.B "struct device *" __root_device_register
+.BI "(const char *name "  ","
+.BI "struct module *owner "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+root device name
+.IP "owner" 12
+owner module of the root device, usually THIS_MODULE
+.SH "DESCRIPTION"
+This function allocates a root device and registers it
+using \fBdevice_register\fP. In order to free the returned
+device, use \fBroot_device_unregister\fP.
+
+Root devices are dummy devices which allow other devices
+to be grouped under /sys/devices. Use this function to
+allocate a root device and then use it as the parent of
+any device which should appear under /sys/devices/{name}
+
+The /sys/devices/{name} directory will also contain a
+'module' symlink which points to the \fIowner\fP directory
+in sysfs.
+
+Returns \fIstruct device\fP pointer on success, or \fBERR_PTR\fP on error.
+.SH "NOTE"
+You probably want to use \fBroot_device_register\fP.

@@ -1,0 +1,30 @@
+.TH "lpfc_read_topology" 9 "lpfc_read_topology" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_read_topology \- Prepare a mailbox command for reading HBA topology
+.SH SYNOPSIS
+.B "int" lpfc_read_topology
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ","
+.BI "struct lpfc_dmabuf *mp "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.IP "mp" 12
+DMA buffer memory for reading the link attention information into.
+.SH "DESCRIPTION"
+The read topology mailbox command is issued to read the link topology
+information indicated by the HBA port when the Link Event bit of the Host
+Attention (HSTATT) register is set to 1 (For SLI-3) or when an FC Link
+Attention ACQE is received from the port (For SLI-4). A Link Event
+Attention occurs based on an exception detected at the Fibre Channel link
+interface.
+
+This routine prepares the mailbox command for reading HBA link topology
+information. A DMA memory has been set aside and address passed to the
+HBA through \fImp\fP for the HBA to DMA link attention information into the
+memory as part of the execution of the mailbox command.
+
+Return codes
+0 - Success (currently always return 0)

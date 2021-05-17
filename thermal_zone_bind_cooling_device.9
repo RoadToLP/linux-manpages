@@ -1,0 +1,37 @@
+.TH "thermal_zone_bind_cooling_device" 9 "thermal_zone_bind_cooling_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+thermal_zone_bind_cooling_device \- bind a cooling device to a thermal zone
+.SH SYNOPSIS
+.B "int" thermal_zone_bind_cooling_device
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "int trip "  ","
+.BI "struct thermal_cooling_device *cdev "  ","
+.BI "unsigned long upper "  ","
+.BI "unsigned long lower "  ","
+.BI "unsigned int weight "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+pointer to struct thermal_zone_device
+.IP "trip" 12
+indicates which trip point the cooling devices is
+associated with in this thermal zone.
+.IP "cdev" 12
+pointer to struct thermal_cooling_device
+.IP "upper" 12
+the Maximum cooling state for this trip point.
+THERMAL_NO_LIMIT means no upper limit,
+and the cooling device can be in max_state.
+.IP "lower" 12
+the Minimum cooling state can be used for this trip point.
+THERMAL_NO_LIMIT means no lower limit,
+and the cooling device can be in cooling state 0.
+.IP "weight" 12
+The weight of the cooling device to be bound to the
+thermal zone. Use THERMAL_WEIGHT_DEFAULT for the
+default value
+.SH "DESCRIPTION"
+This interface function bind a thermal cooling device to the certain trip
+point of a thermal zone device.
+This function is usually called in the thermal zone device .bind callback.
+.SH "RETURN"
+0 on success, the proper error value otherwise.

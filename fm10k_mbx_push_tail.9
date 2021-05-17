@@ -1,0 +1,20 @@
+.TH "fm10k_mbx_push_tail" 9 "fm10k_mbx_push_tail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_push_tail \- Pushes up to 15 DWORDs on to tail of FIFO
+.SH SYNOPSIS
+.B "s32" fm10k_mbx_push_tail
+.BI "(struct fm10k_hw *hw "  ","
+.BI "struct fm10k_mbx_info *mbx "  ","
+.BI "u16 tail "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mbx" 12
+pointer to mailbox
+.IP "tail" 12
+tail index of message
+
+This function will first validate the tail index and size for the
+incoming message.  It then updates the acknowledgment number and
+copies the data into the FIFO.  It will return the number of messages
+dequeued on success and a negative value on error.

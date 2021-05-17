@@ -1,0 +1,17 @@
+.TH "pm_clk_add_clk" 9 "pm_clk_add_clk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_clk_add_clk \- Start using a device clock for power management.
+.SH SYNOPSIS
+.B "int" pm_clk_add_clk
+.BI "(struct device *dev "  ","
+.BI "struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device whose clock is going to be used for power management.
+.IP "clk" 12
+Clock pointer
+.SH "DESCRIPTION"
+Add the clock to the list of clocks used for the power management of \fIdev\fP.
+The power-management code will take control of the clock reference, so
+callers should not call \fBclk_put\fP on \fIclk\fP after this function sucessfully
+returned.

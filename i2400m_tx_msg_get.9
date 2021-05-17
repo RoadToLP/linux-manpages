@@ -1,0 +1,31 @@
+.TH "i2400m_tx_msg_get" 9 "i2400m_tx_msg_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_tx_msg_get \- Get the first TX message in the FIFO to start sending it
+.SH SYNOPSIS
+.B "struct i2400m_msg_hdr *" i2400m_tx_msg_get
+.BI "(struct i2400m *i2400m "  ","
+.BI "size_t *bus_size "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptors
+.IP "bus_size" 12
+where to place the size of the TX message
+.SH "DESCRIPTION"
+Called by the bus-specific driver to get the first TX message at
+the FIF that is ready for transmission.
+
+It sets the state in \fIi2400m\fP to indicate the bus-specific driver is
+transferring that message (i2400m->tx_msg_size).
+
+Once the transfer is completed, call \fBi2400m_tx_msg_sent\fP.
+.SH "NOTES"
+
+The size of the TX message to be transmitted might be smaller than
+that of the TX message in the FIFO (in case the header was
+shorter). Hence, we copy it in \fIbus_size\fP, for the bus layer to
+use. We keep the message's size in i2400m->tx_msg_size so that
+when the bus later is done transferring we know how much to
+advance the fifo.
+
+We collect statistics here as all the data is available and we
+assume it is going to work [see \fBi2400m_tx_msg_sent\fP].

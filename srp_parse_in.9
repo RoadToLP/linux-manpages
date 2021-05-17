@@ -1,0 +1,22 @@
+.TH "srp_parse_in" 9 "srp_parse_in" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_parse_in \- parse an IP address and port number combination
+.SH SYNOPSIS
+.B "int" srp_parse_in
+.BI "(struct net *net "  ","
+.BI "struct sockaddr_storage *sa "  ","
+.BI "const char *addr_port_str "  ","
+.BI "bool *has_port "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+[in]  Network namespace.
+.IP "sa" 12
+[out] Address family, IP address and port number.
+.IP "addr_port_str" 12
+[in]  IP address and port number.
+.IP "has_port" 12
+[out] Whether or not \fIaddr_port_str\fP includes a port number.
+.SH "DESCRIPTION"
+Parse the following address formats:
+- IPv4: <ip_address>:<port>, e.g. 1.2.3.4:5.
+- IPv6: \[<ipv6_address>\]:<port>, e.g. [1::2:34]:5.

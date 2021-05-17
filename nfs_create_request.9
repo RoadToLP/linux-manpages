@@ -1,0 +1,22 @@
+.TH "nfs_create_request" 9 "nfs_create_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_create_request \- Create an NFS read/write request.
+.SH SYNOPSIS
+.B "struct nfs_page *" nfs_create_request
+.BI "(struct nfs_open_context *ctx "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int count "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+open context to use
+.IP "page" 12
+page to write
+.IP "offset" 12
+starting offset within the page for the write
+.IP "count" 12
+number of bytes to read/write
+.SH "DESCRIPTION"
+The page must be locked by the caller. This makes sure we never
+create two different requests for the same page.
+User should ensure it is safe to sleep in this function.

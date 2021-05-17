@@ -1,0 +1,29 @@
+.TH "handle_ahash_req" 9 "handle_ahash_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_ahash_req \- Process an asynchronous hash request from the crypto API.
+.SH SYNOPSIS
+.B "int" handle_ahash_req
+.BI "(struct iproc_reqctx_s *rctx "  ");"
+.SH ARGUMENTS
+.IP "rctx" 12
+Crypto request context
+.SH "DESCRIPTION"
+Builds a SPU request message embedded in a mailbox message and submits the
+mailbox message on a selected mailbox channel. The SPU request message is
+constructed as a scatterlist, including entries from the crypto API's
+src scatterlist to avoid copying the data to be hashed. This function is
+called either on the thread from the crypto API, or, in the case that the
+crypto API request is too large to fit in a single SPU request message,
+on the thread that invokes the receive callback with a response message.
+Because some operations require the response from one chunk before the next
+chunk can be submitted, we always wait for the response for the previous
+chunk before submitting the next chunk. Because requests are submitted in
+lock step like this, there is no need to synchronize access to request data
+structures.
+.SH "RETURN"
+-EINPROGRESS: request has been submitted to SPU and response will be
+returned asynchronously
+-EAGAIN:      non-final request included a small amount of data, which for
+efficiency we did not submit to the SPU, but instead stored
+to be submitted to the SPU with the next part of the request
+other:        an error code

@@ -1,0 +1,14 @@
+.TH "device_link_del" 9 "device_link_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_link_del \- Delete a stateless link between two devices.
+.SH SYNOPSIS
+.B "void" device_link_del
+.BI "(struct device_link *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+Device link to delete.
+.SH "DESCRIPTION"
+The caller must ensure proper synchronization of this function with runtime
+PM.  If the link was added multiple times, it needs to be deleted as often.
+Care is required for hotplugged devices:  Their links are purged on removal
+and calling \fBdevice_link_del\fP is then no longer allowed.

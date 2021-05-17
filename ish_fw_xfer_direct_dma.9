@@ -1,0 +1,24 @@
+.TH "ish_fw_xfer_direct_dma" 9 "ish_fw_xfer_direct_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ish_fw_xfer_direct_dma \- Loads ISH firmware using direct dma
+.SH SYNOPSIS
+.B "int" ish_fw_xfer_direct_dma
+.BI "(struct ishtp_cl_data *client_data "  ","
+.BI "const struct firmware *fw "  ","
+.BI "const struct shim_fw_info fw_info "  ");"
+.SH ARGUMENTS
+.IP "client_data" 12
+Client data instance
+.IP "fw" 12
+Pointer to firmware data struct in host memory
+.IP "fw_info" 12
+Loader firmware properties
+.SH "DESCRIPTION"
+Host firmware load is a unique case where we need to download
+a large firmware image (200+ Kb). This function implements
+direct DMA transfer in kernel and ISH firmware. This allows
+us to overcome the ISH-TP 4 Kb limit, and allows us to DMA
+directly to ISH UMA at location of choice.
+Function depends on corresponding support in ISH firmware.
+.SH "RETURN"
+0 for success, negative error code for failure.

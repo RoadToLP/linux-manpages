@@ -1,0 +1,18 @@
+.TH "ice_sched_find_node_by_teid" 9 "ice_sched_find_node_by_teid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sched_find_node_by_teid \- Find the Tx scheduler node in SW DB
+.SH SYNOPSIS
+.B "struct ice_sched_node *" ice_sched_find_node_by_teid
+.BI "(struct ice_sched_node *start_node "  ","
+.BI "u32 teid "  ");"
+.SH ARGUMENTS
+.IP "start_node" 12
+pointer to the starting ice_sched_node struct in a sub-tree
+.IP "teid" 12
+node TEID to search
+.SH "DESCRIPTION"
+This function searches for a node matching the TEID in the scheduling tree
+from the SW DB. The search is recursive and is restricted by the number of
+layers it has searched through; stopping at the max supported layer.
+
+This function needs to be called when holding the port_info->sched_lock

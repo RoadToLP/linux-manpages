@@ -1,0 +1,23 @@
+.TH "drm_bridge_chain_mode_valid" 9 "drm_bridge_chain_mode_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_chain_mode_valid \- validate the mode against all bridges in the encoder chain.
+.SH SYNOPSIS
+.B "enum drm_mode_status" drm_bridge_chain_mode_valid
+.BI "(struct drm_bridge *bridge "  ","
+.BI "const struct drm_display_info *info "  ","
+.BI "const struct drm_display_mode *mode "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "info" 12
+display info against which the mode shall be validated
+.IP "mode" 12
+desired mode to be validated
+.SH "DESCRIPTION"
+Calls \fIdrm_bridge_funcs.mode_valid\fP for all the bridges in the encoder
+chain, starting from the first bridge to the last. If at least one bridge
+does not accept the mode the function returns the error code.
+.SH "NOTE"
+the bridge passed should be the one closest to the encoder.
+.SH "RETURN"
+MODE_OK on success, drm_mode_status Enum error code on failure

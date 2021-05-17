@@ -1,0 +1,23 @@
+.TH "export_encode_fh" 9 "export_encode_fh" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+export_encode_fh \- default export_operations->encode_fh function
+.SH SYNOPSIS
+.B "int" export_encode_fh
+.BI "(struct inode *inode "  ","
+.BI "struct fid *fid "  ","
+.BI "int *max_len "  ","
+.BI "struct inode *parent "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the object to encode
+.IP "fid" 12
+where to store the file handle fragment
+.IP "max_len" 12
+maximum length to store there
+.IP "parent" 12
+parent directory inode, if wanted
+.SH "DESCRIPTION"
+This default encode_fh function assumes that the 32 inode number
+is suitable for locating an inode, and that the generation number
+can be used to check that it is still valid.  It places them in the
+filehandle fragment where export_decode_fh expects to find them.

@@ -1,0 +1,25 @@
+.TH "srcu_notifier_call_chain" 9 "srcu_notifier_call_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srcu_notifier_call_chain \- Call functions in an SRCU notifier chain
+.SH SYNOPSIS
+.B "int" srcu_notifier_call_chain
+.BI "(struct srcu_notifier_head *nh "  ","
+.BI "unsigned long val "  ","
+.BI "void *v "  ");"
+.SH ARGUMENTS
+.IP "nh" 12
+Pointer to head of the SRCU notifier chain
+.IP "val" 12
+Value passed unmodified to notifier function
+.IP "v" 12
+Pointer passed unmodified to notifier function
+
+Calls each function in a notifier chain in turn.  The functions
+run in a process context, so they are allowed to block.
+
+If the return value of the notifier can be and'ed
+with NOTIFY_STOP_MASK then \fBsrcu_notifier_call_chain\fP
+will return immediately, with the return value of
+the notifier function which halted execution.
+Otherwise the return value is the return value
+of the last notifier function called.

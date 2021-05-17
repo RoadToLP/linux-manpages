@@ -1,0 +1,32 @@
+.TH "drm_i2c_encoder_init" 9 "drm_i2c_encoder_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_i2c_encoder_init \- Initialize an I2C slave encoder
+.SH SYNOPSIS
+.B "int" drm_i2c_encoder_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_encoder_slave *encoder "  ","
+.BI "struct i2c_adapter *adap "  ","
+.BI "const struct i2c_board_info *info "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device.
+.IP "encoder" 12
+Encoder to be attached to the I2C device. You aren't
+required to have called \fBdrm_encoder_init\fP before.
+.IP "adap" 12
+I2C adapter that will be used to communicate with
+the device.
+.IP "info" 12
+Information that will be used to create the I2C device.
+Required fields are \fIaddr\fP and \fItype\fP.
+.SH "DESCRIPTION"
+Create an I2C device on the specified bus (the module containing its
+driver is transparently loaded) and attach it to the specified
+\fIdrm_encoder_slave\fP. The \fIslave_funcs\fP field will be initialized with
+the hooks provided by the slave driver.
+
+If \fIinfo.platform_data\fP is non-NULL it will be used as the initial
+slave config.
+
+Returns 0 on success or a negative errno on failure, in particular,
+-ENODEV is returned when no matching driver is found.

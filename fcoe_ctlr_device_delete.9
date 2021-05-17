@@ -1,0 +1,25 @@
+.TH "fcoe_ctlr_device_delete" 9 "fcoe_ctlr_device_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_device_delete \- Delete a FIP ctlr and its subtree from sysfs
+.SH SYNOPSIS
+.B "void" fcoe_ctlr_device_delete
+.BI "(struct fcoe_ctlr_device *ctlr "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+A pointer to the ctlr to be deleted
+.SH "DESCRIPTION"
+Deletes a FIP ctlr and any fcfs attached
+to it. Deleting fcfs will cause their childen
+to be deleted as well.
+
+The ctlr is detached from sysfs and it's resources
+are freed (work q), but the memory is not freed
+until its last reference is released.
+
+This routine expects no locks to be held before
+calling.
+
+TODO: Currently there are no callbacks to clean up LLD data
+for a fcoe_fcf_device. LLDs must keep this in mind as they need
+to clean up each of their LLD data for all fcoe_fcf_device before
+calling fcoe_ctlr_device_delete.

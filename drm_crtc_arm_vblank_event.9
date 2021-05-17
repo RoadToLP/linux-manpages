@@ -1,0 +1,45 @@
+.TH "drm_crtc_arm_vblank_event" 9 "drm_crtc_arm_vblank_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_arm_vblank_event \- arm vblank event after pageflip
+.SH SYNOPSIS
+.B "void" drm_crtc_arm_vblank_event
+.BI "(struct drm_crtc *crtc "  ","
+.BI "struct drm_pending_vblank_event *e "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+the source CRTC of the vblank event
+.IP "e" 12
+the event to send
+.SH "DESCRIPTION"
+A lot of drivers need to generate vblank events for the very next vblank
+interrupt. For example when the page flip interrupt happens when the page
+flip gets armed, but not when it actually executes within the next vblank
+period. This helper function implements exactly the required vblank arming
+behaviour.
+
+1. Driver commits new hardware state into vblank-synchronized registers.
+2. A vblank happens, committing the hardware state. Also the corresponding
+vblank interrupt is fired off and fully processed by the interrupt
+handler.
+3. The atomic commit operation proceeds to call \fBdrm_crtc_arm_vblank_event\fP.
+4. The event is only send out for the next vblank, which is wrong.
+
+An equivalent race can happen when the driver calls
+\fBdrm_crtc_arm_vblank_event\fP before writing out the new hardware state.
+
+The only way to make this work safely is to prevent the vblank from firing
+(and the hardware from committing anything else) until the entire atomic
+commit sequence has run to completion. If the hardware does not have such a
+feature (e.g. using a "go" bit), then it is unsafe to use this functions.
+Instead drivers need to manually send out the event from their interrupt
+handler by calling \fBdrm_crtc_send_vblank_event\fP and make sure that there's no
+possible race with the hardware committing the atomic update.
+
+Caller must hold a vblank reference for the event \fIe\fP acquired by a
+\fBdrm_crtc_vblank_get\fP, which will be dropped when the next vblank arrives.
+.SH "NOTE"
+Drivers using this to send out the \fIdrm_crtc_state.event\fP as part of an
+atomic commit must ensure that the next vblank happens at exactly the same
+time as the atomic commit is committed to the hardware. This function itself
+does **not** protect against the next vblank interrupt racing with either this
+function call or the atomic commit operation. A possible sequence could be:

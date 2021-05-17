@@ -1,0 +1,14 @@
+.TH "evict_inodes" 9 "evict_inodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evict_inodes \- evict all evictable inodes for a superblock
+.SH SYNOPSIS
+.B "void" evict_inodes
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock to operate on
+.SH "DESCRIPTION"
+Make sure that no inodes with zero refcount are retained.  This is
+called by superblock shutdown after having SB_ACTIVE flag removed,
+so any inode reaching zero refcount during or after that call will
+be immediately evicted.

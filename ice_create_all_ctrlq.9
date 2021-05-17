@@ -1,0 +1,21 @@
+.TH "ice_create_all_ctrlq" 9 "ice_create_all_ctrlq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_create_all_ctrlq \- main initialization routine for all control queues
+.SH SYNOPSIS
+.B "enum ice_status" ice_create_all_ctrlq
+.BI "(struct ice_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.SH "DESCRIPTION"
+Prior to calling this function, the driver *MUST* set the following fields
+in the cq->structure for all control queues:
+- cq->num_sq_entries
+- cq->num_rq_entries
+- cq->rq_buf_size
+- cq->sq_buf_size
+
+This function creates all the control queue locks and then calls
+ice_init_all_ctrlq. It should be called once during driver load. If the
+driver needs to re-initialize control queues at run time it should call
+ice_init_all_ctrlq instead.

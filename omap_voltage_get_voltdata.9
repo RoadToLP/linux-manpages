@@ -1,0 +1,21 @@
+.TH "omap_voltage_get_voltdata" 9 "omap_voltage_get_voltdata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_voltage_get_voltdata \- API to get the voltage table entry for a particular voltage
+.SH SYNOPSIS
+.B "struct omap_volt_data *" omap_voltage_get_voltdata
+.BI "(struct voltagedomain *voltdm "  ","
+.BI "unsigned long volt "  ");"
+.SH ARGUMENTS
+.IP "voltdm" 12
+pointer to the VDD whose voltage table has to be searched
+.IP "volt" 12
+the voltage to be searched in the voltage table
+.SH "DESCRIPTION"
+This API searches through the voltage table for the required voltage
+domain and tries to find a matching entry for the passed voltage volt.
+If a matching entry is found volt_data is populated with that entry.
+This API searches only through the non-compensated voltages int the
+voltage table.
+Returns pointer to the voltage table entry corresponding to volt on
+success. Returns -ENODATA if no voltage table exisits for the passed voltage
+domain or if there is no matching entry.

@@ -1,0 +1,18 @@
+.TH "kobject_create" 9 "kobject_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kobject_create \- Create a struct kobject dynamically.
+.SH SYNOPSIS
+.B "struct kobject *" kobject_create
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function creates a kobject structure dynamically and sets it up
+to be a "dynamic" kobject with a default release function set up.
+
+If the kobject was not able to be created, NULL will be returned.
+The kobject structure returned from here must be cleaned up with a
+call to \fBkobject_put\fP and not \fBkfree\fP, as \fBkobject_init\fP has
+already been called on this structure.

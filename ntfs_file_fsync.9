@@ -1,0 +1,37 @@
+.TH "ntfs_file_fsync" 9 "ntfs_file_fsync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_file_fsync \- sync a file to disk
+.SH SYNOPSIS
+.B "int" ntfs_file_fsync
+.BI "(struct file *filp "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "int datasync "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file to be synced
+.IP "start" 12
+-- undescribed --
+.IP "end" 12
+-- undescribed --
+.IP "datasync" 12
+if non-zero only flush user data and not metadata
+.SH "DESCRIPTION"
+Data integrity sync of a file to disk.  Used for fsync, fdatasync, and msync
+system calls.  This function is inspired by fs/buffer.c::\fBfile_fsync\fP.
+
+If \fIdatasync\fP is false, write the mft record and all associated extent mft
+records as well as the $DATA attribute and then sync the block device.
+
+If \fIdatasync\fP is true and the attribute is non-resident, we skip the writing
+of the mft record and all associated extent mft records (this might still
+happen due to the \fBwrite_inode_now\fP call).
+
+Also, if \fIdatasync\fP is true, we do not wait on the inode to be written out
+but we always wait on the page cache pages to be written out.
+
+Locking: Caller must hold i_mutex on the inode.
+
+TODO: We should probably also write all attribute/index inodes associated
+with this inode but since we have no simple way of getting to them we ignore
+this problem for now.

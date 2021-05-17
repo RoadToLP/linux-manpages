@@ -1,0 +1,23 @@
+.TH "proc_flush_pid" 9 "proc_flush_pid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_flush_pid \- Remove dcache entries for @pid from the /proc dcache.
+.SH SYNOPSIS
+.B "void" proc_flush_pid
+.BI "(struct pid *pid "  ");"
+.SH ARGUMENTS
+.IP "pid" 12
+pid that should be flushed.
+.SH "DESCRIPTION"
+This function walks a list of inodes (that belong to any proc
+filesystem) that are attached to the pid and flushes them from
+the dentry cache.
+
+It is safe and reasonable to cache /proc entries for a task until
+that task exits.  After that they just clog up the dcache with
+useless entries, possibly causing useful dcache entries to be
+flushed instead.  This routine is provided to flush those useless
+dcache entries when a process is reaped.
+.SH "NOTE"
+This routine is just an optimization so it does not guarantee
+that no dcache entries will exist after a process is reaped
+it just makes it very unlikely that any will persist.

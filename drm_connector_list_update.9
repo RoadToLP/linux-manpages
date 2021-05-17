@@ -1,0 +1,16 @@
+.TH "drm_connector_list_update" 9 "drm_connector_list_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_list_update \- update the mode list for the connector
+.SH SYNOPSIS
+.B "void" drm_connector_list_update
+.BI "(struct drm_connector *connector "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+the connector to update
+.SH "DESCRIPTION"
+This moves the modes from the \fIconnector\fP probed_modes list
+to the actual mode list. It compares the probed mode against the current
+list and only adds different/new modes.
+
+This is just a helper functions doesn't validate any modes itself and also
+doesn't prune any invalid modes. Callers need to do that themselves.

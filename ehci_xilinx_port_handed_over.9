@@ -1,0 +1,21 @@
+.TH "ehci_xilinx_port_handed_over" 9 "ehci_xilinx_port_handed_over" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ehci_xilinx_port_handed_over \- hand the port out if failed to enable it
+.SH SYNOPSIS
+.B "int" ehci_xilinx_port_handed_over
+.BI "(struct usb_hcd *hcd "  ","
+.BI "int portnum "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+Pointer to the usb_hcd device to which the host controller bound
+.IP "portnum" 12
+Port number to which the device is attached.
+.SH "DESCRIPTION"
+This function is used as a place to tell the user that the Xilinx USB host
+controller does support LS devices. And in an HS only configuration, it
+does not support FS devices either. It is hoped that this can help a
+confused user.
+
+There are cases when the host controller fails to enable the port due to,
+for example, insufficient power that can be supplied to the device from
+the USB bus. In those cases, the messages printed here are not helpful.

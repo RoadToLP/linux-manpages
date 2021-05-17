@@ -1,0 +1,22 @@
+.TH "fsl_mc_portal_allocate" 9 "fsl_mc_portal_allocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_mc_portal_allocate \- Allocates an MC portal
+.SH SYNOPSIS
+.B "int" fsl_mc_portal_allocate
+.BI "(struct fsl_mc_device *mc_dev "  ","
+.BI "u16 mc_io_flags "  ","
+.BI "struct fsl_mc_io **new_mc_io "  ");"
+.SH ARGUMENTS
+.IP "mc_dev" 12
+MC device for which the MC portal is to be allocated
+.IP "mc_io_flags" 12
+Flags for the fsl_mc_io object that wraps the allocated
+MC portal.
+.IP "new_mc_io" 12
+Pointer to area where the pointer to the fsl_mc_io object
+that wraps the allocated MC portal is to be returned
+.SH "DESCRIPTION"
+This function allocates an MC portal from the device's parent DPRC,
+from the corresponding MC bus' pool of MC portals and wraps
+it in a new fsl_mc_io object. If 'mc_dev' is a DPRC itself, the
+portal is allocated from its own MC bus.

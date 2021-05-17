@@ -1,0 +1,20 @@
+.TH "qbman_swp_enqueue_direct" 9 "qbman_swp_enqueue_direct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qbman_swp_enqueue_direct \- Issue an enqueue command
+.SH SYNOPSIS
+.B "int" qbman_swp_enqueue_direct
+.BI "(struct qbman_swp *s "  ","
+.BI "const struct qbman_eq_desc *d "  ","
+.BI "const struct dpaa2_fd *fd "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the software portal used for enqueue
+.IP "d" 12
+the enqueue descriptor
+.IP "fd" 12
+the frame descriptor to be enqueued
+.SH "DESCRIPTION"
+Please note that 'fd' should only be NULL if the "action" of the
+descriptor is "orp_hole" or "orp_nesn".
+
+Return 0 for successful enqueue, -EBUSY if the EQCR is not ready.

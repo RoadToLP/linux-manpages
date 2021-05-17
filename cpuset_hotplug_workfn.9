@@ -1,0 +1,23 @@
+.TH "cpuset_hotplug_workfn" 9 "cpuset_hotplug_workfn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuset_hotplug_workfn \- handle CPU/memory hotunplug for a cpuset
+.SH SYNOPSIS
+.B "void" cpuset_hotplug_workfn
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function is called after either CPU or memory configuration has
+changed and updates cpuset accordingly.  The top_cpuset is always
+synchronized to cpu_active_mask and N_MEMORY, which is necessary in
+order to make cpusets transparent (of no affect) on systems that are
+actively using CPU hotplug but making no active use of cpusets.
+
+Non-root cpusets are only affected by offlining.  If any CPUs or memory
+nodes have been taken down, \fBcpuset_hotplug_update_tasks\fP is invoked on
+all descendants.
+
+Note that CPU offlining during suspend is ignored.  We don't modify
+cpusets across suspend/resume cycles at all.

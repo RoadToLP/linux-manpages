@@ -1,0 +1,25 @@
+.TH "rio_request_inb_dbell" 9 "rio_request_inb_dbell" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_request_inb_dbell \- request inbound doorbell message service
+.SH SYNOPSIS
+.B "int" rio_request_inb_dbell
+.BI "(struct rio_mport *mport "  ","
+.BI "void *dev_id "  ","
+.BI "u16 start "  ","
+.BI "u16 end "  ","
+.BI "void (*dinb) (struct rio_mport * mport, void *dev_id, u16 src, u16 dst, u16 info) "  ");"
+.SH ARGUMENTS
+.IP "mport" 12
+RIO master port from which to allocate the doorbell resource
+.IP "dev_id" 12
+Device specific pointer to pass on event
+.IP "start" 12
+Doorbell info range start
+.IP "end" 12
+Doorbell info range end
+.IP "dinb" 12
+Callback to execute when doorbell is received
+.SH "DESCRIPTION"
+Requests ownership of an inbound doorbell resource and binds
+a callback function to the resource. Returns 0 if the request
+has been satisfied.

@@ -1,0 +1,27 @@
+.TH "nfp_net_alloc" 9 "nfp_net_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_net_alloc \- Allocate netdev and related structure
+.SH SYNOPSIS
+.B "struct nfp_net *" nfp_net_alloc
+.BI "(struct pci_dev *pdev "  ","
+.BI "void __iomem *ctrl_bar "  ","
+.BI "bool needs_netdev "  ","
+.BI "unsigned int max_tx_rings "  ","
+.BI "unsigned int max_rx_rings "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device
+.IP "ctrl_bar" 12
+PCI IOMEM with vNIC config memory
+.IP "needs_netdev" 12
+Whether to allocate a netdev for this vNIC
+.IP "max_tx_rings" 12
+Maximum number of TX rings supported by device
+.IP "max_rx_rings" 12
+Maximum number of RX rings supported by device
+.SH "DESCRIPTION"
+This function allocates a netdev device and fills in the initial
+part of the \fIstruct\fP nfp_net structure.  In case of control device
+nfp_net structure is allocated without the netdev.
+.SH "RETURN"
+NFP Net device structure, or ERR_PTR on error.

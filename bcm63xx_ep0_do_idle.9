@@ -1,0 +1,16 @@
+.TH "bcm63xx_ep0_do_idle" 9 "bcm63xx_ep0_do_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_ep0_do_idle \- Check for outstanding requests if ep0 is idle.
+.SH SYNOPSIS
+.B "int" bcm63xx_ep0_do_idle
+.BI "(struct bcm63xx_udc *udc "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+Reference to the device controller.
+.SH "DESCRIPTION"
+In state EP0_IDLE, the RX descriptor is either pending, or has been
+filled with a SETUP packet from the host.  This function handles new
+SETUP packets, control IRQ events (which can generate fake SETUP packets),
+and reset/shutdown events.
+
+Returns 0 if work was done; -EAGAIN if nothing to do.

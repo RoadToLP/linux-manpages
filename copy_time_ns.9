@@ -1,0 +1,20 @@
+.TH "copy_time_ns" 9 "copy_time_ns" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_time_ns \- Create timens_for_children from @old_ns
+.SH SYNOPSIS
+.B "struct time_namespace *" copy_time_ns
+.BI "(unsigned long flags "  ","
+.BI "struct user_namespace *user_ns "  ","
+.BI "struct time_namespace *old_ns "  ");"
+.SH ARGUMENTS
+.IP "flags" 12
+Cloning flags
+.IP "user_ns" 12
+User namespace which owns a new namespace.
+.IP "old_ns" 12
+Namespace to clone
+.SH "DESCRIPTION"
+If CLONE_NEWTIME specified in \fIflags\fP, creates a new timens_for_children;
+adds a refcounter to \fIold_ns\fP otherwise.
+.SH "RETURN"
+timens_for_children namespace or ERR_PTR.

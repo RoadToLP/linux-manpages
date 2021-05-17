@@ -1,0 +1,19 @@
+.TH "pamu_get_fspi_and_allocate" 9 "pamu_get_fspi_and_allocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pamu_get_fspi_and_allocate \- Allocates fspi index and reserves subwindows required for primary PAACE in the secondary PAACE table.
+.SH SYNOPSIS
+.B "unsigned long" pamu_get_fspi_and_allocate
+.BI "(u32 subwin_cnt "  ");"
+.SH ARGUMENTS
+.IP "subwin_cnt" 12
+Number of subwindows to be reserved.
+.SH "DESCRIPTION"
+A PPAACE entry may have a number of associated subwindows. A subwindow
+corresponds to a SPAACE entry in the SPAACT table. Each PAACE entry stores
+the index (fspi) of the first SPAACE entry in the SPAACT table. This
+function returns the index of the first SPAACE entry. The remaining
+SPAACE entries are reserved contiguously from that index.
+
+Returns a valid fspi index in the range of 0 - SPAACE_NUMBER_ENTRIES on success.
+If no SPAACE entry is available or the allocator can not reserve the required
+number of contiguous entries function returns ULONG_MAX indicating a failure.

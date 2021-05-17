@@ -1,0 +1,19 @@
+.TH "qcom_register_ssr_notifier" 9 "qcom_register_ssr_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_register_ssr_notifier \- register SSR notification handler
+.SH SYNOPSIS
+.B "void *" qcom_register_ssr_notifier
+.BI "(const char *name "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+Subsystem's SSR name
+.IP "nb" 12
+notifier_block to be invoked upon subsystem's state change
+.SH "DESCRIPTION"
+This registers the \fInb\fP notifier block as part the notifier chain for a
+remoteproc associated with \fIname\fP. The notifier block's callback
+will be invoked when the remote processor's SSR events occur
+(pre/post startup and pre/post shutdown).
+.SH "RETURN"
+a subsystem cookie on success, ERR_PTR on failure.

@@ -1,0 +1,15 @@
+.TH "fscrypt_drop_inode" 9 "fscrypt_drop_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_drop_inode \- check whether the inode's master key has been removed
+.SH SYNOPSIS
+.B "int" fscrypt_drop_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+an inode being considered for eviction
+.SH "DESCRIPTION"
+Filesystems supporting fscrypt must call this from their ->\fBdrop_inode\fP
+method so that encrypted inodes are evicted as soon as they're no longer in
+use and their master key has been removed.
+.SH "RETURN"
+1 if fscrypt wants the inode to be evicted now, otherwise 0

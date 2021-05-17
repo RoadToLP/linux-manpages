@@ -1,0 +1,15 @@
+.TH "ice_handle_mdd_event" 9 "ice_handle_mdd_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_handle_mdd_event \- handle malicious driver detect event
+.SH SYNOPSIS
+.B "void" ice_handle_mdd_event
+.BI "(struct ice_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+pointer to the PF structure
+.SH "DESCRIPTION"
+Called from service task. OICR interrupt handler indicates MDD event.
+VF MDD logging is guarded by net_ratelimit. Additional PF and VF log
+messages are wrapped by netif_msg_[rx|tx]_err. Since VF Rx MDD events
+disable the queue, the PF can be configured to reset the VF using ethtool
+private flag mdd-auto-reset-vf.

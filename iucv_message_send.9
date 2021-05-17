@@ -1,0 +1,32 @@
+.TH "iucv_message_send" 9 "iucv_message_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iucv_message_send \- 
+.SH SYNOPSIS
+.B "int" iucv_message_send
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_message *msg "  ","
+.BI "u8 flags "  ","
+.BI "u32 srccls "  ","
+.BI "void *buffer "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+address of iucv path structure
+.IP "msg" 12
+address of iucv msg structure
+.IP "flags" 12
+how the message is sent (IUCV_IPRMDATA, IUCV_IPPRTY, IUCV_IPBUFLST)
+.IP "srccls" 12
+source class of message
+.IP "buffer" 12
+address of send buffer or address of struct iucv_array
+.IP "size" 12
+length of send buffer
+.SH "DESCRIPTION"
+This function transmits data to another application. Data to be
+transmitted is in a buffer and this is a one-way message and the
+receiver will not reply to the message.
+
+Locking:     local_bh_enable/local_bh_disable
+
+Returns the result from the CP IUCV call.

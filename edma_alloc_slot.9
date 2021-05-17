@@ -1,0 +1,22 @@
+.TH "edma_alloc_slot" 9 "edma_alloc_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+edma_alloc_slot \- allocate DMA parameter RAM
+.SH SYNOPSIS
+.B "int" edma_alloc_slot
+.BI "(struct edma_cc *ecc "  ","
+.BI "int slot "  ");"
+.SH ARGUMENTS
+.IP "ecc" 12
+pointer to edma_cc struct
+.IP "slot" 12
+specific slot to allocate; negative for "any unused slot"
+.SH "DESCRIPTION"
+This allocates a parameter RAM slot, initializing it to hold a
+dummy transfer.  Slots allocated using this routine have not been
+mapped to a hardware DMA channel, and will normally be used by
+linking to them from a slot associated with a DMA channel.
+
+Normal use is to pass EDMA_SLOT_ANY as the \fIslot\fP, but specific
+slots may be allocated on behalf of DSP firmware.
+
+Returns the number of the slot, else negative errno.

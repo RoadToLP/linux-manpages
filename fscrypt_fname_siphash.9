@@ -1,0 +1,18 @@
+.TH "fscrypt_fname_siphash" 9 "fscrypt_fname_siphash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_fname_siphash \- calculate the SipHash of a filename
+.SH SYNOPSIS
+.B "u64" fscrypt_fname_siphash
+.BI "(const struct inode *dir "  ","
+.BI "const struct qstr *name "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+the parent directory
+.IP "name" 12
+the filename to calculate the SipHash of
+.SH "DESCRIPTION"
+Given a plaintext filename \fIname\fP and a directory \fIdir\fP which uses SipHash as
+its dirhash method and has had its fscrypt key set up, this function
+calculates the SipHash of that name using the directory's secret dirhash key.
+.SH "RETURN"
+the SipHash of \fIname\fP using the hash key of \fIdir\fP

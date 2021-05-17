@@ -1,0 +1,25 @@
+.TH "__lpfc_sli_issue_fcp_io_s4" 9 "__lpfc_sli_issue_fcp_io_s4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli_issue_fcp_io_s4 \- SLI4 device for sending fcp io wqe
+.SH SYNOPSIS
+.B "int" __lpfc_sli_issue_fcp_io_s4
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t ring_number "  ","
+.BI "struct lpfc_iocbq *piocb "  ","
+.BI "uint32_t flag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "ring_number" 12
+SLI ring number to issue wqe on.
+.IP "piocb" 12
+Pointer to command iocb.
+.IP "flag" 12
+Flag indicating if this command can be put into txq.
+.SH "DESCRIPTION"
+__lpfc_sli_issue_fcp_io_s4 is used by other functions in the driver to issue
+an wqe command to an HBA with SLI-4 interface spec.
+
+This function is a lockless version. The function will return success
+after it successfully submit the wqe to firmware or after adding to the
+txq.

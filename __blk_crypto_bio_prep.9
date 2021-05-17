@@ -1,0 +1,26 @@
+.TH "__blk_crypto_bio_prep" 9 "__blk_crypto_bio_prep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__blk_crypto_bio_prep \- Prepare bio for inline encryption
+.SH SYNOPSIS
+.B "bool" __blk_crypto_bio_prep
+.BI "(struct bio **bio_ptr "  ");"
+.SH ARGUMENTS
+.IP "bio_ptr" 12
+pointer to original bio pointer
+.SH "DESCRIPTION"
+If the bio crypt context provided for the bio is supported by the underlying
+device's inline encryption hardware, do nothing.
+
+Otherwise, try to perform en/decryption for this bio by falling back to the
+kernel crypto API. When the crypto API fallback is used for encryption,
+blk-crypto may choose to split the bio into 2 - the first one that will
+continue to be processed and the second one that will be resubmitted via
+submit_bio_noacct. A bounce bio will be allocated to encrypt the contents
+of the aforementioned "first one", and *bio_ptr will be updated to this
+bounce bio.
+
+Caller must ensure bio has bio_crypt_ctx.
+.SH "RETURN"
+true on success; false on error (and bio->bi_status will be set
+appropriately, and \fBbio_endio\fP will have been called so bio
+submission should abort).

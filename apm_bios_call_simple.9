@@ -1,0 +1,27 @@
+.TH "apm_bios_call_simple" 9 "apm_bios_call_simple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apm_bios_call_simple \- make a simple APM BIOS 32bit call
+.SH SYNOPSIS
+.B "int" apm_bios_call_simple
+.BI "(u32 func "  ","
+.BI "u32 ebx_in "  ","
+.BI "u32 ecx_in "  ","
+.BI "u32 *eax "  ","
+.BI "int *err "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+APM function to invoke
+.IP "ebx_in" 12
+EBX register value for BIOS call
+.IP "ecx_in" 12
+ECX register value for BIOS call
+.IP "eax" 12
+EAX register on return from the BIOS call
+.IP "err" 12
+bits
+
+Make a BIOS call that returns one value only, or just status.
+If there is an error, then the error code is returned in \fIerr\fP
+and this function returns non-zero. This is used for simpler
+BIOS operations.  This call may hold interrupts off for a long
+time on some laptops.

@@ -1,0 +1,28 @@
+.TH "page_vma_mapped_walk" 9 "page_vma_mapped_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_vma_mapped_walk \- check if @pvmw->page is mapped in @pvmw->vma at @pvmw->address
+.SH SYNOPSIS
+.B "bool" page_vma_mapped_walk
+.BI "(struct page_vma_mapped_walk *pvmw "  ");"
+.SH ARGUMENTS
+.IP "pvmw" 12
+pointer to struct page_vma_mapped_walk. page, vma, address and flags
+must be set. pmd, pte and ptl must be NULL.
+.SH "DESCRIPTION"
+Returns true if the page is mapped in the vma. \fIpvmw->pmd\fP and \fIpvmw->pte\fP point
+to relevant page table entries. \fIpvmw->ptl\fP is locked. \fIpvmw->address\fP is
+adjusted if needed (for PTE-mapped THPs).
+
+If \fIpvmw->pmd\fP is set but \fIpvmw->pte\fP is not, you have found PMD-mapped page
+(usually THP). For PTE-mapped THP, you should run \fBpage_vma_mapped_walk\fP in
+a loop to find all PTEs that map the THP.
+
+For HugeTLB pages, \fIpvmw->pte\fP is set to the relevant page table entry
+regardless of which page table level the page is mapped at. \fIpvmw->pmd\fP is
+NULL.
+
+Retruns false if there are no more page table entries for the page in
+the vma. \fIpvmw->ptl\fP is unlocked and \fIpvmw->pte\fP is unmapped.
+
+If you need to stop the walk before \fBpage_vma_mapped_walk\fP returned false,
+use \fBpage_vma_mapped_walk_done\fP. It will do the housekeeping.

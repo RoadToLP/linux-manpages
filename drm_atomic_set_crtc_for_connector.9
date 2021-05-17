@@ -1,0 +1,20 @@
+.TH "drm_atomic_set_crtc_for_connector" 9 "drm_atomic_set_crtc_for_connector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_set_crtc_for_connector \- set CRTC for connector
+.SH SYNOPSIS
+.B "int" drm_atomic_set_crtc_for_connector
+.BI "(struct drm_connector_state *conn_state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "conn_state" 12
+atomic state object for the connector
+.IP "crtc" 12
+CRTC to use for the connector
+.SH "DESCRIPTION"
+Changing the assigned CRTC for a connector requires us to grab the lock and
+state for the new CRTC, as needed. This function takes care of all these
+details besides updating the pointer in the state object itself.
+.SH "RETURN"
+0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+then the w/w mutex code has detected a deadlock and the entire atomic
+sequence must be restarted. All other errors are fatal.

@@ -1,0 +1,20 @@
+.TH "usb_string_id" 9 "usb_string_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_string_id \- allocate an unused string ID
+.SH SYNOPSIS
+.B "int" usb_string_id
+.BI "(struct usb_composite_dev *cdev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+the device whose string descriptor IDs are being allocated
+.SH "CONTEXT"
+single threaded during gadget setup
+.SH "DESCRIPTION"
+\fI\fP\fBusb_string_id\fP is called from \fBbind\fP callbacks to allocate
+string IDs.  Drivers for functions, configurations, or gadgets will
+then store that ID in the appropriate descriptors and string table.
+
+All string identifier should be allocated using this,
+\fI\fP\fBusb_string_ids_tab\fP or \fI\fP\fBusb_string_ids_n\fP routine, to ensure
+that for example different functions don't wrongly assign different
+meanings to the same identifier.

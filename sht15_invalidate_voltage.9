@@ -1,0 +1,18 @@
+.TH "sht15_invalidate_voltage" 9 "sht15_invalidate_voltage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sht15_invalidate_voltage \- mark supply voltage invalid when notified by reg
+.SH SYNOPSIS
+.B "int" sht15_invalidate_voltage
+.BI "(struct notifier_block *nb "  ","
+.BI "unsigned long event "  ","
+.BI "void *ignored "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+associated notification structure
+.IP "event" 12
+voltage regulator state change event code
+.IP "ignored" 12
+function parameter - ignored here
+.SH "DESCRIPTION"
+Note that as the notification code holds the regulator lock, we have
+to schedule an update of the supply voltage rather than getting it directly.

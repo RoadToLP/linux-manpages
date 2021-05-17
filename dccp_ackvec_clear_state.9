@@ -1,0 +1,18 @@
+.TH "dccp_ackvec_clear_state" 9 "dccp_ackvec_clear_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_ackvec_clear_state \- Perform house-keeping / garbage-collection
+.SH SYNOPSIS
+.B "void" dccp_ackvec_clear_state
+.BI "(struct dccp_ackvec *av "  ","
+.BI "const u64 ackno "  ");"
+.SH ARGUMENTS
+.IP "av" 12
+Ack Vector record to clean
+.IP "ackno" 12
+last Ack Vector which has been acknowledged
+.SH "DESCRIPTION"
+This routine is called when the peer acknowledges the receipt of Ack Vectors
+up to and including \fIackno\fP. While based on section A.3 of RFC 4340, here
+are additional precautions to prevent corrupted buffer state. In particular,
+we use tail_ackno to identify outdated records; it always marks the earliest
+packet of group (2) in 11.4.2.

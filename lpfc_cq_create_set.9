@@ -1,0 +1,37 @@
+.TH "lpfc_cq_create_set" 9 "lpfc_cq_create_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cq_create_set \- Create a set of Completion Queues on the HBA for MRQ
+.SH SYNOPSIS
+.B "int" lpfc_cq_create_set
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue **cqp "  ","
+.BI "struct lpfc_sli4_hdw_queue *hdwq "  ","
+.BI "uint32_t type "  ","
+.BI "uint32_t subtype "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "cqp" 12
+The queue structure array to use to create the completion queues.
+.IP "hdwq" 12
+The hardware queue array  with the EQ to bind completion queues to.
+.IP "type" 12
+Type of queue (EQ, GCQ, MCQ, WCQ, etc).
+.IP "subtype" 12
+Functional purpose of the queue (MBOX, IO, ELS, NVMET, etc).
+.SH "DESCRIPTION"
+This function creates a set of  completion queue, s to support MRQ
+as detailed in \fIcqp\fP, on a port,
+described by \fIphba\fP by sending a CREATE_CQ_SET mailbox command to the HBA.
+
+The \fIphba\fP struct is used to send mailbox command to HBA. The \fIcq\fP struct
+is used to get the entry count and entry size that are necessary to
+determine the number of pages to allocate and use for this queue. The \fIeq\fP
+is used to indicate which event queue to bind this completion queue to. This
+function will send the CREATE_CQ_SET mailbox command to the HBA to setup the
+completion queue. This function is asynchronous and will wait for the mailbox
+command to finish before continuing.
+
+On success this function will return a zero. If unable to allocate enough
+memory this function will return -ENOMEM. If the queue create mailbox command
+fails this function will return -ENXIO.

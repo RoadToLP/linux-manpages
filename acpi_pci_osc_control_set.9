@@ -1,0 +1,24 @@
+.TH "acpi_pci_osc_control_set" 9 "acpi_pci_osc_control_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_pci_osc_control_set \- Request control of PCI root _OSC features.
+.SH SYNOPSIS
+.B "acpi_status" acpi_pci_osc_control_set
+.BI "(acpi_handle handle "  ","
+.BI "u32 *mask "  ","
+.BI "u32 req "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+ACPI handle of a PCI root bridge (or PCIe Root Complex).
+.IP "mask" 12
+Mask of _OSC bits to request control of, place to store control mask.
+.IP "req" 12
+Mask of _OSC bits the control of is essential to the caller.
+.SH "DESCRIPTION"
+Run _OSC query for \fImask\fP and if that is successful, compare the returned
+mask of control bits with \fIreq\fP.  If all of the \fIreq\fP bits are set in the
+returned mask, run _OSC request for it.
+
+The variable at the \fImask\fP address may be modified regardless of whether or
+not the function returns success.  On success it will contain the mask of
+_OSC bits the BIOS has granted control of, but its contents are meaningless
+on failure.

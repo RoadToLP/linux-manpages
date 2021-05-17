@@ -1,0 +1,31 @@
+.TH "prb_init" 9 "prb_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prb_init \- Initialize a ringbuffer to use provided external buffers.
+.SH SYNOPSIS
+.B "void" prb_init
+.BI "(struct printk_ringbuffer *rb "  ","
+.BI "char *text_buf "  ","
+.BI "unsigned int textbits "  ","
+.BI "struct prb_desc *descs "  ","
+.BI "unsigned int descbits "  ","
+.BI "struct printk_info *infos "  ");"
+.SH ARGUMENTS
+.IP "rb" 12
+The ringbuffer to initialize.
+.IP "text_buf" 12
+The data buffer for text data.
+.IP "textbits" 12
+The size of \fItext_buf\fP as a power-of-2 value.
+.IP "descs" 12
+The descriptor buffer for ringbuffer records.
+.IP "descbits" 12
+The count of \fIdescs\fP items as a power-of-2 value.
+.IP "infos" 12
+The printk_info buffer for ringbuffer records.
+.SH "DESCRIPTION"
+This is the public function available to writers to setup a ringbuffer
+during runtime using provided buffers.
+
+This must match the initialization of \fBDEFINE_PRINTKRB\fP.
+.SH "CONTEXT"
+Any context.

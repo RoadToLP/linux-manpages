@@ -1,0 +1,18 @@
+.TH "batadv_recv_frag_packet" 9 "batadv_recv_frag_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_recv_frag_packet \- process received fragment
+.SH SYNOPSIS
+.B "int" batadv_recv_frag_packet
+.BI "(struct sk_buff *skb "  ","
+.BI "struct batadv_hard_iface *recv_if "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the received fragment
+.IP "recv_if" 12
+interface that the skb is received on
+.SH "DESCRIPTION"
+This function does one of the three following things: 1) Forward fragment, if
+the assembled packet will exceed our MTU; 2) Buffer fragment, if we still
+lack further fragments; 3) Merge fragments, if we have all needed parts.
+.SH "RETURN"
+NET_RX_DROP if the skb is not consumed, NET_RX_SUCCESS otherwise.

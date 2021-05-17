@@ -1,0 +1,20 @@
+.TH "insn_get_code_seg_params" 9 "insn_get_code_seg_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_get_code_seg_params \- Obtain code segment parameters
+.SH SYNOPSIS
+.B "int" insn_get_code_seg_params
+.BI "(struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Structure with register values as seen when entering kernel mode
+.SH "DESCRIPTION"
+Obtain address and operand sizes of the code segment. It is obtained from the
+selector contained in the CS register in regs. In protected mode, the default
+address is determined by inspecting the L and D bits of the segment
+descriptor. In virtual-8086 mode, the default is always two bytes for both
+address and operand sizes.
+
+An int containing ORed-in default parameters on success.
+
+-EINVAL on error.
+.SH "RETURN"

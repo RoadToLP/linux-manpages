@@ -1,0 +1,25 @@
+.TH "serial8250_em485_init" 9 "serial8250_em485_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serial8250_em485_init \- put uart_8250_port into rs485 emulating
+.SH SYNOPSIS
+.B "int" serial8250_em485_init
+.BI "(struct uart_8250_port *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+uart_8250_port port instance
+
+The function is used to start rs485 software emulating on the
+\fIstruct uart_8250_port\fP* \fIp\fP. Namely, RTS is switched before/after
+transmission. The function is idempotent, so it is safe to call it
+multiple times.
+
+The caller MUST enable interrupt on empty shift register before
+calling \fBserial8250_em485_init\fP. This interrupt is not a part of
+8250 standard, but implementation defined.
+
+The function is supposed to be called from .rs485_config callback
+or from any other callback protected with p->port.lock spinlock.
+
+See also \fBserial8250_em485_destroy\fP
+
+Return 0 - success, -errno - otherwise

@@ -1,0 +1,17 @@
+.TH "vmw_binding_dirtying" 9 "vmw_binding_dirtying" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_binding_dirtying \- Return whether a binding type is dirtying its resource
+.SH SYNOPSIS
+.B "u32" vmw_binding_dirtying
+.BI "(enum vmw_ctx_binding_type binding_type "  ");"
+.SH ARGUMENTS
+.IP "binding_type" 12
+The binding type
+.SH "DESCRIPTION"
+Each time a resource is put on the validation list as the result of a
+context binding referencing it, we need to determine whether that resource
+will be dirtied (written to by the GPU) as a result of the corresponding
+GPU operation. Currently rendertarget-, depth-stencil-, stream-output-target
+and unordered access view bindings are capable of dirtying its resource.
+.SH "RETURN"
+Whether the binding type dirties the resource its binding points to.

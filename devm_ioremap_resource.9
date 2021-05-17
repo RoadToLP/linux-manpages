@@ -1,0 +1,26 @@
+.TH "devm_ioremap_resource" 9 "devm_ioremap_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_ioremap_resource \- check, request region, and ioremap resource
+.SH SYNOPSIS
+.B "void __iomem *" devm_ioremap_resource
+.BI "(struct device *dev "  ","
+.BI "const struct resource *res "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+generic device to handle the resource for
+.IP "res" 12
+resource to be handled
+.SH "DESCRIPTION"
+Checks that a resource is a valid memory region, requests the memory
+region and ioremaps it. All operations are managed and will be undone
+on driver detach.
+
+Usage example:
+
+res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+base = devm_ioremap_resource(\fIpdev->dev\fP, res);
+if (IS_ERR(base))
+return PTR_ERR(base);
+.SH "RETURN"
+a pointer to the remapped memory or an \fBERR_PTR\fP encoded error code
+on failure.

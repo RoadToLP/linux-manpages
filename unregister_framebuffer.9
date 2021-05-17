@@ -1,0 +1,21 @@
+.TH "unregister_framebuffer" 9 "unregister_framebuffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unregister_framebuffer \- releases a frame buffer device
+.SH SYNOPSIS
+.B "void" unregister_framebuffer
+.BI "(struct fb_info *fb_info "  ");"
+.SH ARGUMENTS
+.IP "fb_info" 12
+frame buffer info structure
+
+Unregisters a frame buffer device \fIfb_info\fP.
+
+Returns negative errno on error, or zero for success.
+
+This function will also notify the framebuffer console
+to release the driver.
+
+This is meant to be called within a driver's \fBmodule_exit\fP
+function. If this is called outside \fBmodule_exit\fP, ensure
+that the driver implements \fBfb_open\fP and \fBfb_release\fP to
+check that no processes are using the device.

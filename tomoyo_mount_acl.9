@@ -1,0 +1,25 @@
+.TH "tomoyo_mount_acl" 9 "tomoyo_mount_acl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_mount_acl \- Check permission for mount() operation.
+.SH SYNOPSIS
+.B "int" tomoyo_mount_acl
+.BI "(struct tomoyo_request_info *r "  ","
+.BI "const char *dev_name "  ","
+.BI "const struct path *dir "  ","
+.BI "const char *type "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+Pointer to "struct tomoyo_request_info".
+.IP "dev_name" 12
+Name of device file. Maybe NULL.
+.IP "dir" 12
+Pointer to "struct path".
+.IP "type" 12
+Name of filesystem type.
+.IP "flags" 12
+Mount options.
+.SH "DESCRIPTION"
+Returns 0 on success, negative value otherwise.
+
+Caller holds \fBtomoyo_read_lock\fP.

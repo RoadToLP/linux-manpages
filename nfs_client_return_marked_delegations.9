@@ -1,0 +1,15 @@
+.TH "nfs_client_return_marked_delegations" 9 "nfs_client_return_marked_delegations" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_client_return_marked_delegations \- return previously marked delegations
+.SH SYNOPSIS
+.B "int" nfs_client_return_marked_delegations
+.BI "(struct nfs_client *clp "  ");"
+.SH ARGUMENTS
+.IP "clp" 12
+nfs_client to process
+.SH "DESCRIPTION"
+Note that this function is designed to be called by the state
+manager thread. For this reason, it cannot flush the dirty data,
+since that could deadlock in case of a state recovery error.
+
+Returns zero on success, or a negative errno value.

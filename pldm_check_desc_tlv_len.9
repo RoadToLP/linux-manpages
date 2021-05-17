@@ -1,0 +1,23 @@
+.TH "pldm_check_desc_tlv_len" 9 "pldm_check_desc_tlv_len" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pldm_check_desc_tlv_len \- Check that the length matches expectation
+.SH SYNOPSIS
+.B "int" pldm_check_desc_tlv_len
+.BI "(struct pldmfw_priv *data "  ","
+.BI "u16 type "  ","
+.BI "u16 size "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+pointer to image details
+.IP "type" 12
+the descriptor type
+.IP "size" 12
+the length from the descriptor header
+.SH "DESCRIPTION"
+If the descriptor type is one of the documented descriptor types according
+to the standard, verify that the provided length matches.
+
+If the type is not recognized or is VENDOR_DEFINED, return zero.
+.SH "RETURN"
+zero on success, or -EINVAL if the specified size of a standard
+TLV does not match the expected value defined for that TLV.

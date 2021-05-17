@@ -1,0 +1,16 @@
+.TH "ftrace_ops_get_func" 9 "ftrace_ops_get_func" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_ops_get_func \- get the function a trampoline should call
+.SH SYNOPSIS
+.B "ftrace_func_t" ftrace_ops_get_func
+.BI "(struct ftrace_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+the ops to get the function for
+.SH "DESCRIPTION"
+Normally the mcount trampoline will call the ops->func, but there
+are times that it should not. For example, if the ops does not
+have its own recursion protection, then it should call the
+\fBftrace_ops_assist_func\fP instead.
+
+Returns the function that the trampoline should call for \fIops\fP.

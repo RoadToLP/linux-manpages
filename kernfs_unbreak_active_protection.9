@@ -1,0 +1,20 @@
+.TH "kernfs_unbreak_active_protection" 9 "kernfs_unbreak_active_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_unbreak_active_protection \- undo kernfs_break_active_protection()
+.SH SYNOPSIS
+.B "void" kernfs_unbreak_active_protection
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+the self kernfs_node
+.SH "DESCRIPTION"
+If \fBkernfs_break_active_protection\fP was called, this function must be
+invoked before finishing the kernfs operation.  Note that while this
+function restores the active reference, it doesn't and can't actually
+restore the active protection - \fIkn\fP may already or be in the process of
+being removed.  Once \fBkernfs_break_active_protection\fP is invoked, that
+protection is irreversibly gone for the kernfs operation instance.
+
+While this function may be called at any point after
+\fBkernfs_break_active_protection\fP is invoked, its most useful location
+would be right before the enclosing kernfs operation returns.

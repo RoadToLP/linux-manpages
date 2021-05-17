@@ -1,0 +1,33 @@
+.TH "tsi721_maint_dma" 9 "tsi721_maint_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tsi721_maint_dma \- Helper function to generate RapidIO maintenance transactions using designated Tsi721 DMA channel.
+.SH SYNOPSIS
+.B "int" tsi721_maint_dma
+.BI "(struct tsi721_device *priv "  ","
+.BI "u32 sys_size "  ","
+.BI "u16 destid "  ","
+.BI "u8 hopcount "  ","
+.BI "u32 offset "  ","
+.BI "int len "  ","
+.BI "u32 *data "  ","
+.BI "int do_wr "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+pointer to tsi721 private data
+.IP "sys_size" 12
+RapdiIO transport system size
+.IP "destid" 12
+Destination ID of transaction
+.IP "hopcount" 12
+Number of hops to target device
+.IP "offset" 12
+Offset into configuration space
+.IP "len" 12
+Length (in bytes) of the maintenance transaction
+.IP "data" 12
+Location to be read from or write into
+.IP "do_wr" 12
+Operation flag (1 == MAINT_WR)
+.SH "DESCRIPTION"
+Generates a RapidIO maintenance transaction (Read or Write).
+Returns 0 on success and -EINVAL or -EFAULT on failure.

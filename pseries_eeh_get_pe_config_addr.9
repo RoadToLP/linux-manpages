@@ -1,0 +1,18 @@
+.TH "pseries_eeh_get_pe_config_addr" 9 "pseries_eeh_get_pe_config_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseries_eeh_get_pe_config_addr \- Find the pe_config_addr for a device
+.SH SYNOPSIS
+.B "int" pseries_eeh_get_pe_config_addr
+.BI "(struct pci_dn *pdn "  ");"
+.SH ARGUMENTS
+.IP "pdn" 12
+pci_dn of the input device
+.SH "DESCRIPTION"
+The EEH RTAS calls use a tuple consisting of: (buid_hi, buid_lo,
+pe_config_addr) as a handle to a given PE. This function finds the
+pe_config_addr based on the device's config addr.
+
+Keep in mind that the pe_config_addr *might* be numerically identical to the
+device's config addr, but the two are conceptually distinct.
+
+Returns the pe_config_addr, or a negative error code.

@@ -1,0 +1,25 @@
+.TH "usb_alloc_dev" 9 "usb_alloc_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_alloc_dev \- usb device constructor (usbcore-internal)
+.SH SYNOPSIS
+.B "struct usb_device *" usb_alloc_dev
+.BI "(struct usb_device *parent "  ","
+.BI "struct usb_bus *bus "  ","
+.BI "unsigned port1 "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+hub to which device is connected; null to allocate a root hub
+.IP "bus" 12
+bus used to access the device
+.IP "port1" 12
+one-based index of port; ignored for root hubs
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+Only hub drivers (including virtual root hub drivers for host
+controllers) should ever call this.
+
+This call may not be used in a non-sleeping context.
+.SH "RETURN"
+On success, a pointer to the allocated usb device. NULL on
+failure.

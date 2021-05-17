@@ -1,0 +1,16 @@
+.TH "component_master_del" 9 "component_master_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+component_master_del \- unregister an aggregate driver
+.SH SYNOPSIS
+.B "void" component_master_del
+.BI "(struct device *dev "  ","
+.BI "const struct component_master_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device with the aggregate driver
+.IP "ops" 12
+callbacks for the aggregate driver
+.SH "DESCRIPTION"
+Unregisters an aggregate driver registered with
+\fBcomponent_master_add_with_match\fP. If necessary the aggregate driver is first
+disassembled by calling \fIcomponent_master_ops.unbind\fP from \fIops\fP.

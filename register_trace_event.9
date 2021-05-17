@@ -1,0 +1,20 @@
+.TH "register_trace_event" 9 "register_trace_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_trace_event \- register output for an event type
+.SH SYNOPSIS
+.B "int" register_trace_event
+.BI "(struct trace_event *event "  ");"
+.SH ARGUMENTS
+.IP "event" 12
+the event type to register
+.SH "DESCRIPTION"
+Event types are stored in a hash and this hash is used to
+find a way to print an event. If the \fIevent->type\fP is set
+then it will use that type, otherwise it will assign a
+type to use.
+
+If you assign your own type, please make sure it is added
+to the trace_type enum in trace.h, to avoid collisions
+with the dynamic types.
+
+Returns the event type number or zero on error.

@@ -1,0 +1,22 @@
+.TH "parport_set_timeout" 9 "parport_set_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_set_timeout \- set the inactivity timeout for a device
+.SH SYNOPSIS
+.B "long" parport_set_timeout
+.BI "(struct pardevice *dev "  ","
+.BI "long inactivity "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device on a port
+.IP "inactivity" 12
+inactivity timeout (in jiffies)
+
+This sets the inactivity timeout for a particular device on a
+port.  This affects functions like \fBparport_wait_peripheral\fP.
+The special value 0 means not to call \fBschedule\fP while dealing
+with this device.
+
+The return value is the previous inactivity timeout.
+
+Any callers of \fBparport_wait_event\fP for this device are woken
+up.

@@ -1,0 +1,21 @@
+.TH "devm_extcon_dev_register" 9 "devm_extcon_dev_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_extcon_dev_register \- Resource-managed extcon_dev_register()
+.SH SYNOPSIS
+.B "int" devm_extcon_dev_register
+.BI "(struct device *dev "  ","
+.BI "struct extcon_dev *edev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device owning the extcon device being created
+.IP "edev" 12
+the extcon device to be registered
+.SH "DESCRIPTION"
+this function, that extcon device is automatically unregistered on driver
+detach. Internally this function calls \fBextcon_dev_register\fP function.
+To get more information, refer that function.
+
+If extcon device is registered with this function and the device needs to be
+unregistered separately, \fBdevm_extcon_dev_unregister\fP should be used.
+
+Returns 0 if success or negaive error number if failure.

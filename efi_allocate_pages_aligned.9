@@ -1,0 +1,27 @@
+.TH "efi_allocate_pages_aligned" 9 "efi_allocate_pages_aligned" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_allocate_pages_aligned \- Allocate memory pages
+.SH SYNOPSIS
+.B "efi_status_t" efi_allocate_pages_aligned
+.BI "(unsigned long size "  ","
+.BI "unsigned long *addr "  ","
+.BI "unsigned long max "  ","
+.BI "unsigned long align "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+minimum number of bytes to allocate
+.IP "addr" 12
+On return the address of the first allocated page. The first
+allocated page has alignment EFI_ALLOC_ALIGN which is an
+architecture dependent multiple of the page size.
+.IP "max" 12
+the address that the last allocated memory page shall not
+exceed
+.IP "align" 12
+minimum alignment of the base of the allocation
+.SH "DESCRIPTION"
+Allocate pages as EFI_LOADER_DATA. The allocated pages are aligned according
+to \fIalign\fP, which should be >= EFI_ALLOC_ALIGN. The last allocated page will
+not exceed the address given by \fImax\fP.
+.SH "RETURN"
+status code

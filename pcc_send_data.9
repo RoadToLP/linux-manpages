@@ -1,0 +1,15 @@
+.TH "pcc_send_data" 9 "pcc_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcc_send_data \- Called from Mailbox Controller code. Used here only to ring the channel doorbell. The PCC client specific read/write is done in the client driver in order to maintain atomicity over PCC channel once OS has control over it. See above for flow of operations.
+.SH SYNOPSIS
+.B "int" pcc_send_data
+.BI "(struct mbox_chan *chan "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Pointer to Mailbox channel over which to send data.
+.IP "data" 12
+Client specific data written over channel. Used here
+only for debug after PCC transaction completes.
+.SH "RETURN"
+Err if something failed else 0 for success.

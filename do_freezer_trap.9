@@ -1,0 +1,16 @@
+.TH "do_freezer_trap" 9 "do_freezer_trap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_freezer_trap \- handle the freezer jobctl trap
+.SH SYNOPSIS
+.B "void" do_freezer_trap
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Puts the task into frozen state, if only the task is not about to quit.
+In this case it drops JOBCTL_TRAP_FREEZE.
+.SH "CONTEXT"
+Must be called with \fIcurrent->sighand->siglock\fP held,
+which is always released before returning.

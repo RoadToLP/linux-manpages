@@ -1,0 +1,26 @@
+.TH "batadv_nc_skb_coding_possible" 9 "batadv_nc_skb_coding_possible" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_nc_skb_coding_possible \- true if a decoded skb is available at dst.
+.SH SYNOPSIS
+.B "bool" batadv_nc_skb_coding_possible
+.BI "(struct sk_buff *skb "  ","
+.BI "u8 *dst "  ","
+.BI "u8 *src "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+data skb to forward
+.IP "dst" 12
+destination mac address of the other skb to code with
+.IP "src" 12
+source mac address of skb
+.SH "DESCRIPTION"
+Whenever we network code a packet we have to check whether we received it in
+a network coded form. If so, we may not be able to use it for coding because
+some neighbors may also have received (overheard) the packet in the network
+coded form without being able to decode it. It is hard to know which of the
+neighboring nodes was able to decode the packet, therefore we can only
+re-code the packet if the source of the previous encoded packet is involved.
+Since the source encoded the packet we can be certain it has all necessary
+decode information.
+.SH "RETURN"
+true if coding of a decoded packet is allowed.

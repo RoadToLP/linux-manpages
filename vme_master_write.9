@@ -1,0 +1,26 @@
+.TH "vme_master_write" 9 "vme_master_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_master_write \- Write data out to VME space from a buffer.
+.SH SYNOPSIS
+.B "ssize_t" vme_master_write
+.BI "(struct vme_resource *resource "  ","
+.BI "void *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t offset "  ");"
+.SH ARGUMENTS
+.IP "resource" 12
+Pointer to VME master resource.
+.IP "buf" 12
+Pointer to buffer holding data to transfer.
+.IP "count" 12
+Number of bytes to transfer.
+.IP "offset" 12
+Offset into VME master window at which to start transfer.
+.SH "DESCRIPTION"
+Perform write of count bytes of data from buf to location on VME bus which
+maps into the VME master window at offset.
+.SH "RETURN"
+Number of bytes written, -EINVAL if resource is not a VME master
+resource or write operation is not supported. -EFAULT returned if
+invalid offset is provided. Hardware specific errors may also be
+returned.

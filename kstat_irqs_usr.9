@@ -1,0 +1,15 @@
+.TH "kstat_irqs_usr" 9 "kstat_irqs_usr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kstat_irqs_usr \- Get the statistics for an interrupt from thread context
+.SH SYNOPSIS
+.B "unsigned int" kstat_irqs_usr
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The interrupt number
+.SH "DESCRIPTION"
+Returns the sum of interrupt counts on all cpus since boot for \fIirq\fP.
+
+It uses rcu to protect the access since a concurrent removal of an
+interrupt descriptor is observing an rcu grace period before
+\fBdelayed_free_desc\fP/\fBirq_kobj_release\fP.

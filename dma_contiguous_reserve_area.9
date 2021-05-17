@@ -1,0 +1,30 @@
+.TH "dma_contiguous_reserve_area" 9 "dma_contiguous_reserve_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_contiguous_reserve_area \- reserve custom contiguous area
+.SH SYNOPSIS
+.B "int" dma_contiguous_reserve_area
+.BI "(phys_addr_t size "  ","
+.BI "phys_addr_t base "  ","
+.BI "phys_addr_t limit "  ","
+.BI "struct cma **res_cma "  ","
+.BI "bool fixed "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+Size of the reserved area (in bytes),
+.IP "base" 12
+Base address of the reserved area optional, use 0 for any
+.IP "limit" 12
+End address of the reserved memory (optional, 0 for any).
+.IP "res_cma" 12
+Pointer to store the created cma region.
+.IP "fixed" 12
+hint about where to place the reserved area
+.SH "DESCRIPTION"
+This function reserves memory from early allocator. It should be
+called by arch specific code once the early allocator (memblock or bootmem)
+has been activated and all other subsystems have already allocated/reserved
+memory. This function allows to create custom reserved areas for specific
+devices.
+
+If \fIfixed\fP is true, reserve contiguous area at exactly \fIbase\fP.  If false,
+reserve in range from \fIbase\fP to \fIlimit\fP.

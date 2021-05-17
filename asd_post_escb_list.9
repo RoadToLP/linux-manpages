@@ -1,0 +1,27 @@
+.TH "asd_post_escb_list" 9 "asd_post_escb_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_post_escb_list \- - post a list of 1 or more empty scb
+.SH SYNOPSIS
+.B "int" asd_post_escb_list
+.BI "(struct asd_ha_struct *asd_ha "  ","
+.BI "struct asd_ascb *ascb "  ","
+.BI "int num "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to a host adapter structure
+.IP "ascb" 12
+pointer to the first empty SCB in the list
+.IP "num" 12
+number of aSCBs in the list (to be posted)
+.SH "DESCRIPTION"
+This is essentially the same as asd_post_ascb_list, but we do not
+increment pending, add those to the pending list or get indexes.
+See \fBasd_init_escbs\fP and \fBasd_init_post_escbs\fP.
+
+Since sending a list of ascbs is a superset of sending a single
+ascb, this function exists to generalize this.  More specifically,
+when sending a list of those, we want to do only a _single_
+\fBmemcpy\fP at swap head, as opposed to for each ascb sent (in the
+case of sending them one by one).  That is, we want to minimize the
+ratio of \fBmemcpy\fP operations to the number of ascbs sent.  The same
+logic applies to \fBasd_post_ascb_list\fP.

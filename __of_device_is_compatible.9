@@ -1,0 +1,41 @@
+.TH "__of_device_is_compatible" 9 "__of_device_is_compatible" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__of_device_is_compatible \- Check if the node matches given constraints
+.SH SYNOPSIS
+.B "int" __of_device_is_compatible
+.BI "(const struct device_node *device "  ","
+.BI "const char *compat "  ","
+.BI "const char *type "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+pointer to node
+.IP "compat" 12
+required compatible string, NULL or "" for any match
+.IP "type" 12
+required device_type value, NULL or "" for any match
+.IP "name" 12
+required node name, NULL or "" for any match
+.SH "DESCRIPTION"
+Checks if the given \fIcompat\fP, \fItype\fP and \fIname\fP strings match the
+properties of the given \fIdevice\fP. A constraints can be skipped by
+passing NULL or an empty string as the constraint.
+
+Returns 0 for no match, and a positive integer on match. The return
+value is a relative score with larger values indicating better
+matches. The score is weighted for the most specific compatible value
+to get the highest score. Matching type is next, followed by matching
+name. Practically speaking, this results in the following priority
+order for matches:
+
+1. specific compatible && type && name
+2. specific compatible && type
+3. specific compatible && name
+4. specific compatible
+5. general compatible && type && name
+6. general compatible && type
+7. general compatible && name
+8. general compatible
+9. type && name
+10. type
+11. name

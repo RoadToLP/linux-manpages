@@ -1,0 +1,24 @@
+.TH "lpfc_bsg_diag_loopback_run" 9 "lpfc_bsg_diag_loopback_run" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bsg_diag_loopback_run \- run loopback on a port by issue ct cmd to itself
+.SH SYNOPSIS
+.B "int" lpfc_bsg_diag_loopback_run
+.BI "(struct bsg_job *job "  ");"
+.SH ARGUMENTS
+.IP "job" 12
+LPFC_BSG_VENDOR_DIAG_TEST fc_bsg_job
+.SH "DESCRIPTION"
+This function receives a user data buffer to be transmitted and received on
+the same port, the link must be up and in loopback mode prior
+to being called.
+1. A kernel buffer is allocated to copy the user data into.
+2. The port registers with "itself".
+3. The transmit and receive exchange ids are obtained.
+4. The receive exchange id is posted.
+5. A new els loopback event is created.
+6. The command and response iocbs are allocated.
+7. The cmd iocb FsType is set to elx loopback and the CmdRsp to looppback.
+
+This function is meant to be called n times while the port is in loopback
+so it is the apps responsibility to issue a reset to take the port out
+of loopback mode.

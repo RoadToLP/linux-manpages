@@ -1,0 +1,35 @@
+.TH "alloc_pages_vma" 9 "alloc_pages_vma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_pages_vma \- Allocate a page for a VMA.
+.SH SYNOPSIS
+.B "struct page *" alloc_pages_vma
+.BI "(gfp_t gfp "  ","
+.BI "int order "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "int node "  ","
+.BI "bool hugepage "  ");"
+.SH ARGUMENTS
+.IP "gfp" 12
+GFP_USER    user allocation.
+GFP_KERNEL  kernel allocations,
+GFP_HIGHMEM highmem/user allocations,
+GFP_FS      allocation should not call back into a file system.
+GFP_ATOMIC  don't sleep.
+.IP "order" 12
+Order of the GFP allocation.
+.IP "vma" 12
+Pointer to VMA or NULL if not available.
+.IP "addr" 12
+Virtual Address of the allocation. Must be inside the VMA.
+.IP "node" 12
+Which node to prefer for allocation (modulo policy).
+.IP "hugepage" 12
+for hugepages try only the preferred node if possible
+
+This function allocates a page from the kernel page pool and applies
+a NUMA policy associated with the VMA or the current process.
+When VMA is not NULL caller must read-lock the mmap_lock of the
+mm_struct of the VMA to prevent it from going away. Should be used for
+all allocations for pages that will be mapped into user space. Returns
+NULL when no page can be allocated.

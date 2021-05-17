@@ -1,0 +1,18 @@
+.TH "pmcraid_slave_configure" 9 "pmcraid_slave_configure" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_slave_configure \- Configures a SCSI device
+.SH SYNOPSIS
+.B "int" pmcraid_slave_configure
+.BI "(struct scsi_device *scsi_dev "  ");"
+.SH ARGUMENTS
+.IP "scsi_dev" 12
+scsi device struct
+.SH "DESCRIPTION"
+This function is executed by SCSI mid layer just after a device is first
+scanned (i.e. it has responded to an INQUIRY). For VSET resources, the
+timeout value (default 30s) will be over-written to a higher value (60s)
+and max_sectors value will be over-written to 512. It also sets queue depth
+to host->cmd_per_lun value
+
+Return value:
+0 on success

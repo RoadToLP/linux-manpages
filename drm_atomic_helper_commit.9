@@ -1,0 +1,26 @@
+.TH "drm_atomic_helper_commit" 9 "drm_atomic_helper_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_commit \- commit validated state object
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_commit
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ","
+.BI "bool nonblock "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+the driver state object
+.IP "nonblock" 12
+whether nonblocking behavior is requested.
+.SH "DESCRIPTION"
+This function commits a with \fBdrm_atomic_helper_check\fP pre-validated state
+object. This can still fail when e.g. the framebuffer reservation fails. This
+function implements nonblocking commits, using
+\fBdrm_atomic_helper_setup_commit\fP and related functions.
+
+Committing the actual hardware state is done through the
+\fIdrm_mode_config_helper_funcs.atomic_commit_tail\fP callback, or its default
+implementation \fBdrm_atomic_helper_commit_tail\fP.
+.SH "RETURN"
+Zero for success or -errno.

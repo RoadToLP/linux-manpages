@@ -1,0 +1,20 @@
+.TH "dmi_check_system" 9 "dmi_check_system" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dmi_check_system \- check system DMI data
+.SH SYNOPSIS
+.B "int" dmi_check_system
+.BI "(const struct dmi_system_id *list "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+array of dmi_system_id structures to match against
+All non-null elements of the list must match
+their slot's (field index's) data (i.e., each
+list string must be a substring of the specified
+DMI slot's string data) to be considered a
+successful match.
+
+Walk the blacklist table running matching functions until someone
+returns non zero or we hit the end. Callback function is called for
+each successful match. Returns the number of matches.
+
+dmi_setup must be called before this function is called.

@@ -1,0 +1,24 @@
+.TH "do_syscall_trace_enter" 9 "do_syscall_trace_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_syscall_trace_enter \- Do syscall tracing on kernel entry.
+.SH SYNOPSIS
+.B "long" do_syscall_trace_enter
+.BI "(struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+the pt_regs of the task to trace (current)
+.SH "DESCRIPTION"
+Performs various types of tracing on syscall entry. This includes seccomp,
+ptrace, syscall tracepoints and audit.
+
+The pt_regs are potentially visible to userspace via ptrace, so their
+contents is ABI.
+
+One or more of the tracers may modify the contents of pt_regs, in particular
+to modify arguments or even the syscall number itself.
+
+It's also possible that a tracer can choose to reject the system call. In
+that case this function will return an illegal syscall number, and will put
+an appropriate return value in regs->r3.
+.SH "RETURN"
+the (possibly changed) syscall number.

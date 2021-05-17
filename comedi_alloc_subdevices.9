@@ -1,0 +1,19 @@
+.TH "comedi_alloc_subdevices" 9 "comedi_alloc_subdevices" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_alloc_subdevices \- Allocate subdevices for COMEDI device
+.SH SYNOPSIS
+.B "int" comedi_alloc_subdevices
+.BI "(struct comedi_device *dev "  ","
+.BI "int num_subdevices "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "num_subdevices" 12
+Number of subdevices to allocate.
+.SH "DESCRIPTION"
+Allocates and initializes an array of \fIstruct comedi_subdevice\fP for the
+COMEDI device.  If successful, sets \fIdev->subdevices\fP to point to the
+first one and \fIdev->n_subdevices\fP to the number.
+
+Returns 0 on success, -EINVAL if \fInum_subdevices\fP is < 1, or -ENOMEM if
+failed to allocate the memory.

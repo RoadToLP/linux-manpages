@@ -1,0 +1,25 @@
+.TH "wrpll_calc_output_rate" 9 "wrpll_calc_output_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wrpll_calc_output_rate \- calculate the PLL's target output rate
+.SH SYNOPSIS
+.B "unsigned long" wrpll_calc_output_rate
+.BI "(const struct wrpll_cfg *c "  ","
+.BI "unsigned long parent_rate "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+ptr to a struct wrpll_cfg record to read from
+.IP "parent_rate" 12
+PLL refclk rate
+.SH "DESCRIPTION"
+Given a pointer to the PLL's current input configuration \fIc\fP and the
+PLL's input reference clock rate \fIparent_rate\fP (before the R
+pre-divider), calculate the PLL's output clock rate (after the Q
+post-divider).
+.SH "CONTEXT"
+Any context.  Caller must protect the memory pointed to by \fIc\fP
+from simultaneous modification.
+.SH "RETURN"
+the PLL's output clock rate, in Hz.  The return value from
+this function is intended to be convenient to pass directly
+to the Linux clock framework; thus there is no explicit
+error return value.

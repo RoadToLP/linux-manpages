@@ -1,0 +1,14 @@
+.TH "nfsd_file_close_inode_sync" 9 "nfsd_file_close_inode_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfsd_file_close_inode_sync \- attempt to forcibly close a nfsd_file
+.SH SYNOPSIS
+.B "void" nfsd_file_close_inode_sync
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the file to attempt to remove
+.SH "DESCRIPTION"
+Walk the whole hash bucket, looking for any files that correspond to "inode".
+If any do, then unhash them and put the hashtable reference to them and
+destroy any that had their last reference put. Also ensure that any of the
+fputs also have their final __fput done as well.

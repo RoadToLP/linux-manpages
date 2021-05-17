@@ -1,0 +1,18 @@
+.TH "balance_dirty_pages_ratelimited" 9 "balance_dirty_pages_ratelimited" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+balance_dirty_pages_ratelimited \- balance dirty memory state
+.SH SYNOPSIS
+.B "void" balance_dirty_pages_ratelimited
+.BI "(struct address_space *mapping "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address_space which was dirtied
+.SH "DESCRIPTION"
+Processes which are dirtying memory should call in here once for each page
+which was newly dirtied.  The function will periodically check the system's
+dirty state and will initiate writeback if needed.
+
+On really big machines, get_writeback_state is expensive, so try to avoid
+calling it too often (ratelimiting).  But once we're over the dirty memory
+limit we decrease the ratelimiting by a lot, to prevent individual processes
+from overshooting the limit by (ratelimit_pages) each.

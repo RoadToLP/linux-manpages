@@ -1,0 +1,22 @@
+.TH "ptrace_check_attach" 9 "ptrace_check_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ptrace_check_attach \- check whether ptracee is ready for ptrace operation
+.SH SYNOPSIS
+.B "int" ptrace_check_attach
+.BI "(struct task_struct *child "  ","
+.BI "bool ignore_state "  ");"
+.SH ARGUMENTS
+.IP "child" 12
+ptracee to check for
+.IP "ignore_state" 12
+don't check whether \fIchild\fP is currently TASK_TRACED
+.SH "DESCRIPTION"
+Check whether \fIchild\fP is being ptraced by current and ready for further
+ptrace operations.  If \fIignore_state\fP is false, \fIchild\fP also should be in
+TASK_TRACED state and on return the child is guaranteed to be traced
+and not executing.  If \fIignore_state\fP is true, \fIchild\fP can be in any
+state.
+.SH "CONTEXT"
+Grabs and releases tasklist_lock and \fIchild->sighand->siglock\fP.
+.SH "RETURN"
+0 on success, -ESRCH if child is not ready.

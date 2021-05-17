@@ -1,0 +1,25 @@
+.TH "devm_fpga_region_create" 9 "devm_fpga_region_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_fpga_region_create \- create and initialize a managed FPGA region struct
+.SH SYNOPSIS
+.B "struct fpga_region *" devm_fpga_region_create
+.BI "(struct device *dev "  ","
+.BI "struct fpga_manager *mgr "  ","
+.BI "int (*get_bridges)(struct fpga_region *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device parent
+.IP "mgr" 12
+manager that programs this region
+.IP "get_bridges" 12
+optional function to get bridges to a list
+.SH "DESCRIPTION"
+This function is intended for use in a FPGA region driver's probe function.
+After the region driver creates the region struct with
+\fBdevm_fpga_region_create\fP, it should register it with \fBfpga_region_register\fP.
+The region driver's remove function should call \fBfpga_region_unregister\fP.
+The region struct allocated with this function will be freed automatically on
+driver detach.  This includes the case of a probe function returning error
+before calling \fBfpga_region_register\fP, the struct will still get cleaned up.
+.SH "RETURN"
+struct fpga_region or NULL

@@ -1,0 +1,28 @@
+.TH "__pci_enable_wake" 9 "__pci_enable_wake" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pci_enable_wake \- enable PCI device as wakeup event source
+.SH SYNOPSIS
+.B "int" __pci_enable_wake
+.BI "(struct pci_dev *dev "  ","
+.BI "pci_power_t state "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device affected
+.IP "state" 12
+PCI state from which device will issue wakeup events
+.IP "enable" 12
+True to enable event generation; false to disable
+.SH "DESCRIPTION"
+This enables the device as a wakeup event source, or disables it.
+When such events involves platform-specific hooks, those hooks are
+called automatically by this routine.
+
+Devices with legacy power management (no standard PCI PM capabilities)
+always require such platform hooks.
+
+RETURN VALUE:
+0 is returned on success
+-EINVAL is returned if device is not supposed to wake up the system
+Error code depending on the platform is returned if both the platform and
+the native mechanism fail to enable the generation of wake-up events

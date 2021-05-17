@@ -1,0 +1,30 @@
+.TH "inet_proto_csum_replace16" 9 "inet_proto_csum_replace16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inet_proto_csum_replace16 \- update layer 4 header checksum field
+.SH SYNOPSIS
+.B "void" inet_proto_csum_replace16
+.BI "(__sum16 *sum "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "const __be32 *from "  ","
+.BI "const __be32 *to "  ","
+.BI "bool pseudohdr "  ");"
+.SH ARGUMENTS
+.IP "sum" 12
+Layer 4 header checksum field
+.IP "skb" 12
+sk_buff for the packet
+.IP "from" 12
+old IPv6 address
+.IP "to" 12
+new IPv6 address
+.IP "pseudohdr" 12
+True if layer 4 header checksum includes pseudoheader
+.SH "DESCRIPTION"
+Update layer 4 header as per the update in IPv6 src/dst address.
+
+There is no need to update skb->csum in this function, because update in two
+fields a.) IPv6 src/dst address and b.) L4 header checksum cancels each other
+for skb->csum calculation. Whereas inet_proto_csum_replace4 function needs to
+update skb->csum, because update in 3 fields a.) IPv4 src/dst address,
+b.) IPv4 Header checksum and c.) L4 header checksum results in same diff as
+L4 Header checksum for skb->csum calculation.

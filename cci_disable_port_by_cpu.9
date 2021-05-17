@@ -1,0 +1,17 @@
+.TH "cci_disable_port_by_cpu" 9 "cci_disable_port_by_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cci_disable_port_by_cpu \- function to disable a CCI port by CPU reference
+.SH SYNOPSIS
+.B "int notrace" cci_disable_port_by_cpu
+.BI "(u64 mpidr "  ");"
+.SH ARGUMENTS
+.IP "mpidr" 12
+mpidr of the CPU whose CCI port should be disabled
+.SH "DESCRIPTION"
+Disabling a CCI port for a CPU implies disabling the CCI port
+controlling that CPU cluster. Code disabling CPU CCI ports
+must make sure that the CPU running the code is the last active CPU
+in the cluster ie all other CPUs are quiescent in a low power state.
+.SH "RETURN"
+0 on success
+-ENODEV on port look-up failure

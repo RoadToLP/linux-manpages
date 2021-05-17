@@ -1,0 +1,27 @@
+.TH "gfs2_read_super" 9 "gfs2_read_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_read_super \- Read the gfs2 super block from disk
+.SH SYNOPSIS
+.B "int" gfs2_read_super
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "sector_t sector "  ","
+.BI "int silent "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 super block
+.IP "sector" 12
+The location of the super block
+.IP "silent" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This uses the bio functions to read the super block from disk
+because we want to be 100% sure that we never read cached data.
+A super block is read twice only during each GFS2 mount and is
+never written to by the filesystem. The first time its read no
+locks are held, and the only details which are looked at are those
+relating to the locking protocol. Once locking is up and working,
+the sb is read again under the lock to establish the location of
+the master directory (contains pointers to journals etc) and the
+root directory.
+.SH "RETURN"
+0 on success or error

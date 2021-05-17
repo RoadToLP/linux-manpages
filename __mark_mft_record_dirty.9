@@ -1,0 +1,28 @@
+.TH "__mark_mft_record_dirty" 9 "__mark_mft_record_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__mark_mft_record_dirty \- set the mft record and the page containing it dirty
+.SH SYNOPSIS
+.B "void" __mark_mft_record_dirty
+.BI "(ntfs_inode *ni "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode describing the mapped mft record
+.SH "DESCRIPTION"
+Internal function.  Users should call \fBmark_mft_record_dirty\fP instead.
+
+Set the mapped (extent) mft record of the (base or extent) ntfs inode \fIni\fP,
+as well as the page containing the mft record, dirty.  Also, mark the base
+vfs inode dirty.  This ensures that any changes to the mft record are
+written out to disk.
+.SH "NOTE"
+We only set I_DIRTY_DATASYNC (and not I_DIRTY_PAGES)
+on the base vfs inode, because even though file data may have been modified,
+it is dirty in the inode meta data rather than the data page cache of the
+inode, and thus there are no data pages that need writing out.  Therefore, a
+full \fBmark_inode_dirty\fP is overkill.  A \fBmark_inode_dirty_sync\fP, on the
+other hand, is not sufficient, because ->write_inode needs to be called even
+in case of fdatasync. This needs to happen or the file data would not
+necessarily hit the device synchronously, even though the vfs inode has the
+O_SYNC flag set.  Also, I_DIRTY_DATASYNC simply "feels" better than just
+I_DIRTY_SYNC, since the file data has not actually hit the block device yet,
+which is not what I_DIRTY_SYNC on its own would suggest.

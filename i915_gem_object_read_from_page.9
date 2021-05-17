@@ -1,0 +1,25 @@
+.TH "i915_gem_object_read_from_page" 9 "i915_gem_object_read_from_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_object_read_from_page \- read data from the page of a GEM object
+.SH SYNOPSIS
+.B "int" i915_gem_object_read_from_page
+.BI "(struct drm_i915_gem_object *obj "  ","
+.BI "u64 offset "  ","
+.BI "void *dst "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object to read from
+.IP "offset" 12
+offset within the object
+.IP "dst" 12
+buffer to store the read data
+.IP "size" 12
+size to read
+.SH "DESCRIPTION"
+Reads data from \fIobj\fP at the specified offset. The requested region to read
+from can't cross a page boundary. The caller must ensure that \fIobj\fP pages
+are pinned and that \fIobj\fP is synced wrt. any related writes.
+
+Returns 0 on success or -ENODEV if the type of \fIobj\fP's backing store is
+unsupported.

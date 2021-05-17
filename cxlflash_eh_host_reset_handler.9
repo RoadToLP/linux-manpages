@@ -1,0 +1,17 @@
+.TH "cxlflash_eh_host_reset_handler" 9 "cxlflash_eh_host_reset_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_eh_host_reset_handler \- reset the host adapter
+.SH SYNOPSIS
+.B "int" cxlflash_eh_host_reset_handler
+.BI "(struct scsi_cmnd *scp "  ");"
+.SH ARGUMENTS
+.IP "scp" 12
+SCSI command from stack identifying host.
+.SH "DESCRIPTION"
+Following a reset, the state is evaluated again in case an EEH occurred
+during the reset. In such a scenario, the host reset will either yield
+until the EEH recovery is complete or return success or failure based
+upon the current device state.
+.SH "RETURN"
+SUCCESS as defined in scsi/scsi.h
+FAILED as defined in scsi/scsi.h

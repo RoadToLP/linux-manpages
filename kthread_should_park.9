@@ -1,0 +1,18 @@
+.TH "kthread_should_park" 9 "kthread_should_park" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_should_park \- should this kthread park now?
+.SH SYNOPSIS
+.B "bool" kthread_should_park
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+When someone calls \fBkthread_park\fP on your kthread, it will be woken
+and this will return true.  You should then do the necessary
+cleanup and call \fBkthread_parkme\fP
+
+Similar to \fBkthread_should_stop\fP, but this keeps the thread alive
+and in a park position. \fBkthread_unpark\fP "restarts" the thread and
+calls the thread function again.

@@ -1,0 +1,25 @@
+.TH "lpfc_sli4_repost_sgl_list" 9 "lpfc_sli4_repost_sgl_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_repost_sgl_list \- Repost the buffers sgl pages as block
+.SH SYNOPSIS
+.B "int" lpfc_sli4_repost_sgl_list
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct list_head *sgl_list "  ","
+.BI "int cnt "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "sgl_list" 12
+linked link of sgl buffers to post
+.IP "cnt" 12
+number of linked list buffers
+.SH "DESCRIPTION"
+This routine walks the list of buffers that have been allocated and
+repost them to the port by using SGL block post. This is needed after a
+pci_function_reset/warm_start or start. It attempts to construct blocks
+of buffer sgls which contains contiguous xris and uses the non-embedded
+SGL block post mailbox commands to post them to the port. For single
+buffer sgl with non-contiguous xri, if any, it shall use embedded SGL post
+mailbox command for posting.
+.SH "RETURN"
+0 = success, non-zero failure.

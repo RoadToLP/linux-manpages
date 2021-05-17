@@ -1,0 +1,17 @@
+.TH "pm_runtime_force_resume" 9 "pm_runtime_force_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_runtime_force_resume \- Force a device into resume state if needed.
+.SH SYNOPSIS
+.B "int" pm_runtime_force_resume
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to resume.
+.SH "DESCRIPTION"
+Prior invoking this function we expect the user to have brought the device
+into low power state by a call to \fBpm_runtime_force_suspend\fP. Here we reverse
+those actions and bring the device into full power, if it is expected to be
+used on system resume.  In the other case, we defer the resume to be managed
+via runtime PM.
+
+Typically this function may be invoked from a system resume callback.

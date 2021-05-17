@@ -1,0 +1,23 @@
+.TH "kvm_s390_shadow_tables" 9 "kvm_s390_shadow_tables" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_s390_shadow_tables \- walk the guest page table and create shadow tables
+.SH SYNOPSIS
+.B "int" kvm_s390_shadow_tables
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long saddr "  ","
+.BI "unsigned long *pgt "  ","
+.BI "int *dat_protection "  ","
+.BI "int *fake "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "saddr" 12
+faulting address in the shadow gmap
+.IP "pgt" 12
+pointer to the beginning of the page table for the given address if
+successful (return value 0), or to the first invalid DAT entry in
+case of exceptions (return value > 0)
+.IP "dat_protection" 12
+-- undescribed --
+.IP "fake" 12
+pgt references contiguous guest memory block, not a pgtable

@@ -1,0 +1,18 @@
+.TH "lpfc_mbx_cmpl_read_fcf_rec" 9 "lpfc_mbx_cmpl_read_fcf_rec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbx_cmpl_read_fcf_rec \- read fcf completion handler.
+.SH SYNOPSIS
+.B "void" lpfc_mbx_cmpl_read_fcf_rec
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *mboxq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "mboxq" 12
+pointer to mailbox object.
+.SH "DESCRIPTION"
+This is the callback function of read FCF record mailbox command for
+updating the eligible FCF bmask for FLOGI failure roundrobin FCF
+failover when a new FCF event happened. If the FCF read back is
+valid/available and it passes the connection list check, it updates
+the bmask for the eligible FCF record for roundrobin failover.

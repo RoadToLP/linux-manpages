@@ -1,0 +1,19 @@
+.TH "unmap_mft_record_page" 9 "unmap_mft_record_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_mft_record_page \- unmap the page in which a specific mft record resides
+.SH SYNOPSIS
+.B "void" unmap_mft_record_page
+.BI "(ntfs_inode *ni "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode whose mft record page to unmap
+.SH "DESCRIPTION"
+This unmaps the page in which the mft record of the ntfs inode \fIni\fP is
+situated and returns. This is a NOOP if highmem is not configured.
+
+The unmap happens via \fBntfs_unmap_page\fP which in turn decrements the use
+count on the page thus releasing it from the pinned state.
+
+We do not actually unmap the page from memory of course, as that will be
+done by the page cache code itself when memory pressure increases or
+whatever.

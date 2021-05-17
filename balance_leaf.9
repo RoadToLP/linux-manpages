@@ -1,0 +1,29 @@
+.TH "balance_leaf" 9 "balance_leaf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+balance_leaf \- reiserfs tree balancing algorithm
+.SH SYNOPSIS
+.B "int" balance_leaf
+.BI "(struct tree_balance *tb "  ","
+.BI "struct item_head *ih "  ","
+.BI "const char *body "  ","
+.BI "int flag "  ","
+.BI "struct item_head *insert_key "  ","
+.BI "struct buffer_head **insert_ptr "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+tree balance state
+.IP "ih" 12
+item header of inserted item (little endian)
+.IP "body" 12
+body of inserted item or bytes to paste
+.IP "flag" 12
+i - insert, d - delete, c - cut, p - paste (see do_balance)
+passed back:
+.IP "insert_key" 12
+key to insert new nodes
+.IP "insert_ptr" 12
+array of nodes to insert at the next level
+.SH "DESCRIPTION"
+In our processing of one level we sometimes determine what must be
+inserted into the next higher level.  This insertion consists of a
+key or two keys and their corresponding pointers.

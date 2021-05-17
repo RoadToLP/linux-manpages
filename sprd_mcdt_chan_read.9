@@ -1,0 +1,22 @@
+.TH "sprd_mcdt_chan_read" 9 "sprd_mcdt_chan_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sprd_mcdt_chan_read \- read data from the MCDT channel's fifo
+.SH SYNOPSIS
+.B "int" sprd_mcdt_chan_read
+.BI "(struct sprd_mcdt_chan *chan "  ","
+.BI "char *rx_buf "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+the MCDT channel
+.IP "rx_buf" 12
+receive buffer
+.IP "size" 12
+data size
+.SH "NOTE"
+We can not read data from the channel fifo when enabling the DMA mode,
+otherwise the reading data will be invalid.
+.SH "DESCRIPTION"
+Usually user need start to read data once receiving the fifo full interrupt.
+
+Returns data size of reading successfully, or an error code on failure.

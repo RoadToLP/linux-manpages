@@ -1,0 +1,22 @@
+.TH "sched_setscheduler_nocheck" 9 "sched_setscheduler_nocheck" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sched_setscheduler_nocheck \- change the scheduling policy and/or RT priority of a thread from kernelspace.
+.SH SYNOPSIS
+.B "int" sched_setscheduler_nocheck
+.BI "(struct task_struct *p "  ","
+.BI "int policy "  ","
+.BI "const struct sched_param *param "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+the task in question.
+.IP "policy" 12
+new policy.
+.IP "param" 12
+structure containing the new RT priority.
+.SH "DESCRIPTION"
+Just like sched_setscheduler, only don't bother checking if the
+current context has permission.  For example, this is needed in
+\fBstop_machine\fP: we create temporary high priority worker threads,
+but our caller might not have that capability.
+.SH "RETURN"
+0 on success. An error code otherwise.

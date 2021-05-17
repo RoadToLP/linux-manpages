@@ -1,0 +1,27 @@
+.TH "qeth_l2_pnso" 9 "qeth_l2_pnso" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qeth_l2_pnso \- perform network subchannel operation
+.SH SYNOPSIS
+.B "int" qeth_l2_pnso
+.BI "(struct qeth_card *card "  ","
+.BI "u8 oc "  ","
+.BI "int cnc "  ","
+.BI "void (*cb)(void *priv, struct chsc_pnso_naid_l2 *entry) "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+qeth_card structure pointer
+.IP "oc" 12
+Operation Code
+.IP "cnc" 12
+Boolean Change-Notification Control
+.IP "cb" 12
+Callback function will be executed for each element
+of the address list
+.IP "priv" 12
+Pointer to pass to the callback function.
+
+Collects network information in a network address list and calls the
+callback function for every entry in the list. If "change-notification-
+control" is set, further changes in the address list will be reported
+via the IPA command.

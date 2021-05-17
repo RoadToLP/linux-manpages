@@ -1,0 +1,16 @@
+.TH "kvm_mips_migrate_count" 9 "kvm_mips_migrate_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_migrate_count \- Migrate timer.
+.SH SYNOPSIS
+.B "void" kvm_mips_migrate_count
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.SH "DESCRIPTION"
+Migrate CP0_Count hrtimer to the current CPU by cancelling and restarting it
+if it was running prior to being cancelled.
+
+Must be called when the VCPU is migrated to a different CPU to ensure that
+timer expiry during guest execution interrupts the guest and causes the
+interrupt to be delivered in a timely manner.

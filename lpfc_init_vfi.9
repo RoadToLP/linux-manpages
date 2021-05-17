@@ -1,0 +1,18 @@
+.TH "lpfc_init_vfi" 9 "lpfc_init_vfi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_init_vfi \- Initialize the INIT_VFI mailbox command
+.SH SYNOPSIS
+.B "void" lpfc_init_vfi
+.BI "(struct lpfcMboxq *mbox "  ","
+.BI "struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "mbox" 12
+pointer to lpfc mbox command to initialize.
+.IP "vport" 12
+Vport associated with the VF.
+.SH "DESCRIPTION"
+This routine initializes \fImbox\fP to all zeros and then fills in the mailbox
+fields from \fIvport\fP. INIT_VFI configures virtual fabrics identified by VFI
+in the context of an FCF. The driver issues this command to setup a VFI
+before issuing a FLOGI to login to the VSAN. The driver should also issue a
+REG_VFI after a successful VSAN login.

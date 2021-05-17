@@ -1,0 +1,16 @@
+.TH "e1000_update_nvm_checksum_spt" 9 "e1000_update_nvm_checksum_spt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_update_nvm_checksum_spt \- Update the checksum for NVM
+.SH SYNOPSIS
+.B "s32" e1000_update_nvm_checksum_spt
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+The NVM checksum is updated by calling the generic update_nvm_checksum,
+which writes the checksum to the shadow ram.  The changes in the shadow
+ram are then committed to the EEPROM by processing each bank at a time
+checking for the modified bit and writing only the pending changes.
+After a successful commit, the shadow ram is cleared and is ready for
+future writes.

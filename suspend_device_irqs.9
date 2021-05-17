@@ -1,0 +1,23 @@
+.TH "suspend_device_irqs" 9 "suspend_device_irqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+suspend_device_irqs \- disable all currently enabled interrupt lines
+.SH SYNOPSIS
+.B "void" suspend_device_irqs
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+During system-wide suspend or hibernation device drivers need to be
+prevented from receiving interrupts and this function is provided
+for this purpose.
+
+So we disable all interrupts and mark them IRQS_SUSPENDED except
+for those which are unused, those which are marked as not
+suspendable via an interrupt request with the flag IRQF_NO_SUSPEND
+set and those which are marked as active wakeup sources.
+
+The active wakeup sources are handled by the flow handler entry
+code which checks for the IRQD_WAKEUP_ARMED flag, suspends the
+interrupt and notifies the pm core about the wakeup.

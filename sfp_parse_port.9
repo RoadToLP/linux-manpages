@@ -1,0 +1,23 @@
+.TH "sfp_parse_port" 9 "sfp_parse_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sfp_parse_port \- Parse the EEPROM base ID, setting the port type
+.SH SYNOPSIS
+.B "int" sfp_parse_port
+.BI "(struct sfp_bus *bus "  ","
+.BI "const struct sfp_eeprom_id *id "  ","
+.BI "unsigned long *support "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+a pointer to the \fIstruct sfp_bus\fP structure for the sfp module
+.IP "id" 12
+a pointer to the module's \fIstruct sfp_eeprom_id\fP
+.IP "support" 12
+optional pointer to an array of unsigned long for the
+ethtool support mask
+.SH "DESCRIPTION"
+Parse the EEPROM identification given in \fIid\fP, and return one of
+PORT_TP, PORT_FIBRE or PORT_OTHER. If \fIsupport\fP is non-NULL,
+also set the ethtool ETHTOOL_LINK_MODE_xxx_BIT corresponding with
+the connector type.
+
+If the port type is not known, returns PORT_OTHER.

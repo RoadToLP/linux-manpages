@@ -1,0 +1,22 @@
+.TH "refcount_dec_and_lock" 9 "refcount_dec_and_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+refcount_dec_and_lock \- return holding spinlock if able to decrement refcount to 0
+.SH SYNOPSIS
+.B "bool" refcount_dec_and_lock
+.BI "(refcount_t *r "  ","
+.BI "spinlock_t *lock "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the refcount
+.IP "lock" 12
+the spinlock to be locked
+.SH "DESCRIPTION"
+Similar to \fBatomic_dec_and_lock\fP, it will WARN on underflow and fail to
+decrement when saturated at REFCOUNT_SATURATED.
+
+Provides release memory ordering, such that prior loads and stores are done
+before, and provides a control dependency such that \fBfree\fP must come after.
+See the comment on top.
+.SH "RETURN"
+true and hold spinlock if able to decrement refcount to 0, false
+otherwise

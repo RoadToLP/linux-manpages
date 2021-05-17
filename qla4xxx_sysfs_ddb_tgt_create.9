@@ -1,0 +1,26 @@
+.TH "qla4xxx_sysfs_ddb_tgt_create" 9 "qla4xxx_sysfs_ddb_tgt_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qla4xxx_sysfs_ddb_tgt_create \- Create sysfs entry for target
+.SH SYNOPSIS
+.B "int" qla4xxx_sysfs_ddb_tgt_create
+.BI "(struct scsi_qla_host *ha "  ","
+.BI "struct dev_db_entry *fw_ddb_entry "  ","
+.BI "uint16_t *idx "  ","
+.BI "int user "  ");"
+.SH ARGUMENTS
+.IP "ha" 12
+pointer to host
+.IP "fw_ddb_entry" 12
+flash ddb data
+.IP "idx" 12
+target index
+.IP "user" 12
+if set then this call is made from userland else from kernel
+.SH "RETURN"
+On sucess: QLA_SUCCESS
+On failure: QLA_ERROR
+.SH "DESCRIPTION"
+This create separate sysfs entries for session and connection attributes of
+the given fw ddb entry.
+If this is invoked as a result of a userspace call then the entry is marked
+as nonpersistent using flash_state field.

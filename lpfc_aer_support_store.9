@@ -1,0 +1,35 @@
+.TH "lpfc_aer_support_store" 9 "lpfc_aer_support_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_aer_support_store \- Set the adapter for aer support
+.SH SYNOPSIS
+.B "ssize_t" lpfc_aer_support_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+containing enable or disable aer flag.
+.IP "count" 12
+unused variable.
+.SH "DESCRIPTION"
+If the val is 1 and currently the device's AER capability was not
+enabled, invoke the kernel's enable AER helper routine, trying to
+enable the device's AER capability. If the helper routine enabling
+AER returns success, update the device's cfg_aer_support flag to
+indicate AER is supported by the device; otherwise, if the device
+AER capability is already enabled to support AER, then do nothing.
+
+If the val is 0 and currently the device's AER support was enabled,
+invoke the kernel's disable AER helper routine. After that, update
+the device's cfg_aer_support flag to indicate AER is not supported
+by the device; otherwise, if the device AER capability is already
+disabled from supporting AER, then do nothing.
+.SH "RETURN"
+length of the buf on success if val is in range the intended mode
+is supported.
+-EINVAL if val out of range or intended mode is not supported.

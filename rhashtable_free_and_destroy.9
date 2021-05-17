@@ -1,0 +1,24 @@
+.TH "rhashtable_free_and_destroy" 9 "rhashtable_free_and_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rhashtable_free_and_destroy \- free elements and destroy hash table
+.SH SYNOPSIS
+.B "void" rhashtable_free_and_destroy
+.BI "(struct rhashtable *ht "  ","
+.BI "void (*free_fn)(void *ptr, void *arg) "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "ht" 12
+the hash table to destroy
+.IP "free_fn" 12
+callback to release resources of element
+.IP "arg" 12
+pointer passed to free_fn
+.SH "DESCRIPTION"
+Stops an eventual async resize. If defined, invokes free_fn for each
+element to releasal resources. Please note that RCU protected
+readers may still be accessing the elements. Releasing of resources
+must occur in a compatible manner. Then frees the bucket array.
+
+This function will eventually sleep to wait for an async resize
+to complete. The caller is responsible that no further write operations
+occurs in parallel.

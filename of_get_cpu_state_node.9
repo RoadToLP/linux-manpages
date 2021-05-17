@@ -1,0 +1,21 @@
+.TH "of_get_cpu_state_node" 9 "of_get_cpu_state_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_get_cpu_state_node \- Get CPU's idle state node at the given index
+.SH SYNOPSIS
+.B "struct device_node *" of_get_cpu_state_node
+.BI "(struct device_node *cpu_node "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "cpu_node" 12
+The device node for the CPU
+.IP "index" 12
+The index in the list of the idle states
+.SH "DESCRIPTION"
+Two generic methods can be used to describe a CPU's idle states, either via
+a flattened description through the "cpu-idle-states" binding or via the
+hierarchical layout, using the "power-domains" and the "domain-idle-states"
+bindings. This function check for both and returns the idle state node for
+the requested index.
+
+In case an idle state node is found at \fIindex\fP, the refcount is incremented
+for it, so call \fBof_node_put\fP on it when done. Returns NULL if not found.

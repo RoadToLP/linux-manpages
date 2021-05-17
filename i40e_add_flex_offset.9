@@ -1,0 +1,22 @@
+.TH "i40e_add_flex_offset" 9 "i40e_add_flex_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_add_flex_offset \- Add src_offset to flex PIT table list
+.SH SYNOPSIS
+.B "int" i40e_add_flex_offset
+.BI "(struct list_head *flex_pit_list "  ","
+.BI "u16 src_offset "  ","
+.BI "u8 pit_index "  ");"
+.SH ARGUMENTS
+.IP "flex_pit_list" 12
+L3 or L4 flex PIT list
+.IP "src_offset" 12
+new src_offset to add
+.IP "pit_index" 12
+the PIT index to program
+.SH "DESCRIPTION"
+This function programs the new src_offset to the list. It is expected that
+i40e_find_flex_offset has already been tried and returned NULL, indicating
+that this offset is not programmed, and that the list has enough space to
+store another offset.
+
+Returns 0 on success, and negative value on error.

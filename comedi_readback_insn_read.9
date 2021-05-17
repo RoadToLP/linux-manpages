@@ -1,0 +1,28 @@
+.TH "comedi_readback_insn_read" 9 "comedi_readback_insn_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_readback_insn_read \- A generic (*insn_read) for subdevice readback.
+.SH SYNOPSIS
+.B "int" comedi_readback_insn_read
+.BI "(struct comedi_device *dev "  ","
+.BI "struct comedi_subdevice *s "  ","
+.BI "struct comedi_insn *insn "  ","
+.BI "unsigned int *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "s" 12
+COMEDI subdevice.
+.IP "insn" 12
+COMEDI instruction.
+.IP "data" 12
+Pointer to return the readback data.
+.SH "DESCRIPTION"
+Handles the INSN_READ instruction for subdevices that use the readback
+array allocated by \fBcomedi_alloc_subdev_readback\fP.  It may be used
+directly as the subdevice's handler (\fIs->insn_read\fP) or called via a
+wrapper.
+
+\fIinsn->n\fP is normally 1, which will read a single value.  If higher, the
+same element of the readback array will be read multiple times.
+
+Returns \fIinsn->n\fP on success, or -EINVAL if \fIs->readback\fP is NULL.

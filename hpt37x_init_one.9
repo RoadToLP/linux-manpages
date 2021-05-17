@@ -1,0 +1,38 @@
+.TH "hpt37x_init_one" 9 "hpt37x_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hpt37x_init_one \- Initialise an HPT37X/302
+.SH SYNOPSIS
+.B "int" hpt37x_init_one
+.BI "(struct pci_dev *dev "  ","
+.BI "const struct pci_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.IP "id" 12
+Entry in match table
+
+Initialise an HPT37x device. There are some interesting complications
+here. Firstly the chip may report 366 and be one of several variants.
+Secondly all the timings depend on the clock for the chip which we must
+detect and look up
+
+This is the known chip mappings. It may be missing a couple of later
+releases.
+
+Chip version            PCI             Rev     Notes
+HPT366                  4 (HPT366)      0       Other driver
+HPT366                  4 (HPT366)      1       Other driver
+HPT368                  4 (HPT366)      2       Other driver
+HPT370                  4 (HPT366)      3       UDMA100
+HPT370A                 4 (HPT366)      4       UDMA100
+HPT372                  4 (HPT366)      5       UDMA133 (1)
+HPT372N                 4 (HPT366)      6       Other driver
+HPT372A                 5 (HPT372)      1       UDMA133 (1)
+HPT372N                 5 (HPT372)      2       Other driver
+HPT302                  6 (HPT302)      1       UDMA133
+HPT302N                 6 (HPT302)      2       Other driver
+HPT371                  7 (HPT371)      *       UDMA133
+HPT374                  8 (HPT374)      *       UDMA133 4 channel
+HPT372N                 9 (HPT372N)     *       Other driver
+
+(1) UDMA133 support depends on the bus clock

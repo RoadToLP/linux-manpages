@@ -1,0 +1,23 @@
+.TH "percpu_ref_switch_to_percpu" 9 "percpu_ref_switch_to_percpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_switch_to_percpu \- switch a percpu_ref to percpu mode
+.SH SYNOPSIS
+.B "void" percpu_ref_switch_to_percpu
+.BI "(struct percpu_ref *ref "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+percpu_ref to switch to percpu mode
+.SH "DESCRIPTION"
+There's no reason to use this function for the usual reference counting.
+To re-use an expired ref, use \fBpercpu_ref_reinit\fP.
+
+Switch \fIref\fP to percpu mode.  This function may be invoked concurrently
+with all the get/put operations and can safely be mixed with kill and
+reinit operations.  This function reverses the sticky atomic state set
+by PERCPU_REF_INIT_ATOMIC or \fBpercpu_ref_switch_to_atomic\fP.  If \fIref\fP is
+dying or dead, the actual switching takes place on the following
+\fBpercpu_ref_reinit\fP.
+
+This function may block if \fIref\fP is in the process of switching to atomic
+mode.  If the caller ensures that \fIref\fP is not in the process of
+switching to atomic mode, this function can be called from any context.

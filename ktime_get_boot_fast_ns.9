@@ -1,0 +1,31 @@
+.TH "ktime_get_boot_fast_ns" 9 "ktime_get_boot_fast_ns" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ktime_get_boot_fast_ns \- NMI safe and fast access to boot clock.
+.SH SYNOPSIS
+.B "u64 notrace" ktime_get_boot_fast_ns
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+To keep it NMI safe since we're accessing from tracing, we're not using a
+separate timekeeper with updates to monotonic clock and boot offset
+protected with seqcounts. This has the following minor side effects:
+
+(1) Its possible that a timestamp be taken after the boot offset is updated
+but before the timekeeper is updated. If this happens, the new boot offset
+is added to the old timekeeping making the clock appear to update slightly
+earlier:
+CPU 0                                        CPU 1
+\fBtimekeeping_inject_sleeptime64\fP
+__timekeeping_inject_sleeptime(tk, delta);
+\fBtimestamp\fP;
+timekeeping_update(tk, TK_CLEAR_NTP...);
+
+(2) On 32-bit systems, the 64-bit boot offset (tk->offs_boot) may be
+partially updated.  Since the tk->offs_boot update is a rare event, this
+should be a rare occurrence which postprocessing should be able to handle.
+
+The caveats vs. timestamp ordering as documented for \fBktime_get_fast_ns\fP
+apply as well.

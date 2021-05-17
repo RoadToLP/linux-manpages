@@ -1,0 +1,19 @@
+.TH "ide_read_setting" 9 "ide_read_setting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_read_setting \- read an IDE setting
+.SH SYNOPSIS
+.B "int" ide_read_setting
+.BI "(ide_drive_t *drive "  ","
+.BI "const struct ide_proc_devset *setting "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive to read from
+.IP "setting" 12
+drive setting
+
+Read a drive setting and return the value. The caller
+must hold the ide_setting_mtx when making this call.
+
+BUGS: the data return and error are the same return value
+so an error -EINVAL and true return of the same value cannot
+be told apart

@@ -1,0 +1,21 @@
+.TH "phylink_set_pcs" 9 "phylink_set_pcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phylink_set_pcs \- set the current PCS for phylink to use
+.SH SYNOPSIS
+.B "void" phylink_set_pcs
+.BI "(struct phylink *pl "  ","
+.BI "struct phylink_pcs *pcs "  ");"
+.SH ARGUMENTS
+.IP "pl" 12
+a pointer to a \fIstruct phylink\fP returned from \fBphylink_create\fP
+.IP "pcs" 12
+a pointer to the \fIstruct phylink_pcs\fP
+.SH "DESCRIPTION"
+Bind the MAC PCS to phylink.  This may be called after \fBphylink_create\fP,
+in \fBmac_prepare\fP or \fBmac_config\fP methods if it is desired to dynamically
+change the PCS.
+
+Please note that there are behavioural changes with the \fBmac_config\fP
+callback if a PCS is present (denoting a newer setup) so removing a PCS
+is not supported, and if a PCS is going to be used, it must be registered
+by calling \fBphylink_set_pcs\fP at the latest in the first \fBmac_config\fP call.

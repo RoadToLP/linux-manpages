@@ -1,0 +1,27 @@
+.TH "usb4_port_retimer_read" 9 "usb4_port_retimer_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_port_retimer_read \- Read from retimer sideband registers
+.SH SYNOPSIS
+.B "int" usb4_port_retimer_read
+.BI "(struct tb_port *port "  ","
+.BI "u8 index "  ","
+.BI "u8 reg "  ","
+.BI "void *buf "  ","
+.BI "u8 size "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB4 port
+.IP "index" 12
+Retimer index
+.IP "reg" 12
+Sideband register to read
+.IP "buf" 12
+Data from \fIreg\fP is stored here
+.IP "size" 12
+Number of bytes to read
+.SH "DESCRIPTION"
+Function reads retimer sideband registers starting from \fIreg\fP. The
+retimer is connected to \fIport\fP at \fIindex\fP. Returns 0 in case of
+success, and read data is copied to \fIbuf\fP. If there is no retimer
+present at given \fIindex\fP returns -ENODEV. In any other failure
+returns negative errno.

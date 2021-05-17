@@ -1,0 +1,13 @@
+.TH "btrfs_discard_workfn" 9 "btrfs_discard_workfn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_workfn \- discard work function
+.SH SYNOPSIS
+.B "void" btrfs_discard_workfn
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work
+.SH "DESCRIPTION"
+This finds the next block_group to start discarding and then discards a
+single region.  It does this in a two-pass fashion: first extents and second
+bitmaps.  Completely discarded block groups are sent to the unused_bgs path.

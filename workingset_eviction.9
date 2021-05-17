@@ -1,0 +1,15 @@
+.TH "workingset_eviction" 9 "workingset_eviction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+workingset_eviction \- note the eviction of a page from memory
+.SH SYNOPSIS
+.B "void *" workingset_eviction
+.BI "(struct page *page "  ","
+.BI "struct mem_cgroup *target_memcg "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page being evicted
+.IP "target_memcg" 12
+the cgroup that is causing the reclaim
+.SH "DESCRIPTION"
+Returns a shadow entry to be stored in \fIpage->mapping->i_pages\fP in place
+of the evicted \fIpage\fP so that a later refault can be detected.

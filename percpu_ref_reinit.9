@@ -1,0 +1,16 @@
+.TH "percpu_ref_reinit" 9 "percpu_ref_reinit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_reinit \- re-initialize a percpu refcount
+.SH SYNOPSIS
+.B "void" percpu_ref_reinit
+.BI "(struct percpu_ref *ref "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+perpcu_ref to re-initialize
+.SH "DESCRIPTION"
+Re-initialize \fIref\fP so that it's in the same state as when it finished
+\fBpercpu_ref_init\fP ignoring PERCPU_REF_INIT_DEAD.  \fIref\fP must have been
+initialized successfully and reached 0 but not exited.
+
+Note that percpu_ref_tryget[_live]() are safe to perform on \fIref\fP while
+this function is in progress.

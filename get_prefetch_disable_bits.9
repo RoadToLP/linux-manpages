@@ -1,0 +1,26 @@
+.TH "get_prefetch_disable_bits" 9 "get_prefetch_disable_bits" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_prefetch_disable_bits \- prefetch disable bits of supported platforms
+.SH SYNOPSIS
+.B "u64" get_prefetch_disable_bits
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Capture the list of platforms that have been validated to support
+pseudo-locking. This includes testing to ensure pseudo-locked regions
+with low cache miss rates can be created under variety of load conditions
+as well as that these pseudo-locked regions can maintain their low cache
+miss rates under variety of load conditions for significant lengths of time.
+
+After a platform has been validated to support pseudo-locking its
+hardware prefetch disable bits are included here as they are documented
+in the SDM.
+
+When adding a platform here also add support for its cache events to
+\fBmeasure_cycles_perf_fn\fP
+.SH "RETURN"
+If platform is supported, the bits to disable hardware prefetchers, 0
+if platform is not supported.

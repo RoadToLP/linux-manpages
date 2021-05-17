@@ -1,0 +1,21 @@
+.TH "i40e_ptp_set_ts_config" 9 "i40e_ptp_set_ts_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_set_ts_config \- ioctl interface to control the HW timestamping
+.SH SYNOPSIS
+.B "int" i40e_ptp_set_ts_config
+.BI "(struct i40e_pf *pf "  ","
+.BI "struct ifreq *ifr "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.IP "ifr" 12
+ioctl data
+.SH "DESCRIPTION"
+Respond to the user filter requests and make the appropriate hardware
+changes here. The XL710 cannot support splitting of the Tx/Rx timestamping
+logic, so keep track in software of whether to indicate these timestamps
+or not.
+
+It is permissible to "upgrade" the user request to a broader filter, as long
+as the user receives the timestamps they care about and the user is notified
+the filter has been broadened.

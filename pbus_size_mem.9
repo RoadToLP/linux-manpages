@@ -1,0 +1,37 @@
+.TH "pbus_size_mem" 9 "pbus_size_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pbus_size_mem \- Size the memory window of a given bus
+.SH SYNOPSIS
+.B "int" pbus_size_mem
+.BI "(struct pci_bus *bus "  ","
+.BI "unsigned long mask "  ","
+.BI "unsigned long type "  ","
+.BI "unsigned long type2 "  ","
+.BI "unsigned long type3 "  ","
+.BI "resource_size_t min_size "  ","
+.BI "resource_size_t add_size "  ","
+.BI "struct list_head *realloc_head "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+The bus
+.IP "mask" 12
+Mask the resource flag, then compare it with type
+.IP "type" 12
+The type of free resource from bridge
+.IP "type2" 12
+Second match type
+.IP "type3" 12
+Third match type
+.IP "min_size" 12
+The minimum memory window that must be allocated
+.IP "add_size" 12
+Additional optional memory window
+.IP "realloc_head" 12
+Track the additional memory window on this list
+.SH "DESCRIPTION"
+Calculate the size of the bus and minimal alignment which guarantees
+that all child resources fit in this size.
+
+Return -ENOSPC if there's no available bus resource of the desired
+type.  Otherwise, set the bus resource start/end to indicate the
+required size, add things to realloc_head (if supplied), and return 0.

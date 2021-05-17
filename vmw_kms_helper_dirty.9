@@ -1,0 +1,36 @@
+.TH "vmw_kms_helper_dirty" 9 "vmw_kms_helper_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_helper_dirty \- Helper to build commands and perform actions based on a set of cliprects and a set of display units.
+.SH SYNOPSIS
+.B "int" vmw_kms_helper_dirty
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_framebuffer *framebuffer "  ","
+.BI "const struct drm_clip_rect *clips "  ","
+.BI "const struct drm_vmw_rect *vclips "  ","
+.BI "s32 dest_x "  ","
+.BI "s32 dest_y "  ","
+.BI "int num_clips "  ","
+.BI "int increment "  ","
+.BI "struct vmw_kms_dirty *dirty "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a device private structure.
+.IP "framebuffer" 12
+Pointer to the framebuffer on which to perform the actions.
+.IP "clips" 12
+A set of struct drm_clip_rect. Either this os \fIvclips\fP must be NULL.
+Cliprects are given in framebuffer coordinates.
+.IP "vclips" 12
+A set of struct drm_vmw_rect cliprects. Either this or \fIclips\fP must
+be NULL. Cliprects are given in source coordinates.
+.IP "dest_x" 12
+X coordinate offset for the crtc / destination clip rects.
+.IP "dest_y" 12
+Y coordinate offset for the crtc / destination clip rects.
+.IP "num_clips" 12
+Number of cliprects in the \fIclips\fP or \fIvclips\fP array.
+.IP "increment" 12
+Integer with which to increment the clip counter when looping.
+Used to skip a predetermined number of clip rects.
+.IP "dirty" 12
+Closure structure. See the description of struct vmw_kms_dirty.

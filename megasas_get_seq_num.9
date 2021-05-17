@@ -1,0 +1,19 @@
+.TH "megasas_get_seq_num" 9 "megasas_get_seq_num" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_get_seq_num \- Gets latest event sequence numbers
+.SH SYNOPSIS
+.B "int" megasas_get_seq_num
+.BI "(struct megasas_instance *instance "  ","
+.BI "struct megasas_evt_log_info *eli "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Adapter soft state
+.IP "eli" 12
+FW event log sequence numbers information
+.SH "DESCRIPTION"
+FW maintains a log of all events in a non-volatile area. Upper layers would
+usually find out the latest sequence number of the events, the seq number at
+the boot etc. They would "read" all the events below the latest seq number
+by issuing a direct fw cmd (DCMD). For the future events (beyond latest seq
+number), they would subsribe to AEN (asynchronous event notification) and
+wait for the events to happen.

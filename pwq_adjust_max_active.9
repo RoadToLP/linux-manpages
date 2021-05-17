@@ -1,0 +1,13 @@
+.TH "pwq_adjust_max_active" 9 "pwq_adjust_max_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwq_adjust_max_active \- update a pwq's max_active to the current setting
+.SH SYNOPSIS
+.B "void" pwq_adjust_max_active
+.BI "(struct pool_workqueue *pwq "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+target pool_workqueue
+.SH "DESCRIPTION"
+If \fIpwq\fP isn't freezing, set \fIpwq->max_active\fP to the associated
+workqueue's saved_max_active and activate delayed work items
+accordingly.  If \fIpwq\fP is freezing, clear \fIpwq->max_active\fP to zero.

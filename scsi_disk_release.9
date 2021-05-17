@@ -1,0 +1,14 @@
+.TH "scsi_disk_release" 9 "scsi_disk_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_disk_release \- Called to free the scsi_disk structure
+.SH SYNOPSIS
+.B "void" scsi_disk_release
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to embedded class device
+
+sd_ref_mutex must be held entering this routine.  Because it is
+called on last put, you should always use the \fBscsi_disk_get\fP
+\fBscsi_disk_put\fP helpers which manipulate the semaphore directly
+and never do a direct put_device.

@@ -1,0 +1,24 @@
+.TH "i915_vma_insert" 9 "i915_vma_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_vma_insert \- finds a slot for the vma in its address space
+.SH SYNOPSIS
+.B "int" i915_vma_insert
+.BI "(struct i915_vma *vma "  ","
+.BI "u64 size "  ","
+.BI "u64 alignment "  ","
+.BI "u64 flags "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+the vma
+.IP "size" 12
+requested size in bytes (can be larger than the VMA)
+.IP "alignment" 12
+required alignment
+.IP "flags" 12
+mask of PIN_* flags to use
+.SH "DESCRIPTION"
+First we try to allocate some free space that meets the requirements for
+the VMA. Failiing that, if the flags permit, it will evict an old VMA,
+preferrably the oldest idle entry to make room for the new VMA.
+.SH "RETURN"
+0 on success, negative error code otherwise.

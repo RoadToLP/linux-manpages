@@ -1,0 +1,23 @@
+.TH "of_reserved_mem_device_init_by_idx" 9 "of_reserved_mem_device_init_by_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_reserved_mem_device_init_by_idx \- assign reserved memory region to given device
+.SH SYNOPSIS
+.B "int" of_reserved_mem_device_init_by_idx
+.BI "(struct device *dev "  ","
+.BI "struct device_node *np "  ","
+.BI "int idx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to the device to configure
+.IP "np" 12
+Pointer to the device_node with 'reserved-memory' property
+.IP "idx" 12
+Index of selected region
+.SH "DESCRIPTION"
+This function assigns respective DMA-mapping operations based on reserved
+memory region specified by 'memory-region' property in \fInp\fP node to the \fIdev\fP
+device. When driver needs to use more than one reserved memory region, it
+should allocate child devices and initialize regions by name for each of
+child device.
+
+Returns error code or zero on success.

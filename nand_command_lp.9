@@ -1,0 +1,22 @@
+.TH "nand_command_lp" 9 "nand_command_lp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_command_lp \- [DEFAULT] Send command to NAND large page device
+.SH SYNOPSIS
+.B "void" nand_command_lp
+.BI "(struct nand_chip *chip "  ","
+.BI "unsigned int command "  ","
+.BI "int column "  ","
+.BI "int page_addr "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "command" 12
+the command to be sent
+.IP "column" 12
+the column address for this command, -1 if none
+.IP "page_addr" 12
+the page address for this command, -1 if none
+.SH "DESCRIPTION"
+Send command to NAND device. This is the version for the new large page
+devices. We don't have the separate regions as we have in the small page
+devices. We must emulate NAND_CMD_READOOB to keep the code compatible.

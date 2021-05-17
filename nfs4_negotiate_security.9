@@ -1,0 +1,17 @@
+.TH "nfs4_negotiate_security" 9 "nfs4_negotiate_security" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_negotiate_security \- in response to an NFS4ERR_WRONGSEC on lookup, return an rpc_clnt that uses the best available security flavor with respect to the secinfo flavor list and the sec= mount options.
+.SH SYNOPSIS
+.B "struct rpc_clnt *" nfs4_negotiate_security
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct qstr *name "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+RPC client to clone
+.IP "inode" 12
+directory inode
+.IP "name" 12
+lookup name
+.SH "DESCRIPTION"
+Please call \fBrpc_shutdown_client\fP when you are done with this rpc client.

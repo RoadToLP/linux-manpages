@@ -1,0 +1,19 @@
+.TH "throtl_qnode_add_bio" 9 "throtl_qnode_add_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throtl_qnode_add_bio \- add a bio to a throtl_qnode and activate it
+.SH SYNOPSIS
+.B "void" throtl_qnode_add_bio
+.BI "(struct bio *bio "  ","
+.BI "struct throtl_qnode *qn "  ","
+.BI "struct list_head *queued "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio being added
+.IP "qn" 12
+qnode to add bio to
+.IP "queued" 12
+the service_queue->queued[] list \fIqn\fP belongs to
+.SH "DESCRIPTION"
+Add \fIbio\fP to \fIqn\fP and put \fIqn\fP on \fIqueued\fP if it's not already on.
+\fIqn->tg\fP's reference count is bumped when \fIqn\fP is activated.  See the
+comment on top of throtl_qnode definition for details.

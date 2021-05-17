@@ -1,0 +1,16 @@
+.TH "device_offline" 9 "device_offline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_offline \- Prepare the device for hot-removal.
+.SH SYNOPSIS
+.B "int" device_offline
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to be put offline.
+.SH "DESCRIPTION"
+Execute the device bus type's .\fBoffline\fP callback, if present, to prepare
+the device for a subsequent hot-removal.  If that succeeds, the device must
+not be used until either it is removed or its bus type's .\fBonline\fP callback
+is executed.
+
+Call under device_hotplug_lock.

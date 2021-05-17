@@ -1,0 +1,20 @@
+.TH "prepare_highmem_image" 9 "prepare_highmem_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_highmem_image \- Allocate memory for loading highmem data from image.
+.SH SYNOPSIS
+.B "int" prepare_highmem_image
+.BI "(struct memory_bitmap *bm "  ","
+.BI "unsigned int *nr_highmem_p "  ");"
+.SH ARGUMENTS
+.IP "bm" 12
+Pointer to an uninitialized memory bitmap structure.
+.IP "nr_highmem_p" 12
+Pointer to the number of highmem image pages.
+.SH "DESCRIPTION"
+Try to allocate as many highmem pages as there are highmem image pages
+(\fInr_highmem_p\fP points to the variable containing the number of highmem image
+pages).  The pages that are "safe" (ie. will not be overwritten when the
+hibernation image is restored entirely) have the corresponding bits set in
+\fIbm\fP (it must be unitialized).
+.SH "NOTE"
+This function should not be called if there are no highmem image pages.

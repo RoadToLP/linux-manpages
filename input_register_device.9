@@ -1,0 +1,28 @@
+.TH "input_register_device" 9 "input_register_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_register_device \- register device with input core
+.SH SYNOPSIS
+.B "int" input_register_device
+.BI "(struct input_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to be registered
+.SH "DESCRIPTION"
+This function registers device with input core. The device must be
+allocated with \fBinput_allocate_device\fP and all it's capabilities
+set up before registering.
+If function fails the device must be freed with \fBinput_free_device\fP.
+Once device has been successfully registered it can be unregistered
+with \fBinput_unregister_device\fP; \fBinput_free_device\fP should not be
+called in this case.
+
+Note that this function is also used to register managed input devices
+(ones allocated with \fBdevm_input_allocate_device\fP). Such managed input
+devices need not be explicitly unregistered or freed, their tear down
+is controlled by the devres infrastructure. It is also worth noting
+that tear down of managed input devices is internally a 2-step process:
+registered managed input device is first unregistered, but stays in
+memory and can still handle \fBinput_event\fP calls (although events will
+not be delivered anywhere). The freeing of managed input device will
+happen later, when devres stack is unwound to the point where device
+allocation was made.

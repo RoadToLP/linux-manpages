@@ -1,0 +1,19 @@
+.TH "blk_limits_io_opt" 9 "blk_limits_io_opt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_limits_io_opt \- set optimal request size for a device
+.SH SYNOPSIS
+.B "void" blk_limits_io_opt
+.BI "(struct queue_limits *limits "  ","
+.BI "unsigned int opt "  ");"
+.SH ARGUMENTS
+.IP "limits" 12
+the queue limits
+.IP "opt" 12
+smallest I/O size in bytes
+.SH "DESCRIPTION"
+Storage devices may report an optimal I/O size, which is the
+device's preferred unit for sustained I/O.  This is rarely reported
+for disk drives.  For RAID arrays it is usually the stripe width or
+the internal track size.  A properly aligned multiple of
+optimal_io_size is the preferred request size for workloads where
+sustained throughput is desired.

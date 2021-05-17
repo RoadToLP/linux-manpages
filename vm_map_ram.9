@@ -1,0 +1,23 @@
+.TH "vm_map_ram" 9 "vm_map_ram" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_map_ram \- map pages linearly into kernel virtual address (vmalloc space)
+.SH SYNOPSIS
+.B "void *" vm_map_ram
+.BI "(struct page **pages "  ","
+.BI "unsigned int count "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "pages" 12
+an array of pointers to the pages to be mapped
+.IP "count" 12
+number of pages
+.IP "node" 12
+prefer to allocate data structures on this node
+.SH "DESCRIPTION"
+If you use this function for less than VMAP_MAX_ALLOC pages, it could be
+faster than vmap so it's good.  But if you mix long-life and short-life
+objects with \fBvm_map_ram\fP, it could consume lots of address space through
+fragmentation (especially on a 32bit machine).  You could see failures in
+the end.  Please use this function for short-lived objects.
+.SH "RETURN"
+a pointer to the address that has been mapped, or NULL on failure

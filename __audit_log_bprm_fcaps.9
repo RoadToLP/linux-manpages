@@ -1,0 +1,20 @@
+.TH "__audit_log_bprm_fcaps" 9 "__audit_log_bprm_fcaps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__audit_log_bprm_fcaps \- store information about a loading bprm and relevant fcaps
+.SH SYNOPSIS
+.B "int" __audit_log_bprm_fcaps
+.BI "(struct linux_binprm *bprm "  ","
+.BI "const struct cred *new "  ","
+.BI "const struct cred *old "  ");"
+.SH ARGUMENTS
+.IP "bprm" 12
+pointer to the bprm being processed
+.IP "new" 12
+the proposed new credentials
+.IP "old" 12
+the old credentials
+.SH "DESCRIPTION"
+Simply check if the proc already has the caps given by the file and if not
+store the priv escalation info for later auditing at the end of the syscall
+
+-Eric

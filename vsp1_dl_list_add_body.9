@@ -1,0 +1,23 @@
+.TH "vsp1_dl_list_add_body" 9 "vsp1_dl_list_add_body" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vsp1_dl_list_add_body \- Add a body to the display list
+.SH SYNOPSIS
+.B "int" vsp1_dl_list_add_body
+.BI "(struct vsp1_dl_list *dl "  ","
+.BI "struct vsp1_dl_body *dlb "  ");"
+.SH ARGUMENTS
+.IP "dl" 12
+The display list
+.IP "dlb" 12
+The body
+.SH "DESCRIPTION"
+Add a display list body to a display list. Registers contained in bodies are
+processed after registers contained in the main display list, in the order in
+which bodies are added.
+
+Adding a body to a display list passes ownership of the body to the list. The
+caller retains its reference to the body when adding it to the display list,
+but is not allowed to add new entries to the body.
+
+The reference must be explicitly released by a call to \fBvsp1_dl_body_put\fP
+when the body isn't needed anymore.

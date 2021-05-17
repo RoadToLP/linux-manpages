@@ -1,0 +1,23 @@
+.TH "zpool_has_pool" 9 "zpool_has_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_has_pool \- Check if the pool driver is available
+.SH SYNOPSIS
+.B "bool" zpool_has_pool
+.BI "(char *type "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+The type of the zpool to check (e.g. zbud, zsmalloc)
+.SH "DESCRIPTION"
+This checks if the \fItype\fP pool driver is available.  This will try to load
+the requested module, if needed, but there is no guarantee the module will
+still be loaded and available immediately after calling.  If this returns
+true, the caller should assume the pool is available, but must be prepared
+to handle the \fI\fP\fBzpool_create_pool\fP returning failure.  However if this
+returns false, the caller should assume the requested pool type is not
+available; either the requested pool type module does not exist, or could
+not be loaded, and calling \fI\fP\fBzpool_create_pool\fP with the pool type will
+fail.
+
+The \fItype\fP string must be null-terminated.
+.SH "RETURN"
+true if \fItype\fP pool is available, false if not

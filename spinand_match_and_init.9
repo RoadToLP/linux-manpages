@@ -1,0 +1,25 @@
+.TH "spinand_match_and_init" 9 "spinand_match_and_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spinand_match_and_init \- Try to find a match between a device ID and an entry in a spinand_info table
+.SH SYNOPSIS
+.B "int" spinand_match_and_init
+.BI "(struct spinand_device *spinand "  ","
+.BI "const struct spinand_info *table "  ","
+.BI "unsigned int table_size "  ","
+.BI "enum spinand_readid_method rdid_method "  ");"
+.SH ARGUMENTS
+.IP "spinand" 12
+SPI NAND object
+.IP "table" 12
+SPI NAND device description table
+.IP "table_size" 12
+size of the device description table
+.IP "rdid_method" 12
+read id method to match
+.SH "DESCRIPTION"
+Match between a device ID retrieved through the READ_ID command and an
+entry in the SPI NAND description table. If a match is found, the spinand
+object will be initialized with information provided by the matching
+spinand_info entry.
+.SH "RETURN"
+0 on success, a negative error code otherwise.

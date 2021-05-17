@@ -1,0 +1,15 @@
+.TH "destroy_old_idx" 9 "destroy_old_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+destroy_old_idx \- destroy the old_idx RB-tree.
+.SH SYNOPSIS
+.B "void" destroy_old_idx
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+During start commit, the old_idx RB-tree is used to avoid overwriting index
+nodes that were in the index last commit but have since been deleted.  This
+is necessary for recovery i.e. the old index must be kept intact until the
+new index is successfully written.  The old-idx RB-tree is used for the
+in-the-gaps method of writing index nodes and is destroyed every commit.

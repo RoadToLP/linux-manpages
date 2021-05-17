@@ -1,0 +1,32 @@
+.TH "pipapo_rules_same_key" 9 "pipapo_rules_same_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_rules_same_key \- Get number of rules originated from the same entry
+.SH SYNOPSIS
+.B "int" pipapo_rules_same_key
+.BI "(struct nft_pipapo_field *f "  ","
+.BI "int first "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+Field containing mapping table
+.IP "first" 12
+Index of first rule in set of rules mapping to same entry
+.SH "DESCRIPTION"
+Using the fact that all rules in a field that originated from the same entry
+will map to the same set of rules in the next field, or to the same element
+reference, return the cardinality of the set of rules that originated from
+the same entry as the rule with index \fIfirst\fP, \fIfirst\fP rule included.
+
+In pictures:
+rules
+field #0                0    1    2    3    4
+map to:         0    1   2-4  2-4  5-9
+\&.    .    .......   . ...
+|    |    |    | \    *                         |    |    |    |  \    *                                |    |    |    |   \    *                               '    '    '    '    '    *      in field #1             0    1    2    3    4    5 ...
+
+if this is called for rule 2 on field #0, it will return 3, as also rules 2
+and 3 in field 0 map to the same set of rules (2, 3, 4) in the next field.
+
+For the last field in a set, we can rely on associated entries to map to the
+same element references.
+.SH "RETURN"
+Number of rules that originated from the same entry as \fIfirst\fP.

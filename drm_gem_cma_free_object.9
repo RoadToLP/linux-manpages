@@ -1,0 +1,15 @@
+.TH "drm_gem_cma_free_object" 9 "drm_gem_cma_free_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_free_object \- free resources associated with a CMA GEM object
+.SH SYNOPSIS
+.B "void" drm_gem_cma_free_object
+.BI "(struct drm_gem_object *gem_obj "  ");"
+.SH ARGUMENTS
+.IP "gem_obj" 12
+GEM object to free
+.SH "DESCRIPTION"
+This function frees the backing memory of the CMA GEM object, cleans up the
+GEM object state and frees the memory used to store the object itself.
+If the buffer is imported and the virtual address is set, it is released.
+Drivers using the CMA helpers should set this as their
+\fIdrm_gem_object_funcs.free\fP callback.

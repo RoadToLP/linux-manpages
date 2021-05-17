@@ -1,0 +1,43 @@
+.TH "efi_get_device_by_path" 9 "efi_get_device_by_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_get_device_by_path \- find device by EFI Device Path
+.SH SYNOPSIS
+.B "struct device *" efi_get_device_by_path
+.BI "(const struct efi_dev_path **node "  ","
+.BI "size_t *len "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+EFI Device Path
+.IP "len" 12
+maximum length of EFI Device Path in bytes
+.SH "DESCRIPTION"
+Parse a series of EFI Device Path nodes at \fInode\fP and find the corresponding
+device.  If the device was found, its reference count is incremented and a
+pointer to it is returned.  The caller needs to drop the reference with
+\fBput_device\fP after use.  The \fInode\fP pointer is updated to point to the
+location immediately after the "End of Hardware Device Path" node.
+
+If another Device Path instance follows, \fIlen\fP is decremented by the number
+of bytes consumed.  Otherwise \fIlen\fP is set to 0.
+
+If a Device Path node is malformed or its corresponding device is not found,
+\fInode\fP is updated to point to this offending node and an ERR_PTR is returned.
+
+If \fIlen\fP is initially 0, the function returns NULL.  Thus, to iterate over
+all instances in a path, the following idiom may be used:
+
+while (!IS_ERR_OR_NULL(dev = efi_get_device_by_path(\fInode\fP, \fIlen\fP))) {
+// do something with dev
+put_device(dev);
+}
+if (IS_ERR(dev))
+// report error
+
+Devices can only be found if they're already instantiated. Most buses
+instantiate devices in the "subsys" initcall level, hence the earliest
+initcall level in which this function should be called is "fs".
+
+Returns the device on success or
+ERR_PTR(-ENODEV) if no device was found,
+ERR_PTR(-EINVAL) if a node is malformed or exceeds \fIlen\fP,
+ERR_PTR(-ENOTSUPP) if support for a node type is not yet implemented.

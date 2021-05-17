@@ -1,0 +1,28 @@
+.TH "xvip_clr_or_set" 9 "xvip_clr_or_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xvip_clr_or_set \- Clear or set the register with a bitmask
+.SH SYNOPSIS
+.B "void" xvip_clr_or_set
+.BI "(struct xvip_device *xvip "  ","
+.BI "u32 addr "  ","
+.BI "u32 mask "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "xvip" 12
+Xilinx Video IP device
+.IP "addr" 12
+address of register
+.IP "mask" 12
+bitmask to be set or cleared
+.IP "set" 12
+boolean flag indicating whether to set or clear
+.SH "DESCRIPTION"
+Clear or set the register at address \fIaddr\fP with a bitmask \fImask\fP depending on
+the boolean flag \fIset\fP. When the flag \fIset\fP is true, the bitmask is set in
+the register, otherwise the bitmask is cleared from the register
+when the flag \fIset\fP is false.
+
+Fox example, this function can be used to set a control with a boolean value
+requested by users. If the caller knows whether to set or clear in the first
+place, the caller should call \fBxvip_clr\fP or \fBxvip_set\fP directly instead of
+using this function.

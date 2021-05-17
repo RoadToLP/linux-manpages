@@ -1,0 +1,25 @@
+.TH "__next_mem_pfn_range_in_zone" 9 "__next_mem_pfn_range_in_zone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__next_mem_pfn_range_in_zone \- iterator for for_each_*_range_in_zone()
+.SH SYNOPSIS
+.B "void __init_memblock" __next_mem_pfn_range_in_zone
+.BI "(u64 *idx "  ","
+.BI "struct zone *zone "  ","
+.BI "unsigned long *out_spfn "  ","
+.BI "unsigned long *out_epfn "  ");"
+.SH ARGUMENTS
+.IP "idx" 12
+pointer to u64 loop variable
+.IP "zone" 12
+zone in which all of the memory blocks reside
+.IP "out_spfn" 12
+ptr to ulong for start pfn of the range, can be NULL
+.IP "out_epfn" 12
+ptr to ulong for end pfn of the range, can be NULL
+.SH "DESCRIPTION"
+This function is meant to be a zone/pfn specific wrapper for the
+for_each_mem_range type iterators. Specifically they are used in the
+deferred memory init routines and as such we were duplicating much of
+this logic throughout the code. So instead of having it in multiple
+locations it seemed like it would make more sense to centralize this to
+one new iterator that does everything they need.

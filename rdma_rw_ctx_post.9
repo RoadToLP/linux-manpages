@@ -1,0 +1,27 @@
+.TH "rdma_rw_ctx_post" 9 "rdma_rw_ctx_post" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_rw_ctx_post \- post a RDMA READ or RDMA WRITE operation
+.SH SYNOPSIS
+.B "int" rdma_rw_ctx_post
+.BI "(struct rdma_rw_ctx *ctx "  ","
+.BI "struct ib_qp *qp "  ","
+.BI "u8 port_num "  ","
+.BI "struct ib_cqe *cqe "  ","
+.BI "struct ib_send_wr *chain_wr "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+context to operate on
+.IP "qp" 12
+queue pair to operate on
+.IP "port_num" 12
+port num to which the connection is bound
+.IP "cqe" 12
+completion queue entry for the last WR
+.IP "chain_wr" 12
+WR to append to the posted chain
+.SH "DESCRIPTION"
+Post the set of RDMA READ/WRITE operations described by \fIctx\fP, as well as
+any memory registration operations needed.  If \fIchain_wr\fP is non-NULL the
+WR it points to will be appended to the chain of WRs posted.  If \fIchain_wr\fP
+is not set \fIcqe\fP must be set so that the caller gets a completion
+notification.

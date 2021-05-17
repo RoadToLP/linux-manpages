@@ -1,0 +1,26 @@
+.TH "bud_wbuf_callback" 9 "bud_wbuf_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bud_wbuf_callback \- bud LEB write-buffer synchronization call-back.
+.SH SYNOPSIS
+.B "int" bud_wbuf_callback
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int free "  ","
+.BI "int pad "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB the write-buffer was synchronized to
+.IP "free" 12
+how many free bytes left in this LEB
+.IP "pad" 12
+how many bytes were padded
+.SH "DESCRIPTION"
+This is a callback function which is called by the I/O unit when the
+write-buffer is synchronized. We need this to correctly maintain space
+accounting in bud logical eraseblocks. This function returns zero in case of
+success and a negative error code in case of failure.
+
+This function actually belongs to the journal, but we keep it here because
+we want to keep it static.

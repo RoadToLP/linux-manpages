@@ -1,0 +1,17 @@
+.TH "restore_highmem" 9 "restore_highmem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+restore_highmem \- Put highmem image pages into their original locations.
+.SH SYNOPSIS
+.B "int" restore_highmem
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+For each highmem page that was in use before hibernation and is included in
+the image, and also has been allocated by the "restore" kernel, swap its
+current contents with the previous (ie. "before hibernation") ones.
+
+If the restore eventually fails, we can call this function once again and
+restore the highmem state as seen by the restore kernel.

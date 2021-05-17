@@ -1,0 +1,17 @@
+.TH "__ssp_update_baud_rate" 9 "__ssp_update_baud_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ssp_update_baud_rate \- set the UART "baud rate"
+.SH SYNOPSIS
+.B "void" __ssp_update_baud_rate
+.BI "(struct sifive_serial_port *ssp "  ","
+.BI "unsigned int rate "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+pointer to a struct sifive_serial_port
+.IP "rate" 12
+new target bit rate
+.SH "DESCRIPTION"
+Calculate the UART divisor value for the target bit rate \fIrate\fP for the
+SiFive UART described by \fIssp\fP and program it into the UART.  There may
+be some error between the target bit rate and the actual bit rate implemented
+by the UART due to clock ratio granularity.

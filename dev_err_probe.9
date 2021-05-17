@@ -1,0 +1,37 @@
+.TH "dev_err_probe" 9 "dev_err_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_err_probe \- probe error check and log helper
+.SH SYNOPSIS
+.B "int" dev_err_probe
+.BI "(const struct device *dev "  ","
+.BI "int err "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the pointer to the struct device
+.IP "err" 12
+error value to test
+.IP "fmt" 12
+printf-style format string
+.IP "..." 12
+arguments as specified in the format string
+.SH "DESCRIPTION"
+This helper implements common pattern present in probe functions for error
+checking: print debug or error message depending if the error value is
+-EPROBE_DEFER and propagate error upwards.
+In case of -EPROBE_DEFER it sets also defer probe reason, which can be
+checked later by reading devices_deferred debugfs attribute.
+It replaces code sequence::
+
+if (err != -EPROBE_DEFER)
+dev_err(dev, ...);
+else
+dev_dbg(dev, ...);
+return err;
+
+with::
+
+return dev_err_probe(dev, err, ...);
+
+Returns \fIerr\fP.

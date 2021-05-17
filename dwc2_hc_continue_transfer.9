@@ -1,0 +1,25 @@
+.TH "dwc2_hc_continue_transfer" 9 "dwc2_hc_continue_transfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hc_continue_transfer \- Continues a data transfer that was started by a previous call to dwc2_hc_start_transfer()
+.SH SYNOPSIS
+.B "int" dwc2_hc_continue_transfer
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of DWC_otg controller
+.IP "chan" 12
+Information needed to initialize the host channel
+.SH "DESCRIPTION"
+The caller must ensure there is sufficient space in the request queue and Tx
+Data FIFO. This function should only be called in Slave mode. In DMA mode,
+the controller acts autonomously to complete transfers programmed to a host
+channel.
+
+For an OUT transfer, a new data packet is loaded into the appropriate FIFO
+if there is any data remaining to be queued. For an IN transfer, another
+data packet is always requested. For the SETUP phase of a control transfer,
+this function does nothing.
+.SH "RETURN"
+1 if a new request is queued, 0 if no more requests are required
+for this transfer

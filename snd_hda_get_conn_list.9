@@ -1,0 +1,24 @@
+.TH "snd_hda_get_conn_list" 9 "snd_hda_get_conn_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_get_conn_list \- get connection list
+.SH SYNOPSIS
+.B "int" snd_hda_get_conn_list
+.BI "(struct hda_codec *codec "  ","
+.BI "hda_nid_t nid "  ","
+.BI "const hda_nid_t **listp "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "nid" 12
+NID to parse
+.IP "listp" 12
+the pointer to store NID list
+.SH "DESCRIPTION"
+Parses the connection list of the given widget and stores the pointer
+to the list of NIDs.
+
+Returns the number of connections, or a negative error code.
+
+Note that the returned pointer isn't protected against the list
+modification.  If \fBsnd_hda_override_conn_list\fP might be called
+concurrently, protect with a mutex appropriately.

@@ -1,0 +1,19 @@
+.TH "xdr_read_pages" 9 "xdr_read_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_read_pages \- align page-based XDR data to current pointer position
+.SH SYNOPSIS
+.B "unsigned int" xdr_read_pages
+.BI "(struct xdr_stream *xdr "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream struct
+.IP "len" 12
+number of bytes of page data
+.SH "DESCRIPTION"
+Moves data beyond the current pointer position from the XDR head[] buffer
+into the page list. Any data that lies beyond current position + \fIlen\fP
+bytes is moved into the XDR tail[]. The xdr_stream current position is
+then advanced past that data to align to the next XDR object in the tail.
+
+Returns the number of XDR encoded bytes now contained in the pages

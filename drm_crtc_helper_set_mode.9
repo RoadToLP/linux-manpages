@@ -1,0 +1,32 @@
+.TH "drm_crtc_helper_set_mode" 9 "drm_crtc_helper_set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_helper_set_mode \- internal helper to set a mode
+.SH SYNOPSIS
+.B "bool" drm_crtc_helper_set_mode
+.BI "(struct drm_crtc *crtc "  ","
+.BI "struct drm_display_mode *mode "  ","
+.BI "int x "  ","
+.BI "int y "  ","
+.BI "struct drm_framebuffer *old_fb "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC to program
+.IP "mode" 12
+mode to use
+.IP "x" 12
+horizontal offset into the surface
+.IP "y" 12
+vertical offset into the surface
+.IP "old_fb" 12
+old framebuffer, for cleanup
+.SH "DESCRIPTION"
+Try to set \fImode\fP on \fIcrtc\fP.  Give \fIcrtc\fP and its associated connectors a chance
+to fixup or reject the mode prior to trying to set it. This is an internal
+helper that drivers could e.g. use to update properties that require the
+entire output pipe to be disabled and re-enabled in a new configuration. For
+example for changing whether audio is enabled on a hdmi link or for changing
+panel fitter or dither attributes. It is also called by the
+\fBdrm_crtc_helper_set_config\fP helper function to drive the mode setting
+sequence.
+.SH "RETURN"
+True if the mode was set successfully, false otherwise.

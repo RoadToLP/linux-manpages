@@ -1,0 +1,26 @@
+.TH "devm_clk_hw_register_clkdev" 9 "devm_clk_hw_register_clkdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_clk_hw_register_clkdev \- managed clk lookup registration for clk_hw
+.SH SYNOPSIS
+.B "int" devm_clk_hw_register_clkdev
+.BI "(struct device *dev "  ","
+.BI "struct clk_hw *hw "  ","
+.BI "const char *con_id "  ","
+.BI "const char *dev_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device this lookup is bound
+.IP "hw" 12
+struct clk_hw to associate with all clk_lookups
+.IP "con_id" 12
+connection ID string on device
+.IP "dev_id" 12
+format string describing device name
+.SH "DESCRIPTION"
+con_id or dev_id may be NULL as a wildcard, just as in the rest of
+clkdev.
+
+To make things easier for mass registration, we detect error clk_hws
+from a previous clk_hw_register_*() call, and return the error code for
+those.  This is to permit this function to be called immediately
+after clk_hw_register_*().

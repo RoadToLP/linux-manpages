@@ -1,0 +1,21 @@
+.TH "csio_queuecommand" 9 "csio_queuecommand" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+csio_queuecommand \- Entry point to kickstart an I/O request.
+.SH SYNOPSIS
+.B "int" csio_queuecommand
+.BI "(struct Scsi_Host *host "  ","
+.BI "struct scsi_cmnd *cmnd "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The scsi_host pointer.
+.IP "cmnd" 12
+The I/O request from ML.
+.SH "DESCRIPTION"
+This routine does the following:
+- Checks for HW and Rnode module readiness.
+- Gets a free ioreq structure (which is already initialized
+to uninit during its allocation).
+- Maps SG elements.
+- Initializes ioreq members.
+- Kicks off the SCSI state machine for this IO.
+- Returns busy status on error.

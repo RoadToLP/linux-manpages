@@ -1,0 +1,17 @@
+.TH "copy_siginfo_to_external32" 9 "copy_siginfo_to_external32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_siginfo_to_external32 \- copy a kernel siginfo into a compat user siginfo
+.SH SYNOPSIS
+.B "void" copy_siginfo_to_external32
+.BI "(struct compat_siginfo *to "  ","
+.BI "const struct kernel_siginfo *from "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+compat siginfo destination
+.IP "from" 12
+kernel siginfo source
+.SH "NOTE"
+This function does not work properly for the SIGCHLD on x32, but
+fortunately it doesn't have to.  The only valid callers for this function are
+copy_siginfo_to_user32, which is overriden for x32 and the coredump code.
+The latter does not care because SIGCHLD will never cause a coredump.

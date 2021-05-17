@@ -1,0 +1,19 @@
+.TH "lpfc_sli_next_iotag" 9 "lpfc_sli_next_iotag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_next_iotag \- Get an iotag for the iocb
+.SH SYNOPSIS
+.B "uint16_t" lpfc_sli_next_iotag
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *iocbq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "iocbq" 12
+Pointer to driver iocb object.
+.SH "DESCRIPTION"
+This function gets an iotag for the iocb. If there is no unused iotag and
+the iocbq_lookup_len < 0xffff, this function allocates a bigger iotag_lookup
+array and assigns a new iotag.
+The function returns the allocated iotag if successful, else returns zero.
+Zero is not a valid iotag.
+The caller is not required to hold any lock.

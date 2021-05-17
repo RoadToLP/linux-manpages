@@ -1,0 +1,29 @@
+.TH "tid_flush_pages" 9 "tid_flush_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tid_flush_pages \- dump out pages into pagesets
+.SH SYNOPSIS
+.B "u32" tid_flush_pages
+.BI "(struct tid_rdma_pageset *list "  ","
+.BI "u32 *idx "  ","
+.BI "u32 pages "  ","
+.BI "u32 sets "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+list of pagesets
+.IP "idx" 12
+pointer to current page index
+.IP "pages" 12
+number of pages to dump
+.IP "sets" 12
+current number of pagesset
+.SH "DESCRIPTION"
+This routine flushes out accumuated pages.
+
+To insure an even number of sets the
+code may add a filler.
+
+This can happen with when pages is not
+a power of 2 or pages is a power of 2
+less than the maximum pages.
+.SH "RETURN"
+The new number of sets

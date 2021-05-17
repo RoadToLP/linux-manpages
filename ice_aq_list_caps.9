@@ -1,0 +1,34 @@
+.TH "ice_aq_list_caps" 9 "ice_aq_list_caps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_list_caps \- query function/device capabilities
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_list_caps
+.BI "(struct ice_hw *hw "  ","
+.BI "void *buf "  ","
+.BI "u16 buf_size "  ","
+.BI "u32 *cap_count "  ","
+.BI "enum ice_adminq_opc opc "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "buf" 12
+a buffer to hold the capabilities
+.IP "buf_size" 12
+size of the buffer
+.IP "cap_count" 12
+if not NULL, set to the number of capabilities reported
+.IP "opc" 12
+capabilities type to discover, device or function
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Get the function (0x000A) or device (0x000B) capabilities description from
+firmware and store it in the buffer.
+
+If the cap_count pointer is not NULL, then it is set to the number of
+capabilities firmware will report. Note that if the buffer size is too
+small, it is possible the command will return ICE_AQ_ERR_ENOMEM. The
+cap_count will still be updated in this case. It is recommended that the
+buffer size be set to ICE_AQ_MAX_BUF_LEN (the largest possible buffer that
+firmware could return) to avoid this.

@@ -1,0 +1,44 @@
+.TH "tracing_map_insert" 9 "tracing_map_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_insert \- Insert key and/or retrieve val from a tracing_map
+.SH SYNOPSIS
+.B "struct tracing_map_elt *" tracing_map_insert
+.BI "(struct tracing_map *map "  ","
+.BI "void *key "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The tracing_map to insert into
+.IP "key" 12
+The key to insert
+.SH "DESCRIPTION"
+Inserts a key into a tracing_map and creates and returns a new
+tracing_map_elt for it, or if the key has already been inserted by
+a previous call, returns the tracing_map_elt already associated
+with it.  When the map was created, the number of elements to be
+allocated for the map was specified (internally maintained as
+'max_elts' in struct tracing_map), and that number of
+tracing_map_elts was created by \fBtracing_map_init\fP.  This is the
+pre-allocated pool of tracing_map_elts that \fBtracing_map_insert\fP
+will allocate from when adding new keys.  Once that pool is
+exhausted, \fBtracing_map_insert\fP is useless and will return NULL to
+signal that state.  There are two user-visible tracing_map
+variables, 'hits' and 'drops', which are updated by this function.
+Every time an element is either successfully inserted or retrieved,
+the 'hits' value is incremented.  Every time an element insertion
+fails, the 'drops' value is incremented.
+
+This is a lock-free tracing map insertion function implementing a
+modified form of Cliff Click's basic insertion algorithm.  It
+requires the table size be a power of two.  To prevent any
+possibility of an infinite loop we always make the internal table
+size double the size of the requested table size (max_elts * 2).
+Likewise, we never reuse a slot or resize or delete elements - when
+we've reached max_elts entries, we simply return NULL once we've
+run out of entries.  Readers can at any point in time traverse the
+tracing map and safely access the key/val pairs.
+.SH "RETURN"
+the tracing_map_elt pointer val associated with the key.
+If this was a newly inserted key, the val will be a newly allocated
+and associated tracing_map_elt pointer val.  If the key wasn't
+found and the pool of tracing_map_elts has been exhausted, NULL is
+returned and no further insertions will succeed.

@@ -1,0 +1,29 @@
+.TH "sgx_encl_may_map" 9 "sgx_encl_may_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sgx_encl_may_map \- Check if a requested VMA mapping is allowed
+.SH SYNOPSIS
+.B "int" sgx_encl_may_map
+.BI "(struct sgx_encl *encl "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long end "  ","
+.BI "unsigned long vm_flags "  ");"
+.SH ARGUMENTS
+.IP "encl" 12
+an enclave pointer
+.IP "start" 12
+lower bound of the address range, inclusive
+.IP "end" 12
+upper bound of the address range, exclusive
+.IP "vm_flags" 12
+VMA flags
+.SH "DESCRIPTION"
+Iterate through the enclave pages contained within [\fIstart\fP, \fIend\fP) to verify
+that the permissions requested by a subset of {VM_READ, VM_WRITE, VM_EXEC}
+do not contain any permissions that are not contained in the build time
+permissions of any of the enclave pages within the given address range.
+
+An enclave creator must declare the strongest permissions that will be
+needed for each enclave page. This ensures that mappings have the identical
+or weaker permissions than the earlier declared permissions.
+.SH "RETURN"
+0 on success, -EACCES otherwise

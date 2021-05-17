@@ -1,0 +1,23 @@
+.TH "omap_rproc_request_timer" 9 "omap_rproc_request_timer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_rproc_request_timer \- request a timer for a remoteproc
+.SH SYNOPSIS
+.B "int" omap_rproc_request_timer
+.BI "(struct device *dev "  ","
+.BI "struct device_node *np "  ","
+.BI "struct omap_rproc_timer *timer "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device requesting the timer
+.IP "np" 12
+device node pointer to the desired timer
+.IP "timer" 12
+handle to a struct omap_rproc_timer to return the timer handle
+.SH "DESCRIPTION"
+This helper function is used primarily to request a timer associated with
+a remoteproc. The returned handle is stored in the .odt field of the
+\fItimer\fP structure passed in, and is used to invoke other timer specific
+ops (like starting a timer either during device initialization or during
+a resume operation, or for stopping/freeing a timer).
+.SH "RETURN"
+0 on success, otherwise an appropriate failure

@@ -1,0 +1,23 @@
+.TH "igc_cleanup_headers" 9 "igc_cleanup_headers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igc_cleanup_headers \- Correct corrupted or empty headers
+.SH SYNOPSIS
+.B "bool" igc_cleanup_headers
+.BI "(struct igc_ring *rx_ring "  ","
+.BI "union igc_adv_rx_desc *rx_desc "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring packet is being transacted on
+.IP "rx_desc" 12
+pointer to the EOP Rx descriptor
+.IP "skb" 12
+pointer to current skb being fixed
+.SH "DESCRIPTION"
+Address the case where we are pulling data in on pages only
+and as such no data is present in the skb header.
+
+In addition if skb is not at least 60 bytes we need to pad it so that
+it is large enough to qualify as a valid Ethernet frame.
+
+Returns true if an error was encountered and skb was freed.

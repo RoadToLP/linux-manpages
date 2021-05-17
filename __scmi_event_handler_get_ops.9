@@ -1,0 +1,39 @@
+.TH "__scmi_event_handler_get_ops" 9 "__scmi_event_handler_get_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__scmi_event_handler_get_ops \- Utility to get or create an event handler
+.SH SYNOPSIS
+.B "struct scmi_event_handler *" __scmi_event_handler_get_ops
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "u32 evt_key "  ","
+.BI "bool create "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "evt_key" 12
+The event key to use
+.IP "create" 12
+A boolean flag to specify if a handler must be created when
+not already existent
+.SH "DESCRIPTION"
+Search for the desired handler matching the key in both the per-protocol
+registered table and the common pending table:
+* if found adjust users refcount
+* if not found and \fIcreate\fP is true, create and register the new handler:
+handler could end up being registered as pending if no matching event
+could be found.
+
+An handler is guaranteed to reside in one and only one of the tables at
+any one time; to ensure this the whole search and create is performed
+holding the \fIpending_mtx\fP lock, with \fIregistered_mtx\fP additionally acquired
+if needed.
+
+Note that when a nested acquisition of these mutexes is needed the locking
+order is always (same as in \fIinit_work\fP):
+1. pending_mtx
+2. registered_mtx
+
+Events generation is NOT enabled right after creation within this routine
+since at creation time we usually want to have all setup and ready before
+events really start flowing.
+.SH "RETURN"
+A properly refcounted handler on Success, NULL on Failure

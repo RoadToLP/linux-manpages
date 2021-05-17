@@ -1,0 +1,25 @@
+.TH "pci_vc_do_save_buffer" 9 "pci_vc_do_save_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_vc_do_save_buffer \- Size, save, or restore VC state
+.SH SYNOPSIS
+.B "int" pci_vc_do_save_buffer
+.BI "(struct pci_dev *dev "  ","
+.BI "int pos "  ","
+.BI "struct pci_cap_saved_state *save_state "  ","
+.BI "bool save "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "pos" 12
+starting position of VC capability (VC/VC9/MFVC)
+.IP "save_state" 12
+buffer for save/restore
+.IP "save" 12
+if provided a buffer, this indicates what to do with it
+.SH "DESCRIPTION"
+Walking Virtual Channel config space to size, save, or restore it
+is complicated, so we do it all from one function to reduce code and
+guarantee ordering matches in the buffer.  When called with NULL
+\fIsave_state\fP, return the size of the necessary save buffer.  When called
+with a non-NULL \fIsave_state\fP, \fIsave\fP determines whether we save to the
+buffer or restore from it.

@@ -1,0 +1,19 @@
+.TH "__drm_atomic_helper_plane_reset" 9 "__drm_atomic_helper_plane_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__drm_atomic_helper_plane_reset \- reset state on plane
+.SH SYNOPSIS
+.B "void" __drm_atomic_helper_plane_reset
+.BI "(struct drm_plane *plane "  ","
+.BI "struct drm_plane_state *plane_state "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+drm plane
+.IP "plane_state" 12
+plane state to assign
+.SH "DESCRIPTION"
+Initializes the newly allocated \fIplane_state\fP and assigns it to
+the \fIdrm_crtc->state\fP pointer of \fIplane\fP, usually required when
+initializing the drivers or when called from the \fIdrm_plane_funcs.reset\fP
+hook.
+
+This is useful for drivers that subclass the plane state.

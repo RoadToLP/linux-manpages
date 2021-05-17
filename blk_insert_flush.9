@@ -1,0 +1,14 @@
+.TH "blk_insert_flush" 9 "blk_insert_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_insert_flush \- insert a new PREFLUSH/FUA request
+.SH SYNOPSIS
+.B "void" blk_insert_flush
+.BI "(struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+request to insert
+.SH "DESCRIPTION"
+To be called from \fB__elv_add_request\fP for ELEVATOR_INSERT_FLUSH insertions.
+or \fB__blk_mq_run_hw_queue\fP to dispatch request.
+\fIrq\fP is being submitted.  Analyze what needs to be done and put it on the
+right queue.

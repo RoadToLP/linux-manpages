@@ -1,0 +1,17 @@
+.TH "__batadv_mcast_mla_update" 9 "__batadv_mcast_mla_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__batadv_mcast_mla_update \- update the own MLAs
+.SH SYNOPSIS
+.B "void" __batadv_mcast_mla_update
+.BI "(struct batadv_priv *bat_priv "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.SH "DESCRIPTION"
+Updates the own multicast listener announcements in the translation
+table as well as the own, announced multicast tvlv container.
+
+Note that non-conflicting reads and writes to bat_priv->mcast.mla_list
+in \fBbatadv_mcast_mla_tt_retract\fP and \fBbatadv_mcast_mla_tt_add\fP are
+ensured by the non-parallel execution of the worker this function
+belongs to.

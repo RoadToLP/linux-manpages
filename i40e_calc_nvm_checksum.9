@@ -1,0 +1,17 @@
+.TH "i40e_calc_nvm_checksum" 9 "i40e_calc_nvm_checksum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_calc_nvm_checksum \- Calculates and returns the checksum
+.SH SYNOPSIS
+.B "i40e_status" i40e_calc_nvm_checksum
+.BI "(struct i40e_hw *hw "  ","
+.BI "u16 *checksum "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "checksum" 12
+pointer to the checksum
+.SH "DESCRIPTION"
+This function calculates SW Checksum that covers the whole 64kB shadow RAM
+except the VPD and PCIe ALT Auto-load modules. The structure and size of VPD
+is customer specific and unknown. Therefore, this function skips all maximum
+possible size of VPD (1kB).

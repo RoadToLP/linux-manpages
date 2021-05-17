@@ -1,0 +1,18 @@
+.TH "e1000_init_hw_struct" 9 "e1000_init_hw_struct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_init_hw_struct \- initialize members of hw struct
+.SH SYNOPSIS
+.B "int" e1000_init_hw_struct
+.BI "(struct e1000_adapter *adapter "  ","
+.BI "struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private struct
+.IP "hw" 12
+structure used by e1000_hw.c
+.SH "DESCRIPTION"
+Factors out initialization of the e1000_hw struct to its own function
+that can be called very early at init (just after struct allocation).
+Fields are initialized based on PCI device information and
+OS network device settings (MTU size).
+Returns negative error codes if MAC type setup fails.

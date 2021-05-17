@@ -1,0 +1,18 @@
+.TH "klp_enable_patch" 9 "klp_enable_patch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klp_enable_patch \- enable the livepatch
+.SH SYNOPSIS
+.B "int" klp_enable_patch
+.BI "(struct klp_patch *patch "  ");"
+.SH ARGUMENTS
+.IP "patch" 12
+patch to be enabled
+.SH "DESCRIPTION"
+Initializes the data structure associated with the patch, creates the sysfs
+interface, performs the needed symbol lookups and code relocations,
+registers the patched functions with ftrace.
+
+This function is supposed to be called from the livepatch \fBmodule_init\fP
+callback.
+.SH "RETURN"
+0 on success, otherwise error

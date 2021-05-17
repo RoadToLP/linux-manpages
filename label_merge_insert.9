@@ -1,0 +1,26 @@
+.TH "label_merge_insert" 9 "label_merge_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+label_merge_insert \- create a new label by merging @a and @b
+.SH SYNOPSIS
+.B "struct aa_label *" label_merge_insert
+.BI "(struct aa_label *new "  ","
+.BI "struct aa_label *a "  ","
+.BI "struct aa_label *b "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+preallocated label to merge into (NOT NULL)
+.IP "a" 12
+label to merge with \fIb\fP  (NOT NULL)
+.IP "b" 12
+label to merge with \fIa\fP  (NOT NULL)
+.SH "DESCRIPTION"
+Requires: preallocated proxy
+.SH "RETURN"
+ref counted label either \fInew\fP if merge is unique
+\fIa\fP if \fIb\fP is a subset of \fIa\fP
+\fIb\fP if \fIa\fP is a subset of \fIb\fP
+.SH "NOTE"
+will not use \fInew\fP if the merge results in \fInew\fP == \fIa\fP or \fIb\fP
+
+Must be used within labelset write lock to avoid racing with
+setting labels stale.

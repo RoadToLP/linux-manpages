@@ -1,0 +1,22 @@
+.TH "blk_crypto_start_using_key" 9 "blk_crypto_start_using_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_crypto_start_using_key \- Start using a blk_crypto_key on a device
+.SH SYNOPSIS
+.B "int" blk_crypto_start_using_key
+.BI "(const struct blk_crypto_key *key "  ","
+.BI "struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+A key to use on the device
+.IP "q" 12
+the request queue for the device
+.SH "DESCRIPTION"
+Upper layers must call this function to ensure that either the hardware
+supports the key's crypto settings, or the crypto API fallback has transforms
+for the needed mode allocated and ready to go. This function may allocate
+an skcipher, and *should not* be called from the data path, since that might
+cause a deadlock
+.SH "RETURN"
+0 on success; -ENOPKG if the hardware doesn't support the key and
+blk-crypto-fallback is either disabled or the needed algorithm
+is disabled in the crypto API; or another -errno code.

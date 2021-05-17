@@ -1,0 +1,38 @@
+.TH "fh_verify" 9 "fh_verify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fh_verify \- filehandle lookup and access checking
+.SH SYNOPSIS
+.B "__be32" fh_verify
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "struct svc_fh *fhp "  ","
+.BI "umode_t type "  ","
+.BI "int access "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+pointer to current rpc request
+.IP "fhp" 12
+filehandle to be verified
+.IP "type" 12
+expected type of object pointed to by filehandle
+.IP "access" 12
+type of access needed to object
+.SH "DESCRIPTION"
+Look up a dentry from the on-the-wire filehandle, check the client's
+access to the export, and set the current task's credentials.
+
+Regardless of success or failure of \fBfh_verify\fP, \fBfh_put\fP should be
+called on \fIfhp\fP when the caller is finished with the filehandle.
+
+\fBfh_verify\fP may be called multiple times on a given filehandle, for
+example, when processing an NFSv4 compound.  The first call will look
+up a dentry using the on-the-wire filehandle.  Subsequent calls will
+skip the lookup and just perform the other checks and possibly change
+the current task's credentials.
+
+\fItype\fP specifies the type of object expected using one of the S_IF*
+constants defined in include/linux/stat.h.  The caller may use zero
+to indicate that it doesn't care, or a negative integer to indicate
+that it expects something not of the given type.
+
+\fIaccess\fP is formed from the NFSD_MAY_* constants defined in
+fs/nfsd/vfs.h.

@@ -1,0 +1,17 @@
+.TH "irq_fixup_move_pending" 9 "irq_fixup_move_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_fixup_move_pending \- Cleanup irq move pending from a dying CPU
+.SH SYNOPSIS
+.B "bool" irq_fixup_move_pending
+.BI "(struct irq_desc *desc "  ","
+.BI "bool force_clear "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+Interrupt descpriptor to clean up
+.IP "force_clear" 12
+If set clear the move pending bit unconditionally.
+If not set, clear it only when the dying CPU is the
+last one in the pending mask.
+.SH "DESCRIPTION"
+Returns true if the pending bit was set and the pending mask contains an
+online CPU other than the dying CPU.

@@ -1,0 +1,17 @@
+.TH "pci_ats_queue_depth" 9 "pci_ats_queue_depth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_ats_queue_depth \- query the ATS Invalidate Queue Depth
+.SH SYNOPSIS
+.B "int" pci_ats_queue_depth
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device
+.SH "DESCRIPTION"
+Returns the queue depth on success, or negative on failure.
+
+The ATS spec uses 0 in the Invalidate Queue Depth field to
+indicate that the function can accept 32 Invalidate Request.
+But here we use the `real' values (i.e. 1~32) for the Queue
+Depth; and 0 indicates the function shares the Queue with
+other functions (doesn't exclusively own a Queue).

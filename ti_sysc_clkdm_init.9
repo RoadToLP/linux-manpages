@@ -1,0 +1,26 @@
+.TH "ti_sysc_clkdm_init" 9 "ti_sysc_clkdm_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sysc_clkdm_init \- find clockdomain based on clock
+.SH SYNOPSIS
+.B "int" ti_sysc_clkdm_init
+.BI "(struct device *dev "  ","
+.BI "struct clk *fck "  ","
+.BI "struct clk *ick "  ","
+.BI "struct ti_sysc_cookie *cookie "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device
+.IP "fck" 12
+device functional clock
+.IP "ick" 12
+device interface clock
+.IP "cookie" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Populate clockdomain based on clock. It is needed for
+\fBclkdm_deny_idle\fP and \fBclkdm_allow_idle\fP for blocking clockdomain
+clockdomain idle during reset, enable and idle.
+
+Note that we assume interconnect driver manages the clocks
+and do not need to populate oh->_clk for dynamically
+allocated modules.

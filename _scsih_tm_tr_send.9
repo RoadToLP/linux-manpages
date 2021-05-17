@@ -1,0 +1,23 @@
+.TH "_scsih_tm_tr_send" 9 "_scsih_tm_tr_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_scsih_tm_tr_send \- send task management request
+.SH SYNOPSIS
+.B "void" _scsih_tm_tr_send
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "u16 handle "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "handle" 12
+device handle
+.SH "CONTEXT"
+interrupt time.
+.SH "DESCRIPTION"
+This code is to initiate the device removal handshake protocol
+with controller firmware.  This function will issue target reset
+using high priority request queue.  It will send a sas iounit
+control request (MPI2_SAS_OP_REMOVE_DEVICE) from this completion.
+
+This is designed to send muliple task management request at the same
+time to the fifo. If the fifo is full, we will append the request,
+and process it in a future completion.

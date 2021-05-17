@@ -1,0 +1,20 @@
+.TH "ata_qc_complete" 9 "ata_qc_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_qc_complete \- Complete an active ATA command
+.SH SYNOPSIS
+.B "void" ata_qc_complete
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+Command to complete
+
+Indicate to the mid and upper layers that an ATA command has
+completed, with either an ok or not-ok status.
+
+Refrain from calling this function multiple times when
+successfully completing multiple NCQ commands.
+\fBata_qc_complete_multiple\fP should be used instead, which will
+properly update IRQ expect state.
+
+LOCKING:
+spin_lock_irqsave(host lock)

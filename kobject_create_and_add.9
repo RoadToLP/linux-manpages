@@ -1,0 +1,19 @@
+.TH "kobject_create_and_add" 9 "kobject_create_and_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kobject_create_and_add \- Create a struct kobject dynamically and register it with sysfs.
+.SH SYNOPSIS
+.B "struct kobject *" kobject_create_and_add
+.BI "(const char *name "  ","
+.BI "struct kobject *parent "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+the name for the kobject
+.IP "parent" 12
+the parent kobject of this kobject, if any.
+.SH "DESCRIPTION"
+This function creates a kobject structure dynamically and registers it
+with sysfs.  When you are finished with this structure, call
+\fBkobject_put\fP and the structure will be dynamically freed when
+it is no longer being used.
+
+If the kobject was not able to be created, NULL will be returned.

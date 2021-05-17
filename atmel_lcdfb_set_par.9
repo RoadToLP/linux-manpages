@@ -1,0 +1,18 @@
+.TH "atmel_lcdfb_set_par" 9 "atmel_lcdfb_set_par" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atmel_lcdfb_set_par \- Alters the hardware state.
+.SH SYNOPSIS
+.B "int" atmel_lcdfb_set_par
+.BI "(struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+frame buffer structure that represents a single frame buffer
+
+Using the fb_var_screeninfo in fb_info we set the resolution
+of the this particular framebuffer. This function alters the
+par AND the fb_fix_screeninfo stored in fb_info. It doesn't
+not alter var in fb_info since we are using that data. This
+means we depend on the data in var inside fb_info to be
+supported by the hardware.  atmel_lcdfb_check_var is always called
+before atmel_lcdfb_set_par to ensure this.  Again if you can't
+change the resolution you don't need this function.

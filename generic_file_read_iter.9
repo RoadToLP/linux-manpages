@@ -1,0 +1,27 @@
+.TH "generic_file_read_iter" 9 "generic_file_read_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_file_read_iter \- generic filesystem read routine
+.SH SYNOPSIS
+.B "ssize_t" generic_file_read_iter
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+kernel I/O control block
+.IP "iter" 12
+destination for the data read
+.SH "DESCRIPTION"
+This is the "\fBread_iter\fP" routine for all filesystems
+that can use the page cache directly.
+
+The IOCB_NOWAIT flag in iocb->ki_flags indicates that -EAGAIN shall
+be returned when no data can be read without waiting for I/O requests
+to complete; it doesn't prevent readahead.
+
+The IOCB_NOIO flag in iocb->ki_flags indicates that no new I/O
+requests shall be made for the read or for readahead.  When no data
+can be read, -EAGAIN shall be returned.  When readahead would be
+triggered, a partial, possibly empty read shall be returned.
+.SH "RETURN"
+* number of bytes copied, even for partial reads
+* negative error code (or 0 if IOCB_NOIO) if nothing was read

@@ -1,0 +1,19 @@
+.TH "gsm_dlci_t1" 9 "gsm_dlci_t1" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_dlci_t1 \- T1 timer expiry
+.SH SYNOPSIS
+.B "void" gsm_dlci_t1
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer contained in the DLCI that opened
+
+The T1 timer handles retransmits of control frames (essentially of
+SABM and DISC). We resend the command until the retry count runs out
+in which case an opening port goes back to closed and a closing port
+is simply put into closed state (any further frames from the other
+end will get a DM response)
+
+Some control dlci can stay in ADM mode with other dlci working just
+fine. In that case we can just keep the control dlci open after the
+DLCI_OPENING retries time out.

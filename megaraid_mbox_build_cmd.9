@@ -1,0 +1,20 @@
+.TH "megaraid_mbox_build_cmd" 9 "megaraid_mbox_build_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_mbox_build_cmd \- transform the mid-layer scsi commands
+.SH SYNOPSIS
+.B "scb_t *" megaraid_mbox_build_cmd
+.BI "(adapter_t *adapter "  ","
+.BI "struct scsi_cmnd *scp "  ","
+.BI "int *busy "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+controller's soft state
+.IP "scp" 12
+mid-layer scsi command pointer
+.IP "busy" 12
+set if request could not be completed because of lack of
+resources
+.SH "DESCRIPTION"
+Transform the mid-layer scsi command to megaraid firmware lingua.
+Convert the command issued by mid-layer to format understood by megaraid
+firmware. We also complete certain commands without sending them to firmware.

@@ -1,0 +1,32 @@
+.TH "assoc_array_iterate" 9 "assoc_array_iterate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assoc_array_iterate \- Pass all objects in the array to a callback
+.SH SYNOPSIS
+.B "int" assoc_array_iterate
+.BI "(const struct assoc_array *array "  ","
+.BI "int (*iterator)(const void *object, void *iterator_data) "  ","
+.BI "void *iterator_data "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+The array to iterate over.
+.IP "iterator" 12
+The callback function.
+.IP "iterator_data" 12
+Private data for the callback function.
+.SH "DESCRIPTION"
+Iterate over all the objects in an associative array.  Each one will be
+presented to the iterator function.
+
+If the array is being modified concurrently with the iteration then it is
+possible that some objects in the array will be passed to the iterator
+callback more than once - though every object should be passed at least
+once.  If this is undesirable then the caller must lock against modification
+for the duration of this function.
+
+The function will return 0 if no objects were in the array or else it will
+return the result of the last iterator function called.  Iteration stops
+immediately if any call to the iteration function results in a non-zero
+return.
+
+The caller should hold the RCU read lock or better if concurrent
+modification is possible.

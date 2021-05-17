@@ -1,0 +1,30 @@
+.TH "__unflatten_device_tree" 9 "__unflatten_device_tree" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__unflatten_device_tree \- create tree of device_nodes from flat blob
+.SH SYNOPSIS
+.B "void *" __unflatten_device_tree
+.BI "(const void *blob "  ","
+.BI "struct device_node *dad "  ","
+.BI "struct device_node **mynodes "  ","
+.BI "void *(*dt_alloc)(u64 size, u64 align) "  ","
+.BI "bool detached "  ");"
+.SH ARGUMENTS
+.IP "blob" 12
+The blob to expand
+.IP "dad" 12
+Parent device node
+.IP "mynodes" 12
+The device_node tree created by the call
+.IP "dt_alloc" 12
+An allocator that provides a virtual address to memory
+for the resulting tree
+.IP "detached" 12
+if true set OF_DETACHED on \fImynodes\fP
+.SH "DESCRIPTION"
+
+unflattens a device-tree, creating the
+tree of struct device_node. It also fills the "name" and "type"
+pointers of the nodes so the normal device-tree walking functions
+can be used.
+Returns NULL on failure or the memory chunk containing the unflattened
+device tree on success.

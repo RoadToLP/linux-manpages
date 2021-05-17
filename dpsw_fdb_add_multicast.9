@@ -1,0 +1,30 @@
+.TH "dpsw_fdb_add_multicast" 9 "dpsw_fdb_add_multicast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpsw_fdb_add_multicast \- Add a set of egress interfaces to multi-cast group
+.SH SYNOPSIS
+.B "int" dpsw_fdb_add_multicast
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 fdb_id "  ","
+.BI "const struct dpsw_fdb_multicast_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPSW object
+.IP "fdb_id" 12
+Forwarding Database Identifier
+.IP "cfg" 12
+Multicast entry configuration
+.SH "DESCRIPTION"
+If group doesn't exist, it will be created.
+It adds only interfaces not belonging to this multicast group
+yet, otherwise error will be generated and the command is
+ignored.
+This function may be called numerous times always providing
+required interfaces delta.
+.SH "RETURN"
+Completion status. '0' on Success; Error code otherwise.

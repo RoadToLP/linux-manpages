@@ -1,0 +1,24 @@
+.TH "ice_update_phy_type" 9 "ice_update_phy_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_update_phy_type \- 
+.SH SYNOPSIS
+.B "void" ice_update_phy_type
+.BI "(u64 *phy_type_low "  ","
+.BI "u64 *phy_type_high "  ","
+.BI "u16 link_speeds_bitmap "  ");"
+.SH ARGUMENTS
+.IP "phy_type_low" 12
+pointer to the lower part of phy_type
+.IP "phy_type_high" 12
+pointer to the higher part of phy_type
+.IP "link_speeds_bitmap" 12
+targeted link speeds bitmap
+.SH "NOTE"
+For the link_speeds_bitmap structure, you can check it at
+[ice_aqc_get_link_status->link_speed]. Caller can pass in
+link_speeds_bitmap include multiple speeds.
+.SH "DESCRIPTION"
+Each entry in this [phy_type_low, phy_type_high] structure will
+present a certain link speed. This helper function will turn on bits
+in [phy_type_low, phy_type_high] structure based on the value of
+link_speeds_bitmap input parameter.

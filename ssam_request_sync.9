@@ -1,0 +1,22 @@
+.TH "ssam_request_sync" 9 "ssam_request_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_sync \- Execute a synchronous request.
+.SH SYNOPSIS
+.B "int" ssam_request_sync
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "const struct ssam_request *spec "  ","
+.BI "struct ssam_response *rsp "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller via which the request will be submitted.
+.IP "spec" 12
+The request specification and payload.
+.IP "rsp" 12
+The response buffer.
+.SH "DESCRIPTION"
+Allocates a synchronous request with its message data buffer on the heap
+via \fBssam_request_sync_alloc\fP, fully initializes it via the provided
+request specification, submits it, and finally waits for its completion
+before freeing it and returning its status.
+.SH "RETURN"
+Returns the status of the request or any failure during setup.

@@ -1,0 +1,18 @@
+.TH "dbg_check_filesystem" 9 "dbg_check_filesystem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dbg_check_filesystem \- check the file-system.
+.SH SYNOPSIS
+.B "int" dbg_check_filesystem
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function checks the file system, namely:
+o makes sure that all leaf nodes exist and their CRCs are correct;
+o makes sure inode nlink, size, xattr size/count are correct (for all
+inodes).
+
+The function reads whole indexing tree and all nodes, so it is pretty
+heavy-weight. Returns zero if the file-system is consistent, -EINVAL if
+not, and a negative error code in case of failure.

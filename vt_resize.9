@@ -1,0 +1,19 @@
+.TH "vt_resize" 9 "vt_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vt_resize \- resize a VT
+.SH SYNOPSIS
+.B "int" vt_resize
+.BI "(struct tty_struct *tty "  ","
+.BI "struct winsize *ws "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty to resize
+.IP "ws" 12
+winsize attributes
+
+Resize a virtual terminal. This is called by the tty layer as we
+register our own handler for resizing. The mutual helper does all
+the actual work.
+
+Takes the console sem and the called methods then take the tty
+termios_rwsem and the tty ctrl_lock in that order.

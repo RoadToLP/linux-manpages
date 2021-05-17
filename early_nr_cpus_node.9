@@ -1,0 +1,13 @@
+.TH "early_nr_cpus_node" 9 "early_nr_cpus_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+early_nr_cpus_node \- return number of cpus on a given node
+.SH SYNOPSIS
+.B "int" early_nr_cpus_node
+.BI "(int node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+node to check
+.SH "DESCRIPTION"
+Count the number of cpus on \fInode\fP.  We can't use \fBnr_cpus_node\fP yet because
+\fBacpi_boot_init\fP (which builds the node_to_cpu_mask array) hasn't been
+called yet.  Note that node 0 will also count all non-existent cpus.

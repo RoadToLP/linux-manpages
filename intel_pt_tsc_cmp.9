@@ -1,0 +1,20 @@
+.TH "intel_pt_tsc_cmp" 9 "intel_pt_tsc_cmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pt_tsc_cmp \- compare 7-byte TSCs.
+.SH SYNOPSIS
+.B "int" intel_pt_tsc_cmp
+.BI "(uint64_t tsc1 "  ","
+.BI "uint64_t tsc2 "  ");"
+.SH ARGUMENTS
+.IP "tsc1" 12
+first TSC to compare
+.IP "tsc2" 12
+second TSC to compare
+.SH "DESCRIPTION"
+This function compares 7-byte TSC values allowing for the possibility that
+TSC wrapped around.  Generally it is not possible to know if TSC has wrapped
+around so for that purpose this function assumes the absolute difference is
+less than half the maximum difference.
+.SH "RETURN"
+-1 if \fItsc1\fP is before \fItsc2\fP, 0 if \fItsc1\fP == \fItsc2\fP, 1 if \fItsc1\fP is
+after \fItsc2\fP.

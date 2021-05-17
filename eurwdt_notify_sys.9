@@ -1,0 +1,20 @@
+.TH "eurwdt_notify_sys" 9 "eurwdt_notify_sys" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eurwdt_notify_sys \- 
+.SH SYNOPSIS
+.B "int" eurwdt_notify_sys
+.BI "(struct notifier_block *this "  ","
+.BI "unsigned long code "  ","
+.BI "void *unused "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+our notifier block
+.IP "code" 12
+the event being reported
+.IP "unused" 12
+unused
+.SH "DESCRIPTION"
+Our notifier is called on system shutdowns. We want to turn the card
+off at reboot otherwise the machine will reboot again during memory
+test or worse yet during the following fsck. This would suck, in fact
+trust me - if it happens it does suck.

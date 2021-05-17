@@ -1,0 +1,18 @@
+.TH "usb4_port_retimer_nvm_authenticate" 9 "usb4_port_retimer_nvm_authenticate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_port_retimer_nvm_authenticate \- Start retimer NVM upgrade
+.SH SYNOPSIS
+.B "int" usb4_port_retimer_nvm_authenticate
+.BI "(struct tb_port *port "  ","
+.BI "u8 index "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB4 port
+.IP "index" 12
+Retimer index
+.SH "DESCRIPTION"
+After the new NVM image has been written via \fBusb4_port_retimer_nvm_write\fP
+this function can be used to trigger the NVM upgrade process. If
+successful the retimer restarts with the new NVM and may not have the
+index set so one needs to call \fBusb4_port_enumerate_retimers\fP to
+force index to be assigned.

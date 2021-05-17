@@ -1,0 +1,25 @@
+.TH "mtd_ooblayout_free" 9 "mtd_ooblayout_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_ooblayout_free \- Get the OOB region definition of a specific free section
+.SH SYNOPSIS
+.B "int" mtd_ooblayout_free
+.BI "(struct mtd_info *mtd "  ","
+.BI "int section "  ","
+.BI "struct mtd_oob_region *oobfree "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device structure
+.IP "section" 12
+Free section you are interested in. Depending on the layout
+you may have all the free bytes stored in a single contiguous
+section, or one section per ECC chunk plus an extra section
+for the remaining bytes (or other funky layout).
+.IP "oobfree" 12
+OOB region struct filled with the appropriate free position
+information
+.SH "DESCRIPTION"
+This function returns free bytes position in the OOB area. If you want
+to get all the free bytes information, then you should call
+mtd_ooblayout_free(mtd, section++, oobfree) until it returns -ERANGE.
+
+Returns zero on success, a negative error code otherwise.

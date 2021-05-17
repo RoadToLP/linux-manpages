@@ -1,0 +1,19 @@
+.TH "pcpu_chunk_refresh_hint" 9 "pcpu_chunk_refresh_hint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_chunk_refresh_hint \- updates metadata about a chunk
+.SH SYNOPSIS
+.B "void" pcpu_chunk_refresh_hint
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "bool full_scan "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "full_scan" 12
+if we should scan from the beginning
+.SH "DESCRIPTION"
+Iterates over the metadata blocks to find the largest contig area.
+A full scan can be avoided on the allocation path as this is triggered
+if we broke the contig_hint.  In doing so, the scan_hint will be before
+the contig_hint or after if the scan_hint == contig_hint.  This cannot
+be prevented on freeing as we want to find the largest area possibly
+spanning blocks.

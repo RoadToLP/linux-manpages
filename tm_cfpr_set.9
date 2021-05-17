@@ -1,0 +1,36 @@
+.TH "tm_cfpr_set" 9 "tm_cfpr_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tm_cfpr_set \- set CFPR registers
+.SH SYNOPSIS
+.B "int" tm_cfpr_set
+.BI "(struct task_struct *target "  ","
+.BI "const struct user_regset *regset "  ","
+.BI "unsigned int pos "  ","
+.BI "unsigned int count "  ","
+.BI "const void *kbuf "  ","
+.BI "const void __user *ubuf "  ");"
+.SH ARGUMENTS
+.IP "target" 12
+The target task.
+.IP "regset" 12
+The user regset structure.
+.IP "pos" 12
+The buffer position.
+.IP "count" 12
+Number of bytes to copy.
+.IP "kbuf" 12
+Kernel buffer to copy into.
+.IP "ubuf" 12
+User buffer to copy from.
+.SH "DESCRIPTION"
+This function sets in transaction checkpointed FPR registers.
+
+When the transaction is active 'ckfp_state' holds the checkpointed
+FPR register values for the current transaction to fall back on
+if it aborts in between. This function sets these checkpointed
+FPR registers. The userspace interface buffer layout is as follows.
+
+struct data {
+u64     fpr[32];
+u64     fpscr;
+};

@@ -1,0 +1,26 @@
+.TH "css_set_move_task" 9 "css_set_move_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_set_move_task \- move a task from one css_set to another
+.SH SYNOPSIS
+.B "void" css_set_move_task
+.BI "(struct task_struct *task "  ","
+.BI "struct css_set *from_cset "  ","
+.BI "struct css_set *to_cset "  ","
+.BI "bool use_mg_tasks "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+task being moved
+.IP "from_cset" 12
+css_set \fItask\fP currently belongs to (may be NULL)
+.IP "to_cset" 12
+new css_set \fItask\fP is being moved to (may be NULL)
+.IP "use_mg_tasks" 12
+move to \fIto_cset->mg_tasks\fP instead of ->tasks
+.SH "DESCRIPTION"
+Move \fItask\fP from \fIfrom_cset\fP to \fIto_cset\fP.  If \fItask\fP didn't belong to any
+css_set, \fIfrom_cset\fP can be NULL.  If \fItask\fP is being disassociated
+instead of moved, \fIto_cset\fP can be NULL.
+
+This function automatically handles populated counter updates and
+css_task_iter adjustments but the caller is responsible for managing
+\fIfrom_cset\fP and \fIto_cset\fP's reference counts.

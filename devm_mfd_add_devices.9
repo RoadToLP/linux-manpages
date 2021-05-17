@@ -1,0 +1,34 @@
+.TH "devm_mfd_add_devices" 9 "devm_mfd_add_devices" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_mfd_add_devices \- Resource managed version of mfd_add_devices()
+.SH SYNOPSIS
+.B "int" devm_mfd_add_devices
+.BI "(struct device *dev "  ","
+.BI "int id "  ","
+.BI "const struct mfd_cell *cells "  ","
+.BI "int n_devs "  ","
+.BI "struct resource *mem_base "  ","
+.BI "int irq_base "  ","
+.BI "struct irq_domain *domain "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to parent device.
+.IP "id" 12
+Can be PLATFORM_DEVID_AUTO to let the Platform API take care
+of device numbering, or will be added to a device's cell_id.
+.IP "cells" 12
+Array of (struct mfd_cell)s describing child devices.
+.IP "n_devs" 12
+Number of child devices to register.
+.IP "mem_base" 12
+Parent register range resource for child devices.
+.IP "irq_base" 12
+Base of the range of virtual interrupt numbers allocated for
+this MFD device. Unused if \fIdomain\fP is specified.
+.IP "domain" 12
+Interrupt domain to create mappings for hardware interrupts.
+.SH "DESCRIPTION"
+
+Returns 0 on success or an appropriate negative error number on failure.
+All child-devices of the MFD will automatically be removed when it gets
+unbinded.

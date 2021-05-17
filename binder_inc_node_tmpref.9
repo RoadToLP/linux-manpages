@@ -1,0 +1,18 @@
+.TH "binder_inc_node_tmpref" 9 "binder_inc_node_tmpref" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_inc_node_tmpref \- take a temporary reference on node
+.SH SYNOPSIS
+.B "void" binder_inc_node_tmpref
+.BI "(struct binder_node *node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+node to reference
+.SH "DESCRIPTION"
+Take reference on node to prevent the node from being freed
+while referenced only by a local variable. The inner lock is
+needed to serialize with the node work on the queue (which
+isn't needed after the node is dead). If the node is dead
+(node->proc is NULL), use binder_dead_nodes_lock to protect
+node->tmp_refs against dead-node-only cases where the node
+lock cannot be acquired (eg traversing the dead node list to
+print nodes)

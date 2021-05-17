@@ -1,0 +1,22 @@
+.TH "gether_connect" 9 "gether_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gether_connect \- notify network layer that USB link is active
+.SH SYNOPSIS
+.B "struct net_device *" gether_connect
+.BI "(struct gether *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+the USB link, set up with endpoints, descriptors matching
+current device speed, and any framing wrapper(s) set up.
+.SH "CONTEXT"
+irqs blocked
+.SH "DESCRIPTION"
+This is called to activate endpoints and let the network layer know
+the connection is active ("carrier detect").  It may cause the I/O
+queues to open and start letting network packets flow, but will in
+any case activate the endpoints so that they respond properly to the
+USB host.
+
+Verify net_device pointer returned using \fBIS_ERR\fP.  If it doesn't
+indicate some error code (negative errno), ep->driver_data values
+have been overwritten.

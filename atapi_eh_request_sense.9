@@ -1,0 +1,23 @@
+.TH "atapi_eh_request_sense" 9 "atapi_eh_request_sense" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atapi_eh_request_sense \- perform ATAPI REQUEST_SENSE
+.SH SYNOPSIS
+.B "unsigned int" atapi_eh_request_sense
+.BI "(struct ata_device *dev "  ","
+.BI "u8 *sense_buf "  ","
+.BI "u8 dfl_sense_key "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to perform REQUEST_SENSE to
+.IP "sense_buf" 12
+result sense data buffer (SCSI_SENSE_BUFFERSIZE bytes long)
+.IP "dfl_sense_key" 12
+default sense key to use
+
+Perform ATAPI REQUEST_SENSE after the device reported CHECK
+SENSE.  This function is EH helper.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, AC_ERR_* mask on failure

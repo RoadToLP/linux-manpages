@@ -1,0 +1,15 @@
+.TH "ips_cpu_raise" 9 "ips_cpu_raise" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ips_cpu_raise \- raise CPU power clamp
+.SH SYNOPSIS
+.B "void" ips_cpu_raise
+.BI "(struct ips_driver *ips "  ");"
+.SH ARGUMENTS
+.IP "ips" 12
+IPS driver struct
+.SH "DESCRIPTION"
+Raise the CPU power clamp by IPS_CPU_STEP, in accordance with TDP for
+this platform.
+
+We do this by adjusting the TURBO_POWER_CURRENT_LIMIT MSR upwards (as
+long as we haven't hit the TDP limit for the SKU).

@@ -1,0 +1,56 @@
+.TH "xgene_ahci_do_hardreset" 9 "xgene_ahci_do_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xgene_ahci_do_hardreset \- Issue the actual COMRESET
+.SH SYNOPSIS
+.B "int" xgene_ahci_do_hardreset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned long deadline "  ","
+.BI "bool *online "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link to reset
+.IP "deadline" 12
+deadline jiffies for the operation
+.IP "online" 12
+Return value to indicate if device online
+.SH "DESCRIPTION"
+Due to the limitation of the hardware PHY, a difference set of setting is
+required for each supported disk speed - Gen3 (6.0Gbps), Gen2 (3.0Gbps),
+and Gen1 (1.5Gbps). Otherwise during long IO stress test, the PHY will
+report disparity error and etc. In addition, during COMRESET, there can
+be error reported in the register PORT_SCR_ERR. For SERR_DISPARITY and
+SERR_10B_8B_ERR, the PHY receiver line must be reseted. Also during long
+reboot cycle regression, sometimes the PHY reports link down even if the
+device is present because of speed negotiation failure. so need to retry
+the COMRESET to get the link up. The following algorithm is followed to
+proper configure the hardware PHY during COMRESET:
+
+Alg Part 1:
+1. Start the PHY at Gen3 speed (default setting)
+2. Issue the COMRESET
+3. If no link, go to Alg Part 3
+4. If link up, determine if the negotiated speed matches the PHY
+configured speed
+5. If they matched, go to Alg Part 2
+6. If they do not matched and first time, configure the PHY for the linked
+up disk speed and repeat step 2
+7. Go to Alg Part 2
+
+Alg Part 2:
+1. On link up, if there are any SERR_DISPARITY and SERR_10B_8B_ERR error
+reported in the register PORT_SCR_ERR, then reset the PHY receiver line
+2. Go to Alg Part 4
+
+Alg Part 3:
+1. Check the PORT_SCR_STAT to see whether device presence detected but PHY
+communication establishment failed and maximum link down attempts are
+less than Max attempts 3 then goto Alg Part 1.
+2. Go to Alg Part 4.
+
+Alg Part 4:
+1. Clear any pending from register PORT_SCR_ERR.
+.SH "NOTE"
+For the initial version, we will NOT support Gen1/Gen2. In addition
+and until the underlying PHY supports an method to reset the receiver
+line, on detection of SERR_DISPARITY or SERR_10B_8B_ERR errors,
+an warning message will be printed.

@@ -1,0 +1,32 @@
+.TH "n_tty_write" 9 "n_tty_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_write \- write function for tty
+.SH SYNOPSIS
+.B "ssize_t" n_tty_write
+.BI "(struct tty_struct *tty "  ","
+.BI "struct file *file "  ","
+.BI "const unsigned char *buf "  ","
+.BI "size_t nr "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device
+.IP "file" 12
+file object
+.IP "buf" 12
+userspace buffer pointer
+.IP "nr" 12
+size of I/O
+
+Write function of the terminal device.  This is serialized with
+respect to other write callers but not to termios changes, reads
+and other such events.  Since the receive code will echo characters,
+thus calling driver write methods, the output_lock is used in
+the output processing functions called here as well as in the
+echo processing function to protect the column state and space
+left in the buffer.
+
+This code must be sure never to sleep through a hangup.
+
+Locking: output_lock to protect column state and space left
+(note that the process_output*() functions take this
+lock themselves)

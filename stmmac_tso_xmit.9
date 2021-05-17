@@ -1,0 +1,35 @@
+.TH "stmmac_tso_xmit" 9 "stmmac_tso_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stmmac_tso_xmit \- Tx entry point of the driver for oversized frames (TSO)
+.SH SYNOPSIS
+.B "netdev_tx_t" stmmac_tso_xmit
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the socket buffer
+.IP "dev" 12
+device pointer
+.SH "DESCRIPTION"
+this is the transmit function that is called on TSO frames
+(support available on GMAC4 and newer chips).
+Diagram below show the ring programming in case of TSO frames:
+
+First Descriptor
+--------
+| DES0 |---> buffer1 = L2/L3/L4 header
+| DES1 |---> TCP Payload (can continue on next descr...)
+| DES2 |---> buffer 1 and 2 len
+| DES3 |---> must set TSE, TCP hdr len-> [22:19]. TCP payload len [17:0]
+--------
+|
+\&...
+|
+--------
+| DES0 | --| Split TCP Payload on Buffers 1 and 2
+| DES1 | --|
+| DES2 | --> buffer 1 and 2 len
+| DES3 |
+--------
+
+mss is fixed when enable tso, so w/o programming the TDES3 ctx field.

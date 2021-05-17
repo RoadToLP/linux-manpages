@@ -1,0 +1,24 @@
+.TH "add_volume" 9 "add_volume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_volume \- add volume to the attaching information.
+.SH SYNOPSIS
+.B "struct ubi_ainf_volume *" add_volume
+.BI "(struct ubi_attach_info *ai "  ","
+.BI "int vol_id "  ","
+.BI "int pnum "  ","
+.BI "const struct ubi_vid_hdr *vid_hdr "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+attaching information
+.IP "vol_id" 12
+ID of the volume to add
+.IP "pnum" 12
+physical eraseblock number
+.IP "vid_hdr" 12
+volume identifier header
+.SH "DESCRIPTION"
+If the volume corresponding to the \fIvid_hdr\fP logical eraseblock is already
+present in the attaching information, this function does nothing. Otherwise
+it adds corresponding volume to the attaching information. Returns a pointer
+to the allocated "av" object in case of success and a negative error code in
+case of failure.

@@ -1,0 +1,28 @@
+.TH "batadv_interface_rx" 9 "batadv_interface_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_interface_rx \- receive ethernet frame on local batman-adv interface
+.SH SYNOPSIS
+.B "void" batadv_interface_rx
+.BI "(struct net_device *soft_iface "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int hdr_size "  ","
+.BI "struct batadv_orig_node *orig_node "  ");"
+.SH ARGUMENTS
+.IP "soft_iface" 12
+local interface which will receive the ethernet frame
+.IP "skb" 12
+ethernet frame for \fIsoft_iface\fP
+.IP "hdr_size" 12
+size of already parsed batman-adv header
+.IP "orig_node" 12
+originator from which the batman-adv packet was sent
+.SH "DESCRIPTION"
+Sends an ethernet frame to the receive path of the local \fIsoft_iface\fP.
+skb->data has still point to the batman-adv header with the size \fIhdr_size\fP.
+The caller has to have parsed this header already and made sure that at least
+\fIhdr_size\fP bytes are still available for pull in \fIskb\fP.
+
+The packet may still get dropped. This can happen when the encapsulated
+ethernet frame is invalid or contains again an batman-adv packet. Also
+unicast packets will be dropped directly when it was sent between two
+isolated clients.

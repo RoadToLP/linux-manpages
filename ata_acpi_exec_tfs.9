@@ -1,0 +1,20 @@
+.TH "ata_acpi_exec_tfs" 9 "ata_acpi_exec_tfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_exec_tfs \- get then write drive taskfile settings
+.SH SYNOPSIS
+.B "int" ata_acpi_exec_tfs
+.BI "(struct ata_device *dev "  ","
+.BI "int *nr_executed "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target ATA device
+.IP "nr_executed" 12
+out parameter for the number of executed commands
+.SH "DESCRIPTION"
+Evaluate _GTF and execute returned taskfiles.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+Number of executed taskfiles on success, 0 if _GTF doesn't exist.
+-errno on other errors.

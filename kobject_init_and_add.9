@@ -1,0 +1,28 @@
+.TH "kobject_init_and_add" 9 "kobject_init_and_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kobject_init_and_add \- Initialize a kobject structure and add it to the kobject hierarchy.
+.SH SYNOPSIS
+.B "int" kobject_init_and_add
+.BI "(struct kobject *kobj "  ","
+.BI "struct kobj_type *ktype "  ","
+.BI "struct kobject *parent "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+pointer to the kobject to initialize
+.IP "ktype" 12
+pointer to the ktype for this kobject.
+.IP "parent" 12
+pointer to the parent of this kobject.
+.IP "fmt" 12
+the name of the kobject.
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+This function combines the call to \fBkobject_init\fP and \fBkobject_add\fP.
+
+If this function returns an error, \fBkobject_put\fP must be called to
+properly clean up the memory associated with the object.  This is the
+same type of error handling after a call to \fBkobject_add\fP and kobject
+lifetime rules are the same here.

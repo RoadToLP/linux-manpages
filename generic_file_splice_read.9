@@ -1,0 +1,24 @@
+.TH "generic_file_splice_read" 9 "generic_file_splice_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_file_splice_read \- splice data from file to a pipe
+.SH SYNOPSIS
+.B "ssize_t" generic_file_splice_read
+.BI "(struct file *in "  ","
+.BI "loff_t *ppos "  ","
+.BI "struct pipe_inode_info *pipe "  ","
+.BI "size_t len "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+file to splice from
+.IP "ppos" 12
+position in \fIin\fP
+.IP "pipe" 12
+pipe to splice to
+.IP "len" 12
+number of bytes to splice
+.IP "flags" 12
+splice modifier flags
+.SH "DESCRIPTION"
+Will read pages from given file and fill them into a pipe. Can be
+used as long as it has more or less sane ->\fBread_iter\fP.

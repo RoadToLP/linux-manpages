@@ -1,0 +1,25 @@
+.TH "drm_panel_of_backlight" 9 "drm_panel_of_backlight" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_panel_of_backlight \- use backlight device node for backlight
+.SH SYNOPSIS
+.B "int" drm_panel_of_backlight
+.BI "(struct drm_panel *panel "  ");"
+.SH ARGUMENTS
+.IP "panel" 12
+DRM panel
+.SH "DESCRIPTION"
+Use this function to enable backlight handling if your panel
+uses device tree and has a backlight phandle.
+
+When the panel is enabled backlight will be enabled after a
+successful call to \fIdrm_panel_funcs\fP.\fBenable\fP
+
+When the panel is disabled backlight will be disabled before the
+call to \fIdrm_panel_funcs\fP.\fBdisable\fP.
+
+A typical implementation for a panel driver supporting device tree
+will call this function at probe time. Backlight will then be handled
+transparently without requiring any intervention from the driver.
+\fBdrm_panel_of_backlight\fP must be called after the call to \fBdrm_panel_init\fP.
+.SH "RETURN"
+0 on success or a negative error code on failure.

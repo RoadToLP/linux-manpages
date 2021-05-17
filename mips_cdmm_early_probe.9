@@ -1,0 +1,22 @@
+.TH "mips_cdmm_early_probe" 9 "mips_cdmm_early_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mips_cdmm_early_probe \- Minimally probe for a specific device on CDMM.
+.SH SYNOPSIS
+.B "void __iomem *" mips_cdmm_early_probe
+.BI "(unsigned int dev_type "  ");"
+.SH ARGUMENTS
+.IP "dev_type" 12
+CDMM type code to look for.
+.SH "DESCRIPTION"
+Minimally configure the in-CPU Common Device Memory Map (CDMM) and look for a
+specific device. This can be used to find a device very early in boot for
+example to configure an early FDC console device.
+
+The caller must prevent migration to another CPU, either by disabling
+pre-emption or by running from a pinned kernel thread.
+.SH "RETURN"
+MMIO pointer to device memory. The caller can read the ACSR
+register to find more information about the device (such as the
+version number or the number of blocks).
+May return IOMEM_ERR_PTR(-errno) in case of error, so check with
+\fBIS_ERR\fP.

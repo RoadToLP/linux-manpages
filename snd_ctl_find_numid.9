@@ -1,0 +1,19 @@
+.TH "snd_ctl_find_numid" 9 "snd_ctl_find_numid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ctl_find_numid \- find the control instance with the given number-id
+.SH SYNOPSIS
+.B "struct snd_kcontrol *" snd_ctl_find_numid
+.BI "(struct snd_card *card "  ","
+.BI "unsigned int numid "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "numid" 12
+the number-id to search
+.SH "DESCRIPTION"
+Finds the control instance with the given number-id from the card.
+
+The caller must down card->controls_rwsem before calling this function
+(if the race condition can happen).
+.SH "RETURN"
+The pointer of the instance if found, or NULL if not.

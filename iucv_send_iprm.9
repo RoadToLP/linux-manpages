@@ -1,0 +1,22 @@
+.TH "iucv_send_iprm" 9 "iucv_send_iprm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iucv_send_iprm \- Send socket data in parameter list of an iucv message.
+.SH SYNOPSIS
+.B "int" iucv_send_iprm
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_message *msg "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+IUCV path
+.IP "msg" 12
+Pointer to a struct iucv_message
+.IP "skb" 12
+The socket data to send, skb->len MUST BE <= 7
+.SH "DESCRIPTION"
+Send the socket data in the parameter list in the iucv message
+(IUCV_IPRMDATA). The socket data is stored at index 0 to 6 in the parameter
+list and the socket data len at index 7 (last byte).
+See also \fBiucv_msg_length\fP.
+
+Returns the error code from the \fBiucv_message_send\fP call.

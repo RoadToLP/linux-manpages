@@ -1,0 +1,25 @@
+.TH "acpi_irq_parse_one" 9 "acpi_irq_parse_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_irq_parse_one \- Resolve an interrupt for a device
+.SH SYNOPSIS
+.B "int" acpi_irq_parse_one
+.BI "(acpi_handle handle "  ","
+.BI "unsigned int index "  ","
+.BI "struct irq_fwspec *fwspec "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+the device whose interrupt is to be resolved
+.IP "index" 12
+index of the interrupt to resolve
+.IP "fwspec" 12
+structure irq_fwspec filled by this function
+.IP "flags" 12
+resource flags filled by this function
+.SH "DESCRIPTION"
+Resolves an interrupt for a device by walking its CRS resources to find
+the appropriate ACPI IRQ resource and populating the given struct irq_fwspec
+and flags.
+.SH "RETURN"
+The result stored in ctx.rc by the callback, or the default -EINVAL value
+if an error occurs.

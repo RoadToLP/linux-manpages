@@ -1,0 +1,28 @@
+.TH "__xa_insert" 9 "__xa_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__xa_insert \- Store this entry in the XArray if no entry is present.
+.SH SYNOPSIS
+.B "int" __xa_insert
+.BI "(struct xarray *xa "  ","
+.BI "unsigned long index "  ","
+.BI "void *entry "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "index" 12
+Index into array.
+.IP "entry" 12
+New entry.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Inserting a NULL entry will store a reserved entry (like \fBxa_reserve\fP)
+if no entry is present.  Inserting will fail if a reserved entry is
+present, even though loading from this index will return NULL.
+.SH "CONTEXT"
+Any context.  Expects xa_lock to be held on entry.  May
+release and reacquire xa_lock if \fIgfp\fP flags permit.
+.SH "RETURN"
+0 if the store succeeded.  -EBUSY if another entry was present.
+-ENOMEM if memory could not be allocated.

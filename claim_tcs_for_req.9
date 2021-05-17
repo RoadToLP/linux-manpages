@@ -1,0 +1,24 @@
+.TH "claim_tcs_for_req" 9 "claim_tcs_for_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+claim_tcs_for_req \- Claim a tcs in the given tcs_group; only for active.
+.SH SYNOPSIS
+.B "int" claim_tcs_for_req
+.BI "(struct rsc_drv *drv "  ","
+.BI "struct tcs_group *tcs "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "tcs" 12
+The tcs_group used for ACTIVE_ONLY transfers.
+.IP "msg" 12
+The data to be sent.
+.SH "DESCRIPTION"
+Claims a tcs in the given tcs_group while making sure that no existing cmd
+is in flight that would conflict with the one in \fImsg\fP.
+.SH "CONTEXT"
+Must be called with the drv->lock held since that protects
+tcs_in_use.
+.SH "RETURN"
+The id of the claimed tcs or -EBUSY if a matching msg is in flight
+or the tcs_group is full.

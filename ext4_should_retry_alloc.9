@@ -1,0 +1,18 @@
+.TH "ext4_should_retry_alloc" 9 "ext4_should_retry_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_should_retry_alloc \- check if a block allocation should be retried
+.SH SYNOPSIS
+.B "int" ext4_should_retry_alloc
+.BI "(struct super_block *sb "  ","
+.BI "int *retries "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+.IP "retries" 12
+number of retry attempts made so far
+.SH "DESCRIPTION"
+\fBext4_should_retry_alloc\fP is called when ENOSPC is returned while
+attempting to allocate blocks.  If there's an indication that a pending
+journal transaction might free some space and allow another attempt to
+succeed, this function will wait for the current or committing transaction
+to complete and then return TRUE.

@@ -1,0 +1,40 @@
+.TH "__skb_flow_dissect" 9 "__skb_flow_dissect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_flow_dissect \- extract the flow_keys struct and return it
+.SH SYNOPSIS
+.B "bool" __skb_flow_dissect
+.BI "(const struct net *net "  ","
+.BI "const struct sk_buff *skb "  ","
+.BI "struct flow_dissector *flow_dissector "  ","
+.BI "void *target_container "  ","
+.BI "void *data "  ","
+.BI "__be16 proto "  ","
+.BI "int nhoff "  ","
+.BI "int hlen "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+associated network namespace, derived from \fIskb\fP if NULL
+.IP "skb" 12
+sk_buff to extract the flow from, can be NULL if the rest are specified
+.IP "flow_dissector" 12
+list of keys to dissect
+.IP "target_container" 12
+target structure to put dissected values into
+.IP "data" 12
+raw buffer pointer to the packet, if NULL use skb->data
+.IP "proto" 12
+protocol for which to get the flow, if \fIdata\fP is NULL use skb->protocol
+.IP "nhoff" 12
+network header offset, if \fIdata\fP is NULL use skb_network_offset(skb)
+.IP "hlen" 12
+packet header length, if \fIdata\fP is NULL use skb_headlen(skb)
+.IP "flags" 12
+flags that control the dissection process, e.g.
+FLOW_DISSECTOR_F_STOP_AT_ENCAP.
+.SH "DESCRIPTION"
+The function will try to retrieve individual keys into target specified
+by flow_dissector from either the skbuff or a raw buffer specified by the
+rest parameters.
+
+Caller must take care of zeroing target container memory.

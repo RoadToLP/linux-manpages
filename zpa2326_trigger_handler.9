@@ -1,0 +1,32 @@
+.TH "zpa2326_trigger_handler" 9 "zpa2326_trigger_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpa2326_trigger_handler \- Perform an IIO buffered sampling round in one shot mode.
+.SH SYNOPSIS
+.B "irqreturn_t" zpa2326_trigger_handler
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The software interrupt assigned to \fIdata\fP
+.IP "data" 12
+The IIO poll function dispatched by external trigger our device is
+attached to.
+.SH "DESCRIPTION"
+Bottom-half handler called by the IIO trigger to which our device is
+currently attached. Allows us to synchronize this device buffered sampling
+either with external events (such as timer expiration, external device sample
+ready, etc...) or with its own interrupt (internal hardware trigger).
+
+When using an external trigger, basically run the same sequence of operations
+as for \fBzpa2326_sample_oneshot\fP with the following hereafter. Hardware FIFO
+is not cleared since already done at buffering enable time and samples
+dequeueing always retrieves the most recent value.
+
+Otherwise, when internal hardware trigger has dispatched us, just fetch data
+from hardware FIFO.
+
+Fetched data will pushed unprocessed to IIO buffer since samples conversion
+is delegated to userspace in buffered mode (endianness, etc...).
+.SH "RETURN"
+IRQ_NONE - no consistent interrupt happened ;
+IRQ_HANDLED - there was new samples available.

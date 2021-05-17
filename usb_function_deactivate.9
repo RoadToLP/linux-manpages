@@ -1,0 +1,24 @@
+.TH "usb_function_deactivate" 9 "usb_function_deactivate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_function_deactivate \- prevent function and gadget enumeration
+.SH SYNOPSIS
+.B "int" usb_function_deactivate
+.BI "(struct usb_function *function "  ");"
+.SH ARGUMENTS
+.IP "function" 12
+the function that isn't yet ready to respond
+.SH "DESCRIPTION"
+Blocks response of the gadget driver to host enumeration by
+preventing the data line pullup from being activated.  This is
+normally called during \fI\fP\fBbind\fP processing to change from the
+initial "ready to respond" state, or when a required resource
+becomes available.
+
+For example, drivers that serve as a passthrough to a userspace
+daemon can block enumeration unless that daemon (such as an OBEX,
+MTP, or print server) is ready to handle host requests.
+
+Not all systems support software control of their USB peripheral
+data pullups.
+
+Returns zero on success, else negative errno.

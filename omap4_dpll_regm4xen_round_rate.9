@@ -1,0 +1,22 @@
+.TH "omap4_dpll_regm4xen_round_rate" 9 "omap4_dpll_regm4xen_round_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap4_dpll_regm4xen_round_rate \- round DPLL rate, considering REGM4XEN bit
+.SH SYNOPSIS
+.B "long" omap4_dpll_regm4xen_round_rate
+.BI "(struct clk_hw *hw "  ","
+.BI "unsigned long target_rate "  ","
+.BI "unsigned long *parent_rate "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+struct hw_clk containing the struct clk * of the DPLL to round a rate for
+.IP "target_rate" 12
+the desired rate of the DPLL
+.IP "parent_rate" 12
+clock rate of the DPLL parent
+.SH "DESCRIPTION"
+Compute the rate that would be programmed into the DPLL hardware
+for \fIclk\fP if \fBset_rate\fP were to be provided with the rate
+\fItarget_rate\fP.  Takes the REGM4XEN bit into consideration, which is
+needed for the OMAP4 ABE DPLL.  Returns the rounded rate (before
+M-dividers) upon success, -EINVAL if \fIclk\fP is null or not a DPLL, or
+~0 if an error occurred in \fBomap2_dpll_round_rate\fP.

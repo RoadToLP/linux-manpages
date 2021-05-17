@@ -1,0 +1,41 @@
+.TH "rcu_read_lock_held_common" 9 "rcu_read_lock_held_common" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_read_lock_held_common \- might we be in RCU-sched read-side critical section?
+.SH SYNOPSIS
+.B "bool" rcu_read_lock_held_common
+.BI "(bool *ret "  ");"
+.SH ARGUMENTS
+.IP "ret" 12
+Best guess answer if lockdep cannot be relied on
+.SH "DESCRIPTION"
+Returns true if lockdep must be ignored, in which case ``*ret`` contains
+the best guess described below.  Otherwise returns false, in which
+case ``*ret`` tells the caller nothing and the caller should instead
+consult lockdep.
+
+If CONFIG_DEBUG_LOCK_ALLOC is selected, set ``*ret`` to nonzero iff in an
+RCU-sched read-side critical section.  In absence of
+CONFIG_DEBUG_LOCK_ALLOC, this assumes we are in an RCU-sched read-side
+critical section unless it can prove otherwise.  Note that disabling
+of preemption (including disabling irqs) counts as an RCU-sched
+read-side critical section.  This is useful for debug checks in functions
+that required that they be called within an RCU-sched read-side
+critical section.
+
+Check \fBdebug_lockdep_rcu_enabled\fP to prevent false positives during boot
+and while lockdep is disabled.
+
+Note that if the CPU is in the idle loop from an RCU point of view (ie:
+that we are in the section between \fBrcu_idle_enter\fP and \fBrcu_idle_exit\fP)
+then \fBrcu_read_lock_held\fP sets ``*ret`` to false even if the CPU did an
+\fBrcu_read_lock\fP.  The reason for this is that RCU ignores CPUs that are
+in such a section, considering these as in extended quiescent state,
+so such a CPU is effectively never in an RCU read-side critical section
+regardless of what RCU primitives it invokes.  This state of affairs is
+required --- we need to keep an RCU-free window in idle where the CPU may
+possibly enter into low power mode. This way we can notice an extended
+quiescent state to other CPUs that started a grace period. Otherwise
+we would delay any grace period as long as we run in the idle task.
+
+Similarly, we avoid claiming an RCU read lock held if the current
+CPU is offline.

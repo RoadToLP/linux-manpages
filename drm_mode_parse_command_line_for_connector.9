@@ -1,0 +1,33 @@
+.TH "drm_mode_parse_command_line_for_connector" 9 "drm_mode_parse_command_line_for_connector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_parse_command_line_for_connector \- parse command line modeline for connector
+.SH SYNOPSIS
+.B "bool" drm_mode_parse_command_line_for_connector
+.BI "(const char *mode_option "  ","
+.BI "const struct drm_connector *connector "  ","
+.BI "struct drm_cmdline_mode *mode "  ");"
+.SH ARGUMENTS
+.IP "mode_option" 12
+optional per connector mode option
+.IP "connector" 12
+connector to parse modeline for
+.IP "mode" 12
+preallocated drm_cmdline_mode structure to fill out
+.SH "DESCRIPTION"
+This parses \fImode_option\fP command line modeline for modes and options to
+configure the connector. If \fImode_option\fP is NULL the default command line
+modeline in fb_mode_option will be parsed instead.
+
+This uses the same parameters as the fb modedb.c, except for an extra
+force-enable, force-enable-digital and force-disable bit at the end::
+
+<xres>x<yres>[M][R][-<bpp>][\fI\fP<refresh>][i][m][eDd]
+
+Additionals options can be provided following the mode, using a comma to
+separate each option. Valid options can be found in
+Documentation/fb/modedb.rst.
+
+The intermediate drm_cmdline_mode structure is required to store additional
+options from the command line modline like the force-enable/disable flag.
+.SH "RETURN"
+True if a valid modeline has been parsed, false otherwise.

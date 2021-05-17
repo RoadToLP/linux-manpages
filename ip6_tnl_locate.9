@@ -1,0 +1,21 @@
+.TH "ip6_tnl_locate" 9 "ip6_tnl_locate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ip6_tnl_locate \- find or create tunnel matching given parameters
+.SH SYNOPSIS
+.B "struct ip6_tnl *" ip6_tnl_locate
+.BI "(struct net *net "  ","
+.BI "struct __ip6_tnl_parm *p "  ","
+.BI "int create "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+network namespace
+.IP "p" 12
+tunnel parameters
+.IP "create" 12
+!= 0 if allowed to create new tunnel if no match found
+.SH "DESCRIPTION"
+\fBip6_tnl_locate\fP first tries to locate an existing tunnel
+based on \fIparms\fP. If this is unsuccessful, but \fIcreate\fP is set a new
+tunnel device is created and registered for use.
+.SH "RETURN"
+matching tunnel or error pointer

@@ -1,0 +1,21 @@
+.TH "nfs41_discover_server_trunking" 9 "nfs41_discover_server_trunking" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs41_discover_server_trunking \- Detect server IP address trunking (mv1)
+.SH SYNOPSIS
+.B "int" nfs41_discover_server_trunking
+.BI "(struct nfs_client *clp "  ","
+.BI "struct nfs_client **result "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "clp" 12
+nfs_client under test
+.IP "result" 12
+OUT: found nfs_client, or clp
+.IP "cred" 12
+credential to use for trunking test
+.SH "DESCRIPTION"
+Returns NFS4_OK, a negative errno, or a negative NFS4ERR status.
+If NFS4_OK is returned, an nfs_client pointer is planted in
+"result".
+.SH "NOTE"
+The returned client may not yet be marked ready.

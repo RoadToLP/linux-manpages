@@ -1,0 +1,18 @@
+.TH "lpfc_slave_alloc" 9 "lpfc_slave_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_slave_alloc \- scsi_host_template slave_alloc entry point
+.SH SYNOPSIS
+.B "int" lpfc_slave_alloc
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+Pointer to scsi_device.
+.SH "DESCRIPTION"
+This routine populates the cmds_per_lun count + 2 scsi_bufs into  this host's
+globally available list of scsi buffers. This routine also makes sure scsi
+buffer is not allocated more than HBA limit conveyed to midlayer. This list
+of scsi buffer exists for the lifetime of the driver.
+
+Return codes:
+non-0 - Error
+0 - Success

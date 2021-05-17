@@ -1,0 +1,32 @@
+.TH "ufshcd_exec_raw_upiu_cmd" 9 "ufshcd_exec_raw_upiu_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_exec_raw_upiu_cmd \- API function for sending raw upiu commands
+.SH SYNOPSIS
+.B "int" ufshcd_exec_raw_upiu_cmd
+.BI "(struct ufs_hba *hba "  ","
+.BI "struct utp_upiu_req *req_upiu "  ","
+.BI "struct utp_upiu_req *rsp_upiu "  ","
+.BI "int msgcode "  ","
+.BI "u8 *desc_buff "  ","
+.BI "int *buff_len "  ","
+.BI "enum query_opcode desc_op "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per-adapter instance
+.IP "req_upiu" 12
+upiu request
+.IP "rsp_upiu" 12
+upiu reply - only 8 DW as we do not support scsi commands
+.IP "msgcode" 12
+message code, one of UPIU Transaction Codes Initiator to Target
+.IP "desc_buff" 12
+pointer to descriptor buffer, NULL if NA
+.IP "buff_len" 12
+descriptor size, 0 if NA
+.IP "desc_op" 12
+descriptor operation
+.SH "DESCRIPTION"
+Supports UTP Transfer requests (nop and query), and UTP Task
+Management requests.
+It is up to the caller to fill the upiu conent properly, as it will
+be copied without any further input validations.

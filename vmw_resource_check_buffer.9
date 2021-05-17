@@ -1,0 +1,20 @@
+.TH "vmw_resource_check_buffer" 9 "vmw_resource_check_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_resource_check_buffer \- Check whether a backup buffer is needed for a resource and in that case, allocate one, reserve and validate it.
+.SH SYNOPSIS
+.B "int" vmw_resource_check_buffer
+.BI "(struct ww_acquire_ctx *ticket "  ","
+.BI "struct vmw_resource *res "  ","
+.BI "bool interruptible "  ","
+.BI "struct ttm_validate_buffer *val_buf "  ");"
+.SH ARGUMENTS
+.IP "ticket" 12
+The ww aqcquire context to use, or NULL if trylocking.
+.IP "res" 12
+The resource for which to allocate a backup buffer.
+.IP "interruptible" 12
+Whether any sleeps during allocation should be
+performed while interruptible.
+.IP "val_buf" 12
+On successful return contains data about the
+reserved and validated backup buffer.

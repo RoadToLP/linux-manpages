@@ -1,0 +1,25 @@
+.TH "sdio_f0_writeb" 9 "sdio_f0_writeb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_f0_writeb \- write a single byte to SDIO function 0
+.SH SYNOPSIS
+.B "void" sdio_f0_writeb
+.BI "(struct sdio_func *func "  ","
+.BI "unsigned char b "  ","
+.BI "unsigned int addr "  ","
+.BI "int *err_ret "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+an SDIO function of the card
+.IP "b" 12
+byte to write
+.IP "addr" 12
+address to write to
+.IP "err_ret" 12
+optional status value from transfer
+
+Writes a single byte to the address space of SDIO function 0.
+\fIerr_ret\fP will contain the status of the actual transfer.
+
+Only writes to the vendor specific CCCR registers (0xF0 -
+0xFF) are permiited; \fIerr_ret\fP will be set to -EINVAL for *
+writes outside this range.

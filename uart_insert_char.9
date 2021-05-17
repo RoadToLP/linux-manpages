@@ -1,0 +1,25 @@
+.TH "uart_insert_char" 9 "uart_insert_char" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_insert_char \- push a char to the uart layer
+.SH SYNOPSIS
+.B "void" uart_insert_char
+.BI "(struct uart_port *port "  ","
+.BI "unsigned int status "  ","
+.BI "unsigned int overrun "  ","
+.BI "unsigned int ch "  ","
+.BI "unsigned int flag "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+corresponding port
+.IP "status" 12
+state of the serial port RX buffer (LSR for 8250)
+.IP "overrun" 12
+mask of overrun bits in \fIstatus\fP
+.IP "ch" 12
+character to push
+.IP "flag" 12
+flag for the character (see TTY_NORMAL and friends)
+.SH "DESCRIPTION"
+
+User is responsible to call tty_flip_buffer_push when they are done with
+insertion.

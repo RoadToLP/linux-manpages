@@ -1,0 +1,17 @@
+.TH "vmw_ttm_map_for_dma" 9 "vmw_ttm_map_for_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_ttm_map_for_dma \- map TTM pages to get device addresses
+.SH SYNOPSIS
+.B "int" vmw_ttm_map_for_dma
+.BI "(struct vmw_ttm_tt *vmw_tt "  ");"
+.SH ARGUMENTS
+.IP "vmw_tt" 12
+Pointer to a struct vmw_ttm_backend
+.SH "DESCRIPTION"
+This function is used to get device addresses from the kernel DMA layer.
+However, it's violating the DMA API in that when this operation has been
+performed, it's illegal for the CPU to write to the pages without first
+unmapping the DMA mappings, or calling \fBdma_sync_sg_for_cpu\fP. It is
+therefore only legal to call this function if we know that the function
+\fBdma_sync_sg_for_cpu\fP is a NOP, and \fBdma_sync_sg_for_device\fP is at most
+a CPU write buffer flush.

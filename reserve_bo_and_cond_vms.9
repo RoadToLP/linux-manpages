@@ -1,0 +1,21 @@
+.TH "reserve_bo_and_cond_vms" 9 "reserve_bo_and_cond_vms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reserve_bo_and_cond_vms \- reserve a BO and some VMs conditionally
+.SH SYNOPSIS
+.B "int" reserve_bo_and_cond_vms
+.BI "(struct kgd_mem *mem "  ","
+.BI "struct amdgpu_vm *vm "  ","
+.BI "enum bo_vm_match map_type "  ","
+.BI "struct bo_vm_reservation_context *ctx "  ");"
+.SH ARGUMENTS
+.IP "mem" 12
+KFD BO structure.
+.IP "vm" 12
+the VM to reserve. If NULL, then all VMs associated with the BO
+is used. Otherwise, a single VM associated with the BO.
+.IP "map_type" 12
+the mapping status that will be used to filter the VMs.
+.IP "ctx" 12
+the struct that will be used in \fBunreserve_bo_and_vms\fP.
+.SH "DESCRIPTION"
+Returns 0 for success, negative for failure.

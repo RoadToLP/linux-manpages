@@ -1,0 +1,17 @@
+.TH "btrfs_finish_discard_pass" 9 "btrfs_finish_discard_pass" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_finish_discard_pass \- determine next step of a block_group
+.SH SYNOPSIS
+.B "void" btrfs_finish_discard_pass
+.BI "(struct btrfs_discard_ctl *discard_ctl "  ","
+.BI "struct btrfs_block_group *block_group "  ");"
+.SH ARGUMENTS
+.IP "discard_ctl" 12
+discard control
+.IP "block_group" 12
+block_group of interest
+.SH "DESCRIPTION"
+This determines the next step for a block group after it's finished going
+through a pass on a discard list.  If it is unused and fully trimmed, we can
+mark it unused and send it to the unused_bgs path.  Otherwise, pass it onto
+the appropriate filter list or let it fall off.

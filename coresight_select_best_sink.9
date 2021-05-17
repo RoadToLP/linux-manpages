@@ -1,0 +1,26 @@
+.TH "coresight_select_best_sink" 9 "coresight_select_best_sink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+coresight_select_best_sink \- return the best sink for use as default from the two provided.
+.SH SYNOPSIS
+.B "struct coresight_device *" coresight_select_best_sink
+.BI "(struct coresight_device *sink "  ","
+.BI "int *depth "  ","
+.BI "struct coresight_device *new_sink "  ","
+.BI "int new_depth "  ");"
+.SH ARGUMENTS
+.IP "sink" 12
+current best sink.
+.IP "depth" 12
+search depth where current sink was found.
+.IP "new_sink" 12
+new sink for comparison with current sink.
+.IP "new_depth" 12
+search depth where new sink was found.
+.SH "DESCRIPTION"
+Sinks prioritised according to coresight_dev_subtype_sink, with only
+subtypes CORESIGHT_DEV_SUBTYPE_SINK_BUFFER or higher being used.
+
+Where two sinks of equal priority are found, the sink closest to the
+source is used (smallest search depth).
+
+return \fInew_sink\fP & update \fIdepth\fP if better than \fIsink\fP, else return \fIsink\fP.

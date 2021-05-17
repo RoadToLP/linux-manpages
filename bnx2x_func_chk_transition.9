@@ -1,0 +1,23 @@
+.TH "bnx2x_func_chk_transition" 9 "bnx2x_func_chk_transition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_func_chk_transition \- perform function state machine transition
+.SH SYNOPSIS
+.B "int" bnx2x_func_chk_transition
+.BI "(struct bnx2x *bp "  ","
+.BI "struct bnx2x_func_sp_obj *o "  ","
+.BI "struct bnx2x_func_state_params *params "  ");"
+.SH ARGUMENTS
+.IP "bp" 12
+device handle
+.IP "o" 12
+function info
+.IP "params" 12
+state parameters
+.SH "DESCRIPTION"
+It both checks if the requested command is legal in a current
+state and, if it's legal, sets a `next_state' in the object
+that will be used in the completion flow to set the `state'
+of the object.
+
+returns 0 if a requested command is a legal transition,
+-EINVAL otherwise.

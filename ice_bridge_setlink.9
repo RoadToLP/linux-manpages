@@ -1,0 +1,23 @@
+.TH "ice_bridge_setlink" 9 "ice_bridge_setlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_bridge_setlink \- Set the hardware bridge mode
+.SH SYNOPSIS
+.B "int" ice_bridge_setlink
+.BI "(struct net_device *dev "  ","
+.BI "struct nlmsghdr *nlh "  ","
+.BI "u16 __always_unused flags "  ","
+.BI "struct netlink_ext_ack __always_unused *extack "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the netdev being configured
+.IP "nlh" 12
+RTNL message
+.IP "flags" 12
+bridge setlink flags
+.IP "extack" 12
+netlink extended ack
+.SH "DESCRIPTION"
+Sets the bridge mode (VEB/VEPA) of the switch to which the netdev (VSI) is
+hooked up to. Iterates through the PF VSI list and sets the loopback mode (if
+not already set for all VSIs connected to this switch. And also update the
+unicast switch filter rules for the corresponding switch of the netdev.

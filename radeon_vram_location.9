@@ -1,0 +1,50 @@
+.TH "radeon_vram_location" 9 "radeon_vram_location" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_vram_location \- try to find VRAM location
+.SH SYNOPSIS
+.B "void" radeon_vram_location
+.BI "(struct radeon_device *rdev "  ","
+.BI "struct radeon_mc *mc "  ","
+.BI "u64 base "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device structure holding all necessary informations
+.IP "mc" 12
+memory controller structure holding memory informations
+.IP "base" 12
+base address at which to put VRAM
+.SH "DESCRIPTION"
+Function will place try to place VRAM at base address provided
+as parameter (which is so far either PCI aperture address or
+for IGP TOM base address).
+
+If there is not enough space to fit the unvisible VRAM in the 32bits
+address space then we limit the VRAM size to the aperture.
+
+If we are using AGP and if the AGP aperture doesn't allow us to have
+room for all the VRAM than we restrict the VRAM to the PCI aperture
+size and print a warning.
+
+This function will never fails, worst case are limiting VRAM.
+
+Note 1: We don't explicitly enforce VRAM start to be aligned on VRAM size,
+this shouldn't be a problem as we are using the PCI aperture as a reference.
+Otherwise this would be needed for rv280, all r3xx, and all r4xx, but
+not IGP.
+
+Note 2: we use mc_vram_size as on some board we need to program the mc to
+cover the whole aperture even if VRAM size is inferior to aperture size
+Novell bug 204882 + along with lots of ubuntu ones
+
+Note 3: when limiting vram it's safe to overwritte real_vram_size because
+we are not in case where real_vram_size is inferior to mc_vram_size (ie
+note afected by bogus hw of Novell bug 204882 + along with lots of ubuntu
+ones)
+
+Note 4: IGP TOM addr should be the same as the aperture addr, we don't
+explicitly check for that thought.
+
+FIXME: when reducing VRAM size align new size on power of 2.
+.SH "NOTE"
+GTT start, end, size should be initialized before calling this
+function on AGP platform.

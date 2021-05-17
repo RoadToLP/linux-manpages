@@ -1,0 +1,34 @@
+.TH "drm_property_create_bitmask" 9 "drm_property_create_bitmask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_property_create_bitmask \- create a new bitmask property type
+.SH SYNOPSIS
+.B "struct drm_property *" drm_property_create_bitmask
+.BI "(struct drm_device *dev "  ","
+.BI "u32 flags "  ","
+.BI "const char *name "  ","
+.BI "const struct drm_prop_enum_list *props "  ","
+.BI "int num_props "  ","
+.BI "uint64_t supported_bits "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "flags" 12
+flags specifying the property type
+.IP "name" 12
+name of the property
+.IP "props" 12
+enumeration lists with property bitflags
+.IP "num_props" 12
+size of the \fIprops\fP array
+.IP "supported_bits" 12
+bitmask of all supported enumeration values
+.SH "DESCRIPTION"
+This creates a new bitmask drm property which can then be attached to a drm
+object with \fBdrm_object_attach_property\fP. The returned property object must
+be freed with \fBdrm_property_destroy\fP, which is done automatically when
+calling \fBdrm_mode_config_cleanup\fP.
+
+Compared to plain enumeration properties userspace is allowed to set any
+or'ed together combination of the predefined property bitflag values
+.SH "RETURN"
+A pointer to the newly created property on success, NULL on failure.

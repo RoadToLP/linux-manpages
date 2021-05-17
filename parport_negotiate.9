@@ -1,0 +1,21 @@
+.TH "parport_negotiate" 9 "parport_negotiate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_negotiate \- negotiate an IEEE 1284 mode
+.SH SYNOPSIS
+.B "int" parport_negotiate
+.BI "(struct parport *port "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+port to use
+.IP "mode" 12
+mode to negotiate to
+
+Use this to negotiate to a particular IEEE 1284 transfer mode.
+The \fImode\fP parameter should be one of the constants in
+parport.h starting IEEE1284_MODE_xxx.
+
+The return value is 0 if the peripheral has accepted the
+negotiation to the mode specified, -1 if the peripheral is not
+IEEE 1284 compliant (or not present), or 1 if the peripheral
+has rejected the negotiation.

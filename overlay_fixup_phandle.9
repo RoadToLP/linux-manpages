@@ -1,0 +1,29 @@
+.TH "overlay_fixup_phandle" 9 "overlay_fixup_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+overlay_fixup_phandle \- Set an overlay phandle to the base one
+.SH SYNOPSIS
+.B "int" overlay_fixup_phandle
+.BI "(void *fdt "  ","
+.BI "void *fdto "  ","
+.BI "int symbols_off "  ","
+.BI "int property "  ");"
+.SH ARGUMENTS
+.IP "fdt" 12
+Base Device Tree blob
+.IP "fdto" 12
+Device tree overlay blob
+.IP "symbols_off" 12
+Node offset of the symbols node in the base device tree
+.IP "property" 12
+Property offset in the overlay holding the list of fixups
+.SH "DESCRIPTION"
+\fBoverlay_fixup_phandle\fP resolves all the overlay phandles pointed
+to in a __fixups__ property, and updates them to match the phandles
+in use in the base device tree.
+
+This is part of the device tree overlay application process, when
+you want all the phandles in the overlay to point to the actual
+base dt nodes.
+.SH "RETURN"
+0 on success
+Negative error code on failure

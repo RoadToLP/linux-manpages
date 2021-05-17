@@ -1,0 +1,22 @@
+.TH "nvme_fc_register_remoteport" 9 "nvme_fc_register_remoteport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvme_fc_register_remoteport \- transport entry point called by an LLDD to register the existence of a NVME subsystem FC port on its fabric.
+.SH SYNOPSIS
+.B "int" nvme_fc_register_remoteport
+.BI "(struct nvme_fc_local_port *localport "  ","
+.BI "struct nvme_fc_port_info *pinfo "  ","
+.BI "struct nvme_fc_remote_port **portptr "  ");"
+.SH ARGUMENTS
+.IP "localport" 12
+pointer to the (registered) local port that the remote
+subsystem port is connected to.
+.IP "pinfo" 12
+pointer to information about the port to be registered
+.IP "portptr" 12
+pointer to a remote port pointer. Upon success, the routine
+will allocate a nvme_fc_remote_port structure and place its
+address in the remote port pointer. Upon failure, remote port
+pointer will be set to 0.
+.SH "RETURN"
+a completion status. Must be 0 upon success; a negative errno
+(ex: -ENXIO) upon failure.

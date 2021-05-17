@@ -1,0 +1,15 @@
+.TH "ssh_packet_put" 9 "ssh_packet_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_packet_put \- Decrement reference count of packet.
+.SH SYNOPSIS
+.B "void" ssh_packet_put
+.BI "(struct ssh_packet *packet "  ");"
+.SH ARGUMENTS
+.IP "packet" 12
+The packet to decrement the reference count of.
+.SH "DESCRIPTION"
+If the reference count reaches zero, the ``release callback specified in
+the packet's \fIstruct ssh_packet_ops\fP, i.e. packet->ops->release``, will be
+called.
+
+See \fBssh_packet_get\fP for the counter-part of this function.

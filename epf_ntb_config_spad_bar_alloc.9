@@ -1,0 +1,35 @@
+.TH "epf_ntb_config_spad_bar_alloc" 9 "epf_ntb_config_spad_bar_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_config_spad_bar_alloc \- Allocate memory for config + scratchpad region
+.SH SYNOPSIS
+.B "int" epf_ntb_config_spad_bar_alloc
+.BI "(struct epf_ntb *ntb "  ","
+.BI "enum pci_epc_interface_type type "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device that facilitates communication between HOST1 and HOST2
+.IP "type" 12
+PRIMARY interface or SECONDARY interface
+.SH "DESCRIPTION"
++-----------------+------->+------------------+        +-----------------+
+|       BAR0      |        |  CONFIG REGION   |        |       BAR0      |
++-----------------+----+   +------------------+<-------+-----------------+
+|       BAR1      |    |   |SCRATCHPAD REGION |        |       BAR1      |
++-----------------+    +-->+------------------+<-------+-----------------+
+|       BAR2      |            Local Memory            |       BAR2      |
++-----------------+                                    +-----------------+
+|       BAR3      |                                    |       BAR3      |
++-----------------+                                    +-----------------+
+|       BAR4      |                                    |       BAR4      |
++-----------------+                                    +-----------------+
+|       BAR5      |                                    |       BAR5      |
++-----------------+                                    +-----------------+
+EP CONTROLLER 1                                        EP CONTROLLER 2
+
+Allocate the Local Memory mentioned in the above diagram. The size of
+CONFIG REGION is sizeof(struct epf_ntb_ctrl) and size of SCRATCHPAD REGION
+is obtained from "spad-count" configfs entry.
+
+The size of both config region and scratchpad region has to be aligned,
+since the scratchpad region will also be mapped as PEER SCRATCHPAD of
+other host using a separate BAR.

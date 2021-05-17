@@ -1,0 +1,18 @@
+.TH "iommu_group_alloc" 9 "iommu_group_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_group_alloc \- Allocate a new group
+.SH SYNOPSIS
+.B "struct iommu_group *" iommu_group_alloc
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function is called by an iommu driver to allocate a new iommu
+group.  The iommu group represents the minimum granularity of the iommu.
+Upon successful return, the caller holds a reference to the supplied
+group in order to hold the group until devices are added.  Use
+\fBiommu_group_put\fP to release this extra reference count, allowing the
+group to be automatically reclaimed once it has no devices or external
+references.

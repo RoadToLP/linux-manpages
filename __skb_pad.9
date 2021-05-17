@@ -1,0 +1,22 @@
+.TH "__skb_pad" 9 "__skb_pad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_pad \- zero pad the tail of an skb
+.SH SYNOPSIS
+.B "int" __skb_pad
+.BI "(struct sk_buff *skb "  ","
+.BI "int pad "  ","
+.BI "bool free_on_error "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to pad
+.IP "pad" 12
+space to pad
+.IP "free_on_error" 12
+free buffer on error
+
+Ensure that a buffer is followed by a padding area that is zero
+filled. Used by network drivers which may DMA or transfer data
+beyond the buffer end onto the wire.
+
+May return error in out of memory cases. The skb is freed on error
+if \fIfree_on_error\fP is true.

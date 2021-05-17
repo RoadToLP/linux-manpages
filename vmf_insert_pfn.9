@@ -1,0 +1,30 @@
+.TH "vmf_insert_pfn" 9 "vmf_insert_pfn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmf_insert_pfn \- insert single pfn into user vma
+.SH SYNOPSIS
+.B "vm_fault_t" vmf_insert_pfn
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "unsigned long pfn "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target user address of this page
+.IP "pfn" 12
+source kernel pfn
+.SH "DESCRIPTION"
+Similar to vm_insert_page, this allows drivers to insert individual pages
+they've allocated into a user vma. Same comments apply.
+
+This function should only be called from a vm_ops->fault handler, and
+in that case the handler should return the result of this function.
+
+vma cannot be a COW mapping.
+
+As this is called only for pages that do not currently exist, we
+do not need to flush old virtual caches or the TLB.
+.SH "CONTEXT"
+Process context.  May allocate using GFP_KERNEL.
+.SH "RETURN"
+vm_fault_t value.

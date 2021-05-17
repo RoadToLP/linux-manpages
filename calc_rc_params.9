@@ -1,0 +1,19 @@
+.TH "calc_rc_params" 9 "calc_rc_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_rc_params \- reads the user's cmdline mode
+.SH SYNOPSIS
+.B "void" calc_rc_params
+.BI "(struct rc_params *rc "  ","
+.BI "const struct drm_dsc_config *pps "  ");"
+.SH ARGUMENTS
+.IP "rc" 12
+DC internal DSC parameters
+.IP "pps" 12
+DRM struct with all required DSC values
+.SH "DESCRIPTION"
+This function expects a drm_dsc_config data struct with all the required DSC
+values previously filled out by our driver and based on this information it
+computes some of the DSC values.
+
+\fInote\fP This calculation requires float point operation, most of it executes
+under kernel_fpu_{begin,end}.

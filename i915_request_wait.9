@@ -1,0 +1,24 @@
+.TH "i915_request_wait" 9 "i915_request_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_request_wait \- wait until execution of request has finished
+.SH SYNOPSIS
+.B "long" i915_request_wait
+.BI "(struct i915_request *rq "  ","
+.BI "unsigned int flags "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+the request to wait upon
+.IP "flags" 12
+how to wait
+.IP "timeout" 12
+how long to wait in jiffies
+.SH "DESCRIPTION"
+\fBi915_request_wait\fP waits for the request to be completed, for a
+maximum of \fItimeout\fP jiffies (with MAX_SCHEDULE_TIMEOUT implying an
+unbounded wait).
+
+Returns the remaining time (in jiffies) if the request completed, which may
+be zero or -ETIME if the request is unfinished after the timeout expires.
+May return -EINTR is called with I915_WAIT_INTERRUPTIBLE and a signal is
+pending before the request completes.

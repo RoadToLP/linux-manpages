@@ -1,0 +1,25 @@
+.TH "find_acpi_cpu_topology_hetero_id" 9 "find_acpi_cpu_topology_hetero_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_acpi_cpu_topology_hetero_id \- Get a core architecture tag
+.SH SYNOPSIS
+.B "int" find_acpi_cpu_topology_hetero_id
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+Kernel logical CPU number
+.SH "DESCRIPTION"
+Determine a unique heterogeneous tag for the given CPU. CPUs with the same
+implementation should have matching tags.
+
+The returned tag can be used to group peers with identical implementation.
+
+The search terminates when a level is found with the identical implementation
+flag set or we reach a root node.
+
+Due to limitations in the PPTT data structure, there may be rare situations
+where two cores in a heterogeneous machine may be identical, but won't have
+the same tag.
+.SH "RETURN"
+-ENOENT if the PPTT doesn't exist, or the CPU cannot be found.
+Otherwise returns a value which represents a group of identical cores
+similar to this CPU.

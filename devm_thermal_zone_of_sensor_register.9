@@ -1,0 +1,29 @@
+.TH "devm_thermal_zone_of_sensor_register" 9 "devm_thermal_zone_of_sensor_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_thermal_zone_of_sensor_register \- Resource managed version of thermal_zone_of_sensor_register()
+.SH SYNOPSIS
+.B "struct thermal_zone_device *" devm_thermal_zone_of_sensor_register
+.BI "(struct device *dev "  ","
+.BI "int sensor_id "  ","
+.BI "void *data "  ","
+.BI "const struct thermal_zone_of_device_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+a valid struct device pointer of a sensor device. Must contain
+a valid .of_node, for the sensor node.
+.IP "sensor_id" 12
+a sensor identifier, in case the sensor IP has more
+than one sensors
+.IP "data" 12
+a private pointer (owned by the caller) that will be passed
+back, when a temperature reading is needed.
+.IP "ops" 12
+struct thermal_zone_of_device_ops *. Must contain at least .get_temp.
+.SH "DESCRIPTION"
+Refer \fBthermal_zone_of_sensor_register\fP for more details.
+.SH "RETURN"
+On success returns a valid struct thermal_zone_device,
+otherwise, it returns a corresponding \fBERR_PTR\fP. Caller must
+check the return value with help of \fBIS_ERR\fP helper.
+Registered thermal_zone_device device will automatically be
+released when device is unbounded.

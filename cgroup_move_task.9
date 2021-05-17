@@ -1,0 +1,19 @@
+.TH "cgroup_move_task" 9 "cgroup_move_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_move_task \- move task to a different cgroup
+.SH SYNOPSIS
+.B "void" cgroup_move_task
+.BI "(struct task_struct *task "  ","
+.BI "struct css_set *to "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+the task
+.IP "to" 12
+the target css_set
+.SH "DESCRIPTION"
+Move task to a new cgroup and safely migrate its associated stall
+state between the different groups.
+
+This function acquires the task's rq lock to lock out concurrent
+changes to the task's scheduling state and - in case the task is
+running - concurrent changes to its stall state.

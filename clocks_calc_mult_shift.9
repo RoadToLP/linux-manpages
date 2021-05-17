@@ -1,0 +1,36 @@
+.TH "clocks_calc_mult_shift" 9 "clocks_calc_mult_shift" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clocks_calc_mult_shift \- calculate mult/shift factors for scaled math of clocks
+.SH SYNOPSIS
+.B "void" clocks_calc_mult_shift
+.BI "(u32 *mult "  ","
+.BI "u32 *shift "  ","
+.BI "u32 from "  ","
+.BI "u32 to "  ","
+.BI "u32 maxsec "  ");"
+.SH ARGUMENTS
+.IP "mult" 12
+pointer to mult variable
+.IP "shift" 12
+pointer to shift variable
+.IP "from" 12
+frequency to convert from
+.IP "to" 12
+frequency to convert to
+.IP "maxsec" 12
+guaranteed runtime conversion range in seconds
+.SH "DESCRIPTION"
+The function evaluates the shift/mult pair for the scaled math
+operations of clocksources and clockevents.
+
+\fIto\fP and \fIfrom\fP are frequency values in HZ. For clock sources \fIto\fP is
+NSEC_PER_SEC == 1GHz and \fIfrom\fP is the counter frequency. For clock
+event \fIto\fP is the counter frequency and \fIfrom\fP is NSEC_PER_SEC.
+
+The \fImaxsec\fP conversion range argument controls the time frame in
+seconds which must be covered by the runtime conversion with the
+calculated mult and shift factors. This guarantees that no 64bit
+overflow happens when the input value of the conversion is
+multiplied with the calculated mult factor. Larger ranges may
+reduce the conversion accuracy by chosing smaller mult and shift
+factors.

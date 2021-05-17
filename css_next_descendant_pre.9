@@ -1,0 +1,28 @@
+.TH "css_next_descendant_pre" 9 "css_next_descendant_pre" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_next_descendant_pre \- find the next descendant for pre-order walk
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" css_next_descendant_pre
+.BI "(struct cgroup_subsys_state *pos "  ","
+.BI "struct cgroup_subsys_state *root "  ");"
+.SH ARGUMENTS
+.IP "pos" 12
+the current position (NULL to initiate traversal)
+.IP "root" 12
+css whose descendants to walk
+.SH "DESCRIPTION"
+To be used by \fBcss_for_each_descendant_pre\fP.  Find the next descendant
+to visit for pre-order traversal of \fIroot\fP's descendants.  \fIroot\fP is
+included in the iteration and the first node to be visited.
+
+While this function requires cgroup_mutex or RCU read locking, it
+doesn't require the whole traversal to be contained in a single critical
+section.  This function will return the correct next descendant as long
+as both \fIpos\fP and \fIroot\fP are accessible and \fIpos\fP is a descendant of \fIroot\fP.
+
+If a subsystem synchronizes ->\fBcss_online\fP and the start of iteration, a
+css which finished ->\fBcss_online\fP is guaranteed to be visible in the
+future iterations and will stay visible until the last reference is put.
+A css which hasn't finished ->\fBcss_online\fP or already finished
+->\fBcss_offline\fP may show up during traversal.  It's each subsystem's
+responsibility to synchronize against on/offlining.

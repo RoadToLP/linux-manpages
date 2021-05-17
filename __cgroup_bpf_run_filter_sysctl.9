@@ -1,0 +1,37 @@
+.TH "__cgroup_bpf_run_filter_sysctl" 9 "__cgroup_bpf_run_filter_sysctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_run_filter_sysctl \- Run a program on sysctl
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_run_filter_sysctl
+.BI "(struct ctl_table_header *head "  ","
+.BI "struct ctl_table *table "  ","
+.BI "int write "  ","
+.BI "char **buf "  ","
+.BI "size_t *pcount "  ","
+.BI "loff_t *ppos "  ","
+.BI "enum bpf_attach_type type "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+sysctl table header
+.IP "table" 12
+sysctl table
+.IP "write" 12
+sysctl is being read (= 0) or written (= 1)
+.IP "buf" 12
+pointer to buffer (in and out)
+.IP "pcount" 12
+value-result argument: value is size of buffer pointed to by \fIbuf\fP,
+result is size of \fInew_buf\fP if program set new value, initial value
+otherwise
+.IP "ppos" 12
+value-result argument: value is position at which read from or write
+to sysctl is happening, result is new position if program overrode it,
+initial value otherwise
+.IP "type" 12
+type of program to be executed
+.SH "DESCRIPTION"
+Program is run when sysctl is being accessed, either read or written, and
+can allow or deny such access.
+
+This function will return -EPERM if an attached program is found and
+returned value != 1 during execution. In all other cases 0 is returned.

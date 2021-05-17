@@ -1,0 +1,28 @@
+.TH "vfs_statx" 9 "vfs_statx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_statx \- Get basic and extra attributes by filename
+.SH SYNOPSIS
+.B "int" vfs_statx
+.BI "(int dfd "  ","
+.BI "const char __user *filename "  ","
+.BI "int flags "  ","
+.BI "struct kstat *stat "  ","
+.BI "u32 request_mask "  ");"
+.SH ARGUMENTS
+.IP "dfd" 12
+A file descriptor representing the base dir for a relative filename
+.IP "filename" 12
+The name of the file of interest
+.IP "flags" 12
+Flags to control the query
+.IP "stat" 12
+The result structure to fill in.
+.IP "request_mask" 12
+STATX_xxx flags indicating what the caller wants
+.SH "DESCRIPTION"
+This function is a wrapper around \fBvfs_getattr\fP.  The main difference is
+that it uses a filename and base directory to determine the file location.
+Additionally, the use of AT_SYMLINK_NOFOLLOW in flags will prevent a symlink
+at the given name from being referenced.
+
+0 will be returned on success, and a -ve error code if unsuccessful.

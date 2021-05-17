@@ -1,0 +1,25 @@
+.TH "cci_enable_port_for_self" 9 "cci_enable_port_for_self" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cci_enable_port_for_self \- enable a CCI port for calling CPU
+.SH SYNOPSIS
+.B "void __naked" cci_enable_port_for_self
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Enabling a CCI port for the calling CPU implies enabling the CCI
+port controlling that CPU's cluster. Caller must make sure that the
+CPU running the code is the first active CPU in the cluster and all
+other CPUs are quiescent in a low power state  or waiting for this CPU
+to complete the CCI initialization.
+
+Because this is called when the MMU is still off and with no stack,
+the code must be position independent and ideally rely on callee
+clobbered registers only.  To achieve this we must code this function
+entirely in assembler.
+
+On success this returns with the proper CCI port enabled.  In case of
+any failure this never returns as the inability to enable the CCI is
+fatal and there is no possible recovery at this stage.

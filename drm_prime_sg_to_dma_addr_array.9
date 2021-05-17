@@ -1,0 +1,20 @@
+.TH "drm_prime_sg_to_dma_addr_array" 9 "drm_prime_sg_to_dma_addr_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_prime_sg_to_dma_addr_array \- convert an sg table into a dma addr array
+.SH SYNOPSIS
+.B "int" drm_prime_sg_to_dma_addr_array
+.BI "(struct sg_table *sgt "  ","
+.BI "dma_addr_t *addrs "  ","
+.BI "int max_entries "  ");"
+.SH ARGUMENTS
+.IP "sgt" 12
+scatter-gather table to convert
+.IP "addrs" 12
+array to store the dma bus address of each page
+.IP "max_entries" 12
+size of both the passed-in arrays
+.SH "DESCRIPTION"
+Exports an sg table into an array of addresses.
+
+Drivers should use this in their \fIdrm_driver.gem_prime_import_sg_table\fP
+implementation.

@@ -1,0 +1,18 @@
+.TH "lpfc_sli4_alloc_xri" 9 "lpfc_sli4_alloc_xri" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_alloc_xri \- Get an available rpi in the device's range
+.SH SYNOPSIS
+.B "uint16_t" lpfc_sli4_alloc_xri
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine is invoked to post rpi header templates to the
+HBA consistent with the SLI-4 interface spec.  This routine
+posts a SLI4_PAGE_SIZE memory region to the port to hold up to
+SLI4_PAGE_SIZE modulo 64 rpi context headers.
+
+Returns
+A nonzero rpi defined as rpi_base <= rpi < max_rpi if successful
+LPFC_RPI_ALLOC_ERROR if no rpis are available.

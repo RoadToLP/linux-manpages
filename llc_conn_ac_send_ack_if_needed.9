@@ -1,0 +1,17 @@
+.TH "llc_conn_ac_send_ack_if_needed" 9 "llc_conn_ac_send_ack_if_needed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_conn_ac_send_ack_if_needed \- check if ack is needed
+.SH SYNOPSIS
+.B "int" llc_conn_ac_send_ack_if_needed
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+current connection structure
+.IP "skb" 12
+current event
+
+Checks number of received PDUs which have not been acknowledged, yet,
+If number of them reaches to "npta"(Number of PDUs To Acknowledge) then
+sends an RR response as acknowledgement for them.  Returns 0 for
+success, 1 otherwise.

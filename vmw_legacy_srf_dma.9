@@ -1,0 +1,24 @@
+.TH "vmw_legacy_srf_dma" 9 "vmw_legacy_srf_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_legacy_srf_dma \- Copy backup data to or from a legacy surface.
+.SH SYNOPSIS
+.B "int" vmw_legacy_srf_dma
+.BI "(struct vmw_resource *res "  ","
+.BI "struct ttm_validate_buffer *val_buf "  ","
+.BI "bool bind "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to a struct vmw_res embedded in a struct
+vmw_surface.
+.IP "val_buf" 12
+Pointer to a struct ttm_validate_buffer containing
+information about the backup buffer.
+.IP "bind" 12
+Boolean wether to DMA to the surface.
+.SH "DESCRIPTION"
+Transfer backup data to or from a legacy surface as part of the
+validation process.
+May return other errors if the kernel is out of guest resources.
+The backup buffer will be fenced or idle upon successful completion,
+and if the surface needs persistent backup storage, the backup buffer
+will also be returned reserved iff \fIbind\fP is true.

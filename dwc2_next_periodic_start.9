@@ -1,0 +1,29 @@
+.TH "dwc2_next_periodic_start" 9 "dwc2_next_periodic_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_next_periodic_start \- Set next_active_frame for next transfer start
+.SH SYNOPSIS
+.B "int" dwc2_next_periodic_start
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ","
+.BI "u16 frame_number "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure
+.IP "qh" 12
+QH for the periodic transfer.
+.IP "frame_number" 12
+The current frame number.
+.SH "DESCRIPTION"
+
+This is called for setting next_active_frame for a periodic transfer for
+all cases other than midway through a periodic split.  This will also update
+start_active_frame.
+
+Since we _always_ keep start_active_frame as the start of the previous
+transfer this is normally pretty easy: we just add our interval to
+start_active_frame and we've got our answer.
+
+The tricks come into play if we miss.  In that case we'll look for the next
+slot we can fit into.
+.SH "RETURN"
+number missed by (or 0 if we didn't miss).

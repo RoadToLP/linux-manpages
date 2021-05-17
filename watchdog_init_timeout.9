@@ -1,0 +1,26 @@
+.TH "watchdog_init_timeout" 9 "watchdog_init_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+watchdog_init_timeout \- initialize the timeout field
+.SH SYNOPSIS
+.B "int" watchdog_init_timeout
+.BI "(struct watchdog_device *wdd "  ","
+.BI "unsigned int timeout_parm "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "wdd" 12
+watchdog device
+.IP "timeout_parm" 12
+timeout module parameter
+.IP "dev" 12
+Device that stores the timeout-sec property
+.SH "DESCRIPTION"
+Initialize the timeout field of the watchdog_device struct with either the
+timeout module parameter (if it is valid value) or the timeout-sec property
+(only if it is a valid value and the timeout_parm is out of bounds).
+If none of them are valid then we keep the old value (which should normally
+be the default timeout value). Note that for the module parameter, '0' means
+'use default' while it is an invalid value for the timeout-sec property.
+It should simply be dropped if you want to use the default value then.
+
+A zero is returned on success or -EINVAL if all provided values are out of
+bounds.

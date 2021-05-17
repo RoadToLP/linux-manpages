@@ -1,0 +1,13 @@
+.TH "trans_drain" 9 "trans_drain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trans_drain \- drain the buf and databuf queue for a failed transaction
+.SH SYNOPSIS
+.B "void" trans_drain
+.BI "(struct gfs2_trans *tr "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+the transaction to drain
+.SH "DESCRIPTION"
+When this is called, we're taking an error exit for a log write that failed
+but since we bypassed the after_commit functions, we need to remove the
+items from the buf and databuf queue.

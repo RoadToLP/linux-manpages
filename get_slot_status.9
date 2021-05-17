@@ -1,0 +1,17 @@
+.TH "get_slot_status" 9 "get_slot_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_slot_status \- get ACPI slot status
+.SH SYNOPSIS
+.B "unsigned int" get_slot_status
+.BI "(struct acpiphp_slot *slot "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+ACPI PHP slot
+.SH "DESCRIPTION"
+If a slot has _STA for each function and if any one of them
+returned non-zero status, return it.
+
+If a slot doesn't have _STA and if any one of its functions'
+configuration space is configured, return 0x0f as a _STA.
+
+Otherwise return 0.

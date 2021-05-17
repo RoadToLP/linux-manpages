@@ -1,0 +1,26 @@
+.TH "ice_find_dup_props_vsig" 9 "ice_find_dup_props_vsig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_find_dup_props_vsig \- find VSI group with a specified set of properties
+.SH SYNOPSIS
+.B "enum ice_status" ice_find_dup_props_vsig
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_block blk "  ","
+.BI "struct list_head *chs "  ","
+.BI "u16 *vsig "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "blk" 12
+HW block
+.IP "chs" 12
+characteristic list
+.IP "vsig" 12
+returns the VSIG with the matching profiles, if found
+.SH "DESCRIPTION"
+Each VSIG is associated with a characteristic set; i.e. all VSIs under
+a group have the same characteristic set. To check if there exists a VSIG
+which has the same characteristics as the input characteristics; this
+function will iterate through the XLT2 list and return the VSIG that has a
+matching configuration. In order to make sure that priorities are accounted
+for, the list must match exactly, including the order in which the
+characteristics are listed.

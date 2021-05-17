@@ -1,0 +1,25 @@
+.TH "icc_get" 9 "icc_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+icc_get \- return a handle for path between two endpoints
+.SH SYNOPSIS
+.B "struct icc_path *" icc_get
+.BI "(struct device *dev "  ","
+.BI "const int src_id "  ","
+.BI "const int dst_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device requesting the path
+.IP "src_id" 12
+source device port id
+.IP "dst_id" 12
+destination device port id
+.SH "DESCRIPTION"
+This function will search for a path between two endpoints and return an
+icc_path handle on success. Use \fBicc_put\fP to release
+constraints when they are not needed anymore.
+If the interconnect API is disabled, NULL is returned and the consumer
+drivers will still build. Drivers are free to handle this specifically,
+but they don't have to.
+.SH "RETURN"
+icc_path pointer on success, \fBERR_PTR\fP on error or NULL if the
+interconnect API is disabled.

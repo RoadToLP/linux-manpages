@@ -1,0 +1,38 @@
+.TH "regmap_update_bits_base" 9 "regmap_update_bits_base" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_update_bits_base \- Perform a read/modify/write cycle on a register
+.SH SYNOPSIS
+.B "int" regmap_update_bits_base
+.BI "(struct regmap *map "  ","
+.BI "unsigned int reg "  ","
+.BI "unsigned int mask "  ","
+.BI "unsigned int val "  ","
+.BI "bool *change "  ","
+.BI "bool async "  ","
+.BI "bool force "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to update
+.IP "reg" 12
+Register to update
+.IP "mask" 12
+Bitmask to change
+.IP "val" 12
+New value for bitmask
+.IP "change" 12
+Boolean indicating if a write was done
+.IP "async" 12
+Boolean indicating asynchronously
+.IP "force" 12
+Boolean indicating use force update
+.SH "DESCRIPTION"
+Perform a read/modify/write cycle on a register map with change, async, force
+options.
+
+If async is true:
+
+With most buses the read must be done synchronously so this is most useful
+for devices with a cache which do not need to interact with the hardware to
+determine the current register value.
+
+Returns zero for success, a negative number on error.

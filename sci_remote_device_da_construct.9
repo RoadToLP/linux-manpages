@@ -1,0 +1,23 @@
+.TH "sci_remote_device_da_construct" 9 "sci_remote_device_da_construct" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sci_remote_device_da_construct \- construct direct attached device.
+.SH SYNOPSIS
+.B "enum sci_status" sci_remote_device_da_construct
+.BI "(struct isci_port *iport "  ","
+.BI "struct isci_remote_device *idev "  ");"
+.SH ARGUMENTS
+.IP "iport" 12
+-- undescribed --
+.IP "idev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+The information (e.g. IAF, Signature FIS, etc.) necessary to build
+the device is known to the SCI Core since it is contained in the
+sci_phy object.  Remote node context(s) is/are a global resource
+allocated by this routine, freed by \fBsci_remote_device_destruct\fP.
+.SH "RETURN"
+SCI_FAILURE_DEVICE_EXISTS - device has already been constructed.
+SCI_FAILURE_UNSUPPORTED_PROTOCOL - e.g. sas device attached to
+sata-only controller instance.
+SCI_FAILURE_INSUFFICIENT_RESOURCES - remote node contexts exhausted.

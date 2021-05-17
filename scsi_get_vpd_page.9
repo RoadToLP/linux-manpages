@@ -1,0 +1,25 @@
+.TH "scsi_get_vpd_page" 9 "scsi_get_vpd_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_get_vpd_page \- Get Vital Product Data from a SCSI device
+.SH SYNOPSIS
+.B "int" scsi_get_vpd_page
+.BI "(struct scsi_device *sdev "  ","
+.BI "u8 page "  ","
+.BI "unsigned char *buf "  ","
+.BI "int buf_len "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+The device to ask
+.IP "page" 12
+Which Vital Product Data to return
+.IP "buf" 12
+where to store the VPD
+.IP "buf_len" 12
+number of bytes in the VPD buffer area
+.SH "DESCRIPTION"
+SCSI devices may optionally supply Vital Product Data.  Each 'page'
+of VPD is defined in the appropriate SCSI document (eg SPC, SBC).
+If the device supports this VPD page, this routine returns a pointer
+to a buffer containing the data from that page.  The caller is
+responsible for calling \fBkfree\fP on this pointer when it is no longer
+needed.  If we cannot retrieve the VPD page this routine returns NULL.

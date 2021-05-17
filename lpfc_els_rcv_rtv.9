@@ -1,0 +1,30 @@
+.TH "lpfc_els_rcv_rtv" 9 "lpfc_els_rcv_rtv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rtv \- Process an unsolicited rtv iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_rtv
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Read Timout Value (RTV) IOCB received as an
+ELS unsolicited event. It first checks the remote port state. If the
+remote port is not in NLP_STE_UNMAPPED_NODE state or NLP_STE_MAPPED_NODE
+state, it invokes the \fBlpfc_els_rsl_reject\fP routine to send the reject
+response. Otherwise, it sends the Accept(ACC) response to a Read Timeout
+Value (RTV) unsolicited IOCB event.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the RTV Accept Response ELS IOCB command.
+
+Return codes
+0 - Successfully processed rtv iocb (currently always return 0)

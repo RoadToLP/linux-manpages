@@ -1,0 +1,37 @@
+.TH "pci_request_irq" 9 "pci_request_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_request_irq \- allocate an interrupt line for a PCI device
+.SH SYNOPSIS
+.B "int" pci_request_irq
+.BI "(struct pci_dev *dev "  ","
+.BI "unsigned int nr "  ","
+.BI "irq_handler_t handler "  ","
+.BI "irq_handler_t thread_fn "  ","
+.BI "void *dev_id "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to operate on
+.IP "nr" 12
+device-relative interrupt vector index (0-based).
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+Primary handler for threaded interrupts.
+If NULL and thread_fn != NULL the default primary handler is
+installed.
+.IP "thread_fn" 12
+Function called from the IRQ handler thread
+If NULL, no IRQ thread is created
+.IP "dev_id" 12
+Cookie passed back to the handler function
+.IP "fmt" 12
+Printf-like format string naming the handler
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+This call allocates interrupt resources and enables the interrupt line and
+IRQ handling. From the point this call is made \fIhandler\fP and \fIthread_fn\fP may
+be invoked.  All interrupts requested using this function might be shared.
+
+\fIdev_id\fP must not be NULL and must be globally unique.

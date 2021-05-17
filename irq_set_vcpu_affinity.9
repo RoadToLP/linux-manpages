@@ -1,0 +1,18 @@
+.TH "irq_set_vcpu_affinity" 9 "irq_set_vcpu_affinity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_set_vcpu_affinity \- Set vcpu affinity for the interrupt
+.SH SYNOPSIS
+.B "int" irq_set_vcpu_affinity
+.BI "(unsigned int irq "  ","
+.BI "void *vcpu_info "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number to set affinity
+.IP "vcpu_info" 12
+vCPU specific data or pointer to a percpu array of vCPU
+specific data for percpu_devid interrupts
+
+This function uses the vCPU specific data to set the vCPU
+affinity for an irq. The vCPU specific data is passed from
+outside, such as KVM. One example code path is as below:
+KVM -> IOMMU -> \fBirq_set_vcpu_affinity\fP.

@@ -1,0 +1,35 @@
+.TH "dpni_add_vlan_id" 9 "dpni_add_vlan_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_add_vlan_id \- Add VLAN ID filter
+.SH SYNOPSIS
+.B "int" dpni_add_vlan_id
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 vlan_id "  ","
+.BI "u8 flags "  ","
+.BI "u8 tc_id "  ","
+.BI "u8 flow_id "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "vlan_id" 12
+VLAN ID to add
+.IP "flags" 12
+0 - tc_id and flow_id will be ignored.
+Pkt with this vlan_id will be passed to the next
+classification stages
+DPNI_VLAN_SET_QUEUE_ACTION
+Pkt with this vlan_id will be forward directly to
+queue defined by the tc_id and flow_id
+.IP "tc_id" 12
+Traffic class selection (0-7)
+.IP "flow_id" 12
+Selects the specific queue out of the set allocated for the
+same as tc_id. Value must be in range 0 to NUM_QUEUES - 1
+.SH "RETURN"
+'0' on Success; Error code otherwise.

@@ -1,0 +1,26 @@
+.TH "amdgpu_dm_update_crtc_color_mgmt" 9 "amdgpu_dm_update_crtc_color_mgmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dm_update_crtc_color_mgmt \- Maps DRM color management to DC stream.
+.SH SYNOPSIS
+.B "int" amdgpu_dm_update_crtc_color_mgmt
+.BI "(struct dm_crtc_state *crtc "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+amdgpu_dm crtc state
+.SH "DESCRIPTION"
+With no plane level color management properties we're free to use any
+of the HW blocks as long as the CRTC CTM always comes before the
+CRTC RGM and after the CRTC DGM.
+
+The CRTC RGM block will be placed in the RGM LUT block if it is non-linear.
+The CRTC DGM block will be placed in the DGM LUT block if it is non-linear.
+The CRTC CTM will be placed in the gamut remap block if it is non-linear.
+
+The RGM block is typically more fully featured and accurate across
+all ASICs - DCE can't support a custom non-linear CRTC DGM.
+
+For supporting both plane level color management and CRTC level color
+management at once we have to either restrict the usage of CRTC properties
+or blend adjustments together.
+
+Returns 0 on success.

@@ -1,0 +1,16 @@
+.TH "ceph_find_incompatible" 9 "ceph_find_incompatible" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ceph_find_incompatible \- find an incompatible context and return it
+.SH SYNOPSIS
+.B "struct ceph_snap_context *" ceph_find_incompatible
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page being dirtied
+.SH "DESCRIPTION"
+We are only allowed to write into/dirty a page if the page is
+clean, or already dirty within the same snap context. Returns a
+conflicting context if there is one, NULL if there isn't, or a
+negative error code on other errors.
+
+Must be called with page lock held.

@@ -1,0 +1,20 @@
+.TH "float_to_long" 9 "float_to_long" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+float_to_long \- Convert ieee754 reading from hardware to an integer
+.SH SYNOPSIS
+.B "long" float_to_long
+.BI "(u32 data "  ","
+.BI "u32 precision "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+Value read from the hardware
+.IP "precision" 12
+Units to multiply up to eg. 1000 = milli, 1000000 = micro
+.SH "RETURN"
+Converted integer reading
+.SH "DESCRIPTION"
+Depending on the measurement type the hardware returns an ieee754
+floating point value in either volts, amps or celsius. This function
+will convert that into an integer in a smaller unit such as micro-amps
+or milli-celsius. The hardware does not return NaN, so consideration of
+that is not required.

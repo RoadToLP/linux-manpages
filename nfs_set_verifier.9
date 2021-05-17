@@ -1,0 +1,17 @@
+.TH "nfs_set_verifier" 9 "nfs_set_verifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_set_verifier \- save a parent directory verifier in the dentry
+.SH SYNOPSIS
+.B "void" nfs_set_verifier
+.BI "(struct dentry *dentry "  ","
+.BI "unsigned long verf "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+pointer to dentry
+.IP "verf" 12
+verifier to save
+.SH "DESCRIPTION"
+Saves the parent directory verifier in \fIdentry\fP. If the inode has
+a delegation, we also tag the dentry as having been revalidated
+while holding a delegation so that we know we don't have to
+look it up again after a directory change.

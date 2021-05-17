@@ -1,0 +1,22 @@
+.TH "t3_link_start" 9 "t3_link_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_link_start \- apply link configuration to MAC/PHY
+.SH SYNOPSIS
+.B "int" t3_link_start
+.BI "(struct cphy *phy "  ","
+.BI "struct cmac *mac "  ","
+.BI "struct link_config *lc "  ");"
+.SH ARGUMENTS
+.IP "phy" 12
+the PHY to setup
+.IP "mac" 12
+the MAC to setup
+.IP "lc" 12
+the requested link configuration
+
+Set up a port's MAC and PHY according to a desired link configuration.
+- If the PHY can auto-negotiate first decide what to advertise, then
+enable/disable auto-negotiation as desired, and reset.
+- If the PHY does not auto-negotiate just reset it.
+- If auto-negotiation is off set the MAC to the proper speed/duplex/FC,
+otherwise do it later based on the outcome of auto-negotiation.

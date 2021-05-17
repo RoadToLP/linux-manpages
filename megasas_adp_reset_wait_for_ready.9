@@ -1,0 +1,20 @@
+.TH "megasas_adp_reset_wait_for_ready" 9 "megasas_adp_reset_wait_for_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_adp_reset_wait_for_ready \- initiate chip reset and wait for controller to come to ready state
+.SH SYNOPSIS
+.B "int" megasas_adp_reset_wait_for_ready
+.BI "(struct megasas_instance *instance "  ","
+.BI "bool do_adp_reset "  ","
+.BI "int ocr_context "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+adapter's soft state
+.IP "do_adp_reset" 12
+If true, do a chip reset
+.IP "ocr_context" 12
+If called from OCR context this will
+be set to 1, else 0
+.SH "DESCRIPTION"
+This function initates a chip reset followed by a wait for controller to
+transition to ready state.
+During this, driver will block all access to PCI config space from userspace

@@ -1,0 +1,19 @@
+.TH "ovs_vport_set_upcall_portids" 9 "ovs_vport_set_upcall_portids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_set_upcall_portids \- set upcall portids of @vport.
+.SH SYNOPSIS
+.B "int" ovs_vport_set_upcall_portids
+.BI "(struct vport *vport "  ","
+.BI "const struct nlattr *ids "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+vport to modify.
+.IP "ids" 12
+new configuration, an array of port ids.
+.SH "DESCRIPTION"
+Sets the vport's upcall_portids to \fIids\fP.
+
+Returns 0 if successful, -EINVAL if \fIids\fP is zero length or cannot be parsed
+as an array of U32.
+
+Must be called with ovs_mutex.

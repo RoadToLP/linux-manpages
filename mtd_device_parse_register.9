@@ -1,0 +1,40 @@
+.TH "mtd_device_parse_register" 9 "mtd_device_parse_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_device_parse_register \- parse partitions and register an MTD device.
+.SH SYNOPSIS
+.B "int" mtd_device_parse_register
+.BI "(struct mtd_info *mtd "  ","
+.BI "const char * const *types "  ","
+.BI "struct mtd_part_parser_data *parser_data "  ","
+.BI "const struct mtd_partition *parts "  ","
+.BI "int nr_parts "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+the MTD device to register
+.IP "types" 12
+the list of MTD partition probes to try, see
+'\fBparse_mtd_partitions\fP' for more information
+.IP "parser_data" 12
+MTD partition parser-specific data
+.IP "parts" 12
+fallback partition information to register, if parsing fails;
+only valid if nr_parts > 0
+.IP "nr_parts" 12
+the number of partitions in parts, if zero then the full
+MTD device is registered if no partition info is found
+.SH "DESCRIPTION"
+This function aggregates MTD partitions parsing (done by
+'\fBparse_mtd_partitions\fP') and MTD device and partitions registering. It
+basically follows the most common pattern found in many MTD drivers:
+
+* If the MTD_PARTITIONED_MASTER option is set, then the device as a whole is
+registered first.
+* Then It tries to probe partitions on MTD device \fImtd\fP using parsers
+specified in \fItypes\fP (if \fItypes\fP is NULL, then the default list of parsers
+is used, see '\fBparse_mtd_partitions\fP' for more information). If none are
+found this functions tries to fallback to information specified in
+\fIparts\fP/\fInr_parts\fP.
+* If no partitions were found this function just registers the MTD device
+\fImtd\fP and exits.
+
+Returns zero in case of success and a negative error code in case of failure.

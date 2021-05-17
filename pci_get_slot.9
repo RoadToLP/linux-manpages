@@ -1,0 +1,21 @@
+.TH "pci_get_slot" 9 "pci_get_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_get_slot \- locate PCI device for a given PCI slot
+.SH SYNOPSIS
+.B "struct pci_dev *" pci_get_slot
+.BI "(struct pci_bus *bus "  ","
+.BI "unsigned int devfn "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+PCI bus on which desired PCI device resides
+.IP "devfn" 12
+encodes number of PCI slot in which the desired PCI
+device resides and the logical device number within that slot
+in case of multi-function devices.
+.SH "DESCRIPTION"
+Given a PCI bus and slot/function number, the desired PCI device
+is located in the list of PCI devices.
+If the device is found, its reference count is increased and this
+function returns a pointer to its data structure.  The caller must
+decrement the reference count by calling \fBpci_dev_put\fP.
+If no device is found, NULL is returned.

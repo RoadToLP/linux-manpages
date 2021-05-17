@@ -1,0 +1,38 @@
+.TH "alloc_ring" 9 "alloc_ring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_ring \- allocate resources for an SGE descriptor ring
+.SH SYNOPSIS
+.B "void *" alloc_ring
+.BI "(struct device *dev "  ","
+.BI "size_t nelem "  ","
+.BI "size_t elem_size "  ","
+.BI "size_t sw_size "  ","
+.BI "dma_addr_t *phys "  ","
+.BI "void *metadata "  ","
+.BI "size_t stat_size "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device's core device
+.IP "nelem" 12
+the number of descriptors
+.IP "elem_size" 12
+the size of each descriptor
+.IP "sw_size" 12
+the size of the SW state associated with each ring element
+.IP "phys" 12
+the physical address of the allocated ring
+.IP "metadata" 12
+address of the array holding the SW state for the ring
+.IP "stat_size" 12
+extra space in HW ring for status information
+.IP "node" 12
+preferred node for memory allocations
+
+Allocates resources for an SGE descriptor ring, such as Tx queues,
+free buffer lists, or response queues.  Each SGE ring requires
+space for its HW descriptors plus, optionally, space for the SW state
+associated with each HW entry (the metadata).  The function returns
+three values: the virtual address for the HW ring (the return value
+of the function), the bus address of the HW ring, and the address
+of the SW ring.

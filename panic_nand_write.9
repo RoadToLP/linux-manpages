@@ -1,0 +1,24 @@
+.TH "panic_nand_write" 9 "panic_nand_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+panic_nand_write \- [MTD Interface] NAND write with ECC
+.SH SYNOPSIS
+.B "int" panic_nand_write
+.BI "(struct mtd_info *mtd "  ","
+.BI "loff_t to "  ","
+.BI "size_t len "  ","
+.BI "size_t *retlen "  ","
+.BI "const uint8_t *buf "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device structure
+.IP "to" 12
+offset to write to
+.IP "len" 12
+number of bytes to write
+.IP "retlen" 12
+pointer to variable to store the number of written bytes
+.IP "buf" 12
+the data to write
+.SH "DESCRIPTION"
+NAND write with ECC. Used when performing writes in interrupt context, this
+may for example be called by mtdoops when writing an oops while in panic.

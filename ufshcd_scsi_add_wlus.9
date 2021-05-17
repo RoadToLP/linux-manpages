@@ -1,0 +1,31 @@
+.TH "ufshcd_scsi_add_wlus" 9 "ufshcd_scsi_add_wlus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_scsi_add_wlus \- Adds required W-LUs
+.SH SYNOPSIS
+.B "int" ufshcd_scsi_add_wlus
+.BI "(struct ufs_hba *hba "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per-adapter instance
+.SH "DESCRIPTION"
+UFS device specification requires the UFS devices to support 4 well known
+logical units:
+"REPORT_LUNS" (address: 01h)
+"UFS Device" (address: 50h)
+"RPMB" (address: 44h)
+"BOOT" (address: 30h)
+UFS device's power management needs to be controlled by "POWER CONDITION"
+field of SSU (START STOP UNIT) command. But this "power condition" field
+will take effect only when its sent to "UFS device" well known logical unit
+hence we require the scsi_device instance to represent this logical unit in
+order for the UFS host driver to send the SSU command for power management.
+
+We also require the scsi_device instance for "RPMB" (Replay Protected Memory
+Block) LU so user space process can control this LU. User space may also
+want to have access to BOOT LU.
+
+This function adds scsi device instances for each of all well known LUs
+(except "REPORT LUNS" LU).
+
+Returns zero on success (all required W-LUs are added successfully),
+non-zero error value on failure (if failed to add any of the required W-LU).

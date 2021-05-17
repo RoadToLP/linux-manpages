@@ -1,0 +1,18 @@
+.TH "wait_for_key_construction" 9 "wait_for_key_construction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_key_construction \- Wait for construction of a key to complete
+.SH SYNOPSIS
+.B "int" wait_for_key_construction
+.BI "(struct key *key "  ","
+.BI "bool intr "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+The key being waited for.
+.IP "intr" 12
+Whether to wait interruptibly.
+.SH "DESCRIPTION"
+Wait for a key to finish being constructed.
+
+Returns 0 if successful; -ERESTARTSYS if the wait was interrupted; -ENOKEY
+if the key was negated; or -EKEYREVOKED or -EKEYEXPIRED if the key was
+revoked or expired.

@@ -1,0 +1,17 @@
+.TH "pci_stop_and_remove_bus_device" 9 "pci_stop_and_remove_bus_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_stop_and_remove_bus_device \- remove a PCI device and any children
+.SH SYNOPSIS
+.B "void" pci_stop_and_remove_bus_device
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device to remove
+.SH "DESCRIPTION"
+Remove a PCI device from the device lists, informing the drivers
+that the device has been removed.  We also remove any subordinate
+buses and children in a depth-first manner.
+
+For each device we remove, delete the device structure from the
+device lists, remove the /proc entry, and notify userspace
+(/sbin/hotplug).

@@ -1,0 +1,24 @@
+.TH "scsi_sequential_lun_scan" 9 "scsi_sequential_lun_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_sequential_lun_scan \- sequentially scan a SCSI target
+.SH SYNOPSIS
+.B "void" scsi_sequential_lun_scan
+.BI "(struct scsi_target *starget "  ","
+.BI "blist_flags_t bflags "  ","
+.BI "int scsi_level "  ","
+.BI "enum scsi_scan_mode rescan "  ");"
+.SH ARGUMENTS
+.IP "starget" 12
+pointer to target structure to scan
+.IP "bflags" 12
+black/white list flag for LUN 0
+.IP "scsi_level" 12
+Which version of the standard does this device adhere to
+.IP "rescan" 12
+passed to \fBscsi_probe_add_lun\fP
+.SH "DESCRIPTION"
+Generally, scan from LUN 1 (LUN 0 is assumed to already have been
+scanned) to some maximum lun until a LUN is found with no device
+attached. Use the bflags to figure out any oddities.
+
+Modifies sdevscan->lun.

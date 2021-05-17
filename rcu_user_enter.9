@@ -1,0 +1,18 @@
+.TH "rcu_user_enter" 9 "rcu_user_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_user_enter \- inform RCU that we are resuming userspace.
+.SH SYNOPSIS
+.B "noinstr void" rcu_user_enter
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Enter RCU idle mode right before resuming userspace.  No use of RCU
+is permitted between this call and \fBrcu_user_exit\fP. This way the
+CPU doesn't need to maintain the tick for RCU maintenance purposes
+when the CPU runs in userspace.
+
+If you add or remove a call to \fBrcu_user_enter\fP, be sure to test with
+CONFIG_RCU_EQS_DEBUG=y.

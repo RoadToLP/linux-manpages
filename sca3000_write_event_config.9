@@ -1,0 +1,28 @@
+.TH "sca3000_write_event_config" 9 "sca3000_write_event_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sca3000_write_event_config \- simple on off control for motion detector
+.SH SYNOPSIS
+.B "int" sca3000_write_event_config
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "const struct iio_chan_spec *chan "  ","
+.BI "enum iio_event_type type "  ","
+.BI "enum iio_event_direction dir "  ","
+.BI "int state "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device instance specific structure. Data specific to this
+particular driver may be accessed via iio_priv(indio_dev).
+.IP "chan" 12
+Description of the channel whose event we are configuring.
+.IP "type" 12
+The type of event.
+.IP "dir" 12
+The direction of the event.
+.IP "state" 12
+Desired state of event being configured.
+.SH "DESCRIPTION"
+This is a per axis control, but enabling any will result in the
+motion detector unit being enabled.
+N.B. enabling motion detector stops normal data acquisition.
+There is a complexity in knowing which mode to return to when
+this mode is disabled.  Currently normal mode is assumed.

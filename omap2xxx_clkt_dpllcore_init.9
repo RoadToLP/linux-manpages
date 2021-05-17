@@ -1,0 +1,16 @@
+.TH "omap2xxx_clkt_dpllcore_init" 9 "omap2xxx_clkt_dpllcore_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2xxx_clkt_dpllcore_init \- clk init function for dpll_ck
+.SH SYNOPSIS
+.B "void" omap2xxx_clkt_dpllcore_init
+.BI "(struct clk_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Store a local copy of \fIclk\fP in dpll_core_ck so other code can query
+the core rate without having to \fBclk_get\fP, which can sleep.  Must
+only be called once.  No return value.  XXX If the clock
+registration process is ever changed such that dpll_ck is no longer
+statically defined, this code may need to change to increment some
+kind of use count on dpll_ck.

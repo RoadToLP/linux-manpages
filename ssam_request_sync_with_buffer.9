@@ -1,0 +1,31 @@
+.TH "ssam_request_sync_with_buffer" 9 "ssam_request_sync_with_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_sync_with_buffer \- Execute a synchronous request with the provided buffer as back-end for the message buffer.
+.SH SYNOPSIS
+.B "int" ssam_request_sync_with_buffer
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "const struct ssam_request *spec "  ","
+.BI "struct ssam_response *rsp "  ","
+.BI "struct ssam_span *buf "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller via which the request will be submitted.
+.IP "spec" 12
+The request specification and payload.
+.IP "rsp" 12
+The response buffer.
+.IP "buf" 12
+The buffer for the request message data.
+.SH "DESCRIPTION"
+Allocates a synchronous request struct on the stack, fully initializes it
+using the provided buffer as message data buffer, submits it, and then
+waits for its completion before returning its status. The
+\fBSSH_COMMAND_MESSAGE_LENGTH\fP macro can be used to compute the required
+message buffer size.
+
+This function does essentially the same as \fBssam_request_sync\fP, but instead
+of dynamically allocating the request and message data buffer, it uses the
+provided message data buffer and stores the (small) request struct on the
+heap.
+.SH "RETURN"
+Returns the status of the request or any failure during setup.

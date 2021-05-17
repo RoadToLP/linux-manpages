@@ -1,0 +1,16 @@
+.TH "dma_buf_set_name" 9 "dma_buf_set_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_buf_set_name \- Set a name to a specific dma_buf to track the usage. The name of the dma-buf buffer can only be set when the dma-buf is not attached to any devices. It could theoritically support changing the name of the dma-buf if the same piece of memory is used for multiple purpose between different devices.
+.SH SYNOPSIS
+.B "long" dma_buf_set_name
+.BI "(struct dma_buf *dmabuf "  ","
+.BI "const char __user *buf "  ");"
+.SH ARGUMENTS
+.IP "dmabuf" 12
+[in]     dmabuf buffer that will be renamed.
+.IP "buf" 12
+[in]     A piece of userspace memory that contains the name of
+the dma-buf.
+.SH "DESCRIPTION"
+Returns 0 on success. If the dma-buf buffer is already attached to
+devices, return -EBUSY.

@@ -1,0 +1,18 @@
+.TH "ibmvscsis_service_wait_q" 9 "ibmvscsis_service_wait_q" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_service_wait_q \- Service Waiting Queue
+.SH SYNOPSIS
+.B "enum hrtimer_restart" ibmvscsis_service_wait_q
+.BI "(struct hrtimer *timer "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+Pointer to timer which has expired
+.SH "DESCRIPTION"
+This routine is called when the timer pops to service the waiting
+queue. Elements on the queue have completed, their responses have been
+copied to the client, but the client's response queue was full so
+the queue message could not be sent. The routine grabs the proper locks
+and calls send messages.
+
+EXECUTION ENVIRONMENT:
+called at interrupt level

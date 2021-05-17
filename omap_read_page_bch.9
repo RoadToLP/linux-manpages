@@ -1,0 +1,25 @@
+.TH "omap_read_page_bch" 9 "omap_read_page_bch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_read_page_bch \- BCH ecc based page read function for entire page
+.SH SYNOPSIS
+.B "int" omap_read_page_bch
+.BI "(struct nand_chip *chip "  ","
+.BI "uint8_t *buf "  ","
+.BI "int oob_required "  ","
+.BI "int page "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+nand chip info structure
+.IP "buf" 12
+buffer to store read data
+.IP "oob_required" 12
+caller requires OOB data read to chip->oob_poi
+.IP "page" 12
+page number to read
+.SH "DESCRIPTION"
+For BCH ecc scheme, GPMC used for syndrome calculation and ELM module
+used for error correction.
+Custom method evolved to support ELM error correction & multi sector
+reading. On reading page data area is read along with OOB data with
+ecc engine enabled. ecc vector updated after read of OOB data.
+For non error pages ecc vector reported as zero.

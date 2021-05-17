@@ -1,0 +1,30 @@
+.TH "kvm_vgic_inject_irq" 9 "kvm_vgic_inject_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_vgic_inject_irq \- Inject an IRQ from a device to the vgic
+.SH SYNOPSIS
+.B "int" kvm_vgic_inject_irq
+.BI "(struct kvm *kvm "  ","
+.BI "int cpuid "  ","
+.BI "unsigned int intid "  ","
+.BI "bool level "  ","
+.BI "void *owner "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+The VM structure pointer
+.IP "cpuid" 12
+The CPU for PPIs
+.IP "intid" 12
+The INTID to inject a new state to.
+.IP "level" 12
+Edge-triggered:  true:  to trigger the interrupt
+false: to ignore the call
+Level-sensitive  true:  raise the input signal
+false: lower the input signal
+.IP "owner" 12
+The opaque pointer to the owner of the IRQ being raised to verify
+that the caller is allowed to inject this IRQ.  Userspace
+injections will have owner == NULL.
+.SH "DESCRIPTION"
+The VGIC is not concerned with devices being active-LOW or active-HIGH for
+level-sensitive interrupts.  You can think of the level parameter as 1
+being HIGH and 0 being LOW and all devices being active-HIGH.

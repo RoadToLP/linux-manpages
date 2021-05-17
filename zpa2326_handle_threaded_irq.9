@@ -1,0 +1,32 @@
+.TH "zpa2326_handle_threaded_irq" 9 "zpa2326_handle_threaded_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpa2326_handle_threaded_irq \- Interrupt bottom-half handler.
+.SH SYNOPSIS
+.B "irqreturn_t" zpa2326_handle_threaded_irq
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line the hardware uses to notify new data has arrived.
+.IP "data" 12
+The IIO device associated with the sampling hardware.
+.SH "DESCRIPTION"
+Mainly ensures interrupt is caused by a real "new sample available"
+condition. This relies upon the ability to perform blocking / sleeping bus
+accesses to slave's registers. This is why \fBzpa2326_handle_threaded_irq\fP is
+called from within a thread, i.e. not called from hard interrupt context.
+
+When device is using its own internal hardware trigger in continuous sampling
+mode, data are available into hardware FIFO once interrupt has occurred. All
+we have to do is to dispatch the trigger, which in turn will fetch data and
+fill IIO buffer.
+
+When not using its own internal hardware trigger, the device has been
+configured in one-shot mode either by an external trigger or the IIO read_raw
+hook. This means one of the latter is currently waiting for sampling
+completion, in which case we must simply wake it up.
+
+See \fBzpa2326_trigger_handler\fP.
+.SH "RETURN"
+IRQ_NONE - no consistent interrupt happened ;
+IRQ_HANDLED - there was new samples available.

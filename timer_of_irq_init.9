@@ -1,0 +1,23 @@
+.TH "timer_of_irq_init" 9 "timer_of_irq_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+timer_of_irq_init \- Request the interrupt
+.SH SYNOPSIS
+.B "int" timer_of_irq_init
+.BI "(struct device_node *np "  ","
+.BI "struct of_timer_irq *of_irq "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+a device tree node pointer
+.IP "of_irq" 12
+an of_timer_irq structure pointer
+.SH "DESCRIPTION"
+Get the interrupt number from the DT from its definition and
+request it. The interrupt is gotten by falling back the following way:
+
+- Get interrupt number by name
+- Get interrupt number by index
+
+When the interrupt is per CPU, '\fBrequest_percpu_irq\fP' is called,
+otherwise '\fBrequest_irq\fP' is used.
+
+Returns 0 on success, < 0 otherwise

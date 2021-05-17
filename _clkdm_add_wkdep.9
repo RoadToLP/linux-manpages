@@ -1,0 +1,19 @@
+.TH "_clkdm_add_wkdep" 9 "_clkdm_add_wkdep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_clkdm_add_wkdep \- add a wakeup dependency from clkdm2 to clkdm1 (lockless)
+.SH SYNOPSIS
+.B "int" _clkdm_add_wkdep
+.BI "(struct clockdomain *clkdm1 "  ","
+.BI "struct clockdomain *clkdm2 "  ");"
+.SH ARGUMENTS
+.IP "clkdm1" 12
+wake this struct clockdomain * up (dependent)
+.IP "clkdm2" 12
+when this struct clockdomain * wakes up (source)
+.SH "DESCRIPTION"
+When the clockdomain represented by \fIclkdm2\fP wakes up, wake up
+\fIclkdm1\fP. Implemented in hardware on the OMAP, this feature is
+designed to reduce wakeup latency of the dependent clockdomain \fIclkdm1\fP.
+Returns -EINVAL if presented with invalid clockdomain pointers,
+-ENOENT if \fIclkdm2\fP cannot wake up clkdm1 in hardware, or 0 upon
+success.

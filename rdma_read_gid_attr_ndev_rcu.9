@@ -1,0 +1,14 @@
+.TH "rdma_read_gid_attr_ndev_rcu" 9 "rdma_read_gid_attr_ndev_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_read_gid_attr_ndev_rcu \- Read GID attribute netdevice which must be in UP state.
+.SH SYNOPSIS
+.B "struct net_device *" rdma_read_gid_attr_ndev_rcu
+.BI "(const struct ib_gid_attr *attr "  ");"
+.SH ARGUMENTS
+.IP "attr" 12
+Pointer to the GID attribute
+.SH "DESCRIPTION"
+Returns pointer to netdevice if the netdevice was attached to GID and
+netdevice is in UP state. Caller must hold RCU lock as this API
+reads the netdev flags which can change while netdevice migrates to
+different net namespace. Returns ERR_PTR with error code otherwise.

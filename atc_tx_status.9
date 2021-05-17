@@ -1,0 +1,19 @@
+.TH "atc_tx_status" 9 "atc_tx_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atc_tx_status \- poll for transaction completion
+.SH SYNOPSIS
+.B "enum dma_status" atc_tx_status
+.BI "(struct dma_chan *chan "  ","
+.BI "dma_cookie_t cookie "  ","
+.BI "struct dma_tx_state *txstate "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+DMA channel
+.IP "cookie" 12
+transaction identifier to check status of
+.IP "txstate" 12
+if not NULL updated with transaction state
+.SH "DESCRIPTION"
+If \fItxstate\fP is passed in, upon return it reflect the driver
+internal state and can be used with \fBdma_async_is_complete\fP to check
+the status of multiple cookies without re-checking hardware state.

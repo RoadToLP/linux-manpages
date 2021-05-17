@@ -1,0 +1,19 @@
+.TH "drm_gem_dmabuf_export" 9 "drm_gem_dmabuf_export" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_dmabuf_export \- &dma_buf export implementation for GEM
+.SH SYNOPSIS
+.B "struct dma_buf *" drm_gem_dmabuf_export
+.BI "(struct drm_device *dev "  ","
+.BI "struct dma_buf_export_info *exp_info "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+parent device for the exported dmabuf
+.IP "exp_info" 12
+the export information used by \fBdma_buf_export\fP
+.SH "DESCRIPTION"
+This wraps \fBdma_buf_export\fP for use by generic GEM drivers that are using
+\fBdrm_gem_dmabuf_release\fP. In addition to calling \fBdma_buf_export\fP, we take
+a reference to the \fIdrm_device\fP and the exported \fIdrm_gem_object\fP (stored in
+\fIdma_buf_export_info.priv\fP) which is released by \fBdrm_gem_dmabuf_release\fP.
+
+Returns the new dmabuf.

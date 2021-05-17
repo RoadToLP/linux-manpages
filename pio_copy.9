@@ -1,0 +1,29 @@
+.TH "pio_copy" 9 "pio_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pio_copy \- copy data block to MMIO space
+.SH SYNOPSIS
+.B "void" pio_copy
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "struct pio_buf *pbuf "  ","
+.BI "u64 pbc "  ","
+.BI "const void *from "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+hfi1 dev data
+.IP "pbuf" 12
+a number of blocks allocated within a PIO send context
+.IP "pbc" 12
+PBC to send
+.IP "from" 12
+source, must be 8 byte aligned
+.IP "count" 12
+number of DWORD (32-bit) quantities to copy from source
+.SH "DESCRIPTION"
+Copy data from source to PIO Send Buffer memory, 8 bytes at a time.
+Must always write full BLOCK_SIZE bytes blocks.  The first block must
+be written to the corresponding SOP=1 address.
+
+Known:
+o pbuf->start always starts on a block boundary
+o pbuf can wrap only at a block boundary

@@ -1,0 +1,22 @@
+.TH "get_phy_c45_ids" 9 "get_phy_c45_ids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_phy_c45_ids \- reads the specified addr for its 802.3-c45 IDs.
+.SH SYNOPSIS
+.B "int" get_phy_c45_ids
+.BI "(struct mii_bus *bus "  ","
+.BI "int addr "  ","
+.BI "struct phy_c45_device_ids *c45_ids "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the target MII bus
+.IP "addr" 12
+PHY address on the MII bus
+.IP "c45_ids" 12
+where to store the c45 ID information.
+.SH "DESCRIPTION"
+Read the PHY "devices in package". If this appears to be valid, read
+the PHY identifiers for each device. Return the "devices in package"
+and identifiers in \fIc45_ids\fP.
+
+Returns zero on success, -EIO on bus access error, or -ENODEV if
+the "devices in package" is invalid.

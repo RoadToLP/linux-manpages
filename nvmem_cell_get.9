@@ -1,0 +1,18 @@
+.TH "nvmem_cell_get" 9 "nvmem_cell_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmem_cell_get \- Get nvmem cell of device form a given cell name
+.SH SYNOPSIS
+.B "struct nvmem_cell *" nvmem_cell_get
+.BI "(struct device *dev "  ","
+.BI "const char *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device that requests the nvmem cell.
+.IP "id" 12
+nvmem cell name to get (this corresponds with the name from the
+nvmem-cell-names property for DT systems and with the con_id from
+the lookup entry for non-DT systems).
+.SH "RETURN"
+Will be an \fBERR_PTR\fP on error or a valid pointer
+to a struct nvmem_cell.  The nvmem_cell will be freed by the
+\fBnvmem_cell_put\fP.

@@ -1,0 +1,31 @@
+.TH "snd_pcm_set_managed_buffer" 9 "snd_pcm_set_managed_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_pcm_set_managed_buffer \- set up buffer management for a substream
+.SH SYNOPSIS
+.B "void" snd_pcm_set_managed_buffer
+.BI "(struct snd_pcm_substream *substream "  ","
+.BI "int type "  ","
+.BI "struct device *data "  ","
+.BI "size_t size "  ","
+.BI "size_t max "  ");"
+.SH ARGUMENTS
+.IP "substream" 12
+the pcm substream instance
+.IP "type" 12
+DMA type (SNDRV_DMA_TYPE_*)
+.IP "data" 12
+DMA type dependent data
+.IP "size" 12
+the requested pre-allocation size in bytes
+.IP "max" 12
+the max. allowed pre-allocation size
+.SH "DESCRIPTION"
+Do pre-allocation for the given DMA buffer type, and set the managed
+buffer allocation mode to the given substream.
+In this mode, PCM core will allocate a buffer automatically before PCM
+hw_params ops call, and release the buffer after PCM hw_free ops call
+as well, so that the driver doesn't need to invoke the allocation and
+the release explicitly in its callback.
+When a buffer is actually allocated before the PCM hw_params call, it
+turns on the runtime buffer_changed flag for drivers changing their h/w
+parameters accordingly.

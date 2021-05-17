@@ -1,0 +1,21 @@
+.TH "drm_gem_lock_reservations" 9 "drm_gem_lock_reservations" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_lock_reservations \- Sets up the ww context and acquires the lock on an array of GEM objects.
+.SH SYNOPSIS
+.B "int" drm_gem_lock_reservations
+.BI "(struct drm_gem_object **objs "  ","
+.BI "int count "  ","
+.BI "struct ww_acquire_ctx *acquire_ctx "  ");"
+.SH ARGUMENTS
+.IP "objs" 12
+drm_gem_objects to lock
+.IP "count" 12
+Number of objects in \fIobjs\fP
+.IP "acquire_ctx" 12
+struct ww_acquire_ctx that will be initialized as
+part of tracking this set of locked reservations.
+.SH "DESCRIPTION"
+
+Once you've locked your reservations, you'll want to set up space
+for your shared fences (if applicable), submit your job, then
+\fBdrm_gem_unlock_reservations\fP.

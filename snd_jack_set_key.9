@@ -1,0 +1,33 @@
+.TH "snd_jack_set_key" 9 "snd_jack_set_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_jack_set_key \- Set a key mapping on a jack
+.SH SYNOPSIS
+.B "int" snd_jack_set_key
+.BI "(struct snd_jack *jack "  ","
+.BI "enum snd_jack_types type "  ","
+.BI "int keytype "  ");"
+.SH ARGUMENTS
+.IP "jack" 12
+The jack to configure
+.IP "type" 12
+Jack report type for this key
+.IP "keytype" 12
+Input layer key type to be reported
+.SH "DESCRIPTION"
+Map a SND_JACK_BTN_* button type to an input layer key, allowing
+reporting of keys on accessories via the jack abstraction.  If no
+mapping is provided but keys are enabled in the jack type then
+BTN_n numeric buttons will be reported.
+
+If jacks are not reporting via the input API this call will have no
+effect.
+
+Note that this is intended to be use by simple devices with small
+numbers of keys that can be reported.  It is also possible to
+access the input device directly - devices with complex input
+capabilities on accessories should consider doing this rather than
+using this abstraction.
+
+This function may only be called prior to registration of the jack.
+.SH "RETURN"
+Zero if successful, or a negative error code on failure.

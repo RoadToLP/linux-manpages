@@ -1,0 +1,19 @@
+.TH "tcs_invalidate" 9 "tcs_invalidate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcs_invalidate \- Invalidate all TCSes of the given type (sleep or wake).
+.SH SYNOPSIS
+.B "void" tcs_invalidate
+.BI "(struct rsc_drv *drv "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The RSC controller.
+.IP "type" 12
+SLEEP_TCS or WAKE_TCS
+.SH "DESCRIPTION"
+This will clear the "slots" variable of the given tcs_group and also
+tell the hardware to forget about all entries.
+
+The caller must ensure that no other RPMH actions are happening when this
+function is called, since otherwise the device may immediately become
+used again even before this function exits.

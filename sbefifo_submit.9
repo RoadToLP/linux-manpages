@@ -1,0 +1,24 @@
+.TH "sbefifo_submit" 9 "sbefifo_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sbefifo_submit \- Submit and SBE fifo command and receive response
+.SH SYNOPSIS
+.B "int" sbefifo_submit
+.BI "(struct device *dev "  ","
+.BI "const __be32 *command "  ","
+.BI "size_t cmd_len "  ","
+.BI "__be32 *response "  ","
+.BI "size_t *resp_len "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The sbefifo device
+.IP "command" 12
+The raw command data
+.IP "cmd_len" 12
+The command size (in 32-bit words)
+.IP "response" 12
+The output response buffer
+.IP "resp_len" 12
+In: Response buffer size, Out: Response size
+.SH "DESCRIPTION"
+This will perform the entire operation. If the reponse buffer
+overflows, returns -EOVERFLOW

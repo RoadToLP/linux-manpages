@@ -1,0 +1,19 @@
+.TH "device_set_wakeup_capable" 9 "device_set_wakeup_capable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_set_wakeup_capable \- Set/reset device wakeup capability flag.
+.SH SYNOPSIS
+.B "void" device_set_wakeup_capable
+.BI "(struct device *dev "  ","
+.BI "bool capable "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "capable" 12
+Whether or not \fIdev\fP is capable of waking up the system from sleep.
+.SH "DESCRIPTION"
+If \fIcapable\fP is set, set the \fIdev\fP's power.can_wakeup flag and add its
+wakeup-related attributes to sysfs.  Otherwise, unset the \fIdev\fP's
+power.can_wakeup flag and remove its wakeup-related attributes from sysfs.
+
+This function may sleep and it can't be called from any context where
+sleeping is not allowed.

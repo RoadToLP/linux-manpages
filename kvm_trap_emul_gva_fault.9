@@ -1,0 +1,25 @@
+.TH "kvm_trap_emul_gva_fault" 9 "kvm_trap_emul_gva_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_trap_emul_gva_fault \- Safely attempt to handle a GVA access fault.
+.SH SYNOPSIS
+.B "enum kvm_mips_fault_result" kvm_trap_emul_gva_fault
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned long gva "  ","
+.BI "bool write "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "gva" 12
+Guest virtual address to be accessed.
+.IP "write" 12
+True if write attempted (must be dirtied and made writable).
+.SH "DESCRIPTION"
+Safely attempt to handle a GVA fault, mapping GVA pages if necessary, and
+dirtying the page if \fIwrite\fP so that guest instructions can be modified.
+.SH "RETURN"
+KVM_MIPS_MAPPED on success.
+KVM_MIPS_GVA if bad guest virtual address.
+KVM_MIPS_GPA if bad guest physical address.
+KVM_MIPS_TLB if guest TLB not present.
+KVM_MIPS_TLBINV if guest TLB present but not valid.
+KVM_MIPS_TLBMOD if guest TLB read only.

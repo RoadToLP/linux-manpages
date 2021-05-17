@@ -1,0 +1,16 @@
+.TH "svc_rdma_sendto" 9 "svc_rdma_sendto" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_sendto \- Transmit an RPC reply
+.SH SYNOPSIS
+.B "int" svc_rdma_sendto
+.BI "(struct svc_rqst *rqstp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+processed RPC request, reply XDR already in ::rq_res
+.SH "DESCRIPTION"
+Any resources still associated with \fIrqstp\fP are released upon return.
+If no reply message was possible, the connection is closed.
+.SH "RETURN"
+0 if an RPC reply has been successfully posted,
+-ENOMEM if a resource shortage occurred (connection is lost),
+-ENOTCONN if posting failed (connection is lost).

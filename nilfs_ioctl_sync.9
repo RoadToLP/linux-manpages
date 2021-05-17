@@ -1,0 +1,38 @@
+.TH "nilfs_ioctl_sync" 9 "nilfs_ioctl_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_sync \- make a checkpoint
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_sync
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_sync\fP function constructs a logical segment
+for checkpointing.  This function guarantees that all modified data
+and metadata are written out to the device when it successfully
+returned.
+
+Return Value: On success, 0 is retured. On errors, one of the following
+negative error code is returned.
+
+-EROFS - Read only filesystem.
+
+-EIO - I/O error
+
+-ENOSPC - No space left on device (only in a panic state).
+
+-ERESTARTSYS - Interrupted.
+
+-ENOMEM - Insufficient memory available.
+
+-EFAULT - Failure during execution of requested operation.

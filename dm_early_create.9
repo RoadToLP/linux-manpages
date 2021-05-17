@@ -1,0 +1,25 @@
+.TH "dm_early_create" 9 "dm_early_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dm_early_create \- create a mapped device in early boot.
+.SH SYNOPSIS
+.B "int" dm_early_create
+.BI "(struct dm_ioctl *dmi "  ","
+.BI "struct dm_target_spec **spec_array "  ","
+.BI "char **target_params_array "  ");"
+.SH ARGUMENTS
+.IP "dmi" 12
+Contains main information of the device mapping to be created.
+.IP "spec_array" 12
+array of pointers to struct dm_target_spec. Describes the
+mapping table of the device.
+.IP "target_params_array" 12
+array of strings with the parameters to a specific
+target.
+.SH "DESCRIPTION"
+Instead of having the struct dm_target_spec and the parameters for every
+target embedded at the end of struct dm_ioctl (as performed in a normal
+ioctl), pass them as arguments, so the caller doesn't need to serialize them.
+The size of the spec_array and target_params_array is given by
+\fIdmi->target_count\fP.
+This function is supposed to be called in early boot, so locking mechanisms
+to protect against concurrent loads are not required.

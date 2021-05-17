@@ -1,0 +1,31 @@
+.TH "nilfs_bmap_lookup_at_level" 9 "nilfs_bmap_lookup_at_level" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_bmap_lookup_at_level \- find a data block or node block
+.SH SYNOPSIS
+.B "int" nilfs_bmap_lookup_at_level
+.BI "(struct nilfs_bmap *bmap "  ","
+.BI "__u64 key "  ","
+.BI "int level "  ","
+.BI "__u64 *ptrp "  ");"
+.SH ARGUMENTS
+.IP "bmap" 12
+bmap
+.IP "key" 12
+key
+.IP "level" 12
+level
+.IP "ptrp" 12
+place to store the value associated to \fIkey\fP
+.SH "DESCRIPTION"
+\fBnilfs_bmap_lookup_at_level\fP finds a record whose key
+matches \fIkey\fP in the block at \fIlevel\fP of the bmap.
+
+Return Value: On success, 0 is returned and the record associated with \fIkey\fP
+is stored in the place pointed by \fIptrp\fP. On error, one of the following
+negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOENT - A record associated with \fIkey\fP does not exist.

@@ -1,0 +1,19 @@
+.TH "intel_edp_drrs_flush" 9 "intel_edp_drrs_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_edp_drrs_flush \- Restart Idleness DRRS
+.SH SYNOPSIS
+.B "void" intel_edp_drrs_flush
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "unsigned int frontbuffer_bits "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device
+.IP "frontbuffer_bits" 12
+frontbuffer plane tracking bits
+.SH "DESCRIPTION"
+This function gets called every time rendering on the given planes has
+completed or flip on a crtc is completed. So DRRS should be upclocked
+(LOW_RR -> HIGH_RR). And also Idleness detection should be started again,
+if no other planes are dirty.
+
+Dirty frontbuffers relevant to DRRS are tracked in busy_frontbuffer_bits.

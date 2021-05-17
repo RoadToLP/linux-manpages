@@ -1,0 +1,21 @@
+.TH "drm_fb_helper_init" 9 "drm_fb_helper_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_helper_init \- initialize a &struct drm_fb_helper
+.SH SYNOPSIS
+.B "int" drm_fb_helper_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_fb_helper *fb_helper "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "fb_helper" 12
+driver-allocated fbdev helper structure to initialize
+.SH "DESCRIPTION"
+This allocates the structures for the fbdev helper with the given limits.
+Note that this won't yet touch the hardware (through the driver interfaces)
+nor register the fbdev. This is only done in \fBdrm_fb_helper_initial_config\fP
+to allow driver writes more control over the exact init sequence.
+
+Drivers must call \fBdrm_fb_helper_prepare\fP before calling this function.
+.SH "RETURN"
+Zero if everything went ok, nonzero otherwise.

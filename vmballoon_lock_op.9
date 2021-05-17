@@ -1,0 +1,26 @@
+.TH "vmballoon_lock_op" 9 "vmballoon_lock_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmballoon_lock_op \- notifies the host about inflated/deflated pages.
+.SH SYNOPSIS
+.B "unsigned long" vmballoon_lock_op
+.BI "(struct vmballoon *b "  ","
+.BI "unsigned int num_pages "  ","
+.BI "enum vmballoon_page_size_type page_size "  ","
+.BI "enum vmballoon_op op "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+pointer to the balloon.
+.IP "num_pages" 12
+number of inflated/deflated pages.
+.IP "page_size" 12
+size of the page.
+.IP "op" 12
+the type of operation (lock or unlock).
+.SH "DESCRIPTION"
+Notify the host about page(s) that were ballooned (or removed from the
+balloon) so that host can use it without fear that guest will need it (or
+stop using them since the VM does). Host may reject some pages, we need to
+check the return value and maybe submit a different page. The pages that are
+inflated/deflated are pointed by \fIb->page\fP.
+.SH "RETURN"
+result as provided by the hypervisor.

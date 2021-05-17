@@ -1,0 +1,19 @@
+.TH "__pm_runtime_idle" 9 "__pm_runtime_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pm_runtime_idle \- Entry point for runtime idle operations.
+.SH SYNOPSIS
+.B "int" __pm_runtime_idle
+.BI "(struct device *dev "  ","
+.BI "int rpmflags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to send idle notification for.
+.IP "rpmflags" 12
+Flag bits.
+.SH "DESCRIPTION"
+If the RPM_GET_PUT flag is set, decrement the device's usage count and
+return immediately if it is larger than zero.  Then carry out an idle
+notification, either synchronous or asynchronous.
+
+This routine may be called in atomic context if the RPM_ASYNC flag is set,
+or if \fBpm_runtime_irq_safe\fP has been called.

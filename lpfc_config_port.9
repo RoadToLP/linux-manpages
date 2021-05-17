@@ -1,0 +1,21 @@
+.TH "lpfc_config_port" 9 "lpfc_config_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_config_port \- Prepare a mailbox command for configuring port
+.SH SYNOPSIS
+.B "void" lpfc_config_port
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The configure port mailbox command is used to identify the Port Control
+Block (PCB) in the driver memory. After this command is issued, the
+driver must not access the mailbox in the HBA without first resetting
+the HBA. The HBA may copy the PCB information to internal storage for
+subsequent use; the driver can not change the PCB information unless it
+resets the HBA.
+
+This routine prepares the mailbox command for configuring port.

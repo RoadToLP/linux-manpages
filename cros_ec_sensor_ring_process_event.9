@@ -1,0 +1,28 @@
+.TH "cros_ec_sensor_ring_process_event" 9 "cros_ec_sensor_ring_process_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_sensor_ring_process_event \- Process one EC FIFO event
+.SH SYNOPSIS
+.B "bool" cros_ec_sensor_ring_process_event
+.BI "(struct cros_ec_sensorhub *sensorhub "  ","
+.BI "const struct ec_response_motion_sense_fifo_info *fifo_info "  ","
+.BI "const ktime_t fifo_timestamp "  ","
+.BI "ktime_t *current_timestamp "  ","
+.BI "struct ec_response_motion_sensor_data *in "  ","
+.BI "struct cros_ec_sensors_ring_sample *out "  ");"
+.SH ARGUMENTS
+.IP "sensorhub" 12
+Sensor Hub object.
+.IP "fifo_info" 12
+FIFO information from the EC (includes b point, EC timebase).
+.IP "fifo_timestamp" 12
+EC IRQ, kernel timebase (aka c).
+.IP "current_timestamp" 12
+calculated event timestamp, kernel timebase (aka a').
+.IP "in" 12
+incoming FIFO event from EC (includes a point, EC timebase).
+.IP "out" 12
+outgoing event to user space (includes a').
+.SH "DESCRIPTION"
+Process one EC event, add it in the ring if necessary.
+.SH "RETURN"
+true if out event has been populated.

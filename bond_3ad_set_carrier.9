@@ -1,0 +1,18 @@
+.TH "bond_3ad_set_carrier" 9 "bond_3ad_set_carrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bond_3ad_set_carrier \- set link state for bonding master
+.SH SYNOPSIS
+.B "int" bond_3ad_set_carrier
+.BI "(struct bonding *bond "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+bonding structure
+.SH "DESCRIPTION"
+if we have an active aggregator, we're up, if not, we're down.
+Presumes that we cannot have an active aggregator if there are
+no slaves with link up.
+
+This behavior complies with IEEE 802.3 section 43.3.9.
+
+Called by \fBbond_set_carrier\fP. Return zero if carrier state does not
+change, nonzero if it does.

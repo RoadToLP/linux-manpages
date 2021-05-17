@@ -1,0 +1,19 @@
+.TH "tomoyo_address_matches_group" 9 "tomoyo_address_matches_group" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_address_matches_group \- Check whether the given address matches members of the given address group.
+.SH SYNOPSIS
+.B "bool" tomoyo_address_matches_group
+.BI "(const bool is_ipv6 "  ","
+.BI "const __be32 *address "  ","
+.BI "const struct tomoyo_group *group "  ");"
+.SH ARGUMENTS
+.IP "is_ipv6" 12
+True if \fIaddress\fP is an IPv6 address.
+.IP "address" 12
+An IPv4 or IPv6 address.
+.IP "group" 12
+Pointer to "struct tomoyo_address_group".
+.SH "DESCRIPTION"
+Returns true if \fIaddress\fP matches addresses in \fIgroup\fP group, false otherwise.
+
+Caller holds \fBtomoyo_read_lock\fP.

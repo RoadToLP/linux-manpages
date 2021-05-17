@@ -1,0 +1,19 @@
+.TH "sys_tgkill" 9 "sys_tgkill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_tgkill \- send signal to one specific thread
+.SH SYNOPSIS
+.B "long" sys_tgkill
+.BI "(pid_t tgid "  ","
+.BI "pid_t pid "  ","
+.BI "int sig "  ");"
+.SH ARGUMENTS
+.IP "tgid" 12
+the thread group ID of the thread
+.IP "pid" 12
+the PID of the thread
+.IP "sig" 12
+signal to be sent
+
+This syscall also checks the \fItgid\fP and returns -ESRCH even if the PID
+exists but it's not belonging to the target process anymore. This
+method solves the problem of threads exiting and PIDs getting reused.

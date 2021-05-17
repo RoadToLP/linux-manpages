@@ -1,0 +1,18 @@
+.TH "drm_dp_mst_topology_get_mstb" 9 "drm_dp_mst_topology_get_mstb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_topology_get_mstb \- Increment the topology refcount of a branch device
+.SH SYNOPSIS
+.B "void" drm_dp_mst_topology_get_mstb
+.BI "(struct drm_dp_mst_branch *mstb "  ");"
+.SH ARGUMENTS
+.IP "mstb" 12
+The \fIstruct drm_dp_mst_branch\fP to increment the topology refcount of
+.SH "DESCRIPTION"
+Increments \fIdrm_dp_mst_branch.topology_refcount\fP without checking whether or
+not it's already reached 0. This is only valid to use in scenarios where
+you are already guaranteed to have at least one active topology reference
+to \fImstb\fP. Otherwise, \fBdrm_dp_mst_topology_try_get_mstb\fP must be used.
+
+See also:
+\fBdrm_dp_mst_topology_try_get_mstb\fP
+\fBdrm_dp_mst_topology_put_mstb\fP

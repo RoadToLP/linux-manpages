@@ -1,0 +1,23 @@
+.TH "lpfc_new_scsi_buf_s3" 9 "lpfc_new_scsi_buf_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_new_scsi_buf_s3 \- Scsi buffer allocator for HBA with SLI3 IF spec
+.SH SYNOPSIS
+.B "int" lpfc_new_scsi_buf_s3
+.BI "(struct lpfc_vport *vport "  ","
+.BI "int num_to_alloc "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The virtual port for which this call being executed.
+.IP "num_to_alloc" 12
+The requested number of buffers to allocate.
+.SH "DESCRIPTION"
+This routine allocates a scsi buffer for device with SLI-3 interface spec,
+the scsi buffer contains all the necessary information needed to initiate
+a SCSI I/O. The non-DMAable buffer region contains information to build
+the IOCB. The DMAable region contains memory for the FCP CMND, FCP RSP,
+and the initial BPL. In addition to allocating memory, the FCP CMND and
+FCP RSP BDEs are setup in the BPL and the BPL BDE is setup in the IOCB.
+
+Return codes:
+int - number of scsi buffers that were allocated.
+0 = failure, less than num_to_alloc is a partial failure.

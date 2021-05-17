@@ -1,0 +1,16 @@
+.TH "dbg_check_lprops" 9 "dbg_check_lprops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dbg_check_lprops \- check all LEB properties.
+.SH SYNOPSIS
+.B "int" dbg_check_lprops
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function checks all LEB properties and makes sure they are all correct.
+It returns zero if everything is fine, -EINVAL if there is an inconsistency
+and other negative error codes in case of other errors. This function is
+called while the file system is locked (because of commit start), so no
+additional locking is required. Note that locking the LPT mutex would cause
+a circular lock dependency with the TNC mutex.

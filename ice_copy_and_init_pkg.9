@@ -1,0 +1,32 @@
+.TH "ice_copy_and_init_pkg" 9 "ice_copy_and_init_pkg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_copy_and_init_pkg \- initialize/download a copy of the package
+.SH SYNOPSIS
+.B "enum ice_status" ice_copy_and_init_pkg
+.BI "(struct ice_hw *hw "  ","
+.BI "const u8 *buf "  ","
+.BI "u32 len "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "buf" 12
+pointer to the package buffer
+.IP "len" 12
+size of the package buffer
+.SH "DESCRIPTION"
+This function copies the package buffer, and then calls \fBice_init_pkg\fP to
+initialize the copied package contents.
+
+The copying is necessary if the package buffer supplied is constant, or if
+the memory may disappear shortly after calling this function.
+
+If the package buffer resides in the data segment and can be modified, the
+caller is free to use \fBice_init_pkg\fP instead of \fBice_copy_and_init_pkg\fP.
+
+However, if the package buffer needs to be copied first, such as when being
+read from a file, the caller should use \fBice_copy_and_init_pkg\fP.
+
+This function will first copy the package buffer, before calling
+\fBice_init_pkg\fP. The caller is free to immediately destroy the original
+package buffer, as the new copy will be managed by this function and
+related routines.

@@ -1,0 +1,17 @@
+.TH "ata_sff_lost_interrupt" 9 "ata_sff_lost_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_lost_interrupt \- Check for an apparent lost interrupt
+.SH SYNOPSIS
+.B "void" ata_sff_lost_interrupt
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port that appears to have timed out
+
+Called from the libata error handlers when the core code suspects
+an interrupt has been lost. If it has complete anything we can and
+then return. Interface must support altstatus for this faster
+recovery to occur.
+
+Locking:
+Caller holds host lock

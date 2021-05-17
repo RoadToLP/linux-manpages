@@ -1,0 +1,20 @@
+.TH "devm_device_add_groups" 9 "devm_device_add_groups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_device_add_groups \- create a bunch of managed attribute groups
+.SH SYNOPSIS
+.B "int" devm_device_add_groups
+.BI "(struct device *dev "  ","
+.BI "const struct attribute_group **groups "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device to create the group for
+.IP "groups" 12
+The attribute groups to create, NULL terminated
+.SH "DESCRIPTION"
+This function creates a bunch of managed attribute groups.  If an error
+occurs when creating a group, all previously created groups will be
+removed, unwinding everything back to the original state when this
+function was called.  It will explicitly warn and error if any of the
+attribute files being created already exist.
+
+Returns 0 on success or error code from sysfs_create_group on failure.

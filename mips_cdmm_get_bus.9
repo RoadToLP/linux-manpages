@@ -1,0 +1,19 @@
+.TH "mips_cdmm_get_bus" 9 "mips_cdmm_get_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mips_cdmm_get_bus \- Get the per-CPU CDMM bus information.
+.SH SYNOPSIS
+.B "struct mips_cdmm_bus *" mips_cdmm_get_bus
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Get information about the per-CPU CDMM bus, if the bus is present.
+
+The caller must prevent migration to another CPU, either by disabling
+pre-emption or by running from a pinned kernel thread.
+.SH "RETURN"
+Pointer to CDMM bus information for the current CPU.
+May return ERR_PTR(-errno) in case of error, so check with
+\fBIS_ERR\fP.

@@ -1,0 +1,25 @@
+.TH "ccp_enqueue_cmd" 9 "ccp_enqueue_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccp_enqueue_cmd \- queue an operation for processing by the CCP
+.SH SYNOPSIS
+.B "int" ccp_enqueue_cmd
+.BI "(struct ccp_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+ccp_cmd struct to be processed
+.SH "DESCRIPTION"
+Queue a cmd to be processed by the CCP. If queueing the cmd
+would exceed the defined length of the cmd queue the cmd will
+only be queued if the CCP_CMD_MAY_BACKLOG flag is set and will
+result in a return code of -EBUSY.
+
+The callback routine specified in the ccp_cmd struct will be
+called to notify the caller of completion (if the cmd was not
+backlogged) or advancement out of the backlog. If the cmd has
+advanced out of the backlog the "err" value of the callback
+will be -EINPROGRESS. Any other "err" value during callback is
+the result of the operation.
+
+The cmd has been successfully queued if:
+the return code is -EINPROGRESS or
+the return code is -EBUSY and CCP_CMD_MAY_BACKLOG flag is set

@@ -1,0 +1,19 @@
+.TH "ssam_controller_remove_clients" 9 "ssam_controller_remove_clients" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_controller_remove_clients \- Remove SSAM client devices registered as direct children under the given controller.
+.SH SYNOPSIS
+.B "void" ssam_controller_remove_clients
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller to remove all direct clients for.
+.SH "DESCRIPTION"
+Remove all SSAM client devices registered as direct children under the
+given controller. Note that this only accounts for direct children of the
+controller device. This does not take care of any client devices where the
+parent device has been manually set before calling ssam_device_add. Refer
+to \fBssam_device_add\fP/\fBssam_device_remove\fP for more details on those cases.
+
+To avoid new devices being added in parallel to this call, the main
+controller lock (not statelock) must be held during this (and if
+necessary, any subsequent deinitialization) call.

@@ -1,0 +1,21 @@
+.TH "clean_an_unclean_leb" 9 "clean_an_unclean_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clean_an_unclean_leb \- read and write a LEB to remove corruption.
+.SH SYNOPSIS
+.B "int" clean_an_unclean_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_unclean_leb *ucleb "  ","
+.BI "void *sbuf "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "ucleb" 12
+unclean LEB information
+.IP "sbuf" 12
+LEB-sized buffer to use
+.SH "DESCRIPTION"
+This function reads a LEB up to a point pre-determined by the mount recovery,
+checks the nodes, and writes the result back to the flash, thereby cleaning
+off any following corruption, or non-fatal ECC errors.
+
+This function returns 0 on success and a negative error code on failure.

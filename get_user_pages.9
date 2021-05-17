@@ -1,0 +1,29 @@
+.TH "get_user_pages" 9 "get_user_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_user_pages \- pin user pages in memory
+.SH SYNOPSIS
+.B "long" get_user_pages
+.BI "(unsigned long start "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ","
+.BI "struct vm_area_struct **vmas "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying lookup behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long. Or NULL, if caller
+only intends to ensure the pages are faulted in.
+.IP "vmas" 12
+array of pointers to vmas corresponding to each page.
+Or NULL if the caller does not require them.
+.SH "DESCRIPTION"
+This is the same as \fBget_user_pages_remote\fP, just with a less-flexible
+calling convention where we assume that the mm being operated on belongs to
+the current task, and doesn't allow passing of a locked parameter.  We also
+obviously don't pass FOLL_REMOTE in here.

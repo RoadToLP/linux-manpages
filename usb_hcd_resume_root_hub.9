@@ -1,0 +1,14 @@
+.TH "usb_hcd_resume_root_hub" 9 "usb_hcd_resume_root_hub" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_resume_root_hub \- called by HCD to resume its root hub
+.SH SYNOPSIS
+.B "void" usb_hcd_resume_root_hub
+.BI "(struct usb_hcd *hcd "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+host controller for this root hub
+.SH "DESCRIPTION"
+The USB host controller calls this function when its root hub is
+suspended (with the remote wakeup feature enabled) and a remote
+wakeup request is received.  The routine submits a workqueue request
+to resume the root hub (that is, manage its downstream ports again).

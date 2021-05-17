@@ -1,0 +1,19 @@
+.TH "netdev_get_xmit_slave" 9 "netdev_get_xmit_slave" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netdev_get_xmit_slave \- Get the xmit slave of master device
+.SH SYNOPSIS
+.B "struct net_device *" netdev_get_xmit_slave
+.BI "(struct net_device *dev "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "bool all_slaves "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "skb" 12
+The packet
+.IP "all_slaves" 12
+assume all the slaves are active
+.SH "DESCRIPTION"
+The reference counters are not incremented so the caller must be
+careful with locks. The caller must hold RCU lock.
+NULL is returned if no slave is found.

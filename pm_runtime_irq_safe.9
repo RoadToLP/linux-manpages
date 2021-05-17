@@ -1,0 +1,16 @@
+.TH "pm_runtime_irq_safe" 9 "pm_runtime_irq_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_runtime_irq_safe \- Leave interrupts disabled during callbacks.
+.SH SYNOPSIS
+.B "void" pm_runtime_irq_safe
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle
+.SH "DESCRIPTION"
+Set the power.irq_safe flag, which tells the PM core that the
+->\fBruntime_suspend\fP and ->\fBruntime_resume\fP callbacks for this device should
+always be invoked with the spinlock held and interrupts disabled.  It also
+causes the parent's usage counter to be permanently incremented, preventing
+the parent from runtime suspending -- otherwise an irq-safe child might have
+to wait for a non-irq-safe parent.

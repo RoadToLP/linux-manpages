@@ -1,0 +1,21 @@
+.TH "ahci_platform_enable_resources" 9 "ahci_platform_enable_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ahci_platform_enable_resources \- Enable platform resources
+.SH SYNOPSIS
+.B "int" ahci_platform_enable_resources
+.BI "(struct ahci_host_priv *hpriv "  ");"
+.SH ARGUMENTS
+.IP "hpriv" 12
+host private area to store config values
+.SH "DESCRIPTION"
+This function enables all ahci_platform managed resources in the
+following order:
+1) Regulator
+2) Clocks (through ahci_platform_enable_clks)
+3) Resets
+4) Phys
+
+If resource enabling fails at any point the previous enabled resources
+are disabled in reverse order.
+.SH "RETURN"
+0 on success otherwise a negative error code

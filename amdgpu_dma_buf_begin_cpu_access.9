@@ -1,0 +1,18 @@
+.TH "amdgpu_dma_buf_begin_cpu_access" 9 "amdgpu_dma_buf_begin_cpu_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dma_buf_begin_cpu_access \- &dma_buf_ops.begin_cpu_access implementation
+.SH SYNOPSIS
+.B "int" amdgpu_dma_buf_begin_cpu_access
+.BI "(struct dma_buf *dma_buf "  ","
+.BI "enum dma_data_direction direction "  ");"
+.SH ARGUMENTS
+.IP "dma_buf" 12
+Shared DMA buffer
+.IP "direction" 12
+Direction of DMA transfer
+.SH "DESCRIPTION"
+This is called before CPU access to the shared DMA buffer's memory. If it's
+a read access, the buffer is moved to the GTT domain if possible, for optimal
+CPU read performance.
+.SH "RETURN"
+0 on success or a negative error code on failure.

@@ -1,0 +1,26 @@
+.TH "vme_lm_attach" 9 "vme_lm_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_lm_attach \- Provide callback for location monitor address
+.SH SYNOPSIS
+.B "int" vme_lm_attach
+.BI "(struct vme_resource *resource "  ","
+.BI "int monitor "  ","
+.BI "void (*callback)(void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "resource" 12
+Pointer to VME location monitor resource.
+.IP "monitor" 12
+Offset to which callback should be attached.
+.IP "callback" 12
+Pointer to callback function called when triggered.
+.IP "data" 12
+Generic pointer that will be passed to the callback function.
+.SH "DESCRIPTION"
+Attach a callback to the specificed offset into the location monitors
+monitored addresses. A generic pointer is provided to allow data to be
+passed to the callback when called.
+.SH "RETURN"
+Zero on success, -EINVAL when provided with an invalid location
+monitor resource or function is not supported. Hardware specific
+errors may also be returned.

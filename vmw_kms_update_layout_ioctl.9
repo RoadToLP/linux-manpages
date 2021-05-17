@@ -1,0 +1,26 @@
+.TH "vmw_kms_update_layout_ioctl" 9 "vmw_kms_update_layout_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_kms_update_layout_ioctl \- Handler for DRM_VMW_UPDATE_LAYOUT ioctl
+.SH SYNOPSIS
+.B "int" vmw_kms_update_layout_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file_priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device for the ioctl
+.IP "data" 12
+data pointer for the ioctl
+.IP "file_priv" 12
+drm file for the ioctl call
+.SH "DESCRIPTION"
+Update preferred topology of display unit as per ioctl request. The topology
+is expressed as array of drm_vmw_rect.
+e.g.
+[0 0 640 480] [640 0 800 600] [0 480 640 480]
+.SH "NOTE"
+The x and y offset (upper left) in drm_vmw_rect cannot be less than 0. Beside
+device limit on topology, x + w and y + h (lower right) cannot be greater
+than INT_MAX. So topology beyond these limits will return with error.
+.SH "RETURN"
+Zero on success, negative errno on failure.

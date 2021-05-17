@@ -1,0 +1,17 @@
+.TH "jbd2_journal_get_write_access" 9 "jbd2_journal_get_write_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_get_write_access \- notify intent to modify a buffer for metadata (not data) update.
+.SH SYNOPSIS
+.B "int" jbd2_journal_get_write_access
+.BI "(handle_t *handle "  ","
+.BI "struct buffer_head *bh "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+transaction to add buffer modifications to
+.IP "bh" 12
+bh to be used for metadata writes
+.SH "RETURN"
+error code or 0 on success.
+.SH "DESCRIPTION"
+In full data journalling mode the buffer may be of type BJ_AsyncData,
+because we're ``\fBwrite\fPing`` a buffer which is also part of a shared mapping.

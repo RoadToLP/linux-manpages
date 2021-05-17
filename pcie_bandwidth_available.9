@@ -1,0 +1,24 @@
+.TH "pcie_bandwidth_available" 9 "pcie_bandwidth_available" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcie_bandwidth_available \- determine minimum link settings of a PCIe device and its bandwidth limitation
+.SH SYNOPSIS
+.B "u32" pcie_bandwidth_available
+.BI "(struct pci_dev *dev "  ","
+.BI "struct pci_dev **limiting_dev "  ","
+.BI "enum pci_bus_speed *speed "  ","
+.BI "enum pcie_link_width *width "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to query
+.IP "limiting_dev" 12
+storage for device causing the bandwidth limitation
+.IP "speed" 12
+storage for speed of limiting device
+.IP "width" 12
+storage for width of limiting device
+.SH "DESCRIPTION"
+Walk up the PCI device chain and find the point where the minimum
+bandwidth is available.  Return the bandwidth available there and (if
+limiting_dev, speed, and width pointers are supplied) information about
+that point.  The bandwidth returned is in Mb/s, i.e., megabits/second of
+raw bandwidth.

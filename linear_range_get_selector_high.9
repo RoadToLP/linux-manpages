@@ -1,0 +1,25 @@
+.TH "linear_range_get_selector_high" 9 "linear_range_get_selector_high" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+linear_range_get_selector_high \- return linear range selector for value
+.SH SYNOPSIS
+.B "int" linear_range_get_selector_high
+.BI "(const struct linear_range *r "  ","
+.BI "unsigned int val "  ","
+.BI "unsigned int *selector "  ","
+.BI "bool *found "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+pointer to linear range where selector is looked from
+.IP "val" 12
+value for which the selector is searched
+.IP "selector" 12
+address where found selector value is updated
+.IP "found" 12
+flag to indicate that given value was in the range
+.SH "DESCRIPTION"
+Return selector for which range value is closest match for given
+input value. Value is matching if it is equal or higher than given
+value. If given value is in the range, then \fIfound\fP is set true.
+.SH "RETURN"
+0 on success, -EINVAL if range is invalid or does not contain
+value greater or equal to given value

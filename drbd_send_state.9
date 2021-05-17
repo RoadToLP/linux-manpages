@@ -1,0 +1,17 @@
+.TH "drbd_send_state" 9 "drbd_send_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_send_state \- After a state change, sends the new state to the peer
+.SH SYNOPSIS
+.B "int" drbd_send_state
+.BI "(struct drbd_peer_device *peer_device "  ","
+.BI "union drbd_state state "  ");"
+.SH ARGUMENTS
+.IP "peer_device" 12
+DRBD peer device.
+.IP "state" 12
+the state to send, not necessarily the current state.
+.SH "DESCRIPTION"
+Each state change queues an "after_state_ch" work, which will eventually
+send the resulting new state to the peer. If more state changes happen
+between queuing and processing of the after_state_ch work, we still
+want to send each intermediary state in the order it occurred.

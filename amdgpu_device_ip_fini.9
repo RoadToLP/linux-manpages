@@ -1,0 +1,15 @@
+.TH "amdgpu_device_ip_fini" 9 "amdgpu_device_ip_fini" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_device_ip_fini \- run fini for hardware IPs
+.SH SYNOPSIS
+.B "int" amdgpu_device_ip_fini
+.BI "(struct amdgpu_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.SH "DESCRIPTION"
+Main teardown pass for hardware IPs.  The list of all the hardware
+IPs that make up the asic is walked and the hw_fini and sw_fini callbacks
+are run.  hw_fini tears down the hardware associated with each IP
+and sw_fini tears down any software state associated with each IP.
+Returns 0 on success, negative error code on failure.

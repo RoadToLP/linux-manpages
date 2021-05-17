@@ -1,0 +1,16 @@
+.TH "crypto_pump_requests" 9 "crypto_pump_requests" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+crypto_pump_requests \- dequeue one request from engine queue to process
+.SH SYNOPSIS
+.B "void" crypto_pump_requests
+.BI "(struct crypto_engine *engine "  ","
+.BI "bool in_kthread "  ");"
+.SH ARGUMENTS
+.IP "engine" 12
+the hardware engine
+.IP "in_kthread" 12
+true if we are in the context of the request pump thread
+.SH "DESCRIPTION"
+This function checks if there is any request in the engine queue that
+needs processing and if so call out to the driver to initialize hardware
+and handle each request.

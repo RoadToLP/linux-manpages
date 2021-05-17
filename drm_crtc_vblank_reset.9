@@ -1,0 +1,17 @@
+.TH "drm_crtc_vblank_reset" 9 "drm_crtc_vblank_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_vblank_reset \- reset vblank state to off on a CRTC
+.SH SYNOPSIS
+.B "void" drm_crtc_vblank_reset
+.BI "(struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC in question
+.SH "DESCRIPTION"
+Drivers can use this function to reset the vblank state to off at load time.
+Drivers should use this together with the \fBdrm_crtc_vblank_off\fP and
+\fBdrm_crtc_vblank_on\fP functions. The difference compared to
+\fBdrm_crtc_vblank_off\fP is that this function doesn't save the vblank counter
+and hence doesn't need to call any driver hooks.
+
+This is useful for recovering driver state e.g. on driver load, or on resume.

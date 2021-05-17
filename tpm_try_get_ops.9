@@ -1,0 +1,16 @@
+.TH "tpm_try_get_ops" 9 "tpm_try_get_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_try_get_ops \- Get a ref to the tpm_chip
+.SH SYNOPSIS
+.B "int" tpm_try_get_ops
+.BI "(struct tpm_chip *chip "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+Chip to ref
+.SH "DESCRIPTION"
+The caller must already have some kind of locking to ensure that chip is
+valid. This function will lock the chip so that the ops member can be
+accessed safely. The locking prevents tpm_chip_unregister from
+completing, so it should not be held for long periods.
+
+Returns -ERRNO if the chip could not be got.

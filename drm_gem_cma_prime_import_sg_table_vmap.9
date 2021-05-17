@@ -1,0 +1,27 @@
+.TH "drm_gem_cma_prime_import_sg_table_vmap" 9 "drm_gem_cma_prime_import_sg_table_vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_prime_import_sg_table_vmap \- PRIME import another driver's scatter/gather table and get the virtual address of the buffer
+.SH SYNOPSIS
+.B "struct drm_gem_object *" drm_gem_cma_prime_import_sg_table_vmap
+.BI "(struct drm_device *dev "  ","
+.BI "struct dma_buf_attachment *attach "  ","
+.BI "struct sg_table *sgt "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "attach" 12
+DMA-BUF attachment
+.IP "sgt" 12
+Scatter/gather table of pinned pages
+.SH "DESCRIPTION"
+This function imports a scatter/gather table using
+\fBdrm_gem_cma_prime_import_sg_table\fP and uses \fBdma_buf_vmap\fP to get the kernel
+virtual address. This ensures that a CMA GEM object always has its virtual
+address set. This address is released when the object is freed.
+
+This function can be used as the \fIdrm_driver.gem_prime_import_sg_table\fP
+callback. The \fIDRM_GEM_CMA_DRIVER_OPS_VMAP\fP macro provides a shortcut to set
+the necessary DRM driver operations.
+.SH "RETURN"
+A pointer to a newly created GEM object or an ERR_PTR-encoded negative
+error code on failure.

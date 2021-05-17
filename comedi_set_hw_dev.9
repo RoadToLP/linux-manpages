@@ -1,0 +1,29 @@
+.TH "comedi_set_hw_dev" 9 "comedi_set_hw_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_set_hw_dev \- Set hardware device associated with COMEDI device
+.SH SYNOPSIS
+.B "int" comedi_set_hw_dev
+.BI "(struct comedi_device *dev "  ","
+.BI "struct device *hw_dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "hw_dev" 12
+Hardware device.
+.SH "DESCRIPTION"
+For automatically configured COMEDI devices (resulting from a call to
+\fBcomedi_auto_config\fP or one of its wrappers from the low-level COMEDI
+driver), \fBcomedi_set_hw_dev\fP is called automatically by the COMEDI core
+to associate the COMEDI device with the hardware device.  It can also be
+called directly by "legacy" low-level COMEDI drivers that rely on the
+COMEDI_DEVCONFIG ioctl to configure the hardware as long as the hardware
+has a \fIstruct device\fP.
+
+If \fIdev->hw_dev\fP is NULL, it gets a reference to \fIhw_dev\fP and sets
+\fIdev->hw_dev\fP, otherwise, it does nothing.  Calling it multiple times
+with the same hardware device is not considered an error.  If it gets
+a reference to the hardware device, it will be automatically 'put' when
+the device is detached from COMEDI.
+
+Returns 0 if \fIdev->hw_dev\fP was NULL or the same as \fIhw_dev\fP, otherwise
+returns -EEXIST.

@@ -1,0 +1,16 @@
+.TH "lc_put" 9 "lc_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lc_put \- give up refcnt of @e
+.SH SYNOPSIS
+.B "unsigned int" lc_put
+.BI "(struct lru_cache *lc "  ","
+.BI "struct lc_element *e "  ");"
+.SH ARGUMENTS
+.IP "lc" 12
+the lru cache to operate on
+.IP "e" 12
+the element to put
+.SH "DESCRIPTION"
+If refcnt reaches zero, the element is moved to the lru list,
+and a LC_STARVING (if set) is cleared.
+Returns the new (post-decrement) refcnt.

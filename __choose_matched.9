@@ -1,0 +1,30 @@
+.TH "__choose_matched" 9 "__choose_matched" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__choose_matched \- update a port's matched variable from a received lacpdu
+.SH SYNOPSIS
+.B "void" __choose_matched
+.BI "(struct lacpdu *lacpdu "  ","
+.BI "struct port *port "  ");"
+.SH ARGUMENTS
+.IP "lacpdu" 12
+the lacpdu we've received
+.IP "port" 12
+the port we're looking at
+.SH "DESCRIPTION"
+Update the value of the matched variable, using parameter values from a
+newly received lacpdu. Parameter values for the partner carried in the
+received PDU are compared with the corresponding operational parameter
+values for the actor. Matched is set to TRUE if all of these parameters
+match and the PDU parameter partner_state.aggregation has the same value as
+actor_oper_port_state.aggregation and lacp will actively maintain the link
+in the aggregation. Matched is also set to TRUE if the value of
+actor_state.aggregation in the received PDU is set to FALSE, i.e., indicates
+an individual link and lacp will actively maintain the link. Otherwise,
+matched is set to FALSE. LACP is considered to be actively maintaining the
+link if either the PDU's actor_state.lacp_activity variable is TRUE or both
+the actor's actor_oper_port_state.lacp_activity and the PDU's
+partner_state.lacp_activity variables are TRUE.
+.SH "NOTE"
+the AD_PORT_MATCHED "variable" is not specified by 802.3ad; it is
+used here to implement the language from 802.3ad 43.4.9 that requires
+recordPDU to "match" the LACPDU parameters to the stored values.

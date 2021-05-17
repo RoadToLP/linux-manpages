@@ -1,0 +1,20 @@
+.TH "nfsd_cache_lookup" 9 "nfsd_cache_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfsd_cache_lookup \- Find an entry in the duplicate reply cache
+.SH SYNOPSIS
+.B "int" nfsd_cache_lookup
+.BI "(struct svc_rqst *rqstp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+Incoming Call to find
+.SH "DESCRIPTION"
+Try to find an entry matching the current call in the cache. When none
+is found, we try to grab the oldest expired entry off the LRU list. If
+a suitable one isn't there, then drop the cache_lock and allocate a
+new one, then search again in case one got inserted while this thread
+didn't hold the lock.
+
+Return values:
+RC_DOIT: Process the request normally
+RC_REPLY: Reply from cache
+RC_DROPIT: Do not process the request further

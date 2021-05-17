@@ -1,0 +1,32 @@
+.TH "itcw_add_dcw" 9 "itcw_add_dcw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+itcw_add_dcw \- add a dcw to the itcw
+.SH SYNOPSIS
+.B "struct dcw *" itcw_add_dcw
+.BI "(struct itcw *itcw "  ","
+.BI "u8 cmd "  ","
+.BI "u8 flags "  ","
+.BI "void *cd "  ","
+.BI "u8 cd_count "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "itcw" 12
+address of the itcw
+.IP "cmd" 12
+the dcw command
+.IP "flags" 12
+flags for the dcw
+.IP "cd" 12
+address of control data for this dcw or NULL if none is required
+.IP "cd_count" 12
+number of control data bytes for this dcw
+.IP "count" 12
+number of data bytes for this dcw
+.SH "DESCRIPTION"
+Add a new dcw to the specified itcw by writing the dcw information specified
+by \fIcmd\fP, \fIflags\fP, \fIcd\fP, \fIcd_count\fP and \fIcount\fP to the tca of the tccb. Return
+a pointer to the newly added dcw on success or -ENOSPC if the new dcw
+would exceed the available space.
+.SH "NOTE"
+the tcal field of the tccb header will be updated to reflect added
+content.

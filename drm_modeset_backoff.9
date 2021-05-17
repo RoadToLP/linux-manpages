@@ -1,0 +1,17 @@
+.TH "drm_modeset_backoff" 9 "drm_modeset_backoff" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_modeset_backoff \- deadlock avoidance backoff
+.SH SYNOPSIS
+.B "int" drm_modeset_backoff
+.BI "(struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+the acquire context
+.SH "DESCRIPTION"
+If deadlock is detected (ie. \fBdrm_modeset_lock\fP returns -EDEADLK),
+you must call this function to drop all currently held locks and
+block until the contended lock becomes available.
+
+This function returns 0 on success, or -ERESTARTSYS if this context
+is initialized with DRM_MODESET_ACQUIRE_INTERRUPTIBLE and the
+wait has been interrupted.

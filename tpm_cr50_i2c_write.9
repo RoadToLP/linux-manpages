@@ -1,0 +1,25 @@
+.TH "tpm_cr50_i2c_write" 9 "tpm_cr50_i2c_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_cr50_i2c_write \- Write to TPM register.
+.SH SYNOPSIS
+.B "int" tpm_cr50_i2c_write
+.BI "(struct tpm_chip *chip "  ","
+.BI "u8 addr "  ","
+.BI "u8 *buffer "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+A TPM chip.
+.IP "addr" 12
+Register address to write to.
+.IP "buffer" 12
+Data to write.
+.IP "len" 12
+Number of bytes to write.
+.SH "DESCRIPTION"
+The provided address is prepended to the data in 'buffer', the
+cobined address+data is sent to the TPM, then wait for TPM to
+indicate it is done writing.
+.SH "RETURN"
+- 0:         Success.
+- -errno:    A POSIX error code.

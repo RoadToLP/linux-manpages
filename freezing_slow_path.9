@@ -1,0 +1,14 @@
+.TH "freezing_slow_path" 9 "freezing_slow_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freezing_slow_path \- slow path for testing whether a task needs to be frozen
+.SH SYNOPSIS
+.B "bool" freezing_slow_path
+.BI "(struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+task to be tested
+.SH "DESCRIPTION"
+This function is called by \fBfreezing\fP if system_freezing_cnt isn't zero
+and tests whether \fIp\fP needs to enter and stay in frozen state.  Can be
+called under any context.  The freezers are responsible for ensuring the
+target tasks see the updated state.

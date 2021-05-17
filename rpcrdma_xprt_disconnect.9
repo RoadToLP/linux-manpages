@@ -1,0 +1,15 @@
+.TH "rpcrdma_xprt_disconnect" 9 "rpcrdma_xprt_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_xprt_disconnect \- Disconnect underlying transport
+.SH SYNOPSIS
+.B "void" rpcrdma_xprt_disconnect
+.BI "(struct rpcrdma_xprt *r_xprt "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport instance
+.SH "DESCRIPTION"
+Caller serializes. Either the transport send lock is held,
+or we're being called to destroy the transport.
+
+On return, \fIr_xprt\fP is completely divested of all hardware
+resources and prepared for the next ->connect operation.

@@ -1,0 +1,19 @@
+.TH "ntb_msi_setup_mws" 9 "ntb_msi_setup_mws" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntb_msi_setup_mws \- Initialize the MSI inbound memory windows
+.SH SYNOPSIS
+.B "int" ntb_msi_setup_mws
+.BI "(struct ntb_dev *ntb "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device context
+.SH "DESCRIPTION"
+This function sets up the required inbound memory windows. It should be
+called from a work function after a link up event.
+
+Over the entire network, this function will reserves the last N
+inbound memory windows for each peer (where N is the number of peers).
+
+\fBntb_msi_init\fP must be called before this function.
+.SH "RETURN"
+Zero on success, otherwise a negative error number.

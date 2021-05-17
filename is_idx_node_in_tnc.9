@@ -1,0 +1,30 @@
+.TH "is_idx_node_in_tnc" 9 "is_idx_node_in_tnc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_idx_node_in_tnc \- determine if an index node is in the TNC.
+.SH SYNOPSIS
+.B "int" is_idx_node_in_tnc
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int level "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key of index node
+.IP "level" 12
+index node level
+.IP "lnum" 12
+LEB number of index node
+.IP "offs" 12
+offset of index node
+.SH "DESCRIPTION"
+This function returns 0 if the index node is not referred to in the TNC, 1
+if the index node is referred to in the TNC and the corresponding znode is
+dirty, 2 if an index node is referred to in the TNC and the corresponding
+znode is clean, and a negative error code in case of failure.
+
+Note, the \fIkey\fP argument has to be the key of the first child. Also note,
+this function relies on the fact that 0:0 is never a valid LEB number and
+offset for a main-area node.

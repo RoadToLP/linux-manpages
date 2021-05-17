@@ -1,0 +1,29 @@
+.TH "rcu_irq_enter" 9 "rcu_irq_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_irq_enter \- inform RCU that current CPU is entering irq away from idle
+.SH SYNOPSIS
+.B "noinstr void" rcu_irq_enter
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Enter an interrupt handler, which might possibly result in exiting
+idle mode, in other words, entering the mode in which read-side critical
+sections can occur.  The caller must have disabled interrupts.
+
+Note that the Linux kernel is fully capable of entering an interrupt
+handler that it never exits, for example when doing upcalls to user mode!
+This code assumes that the idle loop never does upcalls to user mode.
+If your architecture's idle loop does do upcalls to user mode (or does
+anything else that results in unbalanced calls to the \fBirq_enter\fP and
+\fBirq_exit\fP functions), RCU will give you what you deserve, good and hard.
+But very infrequently and irreproducibly.
+
+Use things like work queues to work around this limitation.
+
+You have been warned.
+
+If you add or remove a call to \fBrcu_irq_enter\fP, be sure to test with
+CONFIG_RCU_EQS_DEBUG=y.

@@ -1,0 +1,20 @@
+.TH "ice_remove_mac" 9 "ice_remove_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_remove_mac \- remove a MAC address based filter rule
+.SH SYNOPSIS
+.B "enum ice_status" ice_remove_mac
+.BI "(struct ice_hw *hw "  ","
+.BI "struct list_head *m_list "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "m_list" 12
+list of MAC addresses and forwarding information
+.SH "DESCRIPTION"
+This function removes either a MAC filter rule or a specific VSI from a
+VSI list for a multicast MAC address.
+
+Returns ICE_ERR_DOES_NOT_EXIST if a given entry was not added by
+ice_add_mac. Caller should be aware that this call will only work if all
+the entries passed into m_list were added previously. It will not attempt to
+do a partial remove of entries that were found.

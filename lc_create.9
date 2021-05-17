@@ -1,0 +1,27 @@
+.TH "lc_create" 9 "lc_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lc_create \- prepares to track objects in an active set
+.SH SYNOPSIS
+.B "struct lru_cache *" lc_create
+.BI "(const char *name "  ","
+.BI "struct kmem_cache *cache "  ","
+.BI "unsigned max_pending_changes "  ","
+.BI "unsigned e_count "  ","
+.BI "size_t e_size "  ","
+.BI "size_t e_off "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+descriptive name only used in lc_seq_printf_stats and lc_seq_dump_details
+.IP "cache" 12
+cache root pointer
+.IP "max_pending_changes" 12
+maximum changes to accumulate until a transaction is required
+.IP "e_count" 12
+number of elements allowed to be active simultaneously
+.IP "e_size" 12
+size of the tracked objects
+.IP "e_off" 12
+offset to the \fIstruct lc_element\fP member in a tracked object
+.SH "DESCRIPTION"
+Returns a pointer to a newly initialized struct lru_cache on success,
+or NULL on (allocation) failure.

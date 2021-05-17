@@ -1,0 +1,17 @@
+.TH "ssh_ptl_should_drop_ack_packet" 9 "ssh_ptl_should_drop_ack_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_should_drop_ack_packet \- Error injection hook to drop ACK packets.
+.SH SYNOPSIS
+.B "bool" ssh_ptl_should_drop_ack_packet
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Useful to test detection and handling of automated re-transmits by the EC.
+Specifically of packets that the EC considers not-ACKed but the driver
+already considers ACKed (due to dropped ACK). In this case, the EC
+re-transmits the packet-to-be-ACKed and the driver should detect it as
+duplicate/already handled. Note that the driver should still send an ACK
+for the re-transmitted packet.

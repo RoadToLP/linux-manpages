@@ -1,0 +1,26 @@
+.TH "dpsw_vlan_remove_if" 9 "dpsw_vlan_remove_if" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpsw_vlan_remove_if \- Remove interfaces from an existing VLAN.
+.SH SYNOPSIS
+.B "int" dpsw_vlan_remove_if
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 vlan_id "  ","
+.BI "const struct dpsw_vlan_if_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPSW object
+.IP "vlan_id" 12
+VLAN Identifier
+.IP "cfg" 12
+Set of interfaces that should be removed
+.SH "DESCRIPTION"
+Interfaces must belong to this VLAN, otherwise an error
+is returned and an the command is ignored
+.SH "RETURN"
+Completion status. '0' on Success; Error code otherwise.

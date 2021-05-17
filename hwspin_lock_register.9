@@ -1,0 +1,28 @@
+.TH "hwspin_lock_register" 9 "hwspin_lock_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hwspin_lock_register \- register a new hw spinlock device
+.SH SYNOPSIS
+.B "int" hwspin_lock_register
+.BI "(struct hwspinlock_device *bank "  ","
+.BI "struct device *dev "  ","
+.BI "const struct hwspinlock_ops *ops "  ","
+.BI "int base_id "  ","
+.BI "int num_locks "  ");"
+.SH ARGUMENTS
+.IP "bank" 12
+the hwspinlock device, which usually provides numerous hw locks
+.IP "dev" 12
+the backing device
+.IP "ops" 12
+hwspinlock handlers for this device
+.IP "base_id" 12
+id of the first hardware spinlock in this bank
+.IP "num_locks" 12
+number of hwspinlocks provided by this device
+.SH "DESCRIPTION"
+This function should be called from the underlying platform-specific
+implementation, to register a new hwspinlock device instance.
+
+Should be called from a process context (might sleep)
+
+Returns 0 on success, or an appropriate error code on failure

@@ -1,0 +1,19 @@
+.TH "transport_setup_device" 9 "transport_setup_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+transport_setup_device \- declare a new dev for transport class association but don't make it visible yet.
+.SH SYNOPSIS
+.B "void" transport_setup_device
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the generic device representing the entity being added
+.SH "DESCRIPTION"
+Usually, dev represents some component in the HBA system (either
+the HBA itself or a device remote across the HBA bus).  This
+routine is simply a trigger point to see if any set of transport
+classes wishes to associate with the added device.  This allocates
+storage for the class device and initialises it, but does not yet
+add it to the system or add attributes to it (you do this with
+transport_add_device).  If you have no need for a separate setup
+and add operations, use transport_register_device (see
+transport_class.h).

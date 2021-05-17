@@ -1,0 +1,26 @@
+.TH "devm_memremap_pages" 9 "devm_memremap_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_memremap_pages \- remap and provide memmap backing for the given resource
+.SH SYNOPSIS
+.B "void *" devm_memremap_pages
+.BI "(struct device *dev "  ","
+.BI "struct dev_pagemap *pgmap "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+hosting device for \fIres\fP
+.IP "pgmap" 12
+pointer to a struct dev_pagemap
+.SH "NOTES"
+1/ At a minimum the res and type members of \fIpgmap\fP must be initialized
+by the caller before passing it to this function
+.SH "DESCRIPTION"
+2/ The altmap field may optionally be initialized, in which case
+PGMAP_ALTMAP_VALID must be set in pgmap->flags.
+
+3/ The ref field may optionally be provided, in which pgmap->ref must be
+'live' on entry and will be killed and reaped at
+\fBdevm_memremap_pages_release\fP time, or if this routine fails.
+
+4/ range is expected to be a host memory range that could feasibly be
+treated as a "System RAM" range, i.e. not a device mmio range, but
+this is not enforced.

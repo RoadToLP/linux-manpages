@@ -1,0 +1,17 @@
+.TH "net_failover_create" 9 "net_failover_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+net_failover_create \- Create and register a failover instance
+.SH SYNOPSIS
+.B "struct failover *" net_failover_create
+.BI "(struct net_device *standby_dev "  ");"
+.SH ARGUMENTS
+.IP "standby_dev" 12
+standby netdev
+.SH "DESCRIPTION"
+Creates a failover netdev and registers a failover instance for a standby
+netdev. Used by paravirtual drivers that use 3-netdev model.
+The failover netdev acts as a master device and controls 2 slave devices -
+the original standby netdev and a VF netdev with the same MAC gets
+registered as primary netdev.
+.SH "RETURN"
+pointer to failover instance

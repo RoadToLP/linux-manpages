@@ -1,0 +1,27 @@
+.TH "xdr_count_read_segments" 9 "xdr_count_read_segments" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_count_read_segments \- Count number of Read segments in Read list
+.SH SYNOPSIS
+.B "bool" xdr_count_read_segments
+.BI "(struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "__be32 *p "  ");"
+.SH ARGUMENTS
+.IP "rctxt" 12
+Ingress receive context
+.IP "p" 12
+Start of an un-decoded Read list
+.SH "DESCRIPTION"
+Before allocating anything, ensure the ingress Read list is safe
+to use.
+
+The segment count is limited to how many segments can fit in the
+transport header without overflowing the buffer. That's about 40
+Read segments for a 1KB inline threshold.
+
+Return values:
+true: Read list is valid. \fIrctxt\fP's xdr_stream is updated to point
+to the first byte past the Read list. rc_read_pcl and
+rc_call_pcl cl_count fields are set to the number of
+Read segments in the list.
+false: Read list is corrupt. \fIrctxt\fP's xdr_stream is left in an
+unknown state.

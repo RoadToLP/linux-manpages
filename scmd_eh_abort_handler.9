@@ -1,0 +1,15 @@
+.TH "scmd_eh_abort_handler" 9 "scmd_eh_abort_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmd_eh_abort_handler \- Handle command aborts
+.SH SYNOPSIS
+.B "void" scmd_eh_abort_handler
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+command to be aborted.
+.SH "NOTE"
+this function must be called only for a command that has timed out.
+Because the block layer marks a request as complete before it calls
+\fBscsi_times_out\fP, a .\fBscsi_done\fP call from the LLD for a command that has
+timed out do not have any effect. Hence it is safe to call
+\fBscsi_finish_command\fP from this function.

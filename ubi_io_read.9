@@ -1,0 +1,35 @@
+.TH "ubi_io_read" 9 "ubi_io_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_read \- read data from a physical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_io_read
+.BI "(const struct ubi_device *ubi "  ","
+.BI "void *buf "  ","
+.BI "int pnum "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "buf" 12
+buffer where to store the read data
+.IP "pnum" 12
+physical eraseblock number to read from
+.IP "offset" 12
+offset within the physical eraseblock from where to read
+.IP "len" 12
+how many bytes to read
+.SH "DESCRIPTION"
+This function reads data from offset \fIoffset\fP of physical eraseblock \fIpnum\fP
+and stores the read data in the \fIbuf\fP buffer. The following return codes are
+possible:
+
+o 0 if all the requested data were successfully read;
+o UBI_IO_BITFLIPS if all the requested data were successfully read, but
+correctable bit-flips were detected; this is harmless but may indicate
+that this eraseblock may become bad soon (but do not have to);
+o -EBADMSG if the MTD subsystem reported about data integrity problems, for
+example it can be an ECC error in case of NAND; this most probably means
+that the data is corrupted;
+o -EIO if some I/O error occurred;
+o other negative error codes in case of other errors.

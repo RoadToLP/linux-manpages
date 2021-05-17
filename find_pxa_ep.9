@@ -1,0 +1,32 @@
+.TH "find_pxa_ep" 9 "find_pxa_ep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_pxa_ep \- find pxa_ep structure matching udc_usb_ep
+.SH SYNOPSIS
+.B "struct pxa_ep *" find_pxa_ep
+.BI "(struct pxa_udc *udc "  ","
+.BI "struct udc_usb_ep *udc_usb_ep "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+pxa udc
+.IP "udc_usb_ep" 12
+udc_usb_ep structure
+.SH "DESCRIPTION"
+Match udc_usb_ep and all pxa_ep available, to see if one matches.
+This is necessary because of the strong pxa hardware restriction requiring
+that once pxa endpoints are initialized, their configuration is freezed, and
+no change can be made to their address, direction, or in which configuration,
+interface or altsetting they are active ... which differs from more usual
+models which have endpoints be roughly just addressable fifos, and leave
+configuration events up to gadget drivers (like all control messages).
+
+Note that there is still a blurred point here :
+- we rely on UDCCR register "active interface" and "active altsetting".
+This is a nonsense in regard of USB spec, where multiple interfaces are
+active at the same time.
+- if we knew for sure that the pxa can handle multiple interface at the
+same time, assuming Intel's Developer Guide is wrong, this function
+should be reviewed, and a cache of couples (iface, altsetting) should
+be kept in the pxa_udc structure. In this case this function would match
+against the cache of couples instead of the "last altsetting" set up.
+
+Returns the matched pxa_ep structure or NULL if none found

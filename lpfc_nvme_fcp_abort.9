@@ -1,0 +1,27 @@
+.TH "lpfc_nvme_fcp_abort" 9 "lpfc_nvme_fcp_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_fcp_abort \- Issue an NVME-over-FCP ABTS
+.SH SYNOPSIS
+.B "void" lpfc_nvme_fcp_abort
+.BI "(struct nvme_fc_local_port *pnvme_lport "  ","
+.BI "struct nvme_fc_remote_port *pnvme_rport "  ","
+.BI "void *hw_queue_handle "  ","
+.BI "struct nvmefc_fcp_req *pnvme_fcreq "  ");"
+.SH ARGUMENTS
+.IP "pnvme_lport" 12
+Pointer to the driver's local port data
+.IP "pnvme_rport" 12
+Pointer to the rport getting the \fIlpfc_nvme_ereq\fP
+.IP "hw_queue_handle" 12
+Driver-returned handle in lpfc_nvme_create_queue
+.IP "pnvme_fcreq" 12
+IO request from nvme fc to driver.
+.SH "DESCRIPTION"
+Driver registers this routine as its nvme request io abort handler.  This
+routine issues an fcp Abort WQE with data from the \fIlpfc_nvme_fcpreq\fP
+data structure to the rport indicated in \fIlpfc_nvme_rport\fP.  This routine
+is executed asynchronously - one the target is validated as "MAPPED" and
+ready for IO, the driver issues the abort request and returns.
+
+Return value:
+None

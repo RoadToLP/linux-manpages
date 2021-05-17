@@ -1,0 +1,26 @@
+.TH "try_invoke_on_locked_down_task" 9 "try_invoke_on_locked_down_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_invoke_on_locked_down_task \- Invoke a function on task in fixed state
+.SH SYNOPSIS
+.B "bool" try_invoke_on_locked_down_task
+.BI "(struct task_struct *p "  ","
+.BI "bool (*func)(struct task_struct *t, void *arg) "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+Process for which the function is to be invoked, can be \fIcurrent\fP.
+.IP "func" 12
+Function to invoke.
+.IP "arg" 12
+Argument to function.
+.SH "DESCRIPTION"
+If the specified task can be quickly locked into a definite state
+(either sleeping or on a given runqueue), arrange to keep it in that
+state while invoking \fIfunc\fP(\fIarg\fP).  This function can use ->on_rq and
+\fBtask_curr\fP to work out what the state is, if required.  Given that
+\fIfunc\fP can be invoked with a runqueue lock held, it had better be quite
+lightweight.
+.SH "RETURN"
+\fIfalse\fP if the task slipped out from under the locks.
+\fItrue\fP if the task was locked onto a runqueue or is sleeping.
+However, \fIfunc\fP can override this by returning \fIfalse\fP.

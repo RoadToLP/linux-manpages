@@ -1,0 +1,25 @@
+.TH "scsi_add_single_device" 9 "scsi_add_single_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_add_single_device \- Respond to user request to probe for/add device
+.SH SYNOPSIS
+.B "int" scsi_add_single_device
+.BI "(uint host "  ","
+.BI "uint channel "  ","
+.BI "uint id "  ","
+.BI "uint lun "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+user-supplied decimal integer
+.IP "channel" 12
+user-supplied decimal integer
+.IP "id" 12
+user-supplied decimal integer
+.IP "lun" 12
+user-supplied decimal integer
+.SH "DESCRIPTION"
+called by writing "scsi add-single-device" to /proc/scsi/scsi.
+
+does \fBscsi_host_lookup\fP and either \fBuser_scan\fP if that transport
+type supports it, or else \fBscsi_scan_host_selected\fP
+.SH "NOTE"
+this seems to be aimed exclusively at SCSI parallel busses.

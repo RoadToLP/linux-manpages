@@ -1,0 +1,31 @@
+.TH "region_intersects" 9 "region_intersects" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+region_intersects \- determine intersection of region with known resources
+.SH SYNOPSIS
+.B "int" region_intersects
+.BI "(resource_size_t start "  ","
+.BI "size_t size "  ","
+.BI "unsigned long flags "  ","
+.BI "unsigned long desc "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+region start address
+.IP "size" 12
+size of region
+.IP "flags" 12
+flags of resource (in iomem_resource)
+.IP "desc" 12
+descriptor of resource (in iomem_resource) or IORES_DESC_NONE
+.SH "DESCRIPTION"
+Check if the specified region partially overlaps or fully eclipses a
+resource identified by \fIflags\fP and \fIdesc\fP (optional with IORES_DESC_NONE).
+Return REGION_DISJOINT if the region does not overlap \fIflags\fP/\fIdesc\fP,
+return REGION_MIXED if the region overlaps \fIflags\fP/\fIdesc\fP and another
+resource, and return REGION_INTERSECTS if the region overlaps \fIflags\fP/\fIdesc\fP
+and no other defined resource. Note that REGION_INTERSECTS is also
+returned in the case when the specified region overlaps RAM and undefined
+memory holes.
+
+\fBregion_intersect\fP is used by memory remapping functions to ensure
+the user is not remapping RAM and is a vast speed up over walking
+through the resource table page by page.

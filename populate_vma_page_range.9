@@ -1,0 +1,31 @@
+.TH "populate_vma_page_range" 9 "populate_vma_page_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+populate_vma_page_range \- populate a range of pages in the vma.
+.SH SYNOPSIS
+.B "long" populate_vma_page_range
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long end "  ","
+.BI "int *locked "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+target vma
+.IP "start" 12
+start address
+.IP "end" 12
+end address
+.IP "locked" 12
+whether the mmap_lock is still held
+.SH "DESCRIPTION"
+This takes care of mlocking the pages too if VM_LOCKED is set.
+
+Return either number of pages pinned in the vma, or a negative error
+code on error.
+
+vma->vm_mm->mmap_lock must be held.
+
+If \fIlocked\fP is NULL, it may be held for read or write and will
+be unperturbed.
+
+If \fIlocked\fP is non-NULL, it must held for read only and may be
+released.  If it's released, *\fIlocked\fP will be set to 0.

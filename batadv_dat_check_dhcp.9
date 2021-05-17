@@ -1,0 +1,23 @@
+.TH "batadv_dat_check_dhcp" 9 "batadv_dat_check_dhcp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_check_dhcp \- examine packet for valid DHCP message
+.SH SYNOPSIS
+.B "int" batadv_dat_check_dhcp
+.BI "(struct sk_buff *skb "  ","
+.BI "__be16 proto "  ","
+.BI "__be32 *ip_src "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet to check
+.IP "proto" 12
+ethernet protocol hint (behind a potential vlan)
+.IP "ip_src" 12
+a buffer to store the IPv4 source address in
+.SH "DESCRIPTION"
+Checks whether the given skb is a valid DHCP packet. And if so, stores the
+IPv4 source address in the provided buffer.
+
+Caller needs to ensure that the skb network header is set correctly.
+.SH "RETURN"
+If skb is a valid DHCP packet, then returns its op code
+(e.g. BOOTREPLY vs. BOOTREQUEST). Otherwise returns -EINVAL.

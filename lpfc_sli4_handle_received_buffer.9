@@ -1,0 +1,19 @@
+.TH "lpfc_sli4_handle_received_buffer" 9 "lpfc_sli4_handle_received_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_handle_received_buffer \- Handle received buffers from firmware
+.SH SYNOPSIS
+.B "void" lpfc_sli4_handle_received_buffer
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct hbq_dmabuf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "dmabuf" 12
+Pointer to a dmabuf that describes the FC sequence.
+.SH "DESCRIPTION"
+This function is called with no lock held. This function processes all
+the received buffers and gives it to upper layers when a received buffer
+indicates that it is the final frame in the sequence. The interrupt
+service routine processes received buffers at interrupt contexts.
+Worker thread calls lpfc_sli4_handle_received_buffer, which will call the
+appropriate receive function when the final frame in a sequence is received.

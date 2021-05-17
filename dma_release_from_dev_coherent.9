@@ -1,0 +1,21 @@
+.TH "dma_release_from_dev_coherent" 9 "dma_release_from_dev_coherent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_release_from_dev_coherent \- free memory to device coherent memory pool
+.SH SYNOPSIS
+.B "int" dma_release_from_dev_coherent
+.BI "(struct device *dev "  ","
+.BI "int order "  ","
+.BI "void *vaddr "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device from which the memory was allocated
+.IP "order" 12
+the order of pages allocated
+.IP "vaddr" 12
+virtual address of allocated pages
+.SH "DESCRIPTION"
+This checks whether the memory was allocated from the per-device
+coherent memory pool and if so, releases that memory.
+
+Returns 1 if we correctly released the memory, or 0 if the caller should
+proceed with releasing memory from generic pools.

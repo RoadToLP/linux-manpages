@@ -1,0 +1,22 @@
+.TH "isst_if_cdev_register" 9 "isst_if_cdev_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isst_if_cdev_register \- Register callback for IOCTL
+.SH SYNOPSIS
+.B "int" isst_if_cdev_register
+.BI "(int device_type "  ","
+.BI "struct isst_if_cmd_cb *cb "  ");"
+.SH ARGUMENTS
+.IP "device_type" 12
+The device type this callback handling.
+.IP "cb" 12
+Callback structure.
+.SH "DESCRIPTION"
+This function registers a callback to device type. On very first call
+it will register a misc device, which is used for user kernel interface.
+Other calls simply increment ref count. Registry will fail, if the user
+already opened misc device for operation. Also if the misc device
+creation failed, then it will not try again and all callers will get
+failure code.
+.SH "RETURN"
+Return the return value from the misc creation device or -EINVAL
+for unsupported device type.

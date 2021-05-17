@@ -1,0 +1,25 @@
+.TH "throtl_schedule_next_dispatch" 9 "throtl_schedule_next_dispatch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throtl_schedule_next_dispatch \- schedule the next dispatch cycle
+.SH SYNOPSIS
+.B "bool" throtl_schedule_next_dispatch
+.BI "(struct throtl_service_queue *sq "  ","
+.BI "bool force "  ");"
+.SH ARGUMENTS
+.IP "sq" 12
+the service_queue to schedule dispatch for
+.IP "force" 12
+force scheduling
+.SH "DESCRIPTION"
+Arm \fIsq->pending_timer\fP so that the next dispatch cycle starts on the
+dispatch time of the first pending child.  Returns true if either timer
+is armed or there's no pending child left.  false if the current
+dispatch window is still open and the caller should continue
+dispatching.
+
+If \fIforce\fP is true, the dispatch timer is always scheduled and this
+function is guaranteed to return true.  This is to be used when the
+caller can't dispatch itself and needs to invoke pending_timer
+unconditionally.  Note that forced scheduling is likely to induce short
+delay before dispatch starts even if \fIsq->first_pending_disptime\fP is not
+in the future and thus shouldn't be used in hot paths.

@@ -1,0 +1,36 @@
+.TH "devm_request_threaded_irq" 9 "devm_request_threaded_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_request_threaded_irq \- allocate an interrupt line for a managed device
+.SH SYNOPSIS
+.B "int" devm_request_threaded_irq
+.BI "(struct device *dev "  ","
+.BI "unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "irq_handler_t thread_fn "  ","
+.BI "unsigned long irqflags "  ","
+.BI "const char *devname "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to request interrupt for
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs
+.IP "thread_fn" 12
+function to be called in a threaded interrupt context. NULL
+for devices which handle everything in \fIhandler\fP
+.IP "irqflags" 12
+Interrupt type flags
+.IP "devname" 12
+An ascii name for the claiming device, dev_name(dev) if NULL
+.IP "dev_id" 12
+A cookie passed back to the handler function
+
+Except for the extra \fIdev\fP argument, this function takes the
+same arguments and performs the same function as
+\fBrequest_threaded_irq\fP.  IRQs requested with this function will be
+automatically freed on driver detach.
+
+If an IRQ allocated with this function needs to be freed
+separately, \fBdevm_free_irq\fP must be used.

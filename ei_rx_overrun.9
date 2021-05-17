@@ -1,0 +1,17 @@
+.TH "ei_rx_overrun" 9 "ei_rx_overrun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ei_rx_overrun \- handle receiver overrun
+.SH SYNOPSIS
+.B "void" ei_rx_overrun
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network device which threw exception
+.SH "DESCRIPTION"
+We have a receiver overrun: we have to kick the 8390 to get it started
+again. Problem is that you have to kick it exactly as NS prescribes in
+the updated datasheets, or "the NIC may act in an unpredictable manner."
+This includes causing "the NIC to defer indefinitely when it is stopped
+on a busy network."  Ugh.
+Called with lock held. Don't call this with the interrupts off or your
+computer will hate you - it takes 10ms or so.

@@ -1,0 +1,42 @@
+.TH "pidfd_show_fdinfo" 9 "pidfd_show_fdinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pidfd_show_fdinfo \- print information about a pidfd
+.SH SYNOPSIS
+.B "void" pidfd_show_fdinfo
+.BI "(struct seq_file *m "  ","
+.BI "struct file *f "  ");"
+.SH ARGUMENTS
+.IP "m" 12
+proc fdinfo file
+.IP "f" 12
+file referencing a pidfd
+.SH "DESCRIPTION"
+Pid:
+This function will print the pid that a given pidfd refers to in the
+pid namespace of the procfs instance.
+If the pid namespace of the process is not a descendant of the pid
+namespace of the procfs instance 0 will be shown as its pid. This is
+similar to calling \fBgetppid\fP on a process whose parent is outside of
+its pid namespace.
+
+NSpid:
+If pid namespaces are supported then this function will also print
+the pid of a given pidfd refers to for all descendant pid namespaces
+starting from the current pid namespace of the instance, i.e. the
+Pid field and the first entry in the NSpid field will be identical.
+If the pid namespace of the process is not a descendant of the pid
+namespace of the procfs instance 0 will be shown as its first NSpid
+entry and no others will be shown.
+Note that this differs from the Pid and NSpid fields in
+/proc/<pid>/status where Pid and NSpid are always shown relative to
+the  pid namespace of the procfs instance. The difference becomes
+obvious when sending around a pidfd between pid namespaces from a
+different branch of the tree, i.e. where no ancestoral relation is
+present between the pid namespaces:
+- create two new pid namespaces ns1 and ns2 in the initial pid
+namespace (also take care to create new mount namespaces in the
+new pid namespace and mount procfs)
+- create a process with a pidfd in ns1
+- send pidfd from ns1 to ns2
+- read /proc/self/fdinfo/<pidfd> and observe that both Pid and NSpid
+have exactly one entry, which is 0

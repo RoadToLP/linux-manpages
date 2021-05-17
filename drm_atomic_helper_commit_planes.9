@@ -1,0 +1,50 @@
+.TH "drm_atomic_helper_commit_planes" 9 "drm_atomic_helper_commit_planes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_commit_planes \- commit plane state
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_commit_planes
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *old_state "  ","
+.BI "uint32_t flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "old_state" 12
+atomic state object with old state structures
+.IP "flags" 12
+flags for committing plane state
+.SH "DESCRIPTION"
+This function commits the new plane state using the plane and atomic helper
+functions for planes and CRTCs. It assumes that the atomic state has already
+been pushed into the relevant object state pointers, since this step can no
+longer fail.
+
+It still requires the global state object \fIold_state\fP to know which planes and
+crtcs need to be updated though.
+
+Note that this function does all plane updates across all CRTCs in one step.
+If the hardware can't support this approach look at
+\fBdrm_atomic_helper_commit_planes_on_crtc\fP instead.
+
+Plane parameters can be updated by applications while the associated CRTC is
+disabled. The DRM/KMS core will store the parameters in the plane state,
+which will be available to the driver when the CRTC is turned on. As a result
+most drivers don't need to be immediately notified of plane updates for a
+disabled CRTC.
+
+Unless otherwise needed, drivers are advised to set the ACTIVE_ONLY flag in
+\fIflags\fP in order not to receive plane update notifications related to a
+disabled CRTC. This avoids the need to manually ignore plane updates in
+driver code when the driver and/or hardware can't or just don't need to deal
+with updates on disabled CRTCs, for example when supporting runtime PM.
+
+Drivers may set the NO_DISABLE_AFTER_MODESET flag in \fIflags\fP if the relevant
+display controllers require to disable a CRTC's planes when the CRTC is
+disabled. This function would skip the \fIdrm_plane_helper_funcs.atomic_disable\fP
+call for a plane if the CRTC of the old plane state needs a modesetting
+operation. Of course, the drivers need to disable the planes in their CRTC
+disable callbacks since no one else would do that.
+
+The \fBdrm_atomic_helper_commit\fP default implementation doesn't set the
+ACTIVE_ONLY flag to most closely match the behaviour of the legacy helpers.
+This should not be copied blindly by drivers.

@@ -1,0 +1,16 @@
+.TH "usb_kill_anchored_urbs" 9 "usb_kill_anchored_urbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_kill_anchored_urbs \- kill all URBs associated with an anchor
+.SH SYNOPSIS
+.B "void" usb_kill_anchored_urbs
+.BI "(struct usb_anchor *anchor "  ");"
+.SH ARGUMENTS
+.IP "anchor" 12
+anchor the requests are bound to
+.SH "DESCRIPTION"
+This kills all outstanding URBs starting from the back of the queue,
+with guarantee that no completer callbacks will take place from the
+anchor after this function returns.
+
+This routine should not be called by a driver after its disconnect
+method has returned.

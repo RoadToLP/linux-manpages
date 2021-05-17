@@ -1,0 +1,23 @@
+.TH "__label_insert" 9 "__label_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__label_insert \- attempt to insert @l into a label set
+.SH SYNOPSIS
+.B "struct aa_label *" __label_insert
+.BI "(struct aa_labelset *ls "  ","
+.BI "struct aa_label *label "  ","
+.BI "bool replace "  ");"
+.SH ARGUMENTS
+.IP "ls" 12
+set of labels to insert \fIl\fP into (NOT NULL)
+.IP "label" 12
+new label to insert (NOT NULL)
+.IP "replace" 12
+whether insertion should replace existing entry that is not stale
+.SH "DESCRIPTION"
+Requires: \fIls->lock\fP
+caller to hold a valid ref on l
+if \fIreplace\fP is true l has a preallocated proxy associated
+.SH "RETURN"
+\fIl\fP if successful in inserting \fIl\fP - with additional refcount
+else ref counted equivalent label that is already in the set,
+the else condition only happens if \fIreplace\fP is false

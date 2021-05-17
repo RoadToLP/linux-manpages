@@ -1,0 +1,16 @@
+.TH "ipa_setup" 9 "ipa_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_setup \- Set up IPA hardware
+.SH SYNOPSIS
+.B "int" ipa_setup
+.BI "(struct ipa *ipa "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.SH "DESCRIPTION"
+Perform initialization that requires issuing immediate commands on
+the command TX endpoint.  If the modem is doing GSI firmware load
+and initialization, this function will be called when an SMP2P
+interrupt has been signaled by the modem.  Otherwise it will be
+called from \fBipa_probe\fP after GSI firmware has been successfully
+loaded, authenticated, and started by Trust Zone.

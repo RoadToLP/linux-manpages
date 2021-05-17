@@ -1,0 +1,17 @@
+.TH "emac_dev_tx_timeout" 9 "emac_dev_tx_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+emac_dev_tx_timeout \- EMAC Transmit timeout function
+.SH SYNOPSIS
+.B "void" emac_dev_tx_timeout
+.BI "(struct net_device *ndev "  ","
+.BI "unsigned int txqueue "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+The DaVinci EMAC network adapter
+.IP "txqueue" 12
+the index of the hung transmit queue
+.SH "DESCRIPTION"
+Called when system detects that a skb timeout period has expired
+potentially due to a fault in the adapter in not being able to send
+it out on the wire. We teardown the TX channel assuming a hardware
+error and re-initialize the TX channel for hardware operation

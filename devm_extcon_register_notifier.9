@@ -1,0 +1,28 @@
+.TH "devm_extcon_register_notifier" 9 "devm_extcon_register_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_extcon_register_notifier \- Resource-managed extcon_register_notifier()
+.SH SYNOPSIS
+.B "int" devm_extcon_register_notifier
+.BI "(struct device *dev "  ","
+.BI "struct extcon_dev *edev "  ","
+.BI "unsigned int id "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device owning the extcon device being created
+.IP "edev" 12
+the extcon device
+.IP "id" 12
+the unique id among the extcon enumeration
+.IP "nb" 12
+a notifier block to be registered
+.SH "DESCRIPTION"
+This function manages automatically the notifier of extcon device using
+device resource management and simplify the control of unregistering
+the notifier of extcon device.
+
+Note that the second parameter given to the callback of nb (val) is
+"old_state", not the current state. The current state can be retrieved
+by looking at the third pameter (edev pointer)'s state value.
+
+Returns 0 if success or negaive error number if failure.

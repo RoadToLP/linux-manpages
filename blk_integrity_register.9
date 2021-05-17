@@ -1,0 +1,18 @@
+.TH "blk_integrity_register" 9 "blk_integrity_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_integrity_register \- Register a gendisk as being integrity-capable
+.SH SYNOPSIS
+.B "void" blk_integrity_register
+.BI "(struct gendisk *disk "  ","
+.BI "struct blk_integrity *template "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+struct gendisk pointer to make integrity-aware
+.IP "template" 12
+block integrity profile to register
+.SH "DESCRIPTION"
+When a device needs to advertise itself as being able to
+send/receive integrity metadata it must use this function to register
+the capability with the block layer. The template is a blk_integrity
+struct with values appropriate for the underlying hardware. See
+Documentation/block/data-integrity.rst.

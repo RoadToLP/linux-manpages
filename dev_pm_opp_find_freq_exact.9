@@ -1,0 +1,32 @@
+.TH "dev_pm_opp_find_freq_exact" 9 "dev_pm_opp_find_freq_exact" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_find_freq_exact \- search for an exact frequency
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" dev_pm_opp_find_freq_exact
+.BI "(struct device *dev "  ","
+.BI "unsigned long freq "  ","
+.BI "bool available "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+frequency to search for
+.IP "available" 12
+true/false - match for available opp
+.SH "RETURN"
+Searches for exact match in the opp table and returns pointer to the
+matching opp if found, else returns ERR_PTR in case of error and should
+be handled using IS_ERR. Error return values can be:
+EINVAL:      for bad pointer
+ERANGE:      no match found for search
+ENODEV:      if device not found in list of registered devices
+.SH "NOTE"
+available is a modifier for the search. if available=true, then the
+match is for exact matching frequency and is available in the stored OPP
+table. if false, the match is for exact frequency which is not available.
+.SH "DESCRIPTION"
+This provides a mechanism to enable an opp which is not available currently
+or the opposite as well.
+
+The callers are required to call \fBdev_pm_opp_put\fP for the returned OPP after
+use.

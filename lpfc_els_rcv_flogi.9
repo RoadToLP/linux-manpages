@@ -1,0 +1,34 @@
+.TH "lpfc_els_rcv_flogi" 9 "lpfc_els_rcv_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_flogi \- Process an unsolicited flogi iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_flogi
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Fabric Login (FLOGI) IOCB received as an ELS
+unsolicited event. An unsolicited FLOGI can be received in a point-to-
+point topology. As an unsolicited FLOGI should not be received in a loop
+mode, any unsolicited FLOGI received in loop mode shall be ignored. The
+\fBlpfc_check_sparm\fP routine is invoked to check the parameters in the
+unsolicited FLOGI. If parameters validation failed, the routine
+\fBlpfc_els_rsp_reject\fP shall be called with reject reason code set to
+LSEXP_SPARM_OPTIONS to reject the FLOGI. Otherwise, the Port WWN in the
+FLOGI shall be compared with the Port WWN of the \fIvport\fP to determine who
+will initiate PLOGI. The higher lexicographical value party shall has
+higher priority (as the winning port) and will initiate PLOGI and
+communicate Port_IDs (Addresses) for both nodes in PLOGI. The result
+of this will be marked in the \fIvport\fP fc_flag field with FC_PT2PT_PLOGI
+and then the \fBlpfc_els_rsp_acc\fP routine is invoked to accept the FLOGI.
+
+Return code
+0 - Successfully processed the unsolicited flogi
+1 - Failed to process the unsolicited flogi

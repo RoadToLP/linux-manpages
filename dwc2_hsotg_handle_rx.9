@@ -1,0 +1,21 @@
+.TH "dwc2_hsotg_handle_rx" 9 "dwc2_hsotg_handle_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_handle_rx \- RX FIFO has data
+.SH SYNOPSIS
+.B "void" dwc2_hsotg_handle_rx
+.BI "(struct dwc2_hsotg *hsotg "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The device instance
+.SH "DESCRIPTION"
+The IRQ handler has detected that the RX FIFO has some data in it
+that requires processing, so find out what is in there and do the
+appropriate read.
+
+The RXFIFO is a true FIFO, the packets coming out are still in packet
+chunks, so if you have x packets received on an endpoint you'll get x
+FIFO events delivered, each with a packet's worth of data in it.
+
+When using DMA, we should not be processing events from the RXFIFO
+as the actual data should be sent to the memory directly and we turn
+on the completion interrupts to get notifications of transfer completion.

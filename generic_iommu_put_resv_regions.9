@@ -1,0 +1,17 @@
+.TH "generic_iommu_put_resv_regions" 9 "generic_iommu_put_resv_regions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_iommu_put_resv_regions \- Reserved region driver helper
+.SH SYNOPSIS
+.B "void" generic_iommu_put_resv_regions
+.BI "(struct device *dev "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which to free reserved regions
+.IP "list" 12
+reserved region list for device
+.SH "DESCRIPTION"
+IOMMU drivers can use this to implement their .\fBput_resv_regions\fP callback
+for simple reservations. Memory allocated for each reserved region will be
+freed. If an IOMMU driver allocates additional resources per region, it is
+going to have to implement a custom callback.

@@ -1,0 +1,19 @@
+.TH "tomoyo_realpath_from_path" 9 "tomoyo_realpath_from_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_realpath_from_path \- Returns realpath(3) of the given pathname but ignores chroot'ed root.
+.SH SYNOPSIS
+.B "char *" tomoyo_realpath_from_path
+.BI "(const struct path *path "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Pointer to "struct path".
+.SH "DESCRIPTION"
+Returns the realpath of the given \fIpath\fP on success, NULL otherwise.
+
+If dentry is a directory, trailing '/' is appended.
+Characters out of 0x20 < c < 0x7F range are converted to
+\ooo style octal string.
+Character \ is converted to \\ string.
+
+These functions use \fBkzalloc\fP, so the caller must call \fBkfree\fP
+if these functions didn't return NULL.

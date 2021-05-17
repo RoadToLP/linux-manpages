@@ -1,0 +1,23 @@
+.TH "macio_request_resource" 9 "macio_request_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+macio_request_resource \- Request an MMIO resource
+.SH SYNOPSIS
+.B "int" macio_request_resource
+.BI "(struct macio_dev *dev "  ","
+.BI "int resource_no "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the device holding the resource
+.IP "resource_no" 12
+resource number to request
+.IP "name" 12
+resource name
+
+Mark  memory region number \fIresource_no\fP associated with MacIO
+device \fIdev\fP as being reserved by owner \fIname\fP.  Do not access
+any address inside the memory regions unless this call returns
+successfully.
+
+Returns 0 on success, or EBUSY on error.  A warning
+message is also printed on failure.

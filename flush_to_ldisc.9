@@ -1,0 +1,17 @@
+.TH "flush_to_ldisc" 9 "flush_to_ldisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+flush_to_ldisc \- 
+.SH SYNOPSIS
+.B "void" flush_to_ldisc
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+tty structure passed from work queue.
+
+This routine is called out of the software interrupt to flush data
+from the buffer chain to the line discipline.
+
+The receive_buf method is single threaded for each tty instance.
+
+Locking: takes buffer lock to ensure single-threaded flip buffer
+'consumer'

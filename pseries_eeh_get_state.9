@@ -1,0 +1,20 @@
+.TH "pseries_eeh_get_state" 9 "pseries_eeh_get_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseries_eeh_get_state \- Retrieve PE state
+.SH SYNOPSIS
+.B "int" pseries_eeh_get_state
+.BI "(struct eeh_pe *pe "  ","
+.BI "int *delay "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+EEH PE
+.IP "delay" 12
+suggested time to wait if state is unavailable
+.SH "DESCRIPTION"
+Retrieve the state of the specified PE. On RTAS compliant
+pseries platform, there already has one dedicated RTAS function
+for the purpose. It's notable that the associated PE config address
+might be ready when calling the function. Therefore, endeavour to
+use the PE config address if possible. Further more, there're 2
+RTAS calls for the purpose, we need to try the new one and back
+to the old one if the new one couldn't work properly.

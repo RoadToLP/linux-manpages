@@ -1,0 +1,44 @@
+.TH "write_leb" 9 "write_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_leb \- write update data.
+.SH SYNOPSIS
+.B "int" write_leb
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "int lnum "  ","
+.BI "void *buf "  ","
+.BI "int len "  ","
+.BI "int used_ebs "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+data to write
+.IP "len" 12
+data size
+.IP "used_ebs" 12
+how many logical eraseblocks will this volume contain (static
+volumes only)
+.SH "DESCRIPTION"
+This function writes update data to corresponding logical eraseblock. In
+case of dynamic volume, this function checks if the data contains 0xFF bytes
+at the end. If yes, the 0xFF bytes are cut and not written. So if the whole
+buffer contains only 0xFF bytes, the LEB is left unmapped.
+
+The reason why we skip the trailing 0xFF bytes in case of dynamic volume is
+that we want to make sure that more data may be appended to the logical
+eraseblock in future. Indeed, writing 0xFF bytes may have side effects and
+this PEB won't be writable anymore. So if one writes the file-system image
+to the UBI volume where 0xFFs mean free space - UBI makes sure this free
+space is writable after the update.
+
+We do not do this for static volumes because they are read-only. But this
+also cannot be done because we have to store per-LEB CRC and the correct
+data length.
+
+This function returns zero in case of success and a negative error code in
+case of failure.

@@ -1,0 +1,21 @@
+.TH "dev_pm_genpd_add_notifier" 9 "dev_pm_genpd_add_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_genpd_add_notifier \- Add a genpd power on/off notifier for @dev
+.SH SYNOPSIS
+.B "int" dev_pm_genpd_add_notifier
+.BI "(struct device *dev "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device that should be associated with the notifier
+.IP "nb" 12
+The notifier block to register
+.SH "DESCRIPTION"
+Users may call this function to add a genpd power on/off notifier for an
+attached \fIdev\fP. Only one notifier per device is allowed. The notifier is
+sent when genpd is powering on/off the PM domain.
+
+It is assumed that the user guarantee that the genpd wouldn't be detached
+while this routine is getting called.
+
+Returns 0 on success and negative error values on failures.

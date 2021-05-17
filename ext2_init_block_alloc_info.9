@@ -1,0 +1,26 @@
+.TH "ext2_init_block_alloc_info" 9 "ext2_init_block_alloc_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_init_block_alloc_info \- 
+.SH SYNOPSIS
+.B "void" ext2_init_block_alloc_info
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+file inode structure
+.SH "DESCRIPTION"
+Allocate and initialize the  reservation window structure, and
+link the window to the ext2 inode structure at last
+
+The reservation window structure is only dynamically allocated
+and linked to ext2 inode the first time the open file
+needs a new block. So, before every ext2_new_block(s) call, for
+regular files, we should check whether the reservation window
+structure exists or not. In the latter case, this function is called.
+Fail to do so will result in block reservation being turned off for that
+open file.
+
+This function is called from \fBext2_get_blocks_handle\fP, also called
+when setting the reservation window size through ioctl before the file
+is open for write (needs block allocation).
+
+Needs truncate_mutex protection prior to calling this function.

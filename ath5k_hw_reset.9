@@ -1,0 +1,28 @@
+.TH "ath5k_hw_reset" 9 "ath5k_hw_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_reset \- The main reset function
+.SH SYNOPSIS
+.B "int" ath5k_hw_reset
+.BI "(struct ath5k_hw *ah "  ","
+.BI "enum nl80211_iftype op_mode "  ","
+.BI "struct ieee80211_channel *channel "  ","
+.BI "bool fast "  ","
+.BI "bool skip_pcu "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "op_mode" 12
+One of enum nl80211_iftype
+.IP "channel" 12
+The \fIstruct ieee80211_channel\fP
+.IP "fast" 12
+Enable fast channel switching
+.IP "skip_pcu" 12
+Skip pcu initialization
+.SH "DESCRIPTION"
+This is the function we call each time we want to (re)initialize the
+card and pass new settings to hw. We also call it when hw runs into
+trouble to make it come back to a working state.
+
+Returns 0 on success, -EINVAL on false op_mode or channel infos, or -EIO
+on failure.

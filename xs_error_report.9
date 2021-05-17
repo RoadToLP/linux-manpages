@@ -1,0 +1,12 @@
+.TH "xs_error_report" 9 "xs_error_report" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xs_error_report \- callback to handle TCP socket state errors
+.SH SYNOPSIS
+.B "void" xs_error_report
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.SH "NOTE"
+we don't call \fBsock_error\fP since there may be a rpc_task
+using the socket, and so we don't want to clear sk->sk_err.

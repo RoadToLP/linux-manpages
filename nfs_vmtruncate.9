@@ -1,0 +1,18 @@
+.TH "nfs_vmtruncate" 9 "nfs_vmtruncate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_vmtruncate \- unmap mappings "freed" by truncate() syscall
+.SH SYNOPSIS
+.B "int" nfs_vmtruncate
+.BI "(struct inode * inode "  ","
+.BI "loff_t offset "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the file used
+.IP "offset" 12
+file offset to start truncating
+.SH "DESCRIPTION"
+This is a copy of the common vmtruncate, but with the locking
+corrected to take into account the fact that NFS requires
+inode->i_size to be updated under the inode->i_lock.
+.SH "NOTE"
+must be called with inode->i_lock held!

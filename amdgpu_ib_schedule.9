@@ -1,0 +1,34 @@
+.TH "amdgpu_ib_schedule" 9 "amdgpu_ib_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_ib_schedule \- schedule an IB (Indirect Buffer) on the ring
+.SH SYNOPSIS
+.B "int" amdgpu_ib_schedule
+.BI "(struct amdgpu_ring *ring "  ","
+.BI "unsigned num_ibs "  ","
+.BI "struct amdgpu_ib *ibs "  ","
+.BI "struct amdgpu_job *job "  ","
+.BI "struct dma_fence **f "  ");"
+.SH ARGUMENTS
+.IP "ring" 12
+ring index the IB is associated with
+.IP "num_ibs" 12
+number of IBs to schedule
+.IP "ibs" 12
+IB objects to schedule
+.IP "job" 12
+job to schedule
+.IP "f" 12
+fence created during this submission
+.SH "DESCRIPTION"
+Schedule an IB on the associated ring (all asics).
+Returns 0 on success, error on failure.
+
+On SI, there are two parallel engines fed from the primary ring,
+the CE (Constant Engine) and the DE (Drawing Engine).  Since
+resource descriptors have moved to memory, the CE allows you to
+prime the caches while the DE is updating register state so that
+the resource descriptors will be already in cache when the draw is
+processed.  To accomplish this, the userspace driver submits two
+IBs, one for the CE and one for the DE.  If there is a CE IB (called
+a CONST_IB), it will be put on the ring prior to the DE IB.  Prior
+to SI there was just a DE IB.

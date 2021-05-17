@@ -1,0 +1,32 @@
+.TH "cpufreq_driver_adjust_perf" 9 "cpufreq_driver_adjust_perf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_driver_adjust_perf \- Adjust CPU performance level in one go.
+.SH SYNOPSIS
+.B "void" cpufreq_driver_adjust_perf
+.BI "(unsigned int cpu "  ","
+.BI "unsigned long min_perf "  ","
+.BI "unsigned long target_perf "  ","
+.BI "unsigned long capacity "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+Target CPU.
+.IP "min_perf" 12
+Minimum (required) performance level (units of \fIcapacity\fP).
+.IP "target_perf" 12
+Target (desired) performance level (units of \fIcapacity\fP).
+.IP "capacity" 12
+Capacity of the target CPU.
+.SH "DESCRIPTION"
+Carry out a fast performance level switch of \fIcpu\fP without sleeping.
+
+The driver's ->\fBadjust_perf\fP callback invoked by this function must be
+suitable for being called from within RCU-sched read-side critical sections
+and it is expected to select a suitable performance level equal to or above
+\fImin_perf\fP and preferably equal to or below \fItarget_perf\fP.
+
+This function must not be called if policy->fast_switch_enabled is unset.
+
+Governors calling this function must guarantee that it will never be invoked
+twice in parallel for the same CPU and that it will never be called in
+parallel with either ->\fBtarget\fP or ->\fBtarget_index\fP or ->\fBfast_switch\fP for
+the same CPU.

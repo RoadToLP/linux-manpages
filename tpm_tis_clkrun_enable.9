@@ -1,0 +1,15 @@
+.TH "tpm_tis_clkrun_enable" 9 "tpm_tis_clkrun_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_tis_clkrun_enable \- Keep clkrun protocol disabled for entire duration of a single TPM command
+.SH SYNOPSIS
+.B "void" tpm_tis_clkrun_enable
+.BI "(struct tpm_chip *chip "  ","
+.BI "bool value "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+TPM chip to use
+.IP "value" 12
+1 - Disable CLKRUN protocol, so that clocks are free running
+0 - Enable CLKRUN protocol
+Call this function directly in \fBtpm_tis_remove\fP in error or driver removal
+path, since the chip->ops is set to NULL in \fBtpm_chip_unregister\fP.

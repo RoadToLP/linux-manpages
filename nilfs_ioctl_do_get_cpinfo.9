@@ -1,0 +1,30 @@
+.TH "nilfs_ioctl_do_get_cpinfo" 9 "nilfs_ioctl_do_get_cpinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_do_get_cpinfo \- callback method getting info about checkpoints
+.SH SYNOPSIS
+.B "ssize_t" nilfs_ioctl_do_get_cpinfo
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "__u64 *posp "  ","
+.BI "int flags "  ","
+.BI "void *buf "  ","
+.BI "size_t size "  ","
+.BI "size_t nmembs "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "posp" 12
+pointer on array of checkpoint's numbers
+.IP "flags" 12
+checkpoint mode (checkpoint or snapshot)
+.IP "buf" 12
+buffer for storing checkponts' info
+.IP "size" 12
+size in bytes of one checkpoint info item in array
+.IP "nmembs" 12
+number of checkpoints in array (numbers and infos)
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_do_get_cpinfo\fP function returns info about
+requested checkpoints. The NILFS_IOCTL_GET_CPINFO ioctl is used in
+lscp utility and by nilfs_cleanerd daemon.
+
+Return value: count of nilfs_cpinfo structures in output buffer.

@@ -1,0 +1,27 @@
+.TH "bio_add_zone_append_page" 9 "bio_add_zone_append_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_add_zone_append_page \- attempt to add page to zone-append bio
+.SH SYNOPSIS
+.B "int" bio_add_zone_append_page
+.BI "(struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offset "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+destination bio
+.IP "page" 12
+page to add
+.IP "len" 12
+vec entry length
+.IP "offset" 12
+vec entry offset
+.SH "DESCRIPTION"
+Attempt to add a page to the bio_vec maplist of a bio that will be submitted
+for a zone-append request. This can fail for a number of reasons, such as the
+bio being full or the target block device is not a zoned block device or
+other limitations of the target block device. The target block device must
+allow bio's up to PAGE_SIZE, so it is always possible to add a single page
+to an empty bio.
+.SH "RETURN"
+number of bytes added to the bio, or 0 in case of a failure.

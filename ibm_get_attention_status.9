@@ -1,0 +1,19 @@
+.TH "ibm_get_attention_status" 9 "ibm_get_attention_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibm_get_attention_status \- callback method to get attention LED status
+.SH SYNOPSIS
+.B "int" ibm_get_attention_status
+.BI "(struct hotplug_slot *slot "  ","
+.BI "u8 *status "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+the hotplug_slot to work with
+.IP "status" 12
+returns what the LED is set to (0 or 1)
+.SH "DESCRIPTION"
+This method is registered with the acpiphp module as a
+callback to do the device specific task of getting the LED status.
+
+Because there is no direct method of getting the LED status directly
+from an ACPI call, we read the aPCI table and parse out our
+slot descriptor to read the status from that.

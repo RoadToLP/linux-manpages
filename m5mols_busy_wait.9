@@ -1,0 +1,26 @@
+.TH "m5mols_busy_wait" 9 "m5mols_busy_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+m5mols_busy_wait \- Busy waiting with I2C register polling
+.SH SYNOPSIS
+.B "int" m5mols_busy_wait
+.BI "(struct v4l2_subdev *sd "  ","
+.BI "u32 reg "  ","
+.BI "u32 value "  ","
+.BI "u32 mask "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "sd" 12
+sub-device, as pointed by struct v4l2_subdev
+.IP "reg" 12
+the \fBI2C_REG\fP address of an 8-bit status register to check
+.IP "value" 12
+expected status register value
+.IP "mask" 12
+bit mask for the read status register value
+.IP "timeout" 12
+timeout in milliseconds, or -1 for default timeout
+.SH "DESCRIPTION"
+The \fIreg\fP register value is ORed with \fImask\fP before comparing with \fIvalue\fP.
+.SH "RETURN"
+0 if the requested condition became true within less than
+\fItimeout\fP ms, or else negative errno.

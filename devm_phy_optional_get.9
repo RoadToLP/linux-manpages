@@ -1,0 +1,20 @@
+.TH "devm_phy_optional_get" 9 "devm_phy_optional_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_phy_optional_get \- lookup and obtain a reference to an optional phy.
+.SH SYNOPSIS
+.B "struct phy *" devm_phy_optional_get
+.BI "(struct device *dev "  ","
+.BI "const char *string "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that requests this phy
+.IP "string" 12
+the phy name as given in the dt data or phy device name
+for non-dt case
+.SH "DESCRIPTION"
+Gets the phy using \fBphy_get\fP, and associates a device with it using
+devres. On driver detach, release function is invoked on the devres
+data, then, devres data is freed. This differs to \fBdevm_phy_get\fP in
+that if the phy does not exist, it is not considered an error and
+-ENODEV will not be returned. Instead the NULL phy is returned,
+which can be passed to all other phy consumer calls.

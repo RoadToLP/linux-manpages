@@ -1,0 +1,21 @@
+.TH "parse_protocol_change" 9 "parse_protocol_change" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_protocol_change \- parses a protocol change request
+.SH SYNOPSIS
+.B "int" parse_protocol_change
+.BI "(struct rc_dev *dev "  ","
+.BI "u64 *protocols "  ","
+.BI "const char *buf "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+rc_dev device
+.IP "protocols" 12
+pointer to the bitmask of current protocols
+.IP "buf" 12
+pointer to the buffer with a list of changes
+.SH "DESCRIPTION"
+Writing "+proto" will add a protocol to the protocol mask.
+Writing "-proto" will remove a protocol from protocol mask.
+Writing "proto" will enable only "proto".
+Writing "none" will disable all protocols.
+Returns the number of changes performed or a negative error code.

@@ -1,0 +1,16 @@
+.TH "ipv4_pktinfo_prepare" 9 "ipv4_pktinfo_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipv4_pktinfo_prepare \- transfer some info from rtable to skb
+.SH SYNOPSIS
+.B "void" ipv4_pktinfo_prepare
+.BI "(const struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.IP "skb" 12
+buffer
+.SH "DESCRIPTION"
+To support IP_CMSG_PKTINFO option, we store rt_iif and specific
+destination in skb->cb[] before dst drop.
+This way, receiver doesn't make cache line misses to read rtable.

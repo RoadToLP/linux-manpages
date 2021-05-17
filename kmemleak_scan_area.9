@@ -1,0 +1,20 @@
+.TH "kmemleak_scan_area" 9 "kmemleak_scan_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmemleak_scan_area \- limit the range to be scanned in an allocated object
+.SH SYNOPSIS
+.B "void __ref" kmemleak_scan_area
+.BI "(const void *ptr "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "ptr" 12
+pointer to beginning or inside the object. This also
+represents the start of the scan area
+.IP "size" 12
+size of the scan area
+.IP "gfp" 12
+\fBkmalloc\fP flags used for kmemleak internal memory allocations
+.SH "DESCRIPTION"
+This function is used when it is known that only certain parts of an object
+contain references to other objects. Kmemleak will only scan these areas
+reducing the number false negatives.

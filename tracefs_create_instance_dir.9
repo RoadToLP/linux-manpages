@@ -1,0 +1,28 @@
+.TH "tracefs_create_instance_dir" 9 "tracefs_create_instance_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracefs_create_instance_dir \- create the tracing instances directory
+.SH SYNOPSIS
+.B "struct dentry *" tracefs_create_instance_dir
+.BI "(const char *name "  ","
+.BI "struct dentry *parent "  ","
+.BI "int (*mkdir)(const char *name) "  ","
+.BI "int (*rmdir)(const char *name) "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the instances directory to create
+.IP "parent" 12
+The parent directory that the instances directory will exist
+.IP "mkdir" 12
+The function to call when a mkdir is performed.
+.IP "rmdir" 12
+The function to call when a rmdir is performed.
+.SH "DESCRIPTION"
+Only one instances directory is allowed.
+
+The instances directory is special as it allows for mkdir and rmdir to
+to be done by userspace. When a mkdir or rmdir is performed, the inode
+locks are released and the methhods passed in (\fImkdir\fP and \fIrmdir\fP) are
+called without locks and with the name of the directory being created
+within the instances directory.
+
+Returns the dentry of the instances directory.

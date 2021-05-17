@@ -1,0 +1,18 @@
+.TH "vmpressure_unregister_event" 9 "vmpressure_unregister_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmpressure_unregister_event \- Unbind eventfd from vmpressure
+.SH SYNOPSIS
+.B "void" vmpressure_unregister_event
+.BI "(struct mem_cgroup *memcg "  ","
+.BI "struct eventfd_ctx *eventfd "  ");"
+.SH ARGUMENTS
+.IP "memcg" 12
+memcg handle
+.IP "eventfd" 12
+eventfd context that was used to link vmpressure with the \fIcg\fP
+.SH "DESCRIPTION"
+This function does internal manipulations to detach the \fIeventfd\fP from
+the vmpressure notifications, and then frees internal resources
+associated with the \fIeventfd\fP (but the \fIeventfd\fP itself is not freed).
+
+To be used as memcg event method.

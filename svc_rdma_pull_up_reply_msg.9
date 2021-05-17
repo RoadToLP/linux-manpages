@@ -1,0 +1,27 @@
+.TH "svc_rdma_pull_up_reply_msg" 9 "svc_rdma_pull_up_reply_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_pull_up_reply_msg \- Copy Reply into a single buffer
+.SH SYNOPSIS
+.B "int" svc_rdma_pull_up_reply_msg
+.BI "(const struct svcxprt_rdma *rdma "  ","
+.BI "struct svc_rdma_send_ctxt *sctxt "  ","
+.BI "const struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "const struct xdr_buf *xdr "  ");"
+.SH ARGUMENTS
+.IP "rdma" 12
+controlling transport
+.IP "sctxt" 12
+send_ctxt for the Send WR; xprt hdr is already prepared
+.IP "rctxt" 12
+Write and Reply chunks provided by client
+.IP "xdr" 12
+prepared xdr_buf containing RPC message
+.SH "DESCRIPTION"
+The device is not capable of sending the reply directly.
+Assemble the elements of \fIxdr\fP into the transport header buffer.
+
+Assumptions:
+pull_up_needed has determined that \fIxdr\fP will fit in the buffer.
+.SH "RETURN"
+0 if pull-up was successful
+-EMSGSIZE if a buffer manipulation problem occurred

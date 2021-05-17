@@ -1,0 +1,19 @@
+.TH "radix_tree_lookup" 9 "radix_tree_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_lookup \- perform lookup operation on a radix tree
+.SH SYNOPSIS
+.B "void *" radix_tree_lookup
+.BI "(const struct radix_tree_root *root "  ","
+.BI "unsigned long index "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "index" 12
+index key
+
+Lookup the item at the position \fIindex\fP in the radix tree \fIroot\fP.
+
+This function can be called under rcu_read_lock, however the caller
+must manage lifetimes of leaf nodes (eg. RCU may also be used to free
+them safely). No RCU barriers are required to access or modify the
+returned item, however.

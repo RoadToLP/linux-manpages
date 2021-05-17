@@ -1,0 +1,19 @@
+.TH "dev_set_allmulti" 9 "dev_set_allmulti" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_set_allmulti \- update allmulti count on a device
+.SH SYNOPSIS
+.B "int" dev_set_allmulti
+.BI "(struct net_device *dev "  ","
+.BI "int inc "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "inc" 12
+modifier
+
+Add or remove reception of all multicast frames to a device. While the
+count in the device remains above zero the interface remains listening
+to all interfaces. Once it hits zero the device reverts back to normal
+filtering operation. A negative \fIinc\fP value is used to drop the counter
+when releasing a resource needing all multicasts.
+Return 0 if successful or a negative errno code on error.

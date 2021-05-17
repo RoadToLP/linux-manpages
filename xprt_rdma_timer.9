@@ -1,0 +1,20 @@
+.TH "xprt_rdma_timer" 9 "xprt_rdma_timer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_rdma_timer \- invoked when an RPC times out
+.SH SYNOPSIS
+.B "void" xprt_rdma_timer
+.BI "(struct rpc_xprt *xprt "  ","
+.BI "struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+controlling RPC transport
+.IP "task" 12
+RPC task that timed out
+.SH "DESCRIPTION"
+Invoked when the transport is still connected, but an RPC
+retransmit timeout occurs.
+
+Since RDMA connections don't have a keep-alive, forcibly
+disconnect and retry to connect. This drives full
+detection of the network path, and retransmissions of
+all pending RPCs.

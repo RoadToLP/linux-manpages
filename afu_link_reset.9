@@ -1,0 +1,22 @@
+.TH "afu_link_reset" 9 "afu_link_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+afu_link_reset \- resets the specified host FC port
+.SH SYNOPSIS
+.B "void" afu_link_reset
+.BI "(struct afu *afu "  ","
+.BI "int port "  ","
+.BI "__be64 __iomem *fc_regs "  ");"
+.SH ARGUMENTS
+.IP "afu" 12
+AFU associated with the host that owns the specified FC port.
+.IP "port" 12
+Port number being configured.
+.IP "fc_regs" 12
+Top of MMIO region defined for specified port.
+.SH "DESCRIPTION"
+The provided MMIO region must be mapped prior to call. The sequence to
+reset the port involves toggling it offline and then back online. This
+action can cause this routine to delay up to a few seconds. An effort
+is made to maintain link with the device by switching to host to use
+the alternate port exclusively while the reset takes place.
+failure to come online is overridden.

@@ -1,0 +1,23 @@
+.TH "intel_dp_stop_link_train" 9 "intel_dp_stop_link_train" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_dp_stop_link_train \- stop link training
+.SH SYNOPSIS
+.B "void" intel_dp_stop_link_train
+.BI "(struct intel_dp *intel_dp "  ","
+.BI "const struct intel_crtc_state *crtc_state "  ");"
+.SH ARGUMENTS
+.IP "intel_dp" 12
+DP struct
+.IP "crtc_state" 12
+state for CRTC attached to the encoder
+.SH "DESCRIPTION"
+Stop the link training of the \fIintel_dp\fP port, disabling the training
+pattern in the sink's DPCD, and disabling the test pattern symbol
+generation on the port.
+
+What symbols are output on the port after this point is
+platform specific: On DDI/VLV/CHV platforms it will be the idle pattern
+with the pipe being disabled, on older platforms it's HW specific if/how an
+idle pattern is generated, as the pipe is already enabled here for those.
+
+This function must be called after \fBintel_dp_start_link_train\fP.

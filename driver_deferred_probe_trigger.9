@@ -1,0 +1,25 @@
+.TH "driver_deferred_probe_trigger" 9 "driver_deferred_probe_trigger" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+driver_deferred_probe_trigger \- Kick off re-probing deferred devices
+.SH SYNOPSIS
+.B "void" driver_deferred_probe_trigger
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This functions moves all devices from the pending list to the active
+list and schedules the deferred probe workqueue to process them.  It
+should be called anytime a driver is successfully bound to a device.
+
+Note, there is a race condition in multi-threaded probe. In the case where
+more than one device is probing at the same time, it is possible for one
+probe to complete successfully while another is about to defer. If the second
+depends on the first, then it will get put on the pending list after the
+trigger event has already occurred and will be stuck there.
+
+The atomic 'deferred_trigger_count' is used to determine if a successful
+trigger has occurred in the midst of probing a driver. If the trigger count
+changes in the midst of a probe, then deferred processing should be triggered
+again.

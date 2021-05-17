@@ -1,0 +1,19 @@
+.TH "drm_atomic_set_mode_prop_for_crtc" 9 "drm_atomic_set_mode_prop_for_crtc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_set_mode_prop_for_crtc \- set mode for CRTC
+.SH SYNOPSIS
+.B "int" drm_atomic_set_mode_prop_for_crtc
+.BI "(struct drm_crtc_state *state "  ","
+.BI "struct drm_property_blob *blob "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+the CRTC whose incoming state to update
+.IP "blob" 12
+pointer to blob property to use for mode
+.SH "DESCRIPTION"
+Set a mode (originating from a blob property) on the desired CRTC state.
+This function will take a reference on the blob property for the CRTC state,
+and release the reference held on the state's existing mode property, if any
+was set.
+.SH "RETURN"
+Zero on success, error code on failure. Cannot return -EDEADLK.

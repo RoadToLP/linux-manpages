@@ -1,0 +1,30 @@
+.TH "sshp_find_syn" 9 "sshp_find_syn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sshp_find_syn \- Find SSH SYN bytes in the given data span.
+.SH SYNOPSIS
+.B "bool" sshp_find_syn
+.BI "(const struct ssam_span *src "  ","
+.BI "struct ssam_span *rem "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+The data span to search in.
+.IP "rem" 12
+The span (output) indicating the remaining data, starting with SSH
+SYN bytes, if found.
+.SH "DESCRIPTION"
+Search for SSH SYN bytes in the given source span. If found, set the \fIrem\fP
+span to the remaining data, starting with the first SYN bytes and capped by
+the source span length, and return true. This function does not copy any
+data, but rather only sets pointers to the respective start addresses and
+length values.
+
+If no SSH SYN bytes could be found, set the \fIrem\fP span to the zero-length
+span at the end of the source span and return false.
+
+If partial SSH SYN bytes could be found at the end of the source span, set
+the \fIrem\fP span to cover these partial SYN bytes, capped by the end of the
+source span, and return false. This function should then be re-run once
+more data is available.
+.SH "RETURN"
+Returns true if a complete SSH SYN sequence could be found,
+false otherwise.

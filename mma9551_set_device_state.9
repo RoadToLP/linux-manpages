@@ -1,0 +1,24 @@
+.TH "mma9551_set_device_state" 9 "mma9551_set_device_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mma9551_set_device_state \- sets HW power mode
+.SH SYNOPSIS
+.B "int" mma9551_set_device_state
+.BI "(struct i2c_client *client "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+I2C client
+.IP "enable" 12
+Use true to power on device, false to cause the device
+to enter sleep.
+.SH "DESCRIPTION"
+Set power on/off for device using the Sleep/Wake Application.
+When enable is true, power on chip and enable doze mode.
+When enable is false, enter sleep mode (device remains in the
+lowest-power mode).
+
+Locking note: This function must be called with the device lock held.
+Locking is not handled inside the function. Callers should ensure they
+serialize access to the HW.
+.SH "RETURN"
+0 on success, negative value on failure.

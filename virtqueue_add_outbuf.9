@@ -1,0 +1,26 @@
+.TH "virtqueue_add_outbuf" 9 "virtqueue_add_outbuf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+virtqueue_add_outbuf \- expose output buffers to other end
+.SH SYNOPSIS
+.B "int" virtqueue_add_outbuf
+.BI "(struct virtqueue *vq "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "unsigned int num "  ","
+.BI "void *data "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "vq" 12
+the struct virtqueue we're talking about.
+.IP "sg" 12
+scatterlist (must be well-formed and terminated!)
+.IP "num" 12
+the number of entries in \fIsg\fP readable by other side
+.IP "data" 12
+the token identifying the buffer.
+.IP "gfp" 12
+how to do memory allocations (if necessary).
+.SH "DESCRIPTION"
+Caller must ensure we don't call this with other virtqueue operations
+at the same time (except where noted).
+
+Returns zero or a negative error (ie. ENOSPC, ENOMEM, EIO).

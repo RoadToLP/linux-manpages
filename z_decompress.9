@@ -1,0 +1,34 @@
+.TH "z_decompress" 9 "z_decompress" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z_decompress \- decompress a Deflate-compressed packet.
+.SH SYNOPSIS
+.B "int" z_decompress
+.BI "(void *arg "  ","
+.BI "unsigned char *ibuf "  ","
+.BI "int isize "  ","
+.BI "unsigned char *obuf "  ","
+.BI "int osize "  ");"
+.SH ARGUMENTS
+.IP "arg" 12
+pointer to private state for the decompressor
+.IP "ibuf" 12
+pointer to input (compressed) packet data
+.IP "isize" 12
+length of input packet
+.IP "obuf" 12
+pointer to space for output (decompressed) packet
+.IP "osize" 12
+amount of space available at \fIobuf\fP
+.SH "DESCRIPTION"
+Because of patent problems, we return DECOMP_ERROR for errors
+found by inspecting the input data and for system problems, but
+DECOMP_FATALERROR for any errors which could possibly be said to
+be being detected "after" decompression.  For DECOMP_ERROR,
+we can issue a CCP reset-request; for DECOMP_FATALERROR, we may be
+infringing a patent of Motorola's if we do, so we take CCP down
+instead.
+
+Given that the frame has the correct sequence number and a good FCS,
+errors such as invalid codes in the input most likely indicate a
+bug, so we return DECOMP_FATALERROR for them in order to turn off
+compression, even though they are detected by inspecting the input.

@@ -1,0 +1,23 @@
+.TH "drm_atomic_add_affected_connectors" 9 "drm_atomic_add_affected_connectors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_add_affected_connectors \- add connectors for CRTC
+.SH SYNOPSIS
+.B "int" drm_atomic_add_affected_connectors
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.IP "crtc" 12
+DRM CRTC
+.SH "DESCRIPTION"
+This function walks the current configuration and adds all connectors
+currently using \fIcrtc\fP to the atomic configuration \fIstate\fP. Note that this
+function must acquire the connection mutex. This can potentially cause
+unneeded seralization if the update is just for the planes on one CRTC. Hence
+drivers and helpers should only call this when really needed (e.g. when a
+full modeset needs to happen due to some change).
+.SH "RETURN"
+0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+then the w/w mutex code has detected a deadlock and the entire atomic
+sequence must be restarted. All other errors are fatal.

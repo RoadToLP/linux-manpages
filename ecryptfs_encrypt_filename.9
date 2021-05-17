@@ -1,0 +1,19 @@
+.TH "ecryptfs_encrypt_filename" 9 "ecryptfs_encrypt_filename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_encrypt_filename \- encrypt filename
+.SH SYNOPSIS
+.B "int" ecryptfs_encrypt_filename
+.BI "(struct ecryptfs_filename *filename "  ","
+.BI "struct ecryptfs_mount_crypt_stat *mount_crypt_stat "  ");"
+.SH ARGUMENTS
+.IP "filename" 12
+-- undescribed --
+.IP "mount_crypt_stat" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+CBC-encrypts the filename. We do not want to encrypt the same
+filename with the same key and IV, which may happen with hard
+links, so we prepend random bits to each filename.
+
+Returns zero on success; non-zero otherwise

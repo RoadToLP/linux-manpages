@@ -1,0 +1,31 @@
+.TH "NCR5380_select" 9 "NCR5380_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_select \- attempt arbitration and selection for a given command
+.SH SYNOPSIS
+.B "bool" NCR5380_select
+.BI "(struct Scsi_Host *instance "  ","
+.BI "struct scsi_cmnd *cmd "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+the Scsi_Host instance
+.IP "cmd" 12
+the scsi_cmnd to execute
+.SH "DESCRIPTION"
+This routine establishes an I_T_L nexus for a SCSI command. This involves
+ARBITRATION, SELECTION and MESSAGE OUT phases and an IDENTIFY message.
+
+Returns true if the operation should be retried.
+Returns false if it should not be retried.
+
+Side effects :
+If bus busy, arbitration failed, etc, \fBNCR5380_select\fP will exit
+with registers as they should have been on entry - ie
+SELECT_ENABLE will be set appropriately, the NCR5380
+will cease to drive any SCSI bus signals.
+
+If successful : the I_T_L nexus will be established, and
+hostdata->connected will be set to cmd.
+SELECT interrupt will be disabled.
+
+If failed (no target) : cmd->\fBscsi_done\fP will be called, and the
+cmd->result host byte set to DID_BAD_TARGET.

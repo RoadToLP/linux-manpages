@@ -1,0 +1,22 @@
+.TH "pt_buffer_reset_offsets" 9 "pt_buffer_reset_offsets" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pt_buffer_reset_offsets \- adjust buffer's write pointers from aux_head
+.SH SYNOPSIS
+.B "void" pt_buffer_reset_offsets
+.BI "(struct pt_buffer *buf "  ","
+.BI "unsigned long head "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+PT buffer.
+.IP "head" 12
+Write pointer (aux_head) from AUX buffer.
+.SH "DESCRIPTION"
+Find the ToPA table and entry corresponding to given \fIhead\fP and set buffer's
+"current" pointers accordingly. This is done after we have obtained the
+current aux_head position from a successful call to \fBperf_aux_output_begin\fP
+to make sure the hardware is writing to the right place.
+
+This function modifies buf::{cur,cur_idx,output_off} that will be programmed
+into PT msrs when the tracing is enabled and buf::head and buf::data_size,
+which are used to determine INT and STOP markers' locations by a subsequent
+call to \fBpt_buffer_reset_markers\fP.

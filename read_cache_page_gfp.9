@@ -1,0 +1,22 @@
+.TH "read_cache_page_gfp" 9 "read_cache_page_gfp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_cache_page_gfp \- read into page cache, using specified page allocation flags.
+.SH SYNOPSIS
+.B "struct page *" read_cache_page_gfp
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t index "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the page's address_space
+.IP "index" 12
+the page index
+.IP "gfp" 12
+the page allocator flags to use if allocating
+.SH "DESCRIPTION"
+This is the same as "read_mapping_page(mapping, index, NULL)", but with
+any new page allocations done using the specified allocation flags.
+
+If the page does not get brought uptodate, return -EIO.
+.SH "RETURN"
+up to date page on success, \fBERR_PTR\fP on failure.

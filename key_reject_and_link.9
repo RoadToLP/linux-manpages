@@ -1,0 +1,34 @@
+.TH "key_reject_and_link" 9 "key_reject_and_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_reject_and_link \- Negatively instantiate a key and link it into the keyring.
+.SH SYNOPSIS
+.B "int" key_reject_and_link
+.BI "(struct key *key "  ","
+.BI "unsigned timeout "  ","
+.BI "unsigned error "  ","
+.BI "struct key *keyring "  ","
+.BI "struct key *authkey "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+The key to instantiate.
+.IP "timeout" 12
+The timeout on the negative key.
+.IP "error" 12
+The error to return when the key is hit.
+.IP "keyring" 12
+Keyring to create a link in on success (or NULL).
+.IP "authkey" 12
+The authorisation token permitting instantiation.
+.SH "DESCRIPTION"
+Negatively instantiate a key that's in the uninstantiated state and, if
+successful, set its timeout and stored error and link it in to the
+destination keyring if one is supplied.  The key and any links to the key
+will be automatically garbage collected after the timeout expires.
+
+Negative keys are used to rate limit repeated \fBrequest_key\fP calls by causing
+them to return the stored error code (typically ENOKEY) until the negative
+key expires.
+
+If successful, 0 is returned, the authorisation token is revoked and anyone
+waiting for the key is woken up.  If the key was already instantiated,
+-EBUSY will be returned.

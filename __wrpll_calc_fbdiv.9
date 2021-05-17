@@ -1,0 +1,22 @@
+.TH "__wrpll_calc_fbdiv" 9 "__wrpll_calc_fbdiv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__wrpll_calc_fbdiv \- return feedback fixed divide value
+.SH SYNOPSIS
+.B "u8" __wrpll_calc_fbdiv
+.BI "(const struct wrpll_cfg *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+ptr to a struct wrpll_cfg record to read from
+.SH "DESCRIPTION"
+The internal feedback path includes a fixed by-two divider; the
+external feedback path does not.  Return the appropriate divider
+value (2 or 1) depending on whether internal or external feedback
+is enabled.  This code doesn't test for invalid configurations
+(e.g. both or neither of WRPLL_FLAGS_*_FEEDBACK are set); it relies
+on the caller to do so.
+.SH "CONTEXT"
+Any context.  Caller must protect the memory pointed to by
+\fIc\fP from simultaneous modification.
+.SH "RETURN"
+2 if internal feedback is enabled or 1 if external feedback
+is enabled.

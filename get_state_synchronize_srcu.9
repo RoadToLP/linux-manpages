@@ -1,0 +1,15 @@
+.TH "get_state_synchronize_srcu" 9 "get_state_synchronize_srcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_state_synchronize_srcu \- Provide an end-of-grace-period cookie
+.SH SYNOPSIS
+.B "unsigned long" get_state_synchronize_srcu
+.BI "(struct srcu_struct *ssp "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+srcu_struct to provide cookie for.
+.SH "DESCRIPTION"
+This function returns a cookie that can be passed to
+\fBpoll_state_synchronize_srcu\fP, which will return true if a full grace
+period has elapsed in the meantime.  It is the caller's responsibility
+to make sure that grace period happens, for example, by invoking
+\fBcall_srcu\fP after return from \fBget_state_synchronize_srcu\fP.

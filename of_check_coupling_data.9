@@ -1,0 +1,17 @@
+.TH "of_check_coupling_data" 9 "of_check_coupling_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_check_coupling_data \- Parse rdev's coupling properties and check data consistency
+.SH SYNOPSIS
+.B "bool" of_check_coupling_data
+.BI "(struct regulator_dev *rdev "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+pointer to regulator_dev whose data is checked
+.SH "DESCRIPTION"
+Function checks if all the following conditions are met:
+- rdev's max_spread is greater than 0
+- all coupled regulators have the same max_spread
+- all coupled regulators have the same number of regulator_dev phandles
+- all regulators are linked to each other
+
+Returns true if all conditions are met.

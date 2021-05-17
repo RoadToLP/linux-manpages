@@ -1,0 +1,38 @@
+.TH "ath5k_create_power_curve" 9 "ath5k_create_power_curve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_create_power_curve \- Create a Power to PDADC or PCDAC curve
+.SH SYNOPSIS
+.B "void" ath5k_create_power_curve
+.BI "(s16 pmin "  ","
+.BI "s16 pmax "  ","
+.BI "const s16 *pwr "  ","
+.BI "const u8 *vpd "  ","
+.BI "u8 num_points "  ","
+.BI "u8 *vpd_table "  ","
+.BI "u8 type "  ");"
+.SH ARGUMENTS
+.IP "pmin" 12
+Minimum power value (xmin)
+.IP "pmax" 12
+Maximum power value (xmax)
+.IP "pwr" 12
+Array of power steps (x values)
+.IP "vpd" 12
+Array of matching PCDAC/PDADC steps (y values)
+.IP "num_points" 12
+Number of provided points
+.IP "vpd_table" 12
+Array to fill with the full PCDAC/PDADC values (y values)
+.IP "type" 12
+One of enum ath5k_powertable_type (eeprom.h)
+.SH "DESCRIPTION"
+Interpolate (pwr,vpd) points to create a Power to PDADC or a
+Power to PCDAC curve.
+
+Each curve has power on x axis (in 0.5dB units) and PCDAC/PDADC
+steps (offsets) on y axis. Power can go up to 31.5dB and max
+PCDAC/PDADC step for each curve is 64 but we can write more than
+one curves on hw so we can go up to 128 (which is the max step we
+can write on the final table).
+
+We write y values (PCDAC/PDADC steps) on hw.

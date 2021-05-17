@@ -1,0 +1,17 @@
+.TH "sdio_claim_irq" 9 "sdio_claim_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_claim_irq \- claim the IRQ for a SDIO function
+.SH SYNOPSIS
+.B "int" sdio_claim_irq
+.BI "(struct sdio_func *func "  ","
+.BI "sdio_irq_handler_t *handler "  ");"
+.SH ARGUMENTS
+.IP "func" 12
+SDIO function
+.IP "handler" 12
+IRQ handler callback
+
+Claim and activate the IRQ for the given SDIO function. The provided
+handler will be called when that IRQ is asserted.  The host is always
+claimed already when the handler is called so the handler should not
+call \fBsdio_claim_host\fP or \fBsdio_release_host\fP.

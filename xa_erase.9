@@ -1,0 +1,20 @@
+.TH "xa_erase" 9 "xa_erase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xa_erase \- Erase this entry from the XArray.
+.SH SYNOPSIS
+.B "void *" xa_erase
+.BI "(struct xarray *xa "  ","
+.BI "unsigned long index "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "index" 12
+Index of entry.
+.SH "DESCRIPTION"
+After this function returns, loading from \fIindex\fP will return NULL.
+If the index is part of a multi-index entry, all indices will be erased
+and none of the entries will be part of a multi-index entry.
+.SH "CONTEXT"
+Any context.  Takes and releases the xa_lock.
+.SH "RETURN"
+The entry which used to be at this index.

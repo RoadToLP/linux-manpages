@@ -1,0 +1,39 @@
+.TH "sweep_bh_for_rgrps" 9 "sweep_bh_for_rgrps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sweep_bh_for_rgrps \- find an rgrp in a meta buffer and free blocks therein
+.SH SYNOPSIS
+.B "int" sweep_bh_for_rgrps
+.BI "(struct gfs2_inode *ip "  ","
+.BI "struct gfs2_holder *rd_gh "  ","
+.BI "struct buffer_head *bh "  ","
+.BI "__be64 *start "  ","
+.BI "__be64 *end "  ","
+.BI "bool meta "  ","
+.BI "u32 *btotal "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+inode
+.IP "rd_gh" 12
+-- undescribed --
+.IP "bh" 12
+buffer head to sweep
+.IP "start" 12
+starting point in bh
+.IP "end" 12
+end point in bh
+.IP "meta" 12
+true if bh points to metadata (rather than data)
+.IP "btotal" 12
+place to keep count of total blocks freed
+.SH "DESCRIPTION"
+We sweep a metadata buffer (provided by the metapath) for blocks we need to
+free, and free them all. However, we do it one rgrp at a time. If this
+block has references to multiple rgrps, we break it into individual
+transactions. This allows other processes to use the rgrps while we're
+focused on a single one, for better concurrency / performance.
+At every transaction boundary, we rewrite the inode into the journal.
+That way the bitmaps are kept consistent with the inode and we can recover
+if we're interrupted by power-outages.
+.SH "RETURN"
+0, or return code if an error occurred.
+*btotal has the total number of blocks freed

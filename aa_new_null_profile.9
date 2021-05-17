@@ -1,0 +1,29 @@
+.TH "aa_new_null_profile" 9 "aa_new_null_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_new_null_profile \- create or find a null-X learning profile
+.SH SYNOPSIS
+.B "struct aa_profile *" aa_new_null_profile
+.BI "(struct aa_profile *parent "  ","
+.BI "bool hat "  ","
+.BI "const char *base "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+profile that caused this profile to be created (NOT NULL)
+.IP "hat" 12
+true if the null- learning profile is a hat
+.IP "base" 12
+name to base the null profile off of
+.IP "gfp" 12
+type of allocation
+.SH "DESCRIPTION"
+Find/Create a null- complain mode profile used in learning mode.  The
+name of the profile is unique and follows the format of parent//null-XXX.
+where XXX is based on the \fIname\fP or if that fails or is not supplied
+a unique number
+
+null profiles are added to the profile list but the list does not
+hold a count on them so that they are automatically released when
+not in use.
+.SH "RETURN"
+new refcounted profile else NULL on failure

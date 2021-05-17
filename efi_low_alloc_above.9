@@ -1,0 +1,26 @@
+.TH "efi_low_alloc_above" 9 "efi_low_alloc_above" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_low_alloc_above \- allocate pages at or above given address
+.SH SYNOPSIS
+.B "efi_status_t" efi_low_alloc_above
+.BI "(unsigned long size "  ","
+.BI "unsigned long align "  ","
+.BI "unsigned long *addr "  ","
+.BI "unsigned long min "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of the memory area to allocate
+.IP "align" 12
+minimum alignment of the allocated memory area. It should
+a power of two.
+.IP "addr" 12
+on exit the address of the allocated memory
+.IP "min" 12
+minimum address to used for the memory allocation
+.SH "DESCRIPTION"
+Allocate at the lowest possible address that is not below \fImin\fP as
+EFI_LOADER_DATA. The allocated pages are aligned according to \fIalign\fP but at
+least EFI_ALLOC_ALIGN. The first allocated page will not below the address
+given by \fImin\fP.
+.SH "RETURN"
+status code

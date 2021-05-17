@@ -1,0 +1,22 @@
+.TH "acpi_dma_controller_register" 9 "acpi_dma_controller_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dma_controller_register \- Register a DMA controller to ACPI DMA helpers
+.SH SYNOPSIS
+.B "int" acpi_dma_controller_register
+.BI "(struct device *dev "  ","
+.BI "struct dma_chan *(*acpi_dma_xlate) (struct acpi_dma_spec *, struct acpi_dma *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device of DMA controller
+.IP "acpi_dma_xlate" 12
+translation function which converts a dma specifier
+into a dma_chan structure
+.IP "data" 12
+pointer to controller specific data to be used by
+translation function
+.SH "DESCRIPTION"
+Allocated memory should be freed with appropriate \fBacpi_dma_controller_free\fP
+call.
+.SH "RETURN"
+0 on success or appropriate errno value on error.

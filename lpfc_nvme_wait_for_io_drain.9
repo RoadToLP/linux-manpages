@@ -1,0 +1,15 @@
+.TH "lpfc_nvme_wait_for_io_drain" 9 "lpfc_nvme_wait_for_io_drain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_wait_for_io_drain \- Wait for all NVME wqes to complete
+.SH SYNOPSIS
+.B "void" lpfc_nvme_wait_for_io_drain
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function flushes all wqes in the nvme rings and frees all resources
+in the txcmplq. This function does not issue abort wqes for the IO
+commands in txcmplq, they will just be returned with
+IOERR_SLI_DOWN. This function is invoked with EEH when device's PCI
+slot has been permanently disabled.

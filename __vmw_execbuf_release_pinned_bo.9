@@ -1,0 +1,28 @@
+.TH "__vmw_execbuf_release_pinned_bo" 9 "__vmw_execbuf_release_pinned_bo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vmw_execbuf_release_pinned_bo \- Flush queries and unpin the pinned query bo.
+.SH SYNOPSIS
+.B "void" __vmw_execbuf_release_pinned_bo
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_fence_obj *fence "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+The device private structure.
+.IP "fence" 12
+If non-NULL should point to a struct vmw_fence_obj issued _after_ a
+query barrier that flushes all queries touching the current buffer pointed to
+by \fIdev_priv->pinned_bo\fP
+.SH "DESCRIPTION"
+This function should be used to unpin the pinned query bo, or as a query
+barrier when we need to make sure that all queries have finished before the
+next fifo command. (For example on hardware context destructions where the
+hardware may otherwise leak unfinished queries).
+
+This function does not return any failure codes, but make attempts to do safe
+unpinning in case of errors.
+
+The function will synchronize on the previous query barrier, and will thus
+not finish until that barrier has executed.
+
+the \fIdev_priv->cmdbuf_mutex\fP needs to be held by the current thread before
+calling this function.

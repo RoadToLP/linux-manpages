@@ -1,0 +1,17 @@
+.TH "shmem_recalc_inode" 9 "shmem_recalc_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+shmem_recalc_inode \- recalculate the block usage of an inode
+.SH SYNOPSIS
+.B "void" shmem_recalc_inode
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to recalc
+.SH "DESCRIPTION"
+We have to calculate the free blocks since the mm can drop
+undirtied hole pages behind our back.
+
+But normally   info->alloced == inode->i_mapping->nrpages + info->swapped
+So mm freed is info->alloced - (inode->i_mapping->nrpages + info->swapped)
+
+It has to be called with the spinlock held.

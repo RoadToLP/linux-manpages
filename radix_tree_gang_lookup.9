@@ -1,0 +1,31 @@
+.TH "radix_tree_gang_lookup" 9 "radix_tree_gang_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_gang_lookup \- perform multiple lookup on a radix tree
+.SH SYNOPSIS
+.B "unsigned int" radix_tree_gang_lookup
+.BI "(const struct radix_tree_root *root "  ","
+.BI "void **results "  ","
+.BI "unsigned long first_index "  ","
+.BI "unsigned int max_items "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "results" 12
+where the results of the lookup are placed
+.IP "first_index" 12
+start the lookup from this key
+.IP "max_items" 12
+place up to this many items at *results
+
+Performs an index-ascending scan of the tree for present items.  Places
+them at *\fIresults\fP and returns the number of items which were placed at
+*\fIresults\fP.
+
+The implementation is naive.
+
+Like radix_tree_lookup, radix_tree_gang_lookup may be called under
+rcu_read_lock. In this case, rather than the returned results being
+an atomic snapshot of the tree at a single point in time, the
+semantics of an RCU protected gang lookup are as though multiple
+radix_tree_lookups have been issued in individual locks, and results
+stored in 'results'.

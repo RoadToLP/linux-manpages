@@ -1,0 +1,29 @@
+.TH "setup_apcb" 9 "setup_apcb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setup_apcb \- Create a shadow copy of the apcb.
+.SH SYNOPSIS
+.B "int" setup_apcb
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "struct kvm_s390_crypto_cb *crycb_s "  ","
+.BI "const u32 crycb_o "  ","
+.BI "struct kvm_s390_crypto_cb *crycb_h "  ","
+.BI "int fmt_o "  ","
+.BI "int fmt_h "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+pointer to the virtual CPU
+.IP "crycb_s" 12
+pointer to shadow crycb
+.IP "crycb_o" 12
+pointer to original guest crycb
+.IP "crycb_h" 12
+pointer to the host crycb
+.IP "fmt_o" 12
+format of the original guest crycb.
+.IP "fmt_h" 12
+format of the host crycb.
+.SH "DESCRIPTION"
+Checks the compatibility between the guest and host crycb and calls the
+appropriate copy function.
+
+Return 0 or an error number if the guest and host crycb are incompatible.

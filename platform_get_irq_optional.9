@@ -1,0 +1,25 @@
+.TH "platform_get_irq_optional" 9 "platform_get_irq_optional" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+platform_get_irq_optional \- get an optional IRQ for a device
+.SH SYNOPSIS
+.B "int" platform_get_irq_optional
+.BI "(struct platform_device *dev "  ","
+.BI "unsigned int num "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+platform device
+.IP "num" 12
+IRQ number index
+.SH "DESCRIPTION"
+Gets an IRQ for a platform device. Device drivers should check the return
+value for errors so as to not pass a negative integer value to the
+\fBrequest_irq\fP APIs. This is the same as \fBplatform_get_irq\fP, except that it
+does not print an error message if an IRQ can not be obtained.
+
+For example::
+
+int irq = platform_get_irq_optional(pdev, 0);
+if (irq < 0)
+return irq;
+.SH "RETURN"
+non-zero IRQ number on success, negative error number on failure.

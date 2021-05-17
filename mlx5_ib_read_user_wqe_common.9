@@ -1,0 +1,38 @@
+.TH "mlx5_ib_read_user_wqe_common" 9 "mlx5_ib_read_user_wqe_common" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mlx5_ib_read_user_wqe_common \- Copy a WQE (or part of) from user WQ to kernel buffer
+.SH SYNOPSIS
+.B "int" mlx5_ib_read_user_wqe_common
+.BI "(struct ib_umem *umem "  ","
+.BI "void *buffer "  ","
+.BI "size_t buflen "  ","
+.BI "int wqe_index "  ","
+.BI "int wq_offset "  ","
+.BI "int wq_wqe_cnt "  ","
+.BI "int wq_wqe_shift "  ","
+.BI "int bcnt "  ","
+.BI "size_t *bytes_copied "  ");"
+.SH ARGUMENTS
+.IP "umem" 12
+User space memory where the WQ is
+.IP "buffer" 12
+buffer to copy to
+.IP "buflen" 12
+buffer length
+.IP "wqe_index" 12
+index of WQE to copy from
+.IP "wq_offset" 12
+offset to start of WQ
+.IP "wq_wqe_cnt" 12
+number of WQEs in WQ
+.IP "wq_wqe_shift" 12
+log2 of WQE size
+.IP "bcnt" 12
+number of bytes to copy
+.IP "bytes_copied" 12
+number of bytes to copy (return value)
+.SH "DESCRIPTION"
+Copies from start of WQE bcnt or less bytes.
+Does not gurantee to copy the entire WQE.
+.SH "RETURN"
+zero on success, or an error code.

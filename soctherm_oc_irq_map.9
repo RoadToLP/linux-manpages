@@ -1,0 +1,26 @@
+.TH "soctherm_oc_irq_map" 9 "soctherm_oc_irq_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soctherm_oc_irq_map \- SOC_THERM interrupt request domain mapper
+.SH SYNOPSIS
+.B "int" soctherm_oc_irq_map
+.BI "(struct irq_domain *h "  ","
+.BI "unsigned int virq "  ","
+.BI "irq_hw_number_t hw "  ");"
+.SH ARGUMENTS
+.IP "h" 12
+Interrupt request domain
+.IP "virq" 12
+Virtual interrupt request number
+.IP "hw" 12
+Hardware interrupt request number
+.SH "DESCRIPTION"
+Mapping callback function for SOC_THERM's irq_domain. When a SOC_THERM
+interrupt request is called, the irq_domain takes the request's virtual
+request number (much like a virtual memory address) and maps it to a
+physical hardware request number.
+
+When a mapping doesn't already exist for a virtual request number, the
+irq_domain calls this function to associate the virtual request number with
+a hardware request number.
+.SH "RETURN"
+0

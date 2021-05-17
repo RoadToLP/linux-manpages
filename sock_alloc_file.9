@@ -1,0 +1,20 @@
+.TH "sock_alloc_file" 9 "sock_alloc_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sock_alloc_file \- Bind a &socket to a &file
+.SH SYNOPSIS
+.B "struct file *" sock_alloc_file
+.BI "(struct socket *sock "  ","
+.BI "int flags "  ","
+.BI "const char *dname "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+socket
+.IP "flags" 12
+file status flags
+.IP "dname" 12
+protocol name
+
+Returns the \fIfile\fP bound with \fIsock\fP, implicitly storing it
+in sock->file. If dname is NULL, sets to "".
+On failure the return is a ERR pointer (see linux/err.h).
+This function uses GFP_KERNEL internally.

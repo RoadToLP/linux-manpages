@@ -1,0 +1,30 @@
+.TH "remap_vmalloc_range_partial" 9 "remap_vmalloc_range_partial" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+remap_vmalloc_range_partial \- map vmalloc pages to userspace
+.SH SYNOPSIS
+.B "int" remap_vmalloc_range_partial
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long uaddr "  ","
+.BI "void *kaddr "  ","
+.BI "unsigned long pgoff "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+vma to cover
+.IP "uaddr" 12
+target user address to start at
+.IP "kaddr" 12
+virtual address of vmalloc kernel memory
+.IP "pgoff" 12
+offset from \fIkaddr\fP to start at
+.IP "size" 12
+size of map area
+.SH "RETURN"
+0 for success, -Exxx on failure
+.SH "DESCRIPTION"
+This function checks that \fIkaddr\fP is a valid vmalloc'ed area,
+and that it is big enough to cover the range starting at
+\fIuaddr\fP in \fIvma\fP. Will return failure if that criteria isn't
+met.
+
+Similar to \fBremap_pfn_range\fP (see mm/memory.c)

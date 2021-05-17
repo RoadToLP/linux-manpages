@@ -1,0 +1,18 @@
+.TH "netif_rx" 9 "netif_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netif_rx \- post buffer to the network code
+.SH SYNOPSIS
+.B "int" netif_rx
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to post
+
+This function receives a packet from a device driver and queues it for
+the upper (protocol) levels to process.  It always succeeds. The buffer
+may be dropped during processing for congestion control or by the
+protocol layers.
+
+return values:
+NET_RX_SUCCESS  (no congestion)
+NET_RX_DROP     (packet was dropped)

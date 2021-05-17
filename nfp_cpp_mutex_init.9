@@ -1,0 +1,29 @@
+.TH "nfp_cpp_mutex_init" 9 "nfp_cpp_mutex_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_cpp_mutex_init \- Initialize a mutex location
+.SH SYNOPSIS
+.B "int" nfp_cpp_mutex_init
+.BI "(struct nfp_cpp *cpp "  ","
+.BI "int target "  ","
+.BI "unsigned long long address "  ","
+.BI "u32 key "  ");"
+.SH ARGUMENTS
+.IP "cpp" 12
+NFP CPP handle
+.IP "target" 12
+NFP CPP target ID (ie NFP_CPP_TARGET_CLS or NFP_CPP_TARGET_MU)
+.IP "address" 12
+Offset into the address space of the NFP CPP target ID
+.IP "key" 12
+Unique 32-bit value for this mutex
+.SH "DESCRIPTION"
+The CPP target:address must point to a 64-bit aligned location, and
+will initialize 64 bits of data at the location.
+
+This creates the initial mutex state, as locked by this
+\fBnfp_cpp_interface\fP.
+
+This function should only be called when setting up
+the initial lock state upon boot-up of the system.
+.SH "RETURN"
+0 on success, or -errno on failure

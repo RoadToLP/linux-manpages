@@ -1,0 +1,21 @@
+.TH "s2io_isr" 9 "s2io_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s2io_isr \- ISR handler of the device .
+.SH SYNOPSIS
+.B "irqreturn_t" s2io_isr
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+the irq of the device.
+.IP "dev_id" 12
+a void pointer to the dev structure of the NIC.
+.SH "DESCRIPTION"
+This function is the ISR handler of the device. It
+identifies the reason for the interrupt and calls the relevant
+service routines. As a contongency measure, this ISR allocates the
+recv buffers, if their numbers are below the panic value which is
+presently set to 25% of the original number of rcv buffers allocated.
+Return value:
+IRQ_HANDLED: will be returned if IRQ was handled by this routine
+IRQ_NONE: will be returned if interrupt is not from our device

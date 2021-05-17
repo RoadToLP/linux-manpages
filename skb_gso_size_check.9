@@ -1,0 +1,28 @@
+.TH "skb_gso_size_check" 9 "skb_gso_size_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_gso_size_check \- check the skb size, considering GSO_BY_FRAGS
+.SH SYNOPSIS
+.B "bool" skb_gso_size_check
+.BI "(const struct sk_buff *skb "  ","
+.BI "unsigned int seg_len "  ","
+.BI "unsigned int max_len "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+GSO skb
+.IP "seg_len" 12
+The segmented length (from skb_gso_*_seglen). In the
+GSO_BY_FRAGS case this will be [header sizes + GSO_BY_FRAGS].
+.IP "max_len" 12
+The maximum permissible length.
+.SH "DESCRIPTION"
+
+There are a couple of instances where we have a GSO skb, and we
+want to determine what size it would be after it is segmented.
+
+We might want to check:
+-    L3+L4+payload size (e.g. IP forwarding)
+- L2+L3+L4+payload size (e.g. sanity check before passing to driver)
+
+This is a helper to do that correctly considering GSO_BY_FRAGS.
+
+Returns true if the segmented length <= max length.

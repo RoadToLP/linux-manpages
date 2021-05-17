@@ -1,0 +1,22 @@
+.TH "lpfc_cmpl_fabric_iocb" 9 "lpfc_cmpl_fabric_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_fabric_iocb \- Completion callback function for fabric iocb
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_fabric_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the callback function that is put to the fabric iocb's
+callback function pointer (iocb->iocb_cmpl). The original iocb's callback
+function pointer has been stored in iocb->fabric_iocb_cmpl. This callback
+function first restores and invokes the original iocb's callback function
+and then invokes the \fBlpfc_resume_fabric_iocbs\fP routine to issue the next
+fabric bound iocb from the driver internal fabric iocb list onto the wire.

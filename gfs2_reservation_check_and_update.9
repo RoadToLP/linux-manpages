@@ -1,0 +1,26 @@
+.TH "gfs2_reservation_check_and_update" 9 "gfs2_reservation_check_and_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_reservation_check_and_update \- Check for reservations during block alloc
+.SH SYNOPSIS
+.B "int" gfs2_reservation_check_and_update
+.BI "(struct gfs2_rbm *rbm "  ","
+.BI "struct gfs2_blkreserv *rs "  ","
+.BI "u32 minext "  ","
+.BI "struct gfs2_extent *maxext "  ");"
+.SH ARGUMENTS
+.IP "rbm" 12
+The current position in the resource group
+.IP "rs" 12
+Our own reservation
+.IP "minext" 12
+The minimum extent length
+.IP "maxext" 12
+A pointer to the maximum extent structure
+.SH "DESCRIPTION"
+This checks the current position in the rgrp to see whether there is
+a reservation covering this block. If not then this function is a
+no-op. If there is, then the position is moved to the end of the
+contiguous reservation(s) so that we are pointing at the first
+non-reserved block.
+.SH "RETURN"
+0 if no reservation, 1 if \fIrbm\fP has changed, otherwise an error

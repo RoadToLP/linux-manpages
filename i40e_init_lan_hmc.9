@@ -1,0 +1,29 @@
+.TH "i40e_init_lan_hmc" 9 "i40e_init_lan_hmc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_init_lan_hmc \- initialize i40e_hmc_info struct
+.SH SYNOPSIS
+.B "i40e_status" i40e_init_lan_hmc
+.BI "(struct i40e_hw *hw "  ","
+.BI "u32 txq_num "  ","
+.BI "u32 rxq_num "  ","
+.BI "u32 fcoe_cntx_num "  ","
+.BI "u32 fcoe_filt_num "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "txq_num" 12
+number of Tx queues needing backing context
+.IP "rxq_num" 12
+number of Rx queues needing backing context
+.IP "fcoe_cntx_num" 12
+amount of FCoE statefull contexts needing backing context
+.IP "fcoe_filt_num" 12
+number of FCoE filters needing backing context
+.SH "DESCRIPTION"
+This function will be called once per physical function initialization.
+It will fill out the i40e_hmc_obj_info structure for LAN objects based on
+the driver's provided input, as well as information from the HMC itself
+loaded from NVRAM.
+
+Assumptions:
+- HMC Resource Profile has been selected before calling this function.

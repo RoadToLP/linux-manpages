@@ -1,0 +1,22 @@
+.TH "dbg_check_key_order" 9 "dbg_check_key_order" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dbg_check_key_order \- make sure that colliding keys are properly ordered.
+.SH SYNOPSIS
+.B "int" dbg_check_key_order
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_zbranch *zbr1 "  ","
+.BI "struct ubifs_zbranch *zbr2 "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "zbr1" 12
+first zbranch
+.IP "zbr2" 12
+following zbranch
+.SH "DESCRIPTION"
+In UBIFS indexing B-tree colliding keys has to be sorted in binary order of
+names of the direntries/xentries which are referred by the keys. This
+function reads direntries/xentries referred by \fIzbr1\fP and \fIzbr2\fP and makes
+sure the name of direntry/xentry referred by \fIzbr1\fP is less than
+direntry/xentry referred by \fIzbr2\fP. Returns zero if this is true, 1 if not,
+and a negative error code in case of failure.

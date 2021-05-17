@@ -1,0 +1,26 @@
+.TH "srpt_build_cmd_rsp" 9 "srpt_build_cmd_rsp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srpt_build_cmd_rsp \- build a SRP_RSP response
+.SH SYNOPSIS
+.B "int" srpt_build_cmd_rsp
+.BI "(struct srpt_rdma_ch *ch "  ","
+.BI "struct srpt_send_ioctx *ioctx "  ","
+.BI "u64 tag "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "ch" 12
+RDMA channel through which the request has been received.
+.IP "ioctx" 12
+I/O context associated with the SRP_CMD request. The response will
+be built in the buffer ioctx->buf points at and hence this function will
+overwrite the request data.
+.IP "tag" 12
+tag of the request for which this response is being generated.
+.IP "status" 12
+value for the STATUS field of the SRP_RSP information unit.
+.SH "DESCRIPTION"
+Returns the size in bytes of the SRP_RSP response.
+
+An SRP_RSP response contains a SCSI status or service response. See also
+section 6.9 in the SRP r16a document for the format of an SRP_RSP
+response. See also SPC-2 for more information about sense data.

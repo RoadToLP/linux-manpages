@@ -1,0 +1,33 @@
+.TH "vmf_insert_pfn_prot" 9 "vmf_insert_pfn_prot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmf_insert_pfn_prot \- insert single pfn into user vma with specified pgprot
+.SH SYNOPSIS
+.B "vm_fault_t" vmf_insert_pfn_prot
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "unsigned long pfn "  ","
+.BI "pgprot_t pgprot "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target user address of this page
+.IP "pfn" 12
+source kernel pfn
+.IP "pgprot" 12
+pgprot flags for the inserted page
+.SH "DESCRIPTION"
+This is exactly like \fBvmf_insert_pfn\fP, except that it allows drivers
+to override pgprot on a per-page basis.
+
+This only makes sense for IO mappings, and it makes no sense for
+COW mappings.  In general, using multiple vmas is preferable;
+vmf_insert_pfn_prot should only be used if using multiple VMAs is
+impractical.
+
+See \fBvmf_insert_mixed_prot\fP for a discussion of the implication of using
+a value of \fIpgprot\fP different from that of \fIvma->vm_page_prot\fP.
+.SH "CONTEXT"
+Process context.  May allocate using GFP_KERNEL.
+.SH "RETURN"
+vm_fault_t value.

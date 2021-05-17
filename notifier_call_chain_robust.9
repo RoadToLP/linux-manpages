@@ -1,0 +1,26 @@
+.TH "notifier_call_chain_robust" 9 "notifier_call_chain_robust" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+notifier_call_chain_robust \- Inform the registered notifiers about an event and rollback on error.
+.SH SYNOPSIS
+.B "int" notifier_call_chain_robust
+.BI "(struct notifier_block **nl "  ","
+.BI "unsigned long val_up "  ","
+.BI "unsigned long val_down "  ","
+.BI "void *v "  ");"
+.SH ARGUMENTS
+.IP "nl" 12
+Pointer to head of the blocking notifier chain
+.IP "val_up" 12
+Value passed unmodified to the notifier function
+.IP "val_down" 12
+Value passed unmodified to the notifier function when recovering
+from an error on \fIval_up\fP
+\fIv\fP           Pointer passed unmodified to the notifier function
+.IP "v" 12
+-- undescribed --
+.SH "NOTE"
+It is important the \fInl\fP chain doesn't change between the two
+invocations of \fBnotifier_call_chain\fP such that we visit the
+exact same notifier callbacks; this rules out any RCU usage.
+.SH "RETURN"
+the return value of the \fIval_up\fP call.

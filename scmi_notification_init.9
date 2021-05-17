@@ -1,0 +1,31 @@
+.TH "scmi_notification_init" 9 "scmi_notification_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_notification_init \- Initializes Notification Core Support
+.SH SYNOPSIS
+.B "int" scmi_notification_init
+.BI "(struct scmi_handle *handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+The handle identifying the platform instance to initialize
+.SH "DESCRIPTION"
+This function lays out all the basic resources needed by the notification
+core instance identified by the provided handle: once done, all of the
+SCMI Protocols can register their events with the core during their own
+initializations.
+
+Note that failing to initialize the core notifications support does not
+cause the whole SCMI Protocols stack to fail its initialization.
+
+SCMI Notification Initialization happens in 2 steps:
+* initialization: basic common allocations (this function)
+* registration: protocols asynchronously come into life and registers their
+own supported list of events with the core; this causes
+further per-protocol allocations
+
+Any user's callback registration attempt, referring a still not registered
+event, will be registered as pending and finalized later (if possible)
+by \fBscmi_protocols_late_init\fP work.
+This allows for lazy initialization of SCMI Protocols due to late (or
+missing) SCMI drivers' modules loading.
+.SH "RETURN"
+0 on Success

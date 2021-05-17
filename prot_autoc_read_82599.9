@@ -1,0 +1,20 @@
+.TH "prot_autoc_read_82599" 9 "prot_autoc_read_82599" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prot_autoc_read_82599 \- Hides MAC differences needed for AUTOC read
+.SH SYNOPSIS
+.B "s32" prot_autoc_read_82599
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "bool *locked "  ","
+.BI "u32 *reg_val "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "locked" 12
+Return the if we locked for this read.
+.IP "reg_val" 12
+Value we read from AUTOC
+
+For this part (82599) we need to wrap read-modify-writes with a possible
+FW/SW lock.  It is assumed this lock will be freed with the next
+\fBprot_autoc_write_82599\fP.  Note, that locked can only be true in cases
+where this function doesn't return an error.

@@ -1,0 +1,19 @@
+.TH "check_ring_db" 9 "check_ring_db" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_ring_db \- check if we need to ring any doorbells
+.SH SYNOPSIS
+.B "void" check_ring_db
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_qset *qs "  ","
+.BI "unsigned int sleeping "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "qs" 12
+the queue set whose Tx queues are to be examined
+.IP "sleeping" 12
+indicates which Tx queue sent GTS
+
+Checks if some of a queue set's Tx queues need to ring their doorbells
+to resume transmission after idling while they still have unprocessed
+descriptors.

@@ -1,0 +1,25 @@
+.TH "force_update_wptr_for_self_int" 9 "force_update_wptr_for_self_int" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+force_update_wptr_for_self_int \- Force update the wptr for self interrupt
+.SH SYNOPSIS
+.B "void" force_update_wptr_for_self_int
+.BI "(struct amdgpu_device *adev "  ","
+.BI "u32 threshold "  ","
+.BI "u32 timeout "  ","
+.BI "bool enabled "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "threshold" 12
+threshold to trigger the wptr reporting
+.IP "timeout" 12
+timeout to trigger the wptr reporting
+.IP "enabled" 12
+Enable/disable timeout flush mechanism
+.SH "DESCRIPTION"
+threshold input range: 0 ~ 15, default 0,
+real_threshold = 2^threshold
+timeout input range: 0 ~ 20, default 8,
+real_timeout = (2^timeout) * 1024 / (socclk_freq)
+
+Force update wptr for self interrupt ( >= SIENNA_CICHLID).

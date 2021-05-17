@@ -1,0 +1,26 @@
+.TH "ssam_client_link" 9 "ssam_client_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_client_link \- Link an arbitrary client device to the controller.
+.SH SYNOPSIS
+.B "int" ssam_client_link
+.BI "(struct ssam_controller *c "  ","
+.BI "struct device *client "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The controller to link to.
+.IP "client" 12
+The client device.
+.SH "DESCRIPTION"
+Link an arbitrary client device to the controller by creating a device link
+between it as consumer and the controller device as provider. This function
+can be used for non-SSAM devices (or SSAM devices not registered as child
+under the controller) to guarantee that the controller is valid for as long
+as the driver of the client device is bound, and that proper suspend and
+resume ordering is guaranteed.
+
+The device link does not have to be destructed manually. It is removed
+automatically once the driver of the client device unbinds.
+.SH "RETURN"
+Returns zero on success, -ENODEV if the controller is not ready or
+going to be removed soon, or -ENOMEM if the device link could not be
+created for other reasons.

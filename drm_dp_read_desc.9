@@ -1,0 +1,20 @@
+.TH "drm_dp_read_desc" 9 "drm_dp_read_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_read_desc \- read sink/branch descriptor from DPCD
+.SH SYNOPSIS
+.B "int" drm_dp_read_desc
+.BI "(struct drm_dp_aux *aux "  ","
+.BI "struct drm_dp_desc *desc "  ","
+.BI "bool is_branch "  ");"
+.SH ARGUMENTS
+.IP "aux" 12
+DisplayPort AUX channel
+.IP "desc" 12
+Device descriptor to fill from DPCD
+.IP "is_branch" 12
+true for branch devices, false for sink devices
+.SH "DESCRIPTION"
+Read DPCD 0x400 (sink) or 0x500 (branch) into \fIdesc\fP. Also debug log the
+identification.
+
+Returns 0 on success or a negative error code on failure.

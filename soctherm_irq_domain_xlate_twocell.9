@@ -1,0 +1,31 @@
+.TH "soctherm_irq_domain_xlate_twocell" 9 "soctherm_irq_domain_xlate_twocell" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soctherm_irq_domain_xlate_twocell \- xlate for soctherm interrupts
+.SH SYNOPSIS
+.B "int" soctherm_irq_domain_xlate_twocell
+.BI "(struct irq_domain *d "  ","
+.BI "struct device_node *ctrlr "  ","
+.BI "const u32 *intspec "  ","
+.BI "unsigned int intsize "  ","
+.BI "irq_hw_number_t *out_hwirq "  ","
+.BI "unsigned int *out_type "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+Interrupt request domain
+.IP "ctrlr" 12
+Controller device tree node
+.IP "intspec" 12
+Array of u32s from DTs "interrupt" property
+.IP "intsize" 12
+Number of values inside the intspec array
+.IP "out_hwirq" 12
+HW IRQ value associated with this interrupt
+.IP "out_type" 12
+The IRQ SENSE type for this interrupt.
+.SH "DESCRIPTION"
+This Device Tree IRQ specifier translation function will translate a
+specific "interrupt" as defined by 2 DT values where the cell values map
+the hwirq number + 1 and linux irq flags. Since the output is the hwirq
+number, this function will subtract 1 from the value listed in DT.
+.SH "RETURN"
+0

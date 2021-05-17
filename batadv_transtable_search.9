@@ -1,0 +1,25 @@
+.TH "batadv_transtable_search" 9 "batadv_transtable_search" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_transtable_search \- get the mesh destination for a given client
+.SH SYNOPSIS
+.B "struct batadv_orig_node *" batadv_transtable_search
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "const u8 *src "  ","
+.BI "const u8 *addr "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "src" 12
+mac address of the source client
+.IP "addr" 12
+mac address of the destination client
+.IP "vid" 12
+VLAN identifier
+.SH "RETURN"
+a pointer to the originator that was selected as destination in the
+mesh for contacting the client 'addr', NULL otherwise.
+In case of multiple originators serving the same client, the function returns
+the best one (best in terms of metric towards the destination node).
+.SH "DESCRIPTION"
+If the two clients are AP isolated the function returns NULL.

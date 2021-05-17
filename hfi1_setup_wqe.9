@@ -1,0 +1,23 @@
+.TH "hfi1_setup_wqe" 9 "hfi1_setup_wqe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_setup_wqe \- set up the wqe
+.SH SYNOPSIS
+.B "int" hfi1_setup_wqe
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct rvt_swqe *wqe "  ","
+.BI "bool *call_send "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+The qp
+.IP "wqe" 12
+The built wqe
+.IP "call_send" 12
+Determine if the send should be posted or scheduled.
+.SH "DESCRIPTION"
+Perform setup of the wqe.  This is called
+prior to inserting the wqe into the ring but after
+the wqe has been setup by RDMAVT. This function
+allows the driver the opportunity to perform
+validation and additional setup of the wqe.
+
+Returns 0 on success, -EINVAL on failure

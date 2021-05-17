@@ -1,0 +1,27 @@
+.TH "_osd_dm6446_vid0_pingpong" 9 "_osd_dm6446_vid0_pingpong" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_osd_dm6446_vid0_pingpong \- field inversion fix for DM6446
+.SH SYNOPSIS
+.B "int" _osd_dm6446_vid0_pingpong
+.BI "(struct osd_state *sd "  ","
+.BI "int field_inversion "  ","
+.BI "unsigned long fb_base_phys "  ","
+.BI "const struct osd_layer_config *lconfig "  ");"
+.SH ARGUMENTS
+.IP "sd" 12
+ptr to struct osd_state
+.IP "field_inversion" 12
+inversion flag
+.IP "fb_base_phys" 12
+frame buffer address
+.IP "lconfig" 12
+ptr to layer config
+.SH "DESCRIPTION"
+This routine implements a workaround for the field signal inversion silicon
+erratum described in Advisory 1.3.8 for the DM6446.  The fb_base_phys and
+lconfig parameters apply to the vid0 window.  This routine should be called
+whenever the vid0 layer configuration or start address is modified, or when
+the OSD field inversion setting is modified.
+.SH "RETURN"
+1 if the ping-pong buffers need to be toggled in the vsync isr, or
+0 otherwise

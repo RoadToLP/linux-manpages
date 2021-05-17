@@ -1,0 +1,22 @@
+.TH "qmi_handle_net_reset" 9 "qmi_handle_net_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_handle_net_reset \- invoked to handle ENETRESET on a QMI handle
+.SH SYNOPSIS
+.B "void" qmi_handle_net_reset
+.BI "(struct qmi_handle *qmi "  ");"
+.SH ARGUMENTS
+.IP "qmi" 12
+the QMI context
+.SH "DESCRIPTION"
+As a result of registering a name service with the QRTR all open sockets are
+flagged with ENETRESET and this function will be called. The typical case is
+the initial boot, where this signals that the local node id has been
+configured and as such any bound sockets needs to be rebound. So close the
+socket, inform the client and re-initialize the socket.
+
+For clients it's generally sufficient to react to the del_server callbacks,
+but server code is expected to treat the net_reset callback as a "bye" from
+all nodes.
+
+Finally the QMI handle will send out registration requests for any lookups
+and services.

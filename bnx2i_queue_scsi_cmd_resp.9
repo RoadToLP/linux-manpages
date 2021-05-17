@@ -1,0 +1,22 @@
+.TH "bnx2i_queue_scsi_cmd_resp" 9 "bnx2i_queue_scsi_cmd_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_queue_scsi_cmd_resp \- queue cmd completion to the percpu thread
+.SH SYNOPSIS
+.B "int" bnx2i_queue_scsi_cmd_resp
+.BI "(struct iscsi_session *session "  ","
+.BI "struct bnx2i_conn *bnx2i_conn "  ","
+.BI "struct bnx2i_nop_in_msg *cqe "  ");"
+.SH ARGUMENTS
+.IP "session" 12
+iscsi session
+.IP "bnx2i_conn" 12
+bnx2i connection
+.IP "cqe" 12
+pointer to newly DMA'ed CQE entry for processing
+.SH "DESCRIPTION"
+this function is called by generic KCQ handler to queue all pending cmd
+completion CQEs
+
+The implementation is to queue the cmd response based on the
+last recorded command for the given connection.  The
+cpu_id gets recorded upon task_xmit.  No out-of-order completion!

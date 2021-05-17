@@ -1,0 +1,15 @@
+.TH "t4vf_fl_pkt_align" 9 "t4vf_fl_pkt_align" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4vf_fl_pkt_align \- return the fl packet alignment
+.SH SYNOPSIS
+.B "int" t4vf_fl_pkt_align
+.BI "(struct adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+
+T4 has a single field to specify the packing and padding boundary.
+T5 onwards has separate fields for this and hence the alignment for
+next packet offset is maximum of these two.  And T6 changes the
+Ingress Padding Boundary Shift, so it's all a mess and it's best
+if we put this in low-level Common Code ...

@@ -1,0 +1,25 @@
+.TH "iter_file_splice_write" 9 "iter_file_splice_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iter_file_splice_write \- splice data from a pipe to a file
+.SH SYNOPSIS
+.B "ssize_t" iter_file_splice_write
+.BI "(struct pipe_inode_info *pipe "  ","
+.BI "struct file *out "  ","
+.BI "loff_t *ppos "  ","
+.BI "size_t len "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+pipe info
+.IP "out" 12
+file to write to
+.IP "ppos" 12
+position in \fIout\fP
+.IP "len" 12
+number of bytes to splice
+.IP "flags" 12
+splice modifier flags
+.SH "DESCRIPTION"
+Will either move or copy pages (determined by \fIflags\fP options) from
+the given pipe inode to the given file.
+This one is ->write_iter-based.

@@ -1,0 +1,18 @@
+.TH "bcm63xx_update_wedge" 9 "bcm63xx_update_wedge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_update_wedge \- Iterate through wedged endpoints.
+.SH SYNOPSIS
+.B "void" bcm63xx_update_wedge
+.BI "(struct bcm63xx_udc *udc "  ","
+.BI "bool new_status "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+Reference to the device controller.
+.IP "new_status" 12
+true to "refresh" wedge status; false to clear it.
+.SH "DESCRIPTION"
+On a SETUP interrupt, we need to manually "refresh" the wedge status
+because the controller hardware is designed to automatically clear
+stalls in response to a CLEAR_FEATURE request from the host.
+
+On a RESET interrupt, we do want to restore all wedged endpoints.

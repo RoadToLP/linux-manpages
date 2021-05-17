@@ -1,0 +1,21 @@
+.TH "blk_revalidate_disk_zones" 9 "blk_revalidate_disk_zones" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_revalidate_disk_zones \- (re)allocate and initialize zone bitmaps
+.SH SYNOPSIS
+.B "int" blk_revalidate_disk_zones
+.BI "(struct gendisk *disk "  ","
+.BI "void (*update_driver_data)(struct gendisk *disk) "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+Target disk
+.IP "update_driver_data" 12
+Callback to update driver data on the frozen disk
+.SH "DESCRIPTION"
+Helper function for low-level device drivers to (re) allocate and initialize
+a disk request queue zone bitmaps. This functions should normally be called
+within the disk ->revalidate method for blk-mq based drivers.  For BIO based
+drivers only q->nr_zones needs to be updated so that the sysfs exposed value
+is correct.
+If the \fIupdate_driver_data\fP callback function is not NULL, the callback is
+executed with the device request queue frozen after all zones have been
+checked.

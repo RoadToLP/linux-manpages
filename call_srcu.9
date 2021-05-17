@@ -1,0 +1,26 @@
+.TH "call_srcu" 9 "call_srcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_srcu \- Queue a callback for invocation after an SRCU grace period
+.SH SYNOPSIS
+.B "void" call_srcu
+.BI "(struct srcu_struct *ssp "  ","
+.BI "struct rcu_head *rhp "  ","
+.BI "rcu_callback_t func "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+srcu_struct in queue the callback
+.IP "rhp" 12
+structure to be used for queueing the SRCU callback.
+.IP "func" 12
+function to be invoked after the SRCU grace period
+.SH "DESCRIPTION"
+The callback function will be invoked some time after a full SRCU
+grace period elapses, in other words after all pre-existing SRCU
+read-side critical sections have completed.  However, the callback
+function might well execute concurrently with other SRCU read-side
+critical sections that started after \fBcall_srcu\fP was invoked.  SRCU
+read-side critical sections are delimited by \fBsrcu_read_lock\fP and
+\fBsrcu_read_unlock\fP, and may be nested.
+
+The callback will be invoked from process context, but must nevertheless
+be fast and must not block.

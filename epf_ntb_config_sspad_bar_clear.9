@@ -1,0 +1,34 @@
+.TH "epf_ntb_config_sspad_bar_clear" 9 "epf_ntb_config_sspad_bar_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_config_sspad_bar_clear \- Clear Config + Self scratchpad BAR
+.SH SYNOPSIS
+.B "void" epf_ntb_config_sspad_bar_clear
+.BI "(struct epf_ntb_epc *ntb_epc "  ");"
+.SH ARGUMENTS
+.IP "ntb_epc" 12
+-- undescribed --
+.SH "DESCRIPTION"
++-----------------+------->+------------------+        +-----------------+
+|       BAR0      |        |  CONFIG REGION   |        |       BAR0      |
++-----------------+----+   +------------------+<-------+-----------------+
+|       BAR1      |    |   |SCRATCHPAD REGION |        |       BAR1      |
++-----------------+    +-->+------------------+<-------+-----------------+
+|       BAR2      |            Local Memory            |       BAR2      |
++-----------------+                                    +-----------------+
+|       BAR3      |                                    |       BAR3      |
++-----------------+                                    +-----------------+
+|       BAR4      |                                    |       BAR4      |
++-----------------+                                    +-----------------+
+|       BAR5      |                                    |       BAR5      |
++-----------------+                                    +-----------------+
+EP CONTROLLER 1                                        EP CONTROLLER 2
+
+Clear BAR0 of EP CONTROLLER 1 which contains the HOST1's config and
+self scratchpad region (removes inbound ATU configuration). While BAR0 is
+the default self scratchpad BAR, an NTB could have other BARs for self
+scratchpad (because of reserved BARs). This function can get the exact BAR
+used for self scratchpad from epf_ntb_bar[BAR_CONFIG].
+
+Please note the self scratchpad region and config region is combined to
+a single region and mapped using the same BAR. Also note HOST2's peer
+scratchpad is HOST1's self scratchpad.

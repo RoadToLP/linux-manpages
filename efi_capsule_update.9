@@ -1,0 +1,40 @@
+.TH "efi_capsule_update" 9 "efi_capsule_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_update \- send a capsule to the firmware
+.SH SYNOPSIS
+.B "int" efi_capsule_update
+.BI "(efi_capsule_header_t *capsule "  ","
+.BI "phys_addr_t *pages "  ");"
+.SH ARGUMENTS
+.IP "capsule" 12
+capsule to send to firmware
+.IP "pages" 12
+an array of capsule data pages
+.SH "DESCRIPTION"
+Build a scatter gather list with EFI capsule block descriptors to
+map the capsule described by \fIcapsule\fP with its data in \fIpages\fP and
+send it to the firmware via the \fBUpdateCapsule\fP runtime service.
+
+\fIcapsule\fP must be a virtual mapping of the complete capsule update in the
+kernel address space, as the capsule can be consumed immediately.
+A capsule_header_t that describes the entire contents of the capsule
+must be at the start of the first data page.
+
+Even though this function will validate that the firmware supports
+the capsule guid, users will likely want to check that
+\fBefi_capsule_supported\fP returns true before calling this function
+because it makes it easier to print helpful error messages.
+
+If the capsule is successfully submitted to the firmware, any
+subsequent calls to \fBefi_capsule_pending\fP will return true. \fIpages\fP
+must not be released or modified if this function returns
+successfully.
+
+Callers must be prepared for this function to fail, which can
+happen if we raced with system reboot or if there is already a
+pending capsule that has a reset type that conflicts with the one
+required by \fIcapsule\fP. Do NOT use \fBefi_capsule_pending\fP to detect
+this conflict since that would be racy. Instead, submit the capsule
+to \fBefi_capsule_update\fP and check the return value.
+
+Return 0 on success, a converted EFI status code on failure.

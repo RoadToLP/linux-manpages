@@ -1,0 +1,15 @@
+.TH "atiixp_bmdma_start" 9 "atiixp_bmdma_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atiixp_bmdma_start \- DMA start callback
+.SH SYNOPSIS
+.B "void" atiixp_bmdma_start
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+Command in progress
+
+When DMA begins we need to ensure that the UDMA control
+register for the channel is correctly set.
+.SH "NOTE"
+The host lock held by the libata layer protects
+us from two channels both trying to set DMA bits at once

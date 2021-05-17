@@ -1,0 +1,19 @@
+.TH "ata_eh_set_pending" 9 "ata_eh_set_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_set_pending \- set ATA_PFLAG_EH_PENDING and activate fast drain
+.SH SYNOPSIS
+.B "void" ata_eh_set_pending
+.BI "(struct ata_port *ap "  ","
+.BI "int fastdrain "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+target ATA port
+.IP "fastdrain" 12
+activate fast drain
+
+Set ATA_PFLAG_EH_PENDING and activate fast drain if \fIfastdrain\fP
+is non-zero and EH wasn't pending before.  Fast drain ensures
+that EH kicks in in timely manner.
+
+LOCKING:
+spin_lock_irqsave(host lock)

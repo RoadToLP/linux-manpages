@@ -1,0 +1,19 @@
+.TH "platform_msi_domain_alloc" 9 "platform_msi_domain_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+platform_msi_domain_alloc \- Allocate interrupts associated with a platform-msi domain
+.SH SYNOPSIS
+.B "int" platform_msi_domain_alloc
+.BI "(struct irq_domain *domain "  ","
+.BI "unsigned int virq "  ","
+.BI "unsigned int nr_irqs "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+The platform-msi domain
+.IP "virq" 12
+The base irq from which to perform the allocate operation
+.IP "nr_irqs" 12
+How many interrupts to free from \fIvirq\fP
+.SH "DESCRIPTION"
+Return 0 on success, or an error code on failure. Must be called
+with irq_domain_mutex held (which can only be done as part of a
+top-level interrupt allocation).

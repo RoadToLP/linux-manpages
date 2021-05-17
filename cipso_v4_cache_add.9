@@ -1,0 +1,18 @@
+.TH "cipso_v4_cache_add" 9 "cipso_v4_cache_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_cache_add \- Add an entry to the CIPSO cache
+.SH SYNOPSIS
+.B "int" cipso_v4_cache_add
+.BI "(const unsigned char *cipso_ptr "  ","
+.BI "const struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "cipso_ptr" 12
+pointer to CIPSO IP option
+.IP "secattr" 12
+the packet's security attributes
+.SH "DESCRIPTION"
+Add a new entry into the CIPSO label mapping cache.  Add the new entry to
+head of the cache bucket's list, if the cache bucket is out of room remove
+the last entry in the list first.  It is important to note that there is
+currently no checking for duplicate keys.  Returns zero on success,
+negative values on failure.

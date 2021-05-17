@@ -1,0 +1,23 @@
+.TH "aes_expandkey" 9 "aes_expandkey" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aes_expandkey \- Expands the AES key as described in FIPS-197
+.SH SYNOPSIS
+.B "int" aes_expandkey
+.BI "(struct crypto_aes_ctx *ctx "  ","
+.BI "const u8 *in_key "  ","
+.BI "unsigned int key_len "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+The location where the computed key will be stored.
+.IP "in_key" 12
+The supplied key.
+.IP "key_len" 12
+The length of the supplied key.
+.SH "DESCRIPTION"
+Returns 0 on success. The function fails only if an invalid key size (or
+pointer) is supplied.
+The expanded key size is 240 bytes (max of 14 rounds with a unique 16 bytes
+key schedule plus a 16 bytes key which is used before the first round).
+The decryption key is prepared for the "Equivalent Inverse Cipher" as
+described in FIPS-197. The first slot (16 bytes) of each key (enc or dec) is
+for the initial combination, the second slot for the first round and so on.

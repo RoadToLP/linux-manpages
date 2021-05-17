@@ -1,0 +1,20 @@
+.TH "tfrc_lh_interval_add" 9 "tfrc_lh_interval_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tfrc_lh_interval_add \- Insert new record into the Loss Interval database
+.SH SYNOPSIS
+.B "int" tfrc_lh_interval_add
+.BI "(struct tfrc_loss_hist *lh "  ","
+.BI "struct tfrc_rx_hist *rh "  ","
+.BI "u32 (*calc_first_li)(struct sock *) "  ","
+.BI "struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "lh" 12
+Loss Interval database
+.IP "rh" 12
+Receive history containing a fresh loss event
+.IP "calc_first_li" 12
+Caller-dependent routine to compute length of first interval
+.IP "sk" 12
+Used by \fIcalc_first_li\fP in caller-specific way (subtyping)
+.SH "DESCRIPTION"
+Updates I_mean and returns 1 if a new interval has in fact been added to \fIlh\fP.

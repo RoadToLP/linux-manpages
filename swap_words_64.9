@@ -1,0 +1,25 @@
+.TH "swap_words_64" 9 "swap_words_64" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swap_words_64 \- swap two elements in 64-bit chunks
+.SH SYNOPSIS
+.B "void" swap_words_64
+.BI "(void *a "  ","
+.BI "void *b "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+pointer to the first element to swap
+.IP "b" 12
+pointer to the second element to swap
+.IP "n" 12
+element size (must be a multiple of 8)
+.SH "DESCRIPTION"
+Exchange the two objects in memory.  This exploits base+index
+addressing, which basically all CPUs have, to minimize loop overhead
+computations.
+
+We'd like to use 64-bit loads if possible.  If they're not, emulating
+one requires base+index+4 addressing which x86 has but most other
+processors do not.  If CONFIG_64BIT, we definitely have 64-bit loads,
+but it's possible to have 64-bit loads without 64-bit pointers (e.g.
+x32 ABI).  Are there any cases the kernel needs to worry about?

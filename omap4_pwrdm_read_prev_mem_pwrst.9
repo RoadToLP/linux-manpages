@@ -1,0 +1,21 @@
+.TH "omap4_pwrdm_read_prev_mem_pwrst" 9 "omap4_pwrdm_read_prev_mem_pwrst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap4_pwrdm_read_prev_mem_pwrst \- reads the previous memory powerstate
+.SH SYNOPSIS
+.B "int" omap4_pwrdm_read_prev_mem_pwrst
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 bank "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to read mem powerstate for
+.IP "bank" 12
+memory bank index
+.SH "DESCRIPTION"
+Reads the previous memory powerstate for a powerdomain. This
+function must determine the previous memory powerstate by first
+checking the previous powerstate for the domain. If that was OFF,
+then logic has been lost. If previous state was RETENTION, the
+function reads the setting for the next memory retention state to
+see the actual value.  In every other case, the logic is
+retained. Returns either PWRDM_POWER_OFF or PWRDM_POWER_RET
+depending whether logic was retained or not.

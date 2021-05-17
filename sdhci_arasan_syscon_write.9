@@ -1,0 +1,22 @@
+.TH "sdhci_arasan_syscon_write" 9 "sdhci_arasan_syscon_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdhci_arasan_syscon_write \- Write to a field in soc_ctl registers
+.SH SYNOPSIS
+.B "int" sdhci_arasan_syscon_write
+.BI "(struct sdhci_host *host "  ","
+.BI "const struct sdhci_arasan_soc_ctl_field *fld "  ","
+.BI "u32 val "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The sdhci_host
+.IP "fld" 12
+The field to write to
+.IP "val" 12
+The value to write
+.SH "DESCRIPTION"
+This function allows writing to fields in sdhci_arasan_soc_ctl_map.
+Note that if a field is specified as not available (shift < 0) then
+this function will silently return an error code.  It will be noisy
+and print errors for any other (unexpected) errors.
+.SH "RETURN"
+0 on success and error value on error

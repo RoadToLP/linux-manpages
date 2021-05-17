@@ -1,0 +1,20 @@
+.TH "blk_kick_flush" 9 "blk_kick_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_kick_flush \- consider issuing flush request
+.SH SYNOPSIS
+.B "void" blk_kick_flush
+.BI "(struct request_queue *q "  ","
+.BI "struct blk_flush_queue *fq "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request_queue being kicked
+.IP "fq" 12
+flush queue
+.IP "flags" 12
+cmd_flags of the original request
+.SH "DESCRIPTION"
+Flush related states of \fIq\fP have changed, consider issuing flush request.
+Please read the comment at the top of this file for more info.
+.SH "CONTEXT"
+spin_lock_irq(fq->mq_flush_lock)

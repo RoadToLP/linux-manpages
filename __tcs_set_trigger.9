@@ -1,0 +1,26 @@
+.TH "__tcs_set_trigger" 9 "__tcs_set_trigger" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__tcs_set_trigger \- Start xfer on a TCS or unset trigger on a borrowed TCS
+.SH SYNOPSIS
+.B "void" __tcs_set_trigger
+.BI "(struct rsc_drv *drv "  ","
+.BI "int tcs_id "  ","
+.BI "bool trigger "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "tcs_id" 12
+The global ID of this TCS.
+.IP "trigger" 12
+If true then untrigger/retrigger. If false then just untrigger.
+.SH "DESCRIPTION"
+In the normal case we only ever call with "trigger=true" to start a
+transfer. That will un-trigger/disable the TCS from the last transfer
+then trigger/enable for this transfer.
+
+If we borrowed a wake TCS for an active-only transfer we'll also call
+this function with "trigger=false" to just do the un-trigger/disable
+before using the TCS for wake purposes again.
+
+Note that the AP is only in charge of triggering active-only transfers.
+The AP never triggers sleep/wake values using this function.

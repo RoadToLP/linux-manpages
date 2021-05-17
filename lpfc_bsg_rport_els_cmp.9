@@ -1,0 +1,26 @@
+.TH "lpfc_bsg_rport_els_cmp" 9 "lpfc_bsg_rport_els_cmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bsg_rport_els_cmp \- lpfc_bsg_rport_els's completion handler
+.SH SYNOPSIS
+.B "void" lpfc_bsg_rport_els_cmp
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocbq "  ","
+.BI "struct lpfc_iocbq *rspiocbq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "cmdiocbq" 12
+Pointer to command iocb.
+.IP "rspiocbq" 12
+Pointer to response iocb.
+.SH "DESCRIPTION"
+This function is the completion handler for iocbs issued using
+lpfc_bsg_rport_els_cmp function. This function is called by the
+ring event handler function without any lock held. This function
+can be called from both worker thread context and interrupt
+context. This function also can be called from other thread which
+cleans up the SLI layer objects.
+This function copies the contents of the response iocb to the
+response iocb memory object provided by the caller of
+lpfc_sli_issue_iocb_wait and then wakes up the thread which
+sleeps for the iocb completion.

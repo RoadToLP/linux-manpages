@@ -1,0 +1,17 @@
+.TH "cgroup_migrate_add_task" 9 "cgroup_migrate_add_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_migrate_add_task \- add a migration target task to a migration context
+.SH SYNOPSIS
+.B "void" cgroup_migrate_add_task
+.BI "(struct task_struct *task "  ","
+.BI "struct cgroup_mgctx *mgctx "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+target task
+.IP "mgctx" 12
+target migration context
+.SH "DESCRIPTION"
+Add \fItask\fP, which is a migration target, to \fImgctx->tset\fP.  This function
+becomes noop if \fItask\fP doesn't need to be migrated.  \fItask\fP's css_set
+should have been added as a migration source and \fItask->cg_list\fP will be
+moved from the css_set's tasks list to mg_tasks one.

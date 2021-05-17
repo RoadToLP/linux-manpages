@@ -1,0 +1,26 @@
+.TH "ntfs_mft_bitmap_find_and_alloc_free_rec_nolock" 9 "ntfs_mft_bitmap_find_and_alloc_free_rec_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_mft_bitmap_find_and_alloc_free_rec_nolock \- see name
+.SH SYNOPSIS
+.B "int" ntfs_mft_bitmap_find_and_alloc_free_rec_nolock
+.BI "(ntfs_volume *vol "  ","
+.BI "ntfs_inode *base_ni "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+volume on which to search for a free mft record
+.IP "base_ni" 12
+open base inode if allocating an extent mft record or NULL
+.SH "DESCRIPTION"
+Search for a free mft record in the mft bitmap attribute on the ntfs volume
+\fIvol\fP.
+
+If \fIbase_ni\fP is NULL start the search at the default allocator position.
+
+If \fIbase_ni\fP is not NULL start the search at the mft record after the base
+mft record \fIbase_ni\fP.
+
+Return the free mft record on success and -errno on error.  An error code of
+-ENOSPC means that there are no free mft records in the currently
+initialized mft bitmap.
+
+Locking: Caller must hold vol->mftbmp_lock for writing.

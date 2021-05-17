@@ -1,0 +1,23 @@
+.TH "match_token" 9 "match_token" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+match_token \- Find a token (and optional args) in a string
+.SH SYNOPSIS
+.B "int" match_token
+.BI "(char *s "  ","
+.BI "const match_table_t table "  ","
+.BI "substring_t args[] "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the string to examine for token/argument pairs
+.IP "table" 12
+match_table_t describing the set of allowed option tokens and the
+arguments that may be associated with them. Must be terminated with a
+\fIstruct match_token\fP whose pattern is set to the NULL pointer.
+.IP "args" 12
+array of MAX_OPT_ARGS \fIsubstring_t\fP elements. Used to return match
+locations.
+.SH "DESCRIPTION"
+Detects which if any of a set of token strings has been passed
+to it. Tokens can include up to MAX_OPT_ARGS instances of basic c-style
+format identifiers which will be taken into account when matching the
+tokens, and whose locations will be returned in the \fIargs\fP array.

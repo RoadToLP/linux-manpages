@@ -1,0 +1,46 @@
+.TH "usb_sg_init" 9 "usb_sg_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_sg_init \- initializes scatterlist-based bulk/interrupt I/O request
+.SH SYNOPSIS
+.B "int" usb_sg_init
+.BI "(struct usb_sg_request *io "  ","
+.BI "struct usb_device *dev "  ","
+.BI "unsigned pipe "  ","
+.BI "unsigned period "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "int nents "  ","
+.BI "size_t length "  ","
+.BI "gfp_t mem_flags "  ");"
+.SH ARGUMENTS
+.IP "io" 12
+request block being initialized.  until \fBusb_sg_wait\fP returns,
+treat this as a pointer to an opaque block of memory,
+.IP "dev" 12
+the usb device that will send or receive the data
+.IP "pipe" 12
+endpoint "pipe" used to transfer the data
+.IP "period" 12
+polling rate for interrupt endpoints, in frames or
+(for high speed endpoints) microframes; ignored for bulk
+.IP "sg" 12
+scatterlist entries
+.IP "nents" 12
+how many entries in the scatterlist
+.IP "length" 12
+how many bytes to send from the scatterlist, or zero to
+send every byte identified in the list.
+.IP "mem_flags" 12
+SLAB_* flags affecting memory allocations in this call
+.SH "DESCRIPTION"
+This initializes a scatter/gather request, allocating resources such as
+I/O mappings and urb memory (except maybe memory used by USB controller
+drivers).
+
+The request must be issued using \fBusb_sg_wait\fP, which waits for the I/O to
+complete (or to be canceled) and then cleans up all resources allocated by
+\fBusb_sg_init\fP.
+
+The request may be canceled with \fBusb_sg_cancel\fP, either before or after
+\fBusb_sg_wait\fP is called.
+.SH "RETURN"
+Zero for success, else a negative errno value.

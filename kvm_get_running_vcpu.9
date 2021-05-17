@@ -1,0 +1,16 @@
+.TH "kvm_get_running_vcpu" 9 "kvm_get_running_vcpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_get_running_vcpu \- get the vcpu running on the current CPU.
+.SH SYNOPSIS
+.B "struct kvm_vcpu *" kvm_get_running_vcpu
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+We can disable preemption locally around accessing the per-CPU variable,
+and use the resolved vcpu pointer after enabling preemption again,
+because even if the current thread is migrated to another CPU, reading
+the per-CPU value later will give us the same value as we update the
+per-CPU variable in the preempt notifier handlers.

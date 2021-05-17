@@ -1,0 +1,18 @@
+.TH "i40e_put_rx_buffer" 9 "i40e_put_rx_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_put_rx_buffer \- Clean up used buffer and either recycle or free
+.SH SYNOPSIS
+.B "void" i40e_put_rx_buffer
+.BI "(struct i40e_ring *rx_ring "  ","
+.BI "struct i40e_rx_buffer *rx_buffer "  ","
+.BI "int rx_buffer_pgcnt "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring to transact packets on
+.IP "rx_buffer" 12
+rx buffer to pull data from
+.IP "rx_buffer_pgcnt" 12
+rx buffer page refcount pre \fBxdp_do_redirect\fP call
+.SH "DESCRIPTION"
+This function will clean up the contents of the rx_buffer.  It will
+either recycle the buffer or unmap it and free the associated resources.

@@ -1,0 +1,19 @@
+.TH "lpfc_sli4_mq_put" 9 "lpfc_sli4_mq_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_mq_put \- Put a Mailbox Queue Entry on an Mailbox Queue
+.SH SYNOPSIS
+.B "uint32_t" lpfc_sli4_mq_put
+.BI "(struct lpfc_queue *q "  ","
+.BI "struct lpfc_mqe *mqe "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+The Mailbox Queue to operate on.
+.IP "mqe" 12
+The Mailbox Queue Entry to put on the Work queue.
+.SH "DESCRIPTION"
+This routine will copy the contents of \fImqe\fP to the next available entry on
+the \fIq\fP. This function will then ring the Work Queue Doorbell to signal the
+HBA to start processing the Work Queue Entry. This function returns 0 if
+successful. If no entries are available on \fIq\fP then this function will return
+-ENOMEM.
+The caller is expected to hold the hbalock when calling this routine.

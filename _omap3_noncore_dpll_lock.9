@@ -1,0 +1,15 @@
+.TH "_omap3_noncore_dpll_lock" 9 "_omap3_noncore_dpll_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_omap3_noncore_dpll_lock \- instruct a DPLL to lock and wait for readiness
+.SH SYNOPSIS
+.B "int" _omap3_noncore_dpll_lock
+.BI "(struct clk_hw_omap *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+pointer to a DPLL struct clk
+.SH "DESCRIPTION"
+Instructs a non-CORE DPLL to lock.  Waits for the DPLL to report
+readiness before returning.  Will save and restore the DPLL's
+autoidle state across the enable, per the CDP code.  If the DPLL
+locked successfully, return 0; if the DPLL did not lock in the time
+allotted, or DPLL3 was passed in, return -EINVAL.

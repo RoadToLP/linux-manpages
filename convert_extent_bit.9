@@ -1,0 +1,32 @@
+.TH "convert_extent_bit" 9 "convert_extent_bit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+convert_extent_bit \- convert all bits in a given range from one bit to another
+.SH SYNOPSIS
+.B "int" convert_extent_bit
+.BI "(struct extent_io_tree *tree "  ","
+.BI "u64 start "  ","
+.BI "u64 end "  ","
+.BI "u32 bits "  ","
+.BI "u32 clear_bits "  ","
+.BI "struct extent_state **cached_state "  ");"
+.SH ARGUMENTS
+.IP "tree" 12
+the io tree to search
+.IP "start" 12
+the start offset in bytes
+.IP "end" 12
+the end offset in bytes (inclusive)
+.IP "bits" 12
+the bits to set in this range
+.IP "clear_bits" 12
+the bits to clear in this range
+.IP "cached_state" 12
+state that we're going to cache
+.SH "DESCRIPTION"
+This will go through and set bits for the given range.  If any states exist
+already in this range they are set with the given bit and cleared of the
+clear_bits.  This is only meant to be used by things that are mergeable, ie
+converting from say DELALLOC to DIRTY.  This is not meant to be used with
+boundary bits like LOCK.
+
+All allocations are done with GFP_NOFS.

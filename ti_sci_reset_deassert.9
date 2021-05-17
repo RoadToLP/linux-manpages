@@ -1,0 +1,19 @@
+.TH "ti_sci_reset_deassert" 9 "ti_sci_reset_deassert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_reset_deassert \- deassert device reset
+.SH SYNOPSIS
+.B "int" ti_sci_reset_deassert
+.BI "(struct reset_controller_dev *rcdev "  ","
+.BI "unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "rcdev" 12
+reset controller entity
+.IP "id" 12
+ID of the reset to be deasserted
+.SH "DESCRIPTION"
+This function implements the reset driver op to deassert a device's reset
+using the TI SCI protocol. This invokes the function \fBti_sci_reset_set\fP
+with the corresponding parameters as passed in, but with the \fIassert\fP
+argument set to false for deasserting the reset.
+.SH "RETURN"
+0 for successful request, else a corresponding error value

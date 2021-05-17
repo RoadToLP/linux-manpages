@@ -1,0 +1,23 @@
+.TH "ufshcd_bkops_ctrl" 9 "ufshcd_bkops_ctrl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_bkops_ctrl \- control the auto bkops based on current bkops status
+.SH SYNOPSIS
+.B "int" ufshcd_bkops_ctrl
+.BI "(struct ufs_hba *hba "  ","
+.BI "enum bkops_status status "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per-adapter instance
+.IP "status" 12
+bkops_status value
+.SH "DESCRIPTION"
+Read the bkops_status from the UFS device and Enable fBackgroundOpsEn
+flag in the device to permit background operations if the device
+bkops_status is greater than or equal to "status" argument passed to
+this function, disable otherwise.
+
+Returns 0 for success, non-zero in case of failure.
+.SH "NOTE"
+Caller of this function can check the "hba->auto_bkops_enabled" flag
+to know whether auto bkops is enabled or disabled after this function
+returns control to it.

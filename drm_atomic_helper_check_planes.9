@@ -1,0 +1,22 @@
+.TH "drm_atomic_helper_check_planes" 9 "drm_atomic_helper_check_planes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_check_planes \- validate state object for planes changes
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_check_planes
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+the driver state object
+.SH "DESCRIPTION"
+Check the state object to see if the requested state is physically possible.
+This does all the plane update related checks using by calling into the
+\fIdrm_crtc_helper_funcs.atomic_check\fP and \fIdrm_plane_helper_funcs.atomic_check\fP
+hooks provided by the driver.
+
+It also sets \fIdrm_crtc_state.planes_changed\fP to indicate that a CRTC has
+updated planes.
+.SH "RETURN"
+Zero for success or -errno

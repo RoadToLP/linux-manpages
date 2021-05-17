@@ -1,0 +1,24 @@
+.TH "seq_open" 9 "seq_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seq_open \- initialize sequential file
+.SH SYNOPSIS
+.B "int" seq_open
+.BI "(struct file *file "  ","
+.BI "const struct seq_operations *op "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file we initialize
+.IP "op" 12
+method table describing the sequence
+
+\fBseq_open\fP sets \fIfile\fP, associating it with a sequence described
+by \fIop\fP.  \fIop\fP->\fBstart\fP sets the iterator up and returns the first
+element of sequence. \fIop\fP->\fBstop\fP shuts it down.  \fIop\fP->\fBnext\fP
+returns the next element of sequence.  \fIop\fP->\fBshow\fP prints element
+into the buffer.  In case of error ->\fBstart\fP and ->\fBnext\fP return
+ERR_PTR(error).  In the end of sequence they return NULL. ->\fBshow\fP
+returns 0 in case of success and negative number in case of error.
+Returning SEQ_SKIP means "discard this element and move on".
+.SH "NOTE"
+\fBseq_open\fP will allocate a struct seq_file and store its
+pointer in \fIfile->private_data\fP. This pointer should not be modified.

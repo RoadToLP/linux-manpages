@@ -1,0 +1,22 @@
+.TH "ssh_rtl_init" 9 "ssh_rtl_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_rtl_init \- Initialize request transport layer.
+.SH SYNOPSIS
+.B "int" ssh_rtl_init
+.BI "(struct ssh_rtl *rtl "  ","
+.BI "struct serdev_device *serdev "  ","
+.BI "const struct ssh_rtl_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "rtl" 12
+The request transport layer to initialize.
+.IP "serdev" 12
+The underlying serial device, i.e. the lower-level transport.
+.IP "ops" 12
+Request transport layer operations.
+.SH "DESCRIPTION"
+Initializes the given request transport layer and associated packet
+transport layer. Transmitter and receiver threads must be started
+separately via \fBssh_rtl_start\fP, after the request-layer has been
+initialized and the lower-level serial device layer has been set up.
+.SH "RETURN"
+Returns zero on success and a nonzero error code on failure.

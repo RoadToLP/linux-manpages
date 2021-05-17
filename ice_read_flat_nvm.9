@@ -1,0 +1,28 @@
+.TH "ice_read_flat_nvm" 9 "ice_read_flat_nvm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_read_flat_nvm \- Read portion of NVM by flat offset
+.SH SYNOPSIS
+.B "enum ice_status" ice_read_flat_nvm
+.BI "(struct ice_hw *hw "  ","
+.BI "u32 offset "  ","
+.BI "u32 *length "  ","
+.BI "u8 *data "  ","
+.BI "bool read_shadow_ram "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "offset" 12
+offset from beginning of NVM
+.IP "length" 12
+(in) number of bytes to read; (out) number of bytes actually read
+.IP "data" 12
+buffer to return data in (sized to fit the specified length)
+.IP "read_shadow_ram" 12
+if true, read from shadow RAM instead of NVM
+.SH "DESCRIPTION"
+Reads a portion of the NVM, as a flat memory space. This function correctly
+breaks read requests across Shadow RAM sectors and ensures that no single
+read request exceeds the maximum 4KB read for a single AdminQ command.
+
+Returns a status code on failure. Note that the data pointer may be
+partially updated if some reads succeed before a failure.

@@ -1,0 +1,20 @@
+.TH "rvt_poll_cq" 9 "rvt_poll_cq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_poll_cq \- poll for work completion entries
+.SH SYNOPSIS
+.B "int" rvt_poll_cq
+.BI "(struct ib_cq *ibcq "  ","
+.BI "int num_entries "  ","
+.BI "struct ib_wc *entry "  ");"
+.SH ARGUMENTS
+.IP "ibcq" 12
+the completion queue to poll
+.IP "num_entries" 12
+the maximum number of entries to return
+.IP "entry" 12
+pointer to array where work completions are placed
+.SH "DESCRIPTION"
+This may be called from interrupt context.  Also called by \fBib_poll_cq\fP
+in the generic verbs code.
+.SH "RETURN"
+the number of completion entries polled.

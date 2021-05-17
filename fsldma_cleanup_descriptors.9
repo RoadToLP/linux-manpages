@@ -1,0 +1,13 @@
+.TH "fsldma_cleanup_descriptors" 9 "fsldma_cleanup_descriptors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsldma_cleanup_descriptors \- cleanup link descriptors which are completed and move them to ld_completed to free until flag 'ack' is set
+.SH SYNOPSIS
+.B "void" fsldma_cleanup_descriptors
+.BI "(struct fsldma_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Freescale DMA channel
+.SH "DESCRIPTION"
+This function is used on descriptors which have been executed by the DMA
+controller. It will run any callbacks, submit any dependencies, then
+free these descriptors if flag 'ack' is set.

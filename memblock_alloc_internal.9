@@ -1,0 +1,34 @@
+.TH "memblock_alloc_internal" 9 "memblock_alloc_internal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memblock_alloc_internal \- allocate boot memory block
+.SH SYNOPSIS
+.B "void *" memblock_alloc_internal
+.BI "(phys_addr_t size "  ","
+.BI "phys_addr_t align "  ","
+.BI "phys_addr_t min_addr "  ","
+.BI "phys_addr_t max_addr "  ","
+.BI "int nid "  ","
+.BI "bool exact_nid "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of memory block to be allocated in bytes
+.IP "align" 12
+alignment of the region and block's size
+.IP "min_addr" 12
+the lower bound of the memory region to allocate (phys address)
+.IP "max_addr" 12
+the upper bound of the memory region to allocate (phys address)
+.IP "nid" 12
+nid of the free area to find, NUMA_NO_NODE for any node
+.IP "exact_nid" 12
+control the allocation fall back to other nodes
+.SH "DESCRIPTION"
+Allocates memory block using \fBmemblock_alloc_range_nid\fP and
+converts the returned physical address to virtual.
+
+The \fImin_addr\fP limit is dropped if it can not be satisfied and the allocation
+will fall back to memory below \fImin_addr\fP. Other constraints, such
+as node and mirrored memory will be handled again in
+\fBmemblock_alloc_range_nid\fP.
+.SH "RETURN"
+Virtual address of allocated memory block on success, NULL on failure.

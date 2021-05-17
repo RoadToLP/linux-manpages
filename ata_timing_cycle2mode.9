@@ -1,0 +1,22 @@
+.TH "ata_timing_cycle2mode" 9 "ata_timing_cycle2mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_timing_cycle2mode \- find xfer mode for the specified cycle duration
+.SH SYNOPSIS
+.B "u8" ata_timing_cycle2mode
+.BI "(unsigned int xfer_shift "  ","
+.BI "int cycle "  ");"
+.SH ARGUMENTS
+.IP "xfer_shift" 12
+ATA_SHIFT_* value for transfer type to examine.
+.IP "cycle" 12
+cycle duration in ns
+
+Return matching xfer mode for \fIcycle\fP.  The returned mode is of
+the transfer type specified by \fIxfer_shift\fP.  If \fIcycle\fP is too
+slow for \fIxfer_shift\fP, 0xff is returned.  If \fIcycle\fP is faster
+than the fastest known mode, the fasted mode is returned.
+
+LOCKING:
+None.
+.SH "RETURN"
+Matching xfer_mode, 0xff if no match found.

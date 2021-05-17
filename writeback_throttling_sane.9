@@ -1,0 +1,18 @@
+.TH "writeback_throttling_sane" 9 "writeback_throttling_sane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+writeback_throttling_sane \- is the usual dirty throttling mechanism available?
+.SH SYNOPSIS
+.B "bool" writeback_throttling_sane
+.BI "(struct scan_control *sc "  ");"
+.SH ARGUMENTS
+.IP "sc" 12
+scan_control in question
+.SH "DESCRIPTION"
+The normal page dirty throttling mechanism in \fBbalance_dirty_pages\fP is
+completely broken with the legacy memcg and direct stalling in
+\fBshrink_page_list\fP is used for throttling instead, which lacks all the
+niceties such as fairness, adaptive pausing, bandwidth proportional
+allocation and configurability.
+
+This function tests whether the vmscan currently in progress can assume
+that the normal dirty throttling mechanism is operational.

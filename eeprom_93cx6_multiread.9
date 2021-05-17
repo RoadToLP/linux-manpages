@@ -1,0 +1,24 @@
+.TH "eeprom_93cx6_multiread" 9 "eeprom_93cx6_multiread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeprom_93cx6_multiread \- Read multiple words from eeprom
+.SH SYNOPSIS
+.B "void" eeprom_93cx6_multiread
+.BI "(struct eeprom_93cx6 *eeprom "  ","
+.BI "const u8 word "  ","
+.BI "__le16 *data "  ","
+.BI "const u16 words "  ");"
+.SH ARGUMENTS
+.IP "eeprom" 12
+Pointer to eeprom structure
+.IP "word" 12
+Word index from where we should start reading
+.IP "data" 12
+target pointer where the information will have to be stored
+.IP "words" 12
+Number of words that should be read.
+.SH "DESCRIPTION"
+This function will read all requested words from the eeprom,
+this is done by calling \fBeeprom_93cx6_read\fP multiple times.
+But with the additional change that while the eeprom_93cx6_read
+will return host ordered bytes, this method will return little
+endian words.

@@ -1,0 +1,29 @@
+.TH "devm_gpiochip_add_data_with_key" 9 "devm_gpiochip_add_data_with_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_gpiochip_add_data_with_key \- Resource managed gpiochip_add_data_with_key()
+.SH SYNOPSIS
+.B "int" devm_gpiochip_add_data_with_key
+.BI "(struct device *dev "  ","
+.BI "struct gpio_chip *gc "  ","
+.BI "void *data "  ","
+.BI "struct lock_class_key *lock_key "  ","
+.BI "struct lock_class_key *request_key "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the device that gpio_chip belongs to.
+.IP "gc" 12
+the GPIO chip to register
+.IP "data" 12
+driver-private data associated with this chip
+.IP "lock_key" 12
+lockdep class for IRQ lock
+.IP "request_key" 12
+lockdep class for IRQ request
+.SH "CONTEXT"
+potentially before irqs will work
+.SH "DESCRIPTION"
+The gpio chip automatically be released when the device is unbound.
+.SH "RETURN"
+A negative errno if the chip can't be registered, such as because the
+gc->base is invalid or already associated with a different chip.
+Otherwise it returns zero as a success code.

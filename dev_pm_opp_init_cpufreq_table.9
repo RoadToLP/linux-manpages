@@ -1,0 +1,26 @@
+.TH "dev_pm_opp_init_cpufreq_table" 9 "dev_pm_opp_init_cpufreq_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_init_cpufreq_table \- create a cpufreq table for a device
+.SH SYNOPSIS
+.B "int" dev_pm_opp_init_cpufreq_table
+.BI "(struct device *dev "  ","
+.BI "struct cpufreq_frequency_table **table "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "table" 12
+Cpufreq table returned back to caller
+.SH "DESCRIPTION"
+Generate a cpufreq table for a provided device- this assumes that the
+opp table is already initialized and ready for usage.
+
+This function allocates required memory for the cpufreq table. It is
+expected that the caller does the required maintenance such as freeing
+the table as required.
+
+Returns -EINVAL for bad pointers, -ENODEV if the device is not found, -ENOMEM
+if no memory available for the operation (table is not populated), returns 0
+if successful and table is populated.
+
+WARNING: It is  important for the callers to ensure refreshing their copy of
+the table if any of the mentioned functions have been invoked in the interim.

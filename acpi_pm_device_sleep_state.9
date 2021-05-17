@@ -1,0 +1,20 @@
+.TH "acpi_pm_device_sleep_state" 9 "acpi_pm_device_sleep_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_pm_device_sleep_state \- Get preferred power state of ACPI device.
+.SH SYNOPSIS
+.B "int" acpi_pm_device_sleep_state
+.BI "(struct device *dev "  ","
+.BI "int *d_min_p "  ","
+.BI "int d_max_in "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device whose preferred target power state to return.
+.IP "d_min_p" 12
+Location to store the upper limit of the allowed states range.
+.IP "d_max_in" 12
+Deepest low-power state to take into consideration.
+Return value: Preferred power state of the device on success, -ENODEV
+if there's no 'struct acpi_device' for \fIdev\fP, -EINVAL if \fId_max_in\fP is
+incorrect, or -ENODATA on ACPI method failure.
+.SH "DESCRIPTION"
+The caller must ensure that \fIdev\fP is valid before using this function.

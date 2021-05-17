@@ -1,0 +1,30 @@
+.TH "codec_init" 9 "codec_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+codec_init \- Initialize a Reed-Solomon codec
+.SH SYNOPSIS
+.B "struct rs_codec *" codec_init
+.BI "(int symsize "  ","
+.BI "int gfpoly "  ","
+.BI "int (*gffunc)(int) "  ","
+.BI "int fcr "  ","
+.BI "int prim "  ","
+.BI "int nroots "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "symsize" 12
+symbol size, bits (1-8)
+.IP "gfpoly" 12
+Field generator polynomial coefficients
+.IP "gffunc" 12
+Field generator function
+.IP "fcr" 12
+first root of RS code generator polynomial, index form
+.IP "prim" 12
+primitive element to generate polynomial roots
+.IP "nroots" 12
+RS code generator polynomial degree (number of roots)
+.IP "gfp" 12
+GFP_ flags for allocations
+.SH "DESCRIPTION"
+Allocate a codec structure and the polynom arrays for faster
+en/decoding. Fill the arrays according to the given parameters.

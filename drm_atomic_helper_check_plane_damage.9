@@ -1,0 +1,21 @@
+.TH "drm_atomic_helper_check_plane_damage" 9 "drm_atomic_helper_check_plane_damage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_check_plane_damage \- Verify plane damage on atomic_check.
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_check_plane_damage
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_plane_state *plane_state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+The driver state object.
+.IP "plane_state" 12
+Plane state for which to verify damage.
+.SH "DESCRIPTION"
+This helper function makes sure that damage from plane state is discarded
+for full modeset. If there are more reasons a driver would want to do a full
+plane update rather than processing individual damage regions, then those
+cases should be taken care of here.
+
+Note that \fIdrm_plane_state.fb_damage_clips\fP == NULL in plane state means that
+full plane update should happen. It also ensure helper iterator will return
+\fIdrm_plane_state.src\fP as damage.

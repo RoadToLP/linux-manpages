@@ -1,0 +1,16 @@
+.TH "ccw_device_sched_todo" 9 "ccw_device_sched_todo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_sched_todo \- schedule ccw device operation
+.SH SYNOPSIS
+.B "void" ccw_device_sched_todo
+.BI "(struct ccw_device *cdev "  ","
+.BI "enum cdev_todo todo "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+ccw device
+.IP "todo" 12
+todo
+.SH "DESCRIPTION"
+Schedule the operation identified by \fItodo\fP to be performed on the slow path
+workqueue. Do nothing if another operation with higher priority is already
+scheduled. Needs to be called with ccwdev lock held.

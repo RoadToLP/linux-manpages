@@ -1,0 +1,16 @@
+.TH "sysfs_unbreak_active_protection" 9 "sysfs_unbreak_active_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_unbreak_active_protection \- restore "active" protection
+.SH SYNOPSIS
+.B "void" sysfs_unbreak_active_protection
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+Pointer returned by \fBsysfs_break_active_protection\fP.
+.SH "DESCRIPTION"
+Undo the effects of \fBsysfs_break_active_protection\fP. Since this function
+calls \fBkernfs_put\fP on the kernfs node that corresponds to the 'attr'
+argument passed to \fBsysfs_break_active_protection\fP that attribute may have
+been removed between the \fBsysfs_break_active_protection\fP and
+\fBsysfs_unbreak_active_protection\fP calls, it is not safe to access \fIkn\fP after
+this function has returned.

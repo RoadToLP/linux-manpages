@@ -1,0 +1,20 @@
+.TH "cxgb4_inline_tx_skb" 9 "cxgb4_inline_tx_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4_inline_tx_skb \- inline a packet's data into Tx descriptors
+.SH SYNOPSIS
+.B "void" cxgb4_inline_tx_skb
+.BI "(const struct sk_buff *skb "  ","
+.BI "const struct sge_txq *q "  ","
+.BI "void *pos "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "q" 12
+the Tx queue where the packet will be inlined
+.IP "pos" 12
+starting position in the Tx queue where to inline the packet
+
+Inline a packet's contents directly into Tx descriptors, starting at
+the given position within the Tx DMA ring.
+Most of the complexity of this operation is dealing with wrap arounds
+in the middle of the packet we want to inline.

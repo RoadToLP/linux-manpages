@@ -1,0 +1,32 @@
+.TH "task_current_syscall" 9 "task_current_syscall" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_current_syscall \- Discover what a blocked task is doing.
+.SH SYNOPSIS
+.B "int" task_current_syscall
+.BI "(struct task_struct *target "  ","
+.BI "struct syscall_info *info "  ");"
+.SH ARGUMENTS
+.IP "target" 12
+thread to examine
+.IP "info" 12
+structure with the following fields:
+\&.sp        - filled with user stack pointer
+\&.data.nr   - filled with system call number or -1
+\&.data.args - filled with \fImaxargs\fP system call arguments
+\&.data.instruction_pointer - filled with user PC
+.SH "DESCRIPTION"
+If \fItarget\fP is blocked in a system call, returns zero with \fIinfo.data.nr\fP
+set to the call's number and \fIinfo.data.args\fP filled in with its
+arguments. Registers not used for system call arguments may not be available
+and it is not kosher to use \fIstruct user_regset\fP calls while the system
+call is still in progress.  Note we may get this result if \fItarget\fP
+has finished its system call but not yet returned to user mode, such
+as when it's stopped for signal handling or syscall exit tracing.
+
+If \fItarget\fP is blocked in the kernel during a fault or exception,
+returns zero with *\fIinfo.data.nr\fP set to -1 and does not fill in
+\fIinfo.data.args\fP. If so, it's now safe to examine \fItarget\fP using
+\fIstruct user_regset\fP \fBget\fP calls as long as we're sure \fItarget\fP won't return
+to user mode.
+
+Returns -EAGAIN if \fItarget\fP does not remain blocked.

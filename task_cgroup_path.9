@@ -1,0 +1,22 @@
+.TH "task_cgroup_path" 9 "task_cgroup_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_cgroup_path \- cgroup path of a task in the first cgroup hierarchy
+.SH SYNOPSIS
+.B "int" task_cgroup_path
+.BI "(struct task_struct *task "  ","
+.BI "char *buf "  ","
+.BI "size_t buflen "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+target task
+.IP "buf" 12
+the buffer to write the path into
+.IP "buflen" 12
+the length of the buffer
+.SH "DESCRIPTION"
+Determine \fItask\fP's cgroup on the first (the one with the lowest non-zero
+hierarchy_id) cgroup hierarchy and copy its path into \fIbuf\fP.  This
+function grabs cgroup_mutex and shouldn't be used inside locks used by
+cgroup controller callbacks.
+
+Return value is the same as \fBkernfs_path\fP.

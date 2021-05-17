@@ -1,0 +1,24 @@
+.TH "_netlbl_catmap_getnode" 9 "_netlbl_catmap_getnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_netlbl_catmap_getnode \- Get a individual node from a catmap
+.SH SYNOPSIS
+.B "struct netlbl_lsm_catmap *" _netlbl_catmap_getnode
+.BI "(struct netlbl_lsm_catmap **catmap "  ","
+.BI "u32 offset "  ","
+.BI "unsigned int cm_flags "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "catmap" 12
+pointer to the category bitmap
+.IP "offset" 12
+the requested offset
+.IP "cm_flags" 12
+catmap flags, see _CM_F_*
+.IP "gfp_flags" 12
+memory allocation flags
+.SH "DESCRIPTION"
+Iterate through the catmap looking for the node associated with \fIoffset\fP.
+If the _CM_F_ALLOC flag is set in \fIcm_flags\fP and there is no associated node,
+one will be created and inserted into the catmap.  If the _CM_F_WALK flag is
+set in \fIcm_flags\fP and there is no associated node, the next highest node will
+be returned.  Returns a pointer to the node on success, NULL on failure.

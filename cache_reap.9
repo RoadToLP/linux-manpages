@@ -1,0 +1,17 @@
+.TH "cache_reap" 9 "cache_reap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cache_reap \- Reclaim memory from caches.
+.SH SYNOPSIS
+.B "void" cache_reap
+.BI "(struct work_struct *w "  ");"
+.SH ARGUMENTS
+.IP "w" 12
+work descriptor
+.SH "DESCRIPTION"
+Called from workqueue/eventd every few seconds.
+Purpose:
+- clear the per-cpu caches for this CPU.
+- return freeable pages to the main free memory pool.
+
+If we cannot acquire the cache chain mutex then just give up - we'll try
+again on the next iteration.

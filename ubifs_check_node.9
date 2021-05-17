@@ -1,0 +1,46 @@
+.TH "ubifs_check_node" 9 "ubifs_check_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_check_node \- check node.
+.SH SYNOPSIS
+.B "int" ubifs_check_node
+.BI "(const struct ubifs_info *c "  ","
+.BI "const void *buf "  ","
+.BI "int len "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "int quiet "  ","
+.BI "int must_chk_crc "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+node to check
+.IP "len" 12
+node length
+.IP "lnum" 12
+logical eraseblock number
+.IP "offs" 12
+offset within the logical eraseblock
+.IP "quiet" 12
+print no messages
+.IP "must_chk_crc" 12
+indicates whether to always check the CRC
+.SH "DESCRIPTION"
+This function checks node magic number and CRC checksum. This function also
+validates node length to prevent UBIFS from becoming crazy when an attacker
+feeds it a file-system image with incorrect nodes. For example, too large
+node length in the common header could cause UBIFS to read memory outside of
+allocated buffer when checking the CRC checksum.
+
+This function may skip data nodes CRC checking if \fIc->no_chk_data_crc\fP is
+true, which is controlled by corresponding UBIFS mount option. However, if
+\fImust_chk_crc\fP is true, then \fIc->no_chk_data_crc\fP is ignored and CRC is
+checked. Similarly, if \fIc->mounting\fP or \fIc->remounting_rw\fP is true (we are
+mounting or re-mounting to R/W mode), \fIc->no_chk_data_crc\fP is ignored and CRC
+is checked. This is because during mounting or re-mounting from R/O mode to
+R/W mode we may read journal nodes (when replying the journal or doing the
+recovery) and the journal nodes may potentially be corrupted, so checking is
+required.
+
+This function returns zero in case of success and -EUCLEAN in case of bad
+CRC or magic.

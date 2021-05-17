@@ -1,0 +1,18 @@
+.TH "dev_get_regmap" 9 "dev_get_regmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_get_regmap \- Obtain the regmap (if any) for a device
+.SH SYNOPSIS
+.B "struct regmap *" dev_get_regmap
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to retrieve the map for
+.IP "name" 12
+Optional name for the register map, usually NULL.
+.SH "DESCRIPTION"
+Returns the regmap for the device if one is present, or NULL.  If
+name is specified then it must match the name specified when
+registering the device, if it is NULL then the first regmap found
+will be used.  Devices with multiple register maps are very rare,
+generic code should normally not need to specify a name.

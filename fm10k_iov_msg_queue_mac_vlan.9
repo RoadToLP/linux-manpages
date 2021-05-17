@@ -1,0 +1,21 @@
+.TH "fm10k_iov_msg_queue_mac_vlan" 9 "fm10k_iov_msg_queue_mac_vlan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_iov_msg_queue_mac_vlan \- Message handler for MAC/VLAN request from VF
+.SH SYNOPSIS
+.B "s32" fm10k_iov_msg_queue_mac_vlan
+.BI "(struct fm10k_hw *hw "  ","
+.BI "u32 **results "  ","
+.BI "struct fm10k_mbx_info *mbx "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+Pointer to hardware structure
+.IP "results" 12
+Pointer array to message, results[0] is pointer to message
+.IP "mbx" 12
+Pointer to mailbox information structure
+
+This function is a custom handler for MAC/VLAN requests from the VF. The
+assumption is that it is acceptable to directly hand off the message from
+the VF to the PF's switch manager. However, we use a MAC/VLAN message
+queue to avoid overloading the mailbox when a large number of requests
+come in.

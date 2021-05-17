@@ -1,0 +1,16 @@
+.TH "oom_badness" 9 "oom_badness" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+oom_badness \- heuristic function to determine which candidate task to kill
+.SH SYNOPSIS
+.B "long" oom_badness
+.BI "(struct task_struct *p "  ","
+.BI "unsigned long totalpages "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+task struct of which task we should calculate
+.IP "totalpages" 12
+total present RAM allowed for page allocation
+.SH "DESCRIPTION"
+The heuristic for determining which task to kill is made to be as simple and
+predictable as possible.  The goal is to return the highest value for the
+task consuming the most memory to avoid subsequent oom failures.

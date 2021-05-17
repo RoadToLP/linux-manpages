@@ -1,0 +1,18 @@
+.TH "devt_from_partuuid" 9 "devt_from_partuuid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devt_from_partuuid \- looks up the dev_t of a partition by its UUID
+.SH SYNOPSIS
+.B "dev_t" devt_from_partuuid
+.BI "(const char *uuid_str "  ");"
+.SH ARGUMENTS
+.IP "uuid_str" 12
+char array containing ascii UUID
+.SH "DESCRIPTION"
+The function will return the first partition which contains a matching
+UUID value in its partition_meta_info struct.  This does not search
+by filesystem UUIDs.
+
+If \fIuuid_str\fP is followed by a "/PARTNROFF=d", then the number will be
+extracted and used as an offset from the partition identified by the UUID.
+
+Returns the matching dev_t on success or 0 on failure.

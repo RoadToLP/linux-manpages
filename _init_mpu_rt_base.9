@@ -1,0 +1,28 @@
+.TH "_init_mpu_rt_base" 9 "_init_mpu_rt_base" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_init_mpu_rt_base \- populate the virtual address for a hwmod
+.SH SYNOPSIS
+.B "int" _init_mpu_rt_base
+.BI "(struct omap_hwmod *oh "  ","
+.BI "void *data "  ","
+.BI "int index "  ","
+.BI "struct device_node *np "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod * to locate the virtual address
+.IP "data" 12
+(unused, caller should pass NULL)
+.IP "index" 12
+index of the reg entry iospace in device tree
+.IP "np" 12
+struct device_node * of the IP block's device node in the DT data
+.SH "DESCRIPTION"
+Cache the virtual address used by the MPU to access this IP block's
+registers.  This address is needed early so the OCP registers that
+are part of the device's address space can be ioremapped properly.
+
+If SYSC access is not needed, the registers will not be remapped
+and non-availability of MPU access is not treated as an error.
+
+Returns 0 on success, -EINVAL if an invalid hwmod is passed, and
+-ENXIO on absent or invalid register target address space.

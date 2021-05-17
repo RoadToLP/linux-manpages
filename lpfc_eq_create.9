@@ -1,0 +1,29 @@
+.TH "lpfc_eq_create" 9 "lpfc_eq_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_eq_create \- Create an Event Queue on the HBA
+.SH SYNOPSIS
+.B "int" lpfc_eq_create
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *eq "  ","
+.BI "uint32_t imax "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "eq" 12
+The queue structure to use to create the event queue.
+.IP "imax" 12
+The maximum interrupt per second limit.
+.SH "DESCRIPTION"
+This function creates an event queue, as detailed in \fIeq\fP, on a port,
+described by \fIphba\fP by sending an EQ_CREATE mailbox command to the HBA.
+
+The \fIphba\fP struct is used to send mailbox command to HBA. The \fIeq\fP struct
+is used to get the entry count and entry size that are necessary to
+determine the number of pages to allocate and use for this queue. This
+function will send the EQ_CREATE mailbox command to the HBA to setup the
+event queue. This function is asynchronous and will wait for the mailbox
+command to finish before continuing.
+
+On success this function will return a zero. If unable to allocate enough
+memory this function will return -ENOMEM. If the queue create mailbox command
+fails this function will return -ENXIO.

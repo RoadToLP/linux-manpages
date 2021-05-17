@@ -1,0 +1,27 @@
+.TH "ntfs_resident_attr_value_resize" 9 "ntfs_resident_attr_value_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_resident_attr_value_resize \- resize the value of a resident attribute
+.SH SYNOPSIS
+.B "int" ntfs_resident_attr_value_resize
+.BI "(MFT_RECORD *m "  ","
+.BI "ATTR_RECORD *a "  ","
+.BI "const u32 new_size "  ");"
+.SH ARGUMENTS
+.IP "m" 12
+mft record containing attribute record
+.IP "a" 12
+attribute record whose value to resize
+.IP "new_size" 12
+new size in bytes to which to resize the attribute value of \fIa\fP
+.SH "DESCRIPTION"
+Resize the value of the attribute \fIa\fP in the mft record \fIm\fP to \fInew_size\fP bytes.
+If the value is made bigger, the newly allocated space is cleared.
+
+Return 0 on success and -errno on error.  The following error codes are
+defined:
+-ENOSPC - Not enough space in the mft record \fIm\fP to perform the resize.
+
+Warning: If you make a record smaller without having copied all the data you
+are interested in the data may be overwritten.
+.SH "NOTE"
+On error, no modifications have been performed whatsoever.

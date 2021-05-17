@@ -1,0 +1,22 @@
+.TH "mark_ntfs_record_dirty" 9 "mark_ntfs_record_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mark_ntfs_record_dirty \- mark an ntfs record dirty
+.SH SYNOPSIS
+.B "void" mark_ntfs_record_dirty
+.BI "(struct page *page "  ","
+.BI "const unsigned int ofs "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page containing the ntfs record to mark dirty
+.IP "ofs" 12
+byte offset within \fIpage\fP at which the ntfs record begins
+.SH "DESCRIPTION"
+Set the buffers and the page in which the ntfs record is located dirty.
+
+The latter also marks the vfs inode the ntfs record belongs to dirty
+(I_DIRTY_PAGES only).
+
+If the page does not have buffers, we create them and set them uptodate.
+The page may not be locked which is why we need to handle the buffers under
+the mapping->private_lock.  Once the buffers are marked dirty we no longer
+need the lock since \fBtry_to_free_buffers\fP does not free dirty buffers.

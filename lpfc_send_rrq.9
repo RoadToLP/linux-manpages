@@ -1,0 +1,19 @@
+.TH "lpfc_send_rrq" 9 "lpfc_send_rrq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_send_rrq \- Sends ELS RRQ if needed.
+.SH SYNOPSIS
+.B "int" lpfc_send_rrq
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_node_rrq *rrq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "rrq" 12
+pointer to the active rrq.
+.SH "DESCRIPTION"
+This routine will call the lpfc_issue_els_rrq if the rrq is
+still active for the xri. If this function returns a failure then
+the caller needs to clean up the RRQ by calling lpfc_clr_active_rrq.
+
+Returns 0 Success.
+1 Failure.

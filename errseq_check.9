@@ -1,0 +1,18 @@
+.TH "errseq_check" 9 "errseq_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+errseq_check \- Has an error occurred since a particular sample point?
+.SH SYNOPSIS
+.B "int" errseq_check
+.BI "(errseq_t *eseq "  ","
+.BI "errseq_t since "  ");"
+.SH ARGUMENTS
+.IP "eseq" 12
+Pointer to errseq_t value to be checked.
+.IP "since" 12
+Previously-sampled errseq_t from which to check.
+.SH "DESCRIPTION"
+Grab the value that eseq points to, and see if it has changed \fIsince\fP
+the given value was sampled. The \fIsince\fP value is not advanced, so there
+is no need to mark the value as seen.
+.SH "RETURN"
+The latest error set in the errseq_t or 0 if it hasn't changed.

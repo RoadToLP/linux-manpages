@@ -1,0 +1,14 @@
+.TH "scsi_tape_release" 9 "scsi_tape_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_tape_release \- Called to free the Scsi_Tape structure
+.SH SYNOPSIS
+.B "void" scsi_tape_release
+.BI "(struct kref *kref "  ");"
+.SH ARGUMENTS
+.IP "kref" 12
+pointer to embedded kref
+
+st_ref_mutex must be held entering this routine.  Because it is
+called on last put, you should always use the \fBscsi_tape_get\fP
+\fBscsi_tape_put\fP helpers which manipulate the semaphore directly
+and never do a direct \fBkref_put\fP.

@@ -1,0 +1,19 @@
+.TH "radeon_driver_load_kms" 9 "radeon_driver_load_kms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_driver_load_kms \- Main load function for KMS.
+.SH SYNOPSIS
+.B "int" radeon_driver_load_kms
+.BI "(struct drm_device *dev "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm dev pointer
+.IP "flags" 12
+device flags
+.SH "DESCRIPTION"
+This is the main load function for KMS (all asics).
+It calls \fBradeon_device_init\fP to set up the non-display
+parts of the chip (asic init, CP, writeback, etc.), and
+\fBradeon_modeset_init\fP to set up the display parts
+(crtcs, encoders, hotplug detect, etc.).
+Returns 0 on success, error on failure.

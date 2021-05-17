@@ -1,0 +1,40 @@
+.TH "usb_interrupt_msg" 9 "usb_interrupt_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_interrupt_msg \- Builds an interrupt urb, sends it off and waits for completion
+.SH SYNOPSIS
+.B "int" usb_interrupt_msg
+.BI "(struct usb_device *usb_dev "  ","
+.BI "unsigned int pipe "  ","
+.BI "void *data "  ","
+.BI "int len "  ","
+.BI "int *actual_length "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "usb_dev" 12
+pointer to the usb device to send the message to
+.IP "pipe" 12
+endpoint "pipe" to send the message to
+.IP "data" 12
+pointer to the data to send
+.IP "len" 12
+length in bytes of the data to send
+.IP "actual_length" 12
+pointer to a location to put the actual length transferred
+in bytes
+.IP "timeout" 12
+time in msecs to wait for the message to complete before
+timing out (if 0 the wait is forever)
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+This function sends a simple interrupt message to a specified endpoint and
+waits for the message to complete, or timeout.
+
+Don't use this function from within an interrupt context. If you need
+an asynchronous message, or need to send a message from within interrupt
+context, use \fBusb_submit_urb\fP If a thread in your driver uses this call,
+make sure your \fBdisconnect\fP method can wait for it to complete. Since you
+don't have a handle on the URB used, you can't cancel the request.
+.SH "RETURN"
+If successful, 0. Otherwise a negative error number. The number of actual
+bytes transferred will be stored in the \fIactual_length\fP parameter.

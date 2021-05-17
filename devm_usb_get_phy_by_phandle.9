@@ -1,0 +1,24 @@
+.TH "devm_usb_get_phy_by_phandle" 9 "devm_usb_get_phy_by_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_usb_get_phy_by_phandle \- find the USB PHY by phandle
+.SH SYNOPSIS
+.B "struct usb_phy *" devm_usb_get_phy_by_phandle
+.BI "(struct device *dev "  ","
+.BI "const char *phandle "  ","
+.BI "u8 index "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that requests this phy
+.IP "phandle" 12
+name of the property holding the phy phandle value
+.IP "index" 12
+the index of the phy
+.SH "DESCRIPTION"
+Returns the phy driver associated with the given phandle value,
+after getting a refcount to it, -ENODEV if there is no such phy or
+-EPROBE_DEFER if there is a phandle to the phy, but the device is
+not yet loaded. While at that, it also associates the device with
+the phy using devres. On driver detach, release function is invoked
+on the devres data, then, devres data is freed.
+
+For use by USB host and peripheral drivers.

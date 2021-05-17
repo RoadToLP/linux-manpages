@@ -1,0 +1,19 @@
+.TH "amdgpu_dma_buf_map" 9 "amdgpu_dma_buf_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dma_buf_map \- &dma_buf_ops.map_dma_buf implementation
+.SH SYNOPSIS
+.B "struct sg_table *" amdgpu_dma_buf_map
+.BI "(struct dma_buf_attachment *attach "  ","
+.BI "enum dma_data_direction dir "  ");"
+.SH ARGUMENTS
+.IP "attach" 12
+DMA-buf attachment
+.IP "dir" 12
+DMA direction
+.SH "DESCRIPTION"
+Makes sure that the shared DMA buffer can be accessed by the target device.
+For now, simply pins it to the GTT domain, where it should be accessible by
+all DMA devices.
+.SH "RETURN"
+sg_table filled with the DMA addresses to use or ERR_PRT with negative error
+code.

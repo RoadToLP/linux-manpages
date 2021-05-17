@@ -1,0 +1,18 @@
+.TH "key_payload_reserve" 9 "key_payload_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_payload_reserve \- Adjust data quota reservation for the key's payload
+.SH SYNOPSIS
+.B "int" key_payload_reserve
+.BI "(struct key *key "  ","
+.BI "size_t datalen "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+The key to make the reservation for.
+.IP "datalen" 12
+The amount of data payload the caller now wants.
+.SH "DESCRIPTION"
+Adjust the amount of the owning user's key data quota that a key reserves.
+If the amount is increased, then -EDQUOT may be returned if there isn't
+enough free quota available.
+
+If successful, 0 is returned.

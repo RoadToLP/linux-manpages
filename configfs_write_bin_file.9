@@ -1,0 +1,23 @@
+.TH "configfs_write_bin_file" 9 "configfs_write_bin_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+configfs_write_bin_file \- write a binary attribute.
+.SH SYNOPSIS
+.B "ssize_t" configfs_write_bin_file
+.BI "(struct file *file "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "buf" 12
+data to write
+.IP "count" 12
+number of bytes
+.IP "ppos" 12
+starting offset
+
+Writing to a binary attribute file is similar to a normal read.
+We buffer the consecutive writes (binary attribute files do not
+support lseek) in a continuously growing buffer, but we don't
+commit until the close of the file.

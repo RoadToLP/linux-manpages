@@ -1,0 +1,32 @@
+.TH "nilfs_ioctl_get_sustat" 9 "nilfs_ioctl_get_sustat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_get_sustat \- get segment usage statistics
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_get_sustat
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_get_sustat\fP returns segment usage statistics.
+The NILFS_IOCTL_GET_SUSTAT ioctl is used in lssu, nilfs_resize utilities
+and by nilfs_cleanerd daemon.
+
+Return Value: On success, 0 is returned, and segment usage information is
+copied into userspace pointer \fIargp\fP. On error, one of the following
+negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EFAULT - Failure during getting segment usage statistics.

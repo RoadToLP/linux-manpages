@@ -1,0 +1,22 @@
+.TH "fcoe_ctlr_age_fcfs" 9 "fcoe_ctlr_age_fcfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_age_fcfs \- Reset and free all old FCFs for a controller
+.SH SYNOPSIS
+.B "unsigned long" fcoe_ctlr_age_fcfs
+.BI "(struct fcoe_ctlr *fip "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller to free FCFs on
+.SH "DESCRIPTION"
+Called with lock held and preemption disabled.
+
+An FCF is considered old if we have missed two advertisements.
+That is, there have been no valid advertisement from it for 2.5
+times its keep-alive period.
+
+In addition, determine the time when an FCF selection can occur.
+
+Also, increment the MissDiscAdvCount when no advertisement is received
+for the corresponding FCF for 1.5 * FKA_ADV_PERIOD (FC-BB-5 LESB).
+
+Returns the time in jiffies for the next call.

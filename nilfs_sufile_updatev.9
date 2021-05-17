@@ -1,0 +1,43 @@
+.TH "nilfs_sufile_updatev" 9 "nilfs_sufile_updatev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_sufile_updatev \- modify multiple segment usages at a time
+.SH SYNOPSIS
+.B "int" nilfs_sufile_updatev
+.BI "(struct inode *sufile "  ","
+.BI "__u64 *segnumv "  ","
+.BI "size_t nsegs "  ","
+.BI "int create "  ","
+.BI "size_t *ndone "  ","
+.BI "void (*dofunc)(struct inode *, __u64, struct buffer_head *, struct buffer_head *) "  ");"
+.SH ARGUMENTS
+.IP "sufile" 12
+inode of segment usage file
+.IP "segnumv" 12
+array of segment numbers
+.IP "nsegs" 12
+size of \fIsegnumv\fP array
+.IP "create" 12
+creation flag
+.IP "ndone" 12
+place to store number of modified segments on \fIsegnumv\fP
+.IP "dofunc" 12
+primitive operation for the update
+.SH "DESCRIPTION"
+\fBnilfs_sufile_updatev\fP repeatedly calls \fIdofunc\fP
+against the given array of segments.  The \fIdofunc\fP is called with
+buffers of a header block and the sufile block in which the target
+segment usage entry is contained.  If \fIndone\fP is given, the number
+of successfully modified segments from the head is stored in the
+place \fIndone\fP points to.
+
+Return Value: On success, zero is returned.  On error, one of the
+following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOENT - Given segment usage is in hole block (may be returned if
+\fIcreate\fP is zero)
+
+-EINVAL - Invalid segment usage number

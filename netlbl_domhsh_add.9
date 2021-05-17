@@ -1,0 +1,19 @@
+.TH "netlbl_domhsh_add" 9 "netlbl_domhsh_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_domhsh_add \- Adds a entry to the domain hash table
+.SH SYNOPSIS
+.B "int" netlbl_domhsh_add
+.BI "(struct netlbl_dom_map *entry "  ","
+.BI "struct netlbl_audit *audit_info "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+the entry to add
+.IP "audit_info" 12
+NetLabel audit information
+.SH "DESCRIPTION"
+Adds a new entry to the domain hash table and handles any updates to the
+lower level protocol handler (i.e. CIPSO).  \fIentry->family\fP may be set to
+AF_UNSPEC which will add an entry that matches all address families.  This
+is only useful for the unlabelled type and will only succeed if there is no
+existing entry for any address family with the same domain.  Returns zero
+on success, negative on failure.

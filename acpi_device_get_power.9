@@ -1,0 +1,21 @@
+.TH "acpi_device_get_power" 9 "acpi_device_get_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_device_get_power \- Get power state of an ACPI device.
+.SH SYNOPSIS
+.B "int" acpi_device_get_power
+.BI "(struct acpi_device *device "  ","
+.BI "int *state "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+Device to get the power state of.
+.IP "state" 12
+Place to store the power state of the device.
+.SH "DESCRIPTION"
+This function does not update the device's power.state field, but it may
+update its parent's power.state field (when the parent's power state is
+unknown and the device's power state turns out to be D0).
+
+Also, it does not update power resource reference counters to ensure that
+the power state returned by it will be persistent and it may return a power
+state shallower than previously set by \fBacpi_device_set_power\fP for \fIdevice\fP
+(if that power state depends on any power resources).

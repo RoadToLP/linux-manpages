@@ -1,0 +1,32 @@
+.TH "tipc_node_link_failover" 9 "tipc_node_link_failover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_node_link_failover \- start failover in case "half-failover"
+.SH SYNOPSIS
+.B "void" tipc_node_link_failover
+.BI "(struct tipc_node *n "  ","
+.BI "struct tipc_link *l "  ","
+.BI "struct tipc_link *tnl "  ","
+.BI "struct sk_buff_head *xmitq "  ");"
+.SH ARGUMENTS
+.IP "n" 12
+tipc node structure
+.IP "l" 12
+link peer endpoint failingover (- can be NULL)
+.IP "tnl" 12
+tunnel link
+.IP "xmitq" 12
+queue for messages to be xmited on tnl link later
+.SH "DESCRIPTION"
+
+This function is only called in a very special situation where link
+failover can be already started on peer node but not on this node.
+This can happen when e.g.::
+
+1. Both links <1A-2A>, <1B-2B> down
+2. Link endpoint 2A up, but 1A still down (e.g. due to network
+disturbance, wrong session, etc.)
+3. Link <1B-2B> up
+4. Link endpoint 2A down (e.g. due to link tolerance timeout)
+5. Node 2 starts failover onto link <1B-2B>
+
+==> Node 1 does never start link/node failover!

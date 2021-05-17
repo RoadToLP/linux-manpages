@@ -1,0 +1,20 @@
+.TH "megadev_ioctl" 9 "megadev_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megadev_ioctl \- 
+.SH SYNOPSIS
+.B "int" megadev_ioctl
+.BI "(struct file *filep "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "filep" 12
+Our device file
+.IP "cmd" 12
+ioctl command
+.IP "arg" 12
+user buffer
+.SH "DESCRIPTION"
+ioctl entry point for our private ioctl interface. We move the data in from
+the user space, prepare the command (if necessary, convert the old MIMD
+ioctl to new ioctl command), and issue a synchronous command to the
+controller.

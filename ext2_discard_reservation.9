@@ -1,0 +1,17 @@
+.TH "ext2_discard_reservation" 9 "ext2_discard_reservation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_discard_reservation \- 
+.SH SYNOPSIS
+.B "void" ext2_discard_reservation
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode
+.SH "DESCRIPTION"
+Discard(free) block reservation window on last file close, or truncate
+or at last \fBiput\fP.
+
+It is being called in three cases:
+\fBext2_release_file\fP: last writer closes the file
+\fBext2_clear_inode\fP: last \fBiput\fP, when nobody links to this file.
+\fBext2_truncate\fP: when the block indirect map is about to change.

@@ -1,0 +1,15 @@
+.TH "effhash" 9 "effhash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+effhash \- hash function for 29 bit CAN identifier reduction
+.SH SYNOPSIS
+.B "unsigned int" effhash
+.BI "(canid_t can_id "  ");"
+.SH ARGUMENTS
+.IP "can_id" 12
+29 bit CAN identifier
+.SH "DESCRIPTION"
+To reduce the linear traversal in one linked list of _single_ EFF CAN
+frame subscriptions the 29 bit identifier is mapped to 10 bits.
+(see CAN_EFF_RCV_HASH_BITS definition)
+.SH "RETURN"
+Hash value from 0x000 - 0x3FF ( enforced by CAN_EFF_RCV_HASH_BITS mask )

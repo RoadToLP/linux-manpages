@@ -1,0 +1,23 @@
+.TH "e1000e_config_hwtstamp" 9 "e1000e_config_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000e_config_hwtstamp \- configure the hwtstamp registers and enable/disable
+.SH SYNOPSIS
+.B "int" e1000e_config_hwtstamp
+.BI "(struct e1000_adapter *adapter "  ","
+.BI "struct hwtstamp_config *config "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private structure
+.IP "config" 12
+timestamp configuration
+.SH "DESCRIPTION"
+Outgoing time stamping can be enabled and disabled. Play nice and
+disable it when requested, although it shouldn't cause any overhead
+when no packet needs it. At most one packet in the queue may be
+marked for time stamping, otherwise it would be impossible to tell
+for sure to which packet the hardware time stamp belongs.
+
+Incoming time stamping has to be configured via the hardware filters.
+Not all combinations are supported, in particular event type has to be
+specified. Matching the kind of event packet is not supported, with the
+exception of "all V2 events regardless of level 2 or 4".

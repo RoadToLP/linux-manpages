@@ -1,0 +1,25 @@
+.TH "__wake_up_sync_key" 9 "__wake_up_sync_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__wake_up_sync_key \- wake up threads blocked on a waitqueue.
+.SH SYNOPSIS
+.B "void" __wake_up_sync_key
+.BI "(struct wait_queue_head *wq_head "  ","
+.BI "unsigned int mode "  ","
+.BI "void *key "  ");"
+.SH ARGUMENTS
+.IP "wq_head" 12
+the waitqueue
+.IP "mode" 12
+which threads
+.IP "key" 12
+opaque value to be passed to wakeup targets
+.SH "DESCRIPTION"
+The sync wakeup differs that the waker knows that it will schedule
+away soon, so while the target thread will be woken up, it will not
+be migrated to another CPU - ie. the two threads are 'synchronized'
+with each other. This can prevent needless bouncing between CPUs.
+
+On UP it can prevent extra preemption.
+
+If this function wakes up a task, it executes a full memory barrier before
+accessing the task state.

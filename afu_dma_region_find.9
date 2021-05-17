@@ -1,0 +1,23 @@
+.TH "afu_dma_region_find" 9 "afu_dma_region_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+afu_dma_region_find \- find the dma region from rbtree based on iova and size
+.SH SYNOPSIS
+.B "struct dfl_afu_dma_region *" afu_dma_region_find
+.BI "(struct dfl_feature_platform_data *pdata "  ","
+.BI "u64 iova "  ","
+.BI "u64 size "  ");"
+.SH ARGUMENTS
+.IP "pdata" 12
+feature device platform data
+.IP "iova" 12
+address of the dma memory area
+.IP "size" 12
+size of the dma memory area
+.SH "DESCRIPTION"
+It finds the dma region from the rbtree based on \fIiova\fP and \fIsize\fP:
+- if \fIsize\fP == 0, it finds the dma region which starts from \fIiova\fP
+- otherwise, it finds the dma region which fully contains
+[\fIiova\fP, \fIiova\fP+size)
+If nothing is matched returns NULL.
+
+Needs to be called with pdata->lock held.

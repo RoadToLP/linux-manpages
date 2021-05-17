@@ -1,0 +1,24 @@
+.TH "klp_get_prev_state" 9 "klp_get_prev_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klp_get_prev_state \- get information about system state modified by the already installed livepatches
+.SH SYNOPSIS
+.B "struct klp_state *" klp_get_prev_state
+.BI "(unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+custom identifier of the modified system state
+.SH "DESCRIPTION"
+Checks whether already installed livepatches modify the given
+system state.
+
+The same system state can be modified by more non-cumulative
+livepatches. It is expected that the latest livepatch has
+the most up-to-date information.
+
+The function can be called only during transition when a new
+livepatch is being enabled or when such a transition is reverted.
+It is typically called only from pre/post (un)patch
+callbacks.
+.SH "RETURN"
+pointer to the latest struct klp_state from already
+installed livepatches, NULL when not found.

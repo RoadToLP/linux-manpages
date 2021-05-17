@@ -1,0 +1,33 @@
+.TH "nand_op_parser_exec_op" 9 "nand_op_parser_exec_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_op_parser_exec_op \- exec_op parser
+.SH SYNOPSIS
+.B "int" nand_op_parser_exec_op
+.BI "(struct nand_chip *chip "  ","
+.BI "const struct nand_op_parser *parser "  ","
+.BI "const struct nand_operation *op "  ","
+.BI "bool check_only "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+the NAND chip
+.IP "parser" 12
+patterns description provided by the controller driver
+.IP "op" 12
+the NAND operation to address
+.IP "check_only" 12
+when true, the function only checks if \fIop\fP can be handled but
+does not execute the operation
+.SH "DESCRIPTION"
+Helper function designed to ease integration of NAND controller drivers that
+only support a limited set of instruction sequences. The supported sequences
+are described in \fIparser\fP, and the framework takes care of splitting \fIop\fP into
+multiple sub-operations (if required) and pass them back to the ->\fBexec\fP
+callback of the matching pattern if \fIcheck_only\fP is set to false.
+
+NAND controller drivers should call this function from their own ->\fBexec_op\fP
+implementation.
+
+Returns 0 on success, a negative error code otherwise. A failure can be
+caused by an unsupported operation (none of the supported patterns is able
+to handle the requested operation), or an error returned by one of the
+matching pattern->\fBexec\fP hook.

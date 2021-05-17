@@ -1,0 +1,27 @@
+.TH "netlbl_unlabel_staticlist_gen" 9 "netlbl_unlabel_staticlist_gen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_unlabel_staticlist_gen \- Generate messages for STATICLIST[DEF]
+.SH SYNOPSIS
+.B "int" netlbl_unlabel_staticlist_gen
+.BI "(u32 cmd "  ","
+.BI "const struct netlbl_unlhsh_iface *iface "  ","
+.BI "const struct netlbl_unlhsh_addr4 *addr4 "  ","
+.BI "const struct netlbl_unlhsh_addr6 *addr6 "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+command/message
+.IP "iface" 12
+the interface entry
+.IP "addr4" 12
+the IPv4 address entry
+.IP "addr6" 12
+the IPv6 address entry
+.IP "arg" 12
+the netlbl_unlhsh_walk_arg structure
+.SH "DESCRIPTION"
+This function is designed to be used to generate a response for a
+STATICLIST or STATICLISTDEF message.  When called either \fIaddr4\fP or \fIaddr6\fP
+can be specified, not both, the other unspecified entry should be set to
+NULL by the caller.  Returns the size of the message on success, negative
+values on failure.

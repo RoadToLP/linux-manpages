@@ -1,0 +1,25 @@
+.TH "fscrypt_get_symlink" 9 "fscrypt_get_symlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_get_symlink \- get the target of an encrypted symlink
+.SH SYNOPSIS
+.B "const char *" fscrypt_get_symlink
+.BI "(struct inode *inode "  ","
+.BI "const void *caddr "  ","
+.BI "unsigned int max_size "  ","
+.BI "struct delayed_call *done "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the symlink inode
+.IP "caddr" 12
+the on-disk contents of the symlink
+.IP "max_size" 12
+size of \fIcaddr\fP buffer
+.IP "done" 12
+if successful, will be set up to free the returned target if needed
+.SH "DESCRIPTION"
+If the symlink's encryption key is available, we decrypt its target.
+Otherwise, we encode its target for presentation.
+
+This may sleep, so the filesystem must have dropped out of RCU mode already.
+.SH "RETURN"
+the presentable symlink target or an \fBERR_PTR\fP

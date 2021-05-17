@@ -1,0 +1,29 @@
+.TH "sys_pidfd_send_signal" 9 "sys_pidfd_send_signal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_pidfd_send_signal \- Signal a process through a pidfd
+.SH SYNOPSIS
+.B "long" sys_pidfd_send_signal
+.BI "(int pidfd "  ","
+.BI "int sig "  ","
+.BI "siginfo_t __user * info "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "pidfd" 12
+file descriptor of the process
+.IP "sig" 12
+signal to send
+.IP "info" 12
+signal info
+.IP "flags" 12
+future flags
+.SH "DESCRIPTION"
+The syscall currently only signals via PIDTYPE_PID which covers
+kill(<positive-pid>, <signal>. It does not signal threads or process
+groups.
+In order to extend the syscall to threads and process groups the \fIflags\fP
+argument should be used. In essence, the \fIflags\fP argument will determine
+what is signaled and not the file descriptor itself. Put in other words,
+grouping is a property of the flags argument not a property of the file
+descriptor.
+.SH "RETURN"
+0 on success, negative errno on failure

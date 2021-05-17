@@ -1,0 +1,24 @@
+.TH "jbd2_journal_forget" 9 "jbd2_journal_forget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_forget \- bforget() for potentially-journaled buffers.
+.SH SYNOPSIS
+.B "int" jbd2_journal_forget
+.BI "(handle_t *handle "  ","
+.BI "struct buffer_head *bh "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+transaction handle
+.IP "bh" 12
+bh to 'forget'
+.SH "DESCRIPTION"
+We can only do the bforget if there are no commits pending against the
+buffer.  If the buffer is dirty in the current running transaction we
+can safely unlink it.
+
+bh may not be a journalled buffer at all - it may be a non-JBD
+buffer which came off the hashtable.  Check for this.
+
+Decrements bh->b_count by one.
+
+Allow this call even if the handle has aborted --- it may be part of
+the caller's cleanup after an abort.

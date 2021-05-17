@@ -1,0 +1,20 @@
+.TH "bnx2i_get_rq_buf" 9 "bnx2i_get_rq_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_get_rq_buf \- copy RQ buffer contents to driver buffer
+.SH SYNOPSIS
+.B "void" bnx2i_get_rq_buf
+.BI "(struct bnx2i_conn *bnx2i_conn "  ","
+.BI "char *ptr "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "bnx2i_conn" 12
+iscsi connection on which RQ event occurred
+.IP "ptr" 12
+driver buffer to which RQ buffer contents is to
+be copied
+.IP "len" 12
+length of valid data inside RQ buf
+.SH "DESCRIPTION"
+Copies RQ buffer contents from shared (DMA'able) memory region to
+driver buffer. RQ is used to DMA unsolicitated iscsi pdu's and
+scsi sense info

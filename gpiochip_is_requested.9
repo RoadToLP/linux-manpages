@@ -1,0 +1,20 @@
+.TH "gpiochip_is_requested" 9 "gpiochip_is_requested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_is_requested \- return string iff signal was requested
+.SH SYNOPSIS
+.B "const char *" gpiochip_is_requested
+.BI "(struct gpio_chip *gc "  ","
+.BI "unsigned int offset "  ");"
+.SH ARGUMENTS
+.IP "gc" 12
+controller managing the signal
+.IP "offset" 12
+of signal within controller's 0..(ngpio - 1) range
+.SH "DESCRIPTION"
+Returns NULL if the GPIO is not currently requested, else a string.
+The string returned is the label passed to \fBgpio_request\fP; if none has been
+passed it is a meaningless, non-NULL constant.
+
+This function is for use by GPIO controller drivers.  The label can
+help with diagnostics, and knowing that the signal is used as a GPIO
+can help avoid accidentally multiplexing it to another controller.

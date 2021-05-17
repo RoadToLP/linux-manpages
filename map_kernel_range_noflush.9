@@ -1,0 +1,27 @@
+.TH "map_kernel_range_noflush" 9 "map_kernel_range_noflush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+map_kernel_range_noflush \- map kernel VM area with the specified pages
+.SH SYNOPSIS
+.B "int" map_kernel_range_noflush
+.BI "(unsigned long addr "  ","
+.BI "unsigned long size "  ","
+.BI "pgprot_t prot "  ","
+.BI "struct page **pages "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+start of the VM area to map
+.IP "size" 12
+size of the VM area to map
+.IP "prot" 12
+page protection flags to use
+.IP "pages" 12
+pages to map
+.SH "DESCRIPTION"
+Map PFN_UP(\fIsize\fP) pages at \fIaddr\fP.  The VM area \fIaddr\fP and \fIsize\fP specify should
+have been allocated using \fBget_vm_area\fP and its friends.
+.SH "NOTE"
+This function does NOT do any cache flushing.  The caller is responsible for
+calling \fBflush_cache_vmap\fP on to-be-mapped areas before calling this
+function.
+.SH "RETURN"
+0 on success, -errno on failure.

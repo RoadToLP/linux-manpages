@@ -1,0 +1,21 @@
+.TH "calipso_opt_insert" 9 "calipso_opt_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_opt_insert \- Inserts a CALIPSO option into an IPv6 hop opt hdr
+.SH SYNOPSIS
+.B "struct ipv6_opt_hdr *" calipso_opt_insert
+.BI "(struct ipv6_opt_hdr *hop "  ","
+.BI "const struct calipso_doi *doi_def "  ","
+.BI "const struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "hop" 12
+the original hop options header
+.IP "doi_def" 12
+the CALIPSO DOI to use
+.IP "secattr" 12
+the specific security attributes of the socket
+.SH "DESCRIPTION"
+Creates a new hop options header based on \fIhop\fP with a
+CALIPSO option added to it.  If \fIhop\fP already contains a CALIPSO
+option this is overwritten, otherwise the new option is appended
+after any existing options.  If \fIhop\fP is NULL then the new header
+will contain just the CALIPSO option and any needed padding.

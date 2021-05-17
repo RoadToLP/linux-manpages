@@ -1,0 +1,18 @@
+.TH "gpio_keys_disable_button" 9 "gpio_keys_disable_button" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpio_keys_disable_button \- disables given GPIO button
+.SH SYNOPSIS
+.B "void" gpio_keys_disable_button
+.BI "(struct gpio_button_data *bdata "  ");"
+.SH ARGUMENTS
+.IP "bdata" 12
+button data for button to be disabled
+.SH "DESCRIPTION"
+Disables button pointed by \fIbdata\fP. This is done by masking
+IRQ line. After this function is called, button won't generate
+input events anymore. Note that one can only disable buttons
+that don't share IRQs.
+
+Make sure that \fIbdata->disable_lock\fP is locked when entering
+this function to avoid races when concurrent threads are
+disabling buttons at the same time.

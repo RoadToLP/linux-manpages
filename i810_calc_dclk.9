@@ -1,0 +1,23 @@
+.TH "i810_calc_dclk" 9 "i810_calc_dclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i810_calc_dclk \- calculates the P, M, and N values of a pixelclock value
+.SH SYNOPSIS
+.B "void" i810_calc_dclk
+.BI "(u32 freq "  ","
+.BI "u32 *m "  ","
+.BI "u32 *n "  ","
+.BI "u32 *p "  ");"
+.SH ARGUMENTS
+.IP "freq" 12
+target pixelclock in picoseconds
+.IP "m" 12
+where to write M register
+.IP "n" 12
+where to write N register
+.IP "p" 12
+where to write P register
+.SH "DESCRIPTION"
+Based on the formula Freq_actual = (4*M*Freq_ref)/(N^P)
+Repeatedly computes the Freq until the actual Freq is equal to
+the target Freq or until the loop count is zero.  In the latter
+case, the actual frequency nearest the target will be used.

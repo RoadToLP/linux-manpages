@@ -1,0 +1,19 @@
+.TH "cros_ec_cmd_xfer_status" 9 "cros_ec_cmd_xfer_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_cmd_xfer_status \- Send a command to the ChromeOS EC.
+.SH SYNOPSIS
+.B "int" cros_ec_cmd_xfer_status
+.BI "(struct cros_ec_device *ec_dev "  ","
+.BI "struct cros_ec_command *msg "  ");"
+.SH ARGUMENTS
+.IP "ec_dev" 12
+EC device.
+.IP "msg" 12
+Message to write.
+.SH "DESCRIPTION"
+Call this to send a command to the ChromeOS EC. This should be used instead of calling the EC's
+\fBcmd_xfer\fP callback directly. It returns success status only if both the command was transmitted
+successfully and the EC replied with success status.
+.SH "RETURN"
+>=0 - The number of bytes transferred
+<0 - Linux error code

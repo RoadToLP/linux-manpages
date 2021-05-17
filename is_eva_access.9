@@ -1,0 +1,16 @@
+.TH "is_eva_access" 9 "is_eva_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_eva_access \- Find whether an instruction is an EVA memory accessor.
+.SH SYNOPSIS
+.B "bool" is_eva_access
+.BI "(union mips_instruction inst "  ");"
+.SH ARGUMENTS
+.IP "inst" 12
+32-bit instruction encoding.
+.SH "DESCRIPTION"
+Finds whether \fIinst\fP encodes an EVA memory access instruction, which would
+indicate that emulation of it should access the user mode address space
+instead of the kernel mode address space. This matters for MUSUK segments
+which are TLB mapped for user mode but unmapped for kernel mode.
+.SH "RETURN"
+Whether \fIinst\fP encodes an EVA accessor instruction.

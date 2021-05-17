@@ -1,0 +1,16 @@
+.TH "tty_unthrottle_safe" 9 "tty_unthrottle_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_unthrottle_safe \- flow control
+.SH SYNOPSIS
+.B "int" tty_unthrottle_safe
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Similar to \fBtty_unthrottle\fP but will only attempt unthrottle
+if tty->flow_change is TTY_UNTHROTTLE_SAFE. Prevents an accidental
+unthrottle due to race conditions when unthrottling is conditional
+on factors evaluated prior to unthrottling.
+
+Returns 0 if tty is unthrottled (or was already unthrottled)

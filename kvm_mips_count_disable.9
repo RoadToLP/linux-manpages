@@ -1,0 +1,17 @@
+.TH "kvm_mips_count_disable" 9 "kvm_mips_count_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_count_disable \- Disable count.
+.SH SYNOPSIS
+.B "ktime_t" kvm_mips_count_disable
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.SH "DESCRIPTION"
+Disable the CP0_Count timer. A timer interrupt on or before the final stop
+time will be handled but not after.
+
+Assumes CP0_Count was previously enabled but now Guest.CP0_Cause.DC or
+count_ctl.DC has been set (count disabled).
+.SH "RETURN"
+The time that the timer was stopped.

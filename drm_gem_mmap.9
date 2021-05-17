@@ -1,0 +1,22 @@
+.TH "drm_gem_mmap" 9 "drm_gem_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_mmap \- memory map routine for GEM objects
+.SH SYNOPSIS
+.B "int" drm_gem_mmap
+.BI "(struct file *filp "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+DRM file pointer
+.IP "vma" 12
+VMA for the area to be mapped
+.SH "DESCRIPTION"
+If a driver supports GEM object mapping, mmap calls on the DRM file
+descriptor will end up here.
+
+Look up the GEM object based on the offset passed in (vma->vm_pgoff will
+contain the fake offset we created when the GTT map ioctl was called on
+the object) and map it with a call to \fBdrm_gem_mmap_obj\fP.
+
+If the caller is not granted access to the buffer object, the mmap will fail
+with EACCES. Please see the vma manager for more information.

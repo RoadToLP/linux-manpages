@@ -1,0 +1,20 @@
+.TH "wait_for_completion_io_timeout" 9 "wait_for_completion_io_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_completion_io_timeout \- - waits for completion of a task (w/timeout)
+.SH SYNOPSIS
+.B "unsigned long" wait_for_completion_io_timeout
+.BI "(struct completion *x "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+holds the state of this particular completion
+.IP "timeout" 12
+timeout value in jiffies
+.SH "DESCRIPTION"
+This waits for either a completion of a specific task to be signaled or for a
+specified timeout to expire. The timeout is in jiffies. It is not
+interruptible. The caller is accounted as waiting for IO (which traditionally
+means blkio only).
+.SH "RETURN"
+0 if timed out, and positive (at least 1, or number of jiffies left
+till timeout) if completed.

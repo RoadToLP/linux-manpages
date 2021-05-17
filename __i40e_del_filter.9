@@ -1,0 +1,22 @@
+.TH "__i40e_del_filter" 9 "__i40e_del_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__i40e_del_filter \- Remove a specific filter from the VSI
+.SH SYNOPSIS
+.B "void" __i40e_del_filter
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "struct i40e_mac_filter *f "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+VSI to remove from
+.IP "f" 12
+the filter to remove from the list
+.SH "DESCRIPTION"
+This function should be called instead of i40e_del_filter only if you know
+the exact filter you will remove already, such as via i40e_find_filter or
+i40e_find_mac.
+.SH "NOTE"
+This function is expected to be called with mac_filter_hash_lock
+being held.
+ANOTHER NOTE: This function MUST be called from within the context of
+the "safe" variants of any list iterators, e.g. \fBlist_for_each_entry_safe\fP
+instead of \fBlist_for_each_entry\fP.

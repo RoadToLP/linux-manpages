@@ -1,0 +1,29 @@
+.TH "udma_get_tr_counters" 9 "udma_get_tr_counters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+udma_get_tr_counters \- calculate TR counters for a given length
+.SH SYNOPSIS
+.B "int" udma_get_tr_counters
+.BI "(size_t len "  ","
+.BI "unsigned long align_to "  ","
+.BI "u16 *tr0_cnt0 "  ","
+.BI "u16 *tr0_cnt1 "  ","
+.BI "u16 *tr1_cnt0 "  ");"
+.SH ARGUMENTS
+.IP "len" 12
+Length of the trasnfer
+.IP "align_to" 12
+Preferred alignment
+.IP "tr0_cnt0" 12
+First TR icnt0
+.IP "tr0_cnt1" 12
+First TR icnt1
+.IP "tr1_cnt0" 12
+Second (if used) TR icnt0
+.SH "DESCRIPTION"
+For len < SZ_64K only one TR is enough, tr1_cnt0 is not updated
+For len >= SZ_64K two TRs are used in a simple way:
+First TR: SZ_64K-alignment blocks (tr0_cnt0, tr0_cnt1)
+Second TR: the remaining length (tr1_cnt0)
+
+Returns the number of TRs the length needs (1 or 2)
+-EINVAL if the length can not be supported

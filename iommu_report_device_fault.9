@@ -1,0 +1,18 @@
+.TH "iommu_report_device_fault" 9 "iommu_report_device_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_report_device_fault \- Report fault event to device driver
+.SH SYNOPSIS
+.B "int" iommu_report_device_fault
+.BI "(struct device *dev "  ","
+.BI "struct iommu_fault_event *evt "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device
+.IP "evt" 12
+fault event data
+.SH "DESCRIPTION"
+Called by IOMMU drivers when a fault is detected, typically in a threaded IRQ
+handler. When this function fails and the fault is recoverable, it is the
+caller's responsibility to complete the fault.
+
+Return 0 on success, or an error.

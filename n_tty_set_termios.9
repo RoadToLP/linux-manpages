@@ -1,0 +1,20 @@
+.TH "n_tty_set_termios" 9 "n_tty_set_termios" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_set_termios \- termios data changed
+.SH SYNOPSIS
+.B "void" n_tty_set_termios
+.BI "(struct tty_struct *tty "  ","
+.BI "struct ktermios *old "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+.IP "old" 12
+previous data
+
+Called by the tty layer when the user changes termios flags so
+that the line discipline can plan ahead. This function cannot sleep
+and is protected from re-entry by the tty layer. The user is
+guaranteed that this function will not be re-entered or in progress
+when the ldisc is closed.
+
+Locking: Caller holds tty->termios_rwsem

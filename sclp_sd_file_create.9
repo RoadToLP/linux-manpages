@@ -1,0 +1,23 @@
+.TH "sclp_sd_file_create" 9 "sclp_sd_file_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sclp_sd_file_create \- Add a sysfs file representing a Store Data entity
+.SH SYNOPSIS
+.B "struct sclp_sd_file *" sclp_sd_file_create
+.BI "(const char *name "  ","
+.BI "u8 di "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+Name of file
+.IP "di" 12
+DI value associated with this entity
+.SH "DESCRIPTION"
+Create a sysfs directory with the given \fIname\fP located under
+
+/sys/firmware/sclp_sd/
+
+The files in this directory can be used to access the contents of the Store
+Data entity associated with \fIDI\fP.
+
+Return pointer to resulting sclp_sd_file object on success, NULL otherwise.
+The object must be freed by calling \fBkobject_put\fP on the embedded kobject
+pointer after use.

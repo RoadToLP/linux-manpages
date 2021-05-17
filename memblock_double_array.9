@@ -1,0 +1,23 @@
+.TH "memblock_double_array" 9 "memblock_double_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memblock_double_array \- double the size of the memblock regions array
+.SH SYNOPSIS
+.B "int __init_memblock" memblock_double_array
+.BI "(struct memblock_type *type "  ","
+.BI "phys_addr_t new_area_start "  ","
+.BI "phys_addr_t new_area_size "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+memblock type of the regions array being doubled
+.IP "new_area_start" 12
+starting address of memory range to avoid overlap with
+.IP "new_area_size" 12
+size of memory range to avoid overlap with
+.SH "DESCRIPTION"
+Double the size of the \fItype\fP regions array. If memblock is being used to
+allocate memory for a new reserved regions array and there is a previously
+allocated memory range [\fInew_area_start\fP, \fInew_area_start\fP + \fInew_area_size\fP]
+waiting to be reserved, ensure the memory used by the new array does
+not overlap.
+.SH "RETURN"
+0 on success, -1 on failure.

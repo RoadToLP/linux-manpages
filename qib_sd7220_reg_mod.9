@@ -1,0 +1,26 @@
+.TH "qib_sd7220_reg_mod" 9 "qib_sd7220_reg_mod" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_sd7220_reg_mod \- modify SERDES register
+.SH SYNOPSIS
+.B "int" qib_sd7220_reg_mod
+.BI "(struct qib_devdata *dd "  ","
+.BI "int sdnum "  ","
+.BI "u32 loc "  ","
+.BI "u32 wd "  ","
+.BI "u32 mask "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.IP "sdnum" 12
+which SERDES to access
+.IP "loc" 12
+location - channel, element, register, as packed by \fBEPB_LOC\fP macro.
+.IP "wd" 12
+Write Data - value to set in register
+.IP "mask" 12
+ones where data should be spliced into reg.
+.SH "DESCRIPTION"
+Basic register read/modify/write, with un-needed acesses elided. That is,
+a mask of zero will prevent write, while a mask of 0xFF will prevent read.
+returns current (presumed, if a write was done) contents of selected
+register, or <0 if errors.

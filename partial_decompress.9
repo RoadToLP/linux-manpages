@@ -1,0 +1,32 @@
+.TH "partial_decompress" 9 "partial_decompress" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+partial_decompress \- decompresses part or all of a compressed buffer
+.SH SYNOPSIS
+.B "long" partial_decompress
+.BI "(void *inbuf "  ","
+.BI "unsigned long input_size "  ","
+.BI "void *outbuf "  ","
+.BI "unsigned long output_size "  ","
+.BI "unsigned long _skip "  ");"
+.SH ARGUMENTS
+.IP "inbuf" 12
+input buffer
+.IP "input_size" 12
+length of the input buffer
+.IP "outbuf" 12
+input buffer
+.IP "output_size" 12
+length of the input buffer
+\fIskip\fP         number of output bytes to ignore
+.IP "_skip" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function takes compressed data from inbuf, decompresses and write it to
+outbuf. Once output_size bytes are written to the output buffer, or the
+stream is exhausted the function will return the number of bytes that were
+decompressed. Otherwise it will return whatever error code the decompressor
+reported (NB: This is specific to each decompressor type).
+
+The skip functionality is mainly there so the program and discover
+the size of the compressed image so that it can ask firmware (if present)
+for an appropriately sized buffer.

@@ -1,0 +1,21 @@
+.TH "usb_disable_endpoint" 9 "usb_disable_endpoint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_disable_endpoint \- - Disable an endpoint by address
+.SH SYNOPSIS
+.B "void" usb_disable_endpoint
+.BI "(struct usb_device *dev "  ","
+.BI "unsigned int epaddr "  ","
+.BI "bool reset_hardware "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose endpoint is being disabled
+.IP "epaddr" 12
+the endpoint's address.  Endpoint number for output,
+endpoint number + USB_DIR_IN for input
+.IP "reset_hardware" 12
+flag to erase any endpoint state stored in the
+controller hardware
+.SH "DESCRIPTION"
+Disables the endpoint for URB submission and nukes all pending URBs.
+If \fIreset_hardware\fP is set then also deallocates hcd/hardware state
+for the endpoint.

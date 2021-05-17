@@ -1,0 +1,23 @@
+.TH "wake_const_ops" 9 "wake_const_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wake_const_ops \- wake up non-alter tasks
+.SH SYNOPSIS
+.B "int" wake_const_ops
+.BI "(struct sem_array *sma "  ","
+.BI "int semnum "  ","
+.BI "struct wake_q_head *wake_q "  ");"
+.SH ARGUMENTS
+.IP "sma" 12
+semaphore array.
+.IP "semnum" 12
+semaphore that was modified.
+.IP "wake_q" 12
+lockless wake-queue head.
+.SH "DESCRIPTION"
+wake_const_ops must be called after a semaphore in a semaphore array
+was set to 0. If complex const operations are pending, wake_const_ops must
+be called with semnum = -1, as well as with the number of each modified
+semaphore.
+The tasks that must be woken up are added to \fIwake_q\fP. The return code
+is stored in q->pid.
+The function returns 1 if at least one operation was completed successfully.

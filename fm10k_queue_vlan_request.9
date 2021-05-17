@@ -1,0 +1,23 @@
+.TH "fm10k_queue_vlan_request" 9 "fm10k_queue_vlan_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_queue_vlan_request \- Queue a VLAN update request
+.SH SYNOPSIS
+.B "int" fm10k_queue_vlan_request
+.BI "(struct fm10k_intfc *interface "  ","
+.BI "u32 vid "  ","
+.BI "u8 vsi "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+the fm10k interface structure
+.IP "vid" 12
+the VLAN vid
+.IP "vsi" 12
+VSI index number
+.IP "set" 12
+whether to set or clear
+.SH "DESCRIPTION"
+This function queues up a VLAN update. For VFs, this must be sent to the
+managing PF over the mailbox. For PFs, we'll use the same handling so that
+it's similar to the VF. This avoids storming the PF<->VF mailbox with too
+many VLAN updates during reset.

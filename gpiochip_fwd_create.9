@@ -1,0 +1,23 @@
+.TH "gpiochip_fwd_create" 9 "gpiochip_fwd_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_fwd_create \- Create a new GPIO forwarder
+.SH SYNOPSIS
+.B "struct gpiochip_fwd *" gpiochip_fwd_create
+.BI "(struct device *dev "  ","
+.BI "unsigned int ngpios "  ","
+.BI "struct gpio_desc *descs[] "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Parent device pointer
+.IP "ngpios" 12
+Number of GPIOs in the forwarder.
+.IP "descs" 12
+Array containing the GPIO descriptors to forward to.
+This array must contain \fIngpios\fP entries, and must not be deallocated
+before the forwarder has been destroyed again.
+.SH "DESCRIPTION"
+This function creates a new gpiochip, which forwards all GPIO operations to
+the passed GPIO descriptors.
+.SH "RETURN"
+An opaque object pointer, or an \fBERR_PTR\fP-encoded negative error
+code on failure.

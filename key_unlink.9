@@ -1,0 +1,24 @@
+.TH "key_unlink" 9 "key_unlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_unlink \- Unlink the first link to a key from a keyring.
+.SH SYNOPSIS
+.B "int" key_unlink
+.BI "(struct key *keyring "  ","
+.BI "struct key *key "  ");"
+.SH ARGUMENTS
+.IP "keyring" 12
+The keyring to remove the link from.
+.IP "key" 12
+The key the link is to.
+.SH "DESCRIPTION"
+Remove a link from a keyring to a key.
+
+This function will write-lock the keyring's semaphore.
+
+Returns 0 if successful, -ENOTDIR if the keyring isn't a keyring, -ENOENT if
+the key isn't linked to by the keyring or -ENOMEM if there's insufficient
+memory.
+
+It is assumed that the caller has checked that it is permitted for a link to
+be removed (the keyring should have Write permission; no permissions are
+required on the key).

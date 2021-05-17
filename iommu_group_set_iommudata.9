@@ -1,0 +1,19 @@
+.TH "iommu_group_set_iommudata" 9 "iommu_group_set_iommudata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_group_set_iommudata \- set iommu_data for a group
+.SH SYNOPSIS
+.B "void" iommu_group_set_iommudata
+.BI "(struct iommu_group *group "  ","
+.BI "void *iommu_data "  ","
+.BI "void (*release)(void *iommu_data) "  ");"
+.SH ARGUMENTS
+.IP "group" 12
+the group
+.IP "iommu_data" 12
+new data
+.IP "release" 12
+release function for iommu_data
+.SH "DESCRIPTION"
+iommu drivers can store data in the group for use when doing iommu
+operations.  This function provides a way to set the data after
+the group has been allocated.  Caller should hold a group reference.

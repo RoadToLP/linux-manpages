@@ -1,0 +1,29 @@
+.TH "scmi_unregister_notifier" 9 "scmi_unregister_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_unregister_notifier \- Unregister a notifier_block for an event
+.SH SYNOPSIS
+.B "int" scmi_unregister_notifier
+.BI "(const struct scmi_handle *handle "  ","
+.BI "u8 proto_id "  ","
+.BI "u8 evt_id "  ","
+.BI "u32 *src_id "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+The handle identifying the platform instance against which the
+callback is unregistered
+.IP "proto_id" 12
+Protocol ID
+.IP "evt_id" 12
+Event ID
+.IP "src_id" 12
+Source ID
+.IP "nb" 12
+The notifier_block to unregister
+.SH "DESCRIPTION"
+Takes care to unregister the provided \fInb\fP from the notification chain
+associated to the specified event and, if there are no more users for the
+event handler, frees also the associated event handler structures.
+(this could possibly cause disabling of event's generation at platform level)
+.SH "RETURN"
+0 on Success

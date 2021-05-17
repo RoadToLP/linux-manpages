@@ -1,0 +1,22 @@
+.TH "ab8500_charger_set_current" 9 "ab8500_charger_set_current" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ab8500_charger_set_current \- set charger current
+.SH SYNOPSIS
+.B "int" ab8500_charger_set_current
+.BI "(struct ab8500_charger *di "  ","
+.BI "int ich "  ","
+.BI "int reg "  ");"
+.SH ARGUMENTS
+.IP "di" 12
+pointer to the ab8500_charger structure
+.IP "ich" 12
+charger current, in mA
+.IP "reg" 12
+select what charger register to set
+.SH "DESCRIPTION"
+Set charger current.
+There is no state machine in the AB to step up/down the charger
+current to avoid dips and spikes on MAIN, VBUS and VBAT when
+charging is started. Instead we need to implement
+this charger current step-up/down here.
+Returns error code in case of failure else 0(on success)

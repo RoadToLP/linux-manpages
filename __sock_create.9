@@ -1,0 +1,29 @@
+.TH "__sock_create" 9 "__sock_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__sock_create \- creates a socket
+.SH SYNOPSIS
+.B "int" __sock_create
+.BI "(struct net *net "  ","
+.BI "int family "  ","
+.BI "int type "  ","
+.BI "int protocol "  ","
+.BI "struct socket **res "  ","
+.BI "int kern "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+net namespace
+.IP "family" 12
+protocol family (AF_INET, ...)
+.IP "type" 12
+communication type (SOCK_STREAM, ...)
+.IP "protocol" 12
+protocol (0, ...)
+.IP "res" 12
+new socket
+.IP "kern" 12
+boolean for kernel space sockets
+
+Creates a new socket and assigns it to \fIres\fP, passing through LSM.
+Returns 0 or an error. On failure \fIres\fP is set to NULL. \fIkern\fP must
+be set to true if the socket resides in kernel space.
+This function internally uses GFP_KERNEL.

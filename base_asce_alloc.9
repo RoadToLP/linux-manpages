@@ -1,0 +1,22 @@
+.TH "base_asce_alloc" 9 "base_asce_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+base_asce_alloc \- create kernel mapping without enhanced DAT features
+.SH SYNOPSIS
+.B "unsigned long" base_asce_alloc
+.BI "(unsigned long addr "  ","
+.BI "unsigned long num_pages "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+virtual start address of kernel mapping
+.IP "num_pages" 12
+number of consecutive pages
+.SH "DESCRIPTION"
+Generate an asce, including all required region, segment and page tables,
+that can be used to access the virtual kernel mapping. The difference is
+that the returned asce does not make use of any enhanced DAT features like
+e.g. large pages. This is required for some I/O functions that pass an
+asce, like e.g. some service call requests.
+.SH "NOTE"
+the returned asce may NEVER be attached to any cpu. It may only be
+used for I/O requests. tlb entries that might result because the
+asce was attached to a cpu won't be cleared.

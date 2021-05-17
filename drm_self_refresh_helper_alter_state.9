@@ -1,0 +1,18 @@
+.TH "drm_self_refresh_helper_alter_state" 9 "drm_self_refresh_helper_alter_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_self_refresh_helper_alter_state \- Alters the atomic state for SR exit
+.SH SYNOPSIS
+.B "void" drm_self_refresh_helper_alter_state
+.BI "(struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+the state currently being checked
+.SH "DESCRIPTION"
+Called at the end of atomic check. This function checks the state for flags
+incompatible with self refresh exit and changes them. This is a bit
+disingenuous since userspace is expecting one thing and we're giving it
+another. However in order to keep self refresh entirely hidden from
+userspace, this is required.
+
+At the end, we queue up the self refresh entry work so we can enter PSR after
+the desired delay.

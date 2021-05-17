@@ -1,0 +1,16 @@
+.TH "xas_init_marks" 9 "xas_init_marks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_init_marks \- Initialise all marks for the entry
+.SH SYNOPSIS
+.B "void" xas_init_marks
+.BI "(const struct xa_state *xas "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+Array operations state.
+.SH "DESCRIPTION"
+Initialise all marks for the entry specified by \fIxas\fP.  If we're tracking
+free entries with a mark, we need to set it on all entries.  All other
+marks are cleared.
+
+This implementation is not as efficient as it could be; we may walk
+up the tree multiple times.

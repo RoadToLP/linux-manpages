@@ -1,0 +1,25 @@
+.TH "usb_autoresume_device" 9 "usb_autoresume_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_autoresume_device \- immediately autoresume a USB device and its interfaces
+.SH SYNOPSIS
+.B "int" usb_autoresume_device
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+the usb_device to autoresume
+.SH "DESCRIPTION"
+This routine should be called when a core subsystem wants to use \fIudev\fP
+and needs to guarantee that it is not suspended.  No autosuspend will
+occur until \fBusb_autosuspend_device\fP is called.  (Note that this will
+not prevent suspend events originating in the PM core.)  Examples would
+be when \fIudev\fP's device file in usbfs is opened or when a remote-wakeup
+request is received.
+
+\fIudev\fP's usage counter is incremented to prevent subsequent autosuspends.
+However if the autoresume fails then the usage counter is re-decremented.
+
+The caller must hold \fIudev\fP's device lock.
+
+This routine can run only in process context.
+.SH "RETURN"
+0 on success. A negative error code otherwise.

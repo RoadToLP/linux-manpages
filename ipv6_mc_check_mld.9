@@ -1,0 +1,23 @@
+.TH "ipv6_mc_check_mld" 9 "ipv6_mc_check_mld" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipv6_mc_check_mld \- checks whether this is a sane MLD packet
+.SH SYNOPSIS
+.B "int" ipv6_mc_check_mld
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to validate
+.SH "DESCRIPTION"
+Checks whether an IPv6 packet is a valid MLD packet. If so sets
+skb transport header accordingly and returns zero.
+
+-EINVAL: A broken packet was detected, i.e. it violates some internet
+standard
+-ENOMSG: IP header validation succeeded but it is not an ICMPv6 packet
+with a hop-by-hop option.
+-ENODATA: IP+ICMPv6 header with hop-by-hop option validation succeeded
+but it is not an MLD packet.
+-ENOMEM: A memory allocation failure happened.
+
+Caller needs to set the skb network header and free any returned skb if it
+differs from the provided skb.

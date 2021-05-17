@@ -1,0 +1,31 @@
+.TH "do_filldir_main" 9 "do_filldir_main" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_filldir_main \- read out directory entries
+.SH SYNOPSIS
+.B "int" do_filldir_main
+.BI "(struct gfs2_inode *dip "  ","
+.BI "struct dir_context *ctx "  ","
+.BI "struct gfs2_dirent **darr "  ","
+.BI "u32 entries "  ","
+.BI "u32 sort_start "  ","
+.BI "int *copied "  ");"
+.SH ARGUMENTS
+.IP "dip" 12
+The GFS2 inode
+.IP "ctx" 12
+what to feed the entries to
+.IP "darr" 12
+an array of struct gfs2_dirent pointers to read
+.IP "entries" 12
+the number of entries in darr
+.IP "sort_start" 12
+-- undescribed --
+.IP "copied" 12
+pointer to int that's non-zero if a entry has been copied out
+.SH "DESCRIPTION"
+Jump through some hoops to make sure that if there are hash collsions,
+they are read out at the beginning of a buffer.  We want to minimize
+the possibility that they will fall into different readdir buffers or
+that someone will want to seek to that location.
+.SH "RETURN"
+errno, >0 if the actor tells you to stop

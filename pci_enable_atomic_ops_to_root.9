@@ -1,0 +1,20 @@
+.TH "pci_enable_atomic_ops_to_root" 9 "pci_enable_atomic_ops_to_root" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_enable_atomic_ops_to_root \- enable AtomicOp requests to root port
+.SH SYNOPSIS
+.B "int" pci_enable_atomic_ops_to_root
+.BI "(struct pci_dev *dev "  ","
+.BI "u32 cap_mask "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device
+.IP "cap_mask" 12
+mask of desired AtomicOp sizes, including one or more of:
+PCI_EXP_DEVCAP2_ATOMIC_COMP32
+PCI_EXP_DEVCAP2_ATOMIC_COMP64
+PCI_EXP_DEVCAP2_ATOMIC_COMP128
+.SH "DESCRIPTION"
+Return 0 if all upstream bridges support AtomicOp routing, egress
+blocking is disabled on all upstream ports, and the root port supports
+the requested completion capabilities (32-bit, 64-bit and/or 128-bit
+AtomicOp completion), or negative otherwise.

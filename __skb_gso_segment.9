@@ -1,0 +1,22 @@
+.TH "__skb_gso_segment" 9 "__skb_gso_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_gso_segment \- Perform segmentation on skb.
+.SH SYNOPSIS
+.B "struct sk_buff *" __skb_gso_segment
+.BI "(struct sk_buff *skb "  ","
+.BI "netdev_features_t features "  ","
+.BI "bool tx_path "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to segment
+.IP "features" 12
+features for the output path (see dev->features)
+.IP "tx_path" 12
+whether it is called in TX path
+
+This function segments the given skb and returns a list of segments.
+
+It may return NULL if the skb requires no segmentation.  This is
+only possible when GSO is used for verifying header integrity.
+
+Segmentation preserves SKB_GSO_CB_OFFSET bytes of previous skb cb.

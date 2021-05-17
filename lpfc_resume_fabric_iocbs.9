@@ -1,0 +1,15 @@
+.TH "lpfc_resume_fabric_iocbs" 9 "lpfc_resume_fabric_iocbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_resume_fabric_iocbs \- Issue a fabric iocb from driver internal list
+.SH SYNOPSIS
+.B "void" lpfc_resume_fabric_iocbs
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine issues one fabric iocb from the driver internal list to
+the HBA. It first checks whether it's ready to issue one fabric iocb to
+the HBA (whether there is no outstanding fabric iocb). If so, it shall
+remove one pending fabric iocb from the driver internal list and invokes
+\fBlpfc_sli_issue_iocb\fP routine to send the fabric iocb to the HBA.

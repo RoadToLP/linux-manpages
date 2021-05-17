@@ -1,0 +1,17 @@
+.TH "qib_unordered_wc" 9 "qib_unordered_wc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_unordered_wc \- indicate whether write combining is ordered
+.SH SYNOPSIS
+.B "int" qib_unordered_wc
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Because our performance depends on our ability to do write combining mmio
+writes in the most efficient way, we need to know if we are on an Intel
+or AMD x86_64 processor.  AMD x86_64 processors flush WC buffers out in
+the order completed, and so no special flushing is required to get
+correct ordering.  Intel processors, however, will flush write buffers
+out in "random" orders, and so explicit ordering is needed at times.

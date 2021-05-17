@@ -1,0 +1,20 @@
+.TH "tpacpi_check_quirks" 9 "tpacpi_check_quirks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpacpi_check_quirks \- search BIOS/EC version on a list
+.SH SYNOPSIS
+.B "unsigned long" tpacpi_check_quirks
+.BI "(const struct tpacpi_quirk *qlist "  ","
+.BI "unsigned int qlist_size "  ");"
+.SH ARGUMENTS
+.IP "qlist" 12
+array of \fIstruct tpacpi_quirk\fP
+.IP "qlist_size" 12
+number of elements in \fIqlist\fP
+.SH "DESCRIPTION"
+Iterates over a quirks list until one is found that matches the
+ThinkPad's vendor, BIOS and EC model.
+
+Returns 0 if nothing matches, otherwise returns the quirks field of
+the matching \fIstruct tpacpi_quirk\fP entry.
+
+The match criteria is: vendor, ec and bios much match.

@@ -1,0 +1,23 @@
+.TH "page_cache_ra_unbounded" 9 "page_cache_ra_unbounded" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_cache_ra_unbounded \- Start unchecked readahead.
+.SH SYNOPSIS
+.B "void" page_cache_ra_unbounded
+.BI "(struct readahead_control *ractl "  ","
+.BI "unsigned long nr_to_read "  ","
+.BI "unsigned long lookahead_size "  ");"
+.SH ARGUMENTS
+.IP "ractl" 12
+Readahead control.
+.IP "nr_to_read" 12
+The number of pages to read.
+.IP "lookahead_size" 12
+Where to start the next readahead.
+.SH "DESCRIPTION"
+This function is for filesystems to call when they want to start
+readahead beyond a file's stated i_size.  This is almost certainly
+not the function you want to call.  Use \fBpage_cache_async_readahead\fP
+or \fBpage_cache_sync_readahead\fP instead.
+.SH "CONTEXT"
+File is referenced by caller.  Mutexes may be held by caller.
+May sleep, but will not reenter filesystem to reclaim memory.

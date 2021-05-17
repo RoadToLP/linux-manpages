@@ -1,0 +1,30 @@
+.TH "aa_label_snxprint" 9 "aa_label_snxprint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_label_snxprint \- print a label name to a string buffer
+.SH SYNOPSIS
+.B "int" aa_label_snxprint
+.BI "(char *str "  ","
+.BI "size_t size "  ","
+.BI "struct aa_ns *ns "  ","
+.BI "struct aa_label *label "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "str" 12
+buffer to write to. (MAY BE NULL if \fIsize\fP == 0)
+.IP "size" 12
+size of buffer
+.IP "ns" 12
+namespace profile is being viewed from
+.IP "label" 12
+label to view (NOT NULL)
+.IP "flags" 12
+whether to include the mode string
+.SH "RETURN"
+size of name written or would be written if larger than
+available buffer
+.SH "NOTE"
+labels do not have to be strictly hierarchical to the ns as
+objects may be shared across different namespaces and thus
+pickup labeling from each ns.  If a particular part of the
+label is not visible it will just be excluded.  And if none
+of the label is visible "---" will be used.

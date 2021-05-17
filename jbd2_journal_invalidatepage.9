@@ -1,0 +1,23 @@
+.TH "jbd2_journal_invalidatepage" 9 "jbd2_journal_invalidatepage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_invalidatepage \- 
+.SH SYNOPSIS
+.B "int" jbd2_journal_invalidatepage
+.BI "(journal_t *journal "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "journal" 12
+journal to use for flush...
+.IP "page" 12
+page to flush
+.IP "offset" 12
+start of the range to invalidate
+.IP "length" 12
+length of the range to invalidate
+.SH "DESCRIPTION"
+Reap page buffers containing data after in the specified range in page.
+Can return -EBUSY if buffers are part of the committing transaction and
+the page is straddling i_size. Caller then has to wait for current commit
+and try again.

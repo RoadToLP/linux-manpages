@@ -1,0 +1,17 @@
+.TH "update_statfs_inode" 9 "update_statfs_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_statfs_inode \- Update the master statfs inode or zero out the local statfs inode for a given journal.
+.SH SYNOPSIS
+.B "int" update_statfs_inode
+.BI "(struct gfs2_jdesc *jd "  ","
+.BI "struct gfs2_log_header_host *head "  ","
+.BI "struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "jd" 12
+The journal
+.IP "head" 12
+If NULL, \fIinode\fP is the local statfs inode and we need to zero it out.
+Otherwise, it \fIhead\fP contains the statfs change info that needs to be
+synced to the master statfs inode (pointed to by \fIinode\fP).
+.IP "inode" 12
+statfs inode to update.

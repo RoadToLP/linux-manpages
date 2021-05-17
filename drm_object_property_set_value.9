@@ -1,0 +1,27 @@
+.TH "drm_object_property_set_value" 9 "drm_object_property_set_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_object_property_set_value \- set the value of a property
+.SH SYNOPSIS
+.B "int" drm_object_property_set_value
+.BI "(struct drm_mode_object *obj "  ","
+.BI "struct drm_property *property "  ","
+.BI "uint64_t val "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+drm mode object to set property value for
+.IP "property" 12
+property to set
+.IP "val" 12
+value the property should be set to
+.SH "DESCRIPTION"
+This function sets a given property on a given object. This function only
+changes the software state of the property, it does not call into the
+driver's ->set_property callback.
+
+Note that atomic drivers should not have any need to call this, the core will
+ensure consistency of values reported back to userspace through the
+appropriate ->atomic_get_property callback. Only legacy drivers should call
+this function to update the tracked value (after clamping and other
+restrictions have been applied).
+.SH "RETURN"
+Zero on success, error code on failure.

@@ -1,0 +1,22 @@
+.TH "alua_rtpg_queue" 9 "alua_rtpg_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alua_rtpg_queue \- cause RTPG to be submitted asynchronously
+.SH SYNOPSIS
+.B "bool" alua_rtpg_queue
+.BI "(struct alua_port_group *pg "  ","
+.BI "struct scsi_device *sdev "  ","
+.BI "struct alua_queue_data *qdata "  ","
+.BI "bool force "  ");"
+.SH ARGUMENTS
+.IP "pg" 12
+ALUA port group associated with \fIsdev\fP.
+.IP "sdev" 12
+SCSI device for which to submit an RTPG.
+.IP "qdata" 12
+Information about the callback to invoke after the RTPG.
+.IP "force" 12
+Whether or not to submit an RTPG if a work item that will submit an
+RTPG already has been scheduled.
+.SH "DESCRIPTION"
+Returns true if and only if \fBalua_rtpg_work\fP will be called asynchronously.
+That function is responsible for calling \fIqdata\fP->\fBfn\fP.

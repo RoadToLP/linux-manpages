@@ -1,0 +1,26 @@
+.TH "ldm_get_vstr" 9 "ldm_get_vstr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_get_vstr \- Read a length-prefixed string into a buffer
+.SH SYNOPSIS
+.B "int" ldm_get_vstr
+.BI "(const u8 *block "  ","
+.BI "u8 *buffer "  ","
+.BI "int buflen "  ");"
+.SH ARGUMENTS
+.IP "block" 12
+Pointer to the length marker
+.IP "buffer" 12
+Location to copy string to
+.IP "buflen" 12
+Size of the output buffer
+.SH "DESCRIPTION"
+Many of the strings in the LDM Database are not NULL terminated.  Instead
+they are prefixed by a one byte length marker.  This function copies one of
+these strings into a buffer.
+
+N.B.  This function DOES NOT perform any range checking on the input.
+If the buffer is too small, the output will be truncated.
+.SH "RETURN"
+0, Error and \fIbuffer\fP contents are undefined
+n, String length in characters (excluding NULL)
+buflen-1, String was truncated.

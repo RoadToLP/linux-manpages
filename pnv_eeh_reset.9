@@ -1,0 +1,19 @@
+.TH "pnv_eeh_reset" 9 "pnv_eeh_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pnv_eeh_reset \- Reset the specified PE
+.SH SYNOPSIS
+.B "int" pnv_eeh_reset
+.BI "(struct eeh_pe *pe "  ","
+.BI "int option "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+EEH PE
+.IP "option" 12
+reset option
+.SH "DESCRIPTION"
+Do reset on the indicated PE. For PCI bus sensitive PE,
+we need to reset the parent p2p bridge. The PHB has to
+be reinitialized if the p2p bridge is root bridge. For
+PCI device sensitive PE, we will try to reset the device
+through FLR. For now, we don't have OPAL APIs to do HARD
+reset yet, so all reset would be SOFT (HOT) reset.

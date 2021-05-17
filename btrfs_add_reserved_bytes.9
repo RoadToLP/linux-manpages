@@ -1,0 +1,23 @@
+.TH "btrfs_add_reserved_bytes" 9 "btrfs_add_reserved_bytes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_add_reserved_bytes \- update the block_group and space info counters
+.SH SYNOPSIS
+.B "int" btrfs_add_reserved_bytes
+.BI "(struct btrfs_block_group *cache "  ","
+.BI "u64 ram_bytes "  ","
+.BI "u64 num_bytes "  ","
+.BI "int delalloc "  ");"
+.SH ARGUMENTS
+.IP "cache" 12
+The cache we are manipulating
+.IP "ram_bytes" 12
+The number of bytes of file content, and will be same to
+\fInum_bytes\fP except for the compress path.
+.IP "num_bytes" 12
+The number of bytes in question
+.IP "delalloc" 12
+The blocks are allocated for the delalloc write
+.SH "DESCRIPTION"
+This is called by the allocator when it reserves space. If this is a
+reservation and the block group has become read only we cannot make the
+reservation and return -EAGAIN, otherwise this function always succeeds.

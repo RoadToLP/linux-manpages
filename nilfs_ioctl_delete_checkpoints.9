@@ -1,0 +1,28 @@
+.TH "nilfs_ioctl_delete_checkpoints" 9 "nilfs_ioctl_delete_checkpoints" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_delete_checkpoints \- delete checkpoints
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_delete_checkpoints
+.BI "(struct the_nilfs *nilfs "  ","
+.BI "struct nilfs_argv *argv "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "nilfs" 12
+nilfs object
+.IP "argv" 12
+vector of arguments from userspace
+.IP "buf" 12
+array of periods of checkpoints numbers
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_delete_checkpoints\fP function deletes checkpoints
+in the period from p_start to p_end, excluding p_end itself. The checkpoints
+which have been already deleted are ignored.
+
+Return Value: Number of processed nilfs_period structures or
+error code, otherwise.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EINVAL - invalid checkpoints.

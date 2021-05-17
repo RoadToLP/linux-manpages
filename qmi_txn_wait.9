@@ -1,0 +1,18 @@
+.TH "qmi_txn_wait" 9 "qmi_txn_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_txn_wait \- wait for a response on a transaction
+.SH SYNOPSIS
+.B "int" qmi_txn_wait
+.BI "(struct qmi_txn *txn "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "txn" 12
+transaction handle
+.IP "timeout" 12
+timeout, in jiffies
+.SH "DESCRIPTION"
+If the transaction is decoded by the means of \fIei\fP and \fIc_struct\fP the return
+value will be the returned value of \fBqmi_decode_message\fP, otherwise it's up
+to the specified message handler to fill out the result.
+.SH "RETURN"
+the transaction response on success, negative errno on failure.

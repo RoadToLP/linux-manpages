@@ -1,0 +1,32 @@
+.TH "ubifs_tnc_next_ent" 9 "ubifs_tnc_next_ent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_tnc_next_ent \- walk directory or extended attribute entries.
+.SH SYNOPSIS
+.B "struct ubifs_dent_node *" ubifs_tnc_next_ent
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key of last entry
+.IP "nm" 12
+name of last entry found or NULL
+.SH "DESCRIPTION"
+This function finds and reads the next directory or extended attribute entry
+after the given key (\fIkey\fP) if there is one. \fInm\fP is used to resolve
+collisions.
+
+If the name of the current entry is not known and only the key is known,
+\fInm->name\fP has to be NULL. In this case the semantics of this function is a
+little bit different and it returns the entry corresponding to this key, not
+the next one. If the key was not found, the closest "right" entry is
+returned.
+
+If the fist entry has to be found, \fIkey\fP has to contain the lowest possible
+key value for this inode and \fIname\fP has to be NULL.
+
+This function returns the found directory or extended attribute entry node
+in case of success, -ENOENT is returned if no entry was found, and a
+negative error code is returned in case of failure.

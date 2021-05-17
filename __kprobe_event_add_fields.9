@@ -1,0 +1,23 @@
+.TH "__kprobe_event_add_fields" 9 "__kprobe_event_add_fields" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__kprobe_event_add_fields \- Add probe fields to a kprobe command from arg list
+.SH SYNOPSIS
+.B "int" __kprobe_event_add_fields
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event
+.IP "..." 12
+variable arguments
+.SH "NOTE"
+Users normally won't want to call this function directly, but
+rather use the \fBkprobe_event_add_fields\fP wrapper, which
+automatically adds a NULL to the end of the arg list.  If this
+function is used directly, make sure the last arg in the variable
+arg list is NULL.
+.SH "DESCRIPTION"
+Add probe fields to an existing kprobe command using a variable
+list of args.  Fields are added in the same order they're listed.
+.SH "RETURN"
+0 if successful, error otherwise.

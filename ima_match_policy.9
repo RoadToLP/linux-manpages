@@ -1,0 +1,44 @@
+.TH "ima_match_policy" 9 "ima_match_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_match_policy \- decision based on LSM and other conditions
+.SH SYNOPSIS
+.B "int" ima_match_policy
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct cred *cred "  ","
+.BI "u32 secid "  ","
+.BI "enum ima_hooks func "  ","
+.BI "int mask "  ","
+.BI "int flags "  ","
+.BI "int *pcr "  ","
+.BI "struct ima_template_desc **template_desc "  ","
+.BI "const char *func_data "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+pointer to an inode for which the policy decision is being made
+.IP "cred" 12
+pointer to a credentials structure for which the policy decision is
+being made
+.IP "secid" 12
+LSM secid of the task to be validated
+.IP "func" 12
+IMA hook identifier
+.IP "mask" 12
+requested action (MAY_READ | MAY_WRITE | MAY_APPEND | MAY_EXEC)
+.IP "flags" 12
+-- undescribed --
+.IP "pcr" 12
+set the pcr to extend
+.IP "template_desc" 12
+the template that should be used for this rule
+.IP "func_data" 12
+func specific data, may be NULL
+.SH "DESCRIPTION"
+Measure decision based on func/mask/fsmagic and LSM(subj/obj/type)
+conditions.
+
+Since the IMA policy may be updated multiple times we need to lock the
+list when walking it.  Reads are many orders of magnitude more numerous
+than writes so \fBima_match_policy\fP is classical RCU candidate.

@@ -1,0 +1,21 @@
+.TH "dasd_biodasdinfo" 9 "dasd_biodasdinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dasd_biodasdinfo \- fill out the dasd information structure @disk [in]: pointer to gendisk structure that references a DASD @info [out]: pointer to the dasd_information2_t structure
+.SH SYNOPSIS
+.B "int" dasd_biodasdinfo
+.BI "(struct gendisk *disk "  ","
+.BI "struct dasd_information2_t *info "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+-- undescribed --
+.IP "info" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Provide access to DASD specific information.
+The gendisk structure is checked if it belongs to the DASD driver by
+comparing the gendisk->fops pointer.
+If it does not belong to the DASD driver -EINVAL is returned.
+Otherwise the provided dasd_information2_t structure is filled out.
+.SH "RETURN"
+0 on success and a negative error value on failure.

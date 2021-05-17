@@ -1,0 +1,31 @@
+.TH "drm_atomic_set_fence_for_plane" 9 "drm_atomic_set_fence_for_plane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_set_fence_for_plane \- set fence for plane
+.SH SYNOPSIS
+.B "void" drm_atomic_set_fence_for_plane
+.BI "(struct drm_plane_state *plane_state "  ","
+.BI "struct dma_fence *fence "  ");"
+.SH ARGUMENTS
+.IP "plane_state" 12
+atomic state object for the plane
+.IP "fence" 12
+dma_fence to use for the plane
+.SH "DESCRIPTION"
+Helper to setup the plane_state fence in case it is not set yet.
+By using this drivers doesn't need to worry if the user choose
+implicit or explicit fencing.
+
+This function will not set the fence to the state if it was set
+via explicit fencing interfaces on the atomic ioctl. In that case it will
+drop the reference to the fence as we are not storing it anywhere.
+Otherwise, if \fIdrm_plane_state.fence\fP is not set this function we just set it
+with the received implicit fence. In both cases this function consumes a
+reference for \fIfence\fP.
+
+This way explicit fencing can be used to overrule implicit fencing, which is
+important to make explicit fencing use-cases work: One example is using one
+buffer for 2 screens with different refresh rates. Implicit fencing will
+clamp rendering to the refresh rate of the slower screen, whereas explicit
+fence allows 2 independent render and display loops on a single buffer. If a
+driver allows obeys both implicit and explicit fences for plane updates, then
+it will break all the benefits of explicit fencing.

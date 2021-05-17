@@ -1,0 +1,30 @@
+.TH "request_key_with_auxdata" 9 "request_key_with_auxdata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_key_with_auxdata \- Request a key with auxiliary data for the upcaller
+.SH SYNOPSIS
+.B "struct key *" request_key_with_auxdata
+.BI "(struct key_type *type "  ","
+.BI "const char *description "  ","
+.BI "struct key_tag *domain_tag "  ","
+.BI "const void *callout_info "  ","
+.BI "size_t callout_len "  ","
+.BI "void *aux "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+The type of key we want.
+.IP "description" 12
+The searchable description of the key.
+.IP "domain_tag" 12
+The domain in which the key operates.
+.IP "callout_info" 12
+The data to pass to the instantiation upcall (or NULL).
+.IP "callout_len" 12
+The length of callout_info.
+.IP "aux" 12
+Auxiliary data for the upcall.
+.SH "DESCRIPTION"
+As for \fBrequest_key_and_link\fP except that it does not add the returned key
+to a keyring if found and new keys are always allocated in the user's quota.
+
+Furthermore, it then works as \fBwait_for_key_construction\fP to wait for the
+completion of keys undergoing construction with a non-interruptible wait.

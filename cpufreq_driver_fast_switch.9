@@ -1,0 +1,30 @@
+.TH "cpufreq_driver_fast_switch" 9 "cpufreq_driver_fast_switch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_driver_fast_switch \- Carry out a fast CPU frequency switch.
+.SH SYNOPSIS
+.B "unsigned int" cpufreq_driver_fast_switch
+.BI "(struct cpufreq_policy *policy "  ","
+.BI "unsigned int target_freq "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+cpufreq policy to switch the frequency for.
+.IP "target_freq" 12
+New frequency to set (may be approximate).
+.SH "DESCRIPTION"
+Carry out a fast frequency switch without sleeping.
+
+The driver's ->\fBfast_switch\fP callback invoked by this function must be
+suitable for being called from within RCU-sched read-side critical sections
+and it is expected to select the minimum available frequency greater than or
+equal to \fItarget_freq\fP (CPUFREQ_RELATION_L).
+
+This function must not be called if policy->fast_switch_enabled is unset.
+
+Governors calling this function must guarantee that it will never be invoked
+twice in parallel for the same policy and that it will never be called in
+parallel with either ->\fBtarget\fP or ->\fBtarget_index\fP for the same policy.
+
+Returns the actual frequency set for the CPU.
+
+If 0 is returned by the driver's ->\fBfast_switch\fP callback to indicate an
+error condition, the hardware configuration must be preserved.

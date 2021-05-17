@@ -1,0 +1,25 @@
+.TH "lpfc_unreg_vpi" 9 "lpfc_unreg_vpi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_unreg_vpi \- Prepare a mailbox command for unregistering vport id
+.SH SYNOPSIS
+.B "void" lpfc_unreg_vpi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint16_t vpi "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "vpi" 12
+virtual N_Port identifier.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+The unregistration vport identifier mailbox command is used to inactivate
+a virtual N_Port. The driver must have logged out and unregistered all
+remote N_Ports to abort any activity on the virtual N_Port. The HBA will
+unregisters any default RPIs associated with the specified vpi, aborting
+any active exchanges. The HBA will post the mailbox response after making
+the virtual N_Port inactive.
+
+This routine prepares the mailbox command for unregistering a virtual
+N_Port.

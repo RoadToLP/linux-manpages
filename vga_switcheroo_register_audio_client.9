@@ -1,0 +1,22 @@
+.TH "vga_switcheroo_register_audio_client" 9 "vga_switcheroo_register_audio_client" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_switcheroo_register_audio_client \- register audio client
+.SH SYNOPSIS
+.B "int" vga_switcheroo_register_audio_client
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct vga_switcheroo_client_ops *ops "  ","
+.BI "struct pci_dev *vga_dev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+client pci device
+.IP "ops" 12
+client callbacks
+.IP "vga_dev" 12
+pci device which is bound to current audio client
+.SH "DESCRIPTION"
+Register audio client (audio device on a GPU). The client is assumed
+to use runtime PM. Beforehand, \fBvga_switcheroo_client_probe_defer\fP
+shall be called to ensure that all prerequisites are met.
+.SH "RETURN"
+0 on success, -ENOMEM on memory allocation error, -EINVAL on getting
+client id error.

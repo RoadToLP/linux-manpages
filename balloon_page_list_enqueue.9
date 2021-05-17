@@ -1,0 +1,17 @@
+.TH "balloon_page_list_enqueue" 9 "balloon_page_list_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+balloon_page_list_enqueue \- inserts a list of pages into the balloon page list.
+.SH SYNOPSIS
+.B "size_t" balloon_page_list_enqueue
+.BI "(struct balloon_dev_info *b_dev_info "  ","
+.BI "struct list_head *pages "  ");"
+.SH ARGUMENTS
+.IP "b_dev_info" 12
+balloon device descriptor where we will insert a new page to
+.IP "pages" 12
+pages to enqueue - allocated using balloon_page_alloc.
+.SH "DESCRIPTION"
+Driver must call this function to properly enqueue balloon pages before
+definitively removing them from the guest system.
+.SH "RETURN"
+number of pages that were enqueued.

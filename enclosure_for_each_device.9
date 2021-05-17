@@ -1,0 +1,19 @@
+.TH "enclosure_for_each_device" 9 "enclosure_for_each_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enclosure_for_each_device \- calls a function for each enclosure
+.SH SYNOPSIS
+.B "int" enclosure_for_each_device
+.BI "(int (*fn)(struct enclosure_device *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "fn" 12
+the function to call
+.IP "data" 12
+the data to pass to each call
+.SH "DESCRIPTION"
+Loops over all the enclosures calling the function.
+
+Note, this function uses a mutex which will be held across calls to
+\fIfn\fP, so it must have non atomic context, and \fIfn\fP may (although it
+should not) sleep or otherwise cause the mutex to be held for
+indefinite periods

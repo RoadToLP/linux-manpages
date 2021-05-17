@@ -1,0 +1,25 @@
+.TH "dma_fence_remove_callback" 9 "dma_fence_remove_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_remove_callback \- remove a callback from the signaling list
+.SH SYNOPSIS
+.B "bool" dma_fence_remove_callback
+.BI "(struct dma_fence *fence "  ","
+.BI "struct dma_fence_cb *cb "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the fence to wait on
+.IP "cb" 12
+the callback to remove
+.SH "DESCRIPTION"
+Remove a previously queued callback from the fence. This function returns
+true if the callback is successfully removed, or false if the fence has
+already been signaled.
+
+*WARNING*:
+Cancelling a callback should only be done if you really know what you're
+doing, since deadlocks and race conditions could occur all too easily. For
+this reason, it should only ever be done on hardware lockup recovery,
+with a reference held to the fence.
+
+Behaviour is undefined if \fIcb\fP has not been added to \fIfence\fP using
+\fBdma_fence_add_callback\fP beforehand.

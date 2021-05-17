@@ -1,0 +1,15 @@
+.TH "igb_rxpbs_adjust_82580" 9 "igb_rxpbs_adjust_82580" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_rxpbs_adjust_82580 \- adjust RXPBS value to reflect actual RX PBA size
+.SH SYNOPSIS
+.B "u16" igb_rxpbs_adjust_82580
+.BI "(u32 data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+data received by reading RXPBS register
+
+The 82580 uses a table based approach for packet buffer allocation sizes.
+This function converts the retrieved value into the correct table value
+0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7
+0x0 36  72 144   1   2   4   8  16
+0x8 35  70 140 rsv rsv rsv rsv rsv

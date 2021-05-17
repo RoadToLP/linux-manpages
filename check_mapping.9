@@ -1,0 +1,28 @@
+.TH "check_mapping" 9 "check_mapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_mapping \- check and fixup a mapping
+.SH SYNOPSIS
+.B "int" check_mapping
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "int lnum "  ","
+.BI "int *pnum "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "pnum" 12
+physical eraseblock number
+.SH "DESCRIPTION"
+Checks whether a given mapping is valid. Fastmap cannot track LEB unmap
+operations, if such an operation is interrupted the mapping still looks
+good, but upon first read an ECC is reported to the upper layer.
+Normaly during the full-scan at attach time this is fixed, for Fastmap
+we have to deal with it while reading.
+If the PEB behind a LEB shows this symthom we change the mapping to
+UBI_LEB_UNMAPPED and schedule the PEB for erasure.
+
+Returns 0 on success, negative error code in case of failure.

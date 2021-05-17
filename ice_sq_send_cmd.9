@@ -1,0 +1,27 @@
+.TH "ice_sq_send_cmd" 9 "ice_sq_send_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sq_send_cmd \- send command to Control Queue (ATQ)
+.SH SYNOPSIS
+.B "enum ice_status" ice_sq_send_cmd
+.BI "(struct ice_hw *hw "  ","
+.BI "struct ice_ctl_q_info *cq "  ","
+.BI "struct ice_aq_desc *desc "  ","
+.BI "void *buf "  ","
+.BI "u16 buf_size "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "cq" 12
+pointer to the specific Control queue
+.IP "desc" 12
+prefilled descriptor describing the command (non DMA mem)
+.IP "buf" 12
+buffer to use for indirect commands (or NULL for direct commands)
+.IP "buf_size" 12
+size of buffer for indirect commands (or 0 for direct commands)
+.IP "cd" 12
+pointer to command details structure
+.SH "DESCRIPTION"
+This is the main send command routine for the ATQ. It runs the queue,
+cleans the queue, etc.

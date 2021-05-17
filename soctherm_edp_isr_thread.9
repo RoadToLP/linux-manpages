@@ -1,0 +1,20 @@
+.TH "soctherm_edp_isr_thread" 9 "soctherm_edp_isr_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soctherm_edp_isr_thread \- log an over-current interrupt request
+.SH SYNOPSIS
+.B "irqreturn_t" soctherm_edp_isr_thread
+.BI "(int irq "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+OC irq number. Currently not being used. See description
+.IP "arg" 12
+a void pointer for callback, currently not being used
+.SH "DESCRIPTION"
+Over-current events are handled in hardware. This function is called to log
+and handle any OC events that happened. Additionally, it checks every
+over-current interrupt registers for registers are set but
+was not expected (i.e. any discrepancy in interrupt status) by the function,
+the discrepancy will logged.
+.SH "RETURN"
+IRQ_HANDLED

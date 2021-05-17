@@ -1,0 +1,32 @@
+.TH "comedi_auto_config" 9 "comedi_auto_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_auto_config \- Create a COMEDI device for a hardware device
+.SH SYNOPSIS
+.B "int" comedi_auto_config
+.BI "(struct device *hardware_device "  ","
+.BI "struct comedi_driver *driver "  ","
+.BI "unsigned long context "  ");"
+.SH ARGUMENTS
+.IP "hardware_device" 12
+Hardware device.
+.IP "driver" 12
+COMEDI low-level driver for the hardware device.
+.IP "context" 12
+Driver context for the auto_attach handler.
+.SH "DESCRIPTION"
+Allocates a new COMEDI device for the hardware device and calls the
+low-level driver's 'auto_attach' handler to set-up the hardware and
+allocate the COMEDI subdevices.  Additional "post-configuration" setting
+up is performed on successful return from the 'auto_attach' handler.
+If the 'auto_attach' handler fails, the low-level driver's 'detach'
+handler will be called as part of the clean-up.
+
+This is usually called from a wrapper function in a bus-specific COMEDI
+module, which in turn is usually called from a bus device 'probe'
+function in the low-level driver.
+
+Returns 0 on success, -EINVAL if the parameters are invalid or the
+post-configuration determines the driver has set the COMEDI device up
+incorrectly, -ENOMEM if failed to allocate memory, -EBUSY if run out of
+COMEDI minor device numbers, or some negative error number returned by
+the driver's 'auto_attach' handler.

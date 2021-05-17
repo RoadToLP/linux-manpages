@@ -1,0 +1,26 @@
+.TH "ubifs_tnc_locate" 9 "ubifs_tnc_locate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_tnc_locate \- look up a file-system node and return it and its location.
+.SH SYNOPSIS
+.B "int" ubifs_tnc_locate
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "void *node "  ","
+.BI "int *lnum "  ","
+.BI "int *offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+node key to lookup
+.IP "node" 12
+the node is returned here
+.IP "lnum" 12
+LEB number is returned here
+.IP "offs" 12
+offset is returned here
+.SH "DESCRIPTION"
+This function looks up and reads node with key \fIkey\fP. The caller has to make
+sure the \fInode\fP buffer is large enough to fit the node. Returns zero in case
+of success, -ENOENT if the node was not found, and a negative error code in
+case of failure. The node location can be returned in \fIlnum\fP and \fIoffs\fP.

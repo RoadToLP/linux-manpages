@@ -1,0 +1,15 @@
+.TH "iscsi_sw_sk_state_check" 9 "iscsi_sw_sk_state_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_sw_sk_state_check \- check socket state
+.SH SYNOPSIS
+.B "int" iscsi_sw_sk_state_check
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.SH "DESCRIPTION"
+If the socket is in CLOSE or CLOSE_WAIT we should
+not close the connection if there is still some
+data pending.
+
+Must be called with sk_callback_lock.

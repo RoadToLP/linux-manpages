@@ -1,0 +1,46 @@
+.TH "ext2_find_shared" 9 "ext2_find_shared" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_find_shared \- find the indirect blocks for partial truncation.
+.SH SYNOPSIS
+.B "Indirect *" ext2_find_shared
+.BI "(struct inode *inode "  ","
+.BI "int depth "  ","
+.BI "int offsets[4] "  ","
+.BI "Indirect chain[4] "  ","
+.BI "__le32 *top "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode in question
+.IP "depth" 12
+depth of the affected branch
+.IP "offsets" 12
+offsets of pointers in that branch (see ext2_block_to_path)
+.IP "chain" 12
+place to store the pointers to partial indirect blocks
+.IP "top" 12
+place to the (detached) top of branch
+
+This is a helper function used by \fBext2_truncate\fP.
+
+When we do \fBtruncate\fP we may have to clean the ends of several indirect
+blocks but leave the blocks themselves alive. Block is partially
+truncated if some data below the new i_size is referred from it (and
+it is on the path to the first completely truncated data block, indeed).
+We have to free the top of that path along with everything to the right
+of the path. Since no allocation past the truncation point is possible
+until \fBext2_truncate\fP finishes, we may safely do the latter, but top
+of branch may require special attention - pageout below the truncation
+point might try to populate it.
+
+We atomically detach the top of branch from the tree, store the block
+number of its root in *\fItop\fP, pointers to buffer_heads of partially
+truncated blocks - in \fIchain\fP[].bh and pointers to their last elements
+that should not be removed - in \fIchain\fP[].p. Return value is the pointer
+to last filled element of \fIchain\fP.
+
+The work left to caller to do the actual freeing of subtrees:
+a) free the subtree starting from *\fItop\fP
+b) free the subtrees whose roots are stored in
+(\fIchain\fP[i].p+1 .. end of \fIchain\fP[i].bh->b_data)
+c) free the subtrees growing from the inode past the \fIchain\fP[0].p
+(no partially truncated stuff there).

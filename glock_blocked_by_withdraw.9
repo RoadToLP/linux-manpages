@@ -1,0 +1,18 @@
+.TH "glock_blocked_by_withdraw" 9 "glock_blocked_by_withdraw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+glock_blocked_by_withdraw \- determine if we can still use a glock
+.SH SYNOPSIS
+.B "bool" glock_blocked_by_withdraw
+.BI "(struct gfs2_glock *gl "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+the glock
+.SH "DESCRIPTION"
+We need to allow some glocks to be enqueued, dequeued, promoted, and demoted
+when we're withdrawn. For example, to maintain metadata integrity, we should
+disallow the use of inode and rgrp glocks when withdrawn. Other glocks, like
+iopen or the transaction glocks may be safely used because none of their
+metadata goes through the journal. So in general, we should disallow all
+glocks that are journaled, and allow all the others. One exception is:
+we need to allow our active journal to be promoted and demoted so others
+may recover it and we can reacquire it when they're done.

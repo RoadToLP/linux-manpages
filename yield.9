@@ -1,0 +1,29 @@
+.TH "yield" 9 "yield" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+yield \- yield the current processor to other threads.
+.SH SYNOPSIS
+.B "void" yield
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Do not ever use this function, there's a 99% chance you're doing it wrong.
+
+The scheduler is at all times free to pick the calling task as the most
+eligible task to run, if removing the \fByield\fP call from your code breaks
+it, it's already broken.
+
+Typical broken usage is:
+
+while (!event)
+\fByield\fP;
+
+where one assumes that \fByield\fP will let 'the other' process run that will
+make event true. If the current task is a SCHED_FIFO task that will never
+happen. Never use \fByield\fP as a progress guarantee!!
+
+If you want to use \fByield\fP to wait for something, use \fBwait_event\fP.
+If you want to use \fByield\fP to be 'nice' for others, use \fBcond_resched\fP.
+If you still want to use \fByield\fP, do not!

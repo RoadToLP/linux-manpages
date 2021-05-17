@@ -1,0 +1,35 @@
+.TH "synth_event_create" 9 "synth_event_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_create \- Create a new synthetic event
+.SH SYNOPSIS
+.B "int" synth_event_create
+.BI "(const char *name "  ","
+.BI "struct synth_field_desc *fields "  ","
+.BI "unsigned int n_fields "  ","
+.BI "struct module *mod "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the new synthetic event
+.IP "fields" 12
+An array of type/name field descriptions
+.IP "n_fields" 12
+The number of field descriptions contained in the fields array
+.IP "mod" 12
+The module creating the event, NULL if not created from a module
+.SH "DESCRIPTION"
+Create a new synthetic event with the given name under the
+trace/events/synthetic/ directory.  The event fields that will be
+defined for the event should be passed in as an array of struct
+synth_field_desc, and the number elements in the array passed in as
+n_fields. Field ordering will retain the ordering given in the
+fields array.
+
+If the new synthetic event is being created from a module, the mod
+param must be non-NULL.  This will ensure that the trace buffer
+won't contain unreadable events.
+
+The new synth event should be deleted using \fBsynth_event_delete\fP
+function.  The new synthetic event can be generated from modules or
+other kernel code using \fBtrace_synth_event\fP and related functions.
+.SH "RETURN"
+0 if successful, error otherwise.

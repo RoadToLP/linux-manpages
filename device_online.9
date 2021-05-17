@@ -1,0 +1,15 @@
+.TH "device_online" 9 "device_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_online \- Put the device back online after successful device_offline().
+.SH SYNOPSIS
+.B "int" device_online
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to be put back online.
+.SH "DESCRIPTION"
+If \fBdevice_offline\fP has been successfully executed for \fIdev\fP, but the device
+has not been removed subsequently, execute its bus type's .\fBonline\fP callback
+to indicate that the device can be used again.
+
+Call under device_hotplug_lock.

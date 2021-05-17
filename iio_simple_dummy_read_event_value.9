@@ -1,0 +1,33 @@
+.TH "iio_simple_dummy_read_event_value" 9 "iio_simple_dummy_read_event_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_simple_dummy_read_event_value \- get value associated with event
+.SH SYNOPSIS
+.B "int" iio_simple_dummy_read_event_value
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "const struct iio_chan_spec *chan "  ","
+.BI "enum iio_event_type type "  ","
+.BI "enum iio_event_direction dir "  ","
+.BI "enum iio_event_info info "  ","
+.BI "int *val "  ","
+.BI "int *val2 "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+device instance specific data
+.IP "chan" 12
+channel for the event whose value is being read
+.IP "type" 12
+type of the event whose value is being read
+.IP "dir" 12
+direction of the vent whose value is being read
+.IP "info" 12
+info type of the event whose value is being read
+.IP "val" 12
+value for the event code.
+.IP "val2" 12
+unused
+.SH "DESCRIPTION"
+Many devices provide a large set of events of which only a subset may
+be enabled at a time, with value registers whose meaning changes depending
+on the event enabled. This often means that the driver must cache the values
+associated with each possible events so that the right value is in place when
+the enabled event is changed.

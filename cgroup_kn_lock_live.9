@@ -1,0 +1,24 @@
+.TH "cgroup_kn_lock_live" 9 "cgroup_kn_lock_live" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_kn_lock_live \- locking helper for cgroup kernfs methods
+.SH SYNOPSIS
+.B "struct cgroup *" cgroup_kn_lock_live
+.BI "(struct kernfs_node *kn "  ","
+.BI "bool drain_offline "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+the kernfs_node being serviced
+.IP "drain_offline" 12
+perform offline draining on the cgroup
+.SH "DESCRIPTION"
+This helper is to be used by a cgroup kernfs method currently servicing
+\fIkn\fP.  It breaks the active protection, performs cgroup locking and
+verifies that the associated cgroup is alive.  Returns the cgroup if
+alive; otherwise, NULL.  A successful return should be undone by a
+matching \fBcgroup_kn_unlock\fP invocation.  If \fIdrain_offline\fP is true, the
+cgroup is drained of offlining csses before return.
+
+Any cgroup kernfs method implementation which requires locking the
+associated cgroup should use this helper.  It avoids nesting cgroup
+locking under kernfs active protection and allows all kernfs operations
+including self-removal.

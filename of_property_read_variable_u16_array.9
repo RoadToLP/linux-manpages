@@ -1,0 +1,33 @@
+.TH "of_property_read_variable_u16_array" 9 "of_property_read_variable_u16_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_property_read_variable_u16_array \- Find and read an array of u16 from a property, with bounds on the minimum and maximum array size.
+.SH SYNOPSIS
+.B "int" of_property_read_variable_u16_array
+.BI "(const struct device_node *np "  ","
+.BI "const char *propname "  ","
+.BI "u16 *out_values "  ","
+.BI "size_t sz_min "  ","
+.BI "size_t sz_max "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node from which the property value is to be read.
+.IP "propname" 12
+name of the property to be searched.
+.IP "out_values" 12
+pointer to found values.
+.IP "sz_min" 12
+minimum number of array elements to read
+.IP "sz_max" 12
+maximum number of array elements to read, if zero there is no
+upper limit on the number of elements in the dts entry but only
+sz_min will be read.
+.SH "DESCRIPTION"
+Search for a property in a device node and read 16-bit value(s) from
+it. Returns number of elements read on success, -EINVAL if the property
+does not exist, -ENODATA if property does not have a value, and -EOVERFLOW
+if the property data is smaller than sz_min or longer than sz_max.
+
+dts entry of array should be like:
+property = /bits/ 16 <0x5000 0x6000 0x7000>;
+
+The out_values is modified only if a valid u16 value can be decoded.

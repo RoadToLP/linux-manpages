@@ -1,0 +1,15 @@
+.TH "z8530_shutdown" 9 "z8530_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_shutdown \- Shutdown a Z8530 device
+.SH SYNOPSIS
+.B "int" z8530_shutdown
+.BI "(struct z8530_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The Z8530 chip to shutdown
+
+We set the interrupt handlers to silence any interrupts. We then 
+reset the chip and wait 100uS to be sure the reset completed. Just
+in case the caller then tries to do stuff.
+
+This is called without the lock held

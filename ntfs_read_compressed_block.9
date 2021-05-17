@@ -1,0 +1,40 @@
+.TH "ntfs_read_compressed_block" 9 "ntfs_read_compressed_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_compressed_block \- read a compressed block into the page cache
+.SH SYNOPSIS
+.B "int" ntfs_read_compressed_block
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+locked page in the compression block(s) we need to read
+.SH "DESCRIPTION"
+When we are called the page has already been verified to be locked and the
+attribute is known to be non-resident, not encrypted, but compressed.
+
+1. Determine which compression block(s) \fIpage\fP is in.
+2. Get hold of all pages corresponding to this/these compression block(s).
+3. Read the (first) compression block.
+4. Decompress it into the corresponding pages.
+5. Throw the compressed data away and proceed to 3. for the next compression
+block or return success if no more compression blocks left.
+
+Warning: We have to be careful what we do about existing pages. They might
+have been written to so that we would lose data if we were to just overwrite
+them with the out-of-date uncompressed data.
+
+FIXME: For PAGE_SIZE > cb_size we are not doing the Right Thing(TM) at
+the end of the file I think. We need to detect this case and zero the out
+of bounds remainder of the page in question and mark it as handled. At the
+moment we would just return -EIO on such a page. This bug will only become
+apparent if pages are above 8kiB and the NTFS volume only uses 512 byte
+clusters so is probably not going to be seen by anyone. Still this should
+be fixed. (AIA)
+
+FIXME: Again for PAGE_SIZE > cb_size we are screwing up both in
+handling sparse and compressed cbs. (AIA)
+
+FIXME: At the moment we don't do any zeroing out in the case that
+initialized_size is less than data_size. This should be safe because of the
+nature of the compression algorithm used. Just in case we check and output
+an error message in read inode if the two sizes are not equal for a
+compressed file. (AIA)

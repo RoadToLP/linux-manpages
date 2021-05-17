@@ -1,0 +1,26 @@
+.TH "rpmh_rsc_cpu_pm_callback" 9 "rpmh_rsc_cpu_pm_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmh_rsc_cpu_pm_callback \- Check if any of the AMCs are busy.
+.SH SYNOPSIS
+.B "int" rpmh_rsc_cpu_pm_callback
+.BI "(struct notifier_block *nfb "  ","
+.BI "unsigned long action "  ","
+.BI "void *v "  ");"
+.SH ARGUMENTS
+.IP "nfb" 12
+Pointer to the notifier block in struct rsc_drv.
+.IP "action" 12
+CPU_PM_ENTER, CPU_PM_ENTER_FAILED, or CPU_PM_EXIT.
+.IP "v" 12
+Unused
+.SH "DESCRIPTION"
+This function is given to cpu_pm_register_notifier so we can be informed
+about when CPUs go down. When all CPUs go down we know no more active
+transfers will be started so we write sleep/wake sets. This function gets
+called from cpuidle code paths and also at system suspend time.
+
+If its last CPU going down and AMCs are not busy then writes cached sleep
+and wake messages to TCSes. The firmware then takes care of triggering
+them when entering deepest low power modes.
+.SH "RETURN"
+See \fBcpu_pm_register_notifier\fP

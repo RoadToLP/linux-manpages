@@ -1,0 +1,21 @@
+.TH "i40e_del_filter" 9 "i40e_del_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_del_filter \- Remove a MAC/VLAN filter from the VSI
+.SH SYNOPSIS
+.B "void" i40e_del_filter
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "const u8 *macaddr "  ","
+.BI "s16 vlan "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the VSI to be searched
+.IP "macaddr" 12
+the MAC address
+.IP "vlan" 12
+the VLAN
+.SH "NOTE"
+This function is expected to be called with mac_filter_hash_lock
+being held.
+ANOTHER NOTE: This function MUST be called from within the context of
+the "safe" variants of any list iterators, e.g. \fBlist_for_each_entry_safe\fP
+instead of \fBlist_for_each_entry\fP.

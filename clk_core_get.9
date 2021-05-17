@@ -1,0 +1,43 @@
+.TH "clk_core_get" 9 "clk_core_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_core_get \- Find the clk_core parent of a clk
+.SH SYNOPSIS
+.B "struct clk_core *" clk_core_get
+.BI "(struct clk_core *core "  ","
+.BI "u8 p_index "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+clk to find parent of
+.IP "p_index" 12
+parent index to search for
+.SH "DESCRIPTION"
+This is the preferred method for clk providers to find the parent of a
+clk when that parent is external to the clk controller. The parent_names
+array is indexed and treated as a local name matching a string in the device
+node's 'clock-names' property or as the 'con_id' matching the device's
+\fBdev_name\fP in a clk_lookup. This allows clk providers to use their own
+namespace instead of looking for a globally unique parent string.
+
+For example the following DT snippet would allow a clock registered by the
+clock-controller\fIc001\fP that has a clk_init_data::parent_data array
+with 'xtal' in the 'name' member to find the clock provided by the
+clock-controller\fIf00abcd\fP without needing to get the globally unique name of
+the xtal clk.
+
+parent: clock-controller\fIf00abcd\fP {
+reg = <0xf00abcd 0xabcd>;
+#clock-cells = <0>;
+};
+
+clock-controller\fIc001\fP {
+reg = <0xc001 0xf00d>;
+clocks = <\fIparent\fP>;
+clock-names = "xtal";
+#clock-cells = <1>;
+};
+.SH "RETURN"
+-ENOENT when the provider can't be found or the clk doesn't
+exist in the provider or the name can't be found in the DT node or
+in a clkdev lookup. NULL when the provider knows about the clk but it
+isn't provided on this system.
+A valid clk_core pointer when the clk can be found in the provider.

@@ -1,0 +1,20 @@
+.TH "iscsi_check_tmf_restrictions" 9 "iscsi_check_tmf_restrictions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_check_tmf_restrictions \- check if a task is affected by TMF
+.SH SYNOPSIS
+.B "int" iscsi_check_tmf_restrictions
+.BI "(struct iscsi_task *task "  ","
+.BI "int opcode "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+iscsi task
+.IP "opcode" 12
+opcode to check for
+.SH "DESCRIPTION"
+During TMF a task has to be checked if it's affected.
+All unrelated I/O can be passed through, but I/O to the
+affected LUN should be restricted.
+If 'fast_abort' is set we won't be sending any I/O to the
+affected LUN.
+Otherwise the target is waiting for all TTTs to be completed,
+so we have to send all outstanding Data-Out PDUs to the target.

@@ -1,0 +1,24 @@
+.TH "xemaclite_send_data" 9 "xemaclite_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xemaclite_send_data \- Send an Ethernet frame
+.SH SYNOPSIS
+.B "int" xemaclite_send_data
+.BI "(struct net_local *drvdata "  ","
+.BI "u8 *data "  ","
+.BI "unsigned int byte_count "  ");"
+.SH ARGUMENTS
+.IP "drvdata" 12
+Pointer to the Emaclite device private data
+.IP "data" 12
+Pointer to the data to be sent
+.IP "byte_count" 12
+Total frame size, including header
+.SH "DESCRIPTION"
+This function checks if the Tx buffer of the Emaclite device is free to send
+data. If so, it fills the Tx buffer with data for transmission. Otherwise, it
+returns an error.
+.SH "RETURN"
+0 upon success or -1 if the buffer(s) are full.
+.SH "NOTE"
+The maximum Tx packet size can not be more than Ethernet header
+(14 Bytes) + Maximum MTU (1500 bytes). This is excluding FCS.

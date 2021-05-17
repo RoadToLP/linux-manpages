@@ -1,0 +1,24 @@
+.TH "restore_rx_bufs" 9 "restore_rx_bufs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+restore_rx_bufs \- put back a packet's Rx buffers
+.SH SYNOPSIS
+.B "void" restore_rx_bufs
+.BI "(const struct pkt_gl *si "  ","
+.BI "struct sge_fl *q "  ","
+.BI "int frags "  ");"
+.SH ARGUMENTS
+.IP "si" 12
+the packet gather list
+.IP "q" 12
+the SGE free list
+.IP "frags" 12
+number of FL buffers to restore
+
+Puts back on an FL the Rx buffers associated with \fIsi\fP.  The buffers
+have already been unmapped and are left unmapped, we mark them so to
+prevent further unmapping attempts.
+
+This function undoes a series of \fIunmap_rx_buf\fP calls when we find out
+that the current packet can't be processed right away afterall and we
+need to come back to it later.  This is a very rare event and there's
+no effort to make this particularly efficient.

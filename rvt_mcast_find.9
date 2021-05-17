@@ -1,0 +1,22 @@
+.TH "rvt_mcast_find" 9 "rvt_mcast_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_mcast_find \- search the global table for the given multicast GID/LID
+.SH SYNOPSIS
+.B "struct rvt_mcast *" rvt_mcast_find
+.BI "(struct rvt_ibport *ibp "  ","
+.BI "union ib_gid *mgid "  ","
+.BI "u16 lid "  ");"
+.SH ARGUMENTS
+.IP "ibp" 12
+the IB port structure
+.IP "mgid" 12
+the multicast GID to search for
+.IP "lid" 12
+the multicast LID portion of the multicast address (host order)
+.SH "NOTE"
+It is valid to have 1 MLID with multiple MGIDs.  It is not valid
+to have 1 MGID with multiple MLIDs.
+.SH "DESCRIPTION"
+The caller is responsible for decrementing the reference count if found.
+.SH "RETURN"
+NULL if not found.

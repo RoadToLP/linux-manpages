@@ -1,0 +1,24 @@
+.TH "cros_ec_sensorhub_register_push_data" 9 "cros_ec_sensorhub_register_push_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_sensorhub_register_push_data \- register the callback to the hub.
+.SH SYNOPSIS
+.B "int" cros_ec_sensorhub_register_push_data
+.BI "(struct cros_ec_sensorhub *sensorhub "  ","
+.BI "u8 sensor_num "  ","
+.BI "struct iio_dev *indio_dev "  ","
+.BI "cros_ec_sensorhub_push_data_cb_t cb "  ");"
+.SH ARGUMENTS
+.IP "sensorhub" 12
+Sensor Hub object
+.IP "sensor_num" 12
+The sensor the caller is interested in.
+.IP "indio_dev" 12
+The iio device to use when a sample arrives.
+.IP "cb" 12
+The callback to call when a sample arrives.
+.SH "DESCRIPTION"
+The callback cb will be used by cros_ec_sensorhub_ring to distribute events
+from the EC.
+.SH "RETURN"
+0 when callback is registered.
+EINVAL is the sensor number is invalid or the slot already used.

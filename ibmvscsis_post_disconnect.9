@@ -1,0 +1,22 @@
+.TH "ibmvscsis_post_disconnect" 9 "ibmvscsis_post_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_post_disconnect \- Schedule the disconnect
+.SH SYNOPSIS
+.B "void" ibmvscsis_post_disconnect
+.BI "(struct scsi_info *vscsi "  ","
+.BI "uint new_state "  ","
+.BI "uint flag_bits "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.IP "new_state" 12
+State to move to after disconnecting
+.IP "flag_bits" 12
+Flags to turn on in adapter structure
+.SH "DESCRIPTION"
+If it's already been scheduled, then see if we need to "upgrade"
+the new state (if the one passed in is more "severe" than the
+previous one).
+
+PRECONDITION:
+interrupt lock is held

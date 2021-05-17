@@ -1,0 +1,25 @@
+.TH "vmballoon_migratepage" 9 "vmballoon_migratepage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmballoon_migratepage \- migrates a balloon page.
+.SH SYNOPSIS
+.B "int" vmballoon_migratepage
+.BI "(struct balloon_dev_info *b_dev_info "  ","
+.BI "struct page *newpage "  ","
+.BI "struct page *page "  ","
+.BI "enum migrate_mode mode "  ");"
+.SH ARGUMENTS
+.IP "b_dev_info" 12
+balloon device information descriptor.
+.IP "newpage" 12
+the page to which \fIpage\fP should be migrated.
+.IP "page" 12
+a ballooned page that should be migrated.
+.IP "mode" 12
+migration mode, ignored.
+.SH "DESCRIPTION"
+This function is really open-coded, but that is according to the interface
+that balloon_compaction provides.
+.SH "RETURN"
+zero on success, -EAGAIN when migration cannot be performed
+momentarily, and -EBUSY if migration failed and should be retried
+with that specific page.

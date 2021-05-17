@@ -1,0 +1,19 @@
+.TH "__drm_atomic_helper_connector_reset" 9 "__drm_atomic_helper_connector_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__drm_atomic_helper_connector_reset \- reset state on connector
+.SH SYNOPSIS
+.B "void" __drm_atomic_helper_connector_reset
+.BI "(struct drm_connector *connector "  ","
+.BI "struct drm_connector_state *conn_state "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+drm connector
+.IP "conn_state" 12
+connector state to assign
+.SH "DESCRIPTION"
+Initializes the newly allocated \fIconn_state\fP and assigns it to
+the \fIdrm_connector->state\fP pointer of \fIconnector\fP, usually required when
+initializing the drivers or when called from the \fIdrm_connector_funcs.reset\fP
+hook.
+
+This is useful for drivers that subclass the connector state.

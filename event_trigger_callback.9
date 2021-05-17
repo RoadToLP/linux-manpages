@@ -1,0 +1,29 @@
+.TH "event_trigger_callback" 9 "event_trigger_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_trigger_callback \- Generic event_command @func implementation
+.SH SYNOPSIS
+.B "int" event_trigger_callback
+.BI "(struct event_command *cmd_ops "  ","
+.BI "struct trace_event_file *file "  ","
+.BI "char *glob "  ","
+.BI "char *cmd "  ","
+.BI "char *param "  ");"
+.SH ARGUMENTS
+.IP "cmd_ops" 12
+The command ops, used for trigger registration
+.IP "file" 12
+The trace_event_file associated with the event
+.IP "glob" 12
+The raw string used to register the trigger
+.IP "cmd" 12
+The cmd portion of the string used to register the trigger
+.IP "param" 12
+The params portion of the string used to register the trigger
+.SH "DESCRIPTION"
+Common implementation for event command parsing and trigger
+instantiation.
+
+Usually used directly as the \fIfunc\fP method in event command
+implementations.
+.SH "RETURN"
+0 on success, errno otherwise

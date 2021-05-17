@@ -1,0 +1,18 @@
+.TH "goldfish_pipe_open" 9 "goldfish_pipe_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+goldfish_pipe_open \- open a channel to the AVD
+.SH SYNOPSIS
+.B "int" goldfish_pipe_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of device
+.IP "file" 12
+file struct of opener
+
+Create a new pipe link between the emulator and the use application.
+Each new request produces a new pipe.
+.SH "NOTE"
+we use the pipe ID as a mux. All goldfish emulations are 32bit
+right now so this is fine. A move to 64bit will need this addressing

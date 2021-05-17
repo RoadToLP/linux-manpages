@@ -1,0 +1,23 @@
+.TH "filter_ack" 9 "filter_ack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filter_ack \- filters incoming packets for acknowledgements
+.SH SYNOPSIS
+.B "int" filter_ack
+.BI "(struct ieee80211_hw *hw "  ","
+.BI "struct ieee80211_hdr *rx_hdr "  ","
+.BI "struct ieee80211_rx_status *stats "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+a \fIstruct ieee80211_hw\fP pointer
+.IP "rx_hdr" 12
+received header
+.IP "stats" 12
+the status for the received packet
+.SH "DESCRIPTION"
+This functions looks for ACK packets and tries to match them with the
+frames in the tx queue. If a match is found the frame will be dequeued and
+the upper layers is informed about the successful transmission. If
+mac80211 queues have been stopped and the number of frames still to be
+transmitted is low the queues will be opened again.
+
+Returns 1 if the frame was an ACK, 0 if it was ignored.

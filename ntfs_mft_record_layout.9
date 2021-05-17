@@ -1,0 +1,22 @@
+.TH "ntfs_mft_record_layout" 9 "ntfs_mft_record_layout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_mft_record_layout \- layout an mft record into a memory buffer
+.SH SYNOPSIS
+.B "int" ntfs_mft_record_layout
+.BI "(const ntfs_volume *vol "  ","
+.BI "const s64 mft_no "  ","
+.BI "MFT_RECORD *m "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+volume to which the mft record will belong
+.IP "mft_no" 12
+mft reference specifying the mft record number
+.IP "m" 12
+destination buffer of size >= \fIvol->mft_record_size\fP bytes
+.SH "DESCRIPTION"
+Layout an empty, unused mft record with the mft record number \fImft_no\fP into
+the buffer \fIm\fP.  The volume \fIvol\fP is needed because the mft record structure
+was modified in NTFS 3.1 so we need to know which volume version this mft
+record will be used on.
+
+Return 0 on success and -errno on error.

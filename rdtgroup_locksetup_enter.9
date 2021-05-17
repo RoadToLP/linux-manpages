@@ -1,0 +1,23 @@
+.TH "rdtgroup_locksetup_enter" 9 "rdtgroup_locksetup_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_locksetup_enter \- Resource group enters locksetup mode
+.SH SYNOPSIS
+.B "int" rdtgroup_locksetup_enter
+.BI "(struct rdtgroup *rdtgrp "  ");"
+.SH ARGUMENTS
+.IP "rdtgrp" 12
+resource group requested to enter locksetup mode
+.SH "DESCRIPTION"
+A resource group enters locksetup mode to reflect that it would be used
+to represent a pseudo-locked region and is in the process of being set
+up to do so. A resource group used for a pseudo-locked region would
+lose the closid associated with it so we cannot allow it to have any
+tasks or cpus assigned nor permit tasks or cpus to be assigned in the
+future. Monitoring of a pseudo-locked region is not allowed either.
+
+The above and more restrictions on a pseudo-locked region are checked
+for and enforced before the resource group enters the locksetup mode.
+.SH "RETURN"
+0 if the resource group successfully entered locksetup mode, <0
+on failure. On failure the last_cmd_status buffer is updated with text to
+communicate details of failure to the user.

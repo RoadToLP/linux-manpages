@@ -1,0 +1,25 @@
+.TH "parse_prefix" 9 "parse_prefix" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_prefix \- Parse level and control flags.
+.SH SYNOPSIS
+.B "u16" parse_prefix
+.BI "(char *text "  ","
+.BI "int *level "  ","
+.BI "enum log_flags *lflags "  ");"
+.SH ARGUMENTS
+.IP "text" 12
+The terminated text message.
+.IP "level" 12
+A pointer to the current level value, will be updated.
+.IP "lflags" 12
+A pointer to the current log flags, will be updated.
+.SH "DESCRIPTION"
+\fIlevel\fP may be NULL if the caller is not interested in the parsed value.
+Otherwise the variable pointed to by \fIlevel\fP must be set to
+LOGLEVEL_DEFAULT in order to be updated with the parsed value.
+
+\fIlflags\fP may be NULL if the caller is not interested in the parsed value.
+Otherwise the variable pointed to by \fIlflags\fP will be OR'd with the parsed
+value.
+.SH "RETURN"
+The length of the parsed level and control flags.

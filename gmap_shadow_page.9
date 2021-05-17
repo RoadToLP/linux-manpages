@@ -1,0 +1,21 @@
+.TH "gmap_shadow_page" 9 "gmap_shadow_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_shadow_page \- create a shadow page mapping
+.SH SYNOPSIS
+.B "int" gmap_shadow_page
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long saddr "  ","
+.BI "pte_t pte "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "saddr" 12
+faulting address in the shadow gmap
+.IP "pte" 12
+pte in parent gmap address space to get shadowed
+.SH "DESCRIPTION"
+Returns 0 if successfully shadowed or already shadowed, -EAGAIN if the
+shadow table structure is incomplete, -ENOMEM if out of memory and
+-EFAULT if an address in the parent gmap could not be resolved.
+
+Called with sg->mm->mmap_lock in read.

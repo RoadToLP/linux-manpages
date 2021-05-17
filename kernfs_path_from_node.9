@@ -1,0 +1,27 @@
+.TH "kernfs_path_from_node" 9 "kernfs_path_from_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_path_from_node \- build path of node @to relative to @from.
+.SH SYNOPSIS
+.B "int" kernfs_path_from_node
+.BI "(struct kernfs_node *to "  ","
+.BI "struct kernfs_node *from "  ","
+.BI "char *buf "  ","
+.BI "size_t buflen "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+kernfs_node of interest
+.IP "from" 12
+parent kernfs_node relative to which we need to build the path
+.IP "buf" 12
+buffer to copy \fIto\fP's path into
+.IP "buflen" 12
+size of \fIbuf\fP
+.SH "DESCRIPTION"
+Builds \fIto\fP's path relative to \fIfrom\fP in \fIbuf\fP. \fIfrom\fP and \fIto\fP must
+be on the same kernfs-root. If \fIfrom\fP is not parent of \fIto\fP, then a relative
+path (which includes '..'s) as needed to reach from \fIfrom\fP to \fIto\fP is
+returned.
+
+Returns the length of the full path.  If the full length is equal to or
+greater than \fIbuflen\fP, \fIbuf\fP contains the truncated path with the trailing
+'\0'.  On error, -errno is returned.

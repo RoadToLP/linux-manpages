@@ -1,0 +1,24 @@
+.TH "ubi_io_write_ec_hdr" 9 "ubi_io_write_ec_hdr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_write_ec_hdr \- write an erase counter header.
+.SH SYNOPSIS
+.B "int" ubi_io_write_ec_hdr
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "struct ubi_ec_hdr *ec_hdr "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+physical eraseblock to write to
+.IP "ec_hdr" 12
+the erase counter header to write
+.SH "DESCRIPTION"
+This function writes erase counter header described by \fIec_hdr\fP to physical
+eraseblock \fIpnum\fP. It also fills most fields of \fIec_hdr\fP before writing, so
+the caller do not have to fill them. Callers must only fill the \fIec_hdr->ec\fP
+field.
+
+This function returns zero in case of success and a negative error code in
+case of failure. If -EIO is returned, the physical eraseblock most probably
+went bad.

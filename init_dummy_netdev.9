@@ -1,0 +1,15 @@
+.TH "init_dummy_netdev" 9 "init_dummy_netdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_dummy_netdev \- init a dummy network device for NAPI
+.SH SYNOPSIS
+.B "int" init_dummy_netdev
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to init
+
+This takes a network device structure and initialize the minimum
+amount of fields so it can be used to schedule NAPI polls without
+registering a full blown interface. This is to be used by drivers
+that need to tie several hardware interfaces to a single NAPI
+poll scheduler due to HW limitations.

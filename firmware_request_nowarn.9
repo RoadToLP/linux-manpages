@@ -1,0 +1,22 @@
+.TH "firmware_request_nowarn" 9 "firmware_request_nowarn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_request_nowarn \- request for an optional fw module
+.SH SYNOPSIS
+.B "int" firmware_request_nowarn
+.BI "(const struct firmware **firmware "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ");"
+.SH ARGUMENTS
+.IP "firmware" 12
+pointer to firmware image
+.IP "name" 12
+name of firmware file
+.IP "device" 12
+device for which firmware is being loaded
+.SH "DESCRIPTION"
+This function is similar in behaviour to \fBrequest_firmware\fP, except it
+doesn't produce warning messages when the file is not found. The sysfs
+fallback mechanism is enabled if direct filesystem lookup fails. However,
+failures to find the firmware file with it are still suppressed. It is
+therefore up to the driver to check for the return value of this call and to
+decide when to inform the users of errors.

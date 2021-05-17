@@ -1,0 +1,36 @@
+.TH "t4_change_mac" 9 "t4_change_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_change_mac \- modifies the exact-match filter for a MAC address
+.SH SYNOPSIS
+.B "int" t4_change_mac
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "unsigned int viid "  ","
+.BI "int idx "  ","
+.BI "const u8 *addr "  ","
+.BI "bool persist "  ","
+.BI "u8 *smt_idx "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW command
+.IP "viid" 12
+the VI id
+.IP "idx" 12
+index of existing filter for old value of MAC address, or -1
+.IP "addr" 12
+the new MAC address value
+.IP "persist" 12
+whether a new MAC allocation should be persistent
+.IP "smt_idx" 12
+the destination to store the new SMT index.
+
+Modifies an exact-match filter and sets it to the new MAC address.
+Note that in general it is not possible to modify the value of a given
+filter so the generic way to modify an address filter is to free the one
+being used by the old address value and allocate a new filter for the
+new address value.  \fIidx\fP can be -1 if the address is a new addition.
+
+Returns a negative error number or the index of the filter with the new
+MAC value.

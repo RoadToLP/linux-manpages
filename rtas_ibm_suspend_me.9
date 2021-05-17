@@ -1,0 +1,27 @@
+.TH "rtas_ibm_suspend_me" 9 "rtas_ibm_suspend_me" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtas_ibm_suspend_me \- Call ibm,suspend-me to suspend the LPAR.
+.SH SYNOPSIS
+.B "int" rtas_ibm_suspend_me
+.BI "(int *fw_status "  ");"
+.SH ARGUMENTS
+.IP "fw_status" 12
+RTAS call status will be placed here if not NULL.
+.SH "DESCRIPTION"
+\fBrtas_ibm_suspend_me\fP should be called only on a CPU which has
+received H_CONTINUE from the H_JOIN hcall. All other active CPUs
+should be waiting to return from H_JOIN.
+
+\fBrtas_ibm_suspend_me\fP may suspend execution of the OS
+indefinitely. Callers should take appropriate measures upon return, such as
+resetting watchdog facilities.
+
+Callers may choose to retry this call if \fIfw_status\fP is
+RTAS_THREADS_ACTIVE.
+.SH "RETURN"
+0          - The partition has resumed from suspend, possibly after
+migration to a different host.
+-ECANCELED - The operation was aborted.
+-EAGAIN    - There were other CPUs not in H_JOIN at the time of the call.
+-EBUSY     - Some other condition prevented the suspend from succeeding.
+-EIO       - Hardware/platform error.

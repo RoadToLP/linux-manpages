@@ -1,0 +1,21 @@
+.TH "iommu_set_fault_handler" 9 "iommu_set_fault_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_set_fault_handler \- set a fault handler for an iommu domain
+.SH SYNOPSIS
+.B "void" iommu_set_fault_handler
+.BI "(struct iommu_domain *domain "  ","
+.BI "iommu_fault_handler_t handler "  ","
+.BI "void *token "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+iommu domain
+.IP "handler" 12
+fault handler
+.IP "token" 12
+user data, will be passed back to the fault handler
+.SH "DESCRIPTION"
+This function should be used by IOMMU users which want to be notified
+whenever an IOMMU fault happens.
+
+The fault handler itself should return 0 on success, and an appropriate
+error code otherwise.

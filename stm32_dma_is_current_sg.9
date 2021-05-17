@@ -1,0 +1,17 @@
+.TH "stm32_dma_is_current_sg" 9 "stm32_dma_is_current_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32_dma_is_current_sg \- check that expected sg_req is currently transferred
+.SH SYNOPSIS
+.B "bool" stm32_dma_is_current_sg
+.BI "(struct stm32_dma_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+dma channel
+.SH "DESCRIPTION"
+This function called when IRQ are disable, checks that the hardware has not
+switched on the next transfer in double buffer mode. The test is done by
+comparing the next_sg memory address with the hardware related register
+(based on CT bit value).
+
+Returns true if expected current transfer is still running or double
+buffer mode is not activated.

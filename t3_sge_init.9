@@ -1,0 +1,17 @@
+.TH "t3_sge_init" 9 "t3_sge_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_sge_init \- initialize SGE
+.SH SYNOPSIS
+.B "void" t3_sge_init
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_params *p "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "p" 12
+the SGE parameters
+
+Performs SGE initialization needed every time after a chip reset.
+We do not initialize any of the queue sets here, instead the driver
+top-level must request those individually.  We also do not enable DMA
+here, that should be done after the queues have been set up.

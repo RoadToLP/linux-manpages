@@ -1,0 +1,22 @@
+.TH "acpi_dma_update_dma_spec" 9 "acpi_dma_update_dma_spec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dma_update_dma_spec \- prepare dma specifier to pass to translation function
+.SH SYNOPSIS
+.B "int" acpi_dma_update_dma_spec
+.BI "(struct acpi_dma *adma "  ","
+.BI "struct acpi_dma_spec *dma_spec "  ");"
+.SH ARGUMENTS
+.IP "adma" 12
+struct acpi_dma of DMA controller
+.IP "dma_spec" 12
+dma specifier to update
+.SH "DESCRIPTION"
+Accordingly to ACPI 5.0 Specification Table 6-170 "Fixed DMA Resource
+Descriptor":
+DMA Request Line bits is a platform-relative number uniquely
+identifying the request line assigned. Request line-to-Controller
+mapping is done in a controller-specific OS driver.
+That's why we can safely adjust slave_id when the appropriate controller is
+found.
+.SH "RETURN"
+0, if no information is avaiable, -1 on mismatch, and 1 otherwise.

@@ -1,0 +1,26 @@
+.TH "is_idx_node_in_use" 9 "is_idx_node_in_use" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_idx_node_in_use \- determine if an index node can be overwritten.
+.SH SYNOPSIS
+.B "int" is_idx_node_in_use
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int level "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key of index node
+.IP "level" 12
+index node level
+.IP "lnum" 12
+LEB number of index node
+.IP "offs" 12
+offset of index node
+.SH "DESCRIPTION"
+If \fIkey\fP / \fIlnum\fP / \fIoffs\fP identify an index node that was not part of the old
+index, then this function returns 0 (obsolete).  Else if the index node was
+part of the old index but is now dirty 1 is returned, else if it is clean 2
+is returned. A negative error code is returned on failure.

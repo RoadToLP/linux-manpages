@@ -1,0 +1,14 @@
+.TH "async_unregister_domain" 9 "async_unregister_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_unregister_domain \- ensure no more anonymous waiters on this domain
+.SH SYNOPSIS
+.B "void" async_unregister_domain
+.BI "(struct async_domain *domain "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+idle domain to flush out of any async_synchronize_full instances
+.SH "DESCRIPTION"
+async_synchronize_{cookie|full}\fB_domain\fP are not flushed since callers
+of these routines should know the lifetime of \fIdomain\fP
+
+Prefer \fBASYNC_DOMAIN_EXCLUSIVE\fP declarations over flushing

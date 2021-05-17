@@ -1,0 +1,17 @@
+.TH "kthread_park" 9 "kthread_park" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_park \- park a thread created by kthread_create().
+.SH SYNOPSIS
+.B "int" kthread_park
+.BI "(struct task_struct *k "  ");"
+.SH ARGUMENTS
+.IP "k" 12
+thread created by \fBkthread_create\fP.
+.SH "DESCRIPTION"
+Sets \fBkthread_should_park\fP for \fIk\fP to return true, wakes it, and
+waits for it to return. This can also be called after \fBkthread_create\fP
+instead of calling \fBwake_up_process\fP: the thread will park without
+calling \fBthreadfn\fP.
+
+Returns 0 if the thread is parked, -ENOSYS if the thread exited.
+If called by the kthread itself just the park bit is set.

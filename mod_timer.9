@@ -1,0 +1,27 @@
+.TH "mod_timer" 9 "mod_timer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mod_timer \- modify a timer's timeout
+.SH SYNOPSIS
+.B "int" mod_timer
+.BI "(struct timer_list *timer "  ","
+.BI "unsigned long expires "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+the timer to be modified
+.IP "expires" 12
+new timeout in jiffies
+.SH "DESCRIPTION"
+\fBmod_timer\fP is a more efficient way to update the expire field of an
+active timer (if the timer is inactive it will be activated)
+
+mod_timer(timer, expires) is equivalent to:
+
+del_timer(timer); timer->expires = expires; add_timer(timer);
+
+Note that if there are multiple unserialized concurrent users of the
+same timer, then \fBmod_timer\fP is the only safe way to modify the timeout,
+since \fBadd_timer\fP cannot modify an already running timer.
+
+The function returns whether it has modified a pending timer or not.
+(ie. \fBmod_timer\fP of an inactive timer returns 0, \fBmod_timer\fP of an
+active timer returns 1.)

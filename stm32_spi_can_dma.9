@@ -1,0 +1,18 @@
+.TH "stm32_spi_can_dma" 9 "stm32_spi_can_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32_spi_can_dma \- Determine if the transfer is eligible for DMA use
+.SH SYNOPSIS
+.B "bool" stm32_spi_can_dma
+.BI "(struct spi_master *master "  ","
+.BI "struct spi_device *spi_dev "  ","
+.BI "struct spi_transfer *transfer "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+controller master interface
+.IP "spi_dev" 12
+pointer to the spi device
+.IP "transfer" 12
+pointer to spi transfer
+.SH "DESCRIPTION"
+If driver has fifo and the current transfer size is greater than fifo size,
+use DMA. Otherwise use DMA for transfer longer than defined DMA min bytes.

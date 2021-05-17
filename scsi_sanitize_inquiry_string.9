@@ -1,0 +1,20 @@
+.TH "scsi_sanitize_inquiry_string" 9 "scsi_sanitize_inquiry_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_sanitize_inquiry_string \- remove non-graphical chars from an INQUIRY result string
+.SH SYNOPSIS
+.B "void" scsi_sanitize_inquiry_string
+.BI "(unsigned char *s "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+INQUIRY result string to sanitize
+.IP "len" 12
+length of the string
+.SH "DESCRIPTION"
+The SCSI spec says that INQUIRY vendor, product, and revision
+strings must consist entirely of graphic ASCII characters,
+padded on the right with spaces.  Since not all devices obey
+this rule, we will replace non-graphic or non-ASCII characters
+with spaces.  Exception: a NUL character is interpreted as a
+string terminator, so all the following characters are set to
+spaces.

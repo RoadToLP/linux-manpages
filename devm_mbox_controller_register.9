@@ -1,0 +1,19 @@
+.TH "devm_mbox_controller_register" 9 "devm_mbox_controller_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_mbox_controller_register \- managed mbox_controller_register()
+.SH SYNOPSIS
+.B "int" devm_mbox_controller_register
+.BI "(struct device *dev "  ","
+.BI "struct mbox_controller *mbox "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device owning the mailbox controller being registered
+.IP "mbox" 12
+mailbox controller being registered
+.SH "DESCRIPTION"
+This function adds a device-managed resource that will make sure that the
+mailbox controller, which is registered using \fBmbox_controller_register\fP
+as part of this function, will be unregistered along with the rest of
+device-managed resources upon driver probe failure or driver removal.
+
+Returns 0 on success or a negative error code on failure.

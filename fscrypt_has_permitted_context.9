@@ -1,0 +1,24 @@
+.TH "fscrypt_has_permitted_context" 9 "fscrypt_has_permitted_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_has_permitted_context \- is a file's encryption policy permitted within its directory?
+.SH SYNOPSIS
+.B "int" fscrypt_has_permitted_context
+.BI "(struct inode *parent "  ","
+.BI "struct inode *child "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+inode for parent directory
+.IP "child" 12
+inode for file being looked up, opened, or linked into \fIparent\fP
+.SH "DESCRIPTION"
+Filesystems must call this before permitting access to an inode in a
+situation where the parent directory is encrypted (either before allowing
+->\fBlookup\fP to succeed, or for a regular file before allowing it to be opened)
+and before any operation that involves linking an inode into an encrypted
+directory, including link, rename, and cross rename.  It enforces the
+constraint that within a given encrypted directory tree, all files use the
+same encryption policy.  The pre-access check is needed to detect potentially
+malicious offline violations of this constraint, while the link and rename
+checks are needed to prevent online violations of this constraint.
+.SH "RETURN"
+1 if permitted, 0 if forbidden.

@@ -1,0 +1,33 @@
+.TH "batadv_tvlv_call_handler" 9 "batadv_tvlv_call_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tvlv_call_handler \- parse the given tvlv buffer to call the appropriate handlers
+.SH SYNOPSIS
+.B "int" batadv_tvlv_call_handler
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_tvlv_handler *tvlv_handler "  ","
+.BI "bool ogm_source "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "u8 *src "  ","
+.BI "u8 *dst "  ","
+.BI "void *tvlv_value "  ","
+.BI "u16 tvlv_value_len "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "tvlv_handler" 12
+tvlv callback function handling the tvlv content
+.IP "ogm_source" 12
+flag indicating whether the tvlv is an ogm or a unicast packet
+.IP "orig_node" 12
+orig node emitting the ogm packet
+.IP "src" 12
+source mac address of the unicast packet
+.IP "dst" 12
+destination mac address of the unicast packet
+.IP "tvlv_value" 12
+tvlv content
+.IP "tvlv_value_len" 12
+tvlv content length
+.SH "RETURN"
+success if the handler was not found or the return value of the
+handler callback.

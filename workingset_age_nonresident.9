@@ -1,0 +1,17 @@
+.TH "workingset_age_nonresident" 9 "workingset_age_nonresident" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+workingset_age_nonresident \- age non-resident entries as LRU ages
+.SH SYNOPSIS
+.B "void" workingset_age_nonresident
+.BI "(struct lruvec *lruvec "  ","
+.BI "unsigned long nr_pages "  ");"
+.SH ARGUMENTS
+.IP "lruvec" 12
+the lruvec that was aged
+.IP "nr_pages" 12
+the number of pages to count
+.SH "DESCRIPTION"
+As in-memory pages are aged, non-resident pages need to be aged as
+well, in order for the refault distances later on to be comparable
+to the in-memory dimensions. This function allows reclaim and LRU
+operations to drive the non-resident aging along in parallel.

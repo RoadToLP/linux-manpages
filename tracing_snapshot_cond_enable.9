@@ -1,0 +1,22 @@
+.TH "tracing_snapshot_cond_enable" 9 "tracing_snapshot_cond_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_snapshot_cond_enable \- enable conditional snapshot for an instance
+.SH SYNOPSIS
+.B "int" tracing_snapshot_cond_enable
+.BI "(struct trace_array *tr "  ","
+.BI "void *cond_data "  ","
+.BI "cond_update_fn_t update "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+The tracing instance
+.IP "cond_data" 12
+User data to associate with the snapshot
+.IP "update" 12
+Implementation of the cond_snapshot update function
+.SH "DESCRIPTION"
+Check whether the conditional snapshot for the given instance has
+already been enabled, or if the current tracer is already using a
+snapshot; if so, return -EBUSY, else create a cond_snapshot and
+save the cond_data and update function inside.
+
+Returns 0 if successful, error otherwise.

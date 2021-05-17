@@ -1,0 +1,23 @@
+.TH "kvm_mips_freeze_hrtimer" 9 "kvm_mips_freeze_hrtimer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_freeze_hrtimer \- Safely stop the hrtimer.
+.SH SYNOPSIS
+.B "ktime_t" kvm_mips_freeze_hrtimer
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "u32 *count "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "count" 12
+Output pointer for CP0_Count value at point of freeze.
+.SH "DESCRIPTION"
+Freeze the hrtimer safely and return both the ktime and the CP0_Count value
+at the point it was frozen. It is guaranteed that any pending interrupts at
+the point it was frozen are handled, and none after that point.
+
+This is useful where the time/CP0_Count is needed in the calculation of the
+new parameters.
+
+Assumes !kvm_mips_count_disabled(\fIvcpu\fP) (guest CP0_Count timer is running).
+.SH "RETURN"
+The ktime at the point of freeze.

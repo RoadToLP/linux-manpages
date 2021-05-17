@@ -1,0 +1,20 @@
+.TH "vfs_ioctl" 9 "vfs_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_ioctl \- call filesystem specific ioctl methods
+.SH SYNOPSIS
+.B "long" vfs_ioctl
+.BI "(struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+open file to invoke ioctl method on
+.IP "cmd" 12
+ioctl command to execute
+.IP "arg" 12
+command-specific argument for ioctl
+.SH "DESCRIPTION"
+Invokes filesystem specific ->unlocked_ioctl, if one exists; otherwise
+returns -ENOTTY.
+
+Returns 0 on success, -errno on error.

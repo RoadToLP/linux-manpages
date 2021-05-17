@@ -1,0 +1,30 @@
+.TH "t4_enable_pi_params" 9 "t4_enable_pi_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_enable_pi_params \- enable/disable a Port's Virtual Interface
+.SH SYNOPSIS
+.B "int" t4_enable_pi_params
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "struct port_info *pi "  ","
+.BI "bool rx_en "  ","
+.BI "bool tx_en "  ","
+.BI "bool dcb_en "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW command
+.IP "pi" 12
+the Port Information structure
+.IP "rx_en" 12
+1=enable Rx, 0=disable Rx
+.IP "tx_en" 12
+1=enable Tx, 0=disable Tx
+.IP "dcb_en" 12
+1=enable delivery of Data Center Bridging messages.
+
+Enables/disables a Port's Virtual Interface.  Note that setting DCB
+Enable only makes sense when enabling a Virtual Interface ...
+If the Virtual Interface enable/disable operation is successful,
+we notify the OS-specific code of a potential Link Status change
+via the OS Contract API \fBt4_os_link_changed\fP.

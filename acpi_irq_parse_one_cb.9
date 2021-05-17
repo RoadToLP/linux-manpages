@@ -1,0 +1,23 @@
+.TH "acpi_irq_parse_one_cb" 9 "acpi_irq_parse_one_cb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_irq_parse_one_cb \- Handle the given resource.
+.SH SYNOPSIS
+.B "acpi_status" acpi_irq_parse_one_cb
+.BI "(struct acpi_resource *ares "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "ares" 12
+resource to handle
+.IP "context" 12
+context for the walk
+.SH "DESCRIPTION"
+This is called by acpi_walk_resources passing each resource returned by
+the _CRS method. We only inspect IRQ resources. Since IRQ resources
+might contain multiple interrupts we check if the index is within this
+one's interrupt array, otherwise we subtract the current resource IRQ
+count from the lookup index to prepare for the next resource.
+Once a match is found we call acpi_irq_parse_one_match to populate
+the result and end the walk by returning AE_CTRL_TERMINATE.
+.SH "RETURN"
+AE_OK if the walk should continue, AE_CTRL_TERMINATE if a matching
+IRQ resource was found.

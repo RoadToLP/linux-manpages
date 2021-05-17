@@ -1,0 +1,39 @@
+.TH "ext4_swap_extents" 9 "ext4_swap_extents" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_swap_extents \- Swap extents between two inodes
+.SH SYNOPSIS
+.B "int" ext4_swap_extents
+.BI "(handle_t *handle "  ","
+.BI "struct inode *inode1 "  ","
+.BI "struct inode *inode2 "  ","
+.BI "ext4_lblk_t lblk1 "  ","
+.BI "ext4_lblk_t lblk2 "  ","
+.BI "ext4_lblk_t count "  ","
+.BI "int unwritten "  ","
+.BI "int *erp "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+handle for this transaction
+.IP "inode1" 12
+First inode
+.IP "inode2" 12
+Second inode
+.IP "lblk1" 12
+Start block for first inode
+.IP "lblk2" 12
+Start block for second inode
+.IP "count" 12
+Number of blocks to swap
+.IP "unwritten" 12
+Mark second inode's extents as unwritten after swap
+.IP "erp" 12
+Pointer to save error value
+.SH "DESCRIPTION"
+This helper routine does exactly what is promise "swap extents". All other
+stuff such as page-cache locking consistency, bh mapping consistency or
+extent's data copying must be performed by caller.
+Locking:
+i_mutex is held for both inodes
+i_data_sem is locked for write for both inodes
+Assumptions:
+All pages from requested range are locked for both inodes

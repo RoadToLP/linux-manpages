@@ -1,0 +1,22 @@
+.TH "ath5k_hw_get_isr" 9 "ath5k_hw_get_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_get_isr \- Get interrupt status
+.SH SYNOPSIS
+.B "int" ath5k_hw_get_isr
+.BI "(struct ath5k_hw *ah "  ","
+.BI "enum ath5k_int *interrupt_mask "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct\fP ath5k_hw
+.IP "interrupt_mask" 12
+Driver's interrupt mask used to filter out
+interrupts in sw.
+.SH "DESCRIPTION"
+This function is used inside our interrupt handler to determine the reason
+for the interrupt by reading Primary Interrupt Status Register. Returns an
+abstract interrupt status mask which is mostly ISR with some uncommon bits
+being mapped on some standard non hw-specific positions
+(check out \fIath5k_int\fP).
+.SH "NOTE"
+We do write-to-clear, so the active PISR/SISR bits at the time this
+function gets called are cleared on return.

@@ -1,0 +1,37 @@
+.TH "ice_set_key" 9 "ice_set_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_key \- generate a variable sized key with multiples of 16-bits
+.SH SYNOPSIS
+.B "enum ice_status" ice_set_key
+.BI "(u8 *key "  ","
+.BI "u16 size "  ","
+.BI "u8 *val "  ","
+.BI "u8 *upd "  ","
+.BI "u8 *dc "  ","
+.BI "u8 *nm "  ","
+.BI "u16 off "  ","
+.BI "u16 len "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+pointer to where the key will be stored
+.IP "size" 12
+the size of the complete key in bytes (must be even)
+.IP "val" 12
+array of 8-bit values that makes up the value portion of the key
+.IP "upd" 12
+array of 8-bit masks that determine what key portion to update
+.IP "dc" 12
+array of 8-bit masks that make up the don't care mask
+.IP "nm" 12
+array of 8-bit masks that make up the never match mask
+.IP "off" 12
+the offset of the first byte in the key to update
+.IP "len" 12
+the number of bytes in the key update
+.SH "DESCRIPTION"
+This function generates a key from a value, a don't care mask and a never
+match mask.
+upd, dc, and nm are optional parameters, and can be NULL:
+upd == NULL --> upd mask is all 1's (update all bits)
+dc == NULL --> dc mask is all 0's (no don't care bits)
+nm == NULL --> nm mask is all 0's (no never match bits)

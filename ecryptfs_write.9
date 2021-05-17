@@ -1,0 +1,29 @@
+.TH "ecryptfs_write" 9 "ecryptfs_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_write \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_write
+.BI "(struct inode *ecryptfs_inode "  ","
+.BI "char *data "  ","
+.BI "loff_t offset "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "ecryptfs_inode" 12
+The eCryptfs file into which to write
+.IP "data" 12
+Virtual address where data to write is located
+.IP "offset" 12
+Offset in the eCryptfs file at which to begin writing the
+data from \fIdata\fP
+.IP "size" 12
+The number of bytes to write from \fIdata\fP
+.SH "DESCRIPTION"
+Write an arbitrary amount of data to an arbitrary location in the
+eCryptfs inode page cache. This is done on a page-by-page, and then
+by an extent-by-extent, basis; individual extents are encrypted and
+written to the lower page cache (via VFS writes). This function
+takes care of all the address translation to locations in the lower
+filesystem; it also handles truncate events, writing out zeros
+where necessary.
+
+Returns zero on success; non-zero otherwise

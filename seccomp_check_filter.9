@@ -1,0 +1,19 @@
+.TH "seccomp_check_filter" 9 "seccomp_check_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+seccomp_check_filter \- verify seccomp filter code
+.SH SYNOPSIS
+.B "int" seccomp_check_filter
+.BI "(struct sock_filter *filter "  ","
+.BI "unsigned int flen "  ");"
+.SH ARGUMENTS
+.IP "filter" 12
+filter to verify
+.IP "flen" 12
+length of filter
+.SH "DESCRIPTION"
+Takes a previously checked filter (by bpf_check_classic) and
+redirects all filter code that loads struct sk_buff data
+and related data through seccomp_bpf_load.  It also
+enforces length and alignment checking of those loads.
+
+Returns 0 if the rule set is legal or -EINVAL if not.

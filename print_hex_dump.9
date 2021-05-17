@@ -1,0 +1,50 @@
+.TH "print_hex_dump" 9 "print_hex_dump" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+print_hex_dump \- print a text hex dump to syslog for a binary blob of data
+.SH SYNOPSIS
+.B "void" print_hex_dump
+.BI "(const char *level "  ","
+.BI "const char *prefix_str "  ","
+.BI "int prefix_type "  ","
+.BI "int rowsize "  ","
+.BI "int groupsize "  ","
+.BI "const void *buf "  ","
+.BI "size_t len "  ","
+.BI "bool ascii "  ");"
+.SH ARGUMENTS
+.IP "level" 12
+kernel log level (e.g. KERN_DEBUG)
+.IP "prefix_str" 12
+string to prefix each line with;
+caller supplies trailing spaces for alignment if desired
+.IP "prefix_type" 12
+controls whether prefix of an offset, address, or none
+is printed (DUMP_PREFIX_OFFSET, DUMP_PREFIX_ADDRESS, DUMP_PREFIX_NONE)
+.IP "rowsize" 12
+number of bytes to print per line; must be 16 or 32
+.IP "groupsize" 12
+number of bytes to print at a time (1, 2, 4, 8; default = 1)
+.IP "buf" 12
+data blob to dump
+.IP "len" 12
+number of bytes in the \fIbuf\fP
+.IP "ascii" 12
+include ASCII after the hex output
+.SH "DESCRIPTION"
+Given a buffer of u8 data, \fBprint_hex_dump\fP prints a hex + ASCII dump
+to the kernel log at the specified kernel log level, with an optional
+leading prefix.
+
+\fBprint_hex_dump\fP works on one "line" of output at a time, i.e.,
+16 or 32 bytes of input data converted to hex + ASCII output.
+\fBprint_hex_dump\fP iterates over the entire input \fIbuf\fP, breaking it into
+"line size" chunks to format and print.
+
+E.g.:
+print_hex_dump(KERN_DEBUG, "raw data: ", DUMP_PREFIX_ADDRESS,
+16, 1, frame->data, frame->len, true);
+
+Example output using DUMP_PREFIX_OFFSET and 1-byte mode:
+0009ab42: 40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f  \fIABCDEFGHIJKLMNO\fP
+Example output using DUMP_PREFIX_ADDRESS and 4-byte mode:
+ffffffff88089af0: 73727170 77767574 7b7a7978 7f7e7d7c  pqrstuvwxyz{|}~.

@@ -1,0 +1,18 @@
+.TH "gether_disconnect" 9 "gether_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gether_disconnect \- notify network layer that USB link is inactive
+.SH SYNOPSIS
+.B "void" gether_disconnect
+.BI "(struct gether *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+the USB link, on which \fBgether_connect\fP was called
+.SH "CONTEXT"
+irqs blocked
+.SH "DESCRIPTION"
+This is called to deactivate endpoints and let the network layer know
+the connection went inactive ("no carrier").
+
+On return, the state is as if \fBgether_connect\fP had never been called.
+The endpoints are inactive, and accordingly without active USB I/O.
+Pointers to endpoint descriptors and endpoint private data are nulled.

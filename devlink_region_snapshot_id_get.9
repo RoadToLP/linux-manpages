@@ -1,0 +1,22 @@
+.TH "devlink_region_snapshot_id_get" 9 "devlink_region_snapshot_id_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devlink_region_snapshot_id_get \- get snapshot ID
+.SH SYNOPSIS
+.B "int" devlink_region_snapshot_id_get
+.BI "(struct devlink *devlink "  ","
+.BI "u32 *id "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink
+.IP "id" 12
+storage to return id
+.SH "DESCRIPTION"
+
+This callback should be called when adding a new snapshot,
+Driver should use the same id for multiple snapshots taken
+on multiple regions at the same time/by the same trigger.
+
+The caller of this function must use devlink_region_snapshot_id_put
+when finished creating regions using this id.
+
+Returns zero on success, or a negative error code on failure.

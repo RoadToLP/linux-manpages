@@ -1,0 +1,20 @@
+.TH "omap_compare_ecc" 9 "omap_compare_ecc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_compare_ecc \- Detect (2 bits) and correct (1 bit) error in data
+.SH SYNOPSIS
+.B "int" omap_compare_ecc
+.BI "(u8 *ecc_data1 "  ","
+.BI "u8 *ecc_data2 "  ","
+.BI "u8 *page_data "  ");"
+.SH ARGUMENTS
+.IP "ecc_data1" 12
+ecc code from nand spare area
+.IP "ecc_data2" 12
+ecc code from hardware register obtained from hardware ecc
+.IP "page_data" 12
+page data
+.SH "DESCRIPTION"
+This function compares two ECC's and indicates if there is an error.
+If the error can be corrected it will be corrected to the buffer.
+If there is no error, 0 is returned. If there is an error but it
+was corrected, 1 is returned. Otherwise, -1 is returned.

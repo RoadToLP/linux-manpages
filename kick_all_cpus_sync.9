@@ -1,0 +1,18 @@
+.TH "kick_all_cpus_sync" 9 "kick_all_cpus_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kick_all_cpus_sync \- Force all cpus out of idle
+.SH SYNOPSIS
+.B "void" kick_all_cpus_sync
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Used to synchronize the update of pm_idle function pointer. It's
+called after the pointer is updated and returns after the dummy
+callback function has been executed on all cpus. The execution of
+the function can only happen on the remote cpus after they have
+left the idle function which had been called via pm_idle function
+pointer. So it's guaranteed that nothing uses the previous pointer
+anymore.

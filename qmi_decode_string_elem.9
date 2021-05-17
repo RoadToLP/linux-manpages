@@ -1,0 +1,30 @@
+.TH "qmi_decode_string_elem" 9 "qmi_decode_string_elem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_decode_string_elem \- Decodes elements of string data type
+.SH SYNOPSIS
+.B "int" qmi_decode_string_elem
+.BI "(struct qmi_elem_info *ei_array "  ","
+.BI "void *buf_dst "  ","
+.BI "const void *buf_src "  ","
+.BI "u32 tlv_len "  ","
+.BI "int dec_level "  ");"
+.SH ARGUMENTS
+.IP "ei_array" 12
+Struct info array descibing the string element.
+.IP "buf_dst" 12
+Buffer to store the decoded element.
+.IP "buf_src" 12
+Buffer containing the elements in QMI wire format.
+.IP "tlv_len" 12
+Total size of the encoded inforation corresponding to
+this string element.
+.IP "dec_level" 12
+Depth of the string element from the main structure.
+.SH "DESCRIPTION"
+This function decodes the string element of maximum length
+"ei_array->elem_len" from the source buffer "buf_src" and puts it into
+the destination buffer "buf_dst". This function returns number of bytes
+decoded from the input buffer.
+.SH "RETURN"
+The total size of the decoded data elements on success, negative
+errno on error.

@@ -1,0 +1,29 @@
+.TH "cap_task_prctl" 9 "cap_task_prctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_task_prctl \- Implement process control functions for this security module
+.SH SYNOPSIS
+.B "int" cap_task_prctl
+.BI "(int option "  ","
+.BI "unsigned long arg2 "  ","
+.BI "unsigned long arg3 "  ","
+.BI "unsigned long arg4 "  ","
+.BI "unsigned long arg5 "  ");"
+.SH ARGUMENTS
+.IP "option" 12
+The process control function requested
+\fIarg2\fP, \fIarg3\fP, \fIarg4\fP, \fIarg5\fP: The argument data for this function
+.IP "arg2" 12
+-- undescribed --
+.IP "arg3" 12
+-- undescribed --
+.IP "arg4" 12
+-- undescribed --
+.IP "arg5" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Allow process control functions (\fBsys_prctl\fP) to alter capabilities; may
+also deny access to other functions not otherwise implemented here.
+
+Returns 0 or +ve on success, -ENOSYS if this function is not implemented
+here, other -ve on error.  If -ENOSYS is returned, \fBsys_prctl\fP and other LSM
+modules will consider performing the function.

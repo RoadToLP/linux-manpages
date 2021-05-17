@@ -1,0 +1,21 @@
+.TH "fcoe_check_wait_queue" 9 "fcoe_check_wait_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_check_wait_queue \- Attempt to clear the transmit backlog
+.SH SYNOPSIS
+.B "void" fcoe_check_wait_queue
+.BI "(struct fc_lport *lport "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port whose backlog is to be cleared
+.IP "skb" 12
+The received FIP packet
+.SH "DESCRIPTION"
+This empties the wait_queue, dequeues the head of the wait_queue queue
+and calls \fBfcoe_start_io\fP for each packet. If all skb have been
+transmitted it returns the qlen. If an error occurs it restores
+wait_queue (to try again later) and returns -1.
+
+The wait_queue is used when the skb transmit fails. The failed skb
+will go in the wait_queue which will be emptied by the timer function or
+by the next skb transmit.

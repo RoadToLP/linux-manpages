@@ -1,0 +1,21 @@
+.TH "nfs_start_io_read" 9 "nfs_start_io_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_start_io_read \- declare the file is being used for buffered reads
+.SH SYNOPSIS
+.B "void" nfs_start_io_read
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+file inode
+.SH "DESCRIPTION"
+Declare that a buffered read operation is about to start, and ensure
+that we block all direct I/O.
+On exit, the function ensures that the NFS_INO_ODIRECT flag is unset,
+and holds a shared lock on inode->i_rwsem to ensure that the flag
+cannot be changed.
+In practice, this means that buffered read operations are allowed to
+execute in parallel, thanks to the shared lock, whereas direct I/O
+operations need to wait to grab an exclusive lock in order to set
+NFS_INO_ODIRECT.
+Note that buffered writes and truncates both take a write lock on
+inode->i_rwsem, meaning that those are serialised w.r.t. the reads.

@@ -1,0 +1,15 @@
+.TH "insn_get_opcode" 9 "insn_get_opcode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_get_opcode \- collect opcode(s)
+.SH SYNOPSIS
+.B "void" insn_get_opcode
+.BI "(struct insn *insn "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+\fIstruct insn\fP containing instruction
+.SH "DESCRIPTION"
+Populates \fIinsn->opcode\fP, updates \fIinsn->next_byte\fP to point past the
+opcode byte(s), and set \fIinsn->attr\fP (except for groups).
+If necessary, first collects any preceding (prefix) bytes.
+Sets \fIinsn->opcode.value\fP = opcode1.  No effect if \fIinsn->opcode.got\fP
+is already 1.

@@ -1,0 +1,23 @@
+.TH "fscrypt_policy_from_context" 9 "fscrypt_policy_from_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_policy_from_context \- convert an fscrypt_context to an fscrypt_policy
+.SH SYNOPSIS
+.B "int" fscrypt_policy_from_context
+.BI "(union fscrypt_policy *policy_u "  ","
+.BI "const union fscrypt_context *ctx_u "  ","
+.BI "int ctx_size "  ");"
+.SH ARGUMENTS
+.IP "policy_u" 12
+output policy
+.IP "ctx_u" 12
+input context
+.IP "ctx_size" 12
+size of input context in bytes
+.SH "DESCRIPTION"
+Given an fscrypt_context, build the corresponding fscrypt_policy.
+
+This does *not* validate the settings within the policy itself, e.g. the
+modes, flags, and reserved bits.  Use \fBfscrypt_supported_policy\fP for that.
+.SH "RETURN"
+0 on success, or -EINVAL if the fscrypt_context has an unrecognized
+version number or size.

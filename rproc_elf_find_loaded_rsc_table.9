@@ -1,0 +1,18 @@
+.TH "rproc_elf_find_loaded_rsc_table" 9 "rproc_elf_find_loaded_rsc_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_elf_find_loaded_rsc_table \- find the loaded resource table
+.SH SYNOPSIS
+.B "struct resource_table *" rproc_elf_find_loaded_rsc_table
+.BI "(struct rproc *rproc "  ","
+.BI "const struct firmware *fw "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+the rproc handle
+.IP "fw" 12
+the ELF firmware image
+.SH "DESCRIPTION"
+This function finds the location of the loaded resource table. Don't
+call this function if the table wasn't loaded yet - it's a bug if you do.
+
+Returns the pointer to the resource table if it is found or NULL otherwise.
+If the table wasn't loaded yet the result is unspecified.

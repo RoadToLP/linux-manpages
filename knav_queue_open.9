@@ -1,0 +1,23 @@
+.TH "knav_queue_open" 9 "knav_queue_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+knav_queue_open \- open a hardware queue
+.SH SYNOPSIS
+.B "void *" knav_queue_open
+.BI "(const char *name "  ","
+.BI "unsigned id "  ","
+.BI "unsigned flags "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+- name to give the queue handle
+.IP "id" 12
+- desired queue number if any or specifes the type
+of queue
+.IP "flags" 12
+- the following flags are applicable to queues:
+KNAV_QUEUE_SHARED - allow the queue to be shared. Queues are
+exclusive by default.
+Subsequent attempts to open a shared queue should
+also have this flag.
+.SH "DESCRIPTION"
+Returns a handle to the open hardware queue if successful. Use \fBIS_ERR\fP
+to check the returned value for error codes.

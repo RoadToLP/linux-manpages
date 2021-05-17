@@ -1,0 +1,21 @@
+.TH "i915_perf_ioctl_locked" 9 "i915_perf_ioctl_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_perf_ioctl_locked \- support ioctl() usage with i915 perf stream FDs
+.SH SYNOPSIS
+.B "long" i915_perf_ioctl_locked
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915 perf stream
+.IP "cmd" 12
+the ioctl request
+.IP "arg" 12
+the ioctl data
+.SH "NOTE"
+The \fIperf->lock\fP mutex has been taken to serialize
+with any non-file-operation driver hooks.
+.SH "RETURN"
+zero on success or a negative error code. Returns -EINVAL for
+an unknown ioctl request.

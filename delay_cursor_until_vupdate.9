@@ -1,0 +1,23 @@
+.TH "delay_cursor_until_vupdate" 9 "delay_cursor_until_vupdate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+delay_cursor_until_vupdate \- Delay cursor update if too close to VUPDATE.
+.SH SYNOPSIS
+.B "void" delay_cursor_until_vupdate
+.BI "(struct dc *dc "  ","
+.BI "struct pipe_ctx *pipe_ctx "  ");"
+.SH ARGUMENTS
+.IP "dc" 12
+-- undescribed --
+.IP "pipe_ctx" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Software keepout workaround to prevent cursor update locking from stalling
+out cursor updates indefinitely or from old values from being retained in
+the case where the viewport changes in the same frame as the cursor.
+
+The idea is to calculate the remaining time from VPOS to VUPDATE. If it's
+too close to VUPDATE, then stall out until VUPDATE finishes.
+
+TODO: Optimize cursor programming to be once per frame before VUPDATE
+to avoid the need for this workaround.

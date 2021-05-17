@@ -1,0 +1,17 @@
+.TH "emac_irq" 9 "emac_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+emac_irq \- EMAC interrupt handler
+.SH SYNOPSIS
+.B "irqreturn_t" emac_irq
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number
+.IP "dev_id" 12
+EMAC network adapter data structure ptr
+.SH "DESCRIPTION"
+EMAC Interrupt handler - we only schedule NAPI and not process any packets
+here. EVen the interrupt status is checked (TX/RX/Err) in NAPI poll function
+
+Returns interrupt handled condition

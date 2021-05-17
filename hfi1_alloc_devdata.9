@@ -1,0 +1,16 @@
+.TH "hfi1_alloc_devdata" 9 "hfi1_alloc_devdata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_alloc_devdata \- Allocate our primary per-unit data structure.
+.SH SYNOPSIS
+.B "struct hfi1_devdata *" hfi1_alloc_devdata
+.BI "(struct pci_dev *pdev "  ","
+.BI "size_t extra "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Valid PCI device
+.IP "extra" 12
+How many bytes to alloc past the default
+.SH "DESCRIPTION"
+Must be done via verbs allocator, because the verbs cleanup process
+both does cleanup and free of the data structure.
+"extra" is for chip-specific data.

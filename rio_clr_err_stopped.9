@@ -1,0 +1,22 @@
+.TH "rio_clr_err_stopped" 9 "rio_clr_err_stopped" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_clr_err_stopped \- Clears port Error-stopped states.
+.SH SYNOPSIS
+.B "int" rio_clr_err_stopped
+.BI "(struct rio_dev *rdev "  ","
+.BI "u32 pnum "  ","
+.BI "u32 err_status "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+Pointer to RIO device control structure
+.IP "pnum" 12
+Switch port number to clear errors
+.IP "err_status" 12
+port error status (if 0 reads register from device)
+.SH "DESCRIPTION"
+TODO: Currently this routine is not compatible with recovery process
+specified for idt_gen3 RapidIO switch devices. It has to be reviewed
+to implement universal recovery process that is compatible full range
+off available devices.
+IDT gen3 switch driver now implements HW-specific error handler that
+issues soft port reset to the port to reset ERR_STOP bits and ackIDs.

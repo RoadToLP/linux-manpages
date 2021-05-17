@@ -1,0 +1,20 @@
+.TH "sel_netport_sid" 9 "sel_netport_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sel_netport_sid \- Lookup the SID of a network port
+.SH SYNOPSIS
+.B "int" sel_netport_sid
+.BI "(u8 protocol "  ","
+.BI "u16 pnum "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "protocol" 12
+protocol
+.IP "pnum" 12
+port
+.IP "sid" 12
+port SID
+.SH "DESCRIPTION"
+This function determines the SID of a network port using the fastest method
+possible.  First the port table is queried, but if an entry can't be found
+then the policy is queried and the result is added to the table to speedup
+future queries.  Returns zero on success, negative values on failure.

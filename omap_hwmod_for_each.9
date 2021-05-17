@@ -1,0 +1,19 @@
+.TH "omap_hwmod_for_each" 9 "omap_hwmod_for_each" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_for_each \- call function for each registered omap_hwmod
+.SH SYNOPSIS
+.B "int" omap_hwmod_for_each
+.BI "(int (*fn)(struct omap_hwmod *oh, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "fn" 12
+pointer to a callback function
+.IP "data" 12
+void * data to pass to callback function
+.SH "DESCRIPTION"
+Call \fIfn\fP for each registered omap_hwmod, passing \fIdata\fP to each
+function.  \fIfn\fP must return 0 for success or any other value for
+failure.  If \fIfn\fP returns non-zero, the iteration across omap_hwmods
+will stop and the non-zero return value will be passed to the
+caller of \fBomap_hwmod_for_each\fP.  \fIfn\fP is called with
+\fBomap_hwmod_for_each\fP held.

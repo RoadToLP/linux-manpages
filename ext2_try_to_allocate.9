@@ -1,0 +1,37 @@
+.TH "ext2_try_to_allocate" 9 "ext2_try_to_allocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_try_to_allocate \- 
+.SH SYNOPSIS
+.B "int" ext2_try_to_allocate
+.BI "(struct super_block *sb "  ","
+.BI "int group "  ","
+.BI "struct buffer_head *bitmap_bh "  ","
+.BI "ext2_grpblk_t grp_goal "  ","
+.BI "unsigned long *count "  ","
+.BI "struct ext2_reserve_window *my_rsv "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+.IP "group" 12
+given allocation block group
+.IP "bitmap_bh" 12
+bufferhead holds the block bitmap
+.IP "grp_goal" 12
+given target block within the group
+.IP "count" 12
+target number of blocks to allocate
+.IP "my_rsv" 12
+reservation window
+.SH "DESCRIPTION"
+Attempt to allocate blocks within a give range. Set the range of allocation
+first, then find the first free bit(s) from the bitmap (within the range),
+and at last, allocate the blocks by claiming the found free bit as allocated.
+
+To set the range of this allocation:
+if there is a reservation window, only try to allocate block(s)
+from the file's own reservation window;
+Otherwise, the allocation range starts from the give goal block,
+ends at the block group's last block.
+
+If we failed to allocate the desired block then we may end up crossing to a
+new bitmap.

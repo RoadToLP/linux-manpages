@@ -1,0 +1,17 @@
+.TH "ixgbe_dma_sync_frag" 9 "ixgbe_dma_sync_frag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_dma_sync_frag \- perform DMA sync for first frag of SKB
+.SH SYNOPSIS
+.B "void" ixgbe_dma_sync_frag
+.BI "(struct ixgbe_ring *rx_ring "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring packet is being transacted on
+.IP "skb" 12
+pointer to current skb being updated
+.SH "DESCRIPTION"
+This function provides a basic DMA sync up for the first fragment of an
+skb.  The reason for doing this is that the first fragment cannot be
+unmapped until we have reached the end of packet descriptor for a buffer
+chain.

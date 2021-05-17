@@ -1,0 +1,19 @@
+.TH "ice_trigger_vf_reset" 9 "ice_trigger_vf_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_trigger_vf_reset \- Reset a VF on HW
+.SH SYNOPSIS
+.B "void" ice_trigger_vf_reset
+.BI "(struct ice_vf *vf "  ","
+.BI "bool is_vflr "  ","
+.BI "bool is_pfr "  ");"
+.SH ARGUMENTS
+.IP "vf" 12
+pointer to the VF structure
+.IP "is_vflr" 12
+true if VFLR was issued, false if not
+.IP "is_pfr" 12
+true if the reset was triggered due to a previous PFR
+.SH "DESCRIPTION"
+Trigger hardware to start a reset for a particular VF. Expects the caller
+to wait the proper amount of time to allow hardware to reset the VF before
+it cleans up and restores VF functionality.

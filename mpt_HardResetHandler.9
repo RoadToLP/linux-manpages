@@ -1,0 +1,23 @@
+.TH "mpt_HardResetHandler" 9 "mpt_HardResetHandler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_HardResetHandler \- Generic reset handler
+.SH SYNOPSIS
+.B "int" mpt_HardResetHandler
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "sleepFlag" 12
+Indicates if sleep or schedule must be called.
+
+Issues SCSI Task Management call based on input arg values.
+If TaskMgmt fails, returns associated SCSI request.
+
+Remark: _HardResetHandler can be invoked from an interrupt thread (timer)
+or a non-interrupt thread.  In the former, must not call \fBschedule\fP.
+.SH "NOTE"
+A return of -1 is a FATAL error case, as it means a
+FW reload/initialization failed.
+
+Returns 0 for SUCCESS or -1 if FAILED.

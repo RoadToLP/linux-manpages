@@ -1,0 +1,25 @@
+.TH "amba_find_device" 9 "amba_find_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amba_find_device \- locate an AMBA device given a bus id
+.SH SYNOPSIS
+.B "struct amba_device *" amba_find_device
+.BI "(const char *busid "  ","
+.BI "struct device *parent "  ","
+.BI "unsigned int id "  ","
+.BI "unsigned int mask "  ");"
+.SH ARGUMENTS
+.IP "busid" 12
+bus id for device (or NULL)
+.IP "parent" 12
+parent device (or NULL)
+.IP "id" 12
+peripheral ID (or 0)
+.IP "mask" 12
+peripheral ID mask (or 0)
+
+Return the AMBA device corresponding to the supplied parameters.
+If no device matches, returns NULL.
+.SH "NOTE"
+When a valid device is found, its refcount is
+incremented, and must be decremented before the returned
+reference.

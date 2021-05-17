@@ -1,0 +1,20 @@
+.TH "__pci_reset_slot" 9 "__pci_reset_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pci_reset_slot \- Try to reset a PCI slot
+.SH SYNOPSIS
+.B "int" __pci_reset_slot
+.BI "(struct pci_slot *slot "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+PCI slot to reset
+.SH "DESCRIPTION"
+A PCI bus may host multiple slots, each slot may support a reset mechanism
+independent of other slots.  For instance, some slots may support slot power
+control.  In the case of a 1:1 bus to slot architecture, this function may
+wrap the bus reset to avoid spurious slot related events such as hotplug.
+Generally a slot reset should be attempted before a bus reset.  All of the
+function of the slot and any subordinate buses behind the slot are reset
+through this function.  PCI config space of all devices in the slot and
+behind the slot is saved before and restored after reset.
+
+Same as above except return -EAGAIN if the slot cannot be locked

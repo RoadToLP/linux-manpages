@@ -1,0 +1,18 @@
+.TH "axienet_open" 9 "axienet_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axienet_open \- Driver open routine.
+.SH SYNOPSIS
+.B "int" axienet_open
+.BI "(struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+Pointer to net_device structure
+.SH "RETURN"
+0, on success.
+non-zero error value on failure
+.SH "DESCRIPTION"
+This is the driver open routine. It calls phylink_start to start the
+PHY device.
+It also allocates interrupt service routines, enables the interrupt lines
+and ISR handling. Axi Ethernet core is reset through Axi DMA core. Buffer
+descriptors are initialized.

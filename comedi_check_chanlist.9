@@ -1,0 +1,26 @@
+.TH "comedi_check_chanlist" 9 "comedi_check_chanlist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_check_chanlist \- Validate each element in a chanlist.
+.SH SYNOPSIS
+.B "int" comedi_check_chanlist
+.BI "(struct comedi_subdevice *s "  ","
+.BI "int n "  ","
+.BI "unsigned int *chanlist "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+comedi_subdevice struct
+.IP "n" 12
+number of elements in the chanlist
+.IP "chanlist" 12
+the chanlist to validate
+.SH "DESCRIPTION"
+Each element consists of a channel number, a range index, an analog
+reference type and some flags, all packed into an unsigned int.
+
+This checks that the channel number and range index are supported by
+the comedi subdevice.  It does not check whether the analog reference
+type and the flags are supported.  Drivers that care should check those
+themselves.
+.SH "RETURN"
+0 if all \fIchanlist\fP elements are valid (success),
+-EINVAL if one or more elements are invalid.

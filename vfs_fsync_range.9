@@ -1,0 +1,22 @@
+.TH "vfs_fsync_range" 9 "vfs_fsync_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_fsync_range \- helper to sync a range of data & metadata to disk
+.SH SYNOPSIS
+.B "int" vfs_fsync_range
+.BI "(struct file *file "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "int datasync "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file to sync
+.IP "start" 12
+offset in bytes of the beginning of data range to sync
+.IP "end" 12
+offset in bytes of the end of data range (inclusive)
+.IP "datasync" 12
+perform only datasync
+.SH "DESCRIPTION"
+Write back data in range \fIstart\fP..\fIend\fP and metadata for \fIfile\fP to disk.  If
+\fIdatasync\fP is set only metadata needed to access modified file data is
+written.

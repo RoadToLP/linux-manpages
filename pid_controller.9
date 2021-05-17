@@ -1,0 +1,27 @@
+.TH "pid_controller" 9 "pid_controller" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pid_controller \- PID controller
+.SH SYNOPSIS
+.B "u32" pid_controller
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "int control_temp "  ","
+.BI "u32 max_allocatable_power "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+thermal zone we are operating in
+.IP "control_temp" 12
+the target temperature in millicelsius
+.IP "max_allocatable_power" 12
+maximum allocatable power for this thermal zone
+.SH "DESCRIPTION"
+This PID controller increases the available power budget so that the
+temperature of the thermal zone gets as close as possible to
+\fIcontrol_temp\fP and limits the power if it exceeds it.  k_po is the
+proportional term when we are overshooting, k_pu is the
+proportional term when we are undershooting.  integral_cutoff is a
+threshold below which we stop accumulating the error.  The
+accumulated error is only valid if the requested power will make
+the system warmer.  If the system is mostly idle, there's no point
+in accumulating positive error.
+.SH "RETURN"
+The power budget for the next period.

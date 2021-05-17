@@ -1,0 +1,20 @@
+.TH "__lookup_parent" 9 "__lookup_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lookup_parent \- lookup the parent of a profile of name @hname
+.SH SYNOPSIS
+.B "struct aa_policy *" __lookup_parent
+.BI "(struct aa_ns *ns "  ","
+.BI "const char *hname "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+namespace to lookup profile in  (NOT NULL)
+.IP "hname" 12
+hierarchical profile name to find parent of  (NOT NULL)
+.SH "DESCRIPTION"
+Lookups up the parent of a fully qualified profile name, the profile
+that matches hname does not need to exist, in general this
+is used to load a new profile.
+
+Requires: rcu_read_lock be held
+.SH "RETURN"
+unrefcounted policy or NULL if not found

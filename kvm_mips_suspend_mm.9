@@ -1,0 +1,20 @@
+.TH "kvm_mips_suspend_mm" 9 "kvm_mips_suspend_mm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_suspend_mm \- Suspend the active mm. @cpu The CPU we're running on.
+.SH SYNOPSIS
+.B "void" kvm_mips_suspend_mm
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Suspend the active_mm, ready for a switch to a KVM guest virtual address
+space. This is left active for the duration of guest context, including time
+with interrupts enabled, so we need to be careful not to confuse e.g. cache
+management IPIs.
+
+\fBkvm_mips_resume_mm\fP should be called before context switching to a different
+process so we don't need to worry about reference counting.
+
+This needs to be in static kernel code to avoid exporting init_mm.

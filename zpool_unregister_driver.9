@@ -1,0 +1,15 @@
+.TH "zpool_unregister_driver" 9 "zpool_unregister_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_unregister_driver \- unregister a zpool implementation.
+.SH SYNOPSIS
+.B "int" zpool_unregister_driver
+.BI "(struct zpool_driver *driver "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+driver to unregister.
+.SH "DESCRIPTION"
+Module usage counting is used to prevent using a driver
+while/after unloading, so if this is called from module
+exit function, this should never fail; if called from
+other than the module exit function, and this returns
+failure, the driver is in use and must remain available.

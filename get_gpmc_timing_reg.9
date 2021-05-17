@@ -1,0 +1,43 @@
+.TH "get_gpmc_timing_reg" 9 "get_gpmc_timing_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_gpmc_timing_reg \- read a timing parameter and print DTS settings for it.
+.SH SYNOPSIS
+.B "int" get_gpmc_timing_reg
+.BI "(int cs "  ","
+.BI "int reg "  ","
+.BI "int st_bit "  ","
+.BI "int end_bit "  ","
+.BI "int max "  ","
+.BI "const char *name "  ","
+.BI "const enum gpmc_clk_domain cd "  ","
+.BI "int shift "  ","
+.BI "bool raw "  ","
+.BI "bool noval "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+Chip Select Region
+.IP "reg" 12
+GPMC_CS_CONFIGn register offset.
+.IP "st_bit" 12
+Start Bit
+.IP "end_bit" 12
+End Bit. Must be >= \fIst_bit\fP.
+.IP "max" 12
+Maximum parameter value (before optional \fIshift\fP).
+If 0, maximum is as high as \fIst_bit\fP and \fIend_bit\fP allow.
+.IP "name" 12
+DTS node name, w/o "gpmc,"
+.IP "cd" 12
+Clock Domain of timing parameter.
+.IP "shift" 12
+Parameter value left shifts \fIshift\fP, which is then printed instead of value.
+.IP "raw" 12
+Raw Format Option.
+raw format:  gpmc,name = <value>
+tick format: gpmc,name = <value> /\fIzwj\fP;* x ns -- y ns; x ticks *\fIzwj\fP;/
+Where x ns -- y ns result in the same tick value.
+When \fImax\fP is exceeded, "invalid" is printed inside comment.
+.IP "noval" 12
+Parameter values equal to 0 are not printed.
+.SH "RETURN"
+Specified timing parameter (after optional \fIshift\fP).

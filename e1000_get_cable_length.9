@@ -1,0 +1,23 @@
+.TH "e1000_get_cable_length" 9 "e1000_get_cable_length" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_get_cable_length \- Estimates the cable length.
+.SH SYNOPSIS
+.B "s32" e1000_get_cable_length
+.BI "(struct e1000_hw *hw "  ","
+.BI "u16 *min_length "  ","
+.BI "u16 *max_length "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+Struct containing variables accessed by shared code
+.IP "min_length" 12
+The estimated minimum length
+.IP "max_length" 12
+The estimated maximum length
+.SH "RETURN"
+- E1000_ERR_XXX
+E1000_SUCCESS
+.SH "DESCRIPTION"
+This function always returns a ranged length (minimum & maximum).
+So for M88 phy's, this function interprets the one value returned from the
+register to the minimum and maximum range.
+For IGP phy's, the function calculates the range by the AGC registers.

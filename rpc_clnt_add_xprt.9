@@ -1,0 +1,23 @@
+.TH "rpc_clnt_add_xprt" 9 "rpc_clnt_add_xprt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_clnt_add_xprt \- Add a new transport to a rpc_clnt
+.SH SYNOPSIS
+.B "int" rpc_clnt_add_xprt
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "struct xprt_create *xprtargs "  ","
+.BI "int (*setup)(struct rpc_clnt *, struct rpc_xprt_switch *, struct rpc_xprt *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+pointer to struct rpc_clnt
+.IP "xprtargs" 12
+pointer to struct xprt_create
+.IP "setup" 12
+callback to test and/or set up the connection
+.IP "data" 12
+pointer to setup function data
+.SH "DESCRIPTION"
+Creates a new transport using the parameters set in args and
+adds it to clnt.
+If ping is set, then test that connectivity succeeds before
+adding the new transport.

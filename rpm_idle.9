@@ -1,0 +1,20 @@
+.TH "rpm_idle" 9 "rpm_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpm_idle \- Notify device bus type if the device can be suspended.
+.SH SYNOPSIS
+.B "int" rpm_idle
+.BI "(struct device *dev "  ","
+.BI "int rpmflags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to notify the bus type about.
+.IP "rpmflags" 12
+Flag bits.
+.SH "DESCRIPTION"
+Check if the device's runtime PM status allows it to be suspended.  If
+another idle notification has been started earlier, return immediately.  If
+the RPM_ASYNC flag is set then queue an idle-notification request; otherwise
+run the ->\fBruntime_idle\fP callback directly. If the ->runtime_idle callback
+doesn't exist or if it returns 0, call rpm_suspend with the RPM_AUTO flag.
+
+This function must be called under dev->power.lock with interrupts disabled.

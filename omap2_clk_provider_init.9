@@ -1,0 +1,25 @@
+.TH "omap2_clk_provider_init" 9 "omap2_clk_provider_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_clk_provider_init \- init master clock provider
+.SH SYNOPSIS
+.B "int" omap2_clk_provider_init
+.BI "(struct device_node *parent "  ","
+.BI "int index "  ","
+.BI "struct regmap *syscon "  ","
+.BI "void __iomem *mem "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+master node
+.IP "index" 12
+internal index for clk_reg_ops
+.IP "syscon" 12
+syscon regmap pointer for accessing clock registers
+.IP "mem" 12
+iomem pointer for the clock provider memory area, only used if
+syscon is not provided
+.SH "DESCRIPTION"
+Initializes a master clock IP block. This basically sets up the
+mapping from clocks node to the memory map index. All the clocks
+are then initialized through the common of_clk_init call, and the
+clocks will access their memory maps based on the node layout.
+Returns 0 in success.

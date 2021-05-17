@@ -1,0 +1,26 @@
+.TH "snd_usb_add_endpoint" 9 "snd_usb_add_endpoint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_usb_add_endpoint \- Add an endpoint to an USB audio chip
+.SH SYNOPSIS
+.B "int" snd_usb_add_endpoint
+.BI "(struct snd_usb_audio *chip "  ","
+.BI "int ep_num "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+The chip
+.IP "ep_num" 12
+The number of the endpoint to use
+.IP "type" 12
+SND_USB_ENDPOINT_TYPE_DATA or SND_USB_ENDPOINT_TYPE_SYNC
+.SH "DESCRIPTION"
+If the requested endpoint has not been added to the given chip before,
+a new instance is created.
+
+Returns zero on success or a negative error code.
+
+New endpoints will be added to chip->ep_list and freed by
+calling \fBsnd_usb_endpoint_free_all\fP.
+
+For SND_USB_ENDPOINT_TYPE_SYNC, the caller needs to guarantee that
+bNumEndpoints > 1 beforehand.

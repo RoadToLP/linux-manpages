@@ -1,0 +1,17 @@
+.TH "rio_enum_mport" 9 "rio_enum_mport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_enum_mport \- Start enumeration through a master port
+.SH SYNOPSIS
+.B "int" rio_enum_mport
+.BI "(struct rio_mport *mport "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "mport" 12
+Master port to send transactions
+.IP "flags" 12
+Enumeration control flags
+.SH "DESCRIPTION"
+Starts the enumeration process. If somebody has enumerated our
+master port device, then give up. If not and we have an active
+link, then start recursive peer enumeration. Returns 0 if
+enumeration succeeds or -EBUSY if enumeration fails.

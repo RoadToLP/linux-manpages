@@ -1,0 +1,25 @@
+.TH "fixed_power" 9 "fixed_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fixed_power \- compute: x^n, in O(log n) time
+.SH SYNOPSIS
+.B "u64" fixed_power
+.BI "(u64 x "  ","
+.BI "unsigned int frac_bits "  ","
+.BI "unsigned int n "  ");"
+.SH ARGUMENTS
+.IP "x" 12
+base of the power
+.IP "frac_bits" 12
+fractional bits of \fIx\fP
+.IP "n" 12
+power to raise \fIx\fP to.
+.SH "DESCRIPTION"
+By exploiting the relation between the definition of the natural power
+function: x^n := x*x*...*x (x multiplied by itself for n times), and
+the binary encoding of numbers used by computers: n := \Sum n_i * 2^i,
+(where: n_i \elem {0, 1}, the binary vector representing n),
+we find: x^n := x^(\Sum n_i * 2^i) := \Prod x^(n_i * 2^i), which is
+of course trivially computable in O(log_2 n), the length of our binary
+vector.
+
+(see: kernel/sched/loadavg.c)

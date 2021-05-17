@@ -1,0 +1,20 @@
+.TH "clocksource_start_suspend_timing" 9 "clocksource_start_suspend_timing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clocksource_start_suspend_timing \- Start measuring the suspend timing
+.SH SYNOPSIS
+.B "void" clocksource_start_suspend_timing
+.BI "(struct clocksource *cs "  ","
+.BI "u64 start_cycles "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+current clocksource from timekeeping
+.IP "start_cycles" 12
+current cycles from timekeeping
+.SH "DESCRIPTION"
+This function will save the start cycle values of suspend timer to calculate
+the suspend time when resuming system.
+
+This function is called late in the suspend process from \fBtimekeeping_suspend\fP,
+that means processes are freezed, non-boot cpus and interrupts are disabled
+now. It is therefore possible to start the suspend timer without taking the
+clocksource mutex.

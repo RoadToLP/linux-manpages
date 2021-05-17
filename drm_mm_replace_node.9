@@ -1,0 +1,16 @@
+.TH "drm_mm_replace_node" 9 "drm_mm_replace_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mm_replace_node \- move an allocation from @old to @new
+.SH SYNOPSIS
+.B "void" drm_mm_replace_node
+.BI "(struct drm_mm_node *old "  ","
+.BI "struct drm_mm_node *new "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+drm_mm_node to remove from the allocator
+.IP "new" 12
+drm_mm_node which should inherit \fIold\fP's allocation
+.SH "DESCRIPTION"
+This is useful for when drivers embed the drm_mm_node structure and hence
+can't move allocations by reassigning pointers. It's a combination of remove
+and insert with the guarantee that the allocation start will match.

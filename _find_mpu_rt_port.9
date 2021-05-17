@@ -1,0 +1,18 @@
+.TH "_find_mpu_rt_port" 9 "_find_mpu_rt_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_find_mpu_rt_port \- return omap_hwmod_ocp_if accessible by the MPU
+.SH SYNOPSIS
+.B "struct omap_hwmod_ocp_if *" _find_mpu_rt_port
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Given a pointer to a struct omap_hwmod record \fIoh\fP, return a pointer
+to the struct omap_hwmod_ocp_if record that is used by the MPU to
+communicate with the IP block.  This interface need not be directly
+connected to the MPU (and almost certainly is not), but is directly
+connected to the IP block represented by \fIoh\fP.  Returns a pointer
+to the struct omap_hwmod_ocp_if * upon success, or returns NULL upon
+error or if there does not appear to be a path from the MPU to this
+IP block.

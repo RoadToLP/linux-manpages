@@ -1,0 +1,17 @@
+.TH "sd_eh_reset" 9 "sd_eh_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_eh_reset \- reset error handling callback
+.SH SYNOPSIS
+.B "void" sd_eh_reset
+.BI "(struct scsi_cmnd *scmd "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+sd-issued command that has failed
+
+This function is called by the SCSI midlayer before starting
+SCSI EH. When counting medium access failures we have to be
+careful to register it only only once per device and SCSI EH run;
+there might be several timed out commands which will cause the
+'max_medium_access_timeouts' counter to trigger after the first
+SCSI EH run already and set the device to offline.
+So this function resets the internal counter before starting SCSI EH.

@@ -1,0 +1,20 @@
+.TH "__splice_from_pipe" 9 "__splice_from_pipe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__splice_from_pipe \- splice data from a pipe to given actor
+.SH SYNOPSIS
+.B "ssize_t" __splice_from_pipe
+.BI "(struct pipe_inode_info *pipe "  ","
+.BI "struct splice_desc *sd "  ","
+.BI "splice_actor *actor "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+pipe to splice from
+.IP "sd" 12
+information to \fIactor\fP
+.IP "actor" 12
+handler that splices the data
+.SH "DESCRIPTION"
+This function does little more than loop over the pipe and call
+\fIactor\fP to do the actual moving of a single struct pipe_buffer to
+the desired destination. See pipe_to_file, pipe_to_sendpage, or
+pipe_to_user.

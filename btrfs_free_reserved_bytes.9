@@ -1,0 +1,20 @@
+.TH "btrfs_free_reserved_bytes" 9 "btrfs_free_reserved_bytes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_free_reserved_bytes \- update the block_group and space info counters
+.SH SYNOPSIS
+.B "void" btrfs_free_reserved_bytes
+.BI "(struct btrfs_block_group *cache "  ","
+.BI "u64 num_bytes "  ","
+.BI "int delalloc "  ");"
+.SH ARGUMENTS
+.IP "cache" 12
+The cache we are manipulating
+.IP "num_bytes" 12
+The number of bytes in question
+.IP "delalloc" 12
+The blocks are allocated for the delalloc write
+.SH "DESCRIPTION"
+This is called by somebody who is freeing space that was never actually used
+on disk.  For example if you reserve some space for a new leaf in transaction
+A and before transaction A commits you free that leaf, you call this with
+reserve set to 0 in order to clear the reservation.

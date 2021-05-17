@@ -1,0 +1,18 @@
+.TH "ubi_create_volume" 9 "ubi_create_volume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_create_volume \- create volume.
+.SH SYNOPSIS
+.B "int" ubi_create_volume
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_mkvol_req *req "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "req" 12
+volume creation request
+.SH "DESCRIPTION"
+This function creates volume described by \fIreq\fP. If \fIreq->vol_id\fP id
+UBI_VOL_NUM_AUTO, this function automatically assign ID to the new volume
+and saves it in \fIreq->vol_id\fP. Returns zero in case of success and a negative
+error code in case of failure. Note, the caller has to have the
+\fIubi->device_mutex\fP locked.

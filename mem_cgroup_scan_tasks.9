@@ -1,0 +1,22 @@
+.TH "mem_cgroup_scan_tasks" 9 "mem_cgroup_scan_tasks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_scan_tasks \- iterate over tasks of a memory cgroup hierarchy
+.SH SYNOPSIS
+.B "int" mem_cgroup_scan_tasks
+.BI "(struct mem_cgroup *memcg "  ","
+.BI "int (*fn)(struct task_struct *, void *) "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "memcg" 12
+hierarchy root
+.IP "fn" 12
+function to call for each task
+.IP "arg" 12
+argument passed to \fIfn\fP
+.SH "DESCRIPTION"
+This function iterates over tasks attached to \fImemcg\fP or to any of its
+descendants and calls \fIfn\fP for each task. If \fIfn\fP returns a non-zero
+value, the function breaks the iteration loop and returns the value.
+Otherwise, it will iterate over all tasks and return 0.
+
+This function must not be called for the root memory cgroup.

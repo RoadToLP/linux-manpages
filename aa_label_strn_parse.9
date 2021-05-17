@@ -1,0 +1,27 @@
+.TH "aa_label_strn_parse" 9 "aa_label_strn_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_label_strn_parse \- parse, validate and convert a text string to a label
+.SH SYNOPSIS
+.B "struct aa_label *" aa_label_strn_parse
+.BI "(struct aa_label *base "  ","
+.BI "const char *str "  ","
+.BI "size_t n "  ","
+.BI "gfp_t gfp "  ","
+.BI "bool create "  ","
+.BI "bool force_stack "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+base label to use for lookups (NOT NULL)
+.IP "str" 12
+null terminated text string (NOT NULL)
+.IP "n" 12
+length of str to parse, will stop at \0 if encountered before n
+.IP "gfp" 12
+allocation type
+.IP "create" 12
+true if should create compound labels if they don't exist
+.IP "force_stack" 12
+true if should stack even if no leading &
+.SH "RETURN"
+the matching refcounted label if present
+else ERRPTR

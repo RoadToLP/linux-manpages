@@ -1,0 +1,26 @@
+.TH "rtnl_register_module" 9 "rtnl_register_module" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtnl_register_module \- Register a rtnetlink message type
+.SH SYNOPSIS
+.B "int" rtnl_register_module
+.BI "(struct module *owner "  ","
+.BI "int protocol "  ","
+.BI "int msgtype "  ","
+.BI "rtnl_doit_func doit "  ","
+.BI "rtnl_dumpit_func dumpit "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "owner" 12
+module registering the hook (THIS_MODULE)
+.IP "protocol" 12
+Protocol family or PF_UNSPEC
+.IP "msgtype" 12
+rtnetlink message type
+.IP "doit" 12
+Function pointer called for each request message
+.IP "dumpit" 12
+Function pointer called for each dump request (NLM_F_DUMP) message
+.IP "flags" 12
+rtnl_link_flags to modifiy behaviour of doit/dumpit functions
+.SH "DESCRIPTION"
+Like rtnl_register, but for use by removable modules.

@@ -1,0 +1,36 @@
+.TH "__skb_flow_dissect_batadv" 9 "__skb_flow_dissect_batadv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_flow_dissect_batadv \- dissect batman-adv header
+.SH SYNOPSIS
+.B "enum flow_dissect_ret" __skb_flow_dissect_batadv
+.BI "(const struct sk_buff *skb "  ","
+.BI "struct flow_dissector_key_control *key_control "  ","
+.BI "void *data "  ","
+.BI "__be16 *p_proto "  ","
+.BI "int *p_nhoff "  ","
+.BI "int hlen "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+sk_buff to with the batman-adv header
+.IP "key_control" 12
+flow dissectors control key
+.IP "data" 12
+raw buffer pointer to the packet, if NULL use skb->data
+.IP "p_proto" 12
+pointer used to update the protocol to process next
+.IP "p_nhoff" 12
+pointer used to update inner network header offset
+.IP "hlen" 12
+packet header length
+.IP "flags" 12
+any combination of FLOW_DISSECTOR_F_*
+.SH "DESCRIPTION"
+ETH_P_BATMAN packets are tried to be dissected. Only
+\fIstruct batadv_unicast\fP packets are actually processed because they contain an
+inner ethernet header and are usually followed by actual network header. This
+allows the flow dissector to continue processing the packet.
+.SH "RETURN"
+FLOW_DISSECT_RET_PROTO_AGAIN when \fIstruct batadv_unicast\fP was found,
+FLOW_DISSECT_RET_OUT_GOOD when dissector should stop after encapsulation,
+otherwise FLOW_DISSECT_RET_OUT_BAD

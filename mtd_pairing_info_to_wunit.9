@@ -1,0 +1,31 @@
+.TH "mtd_pairing_info_to_wunit" 9 "mtd_pairing_info_to_wunit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_pairing_info_to_wunit \- get wunit from pairing information
+.SH SYNOPSIS
+.B "int" mtd_pairing_info_to_wunit
+.BI "(struct mtd_info *mtd "  ","
+.BI "const struct mtd_pairing_info *info "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+pointer to new MTD device info structure
+.IP "info" 12
+pairing information struct
+.SH "DESCRIPTION"
+Returns a positive number representing the wunit associated to the info
+struct, or a negative error code.
+
+This is the reverse of \fBmtd_wunit_to_pairing_info\fP, and can help one to
+iterate over all wunits of a given pair (see \fBmtd_wunit_to_pairing_info\fP
+doc).
+
+It can also be used to only program the first page of each pair (i.e.
+page attached to group 0), which allows one to use an MLC NAND in
+software-emulated SLC mode:
+
+info.group = 0;
+npairs = mtd_wunit_per_eb(mtd) / mtd_pairing_groups(mtd);
+for (info.pair = 0; info.pair < npairs; info.pair++) {
+wunit = mtd_pairing_info_to_wunit(mtd, \fIinfo\fP);
+mtd_write(mtd, mtd_wunit_to_offset(mtd, blkoffs, wunit),
+mtd->writesize, \fIretlen\fP, buf + (i * mtd->writesize));
+}

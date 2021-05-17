@@ -1,0 +1,16 @@
+.TH "config_group_find_item" 9 "config_group_find_item" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+config_group_find_item \- search for item in group.
+.SH SYNOPSIS
+.B "struct config_item *" config_group_find_item
+.BI "(struct config_group *group "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "group" 12
+group we're looking in.
+.IP "name" 12
+item's name.
+
+Iterate over \fIgroup->cg_list\fP, looking for a matching config_item.
+If matching item is found take a reference and return the item.
+Caller must have locked group via \fIgroup->cg_subsys->su_mtx\fP.

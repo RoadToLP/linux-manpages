@@ -1,0 +1,23 @@
+.TH "drm_atomic_bridge_chain_check" 9 "drm_atomic_bridge_chain_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_bridge_chain_check \- Do an atomic check on the bridge chain
+.SH SYNOPSIS
+.B "int" drm_atomic_bridge_chain_check
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_crtc_state *crtc_state "  ","
+.BI "struct drm_connector_state *conn_state "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "crtc_state" 12
+new CRTC state
+.IP "conn_state" 12
+new connector state
+.SH "DESCRIPTION"
+First trigger a bus format negotiation before calling
+\fIdrm_bridge_funcs\fP.\fBatomic_check\fP (falls back on
+\fIdrm_bridge_funcs\fP.\fBmode_fixup\fP) op for all the bridges in the encoder chain,
+starting from the last bridge to the first. These are called before calling
+\fIdrm_encoder_helper_funcs\fP.\fBatomic_check\fP
+.SH "RETURN"
+0 on success, a negative error code on failure

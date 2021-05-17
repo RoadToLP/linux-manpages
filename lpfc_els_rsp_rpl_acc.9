@@ -1,0 +1,30 @@
+.TH "lpfc_els_rsp_rpl_acc" 9 "lpfc_els_rsp_rpl_acc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rsp_rpl_acc \- Issue an accept rpl els command
+.SH SYNOPSIS
+.B "int" lpfc_els_rsp_rpl_acc
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint16_t cmdsize "  ","
+.BI "struct lpfc_iocbq *oldiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdsize" 12
+size of the ELS command.
+.IP "oldiocb" 12
+pointer to the original lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine issuees an Accept (ACC) Read Port List (RPL) ELS command.
+It is to be called by the \fBlpfc_els_rcv_rpl\fP routine to accept the RPL.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the RPL Accept Response ELS command.
+
+Return code
+0 - Successfully issued ACC RPL ELS command
+1 - Failed to issue ACC RPL ELS command

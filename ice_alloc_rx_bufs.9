@@ -1,0 +1,20 @@
+.TH "ice_alloc_rx_bufs" 9 "ice_alloc_rx_bufs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_alloc_rx_bufs \- Replace used receive buffers
+.SH SYNOPSIS
+.B "bool" ice_alloc_rx_bufs
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "u16 cleaned_count "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+ring to place buffers on
+.IP "cleaned_count" 12
+number of buffers to replace
+.SH "DESCRIPTION"
+Returns false if all allocations were successful, true if any fail. Returning
+true signals to the caller that we didn't replace cleaned_count buffers and
+there is more work to do.
+
+First, try to clean "cleaned_count" Rx buffers. Then refill the cleaned Rx
+buffers. Then bump tail at most one time. Grouping like this lets us avoid
+multiple tail writes per call.

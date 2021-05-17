@@ -1,0 +1,20 @@
+.TH "do_inode_permission" 9 "do_inode_permission" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_inode_permission \- UNIX permission checking
+.SH SYNOPSIS
+.B "int" do_inode_permission
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "int mask "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+inode to check permissions on
+.IP "mask" 12
+right to check for (MAY_READ, MAY_WRITE, MAY_EXEC ...)
+.SH "DESCRIPTION"
+We _really_ want to just do "\fBgeneric_permission\fP" without
+even looking at the inode->i_op values. So we keep a cache
+flag in inode->i_opflags, that says "this has not special
+permission function, use the fast case".

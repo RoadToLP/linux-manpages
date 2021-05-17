@@ -1,0 +1,22 @@
+.TH "i915_vma_pin_fence" 9 "i915_vma_pin_fence" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_vma_pin_fence \- set up fencing for a vma
+.SH SYNOPSIS
+.B "int" i915_vma_pin_fence
+.BI "(struct i915_vma *vma "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+vma to map through a fence reg
+.SH "DESCRIPTION"
+When mapping objects through the GTT, userspace wants to be able to write
+to them without having to worry about swizzling if the object is tiled.
+This function walks the fence regs looking for a free one for \fIobj\fP,
+stealing one if it can't find any.
+
+It then sets up the reg based on the object's properties: address, pitch
+and tiling format.
+
+For an untiled surface, this removes any existing fence.
+
+0 on success, negative error code on failure.
+.SH "RETURN"

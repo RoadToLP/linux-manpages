@@ -1,0 +1,18 @@
+.TH "read_ep0_fifo" 9 "read_ep0_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_ep0_fifo \- Transfer packets from control endpoint into usb request
+.SH SYNOPSIS
+.B "int" read_ep0_fifo
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+control endpoint
+.IP "req" 12
+pxa usb request
+.SH "DESCRIPTION"
+Special ep0 version of the above read_fifo. Reads as many bytes from control
+endpoint as can be read, and stores them into usb request (limited by request
+maximum length).
+
+Returns 0 if usb request only partially filled, 1 if fully filled

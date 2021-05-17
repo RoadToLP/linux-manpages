@@ -1,0 +1,26 @@
+.TH "regmap_raw_write" 9 "regmap_raw_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_raw_write \- Write raw values to one or more registers
+.SH SYNOPSIS
+.B "int" regmap_raw_write
+.BI "(struct regmap *map "  ","
+.BI "unsigned int reg "  ","
+.BI "const void *val "  ","
+.BI "size_t val_len "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to write to
+.IP "reg" 12
+Initial register to write to
+.IP "val" 12
+Block of data to be written, laid out for direct transmission to the
+device
+.IP "val_len" 12
+Length of data pointed to by val.
+.SH "DESCRIPTION"
+This function is intended to be used for things like firmware
+download where a large block of data needs to be transferred to the
+device.  No formatting will be done on the data provided.
+
+A value of zero will be returned on success, a negative errno will
+be returned in error cases.

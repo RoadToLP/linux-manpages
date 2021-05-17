@@ -1,0 +1,18 @@
+.TH "vfs_get_link" 9 "vfs_get_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_get_link \- get symlink body
+.SH SYNOPSIS
+.B "const char *" vfs_get_link
+.BI "(struct dentry *dentry "  ","
+.BI "struct delayed_call *done "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+dentry on which to get symbolic link
+.IP "done" 12
+caller needs to free returned data with this
+.SH "DESCRIPTION"
+Calls security hook and i_op->\fBget_link\fP on the supplied inode.
+
+It does not touch atime.  That's up to the caller if necessary.
+
+Does not work on "special" symlinks like /proc/$$/fd/N

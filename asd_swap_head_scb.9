@@ -1,0 +1,25 @@
+.TH "asd_swap_head_scb" 9 "asd_swap_head_scb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_swap_head_scb \- - swap the head scb
+.SH SYNOPSIS
+.B "void" asd_swap_head_scb
+.BI "(struct asd_ha_struct *asd_ha "  ","
+.BI "struct asd_ascb *ascb "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to host adapter structure
+.IP "ascb" 12
+pointer to the head of an ascb list
+.SH "DESCRIPTION"
+The sequencer knows the DMA address of the next SCB to be DMAed to
+the host adapter, from initialization or from the last list DMAed.
+seq->next_scb keeps the address of this SCB.  The sequencer will
+DMA to the host adapter this list of SCBs.  But the head (first
+element) of this list is not known to the sequencer.  Here we swap
+the head of the list with the known SCB (\fBmemcpy\fP).
+Only one \fBmemcpy\fP is required per list so it is in our interest
+to keep the list of SCB as long as possible so that the ratio
+of number of memcpy calls to the number of SCB DMA-ed is as small
+as possible.
+
+LOCKING: called with the pending list lock held.

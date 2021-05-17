@@ -1,0 +1,17 @@
+.TH "nuke" 9 "nuke" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nuke \- Dequeue all requests
+.SH SYNOPSIS
+.B "void" nuke
+.BI "(struct pxa_ep *ep "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+pxa endpoint
+.IP "status" 12
+usb request status
+.SH "CONTEXT"
+ep->lock released
+.SH "DESCRIPTION"
+Dequeues all requests on an endpoint. As a side effect, interrupts will be
+disabled on that endpoint (because no more requests).

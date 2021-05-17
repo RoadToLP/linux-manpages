@@ -1,0 +1,39 @@
+.TH "memblock_alloc_range_nid" 9 "memblock_alloc_range_nid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memblock_alloc_range_nid \- allocate boot memory block
+.SH SYNOPSIS
+.B "phys_addr_t" memblock_alloc_range_nid
+.BI "(phys_addr_t size "  ","
+.BI "phys_addr_t align "  ","
+.BI "phys_addr_t start "  ","
+.BI "phys_addr_t end "  ","
+.BI "int nid "  ","
+.BI "bool exact_nid "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of memory block to be allocated in bytes
+.IP "align" 12
+alignment of the region and block's size
+.IP "start" 12
+the lower bound of the memory region to allocate (phys address)
+.IP "end" 12
+the upper bound of the memory region to allocate (phys address)
+.IP "nid" 12
+nid of the free area to find, NUMA_NO_NODE for any node
+.IP "exact_nid" 12
+control the allocation fall back to other nodes
+.SH "DESCRIPTION"
+The allocation is performed from memory region limited by
+memblock.current_limit if \fIend\fP == MEMBLOCK_ALLOC_ACCESSIBLE.
+
+If the specified node can not hold the requested memory and \fIexact_nid\fP
+is false, the allocation falls back to any node in the system.
+
+For systems with memory mirroring, the allocation is attempted first
+from the regions with mirroring enabled and then retried from any
+memory region.
+
+In addition, function sets the min_count to 0 using kmemleak_alloc_phys for
+allocated boot memory block, so that it is never reported as leaks.
+.SH "RETURN"
+Physical address of allocated memory block on success, 0 on failure.

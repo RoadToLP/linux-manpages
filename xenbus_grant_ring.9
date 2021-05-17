@@ -1,0 +1,23 @@
+.TH "xenbus_grant_ring" 9 "xenbus_grant_ring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xenbus_grant_ring \- 
+.SH SYNOPSIS
+.B "int" xenbus_grant_ring
+.BI "(struct xenbus_device *dev "  ","
+.BI "void *vaddr "  ","
+.BI "unsigned int nr_pages "  ","
+.BI "grant_ref_t *grefs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+xenbus device
+.IP "vaddr" 12
+starting virtual address of the ring
+.IP "nr_pages" 12
+number of pages to be granted
+.IP "grefs" 12
+grant reference array to be filled in
+.SH "DESCRIPTION"
+Grant access to the given \fIvaddr\fP to the peer of the given device.
+Then fill in \fIgrefs\fP with grant references.  Return 0 on success, or
+-errno on error.  On error, the device will switch to
+XenbusStateClosing, and the error will be saved in the store.

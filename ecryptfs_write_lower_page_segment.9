@@ -1,0 +1,27 @@
+.TH "ecryptfs_write_lower_page_segment" 9 "ecryptfs_write_lower_page_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_write_lower_page_segment \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_write_lower_page_segment
+.BI "(struct inode *ecryptfs_inode "  ","
+.BI "struct page *page_for_lower "  ","
+.BI "size_t offset_in_page "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "ecryptfs_inode" 12
+The eCryptfs inode
+.IP "page_for_lower" 12
+The page containing the data to be written to the
+lower file
+.IP "offset_in_page" 12
+The offset in the \fIpage_for_lower\fP from which to
+start writing the data
+.IP "size" 12
+The amount of data from \fIpage_for_lower\fP to write to the
+lower file
+.SH "DESCRIPTION"
+Determines the byte offset in the file for the given page and
+offset within the page, maps the page, and makes the call to write
+the contents of \fIpage_for_lower\fP to the lower inode.
+
+Returns zero on success; non-zero otherwise

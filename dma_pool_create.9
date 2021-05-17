@@ -1,0 +1,37 @@
+.TH "dma_pool_create" 9 "dma_pool_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_pool_create \- Creates a pool of consistent memory blocks, for dma.
+.SH SYNOPSIS
+.B "struct dma_pool *" dma_pool_create
+.BI "(const char *name "  ","
+.BI "struct device *dev "  ","
+.BI "size_t size "  ","
+.BI "size_t align "  ","
+.BI "size_t boundary "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of pool, for diagnostics
+.IP "dev" 12
+device that will be doing the DMA
+.IP "size" 12
+size of the blocks in this pool.
+.IP "align" 12
+alignment requirement for blocks; must be a power of two
+.IP "boundary" 12
+returned blocks won't cross this power of two boundary
+.SH "CONTEXT"
+not \fBin_interrupt\fP
+.SH "DESCRIPTION"
+Given one of these pools, \fBdma_pool_alloc\fP
+may be used to allocate memory.  Such memory will all have "consistent"
+DMA mappings, accessible by the device and its driver without using
+cache flushing primitives.  The actual size of blocks allocated may be
+larger than requested because of alignment.
+
+If \fIboundary\fP is nonzero, objects returned from \fBdma_pool_alloc\fP won't
+cross that size boundary.  This is useful for devices which have
+addressing restrictions on individual DMA transfers, such as not crossing
+boundaries of 4KBytes.
+.SH "RETURN"
+a dma allocation pool with the requested characteristics, or
+NULL if one can't be created.

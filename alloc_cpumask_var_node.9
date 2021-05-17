@@ -1,0 +1,24 @@
+.TH "alloc_cpumask_var_node" 9 "alloc_cpumask_var_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_cpumask_var_node \- allocate a struct cpumask on a given node
+.SH SYNOPSIS
+.B "bool" alloc_cpumask_var_node
+.BI "(cpumask_var_t *mask "  ","
+.BI "gfp_t flags "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "mask" 12
+pointer to cpumask_var_t where the cpumask is returned
+.IP "flags" 12
+GFP_ flags
+.IP "node" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Only defined when CONFIG_CPUMASK_OFFSTACK=y, otherwise is
+a nop returning a constant 1 (in <linux/cpumask.h>)
+Returns TRUE if memory allocation succeeded, FALSE otherwise.
+
+In addition, mask will be NULL if this fails.  Note that gcc is
+usually smart enough to know that mask can never be NULL if
+CONFIG_CPUMASK_OFFSTACK=n, so does code elimination in that case
+too.

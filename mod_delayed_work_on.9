@@ -1,0 +1,29 @@
+.TH "mod_delayed_work_on" 9 "mod_delayed_work_on" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mod_delayed_work_on \- modify delay of or queue a delayed work on specific CPU
+.SH SYNOPSIS
+.B "bool" mod_delayed_work_on
+.BI "(int cpu "  ","
+.BI "struct workqueue_struct *wq "  ","
+.BI "struct delayed_work *dwork "  ","
+.BI "unsigned long delay "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU number to execute work on
+.IP "wq" 12
+workqueue to use
+.IP "dwork" 12
+work to queue
+.IP "delay" 12
+number of jiffies to wait before queueing
+.SH "DESCRIPTION"
+If \fIdwork\fP is idle, equivalent to \fBqueue_delayed_work_on\fP; otherwise,
+modify \fIdwork\fP's timer so that it expires after \fIdelay\fP.  If \fIdelay\fP is
+zero, \fIwork\fP is guaranteed to be scheduled immediately regardless of its
+current state.
+
+This function is safe to call from any context including IRQ handler.
+See \fBtry_to_grab_pending\fP for details.
+.SH "RETURN"
+false if \fIdwork\fP was idle and queued, true if \fIdwork\fP was
+pending and its timer was modified.

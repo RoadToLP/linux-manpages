@@ -1,0 +1,92 @@
+.TH "list_sort" 9 "list_sort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+list_sort \- sort a list
+.SH SYNOPSIS
+.B "void" list_sort
+.BI "(void *priv "  ","
+.BI "struct list_head *head "  ","
+.BI "int (*cmp)(void *priv, struct list_head *a, struct list_head *b) "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+private data, opaque to \fBlist_sort\fP, passed to \fIcmp\fP
+.IP "head" 12
+the list to sort
+.IP "cmp" 12
+the elements comparison function
+.SH "DESCRIPTION"
+The comparison funtion \fIcmp\fP must return > 0 if \fIa\fP should sort after
+\fIb\fP ("\fIa\fP > \fIb\fP" if you want an ascending sort), and <= 0 if \fIa\fP should
+sort before \fIb\fP *or* their original order should be preserved.  It is
+always called with the element that came first in the input in \fIa\fP,
+and list_sort is a stable sort, so it is not necessary to distinguish
+the \fIa\fP < \fIb\fP and \fIa\fP == \fIb\fP cases.
+
+This is compatible with two styles of \fIcmp\fP function:
+- The traditional style which returns <0 / =0 / >0, or
+- Returning a boolean 0/1.
+The latter offers a chance to save a few cycles in the comparison
+(which is used by e.g. \fBplug_ctx_cmp\fP in block/blk-mq.c).
+
+A good way to write a multi-word comparison is::
+
+if (a->high != b->high)
+return a->high > b->high;
+if (a->middle != b->middle)
+return a->middle > b->middle;
+return a->low > b->low;
+
+
+This mergesort is as eager as possible while always performing at least
+2:1 balanced merges.  Given two pending sublists of size 2^k, they are
+merged to a size-2^(k+1) list as soon as we have 2^k following elements.
+
+Thus, it will avoid cache thrashing as long as 3*2^k elements can
+fit into the cache.  Not quite as good as a fully-eager bottom-up
+mergesort, but it does use 0.2*n fewer comparisons, so is faster in
+the common case that everything fits into L1.
+
+
+The merging is controlled by "count", the number of elements in the
+pending lists.  This is beautiully simple code, but rather subtle.
+
+Each time we increment "count", we set one bit (bit k) and clear
+bits k-1 .. 0.  Each time this happens (except the very first time
+for each bit, when count increments to 2^k), we merge two lists of
+size 2^k into one list of size 2^(k+1).
+
+This merge happens exactly when the count reaches an odd multiple of
+2^k, which is when we have 2^k elements pending in smaller lists,
+so it's safe to merge away two lists of size 2^k.
+
+After this happens twice, we have created two lists of size 2^(k+1),
+which will be merged into a list of size 2^(k+2) before we create
+a third list of size 2^(k+1), so there are never more than two pending.
+
+The number of pending lists of size 2^k is determined by the
+state of bit k of "count" plus two extra pieces of information:
+
+- The state of bit k-1 (when k == 0, consider bit -1 always set), and
+- Whether the higher-order bits are zero or non-zero (i.e.
+is count >= 2^(k+1)).
+
+There are six states we distinguish.  "x" represents some arbitrary
+bits, and "y" represents some arbitrary non-zero bits:
+0:  00x: 0 pending of size 2^k;           x pending of sizes < 2^k
+1:  01x: 0 pending of size 2^k; 2^(k-1) + x pending of sizes < 2^k
+2: x10x: 0 pending of size 2^k; 2^k     + x pending of sizes < 2^k
+3: x11x: 1 pending of size 2^k; 2^(k-1) + x pending of sizes < 2^k
+4: y00x: 1 pending of size 2^k; 2^k     + x pending of sizes < 2^k
+5: y01x: 2 pending of size 2^k; 2^(k-1) + x pending of sizes < 2^k
+(merge and loop back to state 2)
+
+We gain lists of size 2^k in the 2->3 and 4->5 transitions (because
+bit k-1 is set while the more significant bits are non-zero) and
+merge them away in the 5->2 transition.  Note in particular that just
+before the 5->2 transition, all lower-order bits are 11 (state 3),
+so there is one list of each smaller size.
+
+When we reach the end of the input, we merge all the pending
+lists, from smallest to largest.  If you work through cases 2 to
+5 above, you can see that the number of elements we merge with a list
+of size 2^k varies from 2^(k-1) (cases 3 and 5 when x == 0) to
+2^(k+1) - 1 (second merge of case 5 when x == 2^(k-1) - 1).

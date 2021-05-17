@@ -1,0 +1,20 @@
+.TH "xxxfb_release" 9 "xxxfb_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xxxfb_release \- Optional function. Called when the framebuffer device is closed. 
+.SH SYNOPSIS
+.B "int" xxxfb_release
+.BI "(struct fb_info *info "  ","
+.BI "int user "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+frame buffer structure that represents a single frame buffer
+.IP "user" 12
+tell us if the userland (value=1) or the console is accessing
+the framebuffer. 
+
+Thus function is called when we close /dev/fb or the framebuffer 
+console system is released. Usually you don't need this function.
+The case where it is usually used is to go from a graphics state
+to a text mode state.
+
+Returns negative errno on error, or zero on success.

@@ -1,0 +1,31 @@
+.TH "walk_iomem_res_desc" 9 "walk_iomem_res_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+walk_iomem_res_desc \- Walks through iomem resources and calls func() with matching resource ranges. *
+.SH SYNOPSIS
+.B "int" walk_iomem_res_desc
+.BI "(unsigned long desc "  ","
+.BI "unsigned long flags "  ","
+.BI "u64 start "  ","
+.BI "u64 end "  ","
+.BI "void *arg "  ","
+.BI "int (*func)(struct resource *, void *) "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+I/O resource descriptor. Use IORES_DESC_NONE to skip \fIdesc\fP check.
+.IP "flags" 12
+I/O resource flags
+.IP "start" 12
+start addr
+.IP "end" 12
+end addr
+.IP "arg" 12
+function argument for the callback \fIfunc\fP
+.IP "func" 12
+callback function that is called for each qualifying resource area
+.SH "DESCRIPTION"
+This walks through whole tree and not just first level children.
+All the memory ranges which overlap start,end and also match flags and
+desc are valid candidates.
+.SH "NOTE"
+For a new descriptor search, define a new IORES_DESC in
+<linux/ioport.h> and set it in 'desc' of a target resource entry.

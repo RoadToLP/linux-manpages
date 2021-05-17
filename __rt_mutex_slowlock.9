@@ -1,0 +1,21 @@
+.TH "__rt_mutex_slowlock" 9 "__rt_mutex_slowlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__rt_mutex_slowlock \- Perform the wait-wake-try-to-take loop
+.SH SYNOPSIS
+.B "int" __rt_mutex_slowlock
+.BI "(struct rt_mutex *lock "  ","
+.BI "int state "  ","
+.BI "struct hrtimer_sleeper *timeout "  ","
+.BI "struct rt_mutex_waiter *waiter "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex to take
+.IP "state" 12
+the state the task should block in (TASK_INTERRUPTIBLE
+or TASK_UNINTERRUPTIBLE)
+.IP "timeout" 12
+the pre-initialized and started timer, or NULL for none
+.IP "waiter" 12
+the pre-initialized rt_mutex_waiter
+.SH "DESCRIPTION"
+Must be called with lock->wait_lock held and interrupts disabled

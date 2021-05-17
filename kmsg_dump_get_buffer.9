@@ -1,0 +1,32 @@
+.TH "kmsg_dump_get_buffer" 9 "kmsg_dump_get_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmsg_dump_get_buffer \- copy kmsg log lines
+.SH SYNOPSIS
+.B "bool" kmsg_dump_get_buffer
+.BI "(struct kmsg_dumper *dumper "  ","
+.BI "bool syslog "  ","
+.BI "char *buf "  ","
+.BI "size_t size "  ","
+.BI "size_t *len "  ");"
+.SH ARGUMENTS
+.IP "dumper" 12
+registered kmsg dumper
+.IP "syslog" 12
+include the "<4>" prefixes
+.IP "buf" 12
+buffer to copy the line to
+.IP "size" 12
+maximum size of the buffer
+.IP "len" 12
+length of line placed into buffer
+.SH "DESCRIPTION"
+Start at the end of the kmsg buffer and fill the provided buffer
+with as many of the *youngest* kmsg records that fit into it.
+If the buffer is large enough, all available kmsg records will be
+copied with a single call.
+
+Consecutive calls will fill the buffer with the next block of
+available older records, not including the earlier retrieved ones.
+
+A return value of FALSE indicates that there are no more records to
+read.

@@ -1,0 +1,19 @@
+.TH "__dev_get_by_flags" 9 "__dev_get_by_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__dev_get_by_flags \- find any device with given flags
+.SH SYNOPSIS
+.B "struct net_device *" __dev_get_by_flags
+.BI "(struct net *net "  ","
+.BI "unsigned short if_flags "  ","
+.BI "unsigned short mask "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "if_flags" 12
+IFF_* values
+.IP "mask" 12
+bitmask of bits in if_flags to check
+
+Search for any interface with the given flags. Returns NULL if a device
+is not found or a pointer to the device. Must be called inside
+\fBrtnl_lock\fP, and result refcount is unchanged.

@@ -1,0 +1,21 @@
+.TH "tipc_node_xmit" 9 "tipc_node_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_node_xmit \- general link level function for message sending
+.SH SYNOPSIS
+.B "int" tipc_node_xmit
+.BI "(struct net *net "  ","
+.BI "struct sk_buff_head *list "  ","
+.BI "u32 dnode "  ","
+.BI "int selector "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "list" 12
+chain of buffers containing message
+.IP "dnode" 12
+address of destination node
+.IP "selector" 12
+a number used for deterministic link selection
+Consumes the buffer chain.
+.SH "RETURN"
+0 if success, otherwise: -ELINKCONG,-EHOSTUNREACH,-EMSGSIZE,-ENOBUF

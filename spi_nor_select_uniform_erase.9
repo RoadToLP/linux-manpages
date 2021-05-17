@@ -1,0 +1,19 @@
+.TH "spi_nor_select_uniform_erase" 9 "spi_nor_select_uniform_erase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_select_uniform_erase \- select optimum uniform erase type
+.SH SYNOPSIS
+.B "const struct spi_nor_erase_type *" spi_nor_select_uniform_erase
+.BI "(struct spi_nor_erase_map *map "  ","
+.BI "const u32 wanted_size "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+the erase map of the SPI NOR
+.IP "wanted_size" 12
+the erase type size to search for. Contains the value of
+info->sector_size or of the "small sector" size in case
+CONFIG_MTD_SPI_NOR_USE_4K_SECTORS is defined.
+.SH "DESCRIPTION"
+Once the optimum uniform sector erase command is found, disable all the
+other.
+.SH "RETURN"
+pointer to erase type on success, NULL otherwise.

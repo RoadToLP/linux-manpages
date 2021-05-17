@@ -1,0 +1,21 @@
+.TH "drm_gem_dmabuf_mmap" 9 "drm_gem_dmabuf_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_dmabuf_mmap \- dma_buf mmap implementation for GEM
+.SH SYNOPSIS
+.B "int" drm_gem_dmabuf_mmap
+.BI "(struct dma_buf *dma_buf "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "dma_buf" 12
+buffer to be mapped
+.IP "vma" 12
+virtual address range
+.SH "DESCRIPTION"
+Provides memory mapping for the buffer. This can be used as the
+\fIdma_buf_ops.mmap\fP callback. It just forwards to \fIdrm_driver.gem_prime_mmap\fP,
+which should be set to \fBdrm_gem_prime_mmap\fP.
+
+FIXME: There's really no point to this wrapper, drivers which need anything
+else but drm_gem_prime_mmap can roll their own \fIdma_buf_ops.mmap\fP callback.
+
+Returns 0 on success or a negative error code on failure.

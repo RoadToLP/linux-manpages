@@ -1,0 +1,29 @@
+.TH "clkdm_register_autodeps" 9 "clkdm_register_autodeps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_register_autodeps \- register autodeps (if required)
+.SH SYNOPSIS
+.B "int" clkdm_register_autodeps
+.BI "(struct clkdm_autodep *ia "  ");"
+.SH ARGUMENTS
+.IP "ia" 12
+pointer to a static array of struct clkdm_autodep to register
+.SH "DESCRIPTION"
+Register clockdomain "automatic dependencies."  These are
+clockdomain wakeup and sleep dependencies that are automatically
+added whenever the first clock inside a clockdomain is enabled, and
+removed whenever the last clock inside a clockdomain is disabled.
+These are currently only used on OMAP3 devices, and are deprecated,
+since they waste energy.  However, until the OMAP2/3 IP block
+enable/disable sequence can be converted to match the OMAP4
+sequence, they are needed.
+
+Must be called only after all of the SoC clockdomains are
+registered, since the function will resolve autodep clockdomain
+names into clockdomain pointers.
+
+The struct clkdm_autodep \fIia\fP array must be static, as this function
+does not copy the array elements.
+
+Returns -EACCES if called before any clockdomains have been
+registered, -EINVAL if called with a null \fIia\fP argument, -EEXIST if
+autodeps have already been registered, or 0 upon success.

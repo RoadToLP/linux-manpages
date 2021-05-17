@@ -1,0 +1,28 @@
+.TH "i2400m_rx" 9 "i2400m_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_rx \- Receive a buffer of data from the device
+.SH SYNOPSIS
+.B "int" i2400m_rx
+.BI "(struct i2400m *i2400m "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.IP "skb" 12
+skbuff where the data has been received
+.SH "DESCRIPTION"
+Parse in a buffer of data that contains an RX message sent from the
+device. See the file header for the format. Run all checks on the
+buffer header, then run over each payload's descriptors, verify
+their consistency and act on each payload's contents.  If
+everything is successful, update the device's statistics.
+
+0 if ok, < 0 errno on error
+
+If ok, this function owns now the skb and the caller DOESN'T have
+to run \fBkfree_skb\fP on it. However, on error, the caller still owns
+the skb and it is responsible for releasing it.
+.SH "NOTE"
+You need to set the skb to contain only the length of the
+received buffer; for that, use skb_trim(skb, RECEIVED_SIZE).
+.SH "RETURN"

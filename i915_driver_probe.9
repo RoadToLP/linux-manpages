@@ -1,0 +1,18 @@
+.TH "i915_driver_probe" 9 "i915_driver_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_driver_probe \- setup chip and create an initial config
+.SH SYNOPSIS
+.B "int" i915_driver_probe
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *ent "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device
+.IP "ent" 12
+matching PCI ID entry
+.SH "DESCRIPTION"
+The driver probe routine has to do several things:
+- drive output discovery via \fBintel_modeset_init\fP
+- initialize the memory manager
+- allocate initial config memory
+- setup the DRM framebuffer with the allocated memory

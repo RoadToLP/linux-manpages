@@ -1,0 +1,16 @@
+.TH "usb_poison_anchored_urbs" 9 "usb_poison_anchored_urbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_poison_anchored_urbs \- cease all traffic from an anchor
+.SH SYNOPSIS
+.B "void" usb_poison_anchored_urbs
+.BI "(struct usb_anchor *anchor "  ");"
+.SH ARGUMENTS
+.IP "anchor" 12
+anchor the requests are bound to
+.SH "DESCRIPTION"
+this allows all outstanding URBs to be poisoned starting
+from the back of the queue. Newly added URBs will also be
+poisoned
+
+This routine should not be called by a driver after its disconnect
+method has returned.

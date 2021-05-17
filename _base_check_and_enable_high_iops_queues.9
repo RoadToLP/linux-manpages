@@ -1,0 +1,21 @@
+.TH "_base_check_and_enable_high_iops_queues" 9 "_base_check_and_enable_high_iops_queues" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_base_check_and_enable_high_iops_queues \- enable high iops mode
+.SH SYNOPSIS
+.B "void" _base_check_and_enable_high_iops_queues
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "int hba_msix_vector_count "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "hba_msix_vector_count" 12
+msix vectors supported by HBA
+.SH "DESCRIPTION"
+Enable high iops queues only if
+- HBA is a SEA/AERO controller and
+- MSI-Xs vector supported by the HBA is 128 and
+- total CPU count in the system >=16 and
+- loaded driver with default max_msix_vectors module parameter and
+- system booted in non kdump mode
+
+returns nothing.

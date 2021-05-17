@@ -1,0 +1,20 @@
+.TH "invalidate_inode_pages2_range" 9 "invalidate_inode_pages2_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+invalidate_inode_pages2_range \- remove range of pages from an address_space
+.SH SYNOPSIS
+.B "int" invalidate_inode_pages2_range
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t end "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address_space
+.IP "start" 12
+the page offset 'from' which to invalidate
+.IP "end" 12
+the page offset 'to' which to invalidate (inclusive)
+.SH "DESCRIPTION"
+Any pages which are found to be mapped into pagetables are unmapped prior to
+invalidation.
+.SH "RETURN"
+-EBUSY if any pages could not be invalidated.

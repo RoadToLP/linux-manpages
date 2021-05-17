@@ -1,0 +1,23 @@
+.TH "page_add_anon_rmap" 9 "page_add_anon_rmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+page_add_anon_rmap \- add pte mapping to an anonymous page
+.SH SYNOPSIS
+.B "void" page_add_anon_rmap
+.BI "(struct page *page "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long address "  ","
+.BI "bool compound "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page to add the mapping to
+.IP "vma" 12
+the vm area in which the mapping is added
+.IP "address" 12
+the user virtual address mapped
+.IP "compound" 12
+charge the page as compound or small page
+.SH "DESCRIPTION"
+The caller needs to hold the pte lock, and the page must be locked in
+the anon_vma case: to serialize mapping,index checking after setting,
+and to ensure that PageAnon is not being upgraded racily to PageKsm
+(but PageKsm is never downgraded to PageAnon).

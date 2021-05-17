@@ -1,0 +1,23 @@
+.TH "devm_of_clk_add_hw_provider" 9 "devm_of_clk_add_hw_provider" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_of_clk_add_hw_provider \- Managed clk provider node registration
+.SH SYNOPSIS
+.B "int" devm_of_clk_add_hw_provider
+.BI "(struct device *dev "  ","
+.BI "struct clk_hw *(*get)(struct of_phandle_args *clkspec, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device acting as the clock provider (used for DT node and lifetime)
+.IP "get" 12
+callback for decoding clk_hw
+.IP "data" 12
+context pointer for \fIget\fP callback
+.SH "DESCRIPTION"
+Registers clock provider for given device's node. If the device has no DT
+node or if the device node lacks of clock provider information (#clock-cells)
+then the parent device's node is scanned for this information. If parent node
+has the #clock-cells then it is used in registration. Provider is
+automatically released at device exit.
+.SH "RETURN"
+0 on success or an errno on failure.

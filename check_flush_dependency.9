@@ -1,0 +1,18 @@
+.TH "check_flush_dependency" 9 "check_flush_dependency" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_flush_dependency \- check for flush dependency sanity
+.SH SYNOPSIS
+.B "void" check_flush_dependency
+.BI "(struct workqueue_struct *target_wq "  ","
+.BI "struct work_struct *target_work "  ");"
+.SH ARGUMENTS
+.IP "target_wq" 12
+workqueue being flushed
+.IP "target_work" 12
+work item being flushed (NULL for workqueue flushes)
+.SH "DESCRIPTION"
+current is trying to flush the whole \fItarget_wq\fP or \fItarget_work\fP on it.
+If \fItarget_wq\fP doesn't have WQ_MEM_RECLAIM, verify that current is not
+reclaiming memory or running on a workqueue which doesn't have
+WQ_MEM_RECLAIM as that can break forward-progress guarantee leading to
+a deadlock.

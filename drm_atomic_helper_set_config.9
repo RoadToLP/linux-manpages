@@ -1,0 +1,22 @@
+.TH "drm_atomic_helper_set_config" 9 "drm_atomic_helper_set_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_set_config \- set a new config from userspace
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_set_config
+.BI "(struct drm_mode_set *set "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+mode set configuration
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+Provides a default CRTC set_config handler using the atomic driver interface.
+.SH "NOTE"
+For backwards compatibility with old userspace this automatically
+resets the "link-status" property to GOOD, to force any link
+re-training. The SETCRTC ioctl does not define whether an update does
+need a full modeset or just a plane update, hence we're allowed to do
+that. See also \fBdrm_connector_set_link_status_property\fP.
+.SH "RETURN"
+Returns 0 on success, negative errno numbers on failure.

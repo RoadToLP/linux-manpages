@@ -1,0 +1,24 @@
+.TH "atalk_rcv" 9 "atalk_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atalk_rcv \- Receive a packet (in skb) from device dev
+.SH SYNOPSIS
+.B "int" atalk_rcv
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "struct packet_type *pt "  ","
+.BI "struct net_device *orig_dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+packet received
+.IP "dev" 12
+network device where the packet comes from
+.IP "pt" 12
+packet type
+.IP "orig_dev" 12
+the original receive net device
+
+Receive a packet (in skb) from device dev. This has come from the SNAP
+decoder, and on entry skb->transport_header is the DDP header, skb->len
+is the DDP header, skb->len is the DDP length. The physical headers
+have been extracted. PPP should probably pass frames marked as for this
+layer.  [ie ARPHRD_ETHERTALK]

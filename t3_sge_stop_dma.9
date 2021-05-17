@@ -1,0 +1,17 @@
+.TH "t3_sge_stop_dma" 9 "t3_sge_stop_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_sge_stop_dma \- Disable SGE DMA engine operation
+.SH SYNOPSIS
+.B "void" t3_sge_stop_dma
+.BI "(struct adapter *adap "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+
+Can be invoked from interrupt context e.g.  error handler.
+
+Note that this function cannot disable the restart of tasklets as
+it cannot wait if called from interrupt context, however the
+tasklets will have no effect since the doorbells are disabled. The
+driver will call \fBtg3_sge_stop\fP later from process context, at
+which time the tasklets will be stopped if they are still running.

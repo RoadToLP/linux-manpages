@@ -1,0 +1,19 @@
+.TH "nilfs_copy_page" 9 "nilfs_copy_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_copy_page \- - copy the page with buffers
+.SH SYNOPSIS
+.B "void" nilfs_copy_page
+.BI "(struct page *dst "  ","
+.BI "struct page *src "  ","
+.BI "int copy_dirty "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+destination page
+.IP "src" 12
+source page
+.IP "copy_dirty" 12
+flag whether to copy dirty states on the page's buffer heads.
+.SH "DESCRIPTION"
+This function is for both data pages and btnode pages.  The dirty flag
+should be treated by caller.  The page must not be under i/o.
+Both src and dst page must be locked

@@ -1,0 +1,19 @@
+.TH "fc_rport_prli_resp" 9 "fc_rport_prli_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_rport_prli_resp \- Process Login (PRLI) response handler
+.SH SYNOPSIS
+.B "void" fc_rport_prli_resp
+.BI "(struct fc_seq *sp "  ","
+.BI "struct fc_frame *fp "  ","
+.BI "void *rdata_arg "  ");"
+.SH ARGUMENTS
+.IP "sp" 12
+The sequence the PRLI response was on
+.IP "fp" 12
+The PRLI response frame
+.IP "rdata_arg" 12
+The remote port that sent the PRLI response
+.SH "DESCRIPTION"
+Locking Note: This function will be called without the rport lock
+held, but it will lock, call an _enter_* function or fc_rport_error
+and then unlock the rport.

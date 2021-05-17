@@ -1,0 +1,22 @@
+.TH "fm10k_sm_mbx_init" 9 "fm10k_sm_mbx_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_sm_mbx_init \- Initialize mailbox memory for PF/SM mailbox
+.SH SYNOPSIS
+.B "s32" fm10k_sm_mbx_init
+.BI "(struct fm10k_hw __always_unused *hw "  ","
+.BI "struct fm10k_mbx_info *mbx "  ","
+.BI "const struct fm10k_msg_data *msg_data "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mbx" 12
+pointer to mailbox
+.IP "msg_data" 12
+handlers for mailbox events
+
+This function initializes the PF/SM mailbox for use.  It will split the
+buffer provided and use that to populate both the Tx and Rx FIFO by
+evenly splitting it.  In order to allow for easy masking of head/tail
+the value reported in size must be a power of 2 and is reported in
+DWORDs, not bytes.  Any invalid values will cause the mailbox to return
+error.

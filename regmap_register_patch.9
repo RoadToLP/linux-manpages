@@ -1,0 +1,24 @@
+.TH "regmap_register_patch" 9 "regmap_register_patch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_register_patch \- Register and apply register updates to be applied on device initialistion
+.SH SYNOPSIS
+.B "int" regmap_register_patch
+.BI "(struct regmap *map "  ","
+.BI "const struct reg_sequence *regs "  ","
+.BI "int num_regs "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to apply updates to.
+.IP "regs" 12
+Values to update.
+.IP "num_regs" 12
+Number of entries in regs.
+.SH "DESCRIPTION"
+Register a set of register updates to be applied to the device
+whenever the device registers are synchronised with the cache and
+apply them immediately.  Typically this is used to apply
+corrections to be applied to the device defaults on startup, such
+as the updates some vendors provide to undocumented registers.
+
+The caller must ensure that this function cannot be called
+concurrently with either itself or \fBregcache_sync\fP.

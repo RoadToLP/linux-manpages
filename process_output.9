@@ -1,0 +1,20 @@
+.TH "process_output" 9 "process_output" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_output \- output post processor
+.SH SYNOPSIS
+.B "int" process_output
+.BI "(unsigned char c "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+character (or partial unicode symbol)
+.IP "tty" 12
+terminal device
+
+Output one character with OPOST processing.
+Returns -1 when the output device is full and the character
+must be retried.
+
+Locking: output_lock to protect column state and space left
+(also, this is called from n_tty_write under the
+tty layer write lock)

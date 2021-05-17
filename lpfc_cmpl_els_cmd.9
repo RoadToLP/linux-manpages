@@ -1,0 +1,24 @@
+.TH "lpfc_cmpl_els_cmd" 9 "lpfc_cmpl_els_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_cmd \- Completion callback function for generic els command
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_cmd
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is a generic completion callback function for ELS commands.
+Specifically, it is the callback function which does not need to perform
+any command specific operations. It is currently used by the ELS command
+issuing routines for RSCN, lpfc_issue_els_rscn, and the ELS Fibre Channel
+Address Resolution Protocol Response (FARPR) routine, \fBlpfc_issue_els_farpr\fP.
+Other than certain debug loggings, this callback function simply invokes the
+\fBlpfc_els_chk_latt\fP routine to check whether link went down during the
+discovery process.

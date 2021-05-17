@@ -1,0 +1,25 @@
+.TH "get_segment_selector" 9 "get_segment_selector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_segment_selector \- obtain segment selector
+.SH SYNOPSIS
+.B "short" get_segment_selector
+.BI "(struct pt_regs *regs "  ","
+.BI "int seg_reg_idx "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "seg_reg_idx" 12
+Segment register index to use
+.SH "DESCRIPTION"
+Obtain the segment selector from any of the CS, SS, DS, ES, FS, GS segment
+registers. In CONFIG_X86_32, the segment is obtained from either pt_regs or
+kernel_vm86_regs as applicable. In CONFIG_X86_64, CS and SS are obtained
+from pt_regs. DS, ES, FS and GS are obtained by reading the actual CPU
+registers. This done for only for completeness as in CONFIG_X86_64 segment
+registers are ignored.
+
+Value of the segment selector, including null when running in
+long mode.
+
+-EINVAL on error.
+.SH "RETURN"

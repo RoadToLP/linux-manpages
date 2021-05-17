@@ -1,0 +1,19 @@
+.TH "drm_dp_link_train" 9 "drm_dp_link_train" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_link_train \- perform DisplayPort link training
+.SH SYNOPSIS
+.B "int" drm_dp_link_train
+.BI "(struct drm_dp_link *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+a DP link object
+.SH "DESCRIPTION"
+Uses the context stored in the DP link object to perform link training. It
+is expected that drivers will call \fBdrm_dp_link_probe\fP to obtain the link
+capabilities before performing link training.
+
+If the sink supports fast link training (no AUX CH handshake) and valid
+training settings are available, this function will try to perform fast
+link training and fall back to full link training on failure.
+.SH "RETURN"
+0 on success or a negative error code on failure.

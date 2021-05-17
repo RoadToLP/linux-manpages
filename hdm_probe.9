@@ -1,0 +1,19 @@
+.TH "hdm_probe" 9 "hdm_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hdm_probe \- probe function of USB device driver
+.SH SYNOPSIS
+.B "int" hdm_probe
+.BI "(struct usb_interface *interface "  ","
+.BI "const struct usb_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+Interface of the attached USB device
+.IP "id" 12
+Pointer to the USB ID table.
+.SH "DESCRIPTION"
+This allocates and initializes the device instance, adds the new
+entry to the internal list, scans the USB descriptors and registers
+the interface with the core.
+Additionally, the DCI objects are created and the hardware is sync'd.
+
+Return 0 on success. In case of an error a negative number is returned.

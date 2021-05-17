@@ -1,0 +1,19 @@
+.TH "tb_ring_stop" 9 "tb_ring_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_ring_stop \- shutdown a ring
+.SH SYNOPSIS
+.B "void" tb_ring_stop
+.BI "(struct tb_ring *ring "  ");"
+.SH ARGUMENTS
+.IP "ring" 12
+Ring to stop
+.SH "DESCRIPTION"
+Must not be invoked from a callback.
+
+This method will disable the ring. Further calls to
+tb_ring_tx/tb_ring_rx will return -ESHUTDOWN until ring_stop has been
+called.
+
+All enqueued frames will be canceled and their callbacks will be executed
+with frame->canceled set to true (on the callback thread). This method
+returns only after all callback invocations have finished.

@@ -1,0 +1,30 @@
+.TH "ti_sci_get_one_xfer" 9 "ti_sci_get_one_xfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_get_one_xfer \- Allocate one message
+.SH SYNOPSIS
+.B "struct ti_sci_xfer *" ti_sci_get_one_xfer
+.BI "(struct ti_sci_info *info "  ","
+.BI "u16 msg_type "  ","
+.BI "u32 msg_flags "  ","
+.BI "size_t tx_message_size "  ","
+.BI "size_t rx_message_size "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+Pointer to SCI entity information
+.IP "msg_type" 12
+Message type
+.IP "msg_flags" 12
+Flag to set for the message
+.IP "tx_message_size" 12
+transmit message size
+.IP "rx_message_size" 12
+receive message size
+.SH "DESCRIPTION"
+Helper function which is used by various command functions that are
+exposed to clients of this driver for allocating a message traffic event.
+
+This function can sleep depending on pending requests already in the system
+for the SCI entity. Further, this also holds a spinlock to maintain integrity
+of internal data structures.
+.SH "RETURN"
+0 if all went fine, else corresponding error.

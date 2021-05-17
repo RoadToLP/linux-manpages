@@ -1,0 +1,20 @@
+.TH "wait_iff_congested" 9 "wait_iff_congested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_iff_congested \- Conditionally wait for a backing_dev to become uncongested or a pgdat to complete writes
+.SH SYNOPSIS
+.B "long" wait_iff_congested
+.BI "(int sync "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "sync" 12
+SYNC or ASYNC IO
+.IP "timeout" 12
+timeout in jiffies
+.SH "DESCRIPTION"
+In the event of a congested backing_dev (any backing_dev) this waits
+for up to \fItimeout\fP jiffies for either a BDI to exit congestion of the
+given \fIsync\fP queue or a write to complete.
+
+The return value is 0 if the sleep is for the full timeout. Otherwise,
+it is the number of jiffies that were still remaining when the function
+returned. return_value == timeout implies the function did not sleep.

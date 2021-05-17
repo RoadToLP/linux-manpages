@@ -1,0 +1,56 @@
+.TH "i2400m_bm_cmd" 9 "i2400m_bm_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_bm_cmd \- Execute a boot mode command
+.SH SYNOPSIS
+.B "ssize_t" i2400m_bm_cmd
+.BI "(struct i2400m *i2400m "  ","
+.BI "const struct i2400m_bootrom_header *cmd "  ","
+.BI "size_t cmd_size "  ","
+.BI "struct i2400m_bootrom_header *ack "  ","
+.BI "size_t ack_size "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.IP "cmd" 12
+buffer containing the command data (pointing at the header).
+This data can be ANYWHERE (for USB, we will copy it to an
+specific buffer). Make sure everything is in proper little
+endian.
+
+A raw buffer can be also sent, just cast it and set flags to
+I2400M_BM_CMD_RAW.
+
+This function will generate a checksum for you if the
+checksum bit in the command is set (unless I2400M_BM_CMD_RAW
+is set).
+
+You can use the i2400m->bm_cmd_buf to stage your commands and
+send them.
+
+If NULL, no command is sent (we just wait for an ack).
+.IP "cmd_size" 12
+size of the command. Will be auto padded to the
+bus-specific drivers padding requirements.
+.IP "ack" 12
+buffer where to place the acknowledgement. If it is a regular
+command response, all fields will be returned with the right,
+native endianess.
+
+You *cannot* use i2400m->bm_ack_buf for this buffer.
+.IP "ack_size" 12
+size of \fIack\fP, 16 aligned; you need to provide at least
+sizeof(*ack) bytes and then enough to contain the return data
+from the command
+.IP "flags" 12
+see I2400M_BM_CMD_* above.
+.SH "RETURN"
+bytes received by the notification; if < 0, an errno code
+denoting an error or:
+
+-ERESTARTSYS  The device has rebooted
+.SH "DESCRIPTION"
+Executes a boot-mode command and waits for a response, doing basic
+validation on it; if a zero length response is received, it retries
+waiting for a response until a non-zero one is received (timing out
+after I2400M_BOOT_RETRIES retries).

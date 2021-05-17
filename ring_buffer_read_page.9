@@ -1,0 +1,45 @@
+.TH "ring_buffer_read_page" 9 "ring_buffer_read_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_read_page \- extract a page from the ring buffer
+.SH SYNOPSIS
+.B "int" ring_buffer_read_page
+.BI "(struct trace_buffer *buffer "  ","
+.BI "void **data_page "  ","
+.BI "size_t len "  ","
+.BI "int cpu "  ","
+.BI "int full "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+buffer to extract from
+.IP "data_page" 12
+the page to use allocated from ring_buffer_alloc_read_page
+.IP "len" 12
+amount to extract
+.IP "cpu" 12
+the cpu of the buffer to extract
+.IP "full" 12
+should the extraction only happen when the page is full.
+.SH "DESCRIPTION"
+This function will pull out a page from the ring buffer and consume it.
+\fIdata_page\fP must be the address of the variable that was returned
+from ring_buffer_alloc_read_page. This is because the page might be used
+to swap with a page in the ring buffer.
+
+for example:
+rpage = ring_buffer_alloc_read_page(buffer, cpu);
+if (IS_ERR(rpage))
+return PTR_ERR(rpage);
+ret = ring_buffer_read_page(buffer, \fIrpage\fP, len, cpu, 0);
+if (ret >= 0)
+process_page(rpage, ret);
+
+When \fIfull\fP is set, the function will not return true unless
+the writer is off the reader page.
+.SH "NOTE"
+it is up to the calling functions to handle sleeps and wakeups.
+The ring buffer can be used anywhere in the kernel and can not
+blindly call wake_up. The layer that uses the ring buffer must be
+responsible for that.
+.SH "RETURN"
+>=0 if data has been transferred, returns the offset of consumed data.
+<0 if no data has been transferred.

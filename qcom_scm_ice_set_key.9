@@ -1,0 +1,34 @@
+.TH "qcom_scm_ice_set_key" 9 "qcom_scm_ice_set_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_scm_ice_set_key \- Set an inline encryption key
+.SH SYNOPSIS
+.B "int" qcom_scm_ice_set_key
+.BI "(u32 index "  ","
+.BI "const u8 *key "  ","
+.BI "u32 key_size "  ","
+.BI "enum qcom_scm_ice_cipher cipher "  ","
+.BI "u32 data_unit_size "  ");"
+.SH ARGUMENTS
+.IP "index" 12
+the keyslot into which to set the key
+.IP "key" 12
+the key to program
+.IP "key_size" 12
+the size of the key in bytes
+.IP "cipher" 12
+the encryption algorithm the key is for
+.IP "data_unit_size" 12
+the encryption data unit size, i.e. the size of each
+individual plaintext and ciphertext.  Given in 512-byte
+units, e.g. 1 = 512 bytes, 8 = 4096 bytes, etc.
+.SH "DESCRIPTION"
+Program a key into a keyslot of Qualcomm ICE (Inline Crypto Engine), where it
+can then be used to encrypt/decrypt UFS or eMMC I/O requests inline.
+
+The UFSHCI and eMMC standards define a standard way to do this, but it
+doesn't work on these SoCs; only this SCM call does.
+
+It is assumed that the SoC has only one ICE instance being used, as this SCM
+call doesn't specify which ICE instance the keyslot belongs to.
+.SH "RETURN"
+0 on success; -errno on failure.

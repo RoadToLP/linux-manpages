@@ -1,0 +1,48 @@
+.TH "can_rx_register" 9 "can_rx_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+can_rx_register \- subscribe CAN frames from a specific interface
+.SH SYNOPSIS
+.B "int" can_rx_register
+.BI "(struct net *net "  ","
+.BI "struct net_device *dev "  ","
+.BI "canid_t can_id "  ","
+.BI "canid_t mask "  ","
+.BI "void (*func)(struct sk_buff *, void *) "  ","
+.BI "void *data "  ","
+.BI "char *ident "  ","
+.BI "struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "dev" 12
+pointer to netdevice (NULL => subscribe from 'all' CAN devices list)
+.IP "can_id" 12
+CAN identifier (see description)
+.IP "mask" 12
+CAN mask (see description)
+.IP "func" 12
+callback function on filter match
+.IP "data" 12
+returned parameter for callback function
+.IP "ident" 12
+string for calling module identification
+.IP "sk" 12
+socket pointer (might be NULL)
+.SH "DESCRIPTION"
+Invokes the callback function with the received sk_buff and the given
+parameter 'data' on a matching receive filter. A filter matches, when
+
+<received_can_id> & mask == can_id & mask
+
+The filter can be inverted (CAN_INV_FILTER bit set in can_id) or it can
+filter for error message frames (CAN_ERR_FLAG bit set in mask).
+
+The provided pointer to the sk_buff is guaranteed to be valid as long as
+the callback function is running. The callback function must *not* free
+the given sk_buff while processing it's task. When the given sk_buff is
+needed after the end of the callback function it must be cloned inside
+the callback function with \fBskb_clone\fP.
+.SH "RETURN"
+0 on success
+-ENOMEM on missing cache mem to create subscription entry
+-ENODEV unknown device

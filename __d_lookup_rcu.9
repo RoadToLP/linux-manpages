@@ -1,0 +1,39 @@
+.TH "__d_lookup_rcu" 9 "__d_lookup_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__d_lookup_rcu \- search for a dentry (racy, store-free)
+.SH SYNOPSIS
+.B "struct dentry *" __d_lookup_rcu
+.BI "(const struct dentry *parent "  ","
+.BI "const struct qstr *name "  ","
+.BI "unsigned *seqp "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+parent dentry
+.IP "name" 12
+qstr of name we wish to find
+.IP "seqp" 12
+returns d_seq value at the point where the dentry was found
+.SH "RETURN"
+dentry, or NULL
+.SH "DESCRIPTION"
+__d_lookup_rcu is the dcache lookup function for rcu-walk name
+resolution (store-free path walking) design described in
+Documentation/filesystems/path-lookup.txt.
+
+This is not to be used outside core vfs.
+
+__d_lookup_rcu must only be used in rcu-walk mode, ie. with vfsmount lock
+held, and rcu_read_lock held. The returned dentry must not be stored into
+without taking d_lock and checking d_seq sequence count against \fIseq\fP
+returned here.
+
+A refcount may be taken on the found dentry with the d_rcu_to_refcount
+function.
+
+Alternatively, __d_lookup_rcu may be called again to look up the child of
+the returned dentry, so long as its parent's seqlock is checked after the
+child is looked up. Thus, an interlocking stepping of sequence lock checks
+is formed, giving integrity down the path walk.
+
+NOTE! The caller *has* to check the resulting dentry against the sequence
+number we've returned before using any of the resulting dentry state!

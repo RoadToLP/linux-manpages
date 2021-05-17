@@ -1,0 +1,17 @@
+.TH "bdx_tx_transmit" 9 "bdx_tx_transmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_tx_transmit \- send packet to NIC
+.SH SYNOPSIS
+.B "netdev_tx_t" bdx_tx_transmit
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+packet to send
+.IP "ndev" 12
+network device assigned to NIC
+Return codes:
+o NETDEV_TX_OK everything ok.
+o NETDEV_TX_BUSY Cannot transmit packet, try later
+Usually a bug, means queue start/stop flow control is broken in
+the driver. Note: the driver must NOT put the skb in its DMA ring.

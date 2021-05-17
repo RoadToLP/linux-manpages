@@ -1,0 +1,19 @@
+.TH "initio_build_scb" 9 "initio_build_scb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+initio_build_scb \- Build the mappings and SCB
+.SH SYNOPSIS
+.B "void" initio_build_scb
+.BI "(struct initio_host * host "  ","
+.BI "struct scsi_ctrl_blk * cblk "  ","
+.BI "struct scsi_cmnd * cmnd "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+InitIO host taking the command
+.IP "cblk" 12
+Firmware command block
+.IP "cmnd" 12
+SCSI midlayer command block
+
+Translate the abstract SCSI command into a firmware command block
+suitable for feeding to the InitIO host controller. This also requires
+we build the scatter gather lists and ensure they are mapped properly.

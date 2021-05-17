@@ -1,0 +1,23 @@
+.TH "dwc2_ls_pmap_schedule" 9 "dwc2_ls_pmap_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_ls_pmap_schedule \- Schedule a low speed QH
+.SH SYNOPSIS
+.B "int" dwc2_ls_pmap_schedule
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ","
+.BI "int search_slice "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller.
+.IP "qh" 12
+QH for the periodic transfer.
+.IP "search_slice" 12
+We'll start trying to schedule at the passed slice.
+Remember that slices are the units of the low speed
+schedule (think 25us or so).
+.SH "DESCRIPTION"
+Wraps \fBpmap_schedule\fP with the right parameters for low speed scheduling.
+
+Normally we schedule low speed devices on the map associated with the TT.
+.SH "RETURN"
+0 for success or an error code.

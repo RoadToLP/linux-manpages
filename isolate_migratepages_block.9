@@ -1,0 +1,28 @@
+.TH "isolate_migratepages_block" 9 "isolate_migratepages_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isolate_migratepages_block \- isolate all migrate-able pages within a single pageblock
+.SH SYNOPSIS
+.B "unsigned long" isolate_migratepages_block
+.BI "(struct compact_control *cc "  ","
+.BI "unsigned long low_pfn "  ","
+.BI "unsigned long end_pfn "  ","
+.BI "isolate_mode_t isolate_mode "  ");"
+.SH ARGUMENTS
+.IP "cc" 12
+Compaction control structure.
+.IP "low_pfn" 12
+The first PFN to isolate
+.IP "end_pfn" 12
+The one-past-the-last PFN to isolate, within same pageblock
+.IP "isolate_mode" 12
+Isolation mode to be used.
+.SH "DESCRIPTION"
+Isolate all pages that can be migrated from the range specified by
+[low_pfn, end_pfn). The range is expected to be within same pageblock.
+Returns zero if there is a fatal signal pending, otherwise PFN of the
+first page that was not scanned (which may be both less, equal to or more
+than end_pfn).
+
+The pages are isolated on cc->migratepages list (not required to be empty),
+and cc->nr_migratepages is updated accordingly. The cc->migrate_pfn field
+is neither read nor updated.

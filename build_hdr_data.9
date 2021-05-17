@@ -1,0 +1,22 @@
+.TH "build_hdr_data" 9 "build_hdr_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+build_hdr_data \- creates L2/L3/L4 header data buffer
+.SH SYNOPSIS
+.B "int" build_hdr_data
+.BI "(u8 hdr_field "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int *hdr_len "  ","
+.BI "u8 *hdr_data "  ");"
+.SH ARGUMENTS
+.IP "hdr_field" 12
+bitfield determining needed headers
+.IP "skb" 12
+socket buffer
+.IP "hdr_len" 12
+array of header lengths
+.IP "hdr_data" 12
+buffer to write the header to
+.SH "DESCRIPTION"
+Reads hdr_field to determine which headers are needed by firmware.
+Builds a buffer containing these headers.  Saves individual header
+lengths and total buffer length to be used to build descriptors.

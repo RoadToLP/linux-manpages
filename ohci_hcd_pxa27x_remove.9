@@ -1,0 +1,15 @@
+.TH "ohci_hcd_pxa27x_remove" 9 "ohci_hcd_pxa27x_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ohci_hcd_pxa27x_remove \- shutdown processing for pxa27x-based HCDs
+.SH SYNOPSIS
+.B "int" ohci_hcd_pxa27x_remove
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+USB Host Controller being removed
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+Reverses the effect of \fBohci_hcd_pxa27x_probe\fP, first invoking
+the HCD's \fBstop\fP method.  It is always called from a thread
+context, normally "rmmod", "apmd", or something similar.

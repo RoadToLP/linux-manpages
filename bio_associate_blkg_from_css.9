@@ -1,0 +1,21 @@
+.TH "bio_associate_blkg_from_css" 9 "bio_associate_blkg_from_css" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_associate_blkg_from_css \- associate a bio with a specified css
+.SH SYNOPSIS
+.B "void" bio_associate_blkg_from_css
+.BI "(struct bio *bio "  ","
+.BI "struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+target bio
+.IP "css" 12
+target css
+.SH "DESCRIPTION"
+Associate \fIbio\fP with the blkg found by combining the css's blkg and the
+request_queue of the \fIbio\fP.  An association failure is handled by walking up
+the blkg tree.  Therefore, the blkg associated can be anything between \fIblkg\fP
+and q->root_blkg.  This situation only happens when a cgroup is dying and
+then the remaining bios will spill to the closest alive blkg.
+
+A reference will be taken on the blkg and will be released when \fIbio\fP is
+freed.

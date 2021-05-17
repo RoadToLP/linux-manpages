@@ -1,0 +1,19 @@
+.TH "acpi_dev_pm_detach" 9 "acpi_dev_pm_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_pm_detach \- Remove ACPI power management from the device.
+.SH SYNOPSIS
+.B "void" acpi_dev_pm_detach
+.BI "(struct device *dev "  ","
+.BI "bool power_off "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to take care of.
+.IP "power_off" 12
+Whether or not to try to remove power from the device.
+.SH "DESCRIPTION"
+Remove the device from the general ACPI PM domain and remove its wakeup
+notifier.  If \fIpower_off\fP is set, additionally remove power from the device if
+possible.
+
+Callers must ensure proper synchronization of this function with power
+management callbacks.

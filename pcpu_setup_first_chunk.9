@@ -1,0 +1,61 @@
+.TH "pcpu_setup_first_chunk" 9 "pcpu_setup_first_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_setup_first_chunk \- initialize the first percpu chunk
+.SH SYNOPSIS
+.B "void" pcpu_setup_first_chunk
+.BI "(const struct pcpu_alloc_info *ai "  ","
+.BI "void *base_addr "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+pcpu_alloc_info describing how to percpu area is shaped
+.IP "base_addr" 12
+mapped address
+.SH "DESCRIPTION"
+Initialize the first percpu chunk which contains the kernel static
+percpu area.  This function is to be called from arch percpu area
+setup path.
+
+\fIai\fP contains all information necessary to initialize the first
+chunk and prime the dynamic percpu allocator.
+
+\fIai->static_size\fP is the size of static percpu area.
+
+\fIai->reserved_size\fP, if non-zero, specifies the amount of bytes to
+reserve after the static area in the first chunk.  This reserves
+the first chunk such that it's available only through reserved
+percpu allocation.  This is primarily used to serve module percpu
+static areas on architectures where the addressing model has
+limited offset range for symbol relocations to guarantee module
+percpu symbols fall inside the relocatable range.
+
+\fIai->dyn_size\fP determines the number of bytes available for dynamic
+allocation in the first chunk.  The area between \fIai->static_size\fP +
+\fIai->reserved_size\fP + \fIai->dyn_size\fP and \fIai->unit_size\fP is unused.
+
+\fIai->unit_size\fP specifies unit size and must be aligned to PAGE_SIZE
+and equal to or larger than \fIai->static_size\fP + \fIai->reserved_size\fP +
+\fIai->dyn_size\fP.
+
+\fIai->atom_size\fP is the allocation atom size and used as alignment
+for vm areas.
+
+\fIai->alloc_size\fP is the allocation size and always multiple of
+\fIai->atom_size\fP.  This is larger than \fIai->atom_size\fP if
+\fIai->unit_size\fP is larger than \fIai->atom_size\fP.
+
+\fIai->nr_groups\fP and \fIai->groups\fP describe virtual memory layout of
+percpu areas.  Units which should be colocated are put into the
+same group.  Dynamic VM areas will be allocated according to these
+groupings.  If \fIai->nr_groups\fP is zero, a single group containing
+all units is assumed.
+
+The caller should have mapped the first chunk at \fIbase_addr\fP and
+copied static data to each unit.
+
+The first chunk will always contain a static and a dynamic region.
+However, the static region is not managed by any chunk.  If the first
+chunk also contains a reserved region, it is served by two chunks -
+one for the reserved region and one for the dynamic region.  They
+share the same vm, but use offset regions in the area allocation map.
+The chunk serving the dynamic region is circulated in the chunk slots
+and available for dynamic allocation like any other chunk.

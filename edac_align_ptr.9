@@ -1,0 +1,27 @@
+.TH "edac_align_ptr" 9 "edac_align_ptr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+edac_align_ptr \- Prepares the pointer offsets for a single-shot allocation
+.SH SYNOPSIS
+.B "void *" edac_align_ptr
+.BI "(void **p "  ","
+.BI "unsigned int size "  ","
+.BI "int n_elems "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+pointer to a pointer with the memory offset to be used. At
+return, this will be incremented to point to the next offset
+.IP "size" 12
+Size of the data structure to be reserved
+.IP "n_elems" 12
+Number of elements that should be reserved
+.SH "DESCRIPTION"
+If 'size' is a constant, the compiler will optimize this whole function
+down to either a no-op or the addition of a constant to the value of '*p'.
+
+The 'p' pointer is absolutely needed to keep the proper advancing
+further in memory to the proper offsets when allocating the struct along
+with its embedded structs, as \fBedac_device_alloc_ctl_info\fP does it
+above, for example.
+
+At return, the pointer 'p' will be incremented to be used on a next call
+to this function.

@@ -1,0 +1,33 @@
+.TH "dccp_feat_handle_nn_established" 9 "dccp_feat_handle_nn_established" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_feat_handle_nn_established \- Fast-path reception of NN options
+.SH SYNOPSIS
+.B "u8" dccp_feat_handle_nn_established
+.BI "(struct sock *sk "  ","
+.BI "u8 mandatory "  ","
+.BI "u8 opt "  ","
+.BI "u8 feat "  ","
+.BI "u8 *val "  ","
+.BI "u8 len "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket of an established DCCP connection
+.IP "mandatory" 12
+whether \fIopt\fP was preceded by a Mandatory option
+.IP "opt" 12
+DCCPO_CHANGE_L | DCCPO_CONFIRM_R (NN only)
+.IP "feat" 12
+NN number, one of dccp_feature_numbers
+.IP "val" 12
+NN value
+.IP "len" 12
+length of \fIval\fP in bytes
+.SH "DESCRIPTION"
+This function combines the functionality of change_recv/confirm_recv, with
+the following differences (reset codes are the same):
+- cleanup after receiving the Confirm;
+- values are directly activated after successful parsing;
+- deliberately restricted to NN features.
+The restriction to NN features is essential since SP features can have non-
+predictable outcomes (depending on the remote configuration), and are inter-
+dependent (CCIDs for instance cause further dependencies).

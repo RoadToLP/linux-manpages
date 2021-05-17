@@ -1,0 +1,24 @@
+.TH "__ib_alloc_cq_any" 9 "__ib_alloc_cq_any" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ib_alloc_cq_any \- allocate a completion queue
+.SH SYNOPSIS
+.B "struct ib_cq *" __ib_alloc_cq_any
+.BI "(struct ib_device *dev "  ","
+.BI "void *private "  ","
+.BI "int nr_cqe "  ","
+.BI "enum ib_poll_context poll_ctx "  ","
+.BI "const char *caller "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to allocate the CQ for
+.IP "private" 12
+driver private data, accessible from cq->cq_context
+.IP "nr_cqe" 12
+number of CQEs to allocate
+.IP "poll_ctx" 12
+context to poll the CQ from
+.IP "caller" 12
+module owner name
+.SH "DESCRIPTION"
+Attempt to spread ULP Completion Queues over each device's interrupt
+vectors. A simple best-effort mechanism is used.

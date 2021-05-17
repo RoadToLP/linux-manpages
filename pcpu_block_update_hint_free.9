@@ -1,0 +1,27 @@
+.TH "pcpu_block_update_hint_free" 9 "pcpu_block_update_hint_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_block_update_hint_free \- updates the block hints on the free path
+.SH SYNOPSIS
+.B "void" pcpu_block_update_hint_free
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int bit_off "  ","
+.BI "int bits "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "bit_off" 12
+chunk offset
+.IP "bits" 12
+size of request
+.SH "DESCRIPTION"
+Updates metadata for the allocation path.  This avoids a blind block
+refresh by making use of the block contig hints.  If this fails, it scans
+forward and backward to determine the extent of the free area.  This is
+capped at the boundary of blocks.
+
+A chunk update is triggered if a page becomes free, a block becomes free,
+or the free spans across blocks.  This tradeoff is to minimize iterating
+over the block metadata to update chunk_md->contig_hint.
+chunk_md->contig_hint may be off by up to a page, but it will never be more
+than the available space.  If the contig hint is contained in one block, it
+will be accurate.

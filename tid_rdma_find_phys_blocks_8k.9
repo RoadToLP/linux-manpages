@@ -1,0 +1,32 @@
+.TH "tid_rdma_find_phys_blocks_8k" 9 "tid_rdma_find_phys_blocks_8k" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tid_rdma_find_phys_blocks_8k \- get groups base on mr info
+.SH SYNOPSIS
+.B "u32" tid_rdma_find_phys_blocks_8k
+.BI "(struct tid_rdma_flow *flow "  ","
+.BI "struct page **pages "  ","
+.BI "u32 npages "  ","
+.BI "struct tid_rdma_pageset *list "  ");"
+.SH ARGUMENTS
+.IP "flow" 12
+overall info for a TID RDMA segment
+.IP "pages" 12
+pointer to an array of page structs
+.IP "npages" 12
+number of pages
+.IP "list" 12
+page set array to return
+.SH "DESCRIPTION"
+This routine parses an array of pages to compute pagesets
+in an 8k compatible way.
+
+pages are tested two at a time, i, i + 1 for contiguous
+pages and i - 1 and i contiguous pages.
+
+If any condition is false, any accumlated pages are flushed and
+v0,v1 are emitted as separate PAGE_SIZE pagesets
+
+Otherwise, the current 8k is totaled for a future flush.
+.SH "RETURN"
+The number of pagesets
+list set with the returned number of pagesets

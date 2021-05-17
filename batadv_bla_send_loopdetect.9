@@ -1,0 +1,17 @@
+.TH "batadv_bla_send_loopdetect" 9 "batadv_bla_send_loopdetect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_bla_send_loopdetect \- send a loopdetect frame
+.SH SYNOPSIS
+.B "void" batadv_bla_send_loopdetect
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_bla_backbone_gw *backbone_gw "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "backbone_gw" 12
+the backbone gateway for which a loop should be detected
+.SH "DESCRIPTION"
+To detect loops that the bridge loop avoidance can't handle, send a loop
+detection packet on the backbone. Unlike other BLA frames, this frame will
+be allowed on the mesh by other nodes. If it is received on the mesh, this
+indicates that there is a loop.

@@ -1,0 +1,19 @@
+.TH "tty_driver_install_tty" 9 "tty_driver_install_tty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_driver_install_tty \- install a tty entry in the driver
+.SH SYNOPSIS
+.B "int" tty_driver_install_tty
+.BI "(struct tty_driver *driver "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the driver for the tty
+.IP "tty" 12
+the tty
+
+Install a tty object into the driver tables. The tty->index field
+will be set by the time this is called. This method is responsible
+for ensuring any need additional structures are allocated and
+configured.
+
+Locking: tty_mutex for now

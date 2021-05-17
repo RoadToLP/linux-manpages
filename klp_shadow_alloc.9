@@ -1,0 +1,39 @@
+.TH "klp_shadow_alloc" 9 "klp_shadow_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klp_shadow_alloc \- allocate and add a new shadow variable
+.SH SYNOPSIS
+.B "void *" klp_shadow_alloc
+.BI "(void *obj "  ","
+.BI "unsigned long id "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp_flags "  ","
+.BI "klp_shadow_ctor_t ctor "  ","
+.BI "void *ctor_data "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+pointer to parent object
+.IP "id" 12
+data identifier
+.IP "size" 12
+size of attached data
+.IP "gfp_flags" 12
+GFP mask for allocation
+.IP "ctor" 12
+custom constructor to initialize the shadow data (optional)
+.IP "ctor_data" 12
+pointer to any data needed by \fIctor\fP (optional)
+.SH "DESCRIPTION"
+Allocates \fIsize\fP bytes for new shadow variable data using \fIgfp_flags\fP.
+The data are zeroed by default.  They are further initialized by \fIctor\fP
+function if it is not NULL.  The new shadow variable is then added
+to the global hashtable.
+
+If an existing <obj, id> shadow variable can be found, this routine will
+issue a WARN, exit early and return NULL.
+
+This function guarantees that the constructor function is called only when
+the variable did not exist before.  The cost is that \fIctor\fP is called
+in atomic context under a spin lock.
+.SH "RETURN"
+the shadow variable data element, NULL on duplicate or
+failure.

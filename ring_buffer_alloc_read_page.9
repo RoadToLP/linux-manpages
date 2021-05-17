@@ -1,0 +1,22 @@
+.TH "ring_buffer_alloc_read_page" 9 "ring_buffer_alloc_read_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_alloc_read_page \- allocate a page to read from buffer
+.SH SYNOPSIS
+.B "void *" ring_buffer_alloc_read_page
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+the buffer to allocate for.
+.IP "cpu" 12
+the cpu buffer to allocate.
+.SH "DESCRIPTION"
+This function is used in conjunction with ring_buffer_read_page.
+When reading a full page from the ring buffer, these functions
+can be used to speed up the process. The calling function should
+allocate a few pages first with this function. Then when it
+needs to get pages from the ring buffer, it passes the result
+of this function into ring_buffer_read_page, which will swap
+the page that was allocated, with the read page of the buffer.
+.SH "RETURN"
+The page allocated, or ERR_PTR

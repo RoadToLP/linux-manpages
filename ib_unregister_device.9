@@ -1,0 +1,19 @@
+.TH "ib_unregister_device" 9 "ib_unregister_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_unregister_device \- Unregister an IB device
+.SH SYNOPSIS
+.B "void" ib_unregister_device
+.BI "(struct ib_device *ib_dev "  ");"
+.SH ARGUMENTS
+.IP "ib_dev" 12
+The device to unregister
+.SH "DESCRIPTION"
+Unregister an IB device.  All clients will receive a remove callback.
+
+Callers should call this routine only once, and protect against races with
+registration. Typically it should only be called as part of a remove
+callback in an implementation of driver core's struct device_driver and
+related.
+
+If ops.dealloc_driver is used then ib_dev will be freed upon return from
+this function.

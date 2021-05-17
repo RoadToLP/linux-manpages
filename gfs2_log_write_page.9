@@ -1,0 +1,17 @@
+.TH "gfs2_log_write_page" 9 "gfs2_log_write_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_log_write_page \- write one block stored in a page, into the log
+.SH SYNOPSIS
+.B "void" gfs2_log_write_page
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct page *page "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The superblock
+.IP "page" 12
+The struct page
+.SH "DESCRIPTION"
+This writes the first block-sized part of the page into the log. Note
+that the page must have been allocated from the gfs2_page_pool mempool
+and that after this has been called, ownership has been transferred and
+the page may be freed at any time.

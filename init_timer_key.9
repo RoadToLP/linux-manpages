@@ -1,0 +1,25 @@
+.TH "init_timer_key" 9 "init_timer_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_timer_key \- initialize a timer
+.SH SYNOPSIS
+.B "void" init_timer_key
+.BI "(struct timer_list *timer "  ","
+.BI "void (*func)(struct timer_list *) "  ","
+.BI "unsigned int flags "  ","
+.BI "const char *name "  ","
+.BI "struct lock_class_key *key "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+the timer to be initialized
+.IP "func" 12
+timer callback function
+.IP "flags" 12
+timer flags
+.IP "name" 12
+name of the timer
+.IP "key" 12
+lockdep class key of the fake lock used for tracking timer
+sync lock dependencies
+.SH "DESCRIPTION"
+\fBinit_timer_key\fP must be done to a timer prior calling *any* of the
+other timer functions.

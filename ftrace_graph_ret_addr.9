@@ -1,0 +1,30 @@
+.TH "ftrace_graph_ret_addr" 9 "ftrace_graph_ret_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_graph_ret_addr \- convert a potentially modified stack return address to its original value
+.SH SYNOPSIS
+.B "unsigned long" ftrace_graph_ret_addr
+.BI "(struct task_struct *task "  ","
+.BI "int *idx "  ","
+.BI "unsigned long ret "  ","
+.BI "unsigned long *retp "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+-- undescribed --
+.IP "idx" 12
+-- undescribed --
+.IP "ret" 12
+-- undescribed --
+.IP "retp" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function can be called by stack unwinding code to convert a found stack
+return address ('ret') to its original value, in case the function graph
+tracer has modified it to be 'return_to_handler'.  If the address hasn't
+been modified, the unchanged value of 'ret' is returned.
+
+'idx' is a state variable which should be initialized by the caller to zero
+before the first call.
+
+'retp' is a pointer to the return address on the stack.  It's ignored if
+the arch doesn't have HAVE_FUNCTION_GRAPH_RET_ADDR_PTR defined.

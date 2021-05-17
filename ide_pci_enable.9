@@ -1,0 +1,22 @@
+.TH "ide_pci_enable" 9 "ide_pci_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_pci_enable \- do PCI enables
+.SH SYNOPSIS
+.B "int" ide_pci_enable
+.BI "(struct pci_dev *dev "  ","
+.BI "int bars "  ","
+.BI "const struct ide_port_info *d "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.IP "bars" 12
+PCI BARs mask
+.IP "d" 12
+IDE port info
+
+Enable the IDE PCI device. We attempt to enable the device in full
+but if that fails then we only need IO space. The PCI code should
+have setup the proper resources for us already for controllers in
+legacy mode.
+
+Returns zero on success or an error code

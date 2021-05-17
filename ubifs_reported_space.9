@@ -1,0 +1,27 @@
+.TH "ubifs_reported_space" 9 "ubifs_reported_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_reported_space \- calculate reported free space.
+.SH SYNOPSIS
+.B "long long" ubifs_reported_space
+.BI "(const struct ubifs_info *c "  ","
+.BI "long long free "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "free" 12
+amount of free space
+.SH "DESCRIPTION"
+This function calculates amount of free space which will be reported to
+user-space. User-space application tend to expect that if the file-system
+(e.g., via the '\fBstatfs\fP' call) reports that it has N bytes available, they
+are able to write a file of size N. UBIFS attaches node headers to each data
+node and it has to write indexing nodes as well. This introduces additional
+overhead, and UBIFS has to report slightly less free space to meet the above
+expectations.
+
+This function assumes free space is made up of uncompressed data nodes and
+full index nodes (one per data node, tripled because we always allow enough
+space to write the index thrice).
+
+Note, the calculation is pessimistic, which means that most of the time
+UBIFS reports less space than it actually has.

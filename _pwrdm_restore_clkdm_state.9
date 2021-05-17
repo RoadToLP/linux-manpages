@@ -1,0 +1,20 @@
+.TH "_pwrdm_restore_clkdm_state" 9 "_pwrdm_restore_clkdm_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_pwrdm_restore_clkdm_state \- restore the clkdm hwsup state after pwrst change
+.SH SYNOPSIS
+.B "void" _pwrdm_restore_clkdm_state
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 sleep_switch "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to operate on
+.IP "sleep_switch" 12
+return value from \fB_pwrdm_save_clkdm_state_and_activate\fP
+.SH "DESCRIPTION"
+Restore the clockdomain state perturbed by
+\fB_pwrdm_save_clkdm_state_and_activate\fP, and call the power state
+bookkeeping code.  Called by \fBomap_set_pwrdm_state\fP.  NOTE that if
+the powerdomain contains multiple clockdomains, this assumes that
+the first associated clockdomain supports either
+hardware-supervised idle control in the register, or
+software-supervised sleep.  No return value.

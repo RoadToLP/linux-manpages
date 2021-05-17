@@ -1,0 +1,38 @@
+.TH "flush_workqueue_prep_pwqs" 9 "flush_workqueue_prep_pwqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+flush_workqueue_prep_pwqs \- prepare pwqs for workqueue flushing
+.SH SYNOPSIS
+.B "bool" flush_workqueue_prep_pwqs
+.BI "(struct workqueue_struct *wq "  ","
+.BI "int flush_color "  ","
+.BI "int work_color "  ");"
+.SH ARGUMENTS
+.IP "wq" 12
+workqueue being flushed
+.IP "flush_color" 12
+new flush color, < 0 for no-op
+.IP "work_color" 12
+new work color, < 0 for no-op
+.SH "DESCRIPTION"
+Prepare pwqs for workqueue flushing.
+
+If \fIflush_color\fP is non-negative, flush_color on all pwqs should be
+-1.  If no pwq has in-flight commands at the specified color, all
+pwq->flush_color's stay at -1 and false is returned.  If any pwq
+has in flight commands, its pwq->flush_color is set to
+\fIflush_color\fP, \fIwq->nr_pwqs_to_flush\fP is updated accordingly, pwq
+wakeup logic is armed and true is returned.
+
+The caller should have initialized \fIwq->first_flusher\fP prior to
+calling this function with non-negative \fIflush_color\fP.  If
+\fIflush_color\fP is negative, no flush color update is done and false
+is returned.
+
+If \fIwork_color\fP is non-negative, all pwqs should have the same
+work_color which is previous to \fIwork_color\fP and all will be
+advanced to \fIwork_color\fP.
+.SH "CONTEXT"
+mutex_lock(wq->mutex).
+.SH "RETURN"
+true if \fIflush_color\fP >= 0 and there's something to flush.  false
+otherwise.

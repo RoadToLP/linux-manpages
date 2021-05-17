@@ -1,0 +1,23 @@
+.TH "show_wakeup_protocols" 9 "show_wakeup_protocols" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+show_wakeup_protocols \- shows the wakeup IR protocol
+.SH SYNOPSIS
+.B "ssize_t" show_wakeup_protocols
+.BI "(struct device *device "  ","
+.BI "struct device_attribute *mattr "  ","
+.BI "char *buf "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device descriptor
+.IP "mattr" 12
+the device attribute struct
+.IP "buf" 12
+a pointer to the output buffer
+.SH "DESCRIPTION"
+This routine is a callback routine for input read the IR protocol type(s).
+it is triggered by reading /sys/class/rc/rc?/wakeup_protocols.
+It returns the protocol names of supported protocols.
+The enabled protocols are printed in brackets.
+
+dev->lock is taken to guard against races between
+store_wakeup_protocols and show_wakeup_protocols.

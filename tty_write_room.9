@@ -1,0 +1,15 @@
+.TH "tty_write_room" 9 "tty_write_room" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_write_room \- write queue space
+.SH SYNOPSIS
+.B "int" tty_write_room
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Return the number of bytes that can be queued to this device
+at the present time. The result should be treated as a guarantee
+and the driver cannot offer a value it later shrinks by more than
+the number of bytes written. If no method is provided 2K is always
+returned and data may be lost as there will be no flow control.

@@ -1,0 +1,33 @@
+.TH "unmap_skb" 9 "unmap_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_skb \- unmap a packet main body and its page fragments
+.SH SYNOPSIS
+.B "void" unmap_skb
+.BI "(struct sk_buff *skb "  ","
+.BI "struct sge_txq *q "  ","
+.BI "unsigned int cidx "  ","
+.BI "struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "q" 12
+the Tx queue containing Tx descriptors for the packet
+.IP "cidx" 12
+index of Tx descriptor
+.IP "pdev" 12
+the PCI device
+
+Unmap the main body of an sk_buff and its page fragments, if any.
+Because of the fairly complicated structure of our SGLs and the desire
+to conserve space for metadata, the information necessary to unmap an
+sk_buff is spread across the sk_buff itself (buffer lengths), the HW Tx
+descriptors (the physical addresses of the various data buffers), and
+the SW descriptor state (assorted indices).  The send functions
+initialize the indices for the first packet descriptor so we can unmap
+the buffers held in the first Tx descriptor here, and we have enough
+information at this point to set the state for the next Tx descriptor.
+
+Note that it is possible to clean up the first descriptor of a packet
+before the send routines have written the next descriptors, but this
+race does not cause any problem.  We just end up writing the unmapping
+info for the descriptor first.

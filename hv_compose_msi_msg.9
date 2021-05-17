@@ -1,0 +1,18 @@
+.TH "hv_compose_msi_msg" 9 "hv_compose_msi_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_compose_msi_msg \- Supplies a valid MSI address/data
+.SH SYNOPSIS
+.B "void" hv_compose_msi_msg
+.BI "(struct irq_data *data "  ","
+.BI "struct msi_msg *msg "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+Everything about this MSI
+.IP "msg" 12
+Buffer that is filled in by this function
+.SH "DESCRIPTION"
+This function unpacks the IRQ looking for target CPU set, IDT
+vector and mode and sends a message to the parent partition
+asking for a mapping for that tuple in this partition.  The
+response supplies a data value and address to which that data
+should be written to trigger that interrupt.

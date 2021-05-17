@@ -1,0 +1,39 @@
+.TH "doc_read_page_prepare" 9 "doc_read_page_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_read_page_prepare \- Prepares reading data from a flash page
+.SH SYNOPSIS
+.B "int" doc_read_page_prepare
+.BI "(struct docg3 *docg3 "  ","
+.BI "int block0 "  ","
+.BI "int block1 "  ","
+.BI "int page "  ","
+.BI "int offset "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "block0" 12
+the first plane block index on flash memory
+.IP "block1" 12
+the second plane block index on flash memory
+.IP "page" 12
+the page index in the block
+.IP "offset" 12
+the offset in the page (must be a multiple of 4)
+.SH "DESCRIPTION"
+Prepares the page to be read in the flash memory :
+- tell ASIC to map the flash pages
+- tell ASIC to be in read mode
+
+After a call to this method, a call to doc_read_page_finish is mandatory,
+to end the read cycle of the flash.
+
+Read data from a flash page. The length to be read must be between 0 and
+(page_size + oob_size + wear_size), ie. 532, and a multiple of 4 (because
+the extra bytes reading is not implemented).
+
+As pages are grouped by 2 (in 2 planes), reading from a page must be done
+in two steps:
+- one read of 512 bytes at offset 0
+- one read of 512 bytes at offset 512 + 16
+
+Returns 0 if successful, -EIO if a read error occurred.

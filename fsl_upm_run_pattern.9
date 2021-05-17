@@ -1,0 +1,19 @@
+.TH "fsl_upm_run_pattern" 9 "fsl_upm_run_pattern" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_upm_run_pattern \- actually run an UPM pattern
+.SH SYNOPSIS
+.B "int" fsl_upm_run_pattern
+.BI "(struct fsl_upm *upm "  ","
+.BI "void __iomem *io_base "  ","
+.BI "u32 mar "  ");"
+.SH ARGUMENTS
+.IP "upm" 12
+pointer to the fsl_upm structure obtained via fsl_upm_find
+.IP "io_base" 12
+remapped pointer to where memory access should happen
+.IP "mar" 12
+MAR register content during pattern execution
+.SH "DESCRIPTION"
+This function triggers dummy write to the memory specified by the io_base,
+thus UPM pattern actually executed. Note that mar usage depends on the
+pre-programmed AMX bits in the UPM RAM.

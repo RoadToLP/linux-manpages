@@ -1,0 +1,23 @@
+.TH "iio_push_event" 9 "iio_push_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_push_event \- try to add event to the list for userspace reading
+.SH SYNOPSIS
+.B "int" iio_push_event
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "u64 ev_code "  ","
+.BI "s64 timestamp "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device structure
+.IP "ev_code" 12
+What event
+.IP "timestamp" 12
+When the event occurred
+.SH "NOTE"
+The caller must make sure that this function is not running
+concurrently for the same indio_dev more than once.
+.SH "DESCRIPTION"
+This function may be safely used as soon as a valid reference to iio_dev has
+been obtained via \fBiio_device_alloc\fP, but any events that are submitted
+before \fBiio_device_register\fP has successfully completed will be silently
+discarded.

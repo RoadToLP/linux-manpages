@@ -1,0 +1,31 @@
+.TH "tfrc_rx_handle_loss" 9 "tfrc_rx_handle_loss" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tfrc_rx_handle_loss \- Loss detection and further processing
+.SH SYNOPSIS
+.B "int" tfrc_rx_handle_loss
+.BI "(struct tfrc_rx_hist *h "  ","
+.BI "struct tfrc_loss_hist *lh "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "const u64 ndp "  ","
+.BI "u32 (*calc_first_li)(struct sock *) "  ","
+.BI "struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "h" 12
+The non-empty RX history object
+.IP "lh" 12
+Loss Intervals database to update
+.IP "skb" 12
+Currently received packet
+.IP "ndp" 12
+The NDP count belonging to \fIskb\fP
+.IP "calc_first_li" 12
+Caller-dependent computation of first loss interval in \fIlh\fP
+.IP "sk" 12
+Used by \fIcalc_first_li\fP (see tfrc_lh_interval_add)
+
+Chooses action according to pending loss, updates LI database when a new
+loss was detected, and does required post-processing. Returns 1 when caller
+should send feedback, 0 otherwise.
+Since it also takes care of reordering during loss detection and updates the
+records accordingly, the caller should not perform any more RX history
+operations when loss_count is greater than 0 after calling this function.

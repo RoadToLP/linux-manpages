@@ -1,0 +1,18 @@
+.TH "fc_fcp_pkt_destroy" 9 "fc_fcp_pkt_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_pkt_destroy \- Release hold on a fcp_pkt
+.SH SYNOPSIS
+.B "void" fc_fcp_pkt_destroy
+.BI "(struct fc_seq *seq "  ","
+.BI "void *fsp "  ");"
+.SH ARGUMENTS
+.IP "seq" 12
+The sequence that the FCP packet is on (required by destructor API)
+.IP "fsp" 12
+The FCP packet to be released
+.SH "DESCRIPTION"
+This routine is called by a destructor callback in the \fBfc_exch_seq_send\fP
+routine of the libfc Transport Template. The 'struct fc_seq' is a required
+argument even though it is not used by this routine.
+.SH "CONTEXT"
+No locking required.

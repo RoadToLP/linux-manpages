@@ -1,0 +1,18 @@
+.TH "cxgb4_sgetim_to_hwtstamp" 9 "cxgb4_sgetim_to_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4_sgetim_to_hwtstamp \- convert sge time stamp to hw time stamp
+.SH SYNOPSIS
+.B "void" cxgb4_sgetim_to_hwtstamp
+.BI "(struct adapter *adap "  ","
+.BI "struct skb_shared_hwtstamps *hwtstamps "  ","
+.BI "u64 sgetstamp "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "hwtstamps" 12
+time stamp structure to update
+.IP "sgetstamp" 12
+60bit iqe timestamp
+.SH "DESCRIPTION"
+Every ingress queue entry has the 60-bit timestamp, convert that timestamp
+which is in Core Clock ticks into ktime_t and assign it

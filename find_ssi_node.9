@@ -1,0 +1,18 @@
+.TH "find_ssi_node" 9 "find_ssi_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_ssi_node \- - returns the SSI node that points to its DMA channel node
+.SH SYNOPSIS
+.B "struct device_node *" find_ssi_node
+.BI "(struct device_node *dma_channel_np "  ");"
+.SH ARGUMENTS
+.IP "dma_channel_np" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Although this DMA driver attempts to operate independently of the other
+devices, it still needs to determine some information about the SSI device
+that it's working with.  Unfortunately, the device tree does not contain
+a pointer from the DMA channel node to the SSI node -- the pointer goes the
+other way.  So we need to scan the device tree for SSI nodes until we find
+the one that points to the given DMA channel node.  It's ugly, but at least
+it's contained in this one function.

@@ -1,0 +1,23 @@
+.TH "e1000_check_for_serdes_link_82571" 9 "e1000_check_for_serdes_link_82571" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_check_for_serdes_link_82571 \- Check for link (Serdes)
+.SH SYNOPSIS
+.B "s32" e1000_check_for_serdes_link_82571
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+Reports the link state as up or down.
+
+If autonegotiation is supported by the link partner, the link state is
+determined by the result of autonegotiation. This is the most likely case.
+If autonegotiation is not supported by the link partner, and the link
+has a valid signal, force the link up.
+
+The link state is represented internally here by 4 states:
+
+1) down
+2) autoneg_progress
+3) autoneg_complete (the link successfully autonegotiated)
+4) forced_up (the link has been forced up, it did not autonegotiate)

@@ -1,0 +1,71 @@
+.TH "string_escape_mem" 9 "string_escape_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+string_escape_mem \- quote characters in the given memory buffer
+.SH SYNOPSIS
+.B "int" string_escape_mem
+.BI "(const char *src "  ","
+.BI "size_t isz "  ","
+.BI "char *dst "  ","
+.BI "size_t osz "  ","
+.BI "unsigned int flags "  ","
+.BI "const char *only "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+source buffer (unescaped)
+.IP "isz" 12
+source buffer size
+.IP "dst" 12
+destination buffer (escaped)
+.IP "osz" 12
+destination buffer size
+.IP "flags" 12
+combination of the flags
+.IP "only" 12
+NULL-terminated string containing characters used to limit
+the selected escape class. If characters are included in \fIonly\fP
+that would not normally be escaped by the classes selected
+in \fIflags\fP, they will be copied to \fIdst\fP unescaped.
+.SH "DESCRIPTION"
+The process of escaping byte buffer includes several parts. They are applied
+in the following sequence.
+
+1. The character is matched to the printable class, if asked, and in
+case of match it passes through to the output.
+2. The character is not matched to the one from \fIonly\fP string and thus
+must go as-is to the output.
+3. The character is checked if it falls into the class given by \fIflags\fP.
+ESCAPE_OCTAL and ESCAPE_HEX are going last since they cover any
+character. Note that they actually can't go together, otherwise
+ESCAPE_HEX will be ignored.
+
+Caller must provide valid source and destination pointers. Be aware that
+destination buffer will not be NULL-terminated, thus caller have to append
+it if needs.   The supported flags are::
+
+ESCAPE_SPACE: (special white space, not space itself)
+'\f' - form feed
+'\n' - new line
+'\r' - carriage return
+'\t' - horizontal tab
+'\v' - vertical tab
+ESCAPE_SPECIAL:
+'\\' - backslash
+'\a' - alert (BEL)
+'\e' - escape
+ESCAPE_NULL:
+'\0' - null
+ESCAPE_OCTAL:
+'\NNN' - byte with octal value NNN (3 digits)
+ESCAPE_ANY:
+all previous together
+ESCAPE_NP:
+escape only non-printable characters (checked by isprint)
+ESCAPE_ANY_NP:
+all previous together
+ESCAPE_HEX:
+'\xHH' - byte with hexadecimal value HH (2 digits)
+.SH "RETURN"
+The total size of the escaped output that would be generated for
+the given input and flags. To check whether the output was
+truncated, compare the return value to osz. There is room left in
+dst for a '\0' terminator if and only if ret < osz.

@@ -1,0 +1,17 @@
+.TH "iser_initialize_task_headers" 9 "iser_initialize_task_headers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iser_initialize_task_headers \- Initialize task headers
+.SH SYNOPSIS
+.B "int" iser_initialize_task_headers
+.BI "(struct iscsi_task *task "  ","
+.BI "struct iser_tx_desc *tx_desc "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+iscsi task
+.IP "tx_desc" 12
+iser tx descriptor
+.SH "NOTES"
+This routine may race with iser teardown flow for scsi
+error handling TMFs. So for TMF we should acquire the
+state mutex to avoid dereferencing the IB device which
+may have already been terminated.

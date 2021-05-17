@@ -1,0 +1,23 @@
+.TH "ata_pci_sff_init_host" 9 "ata_pci_sff_init_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_pci_sff_init_host \- acquire native PCI ATA resources and init host
+.SH SYNOPSIS
+.B "int" ata_pci_sff_init_host
+.BI "(struct ata_host *host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+target ATA host
+
+Acquire native PCI ATA resources for \fIhost\fP and initialize the
+first two ports of \fIhost\fP accordingly.  Ports marked dummy are
+skipped and allocation failure makes the port dummy.
+
+Note that native PCI resources are valid even for legacy hosts
+as we fix up pdev resources array early in boot, so this
+function can be used for both native and legacy SFF hosts.
+
+LOCKING:
+Inherited from calling layer (may sleep).
+.SH "RETURN"
+0 if at least one port is initialized, -ENODEV if no port is
+available.

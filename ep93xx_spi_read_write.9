@@ -1,0 +1,16 @@
+.TH "ep93xx_spi_read_write" 9 "ep93xx_spi_read_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep93xx_spi_read_write \- perform next RX/TX transfer
+.SH SYNOPSIS
+.B "int" ep93xx_spi_read_write
+.BI "(struct spi_master *master "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+SPI master
+.SH "DESCRIPTION"
+This function transfers next bytes (or half-words) to/from RX/TX FIFOs. If
+called several times, the whole transfer will be completed. Returns
+-EINPROGRESS when current transfer was not yet completed otherwise 0.
+
+When this function is finished, RX FIFO should be empty and TX FIFO should be
+full.

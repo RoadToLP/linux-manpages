@@ -1,0 +1,22 @@
+.TH "drm_atomic_helper_wait_for_flip_done" 9 "drm_atomic_helper_wait_for_flip_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_wait_for_flip_done \- wait for all page flips to be done
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_wait_for_flip_done
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+Helper to, after atomic commit, wait for page flips on all affected
+crtcs (ie. before cleaning up old framebuffers using
+\fBdrm_atomic_helper_cleanup_planes\fP). Compared to
+\fBdrm_atomic_helper_wait_for_vblanks\fP this waits for the completion on all
+CRTCs, assuming that cursors-only updates are signalling their completion
+immediately (or using a different path).
+
+This requires that drivers use the nonblocking commit tracking support
+initialized using \fBdrm_atomic_helper_setup_commit\fP.

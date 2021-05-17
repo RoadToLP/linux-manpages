@@ -1,0 +1,15 @@
+.TH "inode_dio_wait" 9 "inode_dio_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_dio_wait \- wait for outstanding DIO requests to finish
+.SH SYNOPSIS
+.B "void" inode_dio_wait
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to wait for
+.SH "DESCRIPTION"
+Waits for all pending direct I/O requests to finish so that we can
+proceed with a truncate or equivalent operation.
+
+Must be called under a lock that serializes taking new references
+to i_dio_count, usually by inode->i_mutex.

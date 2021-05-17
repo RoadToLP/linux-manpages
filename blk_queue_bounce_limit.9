@@ -1,0 +1,17 @@
+.TH "blk_queue_bounce_limit" 9 "blk_queue_bounce_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_bounce_limit \- set bounce buffer limit for queue
+.SH SYNOPSIS
+.B "void" blk_queue_bounce_limit
+.BI "(struct request_queue *q "  ","
+.BI "u64 max_addr "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the request queue for the device
+.IP "max_addr" 12
+the maximum address the device can handle
+.SH "DESCRIPTION"
+Different hardware can have different requirements as to what pages
+it can do I/O directly to. A low level driver can call
+blk_queue_bounce_limit to have lower memory pages allocated as bounce
+buffers for doing I/O to pages residing above \fImax_addr\fP.

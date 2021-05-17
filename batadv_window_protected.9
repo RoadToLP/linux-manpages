@@ -1,0 +1,27 @@
+.TH "batadv_window_protected" 9 "batadv_window_protected" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_window_protected \- checks whether the host restarted and is in the protection time.
+.SH SYNOPSIS
+.B "bool" batadv_window_protected
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "s32 seq_num_diff "  ","
+.BI "s32 seq_old_max_diff "  ","
+.BI "unsigned long *last_reset "  ","
+.BI "bool *protection_started "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "seq_num_diff" 12
+difference between the current/received sequence number and
+the last sequence number
+.IP "seq_old_max_diff" 12
+maximum age of sequence number not considered as restart
+.IP "last_reset" 12
+jiffies timestamp of the last reset, will be updated when reset
+is detected
+.IP "protection_started" 12
+is set to true if the protection window was started,
+doesn't change otherwise.
+.SH "RETURN"
+false if the packet is to be accepted.
+true if the packet is to be ignored.

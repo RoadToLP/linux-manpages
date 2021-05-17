@@ -1,0 +1,14 @@
+.TH "uart_unregister_driver" 9 "uart_unregister_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_unregister_driver \- remove a driver from the uart core layer
+.SH SYNOPSIS
+.B "void" uart_unregister_driver
+.BI "(struct uart_driver *drv "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+low level driver structure
+
+Remove all references to a driver from the core driver.  The low
+level driver must have removed all its ports via the
+\fBuart_remove_one_port\fP if it registered them with \fBuart_add_one_port\fP.
+(ie, drv->port == NULL)

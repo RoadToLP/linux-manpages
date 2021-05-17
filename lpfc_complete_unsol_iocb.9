@@ -1,0 +1,25 @@
+.TH "lpfc_complete_unsol_iocb" 9 "lpfc_complete_unsol_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_complete_unsol_iocb \- Complete an unsolicited sequence
+.SH SYNOPSIS
+.B "int" lpfc_complete_unsol_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *saveq "  ","
+.BI "uint32_t fch_r_ctl "  ","
+.BI "uint32_t fch_type "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "saveq" 12
+Pointer to the iocbq struct representing the sequence starting frame.
+.IP "fch_r_ctl" 12
+the r_ctl for the first frame of the sequence.
+.IP "fch_type" 12
+the type for the first frame of the sequence.
+.SH "DESCRIPTION"
+This function is called with no lock held. This function uses the r_ctl and
+type of the received sequence to find the correct callback function to call
+to process the sequence.

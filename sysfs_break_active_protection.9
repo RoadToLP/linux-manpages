@@ -1,0 +1,17 @@
+.TH "sysfs_break_active_protection" 9 "sysfs_break_active_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_break_active_protection \- break "active" protection
+.SH SYNOPSIS
+.B "struct kernfs_node *" sysfs_break_active_protection
+.BI "(struct kobject *kobj "  ","
+.BI "const struct attribute *attr "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+The kernel object \fIattr\fP is associated with.
+.IP "attr" 12
+The attribute to break the "active" protection for.
+.SH "DESCRIPTION"
+With sysfs, just like kernfs, deletion of an attribute is postponed until
+all active .\fBshow\fP and .\fBstore\fP callbacks have finished unless this function
+is called. Hence this function is useful in methods that implement self
+deletion.

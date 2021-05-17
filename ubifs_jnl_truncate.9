@@ -1,0 +1,26 @@
+.TH "ubifs_jnl_truncate" 9 "ubifs_jnl_truncate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_truncate \- update the journal for a truncation.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_truncate
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *inode "  ","
+.BI "loff_t old_size "  ","
+.BI "loff_t new_size "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "inode" 12
+inode to truncate
+.IP "old_size" 12
+old size
+.IP "new_size" 12
+new size
+.SH "DESCRIPTION"
+When the size of a file decreases due to truncation, a truncation node is
+written, the journal tree is updated, and the last data block is re-written
+if it has been affected. The inode is also updated in order to synchronize
+the new inode size.
+
+This function marks the inode as clean and returns zero on success. In case
+of failure, a negative error code is returned.

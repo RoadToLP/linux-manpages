@@ -1,0 +1,23 @@
+.TH "smk_set_access" 9 "smk_set_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_set_access \- add a rule to the rule list or replace an old rule
+.SH SYNOPSIS
+.B "int" smk_set_access
+.BI "(struct smack_parsed_rule *srp "  ","
+.BI "struct list_head *rule_list "  ","
+.BI "struct mutex *rule_lock "  ");"
+.SH ARGUMENTS
+.IP "srp" 12
+the rule to add or replace
+.IP "rule_list" 12
+the list of rules
+.IP "rule_lock" 12
+the rule list lock
+.SH "DESCRIPTION"
+Looks through the current subject/object/access list for
+the subject/object pair and replaces the access that was
+there. If the pair isn't found add it with the specified
+access.
+
+Returns 0 if nothing goes wrong or -ENOMEM if it fails
+during the allocation of the new pair to add.

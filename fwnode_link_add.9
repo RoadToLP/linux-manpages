@@ -1,0 +1,24 @@
+.TH "fwnode_link_add" 9 "fwnode_link_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_link_add \- Create a link between two fwnode_handles.
+.SH SYNOPSIS
+.B "int" fwnode_link_add
+.BI "(struct fwnode_handle *con "  ","
+.BI "struct fwnode_handle *sup "  ");"
+.SH ARGUMENTS
+.IP "con" 12
+Consumer end of the link.
+.IP "sup" 12
+Supplier end of the link.
+.SH "DESCRIPTION"
+Create a fwnode link between fwnode handles \fIcon\fP and \fIsup\fP. The fwnode link
+represents the detail that the firmware lists \fIsup\fP fwnode as supplying a
+resource to \fIcon\fP.
+
+The driver core will use the fwnode link to create a device link between the
+two device objects corresponding to \fIcon\fP and \fIsup\fP when they are created. The
+driver core will automatically delete the fwnode link between \fIcon\fP and \fIsup\fP
+after doing that.
+
+Attempts to create duplicate links between the same pair of fwnode handles
+are ignored and there is no reference counting.

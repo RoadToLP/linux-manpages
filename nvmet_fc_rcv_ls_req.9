@@ -1,0 +1,30 @@
+.TH "nvmet_fc_rcv_ls_req" 9 "nvmet_fc_rcv_ls_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmet_fc_rcv_ls_req \- transport entry point called by an LLDD upon the reception of a NVME LS request.
+.SH SYNOPSIS
+.B "int" nvmet_fc_rcv_ls_req
+.BI "(struct nvmet_fc_target_port *target_port "  ","
+.BI "void *hosthandle "  ","
+.BI "struct nvmefc_ls_rsp *lsrsp "  ","
+.BI "void *lsreqbuf "  ","
+.BI "u32 lsreqbuf_len "  ");"
+.SH ARGUMENTS
+.IP "target_port" 12
+pointer to the (registered) target port the LS was
+received on.
+.IP "hosthandle" 12
+-- undescribed --
+.IP "lsrsp" 12
+pointer to a lsrsp structure to be used to reference
+the exchange corresponding to the LS.
+.IP "lsreqbuf" 12
+pointer to the buffer containing the LS Request
+.IP "lsreqbuf_len" 12
+length, in bytes, of the received LS request
+.SH "DESCRIPTION"
+
+The nvmet-fc layer will copy payload to an internal structure for
+processing.  As such, upon completion of the routine, the LLDD may
+immediately free/reuse the LS request buffer passed in the call.
+
+If this routine returns error, the LLDD should abort the exchange.

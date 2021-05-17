@@ -1,0 +1,24 @@
+.TH "itcw_calc_size" 9 "itcw_calc_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+itcw_calc_size \- return the size of an itcw with the given parameters
+.SH SYNOPSIS
+.B "size_t" itcw_calc_size
+.BI "(int intrg "  ","
+.BI "int max_tidaws "  ","
+.BI "int intrg_max_tidaws "  ");"
+.SH ARGUMENTS
+.IP "intrg" 12
+if non-zero, add an interrogate tcw
+.IP "max_tidaws" 12
+maximum number of tidaws to be used for data addressing or zero
+if no tida is to be used.
+.IP "intrg_max_tidaws" 12
+maximum number of tidaws to be used for data addressing
+by the interrogate tcw, if specified
+.SH "DESCRIPTION"
+Calculate and return the number of bytes required to hold an itcw with the
+given parameters and assuming tccbs with maximum size.
+
+Note that the resulting size also contains bytes needed for alignment
+padding as well as padding to ensure that data structures don't cross a
+4k-boundary where required.

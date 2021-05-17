@@ -1,0 +1,36 @@
+.TH "ata_eh_recover" 9 "ata_eh_recover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_recover \- recover host port after error
+.SH SYNOPSIS
+.B "int" ata_eh_recover
+.BI "(struct ata_port *ap "  ","
+.BI "ata_prereset_fn_t prereset "  ","
+.BI "ata_reset_fn_t softreset "  ","
+.BI "ata_reset_fn_t hardreset "  ","
+.BI "ata_postreset_fn_t postreset "  ","
+.BI "struct ata_link **r_failed_link "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+host port to recover
+.IP "prereset" 12
+prereset method (can be NULL)
+.IP "softreset" 12
+softreset method (can be NULL)
+.IP "hardreset" 12
+hardreset method (can be NULL)
+.IP "postreset" 12
+postreset method (can be NULL)
+.IP "r_failed_link" 12
+out parameter for failed link
+
+This is the alpha and omega, eum and yang, heart and soul of
+libata exception handling.  On entry, actions required to
+recover each link and hotplug requests are recorded in the
+link's eh_context.  This function executes all the operations
+with appropriate retrials and fallbacks to resurrect failed
+devices, detach goners and greet newcomers.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, -errno on failure.

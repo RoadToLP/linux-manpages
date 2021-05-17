@@ -1,0 +1,18 @@
+.TH "bio_advance" 9 "bio_advance" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_advance \- increment/complete a bio by some number of bytes
+.SH SYNOPSIS
+.B "void" bio_advance
+.BI "(struct bio *bio "  ","
+.BI "unsigned bytes "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio to advance
+.IP "bytes" 12
+number of bytes to complete
+.SH "DESCRIPTION"
+This updates bi_sector, bi_size and bi_idx; if the number of bytes to
+complete doesn't align with a bvec boundary, then bv_len and bv_offset will
+be updated on the last bvec as well.
+
+\fIbio\fP will then represent the remaining, uncompleted portion of the io.

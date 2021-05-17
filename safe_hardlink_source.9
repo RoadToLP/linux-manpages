@@ -1,0 +1,20 @@
+.TH "safe_hardlink_source" 9 "safe_hardlink_source" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+safe_hardlink_source \- Check for safe hardlink conditions
+.SH SYNOPSIS
+.B "bool" safe_hardlink_source
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+the source inode to hardlink from
+.SH "DESCRIPTION"
+Return false if at least one of the following conditions:
+- inode is not a regular file
+- inode is setuid
+- inode is setgid and group-exec
+- access failure for read and write
+
+Otherwise returns true.

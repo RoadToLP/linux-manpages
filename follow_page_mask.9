@@ -1,0 +1,30 @@
+.TH "follow_page_mask" 9 "follow_page_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+follow_page_mask \- look up a page descriptor from a user-virtual address
+.SH SYNOPSIS
+.B "struct page *" follow_page_mask
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long address "  ","
+.BI "unsigned int flags "  ","
+.BI "struct follow_page_context *ctx "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+vm_area_struct mapping \fIaddress\fP
+.IP "address" 12
+virtual address to look up
+.IP "flags" 12
+flags modifying lookup behaviour
+.IP "ctx" 12
+contains dev_pagemap for ZONE_DEVICE memory pinning and a
+pointer to output page_mask
+.SH "DESCRIPTION"
+\fIflags\fP can have FOLL_ flags set, defined in <linux/mm.h>
+
+When getting pages from ZONE_DEVICE memory, the \fIctx->pgmap\fP caches
+the device's dev_pagemap metadata to avoid repeating expensive lookups.
+
+On output, the \fIctx->page_mask\fP is set according to the size of the page.
+.SH "RETURN"
+the mapped (struct page *), NULL if no mapping exists, or
+an error pointer if there is a mapping to something not represented
+by a page descriptor (see also \fBvm_normal_page\fP).

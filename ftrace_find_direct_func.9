@@ -1,0 +1,18 @@
+.TH "ftrace_find_direct_func" 9 "ftrace_find_direct_func" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ftrace_find_direct_func \- test an address if it is a registered direct caller
+.SH SYNOPSIS
+.B "struct ftrace_direct_func *" ftrace_find_direct_func
+.BI "(unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+The address of a registered direct caller
+.SH "DESCRIPTION"
+This searches to see if a ftrace direct caller has been registered
+at a specific address, and if so, it returns a descriptor for it.
+
+This can be used by architecture code to see if an address is
+a direct caller (trampoline) attached to a fentry/mcount location.
+This is useful for the function_graph tracer, as it may need to
+do adjustments if it traced a location that also has a direct
+trampoline attached to it.

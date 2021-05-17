@@ -1,0 +1,28 @@
+.TH "dwc2_next_for_periodic_split" 9 "dwc2_next_for_periodic_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_next_for_periodic_split \- Set next_active_frame midway thru a split.
+.SH SYNOPSIS
+.B "int" dwc2_next_for_periodic_split
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ","
+.BI "u16 frame_number "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure
+.IP "qh" 12
+QH for the periodic transfer.
+.IP "frame_number" 12
+The current frame number.
+.SH "DESCRIPTION"
+
+This is called for setting next_active_frame for periodic splits for all but
+the first packet of the split.  Confusing?  I thought so...
+
+Periodic splits are single low/full speed transfers that we end up splitting
+up into several high speed transfers.  They always fit into one full (1 ms)
+frame but might be split over several microframes (125 us each).  We to put
+each of the parts on a very specific high speed frame.
+
+This function figures out where the next active uFrame needs to be.
+.SH "RETURN"
+number missed by (or 0 if we didn't miss).

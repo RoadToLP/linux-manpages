@@ -1,0 +1,18 @@
+.TH "ssh_ptl_shutdown" 9 "ssh_ptl_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_shutdown \- Shut down the packet transport layer.
+.SH SYNOPSIS
+.B "void" ssh_ptl_shutdown
+.BI "(struct ssh_ptl *ptl "  ");"
+.SH ARGUMENTS
+.IP "ptl" 12
+The packet transport layer.
+.SH "DESCRIPTION"
+Shuts down the packet transport layer, removing and canceling all queued
+and pending packets. Packets canceled by this operation will be completed
+with -ESHUTDOWN as status. Receiver and transmitter threads will be
+stopped.
+
+As a result of this function, the transport layer will be marked as shut
+down. Submission of packets after the transport layer has been shut down
+will fail with -ESHUTDOWN.

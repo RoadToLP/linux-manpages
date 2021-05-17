@@ -1,0 +1,29 @@
+.TH "configfs_read_file" 9 "configfs_read_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+configfs_read_file \- read an attribute.
+.SH SYNOPSIS
+.B "ssize_t" configfs_read_file
+.BI "(struct file *file "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer.
+.IP "buf" 12
+buffer to fill.
+.IP "count" 12
+number of bytes to read.
+.IP "ppos" 12
+starting offset in file.
+
+Userspace wants to read an attribute file. The attribute descriptor
+is in the file's ->d_fsdata. The target item is in the directory's
+->d_fsdata.
+
+We call \fBfill_read_buffer\fP to allocate and fill the buffer from the
+item's \fBshow\fP method exactly once (if the read is happening from
+the beginning of the file). That should fill the entire buffer with
+all the data the item has to offer for that attribute.
+We then call \fBflush_read_buffer\fP to copy the buffer to userspace
+in the increments specified.

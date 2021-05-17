@@ -1,0 +1,25 @@
+.TH "ahci_save_initial_config" 9 "ahci_save_initial_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ahci_save_initial_config \- Save and fixup initial config values
+.SH SYNOPSIS
+.B "void" ahci_save_initial_config
+.BI "(struct device *dev "  ","
+.BI "struct ahci_host_priv *hpriv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target AHCI device
+.IP "hpriv" 12
+host private area to store config values
+
+Some registers containing configuration info might be setup by
+BIOS and might be cleared on reset.  This function saves the
+initial values of those registers into \fIhpriv\fP such that they
+can be restored after controller reset.
+
+If inconsistent, config values are fixed up by this function.
+
+If it is not set already this function sets hpriv->start_engine to
+ahci_start_engine.
+
+LOCKING:
+None.

@@ -1,0 +1,16 @@
+.TH "ps3_sys_manager_final_restart" 9 "ps3_sys_manager_final_restart" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_sys_manager_final_restart \- The final platform machine_restart routine.
+.SH SYNOPSIS
+.B "void" ps3_sys_manager_final_restart
+.BI "(struct ps3_system_bus_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This routine never returns.  The routine disables asynchronous vuart reads
+then spins calling \fBps3_sys_manager_handle_msg\fP to receive and acknowledge
+the shutdown command sent from the system manager.  Soon after the
+acknowledgement is sent the lpar is destroyed by the HV.  This routine
+should only be called from \fBps3_restart\fP through ps3_sys_manager_ops.restart.

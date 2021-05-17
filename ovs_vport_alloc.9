@@ -1,0 +1,21 @@
+.TH "ovs_vport_alloc" 9 "ovs_vport_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_alloc \- allocate and initialize new vport
+.SH SYNOPSIS
+.B "struct vport *" ovs_vport_alloc
+.BI "(int priv_size "  ","
+.BI "const struct vport_ops *ops "  ","
+.BI "const struct vport_parms *parms "  ");"
+.SH ARGUMENTS
+.IP "priv_size" 12
+Size of private data area to allocate.
+.IP "ops" 12
+vport device ops
+.IP "parms" 12
+information about new vport.
+.SH "DESCRIPTION"
+Allocate and initialize a new vport defined by \fIops\fP.  The vport will contain
+a private data area of size \fIpriv_size\fP that can be accessed using
+\fBvport_priv\fP.  Some parameters of the vport will be initialized from \fIparms\fP.
+\fIvports\fP that are no longer needed should be released with
+\fBvport_free\fP.

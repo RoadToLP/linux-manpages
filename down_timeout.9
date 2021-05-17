@@ -1,0 +1,17 @@
+.TH "down_timeout" 9 "down_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+down_timeout \- acquire the semaphore within a specified time
+.SH SYNOPSIS
+.B "int" down_timeout
+.BI "(struct semaphore *sem "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "sem" 12
+the semaphore to be acquired
+.IP "timeout" 12
+how long to wait before failing
+.SH "DESCRIPTION"
+Attempts to acquire the semaphore.  If no more tasks are allowed to
+acquire the semaphore, calling this function will put the task to sleep.
+If the semaphore is not released within the specified number of jiffies,
+this function returns -ETIME.  It returns 0 if the semaphore was acquired.

@@ -1,0 +1,24 @@
+.TH "ubi_more_update_data" 9 "ubi_more_update_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_more_update_data \- write more update data.
+.SH SYNOPSIS
+.B "int" ubi_more_update_data
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "const void __user *buf "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "buf" 12
+write data (user-space memory buffer)
+.IP "count" 12
+how much bytes to write
+.SH "DESCRIPTION"
+This function writes more data to the volume which is being updated. It may
+be called arbitrary number of times until all the update data arriveis. This
+function returns 0 in case of success, number of bytes written during the
+last call if the whole volume update has been successfully finished, and a
+negative error code in case of failure.

@@ -1,0 +1,19 @@
+.TH "binder_alloc_mmap_handler" 9 "binder_alloc_mmap_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_alloc_mmap_handler \- map virtual address space for proc
+.SH SYNOPSIS
+.B "int" binder_alloc_mmap_handler
+.BI "(struct binder_alloc *alloc "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "alloc" 12
+alloc structure for this proc
+.IP "vma" 12
+vma passed to \fBmmap\fP
+.SH "DESCRIPTION"
+Called by \fBbinder_mmap\fP to initialize the space specified in
+vma for allocating binder buffers
+.SH "RETURN"
+0 = success
+-EBUSY = address space already mapped
+-ENOMEM = failed to map memory to given address space

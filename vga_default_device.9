@@ -1,0 +1,25 @@
+.TH "vga_default_device" 9 "vga_default_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_default_device \- return the default VGA device, for vgacon
+.SH SYNOPSIS
+.B "struct pci_dev *" vga_default_device
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This can be defined by the platform. The default implementation
+is rather dumb and will probably only work properly on single
+vga card setups and/or x86 platforms.
+
+If your VGA default device is not PCI, you'll have to return
+NULL here. In this case, I assume it will not conflict with
+any PCI card. If this is not true, I'll have to define two archs
+hooks for enabling/disabling the VGA default device if that is
+possible. This may be a problem with real _ISA_ VGA cards, in
+addition to a PCI one. I don't know at this point how to deal
+with that card. Can theirs IOs be disabled at all ? If not, then
+I suppose it's a matter of having the proper arch hook telling
+us about it, so we basically never allow anybody to succeed a
+\fBvga_get\fP...

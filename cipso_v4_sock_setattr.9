@@ -1,0 +1,21 @@
+.TH "cipso_v4_sock_setattr" 9 "cipso_v4_sock_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_sock_setattr \- Add a CIPSO option to a socket
+.SH SYNOPSIS
+.B "int" cipso_v4_sock_setattr
+.BI "(struct sock *sk "  ","
+.BI "const struct cipso_v4_doi *doi_def "  ","
+.BI "const struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+the socket
+.IP "doi_def" 12
+the CIPSO DOI to use
+.IP "secattr" 12
+the specific security attributes of the socket
+.SH "DESCRIPTION"
+Set the CIPSO option on the given socket using the DOI definition and
+security attributes passed to the function.  This function requires
+exclusive access to \fIsk\fP, which means it either needs to be in the
+process of being created or locked.  Returns zero on success and negative
+values on failure.

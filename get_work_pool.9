@@ -1,0 +1,20 @@
+.TH "get_work_pool" 9 "get_work_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_work_pool \- return the worker_pool a given work was associated with
+.SH SYNOPSIS
+.B "struct worker_pool *" get_work_pool
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+the work item of interest
+.SH "DESCRIPTION"
+Pools are created and destroyed under wq_pool_mutex, and allows read
+access under RCU read lock.  As such, this function should be
+called under wq_pool_mutex or inside of a \fBrcu_read_lock\fP region.
+
+All fields of the returned pool are accessible as long as the above
+mentioned locking is in effect.  If the returned pool needs to be used
+beyond the critical section, the caller is responsible for ensuring the
+returned pool is and stays online.
+.SH "RETURN"
+The worker_pool \fIwork\fP was last associated with.  NULL if none.

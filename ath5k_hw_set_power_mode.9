@@ -1,0 +1,26 @@
+.TH "ath5k_hw_set_power_mode" 9 "ath5k_hw_set_power_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_set_power_mode \- Set power mode
+.SH SYNOPSIS
+.B "int" ath5k_hw_set_power_mode
+.BI "(struct ath5k_hw *ah "  ","
+.BI "enum ath5k_power_mode mode "  ","
+.BI "bool set_chip "  ","
+.BI "u16 sleep_duration "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "mode" 12
+One of enum ath5k_power_mode
+.IP "set_chip" 12
+Set to true to write sleep control register
+.IP "sleep_duration" 12
+How much time the device is allowed to sleep
+when sleep logic is enabled (in 128 microsecond increments).
+.SH "DESCRIPTION"
+This function is used to configure sleep policy and allowed
+sleep modes. For more information check out the sleep control
+register on reg.h and STA_ID1.
+
+Returns 0 on success, -EIO if chip didn't wake up or -EINVAL if an invalid
+mode is requested.

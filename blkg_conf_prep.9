@@ -1,0 +1,23 @@
+.TH "blkg_conf_prep" 9 "blkg_conf_prep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkg_conf_prep \- parse and prepare for per-blkg config update
+.SH SYNOPSIS
+.B "int" blkg_conf_prep
+.BI "(struct blkcg *blkcg "  ","
+.BI "const struct blkcg_policy *pol "  ","
+.BI "char *input "  ","
+.BI "struct blkg_conf_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "blkcg" 12
+target block cgroup
+.IP "pol" 12
+target policy
+.IP "input" 12
+input string
+.IP "ctx" 12
+blkg_conf_ctx to be filled
+.SH "DESCRIPTION"
+Parse per-blkg config update from \fIinput\fP and initialize \fIctx\fP with the
+result.  \fIctx->blkg\fP points to the blkg to be updated and \fIctx->body\fP the
+part of \fIinput\fP following MAJ:MIN.  This function returns with RCU read
+lock and queue lock held and must be paired with \fBblkg_conf_finish\fP.

@@ -1,0 +1,25 @@
+.TH "cipso_v4_validate" 9 "cipso_v4_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_validate \- Validate a CIPSO option
+.SH SYNOPSIS
+.B "int" cipso_v4_validate
+.BI "(const struct sk_buff *skb "  ","
+.BI "unsigned char **option "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "option" 12
+the start of the option, on error it is set to point to the error
+.SH "DESCRIPTION"
+This routine is called to validate a CIPSO option, it checks all of the
+fields to ensure that they are at least valid, see the draft snippet below
+for details.  If the option is valid then a zero value is returned and
+the value of \fIoption\fP is unchanged.  If the option is invalid then a
+non-zero value is returned and \fIoption\fP is adjusted to point to the
+offending portion of the option.  From the IETF draft ...
+
+"If any field within the CIPSO options, such as the DOI identifier, is not
+recognized the IP datagram is discarded and an ICMP 'parameter problem'
+(type 12) is generated and returned.  The ICMP code field is set to 'bad
+parameter' (code 0) and the pointer is set to the start of the CIPSO field
+that is unrecognized."

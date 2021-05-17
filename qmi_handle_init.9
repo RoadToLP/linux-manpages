@@ -1,0 +1,23 @@
+.TH "qmi_handle_init" 9 "qmi_handle_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_handle_init \- initialize a QMI client handle
+.SH SYNOPSIS
+.B "int" qmi_handle_init
+.BI "(struct qmi_handle *qmi "  ","
+.BI "size_t recv_buf_size "  ","
+.BI "const struct qmi_ops *ops "  ","
+.BI "const struct qmi_msg_handler *handlers "  ");"
+.SH ARGUMENTS
+.IP "qmi" 12
+QMI handle to initialize
+.IP "recv_buf_size" 12
+maximum size of incoming message
+.IP "ops" 12
+reference to callbacks for QRTR notifications
+.IP "handlers" 12
+NULL-terminated list of QMI message handlers
+.SH "DESCRIPTION"
+This initializes the QMI client handle to allow sending and receiving QMI
+messages. As messages are received the appropriate handler will be invoked.
+.SH "RETURN"
+0 on success, negative errno on failure.

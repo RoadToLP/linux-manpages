@@ -1,0 +1,16 @@
+.TH "fsl_ssi_config_enable" 9 "fsl_ssi_config_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_ssi_config_enable \- Set SCR, SIER, STCR and SRCR registers with cached values in regvals
+.SH SYNOPSIS
+.B "void" fsl_ssi_config_enable
+.BI "(struct fsl_ssi *ssi "  ","
+.BI "bool tx "  ");"
+.SH ARGUMENTS
+.IP "ssi" 12
+SSI context
+.IP "tx" 12
+direction
+.SH "NOTES"
+1) For offline_config SoCs, enable all necessary bits of both streams
+when 1st stream starts, even if the opposite stream will not start
+2) It also clears FIFO before setting regvals; SOR is safe to set online

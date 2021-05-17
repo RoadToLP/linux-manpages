@@ -1,0 +1,29 @@
+.TH "dpni_set_irq_mask" 9 "dpni_set_irq_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_irq_mask \- Set interrupt mask.
+.SH SYNOPSIS
+.B "int" dpni_set_irq_mask
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u8 irq_index "  ","
+.BI "u32 mask "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "irq_index" 12
+The interrupt index to configure
+.IP "mask" 12
+event mask to trigger interrupt;
+each bit:
+0 = ignore event
+1 = consider event for asserting IRQ
+.SH "DESCRIPTION"
+Every interrupt can have up to 32 causes and the interrupt model supports
+masking/unmasking each cause independently
+.SH "RETURN"
+'0' on Success; Error code otherwise.

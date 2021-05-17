@@ -1,0 +1,17 @@
+.TH "orc_interrupt" 9 "orc_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+orc_interrupt \- IRQ processing
+.SH SYNOPSIS
+.B "irqreturn_t" orc_interrupt
+.BI "(struct orc_host * host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+Host causing the interrupt
+
+This function is called from the IRQ handler and protected
+by the host lock. While the controller reports that there are
+scb's for processing we pull them off the controller, turn the
+index into a host address pointer to the scb and call the scb
+handler.
+
+Returns IRQ_HANDLED if any SCBs were processed, IRQ_NONE otherwise

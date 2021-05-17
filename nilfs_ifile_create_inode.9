@@ -1,0 +1,27 @@
+.TH "nilfs_ifile_create_inode" 9 "nilfs_ifile_create_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ifile_create_inode \- create a new disk inode
+.SH SYNOPSIS
+.B "int" nilfs_ifile_create_inode
+.BI "(struct inode *ifile "  ","
+.BI "ino_t *out_ino "  ","
+.BI "struct buffer_head **out_bh "  ");"
+.SH ARGUMENTS
+.IP "ifile" 12
+ifile inode
+.IP "out_ino" 12
+pointer to a variable to store inode number
+.IP "out_bh" 12
+buffer_head contains newly allocated disk inode
+.SH "DESCRIPTION"
+Return Value: On success, 0 is returned and the newly allocated inode
+number is stored in the place pointed by \fIino\fP, and buffer_head pointer
+that contains newly allocated disk inode structure is stored in the
+place pointed by \fIout_bh\fP
+On error, one of the following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOSPC - No inode left.

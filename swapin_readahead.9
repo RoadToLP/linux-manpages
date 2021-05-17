@@ -1,0 +1,21 @@
+.TH "swapin_readahead" 9 "swapin_readahead" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swapin_readahead \- swap in pages in hope we need them soon
+.SH SYNOPSIS
+.B "struct page *" swapin_readahead
+.BI "(swp_entry_t entry "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+swap entry of this memory
+.IP "gfp_mask" 12
+memory allocation flags
+.IP "vmf" 12
+fault information
+.SH "DESCRIPTION"
+Returns the struct page for entry and addr, after queueing swapin.
+
+It's a main entry function for swap readahead. By the configuration,
+it will read ahead blocks by cluster-based(ie, physical disk based)
+or vma-based(ie, virtual address based on faulty address) readahead.

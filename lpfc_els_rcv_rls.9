@@ -1,0 +1,27 @@
+.TH "lpfc_els_rcv_rls" 9 "lpfc_els_rcv_rls" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rls \- Process an unsolicited rls iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_rls
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Read Link Status (RLS) IOCB received as an
+ELS unsolicited event. It first checks the remote port state. If the
+remote port is not in NLP_STE_UNMAPPED_NODE state or NLP_STE_MAPPED_NODE
+state, it invokes the \fBlpfc_els_rsl_reject\fP routine to send the reject
+response. Otherwise, it issue the MBX_READ_LNK_STAT mailbox command
+for reading the HBA link statistics. It is for the callback function,
+\fBlpfc_els_rsp_rls_acc\fP, set to the MBX_READ_LNK_STAT mailbox command
+to actually sending out RPL Accept (ACC) response.
+
+Return codes
+0 - Successfully processed rls iocb (currently always return 0)

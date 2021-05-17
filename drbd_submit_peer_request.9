@@ -1,0 +1,31 @@
+.TH "drbd_submit_peer_request" 9 "drbd_submit_peer_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_submit_peer_request \- 
+.SH SYNOPSIS
+.B "int" drbd_submit_peer_request
+.BI "(struct drbd_device *device "  ","
+.BI "struct drbd_peer_request *peer_req "  ","
+.BI "const unsigned op "  ","
+.BI "const unsigned op_flags "  ","
+.BI "const int fault_type "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "peer_req" 12
+peer request
+.IP "op" 12
+-- undescribed --
+.IP "op_flags" 12
+-- undescribed --
+.IP "fault_type" 12
+-- undescribed --
+.SH "DESCRIPTION"
+May spread the pages to multiple bios,
+depending on bio_add_page restrictions.
+
+Returns 0 if all bios have been submitted,
+-ENOMEM if we could not allocate enough bios,
+-ENOSPC (any better suggestion?) if we have not been able to bio_add_page a
+single page to an empty bio (which should never happen and likely indicates
+that the lower level IO stack is in some way broken). This has been observed
+on certain Xen deployments.

@@ -1,0 +1,22 @@
+.TH "hfi1_process_ecn_slowpath" 9 "hfi1_process_ecn_slowpath" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_process_ecn_slowpath \- Process FECN or BECN bits
+.SH SYNOPSIS
+.B "bool" hfi1_process_ecn_slowpath
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct hfi1_packet *pkt "  ","
+.BI "bool prescan "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+The packet's destination QP
+.IP "pkt" 12
+The packet itself.
+.IP "prescan" 12
+Is the caller the RXQ prescan
+.SH "DESCRIPTION"
+Process the packet's FECN or BECN bits. By now, the packet
+has already been evaluated whether processing of those bit should
+be done.
+The significance of the \fIprescan\fP argument is that if the caller
+is the RXQ prescan, a CNP will be send out instead of waiting for the
+normal packet processing to send an ACK with BECN set (or a CNP).

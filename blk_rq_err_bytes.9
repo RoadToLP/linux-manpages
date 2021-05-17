@@ -1,0 +1,16 @@
+.TH "blk_rq_err_bytes" 9 "blk_rq_err_bytes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_rq_err_bytes \- determine number of bytes till the next failure boundary
+.SH SYNOPSIS
+.B "unsigned int" blk_rq_err_bytes
+.BI "(const struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+request to examine
+.SH "DESCRIPTION"
+A request could be merge of IOs which require different failure
+handling.  This function determines the number of bytes which
+can be failed from the beginning of the request without
+crossing into area which need to be retried further.
+.SH "RETURN"
+The number of bytes to fail.

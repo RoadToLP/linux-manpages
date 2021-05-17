@@ -1,0 +1,23 @@
+.TH "__starget_for_each_device" 9 "__starget_for_each_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__starget_for_each_device \- helper to walk all devices of a target (UNLOCKED)
+.SH SYNOPSIS
+.B "void" __starget_for_each_device
+.BI "(struct scsi_target *starget "  ","
+.BI "void *data "  ","
+.BI "void (*fn)(struct scsi_device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "starget" 12
+target whose devices we want to iterate over.
+.IP "data" 12
+parameter for callback \fI\fP\fBfn\fP
+.IP "fn" 12
+callback function that is invoked for each device
+.SH "DESCRIPTION"
+This traverses over each device of \fIstarget\fP.  It does _not_
+take a reference on the scsi_device, so the whole loop must be
+protected by shost->host_lock.
+.SH "NOTE"
+The only reason why drivers would want to use this is because
+they need to access the device list in irq context.  Otherwise you
+really want to use starget_for_each_device instead.

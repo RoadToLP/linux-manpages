@@ -1,0 +1,20 @@
+.TH "tipc_sk_enqueue" 9 "tipc_sk_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_sk_enqueue \- extract all buffers with destination 'dport' from inputq and try adding them to socket or backlog queue
+.SH SYNOPSIS
+.B "void" tipc_sk_enqueue
+.BI "(struct sk_buff_head *inputq "  ","
+.BI "struct sock *sk "  ","
+.BI "u32 dport "  ","
+.BI "struct sk_buff_head *xmitq "  ");"
+.SH ARGUMENTS
+.IP "inputq" 12
+list of incoming buffers with potentially different destinations
+.IP "sk" 12
+socket where the buffers should be enqueued
+.IP "dport" 12
+port number for the socket
+.IP "xmitq" 12
+output queue
+.SH "DESCRIPTION"
+Caller must hold socket lock

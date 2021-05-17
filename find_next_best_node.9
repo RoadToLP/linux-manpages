@@ -1,0 +1,22 @@
+.TH "find_next_best_node" 9 "find_next_best_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_next_best_node \- find the next node that should appear in a given node's fallback list
+.SH SYNOPSIS
+.B "int" find_next_best_node
+.BI "(int node "  ","
+.BI "nodemask_t *used_node_mask "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+node whose fallback list we're appending
+.IP "used_node_mask" 12
+nodemask_t of already used nodes
+.SH "DESCRIPTION"
+We use a number of factors to determine which is the next node that should
+appear on a given node's fallback list.  The node should not have appeared
+already in \fInode\fP's fallback list, and it should be the next closest node
+according to the distance array (which contains arbitrary distance values
+from each node to each node in the system), and should also prefer nodes
+with no CPUs, since presumably they'll have very little allocation pressure
+on them otherwise.
+.SH "RETURN"
+node id of the found node or NUMA_NO_NODE if no node is found.

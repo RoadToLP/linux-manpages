@@ -1,0 +1,15 @@
+.TH "lpfc_sli4_process_missed_mbox_completions" 9 "lpfc_sli4_process_missed_mbox_completions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_process_missed_mbox_completions \- process mbox completions that were missed.
+.SH SYNOPSIS
+.B "bool" lpfc_sli4_process_missed_mbox_completions
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+For sli4, it is possible to miss an interrupt. As such mbox completions
+maybe missed causing erroneous mailbox timeouts to occur. This function
+checks to see if mbox completions are on the mailbox completion queue
+and will process all the completions associated with the eq for the
+mailbox completion queue.

@@ -1,0 +1,29 @@
+.TH "__ib_alloc_cq" 9 "__ib_alloc_cq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ib_alloc_cq \- allocate a completion queue
+.SH SYNOPSIS
+.B "struct ib_cq *" __ib_alloc_cq
+.BI "(struct ib_device *dev "  ","
+.BI "void *private "  ","
+.BI "int nr_cqe "  ","
+.BI "int comp_vector "  ","
+.BI "enum ib_poll_context poll_ctx "  ","
+.BI "const char *caller "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to allocate the CQ for
+.IP "private" 12
+driver private data, accessible from cq->cq_context
+.IP "nr_cqe" 12
+number of CQEs to allocate
+.IP "comp_vector" 12
+HCA completion vectors for this CQ
+.IP "poll_ctx" 12
+context to poll the CQ from.
+.IP "caller" 12
+module owner name.
+.SH "DESCRIPTION"
+This is the proper interface to allocate a CQ for in-kernel users. A
+CQ allocated with this interface will automatically be polled from the
+specified context. The ULP must use wr->wr_cqe instead of wr->wr_id
+to use this CQ abstraction.

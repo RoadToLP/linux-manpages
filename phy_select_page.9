@@ -1,0 +1,18 @@
+.TH "phy_select_page" 9 "phy_select_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_select_page \- take the bus lock, save the current page, and set a page
+.SH SYNOPSIS
+.B "int" phy_select_page
+.BI "(struct phy_device *phydev "  ","
+.BI "int page "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+a pointer to a \fIstruct phy_device\fP
+.IP "page" 12
+desired page
+.SH "DESCRIPTION"
+Take the MDIO bus lock to protect against concurrent access, save the
+current PHY page, and set the current page.  On error, returns a
+negative errno, otherwise returns the previous page number.
+\fBphy_restore_page\fP must always be called after this, irrespective
+of success or failure of this call.

@@ -1,0 +1,33 @@
+.TH "async_xor_val" 9 "async_xor_val" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_xor_val \- attempt a xor parity check with a dma engine.
+.SH SYNOPSIS
+.B "struct dma_async_tx_descriptor *" async_xor_val
+.BI "(struct page *dest "  ","
+.BI "struct page **src_list "  ","
+.BI "unsigned int offset "  ","
+.BI "int src_cnt "  ","
+.BI "size_t len "  ","
+.BI "enum sum_check_flags *result "  ","
+.BI "struct async_submit_ctl *submit "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+destination page used if the xor is performed synchronously
+.IP "src_list" 12
+array of source pages
+.IP "offset" 12
+offset in pages to start transaction
+.IP "src_cnt" 12
+number of source pages
+.IP "len" 12
+length in bytes
+.IP "result" 12
+0 if sum == 0 else non-zero
+.IP "submit" 12
+submission / completion modifiers
+.SH "DESCRIPTION"
+honored flags: ASYNC_TX_ACK
+
+src_list note: if the dest is also a source it must be at index zero.
+The contents of this array will be overwritten if a scribble region
+is not specified.

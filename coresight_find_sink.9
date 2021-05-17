@@ -1,0 +1,21 @@
+.TH "coresight_find_sink" 9 "coresight_find_sink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+coresight_find_sink \- recursive function to walk trace connections from source to find a suitable default sink.
+.SH SYNOPSIS
+.B "struct coresight_device *" coresight_find_sink
+.BI "(struct coresight_device *csdev "  ","
+.BI "int *depth "  ");"
+.SH ARGUMENTS
+.IP "csdev" 12
+source / current device to check.
+.IP "depth" 12
+[in] search depth of calling dev, [out] depth of found sink.
+.SH "DESCRIPTION"
+This will walk the connection path from a source (ETM) till a suitable
+sink is encountered and return that sink to the original caller.
+
+If current device is a plain sink return that & depth, otherwise recursively
+call child connections looking for a sink. Select best possible using
+coresight_select_best_sink.
+
+return best sink found, or NULL if not found at this node or child nodes.

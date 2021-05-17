@@ -1,0 +1,26 @@
+.TH "lpfc_nvme_fcp_io_submit" 9 "lpfc_nvme_fcp_io_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_fcp_io_submit \- Issue an NVME-over-FCP IO
+.SH SYNOPSIS
+.B "int" lpfc_nvme_fcp_io_submit
+.BI "(struct nvme_fc_local_port *pnvme_lport "  ","
+.BI "struct nvme_fc_remote_port *pnvme_rport "  ","
+.BI "void *hw_queue_handle "  ","
+.BI "struct nvmefc_fcp_req *pnvme_fcreq "  ");"
+.SH ARGUMENTS
+.IP "pnvme_lport" 12
+Pointer to the driver's local port data
+.IP "pnvme_rport" 12
+Pointer to the rport getting the \fIlpfc_nvme_ereq\fP
+.IP "hw_queue_handle" 12
+Driver-returned handle in lpfc_nvme_create_queue
+.IP "pnvme_fcreq" 12
+IO request from nvme fc to driver.
+.SH "DESCRIPTION"
+Driver registers this routine as it io request handler.  This
+routine issues an fcp WQE with data from the \fIlpfc_nvme_fcpreq\fP
+data structure to the rport indicated in \fIlpfc_nvme_rport\fP.
+
+Return value :
+0 - Success
+TODO: What are the failure codes.

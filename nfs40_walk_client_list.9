@@ -1,0 +1,21 @@
+.TH "nfs40_walk_client_list" 9 "nfs40_walk_client_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs40_walk_client_list \- Find server that recognizes a client ID
+.SH SYNOPSIS
+.B "int" nfs40_walk_client_list
+.BI "(struct nfs_client *new "  ","
+.BI "struct nfs_client **result "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+nfs_client with client ID to test
+.IP "result" 12
+OUT: found nfs_client, or new
+.IP "cred" 12
+credential to use for trunking test
+.SH "DESCRIPTION"
+Returns zero, a negative errno, or a negative NFS4ERR status.
+If zero is returned, an nfs_client pointer is planted in "result."
+
+NB: \fBnfs40_walk_client_list\fP relies on the new nfs_client being
+the last nfs_client on the list.

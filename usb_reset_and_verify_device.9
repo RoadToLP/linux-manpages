@@ -1,0 +1,38 @@
+.TH "usb_reset_and_verify_device" 9 "usb_reset_and_verify_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_reset_and_verify_device \- perform a USB port reset to reinitialize a device
+.SH SYNOPSIS
+.B "int" usb_reset_and_verify_device
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+device to reset (not in SUSPENDED or NOTATTACHED state)
+.SH "DESCRIPTION"
+WARNING - don't use this routine to reset a composite device
+(one with multiple interfaces owned by separate drivers)!
+Use \fBusb_reset_device\fP instead.
+
+Do a port reset, reassign the device's address, and establish its
+former operating configuration.  If the reset fails, or the device's
+descriptors change from their values before the reset, or the original
+configuration and altsettings cannot be restored, a flag will be set
+telling hub_wq to pretend the device has been disconnected and then
+re-connected.  All drivers will be unbound, and the device will be
+re-enumerated and probed all over again.
+
+Locking exception: This routine may also be called from within an
+autoresume handler.  Such usage won't conflict with other tasks
+holding the device lock because these tasks should always call
+\fBusb_autopm_resume_device\fP, thereby preventing any unwanted
+autoresume.  The autoresume handler is expected to have already
+acquired the port lock before calling this routine.
+.SH "RETURN"
+0 if the reset succeeded, -ENODEV if the device has been
+flagged for logical disconnection, or some other negative error code
+if the reset wasn't even attempted.
+.SH "NOTE"
+The caller must own the device lock and the port lock, the latter is
+taken by \fBusb_reset_device\fP.  For example, it's safe to use
+\fBusb_reset_device\fP from a driver \fBprobe\fP routine after downloading
+new firmware.  For calls that might not occur during \fBprobe\fP, drivers
+should lock the device using \fBusb_lock_device_for_reset\fP.

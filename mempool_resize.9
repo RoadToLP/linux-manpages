@@ -1,0 +1,25 @@
+.TH "mempool_resize" 9 "mempool_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mempool_resize \- resize an existing memory pool
+.SH SYNOPSIS
+.B "int" mempool_resize
+.BI "(mempool_t *pool "  ","
+.BI "int new_min_nr "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pointer to the memory pool which was allocated via
+\fBmempool_create\fP.
+.IP "new_min_nr" 12
+the new minimum number of elements guaranteed to be
+allocated for this pool.
+.SH "DESCRIPTION"
+This function shrinks/grows the pool. In the case of growing,
+it cannot be guaranteed that the pool will be grown to the new
+size immediately, but new \fBmempool_free\fP calls will refill it.
+This function may sleep.
+
+Note, the caller must guarantee that no mempool_destroy is called
+while this function is running. \fBmempool_alloc\fP & \fBmempool_free\fP
+might be called (eg. from IRQ contexts) while this function executes.
+.SH "RETURN"
+0 on success, negative error code otherwise.

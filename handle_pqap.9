@@ -1,0 +1,25 @@
+.TH "handle_pqap" 9 "handle_pqap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_pqap \- PQAP instruction callback
+.SH SYNOPSIS
+.B "int" handle_pqap
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+The vcpu on which we received the PQAP instruction
+.SH "DESCRIPTION"
+Get the general register contents to initialize internal variables.
+REG[0]: APQN
+REG[1]: IR and ISC
+REG[2]: NIB
+
+Response.status may be set to following Response Code:
+- AP_RESPONSE_Q_NOT_AVAIL: if the queue is not available
+- AP_RESPONSE_DECONFIGURED: if the queue is not configured
+- AP_RESPONSE_NORMAL (0) : in case of successs
+Check \fBvfio_ap_setirq\fP and \fBvfio_ap_clrirq\fP for other possible RC.
+We take the matrix_dev lock to ensure serialization on queues and
+mediated device access.
+
+Return 0 if we could handle the request inside KVM.
+otherwise, returns -EOPNOTSUPP to let QEMU handle the fault.

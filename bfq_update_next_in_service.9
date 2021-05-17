@@ -1,0 +1,34 @@
+.TH "bfq_update_next_in_service" 9 "bfq_update_next_in_service" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_update_next_in_service \- update sd->next_in_service
+.SH SYNOPSIS
+.B "bool" bfq_update_next_in_service
+.BI "(struct bfq_sched_data *sd "  ","
+.BI "struct bfq_entity *new_entity "  ","
+.BI "bool expiration "  ");"
+.SH ARGUMENTS
+.IP "sd" 12
+sched_data for which to perform the update.
+.IP "new_entity" 12
+if not NULL, pointer to the entity whose activation,
+requeueing or repositioning triggered the invocation of
+this function.
+.IP "expiration" 12
+id true, this function is being invoked after the
+expiration of the in-service entity
+.SH "DESCRIPTION"
+This function is called to update sd->next_in_service, which, in
+its turn, may change as a consequence of the insertion or
+extraction of an entity into/from one of the active trees of
+sd. These insertions/extractions occur as a consequence of
+activations/deactivations of entities, with some activations being
+'true' activations, and other activations being requeueings (i.e.,
+implementing the second, requeueing phase of the mechanism used to
+reposition an entity in its active tree; see comments on
+__bfq_activate_entity and __bfq_requeue_entity for details). In
+both the last two activation sub-cases, new_entity points to the
+just activated or requeued entity.
+
+Returns true if sd->next_in_service changes in such a way that
+entity->parent may become the next_in_service for its parent
+entity.

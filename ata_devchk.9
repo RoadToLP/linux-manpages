@@ -1,0 +1,24 @@
+.TH "ata_devchk" 9 "ata_devchk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_devchk \- PATA device presence detection
+.SH SYNOPSIS
+.B "unsigned int" ata_devchk
+.BI "(struct ata_port *ap "  ","
+.BI "unsigned int device "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA channel to examine
+.IP "device" 12
+Device to examine (starting at zero)
+
+This technique was originally described in
+Hale Landis's ATADRVR (www.ata-atapi.com), and
+later found its way into the ATA/ATAPI spec.
+
+Write a pattern to the ATA shadow registers,
+and if a device is present, it will respond by
+correctly storing and echoing back the
+ATA shadow register contents.
+
+LOCKING:
+caller.

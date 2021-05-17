@@ -1,0 +1,27 @@
+.TH "ecryptfs_find_auth_tok_for_sig" 9 "ecryptfs_find_auth_tok_for_sig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_find_auth_tok_for_sig \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_find_auth_tok_for_sig
+.BI "(struct key **auth_tok_key "  ","
+.BI "struct ecryptfs_auth_tok **auth_tok "  ","
+.BI "struct ecryptfs_mount_crypt_stat *mount_crypt_stat "  ","
+.BI "char *sig "  ");"
+.SH ARGUMENTS
+.IP "auth_tok_key" 12
+-- undescribed --
+.IP "auth_tok" 12
+Set to the matching auth_tok; NULL if not found
+.IP "mount_crypt_stat" 12
+-- undescribed --
+.IP "sig" 12
+Sig of auth_tok to find
+.SH "DESCRIPTION"
+For now, this function simply looks at the registered auth_tok's
+linked off the mount_crypt_stat, so all the auth_toks that can be
+used must be registered at mount time. This function could
+potentially try a lot harder to find auth_tok's (e.g., by calling
+out to ecryptfsd to dynamically retrieve an auth_tok object) so
+that static registration of auth_tok's will no longer be necessary.
+
+Returns zero on no error; non-zero on error

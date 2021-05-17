@@ -1,0 +1,26 @@
+.TH "__hw_addr_ref_sync_dev" 9 "__hw_addr_ref_sync_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__hw_addr_ref_sync_dev \- Synchronize device's multicast address list taking into account references
+.SH SYNOPSIS
+.B "int" __hw_addr_ref_sync_dev
+.BI "(struct netdev_hw_addr_list *list "  ","
+.BI "struct net_device *dev "  ","
+.BI "int (*sync)(struct net_device *, const unsigned char *, int) "  ","
+.BI "int (*unsync)(struct net_device *, const unsigned char *, int) "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+address list to synchronize
+.IP "dev" 12
+device to sync
+.IP "sync" 12
+function to call if address or reference on it should be added
+.IP "unsync" 12
+function to call if address or some reference on it should removed
+
+This function is intended to be called from the ndo_set_rx_mode
+function of devices that require explicit address or references on it
+add/remove notifications. The unsync function may be NULL in which case
+the addresses or references on it requiring removal will simply be
+removed without any notification to the device. That is responsibility of
+the driver to identify and distribute address or references on it between
+internal address tables.

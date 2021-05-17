@@ -1,0 +1,21 @@
+.TH "lpfc_sli_iocbq_lookup_by_tag" 9 "lpfc_sli_iocbq_lookup_by_tag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_iocbq_lookup_by_tag \- Find command iocb for the iotag
+.SH SYNOPSIS
+.B "struct lpfc_iocbq *" lpfc_sli_iocbq_lookup_by_tag
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "uint16_t iotag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "iotag" 12
+IOCB tag.
+.SH "DESCRIPTION"
+This function looks up the iocb_lookup table to get the command iocb
+corresponding to the given iotag. The driver calls this function with
+the ring lock held because this function is an SLI4 port only helper.
+This function returns the command iocb object if it finds the command
+iocb else returns NULL.

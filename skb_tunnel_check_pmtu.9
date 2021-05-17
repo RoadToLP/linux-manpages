@@ -1,0 +1,27 @@
+.TH "skb_tunnel_check_pmtu" 9 "skb_tunnel_check_pmtu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_tunnel_check_pmtu \- Check, update PMTU and trigger ICMP reply as needed
+.SH SYNOPSIS
+.B "int" skb_tunnel_check_pmtu
+.BI "(struct sk_buff *skb "  ","
+.BI "struct dst_entry *encap_dst "  ","
+.BI "int headroom "  ","
+.BI "bool reply "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+Buffer being sent by encapsulation, L2 headers expected
+.IP "encap_dst" 12
+Destination for tunnel encapsulation (outer IP)
+.IP "headroom" 12
+Encapsulation header size, bytes
+.IP "reply" 12
+Build matching ICMP or ICMPv6 message as a result
+.SH "DESCRIPTION"
+L2 tunnel implementations that can carry IP and can be directly bridged
+(currently UDP tunnels) can't always rely on IP forwarding paths to handle
+PMTU discovery. In the bridged case, ICMP or ICMPv6 messages need to be built
+based on payload and sent back by the encapsulation itself.
+
+For routable interfaces, we just need to update the PMTU for the destination.
+.SH "RETURN"
+0 if ICMP error not needed, length if built, negative value on error

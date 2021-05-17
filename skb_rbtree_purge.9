@@ -1,0 +1,15 @@
+.TH "skb_rbtree_purge" 9 "skb_rbtree_purge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_rbtree_purge \- empty a skb rbtree
+.SH SYNOPSIS
+.B "unsigned int" skb_rbtree_purge
+.BI "(struct rb_root *root "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+root of the rbtree to empty
+Return value: the sum of truesizes of all purged skbs.
+
+Delete all buffers on an \fIsk_buff\fP rbtree. Each buffer is removed from
+the list and one reference dropped. This function does not take
+any lock. Synchronization should be handled by the caller (e.g., TCP
+out-of-order queue is protected by the socket lock).

@@ -1,0 +1,39 @@
+.TH "pin_user_pages_remote" 9 "pin_user_pages_remote" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pin_user_pages_remote \- pin pages of a remote process
+.SH SYNOPSIS
+.B "long" pin_user_pages_remote
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ","
+.BI "struct vm_area_struct **vmas "  ","
+.BI "int *locked "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+mm_struct of target mm
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying lookup behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long. Or NULL, if caller
+only intends to ensure the pages are faulted in.
+.IP "vmas" 12
+array of pointers to vmas corresponding to each page.
+Or NULL if the caller does not require them.
+.IP "locked" 12
+pointer to lock flag indicating whether lock is held and
+subsequently whether VM_FAULT_RETRY functionality can be
+utilised. Lock must initially be held.
+.SH "DESCRIPTION"
+Nearly the same as \fBget_user_pages_remote\fP, except that FOLL_PIN is set. See
+\fBget_user_pages_remote\fP for documentation on the function arguments, because
+the arguments here are identical.
+
+FOLL_PIN means that the pages must be released via \fBunpin_user_page\fP. Please
+see Documentation/core-api/pin_user_pages.rst for details.

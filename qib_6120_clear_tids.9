@@ -1,0 +1,17 @@
+.TH "qib_6120_clear_tids" 9 "qib_6120_clear_tids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_6120_clear_tids \- clear all TID entries for a context, expected and eager
+.SH SYNOPSIS
+.B "void" qib_6120_clear_tids
+.BI "(struct qib_devdata *dd "  ","
+.BI "struct qib_ctxtdata *rcd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.IP "rcd" 12
+the context
+.SH "DESCRIPTION"
+clear all TID entries for a context, expected and eager.
+Used from \fBqib_close\fP.  On this chip, TIDs are only 32 bits,
+not 64, but they are still on 64 bit boundaries, so tidbase
+is declared as u64 * for the pointer math, even though we write 32 bits

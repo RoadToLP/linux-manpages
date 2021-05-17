@@ -1,0 +1,24 @@
+.TH "genwqe_fasync" 9 "genwqe_fasync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_fasync \- Setup process to receive SIGIO.
+.SH SYNOPSIS
+.B "int" genwqe_fasync
+.BI "(int fd "  ","
+.BI "struct file *filp "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+file descriptor
+.IP "filp" 12
+file handle
+.IP "mode" 12
+file mode
+.SH "DESCRIPTION"
+Sending a signal is working as following:
+
+if (cdev->async_queue)
+kill_fasync(\fIcdev->async_queue\fP, SIGIO, POLL_IN);
+
+Some devices also implement asynchronous notification to indicate
+when the device can be written; in this case, of course,
+kill_fasync must be called with a mode of POLL_OUT.

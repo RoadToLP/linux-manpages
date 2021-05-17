@@ -1,0 +1,24 @@
+.TH "sgl_alloc_order" 9 "sgl_alloc_order" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sgl_alloc_order \- allocate a scatterlist and its pages
+.SH SYNOPSIS
+.B "struct scatterlist *" sgl_alloc_order
+.BI "(unsigned long long length "  ","
+.BI "unsigned int order "  ","
+.BI "bool chainable "  ","
+.BI "gfp_t gfp "  ","
+.BI "unsigned int *nent_p "  ");"
+.SH ARGUMENTS
+.IP "length" 12
+Length in bytes of the scatterlist. Must be at least one
+.IP "order" 12
+Second argument for \fBalloc_pages\fP
+.IP "chainable" 12
+Whether or not to allocate an extra element in the scatterlist
+for scatterlist chaining purposes
+.IP "gfp" 12
+Memory allocation flags
+.IP "nent_p" 12
+[out] Number of entries in the scatterlist that have pages
+.SH "RETURN"
+A pointer to an initialized scatterlist or NULL upon failure.

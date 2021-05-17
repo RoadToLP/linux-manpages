@@ -1,0 +1,35 @@
+.TH "tb_path_alloc" 9 "tb_path_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_path_alloc \- allocate a thunderbolt path between two ports
+.SH SYNOPSIS
+.B "struct tb_path *" tb_path_alloc
+.BI "(struct tb *tb "  ","
+.BI "struct tb_port *src "  ","
+.BI "int src_hopid "  ","
+.BI "struct tb_port *dst "  ","
+.BI "int dst_hopid "  ","
+.BI "int link_nr "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Domain pointer
+.IP "src" 12
+Source port of the path
+.IP "src_hopid" 12
+HopID used for the first ingress port in the path
+.IP "dst" 12
+Destination port of the path
+.IP "dst_hopid" 12
+HopID used for the last egress port in the path
+.IP "link_nr" 12
+Preferred link if there are dual links on the path
+.IP "name" 12
+Name of the path
+.SH "DESCRIPTION"
+Creates path between two ports starting with given \fIsrc_hopid\fP. Reserves
+HopIDs for each port (they can be different from \fIsrc_hopid\fP depending on
+how many HopIDs each port already have reserved). If there are dual
+links on the path, prioritizes using \fIlink_nr\fP but takes into account
+that the lanes may be bonded.
+.SH "RETURN"
+Returns a tb_path on success or NULL on failure.

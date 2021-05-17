@@ -1,0 +1,27 @@
+.TH "phy_validate" 9 "phy_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_validate \- Checks the phy parameters
+.SH SYNOPSIS
+.B "int" phy_validate
+.BI "(struct phy *phy "  ","
+.BI "enum phy_mode mode "  ","
+.BI "int submode "  ","
+.BI "union phy_configure_opts *opts "  ");"
+.SH ARGUMENTS
+.IP "phy" 12
+the phy returned by \fBphy_get\fP
+.IP "mode" 12
+phy_mode the configuration is applicable to.
+.IP "submode" 12
+PHY submode the configuration is applicable to.
+.IP "opts" 12
+Configuration to check
+.SH "DESCRIPTION"
+Used to check that the current set of parameters can be handled by
+the phy. Implementations are free to tune the parameters passed as
+arguments if needed by some implementation detail or
+constraints. It will not change any actual configuration of the
+PHY, so calling it as many times as deemed fit will have no side
+effect.
+.SH "RETURN"
+0 if successful, an negative error code otherwise

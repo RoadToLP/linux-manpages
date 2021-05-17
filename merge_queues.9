@@ -1,0 +1,14 @@
+.TH "merge_queues" 9 "merge_queues" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+merge_queues \- merge single semop queues into global queue
+.SH SYNOPSIS
+.B "void" merge_queues
+.BI "(struct sem_array *sma "  ");"
+.SH ARGUMENTS
+.IP "sma" 12
+semaphore array
+.SH "DESCRIPTION"
+This function merges all per-semaphore queues into the global queue.
+It is necessary to achieve FIFO ordering for the pending single-sop
+operations when a multi-semop operation must sleep.
+Only the alter operations must be moved, the const operations can stay.

@@ -1,0 +1,18 @@
+.TH "xdr_commit_encode" 9 "xdr_commit_encode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_commit_encode \- Ensure all data is written to buffer
+.SH SYNOPSIS
+.B "void" xdr_commit_encode
+.BI "(struct xdr_stream *xdr "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream
+.SH "DESCRIPTION"
+We handle encoding across page boundaries by giving the caller a
+temporary location to write to, then later copying the data into
+place; xdr_commit_encode does that copying.
+
+Normally the caller doesn't need to call this directly, as the
+following xdr_reserve_space will do it.  But an explicit call may be
+required at the end of encoding, or any other time when the xdr_buf
+data might be read.

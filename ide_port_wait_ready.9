@@ -1,0 +1,30 @@
+.TH "ide_port_wait_ready" 9 "ide_port_wait_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_port_wait_ready \- wait for port to become ready
+.SH SYNOPSIS
+.B "int" ide_port_wait_ready
+.BI "(ide_hwif_t *hwif "  ");"
+.SH ARGUMENTS
+.IP "hwif" 12
+IDE port
+
+This is needed on some PPCs and a bunch of BIOS-less embedded
+platforms.  Typical cases are:
+
+- The firmware hard reset the disk before booting the kernel,
+the drive is still doing it's poweron-reset sequence, that
+can take up to 30 seconds.
+
+- The firmware does nothing (or no firmware), the device is
+still in POST state (same as above actually).
+
+- Some CD/DVD/Writer combo drives tend to drive the bus during
+their reset sequence even when they are non-selected slave
+devices, thus preventing discovery of the main HD.
+
+Doing this wait-for-non-busy should not harm any existing
+configuration and fix some issues like the above.
+
+BenH.
+
+Returns 0 on success, error code (< 0) otherwise.

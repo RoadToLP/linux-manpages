@@ -1,0 +1,17 @@
+.TH "drm_client_framebuffer_flush" 9 "drm_client_framebuffer_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_client_framebuffer_flush \- Manually flush client framebuffer
+.SH SYNOPSIS
+.B "int" drm_client_framebuffer_flush
+.BI "(struct drm_client_buffer *buffer "  ","
+.BI "struct drm_rect *rect "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+DRM client buffer (can be NULL)
+.IP "rect" 12
+Damage rectangle (if NULL flushes all)
+.SH "DESCRIPTION"
+This calls \fIdrm_framebuffer_funcs->dirty\fP (if present) to flush buffer changes
+for drivers that need it.
+.SH "RETURN"
+Zero on success or negative error code on failure.

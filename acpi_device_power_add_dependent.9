@@ -1,0 +1,22 @@
+.TH "acpi_device_power_add_dependent" 9 "acpi_device_power_add_dependent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_device_power_add_dependent \- Add dependent device of this ACPI device
+.SH SYNOPSIS
+.B "int" acpi_device_power_add_dependent
+.BI "(struct acpi_device *adev "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device pointer
+.IP "dev" 12
+Dependent device
+.SH "DESCRIPTION"
+If \fIadev\fP has non-empty _PR0 the \fIdev\fP is added as dependent device to all
+power resources returned by it. This means that whenever these power
+resources are turned _ON the dependent devices get runtime resumed. This
+is needed for devices such as PCI to allow its driver to re-initialize
+it after it went to D0uninitialized.
+
+If \fIadev\fP does not have _PR0 this does nothing.
+
+Returns 0 in case of success and negative errno otherwise.

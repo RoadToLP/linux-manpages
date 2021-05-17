@@ -1,0 +1,25 @@
+.TH "ib_create_srq_user" 9 "ib_create_srq_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_create_srq_user \- Creates a SRQ associated with the specified protection domain.
+.SH SYNOPSIS
+.B "struct ib_srq *" ib_create_srq_user
+.BI "(struct ib_pd *pd "  ","
+.BI "struct ib_srq_init_attr *srq_init_attr "  ","
+.BI "struct ib_usrq_object *uobject "  ","
+.BI "struct ib_udata *udata "  ");"
+.SH ARGUMENTS
+.IP "pd" 12
+The protection domain associated with the SRQ.
+.IP "srq_init_attr" 12
+A list of initial attributes required to create the
+SRQ.  If SRQ creation succeeds, then the attributes are updated to
+the actual capabilities of the created SRQ.
+.IP "uobject" 12
+uobject pointer if this is not a kernel SRQ
+.IP "udata" 12
+udata pointer if this is not a kernel SRQ
+.SH "DESCRIPTION"
+srq_attr->max_wr and srq_attr->max_sge are read the determine the
+requested size of the SRQ, and set to the actual values allocated
+on return.  If \fBib_create_srq\fP succeeds, then max_wr and max_sge
+will always be at least as large as the requested values.

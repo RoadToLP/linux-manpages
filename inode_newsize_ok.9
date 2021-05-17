@@ -1,0 +1,23 @@
+.TH "inode_newsize_ok" 9 "inode_newsize_ok" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_newsize_ok \- may this inode be truncated to a given size
+.SH SYNOPSIS
+.B "int" inode_newsize_ok
+.BI "(const struct inode *inode "  ","
+.BI "loff_t offset "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to be truncated
+.IP "offset" 12
+the new size to assign to the inode
+.SH "DESCRIPTION"
+inode_newsize_ok must be called with i_mutex held.
+
+inode_newsize_ok will check filesystem limits and ulimits to check that the
+new inode size is within limits. inode_newsize_ok will also send SIGXFSZ
+when necessary. Caller must not proceed with inode size change if failure is
+returned. \fIinode\fP must be a file (not directory), with appropriate
+permissions to allow truncate (inode_newsize_ok does NOT check these
+conditions).
+.SH "RETURN"
+0 on success, -ve errno on failure

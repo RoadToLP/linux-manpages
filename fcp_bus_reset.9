@@ -1,0 +1,13 @@
+.TH "fcp_bus_reset" 9 "fcp_bus_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcp_bus_reset \- inform the target handler about a bus reset
+.SH SYNOPSIS
+.B "void" fcp_bus_reset
+.BI "(struct fw_unit *unit "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+the unit that might be used by \fBfcp_avc_transaction\fP
+.SH "DESCRIPTION"
+This function must be called from the driver's .update handler to inform
+the FCP transaction handler that a bus reset has happened.  Any pending FCP
+transactions are retried.

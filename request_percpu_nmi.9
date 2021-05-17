@@ -1,0 +1,32 @@
+.TH "request_percpu_nmi" 9 "request_percpu_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_percpu_nmi \- allocate a percpu interrupt line for NMI delivery
+.SH SYNOPSIS
+.B "int" request_percpu_nmi
+.BI "(unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "const char *name "  ","
+.BI "void __percpu *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+.IP "name" 12
+An ascii name for the claiming device
+.IP "dev_id" 12
+A percpu cookie passed back to the handler function
+
+This call allocates interrupt resources for a per CPU NMI. Per CPU NMIs
+have to be setup on each CPU by calling \fBprepare_percpu_nmi\fP before
+being enabled on the same CPU by using \fBenable_percpu_nmi\fP.
+
+Dev_id must be globally unique. It is a per-cpu variable, and
+the handler gets called with the interrupted CPU's instance of
+that variable.
+
+Interrupt lines requested for NMI delivering should have auto enabling
+setting disabled.
+
+If the interrupt line cannot be used to deliver NMIs, function
+will fail returning a negative value.

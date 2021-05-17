@@ -1,0 +1,24 @@
+.TH "ddw_read_ext" 9 "ddw_read_ext" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ddw_read_ext \- Get the value of an DDW extension
+.SH SYNOPSIS
+.B "int" ddw_read_ext
+.BI "(const struct device_node *np "  ","
+.BI "int extnum "  ","
+.BI "u32 *value "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node from which the extension value is to be read.
+.IP "extnum" 12
+index number of the extension.
+.IP "value" 12
+pointer to return value, modified when extension is available.
+.SH "DESCRIPTION"
+Checks if "ibm,ddw-extensions" exists for this node, and get the value
+on index 'extnum'.
+It can be used only to check if a property exists, passing value == NULL.
+.SH "RETURN"
+0 if extension successfully read
+-EINVAL if the "ibm,ddw-extensions" does not exist,
+-ENODATA if "ibm,ddw-extensions" does not have a value, and
+-EOVERFLOW if "ibm,ddw-extensions" does not contain this extension.

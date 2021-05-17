@@ -1,0 +1,25 @@
+.TH "svc_rdma_read_chunk_range" 9 "svc_rdma_read_chunk_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_read_chunk_range \- Build RDMA Read WQEs for portion of a chunk
+.SH SYNOPSIS
+.B "int" svc_rdma_read_chunk_range
+.BI "(struct svc_rdma_read_info *info "  ","
+.BI "const struct svc_rdma_chunk *chunk "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.IP "chunk" 12
+parsed Call chunk to pull
+.IP "offset" 12
+offset of region to pull
+.IP "length" 12
+length of region to pull
+.SH "DESCRIPTION"
+Return values:
+0: RDMA Read WQEs were successfully built
+-EINVAL: there were not enough resources to finish
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

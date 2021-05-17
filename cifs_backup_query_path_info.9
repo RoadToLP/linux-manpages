@@ -1,0 +1,29 @@
+.TH "cifs_backup_query_path_info" 9 "cifs_backup_query_path_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cifs_backup_query_path_info \- SMB1 fallback code to get ino
+.SH SYNOPSIS
+.B "int" cifs_backup_query_path_info
+.BI "(int xid "  ","
+.BI "struct cifs_tcon *tcon "  ","
+.BI "struct super_block *sb "  ","
+.BI "const char *full_path "  ","
+.BI "void **resp_buf "  ","
+.BI "FILE_ALL_INFO **data "  ");"
+.SH ARGUMENTS
+.IP "xid" 12
+transaction id used to identify original request in logs
+.IP "tcon" 12
+information about the server share we have mounted
+.IP "sb" 12
+the superblock stores info such as disk space available
+.IP "full_path" 12
+name of the file we are getting the metadata for
+.IP "resp_buf" 12
+will be set to cifs resp buf and needs to be freed with
+\fBcifs_buf_release\fP when done with \fIdata\fP
+.IP "data" 12
+will be set to search info result buffer
+.SH "DESCRIPTION"
+
+Fallback code to get file metadata when we don't have access to
+full_path (EACCES) and have backup creds.

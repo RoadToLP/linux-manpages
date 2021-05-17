@@ -1,0 +1,19 @@
+.TH "ice_init_phy_cfg_dflt_override" 9 "ice_init_phy_cfg_dflt_override" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_init_phy_cfg_dflt_override \- Initialize PHY cfg default override settings
+.SH SYNOPSIS
+.B "void" ice_init_phy_cfg_dflt_override
+.BI "(struct ice_port_info *pi "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+port info structure
+.SH "DESCRIPTION"
+If default override is enabled, initialized the user PHY cfg speed and FEC
+settings using the default override mask from the NVM.
+
+The PHY should only be configured with the default override settings the
+first time media is available. The __ICE_LINK_DEFAULT_OVERRIDE_PENDING state
+is used to indicate that the user PHY cfg default override is initialized
+and the PHY has not been configured with the default override settings. The
+state is set here, and cleared in ice_configure_phy the first time the PHY is
+configured.

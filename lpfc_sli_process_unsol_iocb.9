@@ -1,0 +1,23 @@
+.TH "lpfc_sli_process_unsol_iocb" 9 "lpfc_sli_process_unsol_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_process_unsol_iocb \- Unsolicited iocb handler
+.SH SYNOPSIS
+.B "int" lpfc_sli_process_unsol_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *saveq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "saveq" 12
+Pointer to the unsolicited iocb.
+.SH "DESCRIPTION"
+This function is called with no lock held by the ring event handler
+when there is an unsolicited iocb posted to the response ring by the
+firmware. This function gets the buffer associated with the iocbs
+and calls the event handler for the ring. This function handles both
+qring buffers and hbq buffers.
+When the function returns 1 the caller can free the iocb object otherwise
+upper layer functions will free the iocb objects.

@@ -1,0 +1,17 @@
+.TH "lpfc_release_nvme_buf" 9 "lpfc_release_nvme_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_release_nvme_buf \- Return a nvme buffer back to hba nvme buf list.
+.SH SYNOPSIS
+.B "void" lpfc_release_nvme_buf
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_io_buf *lpfc_ncmd "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "lpfc_ncmd" 12
+The nvme buffer which is being released.
+.SH "DESCRIPTION"
+This routine releases \fIlpfc_ncmd\fP nvme buffer by adding it to tail of \fIphba\fP
+lpfc_io_buf_list list. For SLI4 XRI's are tied to the nvme buffer
+and cannot be reused for at least RA_TOV amount of time if it was
+aborted.

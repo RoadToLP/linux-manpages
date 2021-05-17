@@ -1,0 +1,32 @@
+.TH "dw_apb_clockevent_init" 9 "dw_apb_clockevent_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dw_apb_clockevent_init \- use an APB timer as a clock_event_device
+.SH SYNOPSIS
+.B "struct dw_apb_clock_event_device *" dw_apb_clockevent_init
+.BI "(int cpu "  ","
+.BI "const char *name "  ","
+.BI "unsigned rating "  ","
+.BI "void __iomem *base "  ","
+.BI "int irq "  ","
+.BI "unsigned long freq "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+The CPU the events will be targeted at or -1 if CPU affiliation
+isn't required.
+.IP "name" 12
+The name used for the timer and the IRQ for it.
+.IP "rating" 12
+The rating to give the timer.
+.IP "base" 12
+I/O base for the timer registers.
+.IP "irq" 12
+The interrupt number to use for the timer.
+.IP "freq" 12
+The frequency that the timer counts at.
+.SH "DESCRIPTION"
+This creates a clock_event_device for using with the generic clock layer
+but does not start and register it.  This should be done with
+\fBdw_apb_clockevent_register\fP as the next step.  If this is the first time
+it has been called for a timer then the IRQ will be requested, if not it
+just be enabled to allow CPU hotplug to avoid repeatedly requesting and
+releasing the IRQ.

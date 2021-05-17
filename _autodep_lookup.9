@@ -1,0 +1,21 @@
+.TH "_autodep_lookup" 9 "_autodep_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_autodep_lookup \- resolve autodep clkdm names to clkdm pointers; store
+.SH SYNOPSIS
+.B "void" _autodep_lookup
+.BI "(struct clkdm_autodep *autodep "  ");"
+.SH ARGUMENTS
+.IP "autodep" 12
+struct clkdm_autodep * to resolve
+.SH "DESCRIPTION"
+Resolve autodep clockdomain names to clockdomain pointers via
+\fBclkdm_lookup\fP and store the pointers in the autodep structure.  An
+"autodep" is a clockdomain sleep/wakeup dependency that is
+automatically added and removed whenever clocks in the associated
+clockdomain are enabled or disabled (respectively) when the
+clockdomain is in hardware-supervised mode.  Meant to be called
+once at clockdomain layer initialization, since these should remain
+fixed for a particular architecture.  No return value.
+
+XXX autodeps are deprecated and should be removed at the earliest
+opportunity

@@ -1,0 +1,19 @@
+.TH "calipso_opt_del" 9 "calipso_opt_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_opt_del \- Removes the CALIPSO option from an option header
+.SH SYNOPSIS
+.B "int" calipso_opt_del
+.BI "(struct ipv6_opt_hdr *hop "  ","
+.BI "struct ipv6_opt_hdr **new "  ");"
+.SH ARGUMENTS
+.IP "hop" 12
+the original header
+.IP "new" 12
+the new header
+.SH "DESCRIPTION"
+Creates a new header based on \fIhop\fP without any CALIPSO option.  If \fIhop\fP
+doesn't contain a CALIPSO option it returns -ENOENT.  If \fIhop\fP contains
+no other non-padding options, it returns zero with \fInew\fP set to NULL.
+Otherwise it returns zero, creates a new header without the CALIPSO
+option (and removing as much padding as possible) and returns with
+\fInew\fP set to that header.

@@ -1,0 +1,30 @@
+.TH "ubifs_read_node_wbuf" 9 "ubifs_read_node_wbuf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_read_node_wbuf \- read node from the media or write-buffer.
+.SH SYNOPSIS
+.B "int" ubifs_read_node_wbuf
+.BI "(struct ubifs_wbuf *wbuf "  ","
+.BI "void *buf "  ","
+.BI "int type "  ","
+.BI "int len "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "wbuf" 12
+wbuf to check for un-written data
+.IP "buf" 12
+buffer to read to
+.IP "type" 12
+node type
+.IP "len" 12
+node length
+.IP "lnum" 12
+logical eraseblock number
+.IP "offs" 12
+offset within the logical eraseblock
+.SH "DESCRIPTION"
+This function reads a node of known type and length, checks it and stores
+in \fIbuf\fP. If the node partially or fully sits in the write-buffer, this
+function takes data from the buffer, otherwise it reads the flash media.
+Returns zero in case of success, -EUCLEAN if CRC mismatched and a negative
+error code in case of failure.

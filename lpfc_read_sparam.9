@@ -1,0 +1,30 @@
+.TH "lpfc_read_sparam" 9 "lpfc_read_sparam" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_read_sparam \- Prepare a mailbox command for reading HBA parameters
+.SH SYNOPSIS
+.B "int" lpfc_read_sparam
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ","
+.BI "int vpi "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.IP "vpi" 12
+virtual N_Port identifier.
+.SH "DESCRIPTION"
+The read service parameter mailbox command is used to read the HBA port
+service parameters. The service parameters are read into the buffer
+specified directly by a BDE in the mailbox command. These service
+parameters may then be used to build the payload of an N_Port/F_POrt
+login request and reply (LOGI/ACC).
+
+This routine prepares the mailbox command for reading HBA port service
+parameters. The DMA memory is allocated in this function and the addresses
+are populated into the mailbox command for the HBA to DMA the service
+parameters into.
+
+Return codes
+0 - Success
+1 - DMA memory allocation failed

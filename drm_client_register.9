@@ -1,0 +1,15 @@
+.TH "drm_client_register" 9 "drm_client_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_client_register \- Register client
+.SH SYNOPSIS
+.B "void" drm_client_register
+.BI "(struct drm_client_dev *client "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+DRM client
+.SH "DESCRIPTION"
+Add the client to the \fIdrm_device\fP client list to activate its callbacks.
+\fIclient\fP must be initialized by a call to \fBdrm_client_init\fP. After
+\fBdrm_client_register\fP it is no longer permissible to call \fBdrm_client_release\fP
+directly (outside the unregister callback), instead cleanup will happen
+automatically on driver unload.

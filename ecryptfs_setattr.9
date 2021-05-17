@@ -1,0 +1,22 @@
+.TH "ecryptfs_setattr" 9 "ecryptfs_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_setattr \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_setattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct iattr *ia "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+-- undescribed --
+.IP "dentry" 12
+dentry handle to the inode to modify
+.IP "ia" 12
+Structure with flags of what to change and values
+.SH "DESCRIPTION"
+Updates the metadata of an inode. If the update is to the size
+i.e. truncation, then ecryptfs_truncate will handle the size modification
+of both the ecryptfs inode and the lower inode.
+
+All other metadata changes will be passed right to the lower filesystem,
+and we will just update our inode to look like the lower.

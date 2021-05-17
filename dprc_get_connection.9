@@ -1,0 +1,29 @@
+.TH "dprc_get_connection" 9 "dprc_get_connection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dprc_get_connection \- Get connected endpoint and link status if connection exists.
+.SH SYNOPSIS
+.B "int" dprc_get_connection
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "const struct dprc_endpoint *endpoint1 "  ","
+.BI "struct dprc_endpoint *endpoint2 "  ","
+.BI "int *state "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPRC object
+.IP "endpoint1" 12
+Endpoint 1 configuration parameters
+.IP "endpoint2" 12
+Returned endpoint 2 configuration parameters
+.IP "state" 12
+Returned link state:
+1 - link is up;
+0 - link is down;
+-1 - no connection (endpoint2 information is irrelevant)
+.SH "RETURN"
+'0' on Success; -ENOTCONN if connection does not exist.

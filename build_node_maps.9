@@ -1,0 +1,21 @@
+.TH "build_node_maps" 9 "build_node_maps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+build_node_maps \- callback to setup mem_data structs for each node
+.SH SYNOPSIS
+.B "int" build_node_maps
+.BI "(unsigned long start "  ","
+.BI "unsigned long len "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+physical start of range
+.IP "len" 12
+length of range
+.IP "node" 12
+node where this range resides
+.SH "DESCRIPTION"
+Detect extents of each piece of memory that we wish to
+treat as a virtually contiguous block (i.e. each node). Each such block
+must start on an IA64_GRANULE_SIZE boundary, so we round the address down
+if necessary.  Any non-existent pages will simply be part of the virtual
+memmap.

@@ -1,0 +1,17 @@
+.TH "stm_find_device" 9 "stm_find_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm_find_device \- find stm device by name
+.SH SYNOPSIS
+.B "struct stm_device *" stm_find_device
+.BI "(const char *buf "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+character buffer containing the name
+.SH "DESCRIPTION"
+This is called when either policy gets assigned to an stm device or an
+stm_source device gets linked to an stm device.
+
+This grabs device's reference (\fBget_device\fP) and module reference, both
+of which the calling path needs to make sure to drop with \fBstm_put_device\fP.
+.SH "RETURN"
+stm device pointer or null if lookup failed.

@@ -1,0 +1,34 @@
+.TH "efivar_entry_set" 9 "efivar_entry_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_set \- call set_variable()
+.SH SYNOPSIS
+.B "int" efivar_entry_set
+.BI "(struct efivar_entry *entry "  ","
+.BI "u32 attributes "  ","
+.BI "unsigned long size "  ","
+.BI "void *data "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+entry containing the EFI variable to write
+.IP "attributes" 12
+variable attributes
+.IP "size" 12
+size of \fIdata\fP buffer
+.IP "data" 12
+buffer containing variable data
+.IP "head" 12
+head of variable list
+.SH "DESCRIPTION"
+Calls \fBset_variable\fP for an EFI variable. If creating a new EFI
+variable, this function is usually followed by \fBefivar_entry_add\fP.
+
+Before writing the variable, the remaining EFI variable storage
+space is checked to ensure there is enough room available.
+
+If \fIhead\fP is not NULL a lookup is performed to determine whether
+the entry is already on the list.
+
+Returns 0 on success, -EINTR if we can't grab the semaphore,
+-EEXIST if a lookup is performed and the entry already exists on
+the list, or a converted EFI status code if \fBset_variable\fP fails.

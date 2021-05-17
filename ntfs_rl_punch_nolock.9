@@ -1,0 +1,32 @@
+.TH "ntfs_rl_punch_nolock" 9 "ntfs_rl_punch_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_rl_punch_nolock \- punch a hole into a runlist
+.SH SYNOPSIS
+.B "int" ntfs_rl_punch_nolock
+.BI "(const ntfs_volume *vol "  ","
+.BI "runlist *const runlist "  ","
+.BI "const VCN start "  ","
+.BI "const s64 length "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume (needed for error output)
+.IP "runlist" 12
+runlist to punch a hole into
+.IP "start" 12
+starting VCN of the hole to be created
+.IP "length" 12
+size of the hole to be created in units of clusters
+.SH "DESCRIPTION"
+Punch a hole into the runlist \fIrunlist\fP starting at VCN \fIstart\fP and of size
+\fIlength\fP clusters.
+
+Return 0 on success and -errno on error, in which case \fIrunlist\fP has not been
+modified.
+
+If \fIstart\fP and/or \fIstart\fP + \fIlength\fP are outside the runlist return error code
+-ENOENT.
+
+If the runlist contains unmapped or error elements between \fIstart\fP and \fIstart\fP
++ \fIlength\fP return error code -EINVAL.
+
+Locking: The caller must hold \fIrunlist->lock\fP for writing.

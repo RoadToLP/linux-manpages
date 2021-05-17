@@ -1,0 +1,22 @@
+.TH "of_modalias_node" 9 "of_modalias_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_modalias_node \- Lookup appropriate modalias for a device node
+.SH SYNOPSIS
+.B "int" of_modalias_node
+.BI "(struct device_node *node "  ","
+.BI "char *modalias "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+pointer to a device tree node
+.IP "modalias" 12
+Pointer to buffer that modalias value will be copied into
+.IP "len" 12
+Length of modalias value
+.SH "DESCRIPTION"
+Based on the value of the compatible property, this routine will attempt
+to choose an appropriate modalias value for a particular device tree node.
+It does this by stripping the manufacturer prefix (as delimited by a ',')
+from the first entry in the compatible list property.
+
+This routine returns 0 on success, <0 on failure.

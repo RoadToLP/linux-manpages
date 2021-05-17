@@ -1,0 +1,30 @@
+.TH "iucv_path_connect" 9 "iucv_path_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iucv_path_connect \- 
+.SH SYNOPSIS
+.B "int" iucv_path_connect
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_handler *handler "  ","
+.BI "u8 *userid "  ","
+.BI "u8 *system "  ","
+.BI "u8 *userdata "  ","
+.BI "void *private "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+address of iucv path structure
+.IP "handler" 12
+address of iucv handler structure
+.IP "userid" 12
+8-byte user identification
+.IP "system" 12
+8-byte target system identification
+.IP "userdata" 12
+16 bytes of data reflected to the communication partner
+.IP "private" 12
+private data passed to interrupt handlers for this path
+.SH "DESCRIPTION"
+This function establishes an IUCV path. Although the connect may complete
+successfully, you are not able to use the path until you receive an IUCV
+Connection Complete external interrupt.
+
+Returns the result of the CP IUCV call.

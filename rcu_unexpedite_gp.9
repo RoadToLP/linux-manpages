@@ -1,0 +1,16 @@
+.TH "rcu_unexpedite_gp" 9 "rcu_unexpedite_gp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_unexpedite_gp \- Cancel prior rcu_expedite_gp() invocation
+.SH SYNOPSIS
+.B "void" rcu_unexpedite_gp
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Undo a prior call to \fBrcu_expedite_gp\fP.  If all prior calls to
+\fBrcu_expedite_gp\fP are undone by a subsequent call to \fBrcu_unexpedite_gp\fP,
+and if the rcu_expedited sysfs/boot parameter is not set, then all
+subsequent calls to \fBsynchronize_rcu\fP and friends will return to
+their normal non-expedited behavior.

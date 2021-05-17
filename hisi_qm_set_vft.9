@@ -1,0 +1,25 @@
+.TH "hisi_qm_set_vft" 9 "hisi_qm_set_vft" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hisi_qm_set_vft \- Set vft to a qm.
+.SH SYNOPSIS
+.B "int" hisi_qm_set_vft
+.BI "(struct hisi_qm *qm "  ","
+.BI "u32 fun_num "  ","
+.BI "u32 base "  ","
+.BI "u32 number "  ");"
+.SH ARGUMENTS
+.IP "qm" 12
+The qm we want to set its vft.
+.IP "fun_num" 12
+The function number.
+.IP "base" 12
+The base number of queue in vft.
+.IP "number" 12
+The number of queues in vft.
+.SH "DESCRIPTION"
+This function is alway called in PF driver, it is used to assign queues
+among PF and VFs.
+
+Assign queues A~B to PF: hisi_qm_set_vft(qm, 0, A, B - A + 1)
+Assign queues A~B to VF: hisi_qm_set_vft(qm, 2, A, B - A + 1)
+(VF function number 0x2)

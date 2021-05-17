@@ -1,0 +1,18 @@
+.TH "ice_build_skb" 9 "ice_build_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_build_skb \- Build skb around an existing buffer
+.SH SYNOPSIS
+.B "struct sk_buff *" ice_build_skb
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "struct ice_rx_buf *rx_buf "  ","
+.BI "struct xdp_buff *xdp "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring to transact packets on
+.IP "rx_buf" 12
+Rx buffer to pull data from
+.IP "xdp" 12
+xdp_buff pointing to the data
+.SH "DESCRIPTION"
+This function builds an skb around an existing Rx buffer, taking care
+to set up the skb correctly and avoid any memcpy overhead.

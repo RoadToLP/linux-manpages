@@ -1,0 +1,42 @@
+.TH "sg_split" 9 "sg_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sg_split \- split a scatterlist into several scatterlists
+.SH SYNOPSIS
+.B "int" sg_split
+.BI "(struct scatterlist *in "  ","
+.BI "const int in_mapped_nents "  ","
+.BI "const off_t skip "  ","
+.BI "const int nb_splits "  ","
+.BI "const size_t *split_sizes "  ","
+.BI "struct scatterlist **out "  ","
+.BI "int *out_mapped_nents "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+the input sg list
+.IP "in_mapped_nents" 12
+the result of a dma_map_sg(in, ...), or 0 if not mapped.
+.IP "skip" 12
+the number of bytes to skip in the input sg list
+.IP "nb_splits" 12
+the number of desired sg outputs
+.IP "split_sizes" 12
+the respective size of each output sg list in bytes
+.IP "out" 12
+an array where to store the allocated output sg lists
+.IP "out_mapped_nents" 12
+the resulting sg lists mapped number of sg entries. Might
+be NULL if sglist not already mapped (in_mapped_nents = 0)
+.IP "gfp_mask" 12
+the allocation flag
+.SH "DESCRIPTION"
+This function splits the input sg list into nb_splits sg lists, which are
+allocated and stored into out.
+The \fIin\fP is split into :
+- \fIout\fP[0], which covers bytes [\fIskip\fP .. \fIskip\fP + \fIsplit_sizes\fP[0] - 1] of \fIin\fP
+- \fIout\fP[1], which covers bytes [\fIskip\fP + split_sizes[0] ..
+\fIskip\fP + \fIsplit_sizes\fP[0] + \fIsplit_sizes\fP[1] -1]
+etc ...
+It will be the caller's duty to \fBkfree\fP out array members.
+
+Returns 0 upon success, or error code

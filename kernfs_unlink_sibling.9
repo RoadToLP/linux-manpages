@@ -1,0 +1,16 @@
+.TH "kernfs_unlink_sibling" 9 "kernfs_unlink_sibling" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_unlink_sibling \- unlink kernfs_node from sibling rbtree
+.SH SYNOPSIS
+.B "bool" kernfs_unlink_sibling
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+kernfs_node of interest
+
+Try to unlink \fIkn\fP from its sibling rbtree which starts from
+kn->parent->dir.children.  Returns true if \fIkn\fP was actually
+removed, false if \fIkn\fP wasn't on the rbtree.
+
+Locking:
+mutex_lock(kernfs_mutex)

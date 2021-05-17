@@ -1,0 +1,29 @@
+.TH "change_profile_perms" 9 "change_profile_perms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+change_profile_perms \- find permissions for change_profile
+.SH SYNOPSIS
+.B "int" change_profile_perms
+.BI "(struct aa_profile *profile "  ","
+.BI "struct aa_label *target "  ","
+.BI "bool stack "  ","
+.BI "u32 request "  ","
+.BI "unsigned int start "  ","
+.BI "struct aa_perms *perms "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+the current profile  (NOT NULL)
+.IP "target" 12
+label to transition to (NOT NULL)
+.IP "stack" 12
+whether this is a stacking request
+.IP "request" 12
+requested perms
+.IP "start" 12
+state to start matching in
+.IP "perms" 12
+-- undescribed --
+.SH "RETURN"
+permission set
+.SH "DESCRIPTION"
+currently only matches full label A//\fIB\fP//\fIC\fP or individual components A, B, C
+not arbitrary combinations. Eg. A//\fIB\fP, C

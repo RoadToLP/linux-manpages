@@ -1,0 +1,18 @@
+.TH "vmw_validation_preload_res" 9 "vmw_validation_preload_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_validation_preload_res \- Preload the validation memory allocator for a call to vmw_validation_add_res().
+.SH SYNOPSIS
+.B "int" vmw_validation_preload_res
+.BI "(struct vmw_validation_context *ctx "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+Pointer to the validation context.
+.IP "size" 12
+Size of the validation node extra data. See below.
+.SH "DESCRIPTION"
+Iff this function returns successfully, the next call to
+\fBvmw_validation_add_res\fP with the same or smaller \fIsize\fP is guaranteed not to
+sleep. An error is not fatal but voids the guarantee.
+.SH "RETURN"
+Zero if successful, -EINVAL otherwise.

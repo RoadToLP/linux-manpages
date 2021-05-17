@@ -1,0 +1,21 @@
+.TH "sanitize_state" 9 "sanitize_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sanitize_state \- Resolves implicitly necessary additional changes to a state transition
+.SH SYNOPSIS
+.B "union drbd_state" sanitize_state
+.BI "(struct drbd_device *device "  ","
+.BI "union drbd_state os "  ","
+.BI "union drbd_state ns "  ","
+.BI "enum sanitize_state_warnings *warn "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "os" 12
+old state.
+.IP "ns" 12
+new state.
+.IP "warn" 12
+-- undescribed --
+.SH "DESCRIPTION"
+When we loose connection, we have to set the state of the peers disk (pdsk)
+to D_UNKNOWN. This rule and many more along those lines are in this function.

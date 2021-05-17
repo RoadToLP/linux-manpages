@@ -1,0 +1,21 @@
+.TH "cred_fscmp" 9 "cred_fscmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cred_fscmp \- Compare two credentials with respect to filesystem access.
+.SH SYNOPSIS
+.B "int" cred_fscmp
+.BI "(const struct cred *a "  ","
+.BI "const struct cred *b "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+The first credential
+.IP "b" 12
+The second credential
+.SH "DESCRIPTION"
+\fBcred_cmp\fP will return zero if both credentials have the same
+fsuid, fsgid, and supplementary groups.  That is, if they will both
+provide the same access to files based on mode/uid/gid.
+If the credentials are different, then either -1 or 1 will
+be returned depending on whether \fIa\fP comes before or after \fIb\fP
+respectively in an arbitrary, but stable, ordering of credentials.
+.SH "RETURN"
+-1, 0, or 1 depending on comparison

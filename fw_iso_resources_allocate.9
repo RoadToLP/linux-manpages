@@ -1,0 +1,24 @@
+.TH "fw_iso_resources_allocate" 9 "fw_iso_resources_allocate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_iso_resources_allocate \- allocate isochronous channel and bandwidth
+.SH SYNOPSIS
+.B "int" fw_iso_resources_allocate
+.BI "(struct fw_iso_resources *r "  ","
+.BI "unsigned int max_payload_bytes "  ","
+.BI "int speed "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the resource manager
+.IP "max_payload_bytes" 12
+the amount of data (including CIP headers) per packet
+.IP "speed" 12
+the speed (e.g., SCODE_400) at which the packets will be sent
+.SH "DESCRIPTION"
+This function allocates one isochronous channel and enough bandwidth for the
+specified packet size.
+
+Returns the channel number that the caller must use for streaming, or
+a negative error code.  Due to potentionally long delays, this function is
+interruptible and can return -ERESTARTSYS.  On success, the caller is
+responsible for calling \fBfw_iso_resources_update\fP on bus resets, and
+\fBfw_iso_resources_free\fP when the resources are not longer needed.

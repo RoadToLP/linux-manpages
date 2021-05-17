@@ -1,0 +1,18 @@
+.TH "vmw_du_primary_plane_atomic_check" 9 "vmw_du_primary_plane_atomic_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_du_primary_plane_atomic_check \- check if the new state is okay
+.SH SYNOPSIS
+.B "int" vmw_du_primary_plane_atomic_check
+.BI "(struct drm_plane *plane "  ","
+.BI "struct drm_plane_state *state "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+display plane
+.IP "state" 12
+info on the new plane state, including the FB
+.SH "DESCRIPTION"
+Check if the new state is settable given the current state.  Other
+than what the atomic helper checks, we care about crtc fitting
+the FB and maintaining one active framebuffer.
+
+Returns 0 on success

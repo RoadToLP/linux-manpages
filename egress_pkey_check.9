@@ -1,0 +1,27 @@
+.TH "egress_pkey_check" 9 "egress_pkey_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+egress_pkey_check \- check P_KEY of a packet
+.SH SYNOPSIS
+.B "int" egress_pkey_check
+.BI "(struct hfi1_pportdata *ppd "  ","
+.BI "u32 slid "  ","
+.BI "u16 pkey "  ","
+.BI "u8 sc5 "  ","
+.BI "int8_t s_pkey_index "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+Physical IB port data
+.IP "slid" 12
+SLID for packet
+.IP "pkey" 12
+PKEY for header
+.IP "sc5" 12
+SC for packet
+.IP "s_pkey_index" 12
+It will be used for look up optimization for kernel contexts
+only. If it is negative value, then it means user contexts is calling this
+function.
+.SH "DESCRIPTION"
+It checks if hdr's pkey is valid.
+.SH "RETURN"
+0 on success, otherwise, 1

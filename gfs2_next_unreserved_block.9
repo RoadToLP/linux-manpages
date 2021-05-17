@@ -1,0 +1,23 @@
+.TH "gfs2_next_unreserved_block" 9 "gfs2_next_unreserved_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_next_unreserved_block \- Return next block that is not reserved
+.SH SYNOPSIS
+.B "u64" gfs2_next_unreserved_block
+.BI "(struct gfs2_rgrpd *rgd "  ","
+.BI "u64 block "  ","
+.BI "u32 length "  ","
+.BI "struct gfs2_blkreserv *ignore_rs "  ");"
+.SH ARGUMENTS
+.IP "rgd" 12
+The resource group
+.IP "block" 12
+The starting block
+.IP "length" 12
+The required length
+.IP "ignore_rs" 12
+Reservation to ignore
+.SH "DESCRIPTION"
+If the block does not appear in any reservation, then return the
+block number unchanged. If it does appear in the reservation, then
+keep looking through the tree of reservations in order to find the
+first block number which is not reserved.

@@ -1,0 +1,19 @@
+.TH "execute_in_process_context" 9 "execute_in_process_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+execute_in_process_context \- reliably execute the routine with user context
+.SH SYNOPSIS
+.B "int" execute_in_process_context
+.BI "(work_func_t fn "  ","
+.BI "struct execute_work *ew "  ");"
+.SH ARGUMENTS
+.IP "fn" 12
+the function to execute
+.IP "ew" 12
+guaranteed storage for the execute work structure (must
+be available when the work executes)
+.SH "DESCRIPTION"
+Executes the function immediately if process context is available,
+otherwise schedules the function for delayed execution.
+.SH "RETURN"
+0 - function was executed
+1 - function was scheduled for execution

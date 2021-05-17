@@ -1,0 +1,27 @@
+.TH "dynevent_arg_add" 9 "dynevent_arg_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dynevent_arg_add \- Add an arg to a dynevent_cmd
+.SH SYNOPSIS
+.B "int" dynevent_arg_add
+.BI "(struct dynevent_cmd *cmd "  ","
+.BI "struct dynevent_arg *arg "  ","
+.BI "dynevent_check_arg_fn_t check_arg "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+A pointer to the dynevent_cmd struct representing the new event cmd
+.IP "arg" 12
+The argument to append to the current cmd
+.IP "check_arg" 12
+An (optional) pointer to a function checking arg sanity
+.SH "DESCRIPTION"
+Append an argument to a dynevent_cmd.  The argument string will be
+appended to the current cmd string, followed by a separator, if
+applicable.  Before the argument is added, the \fIcheck_arg\fP function,
+if present, will be used to check the sanity of the current arg
+string.
+
+The cmd string and separator should be set using the
+\fBdynevent_arg_init\fP before any arguments are added using this
+function.
+.SH "RETURN"
+0 if successful, error otherwise.

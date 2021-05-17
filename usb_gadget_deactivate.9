@@ -1,0 +1,16 @@
+.TH "usb_gadget_deactivate" 9 "usb_gadget_deactivate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_deactivate \- deactivate function which is not ready to work
+.SH SYNOPSIS
+.B "int" usb_gadget_deactivate
+.BI "(struct usb_gadget *gadget "  ");"
+.SH ARGUMENTS
+.IP "gadget" 12
+the peripheral being deactivated
+.SH "DESCRIPTION"
+This routine may be used during the gadget driver \fBbind\fP call to prevent
+the peripheral from ever being visible to the USB host, unless later
+\fBusb_gadget_activate\fP is called.  For example, user mode components may
+need to be activated before the system can talk to hosts.
+
+Returns zero on success, else negative errno.

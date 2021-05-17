@@ -1,0 +1,17 @@
+.TH "iscsi_iser_conn_stop" 9 "iscsi_iser_conn_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_conn_stop \- stop iscsi-iser connection
+.SH SYNOPSIS
+.B "void" iscsi_iser_conn_stop
+.BI "(struct iscsi_cls_conn *cls_conn "  ","
+.BI "int flag "  ");"
+.SH ARGUMENTS
+.IP "cls_conn" 12
+iscsi class connection
+.IP "flag" 12
+indicate if recover or terminate (passed as is)
+.SH "NOTES"
+Calling iscsi_conn_stop might theoretically race with
+DEVICE_REMOVAL event and dereference a previously freed RDMA device
+handle, so we call it under iser the state lock to protect against
+this kind of race.

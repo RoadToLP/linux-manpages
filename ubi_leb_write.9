@@ -1,0 +1,38 @@
+.TH "ubi_leb_write" 9 "ubi_leb_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_leb_write \- write data.
+.SH SYNOPSIS
+.B "int" ubi_leb_write
+.BI "(struct ubi_volume_desc *desc "  ","
+.BI "int lnum "  ","
+.BI "const void *buf "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+volume descriptor
+.IP "lnum" 12
+logical eraseblock number to write to
+.IP "buf" 12
+data to write
+.IP "offset" 12
+offset within the logical eraseblock where to write
+.IP "len" 12
+how many bytes to write
+.SH "DESCRIPTION"
+This function writes \fIlen\fP bytes of data from \fIbuf\fP to offset \fIoffset\fP of
+logical eraseblock \fIlnum\fP.
+
+This function takes care of physical eraseblock write failures. If write to
+the physical eraseblock write operation fails, the logical eraseblock is
+re-mapped to another physical eraseblock, the data is recovered, and the
+write finishes. UBI has a pool of reserved physical eraseblocks for this.
+
+If all the data were successfully written, zero is returned. If an error
+occurred and UBI has not been able to recover from it, this function returns
+a negative error code. Note, in case of an error, it is possible that
+something was still written to the flash media, but that may be some
+garbage.
+
+If the volume is damaged because of an interrupted update this function just
+returns immediately with -EBADF code.

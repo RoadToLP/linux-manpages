@@ -1,0 +1,25 @@
+.TH "truncate_upper" 9 "truncate_upper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+truncate_upper \- 
+.SH SYNOPSIS
+.B "int" truncate_upper
+.BI "(struct dentry *dentry "  ","
+.BI "struct iattr *ia "  ","
+.BI "struct iattr *lower_ia "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+The ecryptfs layer dentry
+.IP "ia" 12
+Address of the ecryptfs inode's attributes
+.IP "lower_ia" 12
+Address of the lower inode's attributes
+.SH "DESCRIPTION"
+Function to handle truncations modifying the size of the file. Note
+that the file sizes are interpolated. When expanding, we are simply
+writing strings of 0's out. When truncating, we truncate the upper
+inode and update the lower_ia according to the page index
+interpolations. If ATTR_SIZE is set in lower_ia->ia_valid upon return,
+the caller must use lower_ia in a call to \fBnotify_change\fP to perform
+the truncation of the lower inode.
+
+Returns zero on success; non-zero otherwise

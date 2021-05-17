@@ -1,0 +1,19 @@
+.TH "sci_controller_stop" 9 "sci_controller_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sci_controller_stop \- This method will stop an individual controller object.This method will invoke the associated user callback upon completion. The completion callback is called when the following conditions are met: -# the method return status is SCI_SUCCESS. -# the controller has been quiesced. This method will ensure that all IO requests are quiesced, phys are stopped, and all additional operation by the hardware is halted.
+.SH SYNOPSIS
+.B "enum sci_status" sci_controller_stop
+.BI "(struct isci_host *ihost "  ","
+.BI "u32 timeout "  ");"
+.SH ARGUMENTS
+.IP "ihost" 12
+-- undescribed --
+.IP "timeout" 12
+This parameter specifies the number of milliseconds in which the
+stop operation should complete.
+.SH "DESCRIPTION"
+The controller must be in the STARTED or STOPPED state. Indicate if the
+controller stop method succeeded or failed in some way. SCI_SUCCESS if the
+stop operation successfully began. SCI_WARNING_ALREADY_IN_STATE if the
+controller is already in the STOPPED state. SCI_FAILURE_INVALID_STATE if the
+controller is not either in the STARTED or STOPPED states.

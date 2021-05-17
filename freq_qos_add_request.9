@@ -1,0 +1,25 @@
+.TH "freq_qos_add_request" 9 "freq_qos_add_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freq_qos_add_request \- Insert new frequency QoS request into a given list.
+.SH SYNOPSIS
+.B "int" freq_qos_add_request
+.BI "(struct freq_constraints *qos "  ","
+.BI "struct freq_qos_request *req "  ","
+.BI "enum freq_qos_req_type type "  ","
+.BI "s32 value "  ");"
+.SH ARGUMENTS
+.IP "qos" 12
+Constraints to update.
+.IP "req" 12
+Preallocated request object.
+.IP "type" 12
+Request type.
+.IP "value" 12
+Request value.
+.SH "DESCRIPTION"
+Insert a new entry into the \fIqos\fP list of requests, recompute the effective
+QoS constraint value for that list and initialize the \fIreq\fP object.  The
+caller needs to save that object for later use in updates and removal.
+
+Return 1 if the effective constraint value has changed, 0 if the effective
+constraint value has not changed, or a negative error code on failures.

@@ -1,0 +1,57 @@
+.TH "bcm2835_spi_transfer_prologue" 9 "bcm2835_spi_transfer_prologue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm2835_spi_transfer_prologue \- transfer first few bytes without DMA
+.SH SYNOPSIS
+.B "void" bcm2835_spi_transfer_prologue
+.BI "(struct spi_controller *ctlr "  ","
+.BI "struct spi_transfer *tfr "  ","
+.BI "struct bcm2835_spi *bs "  ","
+.BI "u32 cs "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+SPI master controller
+.IP "tfr" 12
+SPI transfer
+.IP "bs" 12
+BCM2835 SPI controller
+.IP "cs" 12
+CS register
+.SH "DESCRIPTION"
+A limitation in DMA mode is that the FIFO must be accessed in 4 byte chunks.
+Only the final write access is permitted to transmit less than 4 bytes, the
+SPI controller deduces its intended size from the DLEN register.
+
+If a TX or RX sglist contains multiple entries, one per page, and the first
+entry starts in the middle of a page, that first entry's length may not be
+a multiple of 4.  Subsequent entries are fine because they span an entire
+page, hence do have a length that's a multiple of 4.
+
+This cannot happen with kmalloc'ed buffers (which is what most clients use)
+because they are contiguous in physical memory and therefore not split on
+page boundaries by \fBspi_map_buf\fP.  But it *can* happen with vmalloc'ed
+buffers.
+
+The DMA engine is incapable of combining sglist entries into a continuous
+stream of 4 byte chunks, it treats every entry separately:  A TX entry is
+rounded up a to a multiple of 4 bytes by transmitting surplus bytes, an RX
+entry is rounded up by throwing away received bytes.
+
+Overcome this limitation by transferring the first few bytes without DMA:
+E.g. if the first TX sglist entry's length is 23 and the first RX's is 42,
+write 3 bytes to the TX FIFO but read only 2 bytes from the RX FIFO.
+The residue of 1 byte in the RX FIFO is picked up by DMA.  Together with
+the rest of the first RX sglist entry it makes up a multiple of 4 bytes.
+
+Should the RX prologue be larger, say, 3 vis-à-vis a TX prologue of 1,
+write 1 + 4 = 5 bytes to the TX FIFO and read 3 bytes from the RX FIFO.
+Caution, the additional 4 bytes spill over to the second TX sglist entry
+if the length of the first is *exactly* 1.
+
+At most 6 bytes are written and at most 3 bytes read.  Do we know the
+transfer has this many bytes?  Yes, see BCM2835_SPI_DMA_MIN_LENGTH.
+
+The FIFO is normally accessed with 8-bit width by the CPU and 32-bit width
+by the DMA engine.  Toggling the DMA Enable flag in the CS register switches
+the width but also garbles the FIFO's contents.  The prologue must therefore
+be transmitted in 32-bit width to ensure that the following DMA transfer can
+pick up the residue in the RX FIFO in ungarbled form.

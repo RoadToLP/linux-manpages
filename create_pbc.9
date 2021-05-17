@@ -1,0 +1,28 @@
+.TH "create_pbc" 9 "create_pbc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_pbc \- build a pbc for transmission
+.SH SYNOPSIS
+.B "u64" create_pbc
+.BI "(struct hfi1_pportdata *ppd "  ","
+.BI "u64 flags "  ","
+.BI "int srate_mbs "  ","
+.BI "u32 vl "  ","
+.BI "u32 dw_len "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+info of physical Hfi port
+.IP "flags" 12
+special case flags or-ed in built pbc
+.IP "srate_mbs" 12
+static rate
+.IP "vl" 12
+vl
+.IP "dw_len" 12
+dword length (header words + data words + pbc words)
+.SH "DESCRIPTION"
+Create a PBC with the given flags, rate, VL, and length.
+.SH "NOTE"
+The PBC created will not insert any HCRC - all callers but one are
+for verbs, which does not use this PSM feature.  The lone other caller
+is for the diagnostic interface which calls this if the user does not
+supply their own PBC.

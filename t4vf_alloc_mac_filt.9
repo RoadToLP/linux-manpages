@@ -1,0 +1,40 @@
+.TH "t4vf_alloc_mac_filt" 9 "t4vf_alloc_mac_filt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4vf_alloc_mac_filt \- allocates exact-match filters for MAC addresses
+.SH SYNOPSIS
+.B "int" t4vf_alloc_mac_filt
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int viid "  ","
+.BI "bool free "  ","
+.BI "unsigned int naddr "  ","
+.BI "const u8 **addr "  ","
+.BI "u16 *idx "  ","
+.BI "u64 *hash "  ","
+.BI "bool sleep_ok "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "viid" 12
+the Virtual Interface Identifier
+.IP "free" 12
+if true any existing filters for this VI id are first removed
+.IP "naddr" 12
+the number of MAC addresses to allocate filters for (up to 7)
+.IP "addr" 12
+the MAC address(es)
+.IP "idx" 12
+where to store the index of each allocated filter
+.IP "hash" 12
+pointer to hash address filter bitmap
+.IP "sleep_ok" 12
+call is allowed to sleep
+
+Allocates an exact-match filter for each of the supplied addresses and
+sets it to the corresponding address.  If \fIidx\fP is not NULL it should
+have at least \fInaddr\fP entries, each of which will be set to the index of
+the filter allocated for the corresponding MAC address.  If a filter
+could not be allocated for an address its index is set to 0xffff.
+If \fIhash\fP is not NULL addresses that fail to allocate an exact filter
+are hashed and update the hash filter bitmap pointed at by \fIhash\fP.
+
+Returns a negative error number or the number of filters allocated.

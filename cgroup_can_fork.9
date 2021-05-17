@@ -1,0 +1,18 @@
+.TH "cgroup_can_fork" 9 "cgroup_can_fork" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_can_fork \- called on a new task before the process is exposed
+.SH SYNOPSIS
+.B "int" cgroup_can_fork
+.BI "(struct task_struct *child "  ","
+.BI "struct kernel_clone_args *kargs "  ");"
+.SH ARGUMENTS
+.IP "child" 12
+the child process
+.IP "kargs" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This prepares a new css_set for the child process which the child will
+be attached to in \fBcgroup_post_fork\fP.
+This calls the subsystem \fBcan_fork\fP callbacks. If the \fBcgroup_can_fork\fP
+callback returns an error, the fork aborts with that error code. This
+allows for a cgroup subsystem to conditionally allow or deny new forks.

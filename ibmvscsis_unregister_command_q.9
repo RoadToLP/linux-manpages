@@ -1,0 +1,20 @@
+.TH "ibmvscsis_unregister_command_q" 9 "ibmvscsis_unregister_command_q" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_unregister_command_q \- Helper Function-Unregister Command Queue
+.SH SYNOPSIS
+.B "long" ibmvscsis_unregister_command_q
+.BI "(struct scsi_info *vscsi "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.SH "DESCRIPTION"
+This function calls h_free_q then frees the interrupt bit etc.
+It must release the lock before doing so because of the time it can take
+for h_free_crq in PHYP
+EXECUTION ENVIRONMENT:
+Process level
+.SH "NOTE"
+the caller must make sure that state and or flags will prevent
+interrupt handler from scheduling work.
+anyone calling this function may need to set the CRQ_CLOSED flag
+we can't do it here, because we don't have the lock

@@ -1,0 +1,15 @@
+.TH "init_worker_pool" 9 "init_worker_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_worker_pool \- initialize a newly zalloc'd worker_pool
+.SH SYNOPSIS
+.B "int" init_worker_pool
+.BI "(struct worker_pool *pool "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+worker_pool to initialize
+.SH "DESCRIPTION"
+Initialize a newly zalloc'd \fIpool\fP.  It also allocates \fIpool->attrs\fP.
+.SH "RETURN"
+0 on success, -errno on failure.  Even on failure, all fields
+inside \fIpool\fP proper are initialized and \fBput_unbound_pool\fP can be called
+on \fIpool\fP safely to release it.

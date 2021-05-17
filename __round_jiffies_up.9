@@ -1,0 +1,17 @@
+.TH "__round_jiffies_up" 9 "__round_jiffies_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__round_jiffies_up \- function to round jiffies up to a full second
+.SH SYNOPSIS
+.B "unsigned long" __round_jiffies_up
+.BI "(unsigned long j "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "j" 12
+the time in (absolute) jiffies that should be rounded
+.IP "cpu" 12
+the processor number on which the timeout will happen
+.SH "DESCRIPTION"
+This is the same as \fB__round_jiffies\fP except that it will never
+round down.  This is useful for timeouts for which the exact time
+of firing does not matter too much, as long as they don't fire too
+early.

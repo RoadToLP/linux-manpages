@@ -1,0 +1,19 @@
+.TH "pm_runtime_barrier" 9 "pm_runtime_barrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_runtime_barrier \- Flush pending requests and wait for completions.
+.SH SYNOPSIS
+.B "int" pm_runtime_barrier
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.SH "DESCRIPTION"
+Prevent the device from being suspended by incrementing its usage counter and
+if there's a pending resume request for the device, wake the device up.
+Next, make sure that all pending requests for the device have been flushed
+from pm_wq and wait for all runtime PM operations involving the device in
+progress to complete.
+
+Return value:
+1, if there was a resume request pending and the device had to be woken up,
+0, otherwise

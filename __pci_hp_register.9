@@ -1,0 +1,30 @@
+.TH "__pci_hp_register" 9 "__pci_hp_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pci_hp_register \- register a hotplug_slot with the PCI hotplug subsystem
+.SH SYNOPSIS
+.B "int" __pci_hp_register
+.BI "(struct hotplug_slot *slot "  ","
+.BI "struct pci_bus *bus "  ","
+.BI "int devnr "  ","
+.BI "const char *name "  ","
+.BI "struct module *owner "  ","
+.BI "const char *mod_name "  ");"
+.SH ARGUMENTS
+.IP "slot" 12
+pointer to the \fIstruct hotplug_slot\fP to register
+.IP "bus" 12
+bus this slot is on
+.IP "devnr" 12
+device number
+.IP "name" 12
+name registered with kobject core
+.IP "owner" 12
+caller module owner
+.IP "mod_name" 12
+caller module name
+.SH "DESCRIPTION"
+Prepares a hotplug slot for in-kernel use and immediately publishes it to
+user space in one go.  Drivers may alternatively carry out the two steps
+separately by invoking \fBpci_hp_initialize\fP and \fBpci_hp_add\fP.
+
+Returns 0 if successful, anything else for an error.

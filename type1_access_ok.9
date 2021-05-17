@@ -1,0 +1,20 @@
+.TH "type1_access_ok" 9 "type1_access_ok" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+type1_access_ok \- check whether to use type 1
+.SH SYNOPSIS
+.B "bool" type1_access_ok
+.BI "(unsigned int bus "  ","
+.BI "unsigned int devfn "  ","
+.BI "int reg "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus number
+.IP "devfn" 12
+device & function in question
+.IP "reg" 12
+configuration register offset
+.SH "DESCRIPTION"
+If the bus is on a Lincroft chip and it exists, or is not on a Lincroft at
+all, the we can go ahead with any reads & writes.  If it's on a Lincroft,
+but doesn't exist, avoid the access altogether to keep the chip from
+hanging.

@@ -1,0 +1,19 @@
+.TH "netlbl_unlhsh_netdev_handler" 9 "netlbl_unlhsh_netdev_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_unlhsh_netdev_handler \- Network device notification handler
+.SH SYNOPSIS
+.B "int" netlbl_unlhsh_netdev_handler
+.BI "(struct notifier_block *this "  ","
+.BI "unsigned long event "  ","
+.BI "void *ptr "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+notifier block
+.IP "event" 12
+the event
+.IP "ptr" 12
+the netdevice notifier info (cast to void)
+.SH "DESCRIPTION"
+Handle network device events, although at present all we care about is a
+network device going away.  In the case of a device going away we clear any
+related entries from the unlabeled connection hash table.

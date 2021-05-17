@@ -1,0 +1,30 @@
+.TH "snd_soc_read_signed" 9 "snd_soc_read_signed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_soc_read_signed \- Read a codec register and interpret as signed value
+.SH SYNOPSIS
+.B "int" snd_soc_read_signed
+.BI "(struct snd_soc_component *component "  ","
+.BI "unsigned int reg "  ","
+.BI "unsigned int mask "  ","
+.BI "unsigned int shift "  ","
+.BI "unsigned int sign_bit "  ","
+.BI "int *signed_val "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+component
+.IP "reg" 12
+Register to read
+.IP "mask" 12
+Mask to use after shifting the register value
+.IP "shift" 12
+Right shift of register value
+.IP "sign_bit" 12
+Bit that describes if a number is negative or not.
+.IP "signed_val" 12
+Pointer to where the read value should be stored
+.SH "DESCRIPTION"
+This functions reads a codec register. The register value is shifted right
+by 'shift' bits and masked with the given 'mask'. Afterwards it translates
+the given registervalue into a signed integer if sign_bit is non-zero.
+
+Returns 0 on sucess, otherwise an error value

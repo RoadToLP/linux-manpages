@@ -1,0 +1,21 @@
+.TH "lpfc_restrict_login_set" 9 "lpfc_restrict_login_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_restrict_login_set \- Set the vport restrict login flag
+.SH SYNOPSIS
+.B "int" lpfc_restrict_login_set
+.BI "(struct lpfc_vport *vport "  ","
+.BI "int val "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+lpfc vport structure pointer.
+.IP "val" 12
+contains the restrict login value.
+.SH "DESCRIPTION"
+If val is not in a valid range then log a kernel error message and set
+the vport restrict login to one.
+If the port type is physical and the val is not zero log a kernel
+error message, clear the restrict login flag and return zero.
+Else set the restrict login flag to val.
+.SH "RETURN"
+zero if val is in range
+-EINVAL val out of range

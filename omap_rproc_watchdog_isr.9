@@ -1,0 +1,23 @@
+.TH "omap_rproc_watchdog_isr" 9 "omap_rproc_watchdog_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_rproc_watchdog_isr \- Watchdog ISR handler for remoteproc device
+.SH SYNOPSIS
+.B "irqreturn_t" omap_rproc_watchdog_isr
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number associated with a watchdog timer
+.IP "data" 12
+IRQ handler data
+.SH "DESCRIPTION"
+This ISR routine executes the required necessary low-level code to
+acknowledge a watchdog timer interrupt. There can be multiple watchdog
+timers associated with a rproc (like IPUs which have 2 watchdog timers,
+one per Cortex M3/M4 core), so a lookup has to be performed to identify
+the timer to acknowledge its interrupt.
+
+The function also invokes rproc_report_crash to report the watchdog event
+to the remoteproc driver core, to trigger a recovery.
+.SH "RETURN"
+IRQ_HANDLED on success, otherwise IRQ_NONE

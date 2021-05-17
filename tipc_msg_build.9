@@ -1,0 +1,29 @@
+.TH "tipc_msg_build" 9 "tipc_msg_build" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_msg_build \- create buffer chain containing specified header and data
+.SH SYNOPSIS
+.B "int" tipc_msg_build
+.BI "(struct tipc_msg *mhdr "  ","
+.BI "struct msghdr *m "  ","
+.BI "int offset "  ","
+.BI "int dsz "  ","
+.BI "int pktmax "  ","
+.BI "struct sk_buff_head *list "  ");"
+.SH ARGUMENTS
+.IP "mhdr" 12
+Message header, to be prepended to data
+.IP "m" 12
+User message
+.IP "offset" 12
+buffer offset for fragmented messages (FIXME)
+.IP "dsz" 12
+Total length of user data
+.IP "pktmax" 12
+Max packet size that can be used
+.IP "list" 12
+Buffer or chain of buffers to be returned to caller
+.SH "DESCRIPTION"
+Note that the recursive call we are making here is safe, since it can
+logically go only one further level down.
+.SH "RETURN"
+message data size or errno: -ENOMEM, -EFAULT

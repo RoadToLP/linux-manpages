@@ -1,0 +1,21 @@
+.TH "ice_init_sq" 9 "ice_init_sq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_init_sq \- main initialization routine for Control ATQ
+.SH SYNOPSIS
+.B "enum ice_status" ice_init_sq
+.BI "(struct ice_hw *hw "  ","
+.BI "struct ice_ctl_q_info *cq "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "cq" 12
+pointer to the specific Control queue
+.SH "DESCRIPTION"
+This is the main initialization routine for the Control Send Queue
+Prior to calling this function, the driver *MUST* set the following fields
+in the cq->structure:
+- cq->num_sq_entries
+- cq->sq_buf_size
+
+Do *NOT* hold the lock when calling this as the memory allocation routines
+called are not going to be atomic context safe

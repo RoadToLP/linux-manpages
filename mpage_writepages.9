@@ -1,0 +1,28 @@
+.TH "mpage_writepages" 9 "mpage_writepages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpage_writepages \- walk the list of dirty pages of the given address space & writepage() all of them
+.SH SYNOPSIS
+.B "int" mpage_writepages
+.BI "(struct address_space *mapping "  ","
+.BI "struct writeback_control *wbc "  ","
+.BI "get_block_t get_block "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space structure to write
+.IP "wbc" 12
+subtract the number of written pages from *\fIwbc->nr_to_write\fP
+.IP "get_block" 12
+the filesystem's block mapper function.
+If this is NULL then use a_ops->writepage.  Otherwise, go
+direct-to-BIO.
+.SH "DESCRIPTION"
+This is a library function, which implements the \fBwritepages\fP
+address_space_operation.
+
+If a page is already under I/O, \fBgeneric_writepages\fP skips it, even
+if it's dirty.  This is desirable behaviour for memory-cleaning writeback,
+but it is INCORRECT for data-integrity system calls such as \fBfsync\fP.  \fBfsync\fP
+and \fBmsync\fP need to guarantee that all the data which was dirty at the time
+the call was made get new I/O started against them.  If wbc->sync_mode is
+WB_SYNC_ALL then we were called for data integrity and we must wait for
+existing IO to complete.

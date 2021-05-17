@@ -1,0 +1,25 @@
+.TH "sba_mark_invalid" 9 "sba_mark_invalid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sba_mark_invalid \- invalidate one or more IO PDIR entries
+.SH SYNOPSIS
+.B "SBA_INLINE void" sba_mark_invalid
+.BI "(struct ioc *ioc "  ","
+.BI "dma_addr_t iova "  ","
+.BI "size_t byte_cnt "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+IO MMU structure which owns the pdir we are interested in.
+.IP "iova" 12
+IO Virtual Address mapped earlier
+.IP "byte_cnt" 12
+number of bytes this mapping covers.
+.SH "DESCRIPTION"
+Marking the IO PDIR entry(ies) as Invalid and invalidate
+corresponding IO TLB entry. The Ike PCOM (Purge Command Register)
+is to purge stale entries in the IO TLB when unmapping entries.
+
+The PCOM register supports purging of multiple pages, with a minium
+of 1 page and a maximum of 2GB. Hardware requires the address be
+aligned to the size of the range being purged. The size of the range
+must be a power of 2. The "Cool perf optimization" in the
+allocation routine helps keep that true.

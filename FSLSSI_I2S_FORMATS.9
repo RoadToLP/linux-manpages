@@ -1,0 +1,16 @@
+.TH "FSLSSI_I2S_FORMATS" 9 "FSLSSI_I2S_FORMATS" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+FSLSSI_I2S_FORMATS \- audio formats supported by the SSI
+.SH SYNOPSIS
+.B "FSLSSI_I2S_FORMATS
+.SH ARGUMENTS
+.SH "DESCRIPTION"
+
+The SSI has a limitation in that the samples must be in the same byte
+order as the host CPU.  This is because when multiple bytes are written
+to the STX register, the bytes and bits must be written in the same
+order.  The STX is a shift register, so all the bits need to be aligned
+(bit-endianness must match byte-endianness).  Processors typically write
+the bits within a byte in the same order that the bytes of a word are
+written in.  So if the host CPU is big-endian, then only big-endian
+samples will be written to STX properly.

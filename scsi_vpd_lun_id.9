@@ -1,0 +1,23 @@
+.TH "scsi_vpd_lun_id" 9 "scsi_vpd_lun_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_vpd_lun_id \- return a unique device identification
+.SH SYNOPSIS
+.B "int" scsi_vpd_lun_id
+.BI "(struct scsi_device *sdev "  ","
+.BI "char *id "  ","
+.BI "size_t id_len "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device
+.IP "id" 12
+buffer for the identification
+.IP "id_len" 12
+length of the buffer
+.SH "DESCRIPTION"
+Copies a unique device identification into \fIid\fP based
+on the information in the VPD page 0x83 of the device.
+The string will be formatted as a SCSI name string.
+
+Returns the length of the identification or error on failure.
+If the identifier is longer than the supplied buffer the actual
+identifier length is returned and the buffer is not zero-padded.

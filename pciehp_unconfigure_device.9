@@ -1,0 +1,18 @@
+.TH "pciehp_unconfigure_device" 9 "pciehp_unconfigure_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pciehp_unconfigure_device \- remove PCI devices below a hotplug bridge
+.SH SYNOPSIS
+.B "void" pciehp_unconfigure_device
+.BI "(struct controller *ctrl "  ","
+.BI "bool presence "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+PCIe hotplug controller
+.IP "presence" 12
+whether the card is still present in the slot;
+true for safe removal via sysfs or an Attention Button press,
+false for surprise removal
+.SH "DESCRIPTION"
+Unbind PCI devices below a hotplug bridge from their drivers and remove
+them from the system.  Safely removed devices are quiesced.  Surprise
+removed devices are marked as such to prevent further accesses.

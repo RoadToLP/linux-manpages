@@ -1,0 +1,26 @@
+.TH "phy_connect" 9 "phy_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_connect \- connect an ethernet device to a PHY device
+.SH SYNOPSIS
+.B "struct phy_device *" phy_connect
+.BI "(struct net_device *dev "  ","
+.BI "const char *bus_id "  ","
+.BI "void (*handler)(struct net_device *) "  ","
+.BI "phy_interface_t interface "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the network device to connect
+.IP "bus_id" 12
+the id string of the PHY device to connect
+.IP "handler" 12
+callback function for state change notifications
+.IP "interface" 12
+PHY device's interface
+.SH "DESCRIPTION"
+Convenience function for connecting ethernet
+devices to PHY devices.  The default behavior is for
+the PHY infrastructure to handle everything, and only notify
+the connected driver when the link status changes.  If you
+don't want, or can't use the provided functionality, you may
+choose to call only the subset of functions which provide
+the desired functionality.

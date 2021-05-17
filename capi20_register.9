@@ -1,0 +1,16 @@
+.TH "capi20_register" 9 "capi20_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+capi20_register \- CAPI 2.0 operation CAPI_REGISTER
+.SH SYNOPSIS
+.B "u16" capi20_register
+.BI "(struct capi20_appl *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+CAPI application descriptor structure.
+.SH "DESCRIPTION"
+Register an application's presence with CAPI.
+A unique application ID is assigned and stored in \fIap->applid\fP.
+After this function returns successfully, the message receive
+callback function \fIap\fP->\fBrecv_message\fP may be called at any time
+until \fBcapi20_release\fP has been called for the same \fIap\fP.
+Return value: CAPI result code

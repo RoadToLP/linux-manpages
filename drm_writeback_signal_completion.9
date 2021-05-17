@@ -1,0 +1,23 @@
+.TH "drm_writeback_signal_completion" 9 "drm_writeback_signal_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_writeback_signal_completion \- Signal the completion of a writeback job
+.SH SYNOPSIS
+.B "void" drm_writeback_signal_completion
+.BI "(struct drm_writeback_connector *wb_connector "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "wb_connector" 12
+The writeback connector whose job is complete
+.IP "status" 12
+Status code to set in the writeback out_fence (0 for success)
+.SH "DESCRIPTION"
+Drivers should call this to signal the completion of a previously queued
+writeback job. It should be called as soon as possible after the hardware
+has finished writing, and may be called from interrupt context.
+It is the driver's responsibility to ensure that for a given connector, the
+hardware completes writeback jobs in the same order as they are queued.
+
+Unless the driver is holding its own reference to the framebuffer, it must
+not be accessed after calling this function.
+
+See also: \fBdrm_writeback_queue_job\fP

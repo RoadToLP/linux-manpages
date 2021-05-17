@@ -1,0 +1,22 @@
+.TH "smc_llc_add_pending_send" 9 "smc_llc_add_pending_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smc_llc_add_pending_send \- add LLC control message to pending WQE transmits
+.SH SYNOPSIS
+.B "int" smc_llc_add_pending_send
+.BI "(struct smc_link *link "  ","
+.BI "struct smc_wr_buf **wr_buf "  ","
+.BI "struct smc_wr_tx_pend_priv **pend "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+Pointer to SMC link used for sending LLC control message.
+.IP "wr_buf" 12
+Out variable returning pointer to work request payload buffer.
+.IP "pend" 12
+Out variable returning pointer to private pending WR tracking.
+It's the context the transmit complete handler will get.
+.SH "DESCRIPTION"
+Reserves and pre-fills an entry for a pending work request send/tx.
+Used by mid-level \fBsmc_llc_send_msg\fP to prepare for later actual send/tx.
+Can sleep due to smc_get_ctrl_buf (if not in softirq context).
+.SH "RETURN"
+0 on success, otherwise an error value.

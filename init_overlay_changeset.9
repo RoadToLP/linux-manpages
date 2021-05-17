@@ -1,0 +1,22 @@
+.TH "init_overlay_changeset" 9 "init_overlay_changeset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_overlay_changeset \- initialize overlay changeset from overlay tree
+.SH SYNOPSIS
+.B "int" init_overlay_changeset
+.BI "(struct overlay_changeset *ovcs "  ","
+.BI "const void *fdt "  ","
+.BI "struct device_node *tree "  ");"
+.SH ARGUMENTS
+.IP "ovcs" 12
+Overlay changeset to build
+.IP "fdt" 12
+base of memory allocated to hold aligned FDT that was unflattened to create \fItree\fP
+.IP "tree" 12
+Contains the overlay fragments and overlay fixup nodes
+.SH "DESCRIPTION"
+Initialize \fIovcs\fP.  Populate \fIovcs->fragments\fP with node information from
+the top level of \fItree\fP.  The relevant top level nodes are the fragment
+nodes and the __symbols__ node.  Any other top level node will be ignored.
+
+Returns 0 on success, -ENOMEM if memory allocation failure, -EINVAL if error
+detected in \fItree\fP, or -ENOSPC if \fBidr_alloc\fP error.

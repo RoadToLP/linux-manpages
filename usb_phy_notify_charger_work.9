@@ -1,0 +1,21 @@
+.TH "usb_phy_notify_charger_work" 9 "usb_phy_notify_charger_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_phy_notify_charger_work \- notify the USB charger state
+.SH SYNOPSIS
+.B "void" usb_phy_notify_charger_work
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+the charger work to notify the USB charger state
+.SH "DESCRIPTION"
+This work can be issued when USB charger state has been changed or
+USB charger current has been changed, then we can notify the current
+what can be drawn to power user and the charger state to userspace.
+
+If we get the charger type from extcon subsystem, we can notify the
+charger state to power user automatically by \fBusb_phy_get_charger_type\fP
+issuing from extcon subsystem.
+
+If we get the charger type from ->\fBcharger_detect\fP instead of extcon
+subsystem, the usb phy driver should issue \fBusb_phy_set_charger_state\fP
+to set charger state when the charger state has been changed.

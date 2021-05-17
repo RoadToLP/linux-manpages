@@ -1,0 +1,13 @@
+.TH "svc_rdma_release_rqst" 9 "svc_rdma_release_rqst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_release_rqst \- Release transport-specific per-rqst resources
+.SH SYNOPSIS
+.B "void" svc_rdma_release_rqst
+.BI "(struct svc_rqst *rqstp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+svc_rqst being released
+.SH "DESCRIPTION"
+Ensure that the recv_ctxt is released whether or not a Reply
+was sent. For example, the client could close the connection,
+or svc_process could drop an RPC, before the Reply is sent.

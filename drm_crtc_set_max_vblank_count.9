@@ -1,0 +1,24 @@
+.TH "drm_crtc_set_max_vblank_count" 9 "drm_crtc_set_max_vblank_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_set_max_vblank_count \- configure the hw max vblank counter value
+.SH SYNOPSIS
+.B "void" drm_crtc_set_max_vblank_count
+.BI "(struct drm_crtc *crtc "  ","
+.BI "u32 max_vblank_count "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC in question
+.IP "max_vblank_count" 12
+max hardware vblank counter value
+.SH "DESCRIPTION"
+Update the maximum hardware vblank counter value for \fIcrtc\fP
+at runtime. Useful for hardware where the operation of the
+hardware vblank counter depends on the currently active
+display configuration.
+
+For example, if the hardware vblank counter does not work
+when a specific connector is active the maximum can be set
+to zero. And when that specific connector isn't active the
+maximum can again be set to the appropriate non-zero value.
+
+If used, must be called before \fBdrm_vblank_on\fP.

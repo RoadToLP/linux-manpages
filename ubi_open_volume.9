@@ -1,0 +1,27 @@
+.TH "ubi_open_volume" 9 "ubi_open_volume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_open_volume \- open UBI volume.
+.SH SYNOPSIS
+.B "struct ubi_volume_desc *" ubi_open_volume
+.BI "(int ubi_num "  ","
+.BI "int vol_id "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "ubi_num" 12
+UBI device number
+.IP "vol_id" 12
+volume ID
+.IP "mode" 12
+open mode
+.SH "DESCRIPTION"
+The \fImode\fP parameter specifies if the volume should be opened in read-only
+mode, read-write mode, or exclusive mode. The exclusive mode guarantees that
+nobody else will be able to open this volume. UBI allows to have many volume
+readers and one writer at a time.
+
+If a static volume is being opened for the first time since boot, it will be
+checked by this function, which means it will be fully read and the CRC
+checksum of each logical eraseblock will be checked.
+
+This function returns volume descriptor in case of success and a negative
+error code in case of failure.

@@ -1,0 +1,24 @@
+.TH "ata_pci_sff_activate_host" 9 "ata_pci_sff_activate_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_pci_sff_activate_host \- start SFF host, request IRQ and register it
+.SH SYNOPSIS
+.B "int" ata_pci_sff_activate_host
+.BI "(struct ata_host *host "  ","
+.BI "irq_handler_t irq_handler "  ","
+.BI "struct scsi_host_template *sht "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+target SFF ATA host
+.IP "irq_handler" 12
+irq_handler used when requesting IRQ(s)
+.IP "sht" 12
+scsi_host_template to use when registering the host
+
+This is the counterpart of \fBata_host_activate\fP for SFF ATA
+hosts.  This separate helper is necessary because SFF hosts
+use two separate interrupts in legacy mode.
+
+LOCKING:
+Inherited from calling layer (may sleep).
+.SH "RETURN"
+0 on success, -errno otherwise.

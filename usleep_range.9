@@ -1,0 +1,18 @@
+.TH "usleep_range" 9 "usleep_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usleep_range \- Sleep for an approximate time
+.SH SYNOPSIS
+.B "void" usleep_range
+.BI "(unsigned long min "  ","
+.BI "unsigned long max "  ");"
+.SH ARGUMENTS
+.IP "min" 12
+Minimum time in usecs to sleep
+.IP "max" 12
+Maximum time in usecs to sleep
+.SH "DESCRIPTION"
+In non-atomic context where the exact wakeup time is flexible, use
+\fBusleep_range\fP instead of \fBudelay\fP.  The sleep improves responsiveness
+by avoiding the CPU-hogging busy-wait of \fBudelay\fP, and the range reduces
+power usage by allowing hrtimers to take advantage of an already-
+scheduled interrupt instead of scheduling a new one just for this sleep.

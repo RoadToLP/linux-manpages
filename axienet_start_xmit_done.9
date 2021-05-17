@@ -1,0 +1,15 @@
+.TH "axienet_start_xmit_done" 9 "axienet_start_xmit_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axienet_start_xmit_done \- Invoked once a transmit is completed by the Axi DMA Tx channel.
+.SH SYNOPSIS
+.B "void" axienet_start_xmit_done
+.BI "(struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+Pointer to the net_device structure
+.SH "DESCRIPTION"
+This function is invoked from the Axi DMA Tx isr to notify the completion
+of transmit operation. It clears fields in the corresponding Tx BDs and
+unmaps the corresponding buffer so that CPU can regain ownership of the
+buffer. It finally invokes "netif_wake_queue" to restart transmission if
+required.

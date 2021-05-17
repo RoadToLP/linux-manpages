@@ -1,0 +1,19 @@
+.TH "blk_post_runtime_resume" 9 "blk_post_runtime_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_post_runtime_resume \- Post runtime resume processing
+.SH SYNOPSIS
+.B "void" blk_post_runtime_resume
+.BI "(struct request_queue *q "  ","
+.BI "int err "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue of the device
+.IP "err" 12
+return value of the device's runtime_resume function
+.SH "DESCRIPTION"
+Update the queue's runtime status according to the return value of the
+device's runtime_resume function. If the resume was successful, call
+\fBblk_set_runtime_active\fP to do the real work of restarting the queue.
+
+This function should be called near the end of the device's
+runtime_resume callback.

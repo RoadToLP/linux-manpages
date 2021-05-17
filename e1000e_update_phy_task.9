@@ -1,0 +1,13 @@
+.TH "e1000e_update_phy_task" 9 "e1000e_update_phy_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000e_update_phy_task \- work thread to update phy
+.SH SYNOPSIS
+.B "void" e1000e_update_phy_task
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+pointer to our work struct
+.SH "DESCRIPTION"
+this worker thread exists because we must acquire a
+semaphore to read the phy, which we could msleep while
+waiting for it, and we can't msleep in a timer.

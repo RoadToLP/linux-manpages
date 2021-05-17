@@ -1,0 +1,29 @@
+.TH "check_for_req_inflight" 9 "check_for_req_inflight" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_for_req_inflight \- Look to see if conflicting cmds are in flight.
+.SH SYNOPSIS
+.B "int" check_for_req_inflight
+.BI "(struct rsc_drv *drv "  ","
+.BI "struct tcs_group *tcs "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "tcs" 12
+A pointer to the tcs_group used for ACTIVE_ONLY transfers.
+.IP "msg" 12
+The message we want to send, which will contain several addr/data
+pairs to program (but few enough that they all fit in one TCS).
+.SH "DESCRIPTION"
+This will walk through the TCSes in the group and check if any of them
+appear to be sending to addresses referenced in the message. If it finds
+one it'll return -EBUSY.
+
+Only for use for active-only transfers.
+
+Must be called with the drv->lock held since that protects tcs_in_use.
+.SH "RETURN"
+0 if nothing in flight or -EBUSY if we should try again later.
+The caller must re-enable interrupts between tries since that's
+the only way \fBtcs_is_free\fP will ever return true and the only way
+RSC_DRV_CMD_ENABLE will ever be cleared.

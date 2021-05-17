@@ -1,0 +1,22 @@
+.TH "kdb_getchar" 9 "kdb_getchar" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kdb_getchar \- Read a single character from a kdb console (or consoles).
+.SH SYNOPSIS
+.B "char" kdb_getchar
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Other than polling the various consoles that are currently enabled,
+most of the work done in this function is dealing with escape sequences.
+
+An escape key could be the start of a vt100 control sequence such as \e[D
+(left arrow) or it could be a character in its own right.  The standard
+method for detecting the difference is to wait for 2 seconds to see if there
+are any other characters.  kdb is complicated by the lack of a timer service
+(interrupts are off), by multiple input sources. Escape sequence processing
+has to be done as states in the polling loop.
+.SH "RETURN"
+The key pressed or a control code derived from an escape sequence.

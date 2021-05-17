@@ -1,0 +1,23 @@
+.TH "show_protocols" 9 "show_protocols" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+show_protocols \- shows the current IR protocol(s)
+.SH SYNOPSIS
+.B "ssize_t" show_protocols
+.BI "(struct device *device "  ","
+.BI "struct device_attribute *mattr "  ","
+.BI "char *buf "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+the device descriptor
+.IP "mattr" 12
+the device attribute struct
+.IP "buf" 12
+a pointer to the output buffer
+.SH "DESCRIPTION"
+This routine is a callback routine for input read the IR protocol type(s).
+it is triggered by reading /sys/class/rc/rc?/protocols.
+It returns the protocol names of supported protocols.
+Enabled protocols are printed in brackets.
+
+dev->lock is taken to guard against races between
+store_protocols and show_protocols.

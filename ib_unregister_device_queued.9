@@ -1,0 +1,16 @@
+.TH "ib_unregister_device_queued" 9 "ib_unregister_device_queued" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_unregister_device_queued \- Unregister a device using a work queue
+.SH SYNOPSIS
+.B "void" ib_unregister_device_queued
+.BI "(struct ib_device *ib_dev "  ");"
+.SH ARGUMENTS
+.IP "ib_dev" 12
+The device to unregister
+.SH "DESCRIPTION"
+This schedules an asynchronous unregistration using a WQ for the device. A
+driver should use this to avoid holding locks while doing unregistration,
+such as holding the RTNL lock.
+
+Drivers using this API must use ib_unregister_driver before module unload
+to ensure that all scheduled unregistrations have completed.

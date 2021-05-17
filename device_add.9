@@ -1,0 +1,32 @@
+.TH "device_add" 9 "device_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_add \- add device to device hierarchy.
+.SH SYNOPSIS
+.B "int" device_add
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+This is part 2 of \fBdevice_register\fP, though may be called
+separately _iff_ \fBdevice_initialize\fP has been called separately.
+
+This adds \fIdev\fP to the kobject hierarchy via \fBkobject_add\fP, adds it
+to the global and sibling lists for the device, then
+adds it to the other relevant subsystems of the driver model.
+
+Do not call this routine or \fBdevice_register\fP more than once for
+any device structure.  The driver model core is not designed to work
+with devices that get unregistered and then spring back to life.
+(Among other things, it's very hard to guarantee that all references
+to the previous incarnation of \fIdev\fP have been dropped.)  Allocate
+and register a fresh new struct device instead.
+
+Rule of thumb is: if \fBdevice_add\fP succeeds, you should call
+\fBdevice_del\fP when you want to get rid of it. If \fBdevice_add\fP has
+*not* succeeded, use *only* \fBput_device\fP to drop the reference
+count.
+.SH "NOTE"
+_Never_ directly free \fIdev\fP after calling this function, even
+if it returned an error! Always use \fBput_device\fP to give up your
+reference instead.

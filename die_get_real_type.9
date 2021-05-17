@@ -1,0 +1,17 @@
+.TH "die_get_real_type" 9 "die_get_real_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+die_get_real_type \- Get a type die, but skip qualifiers and typedef
+.SH SYNOPSIS
+.B "Dwarf_Die *" die_get_real_type
+.BI "(Dwarf_Die *vr_die "  ","
+.BI "Dwarf_Die *die_mem "  ");"
+.SH ARGUMENTS
+.IP "vr_die" 12
+a DIE of a variable
+.IP "die_mem" 12
+where to store a type DIE
+.SH "DESCRIPTION"
+Get a DIE of the type of given variable (\fIvr_die\fP), and store
+it to die_mem. Return NULL if fails to get a type DIE.
+If the type is qualifiers (e.g. const) or typedef, this skips it
+and tries to find real type (structure or basic types, e.g. int).

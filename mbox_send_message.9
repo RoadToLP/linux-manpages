@@ -1,0 +1,30 @@
+.TH "mbox_send_message" 9 "mbox_send_message" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_send_message \- For client to submit a message to be sent to the remote.
+.SH SYNOPSIS
+.B "int" mbox_send_message
+.BI "(struct mbox_chan *chan "  ","
+.BI "void *mssg "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Mailbox channel assigned to this client.
+.IP "mssg" 12
+Client specific message typecasted.
+.SH "DESCRIPTION"
+For client to submit data to the controller destined for a remote
+processor. If the client had set 'tx_block', the call will return
+either when the remote receives the data or when 'tx_tout' millisecs
+run out.
+In non-blocking mode, the requests are buffered by the API and a
+non-negative token is returned for each queued request. If the request
+is not queued, a negative token is returned. Upon failure or successful
+TX, the API calls 'tx_done' from atomic context, from which the client
+could submit yet another request.
+The pointer to message should be preserved until it is sent
+over the chan, i.e, \fBtx_done\fP is made.
+This function could be called from atomic context as it simply
+queues the data and returns a token against the request.
+.SH "RETURN"
+Non-negative integer for successful submission (non-blocking mode)
+or transmission over chan (blocking mode).
+Negative value denotes failure.

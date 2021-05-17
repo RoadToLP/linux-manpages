@@ -1,0 +1,20 @@
+.TH "gfs2_ail1_wipe" 9 "gfs2_ail1_wipe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_ail1_wipe \- remove deleted/freed buffers from the ail1 list
+.SH SYNOPSIS
+.B "void" gfs2_ail1_wipe
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "u64 bstart "  ","
+.BI "u32 blen "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+superblock
+.IP "bstart" 12
+starting block address of buffers to remove
+.IP "blen" 12
+length of buffers to be removed
+.SH "DESCRIPTION"
+This function is called from gfs2_journal wipe, whose job is to remove
+buffers, corresponding to deleted blocks, from the journal. If we find any
+bufdata elements on the system ail1 list, they haven't been written to
+the journal yet. So we remove them.

@@ -1,0 +1,37 @@
+.TH "tegra_cvb_add_opp_table" 9 "tegra_cvb_add_opp_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tegra_cvb_add_opp_table \- build OPP table from Tegra CVB tables
+.SH SYNOPSIS
+.B "const struct cvb_table *" tegra_cvb_add_opp_table
+.BI "(struct device *dev "  ","
+.BI "const struct cvb_table *tables "  ","
+.BI "size_t count "  ","
+.BI "struct rail_alignment *align "  ","
+.BI "int process_id "  ","
+.BI "int speedo_id "  ","
+.BI "int speedo_value "  ","
+.BI "unsigned long max_freq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct device * for which the OPP table is built
+.IP "tables" 12
+array of CVB tables
+.IP "count" 12
+size of the previously mentioned array
+.IP "align" 12
+parameters of the regulator step and offset
+.IP "process_id" 12
+process id of the HW module
+.IP "speedo_id" 12
+speedo id of the HW module
+.IP "speedo_value" 12
+speedo value of the HW module
+.IP "max_freq" 12
+highest safe clock rate
+.SH "DESCRIPTION"
+On Tegra, a CVB table encodes the relationship between operating voltage
+and safe maximal frequency for a given module (e.g. GPU or CPU). This
+function calculates the optimal voltage-frequency operating points
+for the given arguments and exports them via the OPP library for the
+given \fIdev\fP. Returns a pointer to the struct cvb_table that matched
+or an ERR_PTR on failure.

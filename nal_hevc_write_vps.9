@@ -1,0 +1,25 @@
+.TH "nal_hevc_write_vps" 9 "nal_hevc_write_vps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nal_hevc_write_vps \- Write PPS NAL unit into RBSP format
+.SH SYNOPSIS
+.B "ssize_t" nal_hevc_write_vps
+.BI "(const struct device *dev "  ","
+.BI "void *dest "  ","
+.BI "size_t n "  ","
+.BI "struct nal_hevc_vps *vps "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer
+.IP "dest" 12
+the buffer that is filled with RBSP data
+.IP "n" 12
+maximum size of \fIdest\fP in bytes
+.IP "vps" 12
+\fIstruct nal_hevc_vps\fP to convert to RBSP
+.SH "DESCRIPTION"
+Convert \fIvps\fP to RBSP data and write it into \fIdest\fP.
+
+The size of the VPS NAL unit is not known in advance and this function will
+fail, if \fIdest\fP does not hold sufficient space for the VPS NAL unit.
+.SH "RETURN"
+number of bytes written to \fIdest\fP or negative error code

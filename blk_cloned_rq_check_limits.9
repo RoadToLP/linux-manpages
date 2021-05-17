@@ -1,0 +1,22 @@
+.TH "blk_cloned_rq_check_limits" 9 "blk_cloned_rq_check_limits" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_cloned_rq_check_limits \- Helper function to check a cloned request for the new queue limits
+.SH SYNOPSIS
+.B "blk_status_t" blk_cloned_rq_check_limits
+.BI "(struct request_queue *q "  ","
+.BI "struct request *rq "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue
+.IP "rq" 12
+the request being checked
+.SH "DESCRIPTION"
+\fIrq\fP may have been made based on weaker limitations of upper-level queues
+in request stacking drivers, and it may violate the limitation of \fIq\fP.
+Since the block layer and the underlying device driver trust \fIrq\fP
+after it is inserted to \fIq\fP, it should be checked against \fIq\fP before
+the insertion using this generic function.
+
+Request stacking drivers like request-based dm may change the queue
+limits when retrying requests on other queues. Those requests need
+to be checked against the new queue limits again during dispatch.

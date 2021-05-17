@@ -1,0 +1,19 @@
+.TH "from_kprojid" 9 "from_kprojid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kprojid \- Create a projid from a kprojid user-namespace pair.
+.SH SYNOPSIS
+.B "projid_t" from_kprojid
+.BI "(struct user_namespace *targ "  ","
+.BI "kprojid_t kprojid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a projid in.
+.IP "kprojid" 12
+The kernel internal project identifier to start with.
+
+Map \fIkprojid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting projid.
+
+There is always a mapping into the initial user_namespace.
+
+If \fIkprojid\fP has no mapping in \fItarg\fP (projid_t)-1 is returned.

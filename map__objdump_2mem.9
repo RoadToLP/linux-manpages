@@ -1,0 +1,19 @@
+.TH "map__objdump_2mem" 9 "map__objdump_2mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+map__objdump_2mem \- convert objdump address to a memory address.
+.SH SYNOPSIS
+.B "u64" map__objdump_2mem
+.BI "(struct map *map "  ","
+.BI "u64 ip "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+memory map
+.IP "ip" 12
+objdump address
+.SH "DESCRIPTION"
+Closely related to \fBmap__rip_2objdump\fP, this function takes an address from
+objdump and converts it to a memory address.  Note this assumes that \fImap\fP
+contains the address.  To be sure the result is valid, check it forwards
+e.g. map__rip_2objdump(map->map_ip(map, map__objdump_2mem(map, ip))) == ip
+.SH "RETURN"
+Memory address.

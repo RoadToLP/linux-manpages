@@ -1,0 +1,26 @@
+.TH "ima_inode_hash" 9 "ima_inode_hash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_inode_hash \- return the stored measurement if the inode has been hashed and is in the iint cache.
+.SH SYNOPSIS
+.B "int" ima_inode_hash
+.BI "(struct inode *inode "  ","
+.BI "char *buf "  ","
+.BI "size_t buf_size "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pointer to the inode
+.IP "buf" 12
+buffer in which to store the hash
+.IP "buf_size" 12
+length of the buffer
+.SH "DESCRIPTION"
+On success, return the hash algorithm (as defined in the enum hash_algo).
+If buf is not NULL, this function also outputs the hash into buf.
+If the hash is larger than buf_size, then only buf_size bytes will be copied.
+It generally just makes sense to pass a buffer capable of holding the largest
+possible hash: IMA_MAX_DIGEST_SIZE.
+The hash returned is based on the entire contents, including the appended
+signature.
+
+If IMA is disabled or if no measurement is available, return -EOPNOTSUPP.
+If the parameters are incorrect, return -EINVAL.

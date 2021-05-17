@@ -1,0 +1,26 @@
+.TH "fb_get_hblank_by_dclk" 9 "fb_get_hblank_by_dclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fb_get_hblank_by_dclk \- get horizontal blank time given pixelclock
+.SH SYNOPSIS
+.B "u32" fb_get_hblank_by_dclk
+.BI "(u32 dclk "  ","
+.BI "u32 xres "  ");"
+.SH ARGUMENTS
+.IP "dclk" 12
+pixelclock in Hz
+.IP "xres" 12
+horizontal resolution in pixels
+.SH "DESCRIPTION"
+
+xres * duty_cycle
+hblank = ------------------
+100 - duty_cycle
+
+duty cycle = percent of htotal assigned to inactive display
+duty cycle = C - (M * h_period)
+
+where: h_period = SQRT(100 - C + (0.4 * xres * M)/dclk) + C - 100
+-----------------------------------------------
+2 * M
+M = 300;
+C = 30;

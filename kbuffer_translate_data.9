@@ -1,0 +1,19 @@
+.TH "kbuffer_translate_data" 9 "kbuffer_translate_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbuffer_translate_data \- read raw data to get a record
+.SH SYNOPSIS
+.B "void *" kbuffer_translate_data
+.BI "(int swap "  ","
+.BI "void *data "  ","
+.BI "unsigned int *size "  ");"
+.SH ARGUMENTS
+.IP "swap" 12
+Set to 1 if bytes in words need to be swapped when read
+.IP "data" 12
+The raw data to read
+.IP "size" 12
+Address to store the size of the event data.
+.SH "DESCRIPTION"
+Returns a pointer to the event data. To determine the entire
+record size (record metadata + data) just add the difference between
+\fIdata\fP and the returned value to \fIsize\fP.

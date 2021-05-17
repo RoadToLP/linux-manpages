@@ -1,0 +1,39 @@
+.TH "vfs_link" 9 "vfs_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_link \- create a new link
+.SH SYNOPSIS
+.B "int" vfs_link
+.BI "(struct dentry *old_dentry "  ","
+.BI "struct user_namespace *mnt_userns "  ","
+.BI "struct inode *dir "  ","
+.BI "struct dentry *new_dentry "  ","
+.BI "struct inode **delegated_inode "  ");"
+.SH ARGUMENTS
+.IP "old_dentry" 12
+object to be linked
+.IP "mnt_userns" 12
+the user namespace of the mount
+.IP "dir" 12
+new parent
+.IP "new_dentry" 12
+where to create the new link
+.IP "delegated_inode" 12
+returns inode needing a delegation break
+.SH "DESCRIPTION"
+The caller must hold dir->i_mutex
+
+If vfs_link discovers a delegation on the to-be-linked file in need
+of breaking, it will return -EWOULDBLOCK and return a reference to the
+inode in delegated_inode.  The caller should then break the delegation
+and retry.  Because breaking a delegation may take a long time, the
+caller should drop the i_mutex before doing so.
+
+Alternatively, a caller may pass NULL for delegated_inode.  This may
+be appropriate for callers that expect the underlying filesystem not
+to be NFS exported.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions.
+On non-idmapped mounts or if permission checking is to be performed on the
+raw inode simply passs init_user_ns.

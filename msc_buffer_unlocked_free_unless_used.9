@@ -1,0 +1,16 @@
+.TH "msc_buffer_unlocked_free_unless_used" 9 "msc_buffer_unlocked_free_unless_used" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_unlocked_free_unless_used \- free a buffer unless it's in use
+.SH SYNOPSIS
+.B "int" msc_buffer_unlocked_free_unless_used
+.BI "(struct msc *msc "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.SH "DESCRIPTION"
+This will free MSC buffer unless it is in use or there is no allocated
+buffer.
+Caller needs to hold msc::buf_mutex.
+.SH "RETURN"
+0 on successful deallocation or if there was no buffer to
+deallocate, -EBUSY if there are active users.

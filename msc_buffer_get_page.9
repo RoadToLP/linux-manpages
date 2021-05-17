@@ -1,0 +1,17 @@
+.TH "msc_buffer_get_page" 9 "msc_buffer_get_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_get_page \- get MSC buffer page at a given offset
+.SH SYNOPSIS
+.B "struct page *" msc_buffer_get_page
+.BI "(struct msc *msc "  ","
+.BI "unsigned long pgoff "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.IP "pgoff" 12
+page offset into the storage buffer
+.SH "DESCRIPTION"
+This traverses msc::win_list, so holding msc::buf_mutex is expected from
+the caller.
+.SH "RETURN"
+page if \fIpgoff\fP corresponds to a valid buffer page or NULL.

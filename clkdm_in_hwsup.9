@@ -1,0 +1,16 @@
+.TH "clkdm_in_hwsup" 9 "clkdm_in_hwsup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_in_hwsup \- is clockdomain @clkdm have hardware-supervised idle enabled?
+.SH SYNOPSIS
+.B "bool" clkdm_in_hwsup
+.BI "(struct clockdomain *clkdm "  ");"
+.SH ARGUMENTS
+.IP "clkdm" 12
+struct clockdomain *
+.SH "DESCRIPTION"
+Returns true if clockdomain \fIclkdm\fP currently has
+hardware-supervised idle enabled, or false if it does not or if
+\fIclkdm\fP is NULL.  It is only valid to call this function after
+\fBclkdm_init\fP has been called.  This function does not actually read
+bits from the hardware; it instead tests an in-memory flag that is
+changed whenever the clockdomain code changes the auto-idle mode.

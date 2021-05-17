@@ -1,0 +1,20 @@
+.TH "spi_mem_dirmap_create" 9 "spi_mem_dirmap_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_mem_dirmap_create \- Create a direct mapping descriptor
+.SH SYNOPSIS
+.B "struct spi_mem_dirmap_desc *" spi_mem_dirmap_create
+.BI "(struct spi_mem *mem "  ","
+.BI "const struct spi_mem_dirmap_info *info "  ");"
+.SH ARGUMENTS
+.IP "mem" 12
+SPI mem device this direct mapping should be created for
+.IP "info" 12
+direct mapping information
+.SH "DESCRIPTION"
+This function is creating a direct mapping descriptor which can then be used
+to access the memory using \fBspi_mem_dirmap_read\fP or \fBspi_mem_dirmap_write\fP.
+If the SPI controller driver does not support direct mapping, this function
+falls back to an implementation using \fBspi_mem_exec_op\fP, so that the caller
+doesn't have to bother implementing a fallback on his own.
+.SH "RETURN"
+a valid pointer in case of success, and \fBERR_PTR\fP otherwise.

@@ -1,0 +1,20 @@
+.TH "tty_port_link_device" 9 "tty_port_link_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_port_link_device \- link tty and tty_port
+.SH SYNOPSIS
+.B "void" tty_port_link_device
+.BI "(struct tty_port *port "  ","
+.BI "struct tty_driver *driver "  ","
+.BI "unsigned index "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty_port of the device
+.IP "driver" 12
+tty_driver for this device
+.IP "index" 12
+index of the tty
+.SH "DESCRIPTION"
+Provide the tty layer with a link from a tty (specified by \fIindex\fP) to a
+tty_port (\fIport\fP). Use this only if neither tty_port_register_device nor
+tty_port_install is used in the driver. If used, this has to be called before
+tty_register_driver.

@@ -1,0 +1,16 @@
+.TH "dccp_retransmit_skb" 9 "dccp_retransmit_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_retransmit_skb \- Retransmit Request, Close, or CloseReq packets
+.SH SYNOPSIS
+.B "int" dccp_retransmit_skb
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to perform retransmit on
+.SH "DESCRIPTION"
+There are only four retransmittable packet types in DCCP:
+- Request  in client-REQUEST  state (sec. 8.1.1),
+- CloseReq in server-CLOSEREQ state (sec. 8.3),
+- Close    in   node-CLOSING  state (sec. 8.3),
+- Acks in client-PARTOPEN state (sec. 8.1.5, handled by \fBdccp_delack_timer\fP).
+This function expects sk->sk_send_head to contain the original skb.

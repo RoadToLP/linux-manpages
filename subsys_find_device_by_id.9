@@ -1,0 +1,19 @@
+.TH "subsys_find_device_by_id" 9 "subsys_find_device_by_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+subsys_find_device_by_id \- find a device with a specific enumeration number
+.SH SYNOPSIS
+.B "struct device *" subsys_find_device_by_id
+.BI "(struct bus_type *subsys "  ","
+.BI "unsigned int id "  ","
+.BI "struct device *hint "  ");"
+.SH ARGUMENTS
+.IP "subsys" 12
+subsystem
+.IP "id" 12
+index 'id' in struct device
+.IP "hint" 12
+device to check first
+.SH "DESCRIPTION"
+Check the hint's next object and if it is a match return it directly,
+otherwise, fall back to a full list search. Either way a reference for
+the returned object is taken.

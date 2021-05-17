@@ -1,0 +1,19 @@
+.TH "prm_read_reset_sources" 9 "prm_read_reset_sources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prm_read_reset_sources \- return the sources of the SoC's last reset
+.SH SYNOPSIS
+.B "u32" prm_read_reset_sources
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Return a u32 bitmask representing the reset sources that caused the
+SoC to reset.  The low-level per-SoC functions called by this
+function remap the SoC-specific reset source bits into an
+OMAP-common set of reset source bits, defined in
+arch/arm/mach-omap2/prm.h.  Returns the standardized reset source
+u32 bitmask from the hardware upon success, or returns (1 <<
+OMAP_UNKNOWN_RST_SRC_ID_SHIFT) if no low-level \fBread_reset_sources\fP
+function was registered.

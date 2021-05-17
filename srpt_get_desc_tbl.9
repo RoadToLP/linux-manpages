@@ -1,0 +1,38 @@
+.TH "srpt_get_desc_tbl" 9 "srpt_get_desc_tbl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srpt_get_desc_tbl \- parse the data descriptors of a SRP_CMD request
+.SH SYNOPSIS
+.B "int" srpt_get_desc_tbl
+.BI "(struct srpt_recv_ioctx *recv_ioctx "  ","
+.BI "struct srpt_send_ioctx *ioctx "  ","
+.BI "struct srp_cmd *srp_cmd "  ","
+.BI "enum dma_data_direction *dir "  ","
+.BI "struct scatterlist **sg "  ","
+.BI "unsigned int *sg_cnt "  ","
+.BI "u64 *data_len "  ","
+.BI "u16 imm_data_offset "  ");"
+.SH ARGUMENTS
+.IP "recv_ioctx" 12
+I/O context associated with the received command \fIsrp_cmd\fP.
+.IP "ioctx" 12
+I/O context that will be used for responding to the initiator.
+.IP "srp_cmd" 12
+Pointer to the SRP_CMD request data.
+.IP "dir" 12
+Pointer to the variable to which the transfer direction will be
+written.
+.IP "sg" 12
+[out] scatterlist for the parsed SRP_CMD.
+.IP "sg_cnt" 12
+[out] length of \fIsg\fP.
+.IP "data_len" 12
+Pointer to the variable to which the total data length of all
+descriptors in the SRP_CMD request will be written.
+.IP "imm_data_offset" 12
+[in] Offset in SRP_CMD requests at which immediate data
+starts.
+.SH "DESCRIPTION"
+This function initializes ioctx->nrbuf and ioctx->r_bufs.
+
+Returns -EINVAL when the SRP_CMD request contains inconsistent descriptors;
+-ENOMEM when memory allocation fails and zero upon success.

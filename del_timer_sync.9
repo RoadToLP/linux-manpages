@@ -1,0 +1,41 @@
+.TH "del_timer_sync" 9 "del_timer_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+del_timer_sync \- deactivate a timer and wait for the handler to finish.
+.SH SYNOPSIS
+.B "int" del_timer_sync
+.BI "(struct timer_list *timer "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+the timer to be deactivated
+.SH "DESCRIPTION"
+This function only differs from \fBdel_timer\fP on SMP: besides deactivating
+the timer it also makes sure the handler has finished executing on other
+CPUs.
+
+Synchronization rules: Callers must prevent restarting of the timer,
+otherwise this function is meaningless. It must not be called from
+interrupt contexts unless the timer is an irqsafe one. The caller must
+not hold locks which would prevent completion of the timer's
+handler. The timer's handler must not call \fBadd_timer_on\fP. Upon exit the
+timer is not queued and the handler is not running on any CPU.
+
+Now \fBdel_timer_sync\fP will never return and never release somelock.
+The interrupt on the other CPU is waiting to grab somelock but
+it has interrupted the softirq that CPU0 is waiting to finish.
+
+The function returns whether it has deactivated a pending timer or not.
+.SH "NOTE"
+For !irqsafe timers, you must not hold locks that are held in
+interrupt context while calling this function. Even if the lock has
+nothing to do with the timer in question.  Here's why::
+
+CPU0                             CPU1
+----                             ----
+<SOFTIRQ>
+\fBcall_timer_fn\fP;
+base->running_timer = mytimer;
+spin_lock_irq(somelock);
+<IRQ>
+spin_lock(somelock);
+del_timer_sync(mytimer);
+while (base->running_timer == mytimer);

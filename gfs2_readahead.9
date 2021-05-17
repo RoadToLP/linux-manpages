@@ -1,0 +1,19 @@
+.TH "gfs2_readahead" 9 "gfs2_readahead" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_readahead \- Read a bunch of pages at once
+.SH SYNOPSIS
+.B "void" gfs2_readahead
+.BI "(struct readahead_control *rac "  ");"
+.SH ARGUMENTS
+.IP "rac" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Some notes:
+1. This is only for readahead, so we can simply ignore any things
+which are slightly inconvenient (such as locking conflicts between
+the page lock and the glock) and return having done no I/O. Its
+obviously not something we'd want to do on too regular a basis.
+Any I/O we ignore at this time will be done via readpage later.
+2. We don't handle stuffed files here we let readpage do the honours.
+3. \fBmpage_readahead\fP does most of the heavy lifting in the common case.
+4. \fBgfs2_block_map\fP is relied upon to set BH_Boundary in the right places.

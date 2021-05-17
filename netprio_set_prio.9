@@ -1,0 +1,18 @@
+.TH "netprio_set_prio" 9 "netprio_set_prio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netprio_set_prio \- set netprio on a cgroup-net_device pair
+.SH SYNOPSIS
+.B "int" netprio_set_prio
+.BI "(struct cgroup_subsys_state *css "  ","
+.BI "struct net_device *dev "  ","
+.BI "u32 prio "  ");"
+.SH ARGUMENTS
+.IP "css" 12
+css part of the target pair
+.IP "dev" 12
+net_device part of the target pair
+.IP "prio" 12
+prio to set
+.SH "DESCRIPTION"
+Set netprio to \fIprio\fP on \fIcss\fP-\fIdev\fP pair.  Should be called under rtnl
+lock and may fail under memory pressure for non-zero \fIprio\fP.

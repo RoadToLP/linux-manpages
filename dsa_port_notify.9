@@ -1,0 +1,21 @@
+.TH "dsa_port_notify" 9 "dsa_port_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dsa_port_notify \- Notify the switching fabric of changes to a port
+.SH SYNOPSIS
+.B "int" dsa_port_notify
+.BI "(const struct dsa_port *dp "  ","
+.BI "unsigned long e "  ","
+.BI "void *v "  ");"
+.SH ARGUMENTS
+.IP "dp" 12
+port on which change occurred
+.IP "e" 12
+event, must be of type DSA_NOTIFIER_*
+.IP "v" 12
+event-specific value.
+.SH "DESCRIPTION"
+Notify all switches in the DSA tree that this port's switch belongs to,
+including this switch itself, of an event. Allows the other switches to
+reconfigure themselves for cross-chip operations. Can also be used to
+reconfigure ports without net_devices (CPU ports, DSA links) whenever
+a user port's state changes.

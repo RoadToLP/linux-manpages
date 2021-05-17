@@ -1,0 +1,18 @@
+.TH "blkcg_add_delay" 9 "blkcg_add_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_add_delay \- add delay to this blkg
+.SH SYNOPSIS
+.B "void" blkcg_add_delay
+.BI "(struct blkcg_gq *blkg "  ","
+.BI "u64 now "  ","
+.BI "u64 delta "  ");"
+.SH ARGUMENTS
+.IP "blkg" 12
+blkg of interest
+.IP "now" 12
+the current time in nanoseconds
+.IP "delta" 12
+how many nanoseconds of delay to add
+.SH "DESCRIPTION"
+Charge \fIdelta\fP to the blkg's current delay accumulation.  This is used to
+throttle tasks if an IO controller thinks we need more throttling.

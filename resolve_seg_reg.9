@@ -1,0 +1,60 @@
+.TH "resolve_seg_reg" 9 "resolve_seg_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+resolve_seg_reg \- obtain segment register index
+.SH SYNOPSIS
+.B "int" resolve_seg_reg
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int regoff "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction with operands
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "regoff" 12
+Operand offset, in pt_regs, used to deterimine segment register
+.SH "DESCRIPTION"
+Determine the segment register associated with the operands and, if
+applicable, prefixes and the instruction pointed by \fIinsn\fP.
+
+The segment register associated to an operand used in register-indirect
+addressing depends on:
+
+a) Whether running in long mode (in such a case segments are ignored, except
+if FS or GS are used).
+
+b) Whether segment override prefixes can be used. Certain instructions and
+registers do not allow override prefixes.
+
+c) Whether segment overrides prefixes are found in the instruction prefixes.
+
+d) If there are not segment override prefixes or they cannot be used, the
+default segment register associated with the operand register is used.
+
+The function checks first if segment override prefixes can be used with the
+operand indicated by \fIregoff\fP. If allowed, obtain such overridden segment
+register index. Lastly, if not prefixes were found or cannot be used, resolve
+the segment register index to use based on the defaults described in the
+Intel documentation. In long mode, all segment register indexes will be
+ignored, except if overrides were found for FS or GS. All these operations
+are done using helper functions.
+
+The operand register, \fIregoff\fP, is represented as the offset from the base of
+pt_regs.
+
+As stated, the main use of this function is to determine the segment register
+index based on the instruction, its operands and prefixes. Hence, \fIinsn\fP
+must be valid. However, if \fIregoff\fP indicates rIP, we don't need to inspect
+\fIinsn\fP at all as in this case CS is used in all cases. This case is checked
+before proceeding further.
+
+Please note that this function does not return the value in the segment
+register (i.e., the segment selector) but our defined index. The segment
+selector needs to be obtained using \fBget_segment_selector\fP and passing the
+segment register index resolved by this function.
+
+An index identifying the segment register to use, among CS, SS, DS,
+ES, FS, or GS. INAT_SEG_REG_IGNORE is returned if running in long mode.
+
+-EINVAL in case of error.
+.SH "RETURN"

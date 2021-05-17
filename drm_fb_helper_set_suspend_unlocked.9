@@ -1,0 +1,22 @@
+.TH "drm_fb_helper_set_suspend_unlocked" 9 "drm_fb_helper_set_suspend_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_helper_set_suspend_unlocked \- wrapper around fb_set_suspend that also takes the console lock
+.SH SYNOPSIS
+.B "void" drm_fb_helper_set_suspend_unlocked
+.BI "(struct drm_fb_helper *fb_helper "  ","
+.BI "bool suspend "  ");"
+.SH ARGUMENTS
+.IP "fb_helper" 12
+driver-allocated fbdev helper, can be NULL
+.IP "suspend" 12
+whether to suspend or resume
+.SH "DESCRIPTION"
+A wrapper around \fBfb_set_suspend\fP that takes the console lock. If the lock
+isn't available on resume, a worker is tasked with waiting for the lock
+to become available. The console lock can be pretty contented on resume
+due to all the printk activity.
+
+This function can be called multiple times with the same state since
+\fIfb_info.state\fP is checked to see if fbdev is running or not before locking.
+
+Use \fBdrm_fb_helper_set_suspend\fP if you need to take the lock yourself.

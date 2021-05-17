@@ -1,0 +1,26 @@
+.TH "ixgbe_add_rx_frag" 9 "ixgbe_add_rx_frag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_add_rx_frag \- Add contents of Rx buffer to sk_buff
+.SH SYNOPSIS
+.B "void" ixgbe_add_rx_frag
+.BI "(struct ixgbe_ring *rx_ring "  ","
+.BI "struct ixgbe_rx_buffer *rx_buffer "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring to transact packets on
+.IP "rx_buffer" 12
+buffer containing page to add
+.IP "skb" 12
+sk_buff to place the data into
+.IP "size" 12
+size of data in rx_buffer
+.SH "DESCRIPTION"
+This function will add the data contained in rx_buffer->page to the skb.
+This is done either through a direct copy if the data in the buffer is
+less than the skb header size, otherwise it will just attach the page as
+a frag to the skb.
+
+The function will then update the page offset if necessary and return
+true if the buffer can be reused by the adapter.

@@ -1,0 +1,25 @@
+.TH "binder_wakeup_thread_ilocked" 9 "binder_wakeup_thread_ilocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_wakeup_thread_ilocked \- wakes up a thread for doing proc work.
+.SH SYNOPSIS
+.B "void" binder_wakeup_thread_ilocked
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_thread *thread "  ","
+.BI "bool sync "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+process to wake up a thread in
+.IP "thread" 12
+specific thread to wake-up (may be NULL)
+.IP "sync" 12
+whether to do a synchronous wake-up
+.SH "DESCRIPTION"
+This function wakes up a thread in the \fIproc\fP process.
+The caller may provide a specific thread to wake-up in
+the \fIthread\fP parameter. If \fIthread\fP is NULL, this function
+will wake up threads that have called \fBpoll\fP.
+
+Note that for this function to work as expected, callers
+should first call \fBbinder_select_thread\fP to find a thread
+to handle the work (if they don't have a thread already),
+and pass the result into the \fIthread\fP parameter.

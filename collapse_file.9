@@ -1,0 +1,36 @@
+.TH "collapse_file" 9 "collapse_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+collapse_file \- collapse filemap/tmpfs/shmem pages into huge one.
+.SH SYNOPSIS
+.B "void" collapse_file
+.BI "(struct mm_struct *mm "  ","
+.BI "struct file *file "  ","
+.BI "pgoff_t start "  ","
+.BI "struct page **hpage "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+process address space where collapse happens
+.IP "file" 12
+file that collapse on
+.IP "start" 12
+collapse start address
+.IP "hpage" 12
+new allocated huge page for collapse
+.IP "node" 12
+appointed node the new huge page allocate from
+.SH "DESCRIPTION"
+Basic scheme is simple, details are more complex:
+- allocate and lock a new huge page;
+- scan page cache replacing old pages with the new one
++ swap/gup in pages if necessary;
++ fill in gaps;
++ keep old pages around in case rollback is required;
+- if replacing succeeds:
++ copy data over;
++ free old pages;
++ unlock huge page;
+- if replacing failed;
++ put all pages back and unfreeze them;
++ restore gaps in the page cache;
++ unlock and free huge page;

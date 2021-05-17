@@ -1,0 +1,25 @@
+.TH "rpc_localaddr" 9 "rpc_localaddr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_localaddr \- discover local endpoint address for an RPC client
+.SH SYNOPSIS
+.B "int" rpc_localaddr
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "struct sockaddr *buf "  ","
+.BI "size_t buflen "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+RPC client structure
+.IP "buf" 12
+target buffer
+.IP "buflen" 12
+size of target buffer, in bytes
+.SH "DESCRIPTION"
+Returns zero and fills in "buf" and "buflen" if successful;
+otherwise, a negative errno is returned.
+
+This works even if the underlying transport is not currently connected,
+or if the upper layer never previously provided a source address.
+
+The result of this function call is transient: multiple calls in
+succession may give different results, depending on how local
+networking configuration changes over time.

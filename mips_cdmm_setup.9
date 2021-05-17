@@ -1,0 +1,15 @@
+.TH "mips_cdmm_setup" 9 "mips_cdmm_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mips_cdmm_setup \- Ensure the CDMM bus is initialised and usable.
+.SH SYNOPSIS
+.B "int" mips_cdmm_setup
+.BI "(struct mips_cdmm_bus *bus "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+Pointer to bus information for current CPU.
+IS_ERR(bus) is checked, so no need for caller to check.
+.SH "DESCRIPTION"
+The caller must prevent migration to another CPU, either by disabling
+pre-emption or by running from a pinned kernel thread.
+
+Returns      0 on success, -errno on failure.

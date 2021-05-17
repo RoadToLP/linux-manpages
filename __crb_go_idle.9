@@ -1,0 +1,22 @@
+.TH "__crb_go_idle" 9 "__crb_go_idle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__crb_go_idle \- request tpm crb device to go the idle state
+.SH SYNOPSIS
+.B "int" __crb_go_idle
+.BI "(struct device *dev "  ","
+.BI "struct crb_priv *priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+crb device
+.IP "priv" 12
+crb private data
+.SH "DESCRIPTION"
+Write CRB_CTRL_REQ_GO_IDLE to TPM_CRB_CTRL_REQ
+The device should respond within TIMEOUT_C by clearing the bit.
+Anyhow, we do not wait here as a consequent CMD_READY request
+will be handled correctly even if idle was not completed.
+
+The function does nothing for devices with ACPI-start method
+or SMC-start method.
+.SH "RETURN"
+0 always

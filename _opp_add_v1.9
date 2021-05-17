@@ -1,0 +1,34 @@
+.TH "_opp_add_v1" 9 "_opp_add_v1" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_opp_add_v1 \- Allocate a OPP based on v1 bindings.
+.SH SYNOPSIS
+.B "int" _opp_add_v1
+.BI "(struct opp_table *opp_table "  ","
+.BI "struct device *dev "  ","
+.BI "unsigned long freq "  ","
+.BI "long u_volt "  ","
+.BI "bool dynamic "  ");"
+.SH ARGUMENTS
+.IP "opp_table" 12
+OPP table
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+Frequency in Hz for this OPP
+.IP "u_volt" 12
+Voltage in uVolts for this OPP
+.IP "dynamic" 12
+Dynamically added OPPs.
+.SH "DESCRIPTION"
+This function adds an opp definition to the opp table and returns status.
+The opp is made available by default and it can be controlled using
+dev_pm_opp_enable/disable functions and may be removed by dev_pm_opp_remove.
+.SH "NOTE"
+"dynamic" parameter impacts OPPs added by the dev_pm_opp_of_add_table
+and freed by dev_pm_opp_of_remove_table.
+.SH "RETURN"
+0            On success OR
+Duplicate OPPs (both freq and volt are same) and opp->available
+-EEXIST      Freq are same and volt are different OR
+Duplicate OPPs (both freq and volt are same) and !opp->available
+-ENOMEM      Memory allocation failure

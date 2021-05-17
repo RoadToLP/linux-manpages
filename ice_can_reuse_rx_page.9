@@ -1,0 +1,17 @@
+.TH "ice_can_reuse_rx_page" 9 "ice_can_reuse_rx_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_can_reuse_rx_page \- Determine if page can be reused for another Rx
+.SH SYNOPSIS
+.B "bool" ice_can_reuse_rx_page
+.BI "(struct ice_rx_buf *rx_buf "  ","
+.BI "int rx_buf_pgcnt "  ");"
+.SH ARGUMENTS
+.IP "rx_buf" 12
+buffer containing the page
+.IP "rx_buf_pgcnt" 12
+rx_buf page refcount pre \fBxdp_do_redirect\fP call
+.SH "DESCRIPTION"
+If page is reusable, we have a green light for calling ice_reuse_rx_page,
+which will assign the current buffer to the buffer that next_to_alloc is
+pointing to; otherwise, the DMA mapping needs to be destroyed and
+page freed

@@ -1,0 +1,26 @@
+.TH "walk_memory_blocks" 9 "walk_memory_blocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+walk_memory_blocks \- walk through all present memory blocks overlapped by the range [start, start + size)
+.SH SYNOPSIS
+.B "int" walk_memory_blocks
+.BI "(unsigned long start "  ","
+.BI "unsigned long size "  ","
+.BI "void *arg "  ","
+.BI "walk_memory_blocks_func_t func "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+start address of the memory range
+.IP "size" 12
+size of the memory range
+.IP "arg" 12
+argument passed to func
+.IP "func" 12
+callback for each memory section walked
+.SH "DESCRIPTION"
+This function walks through all present memory blocks overlapped by the
+range [start, start + size), calling func on each memory block.
+
+In case \fBfunc\fP returns an error, walking is aborted and the error is
+returned.
+
+Called under device_hotplug_lock.

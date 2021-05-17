@@ -1,0 +1,19 @@
+.TH "sd_release" 9 "sd_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_release \- invoked when the (last) close(2) is called on this scsi disk.
+.SH SYNOPSIS
+.B "void" sd_release
+.BI "(struct gendisk *disk "  ","
+.BI "fmode_t mode "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+disk to release
+.IP "mode" 12
+FMODE_* mask
+
+Returns 0. 
+.SH "NOTE"
+may block (uninterruptible) if error recovery is underway
+on this disk.
+
+Locking: called with bdev->bd_mutex held.

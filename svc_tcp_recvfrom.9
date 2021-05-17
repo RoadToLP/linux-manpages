@@ -1,0 +1,22 @@
+.TH "svc_tcp_recvfrom" 9 "svc_tcp_recvfrom" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_tcp_recvfrom \- Receive data from a TCP socket
+.SH SYNOPSIS
+.B "int" svc_tcp_recvfrom
+.BI "(struct svc_rqst *rqstp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+request structure into which to receive an RPC Call
+.SH "DESCRIPTION"
+Called in a loop when XPT_DATA has been set.
+
+Read the 4-byte stream record marker, then use the record length
+in that marker to set up exactly the resources needed to receive
+the next RPC message into \fIrqstp\fP.
+
+The zero return case handles partial receives and callback Replies.
+The state of a partial receive is preserved in the svc_sock for
+the next call to svc_tcp_recvfrom.
+.SH "RETURN"
+On success, the number of bytes in a received RPC Call, or
+0 if a complete RPC Call message was not ready to return

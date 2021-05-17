@@ -1,0 +1,20 @@
+.TH "arc_emac_rx_stall_check" 9 "arc_emac_rx_stall_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arc_emac_rx_stall_check \- check RX stall
+.SH SYNOPSIS
+.B "void" arc_emac_rx_stall_check
+.BI "(struct net_device *ndev "  ","
+.BI "int budget "  ","
+.BI "unsigned int work_done "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+Pointer to the net_device structure.
+.IP "budget" 12
+How many BDs requested to process on 1 call.
+.IP "work_done" 12
+How many BDs processed
+.SH "DESCRIPTION"
+Under certain conditions EMAC stop reception of incoming packets and
+continuously increment R_MISS register instead of saving data into
+provided buffer. This function detect that condition and restart
+EMAC.

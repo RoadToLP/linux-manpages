@@ -1,0 +1,45 @@
+.TH "get_user_pages_locked" 9 "get_user_pages_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_user_pages_locked \- variant of get_user_pages()
+.SH SYNOPSIS
+.B "long" get_user_pages_locked
+.BI "(unsigned long start "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ","
+.BI "int *locked "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying lookup behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long. Or NULL, if caller
+only intends to ensure the pages are faulted in.
+.IP "locked" 12
+pointer to lock flag indicating whether lock is held and
+subsequently whether VM_FAULT_RETRY functionality can be
+utilised. Lock must initially be held.
+.SH "DESCRIPTION"
+It is suitable to replace the form:
+
+mmap_read_lock(mm);
+\fBdo_something\fP
+get_user_pages(mm, ..., pages, NULL);
+mmap_read_unlock(mm);
+
+to:
+
+int locked = 1;
+mmap_read_lock(mm);
+\fBdo_something\fP
+get_user_pages_locked(mm, ..., pages, \fIlocked\fP);
+if (locked)
+mmap_read_unlock(mm);
+
+We can leverage the VM_FAULT_RETRY functionality in the page fault
+paths better by using either \fBget_user_pages_locked\fP or
+\fBget_user_pages_unlocked\fP.

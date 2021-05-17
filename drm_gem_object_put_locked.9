@@ -1,0 +1,16 @@
+.TH "drm_gem_object_put_locked" 9 "drm_gem_object_put_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_object_put_locked \- release a GEM buffer object reference
+.SH SYNOPSIS
+.B "void" drm_gem_object_put_locked
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM buffer object
+.SH "DESCRIPTION"
+This releases a reference to \fIobj\fP. Callers must hold the
+\fIdrm_device.struct_mutex\fP lock when calling this function, even when the
+driver doesn't use \fIdrm_device.struct_mutex\fP for anything.
+
+For drivers not encumbered with legacy locking use
+\fBdrm_gem_object_put\fP instead.

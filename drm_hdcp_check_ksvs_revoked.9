@@ -1,0 +1,32 @@
+.TH "drm_hdcp_check_ksvs_revoked" 9 "drm_hdcp_check_ksvs_revoked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_hdcp_check_ksvs_revoked \- Check the revoked status of the IDs
+.SH SYNOPSIS
+.B "int" drm_hdcp_check_ksvs_revoked
+.BI "(struct drm_device *drm_dev "  ","
+.BI "u8 *ksvs "  ","
+.BI "u32 ksv_count "  ");"
+.SH ARGUMENTS
+.IP "drm_dev" 12
+drm_device for which HDCP revocation check is requested
+.IP "ksvs" 12
+List of KSVs (HDCP receiver IDs)
+.IP "ksv_count" 12
+KSV count passed in through \fIksvs\fP
+.SH "DESCRIPTION"
+This function reads the HDCP System renewability Message(SRM Table)
+from userspace as a firmware and parses it for the revoked HDCP
+KSVs(Receiver IDs) detected by DCP LLC. Once the revoked KSVs are known,
+revoked state of the KSVs in the list passed in by display drivers are
+decided and response is sent.
+
+SRM should be presented in the name of "display_hdcp_srm.bin".
+
+Format of the SRM table, that userspace needs to write into the binary file,
+is defined at:
+1. Renewability chapter on 55th page of HDCP 1.4 specification
+https://www.digital-cp.com/sites/default/files/specifications/HDCP20Specification20Rev1_4_Secure.pdf
+2. Renewability chapter on 63rd page of HDCP 2.2 specification
+https://www.digital-cp.com/sites/default/files/specifications/HDCP20on20HDMI20Specification20Rev2_2_Final1.pdf
+.SH "RETURN"
+Count of the revoked KSVs or -ve error number incase of the failure.

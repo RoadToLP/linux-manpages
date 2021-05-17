@@ -1,0 +1,18 @@
+.TH "dma_fence_chain_find_seqno" 9 "dma_fence_chain_find_seqno" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_chain_find_seqno \- find fence chain node by seqno
+.SH SYNOPSIS
+.B "int" dma_fence_chain_find_seqno
+.BI "(struct dma_fence **pfence "  ","
+.BI "uint64_t seqno "  ");"
+.SH ARGUMENTS
+.IP "pfence" 12
+pointer to the chain node where to start
+.IP "seqno" 12
+the sequence number to search for
+.SH "DESCRIPTION"
+Advance the fence pointer to the chain node which will signal this sequence
+number. If no sequence number is provided then this is a no-op.
+
+Returns EINVAL if the fence is not a chain node or the sequence number has
+not yet advanced far enough.

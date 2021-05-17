@@ -1,0 +1,15 @@
+.TH "cmp_connection_update" 9 "cmp_connection_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cmp_connection_update \- update the connection after a bus reset
+.SH SYNOPSIS
+.B "int" cmp_connection_update
+.BI "(struct cmp_connection *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the connection manager
+.SH "DESCRIPTION"
+This function must be called from the driver's .update handler to
+reestablish any connection that might have been active.
+
+Returns zero on success, or a negative error code.  On an error, the
+connection is broken and the caller must stop transmitting iso packets.

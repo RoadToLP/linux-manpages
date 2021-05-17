@@ -1,0 +1,26 @@
+.TH "gfs2_dir_add" 9 "gfs2_dir_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_dir_add \- Add new filename into directory
+.SH SYNOPSIS
+.B "int" gfs2_dir_add
+.BI "(struct inode *inode "  ","
+.BI "const struct qstr *name "  ","
+.BI "const struct gfs2_inode *nip "  ","
+.BI "struct gfs2_diradd *da "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The directory inode
+.IP "name" 12
+The new name
+.IP "nip" 12
+The GFS2 inode to be linked in to the directory
+.IP "da" 12
+The directory addition info
+.SH "DESCRIPTION"
+If the call to gfs2_diradd_alloc_required resulted in there being
+no need to allocate any new directory blocks, then it will contain
+a pointer to the directory entry and the bh in which it resides. We
+can use that without having to repeat the search. If there was no
+free space, then we must now create more space.
+.SH "RETURN"
+0 on success, error code on failure

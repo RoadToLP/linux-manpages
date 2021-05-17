@@ -1,0 +1,25 @@
+.TH "rave_sp_eeprom_io" 9 "rave_sp_eeprom_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rave_sp_eeprom_io \- Low-level part of EEPROM page access
+.SH SYNOPSIS
+.B "int" rave_sp_eeprom_io
+.BI "(struct rave_sp_eeprom *eeprom "  ","
+.BI "enum rave_sp_eeprom_access_type type "  ","
+.BI "u16 idx "  ","
+.BI "struct rave_sp_eeprom_page *page "  ");"
+.SH ARGUMENTS
+.IP "eeprom" 12
+EEPROM device to write to
+.IP "type" 12
+EEPROM access type (read or write)
+.IP "idx" 12
+number of the EEPROM page
+.IP "page" 12
+Data to write or buffer to store result (via page->data)
+.SH "DESCRIPTION"
+This function does all of the low-level work required to perform a
+EEPROM access. This includes formatting correct command payload,
+sending it and checking received results.
+
+Returns zero in case of success or negative error code in
+case of failure.

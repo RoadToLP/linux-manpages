@@ -1,0 +1,32 @@
+.TH "bpf_convert_filter" 9 "bpf_convert_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_convert_filter \- convert filter program
+.SH SYNOPSIS
+.B "int" bpf_convert_filter
+.BI "(struct sock_filter *prog "  ","
+.BI "int len "  ","
+.BI "struct bpf_prog *new_prog "  ","
+.BI "int *new_len "  ","
+.BI "bool *seen_ld_abs "  ");"
+.SH ARGUMENTS
+.IP "prog" 12
+the user passed filter program
+.IP "len" 12
+the length of the user passed filter program
+.IP "new_prog" 12
+allocated 'struct bpf_prog' or NULL
+.IP "new_len" 12
+pointer to store length of converted program
+.IP "seen_ld_abs" 12
+bool whether we've seen ld_abs/ind
+.SH "DESCRIPTION"
+Remap 'sock_filter' style classic BPF (cBPF) instruction set to 'bpf_insn'
+style extended BPF (eBPF).
+Conversion workflow:
+
+1) First pass for calculating the new program length:
+bpf_convert_filter(old_prog, old_len, NULL, \fInew_len\fP, \fIseen_ld_abs\fP)
+
+2) 2nd pass to remap in two passes: 1st pass finds new
+jump offsets, 2nd pass remapping:
+bpf_convert_filter(old_prog, old_len, new_prog, \fInew_len\fP, \fIseen_ld_abs\fP)

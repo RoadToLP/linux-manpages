@@ -1,0 +1,16 @@
+.TH "kvm_mips_count_enable_cause" 9 "kvm_mips_count_enable_cause" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_count_enable_cause \- Enable count using CP0_Cause.DC.
+.SH SYNOPSIS
+.B "void" kvm_mips_count_enable_cause
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.SH "DESCRIPTION"
+Enable the CP0_Count timer and clear CP0_Cause.DC. A timer interrupt after
+the start time will be handled if the timer isn't disabled by count_ctl.DC,
+potentially before even returning, so the caller should be careful with
+ordering of CP0_Cause modifications so as not to lose it.
+
+Assumes CP0_Cause.DC is set (count disabled).

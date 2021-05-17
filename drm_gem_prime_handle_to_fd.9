@@ -1,0 +1,26 @@
+.TH "drm_gem_prime_handle_to_fd" 9 "drm_gem_prime_handle_to_fd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_prime_handle_to_fd \- PRIME export function for GEM drivers
+.SH SYNOPSIS
+.B "int" drm_gem_prime_handle_to_fd
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "uint32_t handle "  ","
+.BI "uint32_t flags "  ","
+.BI "int *prime_fd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+dev to export the buffer from
+.IP "file_priv" 12
+drm file-private structure
+.IP "handle" 12
+buffer handle to export
+.IP "flags" 12
+flags like DRM_CLOEXEC
+.IP "prime_fd" 12
+pointer to storage for the fd id of the create dma-buf
+.SH "DESCRIPTION"
+This is the PRIME export function which must be used mandatorily by GEM
+drivers to ensure correct lifetime management of the underlying GEM object.
+The actual exporting from GEM object to a dma-buf is done through the
+\fIdrm_gem_object_funcs.export\fP callback.

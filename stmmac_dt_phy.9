@@ -1,0 +1,34 @@
+.TH "stmmac_dt_phy" 9 "stmmac_dt_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stmmac_dt_phy \- parse device-tree driver parameters to allocate PHY resources
+.SH SYNOPSIS
+.B "int" stmmac_dt_phy
+.BI "(struct plat_stmmacenet_data *plat "  ","
+.BI "struct device_node *np "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "plat" 12
+driver data platform structure
+.IP "np" 12
+device tree node
+.IP "dev" 12
+device pointer
+.SH "DESCRIPTION"
+The mdio bus will be allocated in case of a phy transceiver is on board;
+it will be NULL if the fixed-link is configured.
+If there is the "snps,dwmac-mdio" sub-node the mdio will be allocated
+in any case (for DSA, mdio must be registered even if fixed-link).
+The table below sums the supported configurations:
+-------------------------------
+snps,phy-addr   |     Y
+-------------------------------
+phy-handle      |     Y
+-------------------------------
+fixed-link      |     N
+-------------------------------
+snps,dwmac-mdio |
+even if       |     Y
+fixed-link      |
+-------------------------------
+
+It returns 0 in case of success otherwise -ENODEV.

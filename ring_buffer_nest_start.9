@@ -1,0 +1,18 @@
+.TH "ring_buffer_nest_start" 9 "ring_buffer_nest_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_nest_start \- Allow to trace while nested
+.SH SYNOPSIS
+.B "void" ring_buffer_nest_start
+.BI "(struct trace_buffer *buffer "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to modify
+.SH "DESCRIPTION"
+The ring buffer has a safety mechanism to prevent recursion.
+But there may be a case where a trace needs to be done while
+tracing something else. In this case, calling this function
+will allow this function to nest within a currently active
+\fBring_buffer_lock_reserve\fP.
+
+Call this function before calling another \fBring_buffer_lock_reserve\fP and
+call \fBring_buffer_nest_end\fP after the nested \fBring_buffer_unlock_commit\fP.

@@ -1,0 +1,22 @@
+.TH "drm_dp_dsc_sink_supported_input_bpcs" 9 "drm_dp_dsc_sink_supported_input_bpcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_dsc_sink_supported_input_bpcs \- Get all the input bits per component values supported by the DSC sink.
+.SH SYNOPSIS
+.B "int" drm_dp_dsc_sink_supported_input_bpcs
+.BI "(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE] "  ","
+.BI "u8 dsc_bpc[3] "  ");"
+.SH ARGUMENTS
+.IP "dsc_dpcd" 12
+DSC capabilities from DPCD
+.IP "dsc_bpc" 12
+An array to be filled by this helper with supported
+input bpcs.
+.SH "DESCRIPTION"
+Read the DSC DPCD from the sink device to parse the supported bits per
+component values. This is used to populate the DSC parameters
+in the \fIstruct drm_dsc_config\fP by the driver.
+Driver creates an infoframe using these parameters to populate
+\fIstruct drm_dsc_pps_infoframe\fP. These are sent to the sink using DSC
+infoframe using the helper function \fBdrm_dsc_pps_infoframe_pack\fP
+.SH "RETURN"
+Number of input BPC values parsed from the DPCD

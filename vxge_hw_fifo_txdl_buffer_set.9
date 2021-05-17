@@ -1,0 +1,28 @@
+.TH "vxge_hw_fifo_txdl_buffer_set" 9 "vxge_hw_fifo_txdl_buffer_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxge_hw_fifo_txdl_buffer_set \- Set transmit buffer pointer in the descriptor.
+.SH SYNOPSIS
+.B "void" vxge_hw_fifo_txdl_buffer_set
+.BI "(struct __vxge_hw_fifo *fifo "  ","
+.BI "void *txdlh "  ","
+.BI "u32 frag_idx "  ","
+.BI "dma_addr_t dma_pointer "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "fifo" 12
+Handle to the fifo object used for non offload send
+.IP "txdlh" 12
+Descriptor handle.
+.IP "frag_idx" 12
+Index of the data buffer in the caller's scatter-gather list
+(of buffers).
+.IP "dma_pointer" 12
+DMA address of the data buffer referenced by \fIfrag_idx\fP.
+.IP "size" 12
+Size of the data buffer (in bytes).
+.SH "DESCRIPTION"
+This API is part of the preparation of the transmit descriptor for posting
+(via \fBvxge_hw_fifo_txdl_post\fP). The related "preparation" APIs include
+\fBvxge_hw_fifo_txdl_mss_set\fP and \fBvxge_hw_fifo_txdl_cksum_set_bits\fP.
+All three APIs fill in the fields of the fifo descriptor,
+in accordance with the Titan specification.

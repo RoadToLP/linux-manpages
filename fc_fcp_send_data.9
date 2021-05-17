@@ -1,0 +1,24 @@
+.TH "fc_fcp_send_data" 9 "fc_fcp_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_send_data \- Send SCSI data to a target
+.SH SYNOPSIS
+.B "int" fc_fcp_send_data
+.BI "(struct fc_fcp_pkt *fsp "  ","
+.BI "struct fc_seq *seq "  ","
+.BI "size_t offset "  ","
+.BI "size_t seq_blen "  ");"
+.SH ARGUMENTS
+.IP "fsp" 12
+The FCP packet the data is on
+.IP "seq" 12
+The sequence the data is to be sent on
+.IP "offset" 12
+The starting offset for this data request
+.IP "seq_blen" 12
+The burst length for this data request
+.SH "DESCRIPTION"
+Called after receiving a Transfer Ready data descriptor.
+If the LLD is capable of sequence offload then send down the
+seq_blen amount of data in single frame, otherwise send
+multiple frames of the maximum frame payload supported by
+the target port.

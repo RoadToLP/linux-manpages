@@ -1,0 +1,17 @@
+.TH "mmc_detect_change" 9 "mmc_detect_change" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_detect_change \- process change of state on a MMC socket
+.SH SYNOPSIS
+.B "void" mmc_detect_change
+.BI "(struct mmc_host *host "  ","
+.BI "unsigned long delay "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+host which changed state.
+.IP "delay" 12
+optional delay to wait before detection (jiffies)
+
+MMC drivers should call this when they detect a card has been
+inserted or removed. The MMC layer will confirm that any
+present card is still functional, and initialize any newly
+inserted.

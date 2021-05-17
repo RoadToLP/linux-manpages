@@ -1,0 +1,19 @@
+.TH "drm_modeset_unlock_all" 9 "drm_modeset_unlock_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_modeset_unlock_all \- drop all modeset locks
+.SH SYNOPSIS
+.B "void" drm_modeset_unlock_all
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+This function drops all modeset locks taken by a previous call to the
+\fBdrm_modeset_lock_all\fP function.
+
+This function is deprecated. It uses the lock acquisition context stored
+in \fIdrm_device.mode_config\fP. This facilitates conversion of existing
+code because it removes the need to manually deal with the acquisition
+context, but it is also brittle because the context is global and care must
+be taken not to nest calls. New code should pass the acquisition context
+directly to the \fBdrm_modeset_drop_locks\fP function.

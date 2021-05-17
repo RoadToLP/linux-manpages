@@ -1,0 +1,22 @@
+.TH "apply_link_downgrade_policy" 9 "apply_link_downgrade_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apply_link_downgrade_policy \- Apply the link width downgrade enabled policy against the current active link widths.
+.SH SYNOPSIS
+.B "bool" apply_link_downgrade_policy
+.BI "(struct hfi1_pportdata *ppd "  ","
+.BI "bool refresh_widths "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+info of physical Hfi port
+.IP "refresh_widths" 12
+True indicates link downgrade event
+.SH "RETURN"
+True indicates a successful link downgrade. False indicates
+link downgrade event failed and the link will bounce back to
+default link width.
+.SH "DESCRIPTION"
+Called when the enabled policy changes or the active link widths
+change.
+Refresh_widths indicates that a link downgrade occurred. The
+link_downgraded variable is set by refresh_widths and
+determines the success/failure of the policy application.

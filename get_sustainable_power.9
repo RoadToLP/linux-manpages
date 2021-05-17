@@ -1,0 +1,20 @@
+.TH "get_sustainable_power" 9 "get_sustainable_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_sustainable_power \- Get the right sustainable power
+.SH SYNOPSIS
+.B "u32" get_sustainable_power
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "struct power_allocator_params *params "  ","
+.BI "int control_temp "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+thermal zone for which to estimate the constants
+.IP "params" 12
+parameters for the power allocator governor
+.IP "control_temp" 12
+target temperature for the power allocator governor
+.SH "DESCRIPTION"
+This function is used for getting the proper sustainable power value based
+on variables which might be updated by the user sysfs interface. If that
+happen the new value is going to be estimated and updated. It is also used
+after thermal zone binding, where the initial values where set to 0.

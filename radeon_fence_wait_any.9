@@ -1,0 +1,21 @@
+.TH "radeon_fence_wait_any" 9 "radeon_fence_wait_any" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_fence_wait_any \- wait for a fence to signal on any ring
+.SH SYNOPSIS
+.B "int" radeon_fence_wait_any
+.BI "(struct radeon_device *rdev "  ","
+.BI "struct radeon_fence **fences "  ","
+.BI "bool intr "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device pointer
+.IP "fences" 12
+radeon fence object(s)
+.IP "intr" 12
+use interruptable sleep
+.SH "DESCRIPTION"
+Wait for any requested fence to signal (all asics).  Fence
+array is indexed by ring id.  \fIintr\fP selects whether to use
+interruptable (true) or non-interruptable (false) sleep when
+waiting for the fences. Used by the suballocator.
+Returns 0 if any fence has passed, error for all other cases.

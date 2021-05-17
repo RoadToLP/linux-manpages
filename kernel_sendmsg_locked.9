@@ -1,0 +1,25 @@
+.TH "kernel_sendmsg_locked" 9 "kernel_sendmsg_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernel_sendmsg_locked \- send a message through @sock (kernel-space)
+.SH SYNOPSIS
+.B "int" kernel_sendmsg_locked
+.BI "(struct sock *sk "  ","
+.BI "struct msghdr *msg "  ","
+.BI "struct kvec *vec "  ","
+.BI "size_t num "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+sock
+.IP "msg" 12
+message header
+.IP "vec" 12
+output s/g array
+.IP "num" 12
+output s/g array length
+.IP "size" 12
+total message data size
+
+Builds the message data with \fIvec\fP and sends it through \fIsock\fP.
+Returns the number of bytes sent, or an error code.
+Caller must hold \fIsk\fP.

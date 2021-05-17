@@ -1,0 +1,26 @@
+.TH "lpfc_sli_next_iocb" 9 "lpfc_sli_next_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_next_iocb \- Get the next iocb in the txq
+.SH SYNOPSIS
+.B "struct lpfc_iocbq *" lpfc_sli_next_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq **piocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "piocb" 12
+Pointer to address of newly added command iocb.
+.SH "DESCRIPTION"
+This function is called with hbalock held before a new
+iocb is submitted to the firmware. This function checks
+txq to flush the iocbs in txq to Firmware before
+submitting new iocbs to the Firmware.
+If there are iocbs in the txq which need to be submitted
+to firmware, lpfc_sli_next_iocb returns the first element
+of the txq after dequeuing it from txq.
+If there is no iocb in the txq then the function will return
+*piocb and *piocb is set to NULL. Caller needs to check
+*piocb to find if there are more commands in the txq.

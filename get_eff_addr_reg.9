@@ -1,0 +1,33 @@
+.TH "get_eff_addr_reg" 9 "get_eff_addr_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_eff_addr_reg \- Obtain effective address from register operand
+.SH SYNOPSIS
+.B "int" get_eff_addr_reg
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int *regoff "  ","
+.BI "long *eff_addr "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction. Must be valid.
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "regoff" 12
+Obtained operand offset, in pt_regs, with the effective address
+.IP "eff_addr" 12
+Obtained effective address
+.SH "DESCRIPTION"
+Obtain the effective address stored in the register operand as indicated by
+the ModRM byte. This function is to be used only with register addressing
+(i.e.,  ModRM.mod is 3). The effective address is saved in \fIeff_addr\fP. The
+register operand, as an offset from the base of pt_regs, is saved in \fIregoff\fP;
+such offset can then be used to resolve the segment associated with the
+operand. This function can be used with any of the supported address sizes
+in x86.
+
+0 on success. \fIeff_addr\fP will have the effective address stored in the
+operand indicated by ModRM. \fIregoff\fP will have such operand as an offset from
+the base of pt_regs.
+
+-EINVAL on error.
+.SH "RETURN"

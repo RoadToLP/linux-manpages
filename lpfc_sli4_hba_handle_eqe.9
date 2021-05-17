@@ -1,0 +1,22 @@
+.TH "lpfc_sli4_hba_handle_eqe" 9 "lpfc_sli4_hba_handle_eqe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_hba_handle_eqe \- Process a fast-path event queue entry
+.SH SYNOPSIS
+.B "void" lpfc_sli4_hba_handle_eqe
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *eq "  ","
+.BI "struct lpfc_eqe *eqe "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "eq" 12
+Pointer to the queue structure.
+.IP "eqe" 12
+Pointer to fast-path event queue entry.
+.SH "DESCRIPTION"
+This routine process a event queue entry from the fast-path event queue.
+It will check the MajorCode and MinorCode to determine this is for a
+completion event on a completion queue, if not, an error shall be logged
+and just return. Otherwise, it will get to the corresponding completion
+queue and process all the entries on the completion queue, rearm the
+completion queue, and then return.

@@ -1,0 +1,22 @@
+.TH "create_signature" 9 "create_signature" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_signature \- Sign some data using an asymmetric key
+.SH SYNOPSIS
+.B "int" create_signature
+.BI "(struct kernel_pkey_params *params "  ","
+.BI "const void *data "  ","
+.BI "void *enc "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+Various parameters
+.IP "data" 12
+Data blob to be signed, length params->data_len
+.IP "enc" 12
+Signature buffer, length params->enc_len
+.SH "DESCRIPTION"
+Sign the specified data blob using the private key specified by params->key.
+The signature is wrapped in an encoding if params->encoding is specified
+(eg. "pkcs1").  If the encoding needs to know the digest type, this can be
+passed through params->hash_algo (eg. "sha1").
+
+Returns the length of the data placed in the signature buffer or an error.

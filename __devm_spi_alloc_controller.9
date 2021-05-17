@@ -1,0 +1,25 @@
+.TH "__devm_spi_alloc_controller" 9 "__devm_spi_alloc_controller" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devm_spi_alloc_controller \- resource-managed __spi_alloc_controller()
+.SH SYNOPSIS
+.B "struct spi_controller *" __devm_spi_alloc_controller
+.BI "(struct device *dev "  ","
+.BI "unsigned int size "  ","
+.BI "bool slave "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+physical device of SPI controller
+.IP "size" 12
+how much zeroed driver-private data to allocate
+.IP "slave" 12
+whether to allocate an SPI master (false) or SPI slave (true)
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+Allocate an SPI controller and automatically release a reference on it
+when \fIdev\fP is unbound from its driver.  Drivers are thus relieved from
+having to call \fBspi_controller_put\fP.
+
+The arguments to this function are identical to \fB__spi_alloc_controller\fP.
+.SH "RETURN"
+the SPI controller structure on success, else NULL.

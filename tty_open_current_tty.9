@@ -1,0 +1,19 @@
+.TH "tty_open_current_tty" 9 "tty_open_current_tty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_open_current_tty \- get locked tty of current task
+.SH SYNOPSIS
+.B "struct tty_struct *" tty_open_current_tty
+.BI "(dev_t device "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+device number
+.IP "filp" 12
+file pointer to tty
+.SH "RETURN"
+locked tty of the current task iff \fIdevice\fP is /dev/tty
+
+Performs a re-open of the current task's controlling tty.
+
+We cannot return driver and index like for the other nodes because
+devpts will not work then. It expects inodes to be from devpts FS.

@@ -1,0 +1,15 @@
+.TH "fcoe_percpu_clean" 9 "fcoe_percpu_clean" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_percpu_clean \- Clear all pending skbs for an local port
+.SH SYNOPSIS
+.B "void" fcoe_percpu_clean
+.BI "(struct fc_lport *lport "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port whose skbs are to be cleared
+.SH "DESCRIPTION"
+Must be called with fcoe_create_mutex held to single-thread completion.
+
+This flushes the pending skbs by flush the work item for each CPU. The work
+item on each possible CPU is flushed because we may have used the per-CPU
+struct of an offline CPU.

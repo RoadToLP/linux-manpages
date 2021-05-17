@@ -1,0 +1,29 @@
+.TH "mac_find_mode" 9 "mac_find_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mac_find_mode \- find a video mode
+.SH SYNOPSIS
+.B "int" mac_find_mode
+.BI "(struct fb_var_screeninfo *var "  ","
+.BI "struct fb_info *info "  ","
+.BI "const char *mode_option "  ","
+.BI "unsigned int default_bpp "  ");"
+.SH ARGUMENTS
+.IP "var" 12
+frame buffer user defined part of display
+.IP "info" 12
+frame buffer info structure
+.IP "mode_option" 12
+video mode name (see mac_modedb[])
+.IP "default_bpp" 12
+default color depth in bits per pixel
+
+Finds a suitable video mode.  Tries to set mode specified
+by \fImode_option\fP.  If the name of the wanted mode begins with
+'mac', the Mac video mode database will be used, otherwise it
+will fall back to the standard video mode database.
+.SH "NOTE"
+Function marked as __init and can only be used during
+system boot.
+
+Returns error code from fb_find_mode (see fb_find_mode
+function).

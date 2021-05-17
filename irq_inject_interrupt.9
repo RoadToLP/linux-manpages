@@ -1,0 +1,22 @@
+.TH "irq_inject_interrupt" 9 "irq_inject_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_inject_interrupt \- Inject an interrupt for testing/error injection
+.SH SYNOPSIS
+.B "int" irq_inject_interrupt
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The interrupt number
+.SH "DESCRIPTION"
+This function must only be used for debug and testing purposes!
+
+Especially on x86 this can cause a premature completion of an interrupt
+affinity change causing the interrupt line to become stale. Very
+unlikely, but possible.
+
+The injection can fail for various reasons:
+- Interrupt is not activated
+- Interrupt is NMI type or currently replaying
+- Interrupt is level type
+- Interrupt does not support hardware retrigger and software resend is
+either not enabled or not possible for the interrupt.

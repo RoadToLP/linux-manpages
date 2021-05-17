@@ -1,0 +1,22 @@
+.TH "xa_get_mark" 9 "xa_get_mark" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xa_get_mark \- Inquire whether this mark is set on this entry.
+.SH SYNOPSIS
+.B "bool" xa_get_mark
+.BI "(struct xarray *xa "  ","
+.BI "unsigned long index "  ","
+.BI "xa_mark_t mark "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "index" 12
+Index of entry.
+.IP "mark" 12
+Mark number.
+.SH "DESCRIPTION"
+This function uses the RCU read lock, so the result may be out of date
+by the time it returns.  If you need the result to be stable, use a lock.
+.SH "CONTEXT"
+Any context.  Takes and releases the RCU lock.
+.SH "RETURN"
+True if the entry at \fIindex\fP has this mark set, false if it doesn't.

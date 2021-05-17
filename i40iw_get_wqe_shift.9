@@ -1,0 +1,20 @@
+.TH "i40iw_get_wqe_shift" 9 "i40iw_get_wqe_shift" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_get_wqe_shift \- get shift count for maximum wqe size
+.SH SYNOPSIS
+.B "void" i40iw_get_wqe_shift
+.BI "(u32 sge "  ","
+.BI "u32 inline_data "  ","
+.BI "u8 *shift "  ");"
+.SH ARGUMENTS
+.IP "sge" 12
+Maximum Scatter Gather Elements wqe
+.IP "inline_data" 12
+Maximum inline data size
+.IP "shift" 12
+Returns the shift needed based on sge
+.SH "DESCRIPTION"
+Shift can be used to left shift the wqe size based on number of SGEs and inlind data size.
+For 1 SGE or inline data <= 16, shift = 0 (wqe size of 32 bytes).
+For 2 or 3 SGEs or inline data <= 48, shift = 1 (wqe size of 64 bytes).
+Shift of 2 otherwise (wqe size of 128 bytes).

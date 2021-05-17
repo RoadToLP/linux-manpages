@@ -1,0 +1,23 @@
+.TH "_setup" 9 "_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_setup \- prepare IP block hardware for use
+.SH SYNOPSIS
+.B "int" _setup
+.BI "(struct omap_hwmod *oh "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "data" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Configure the IP block represented by \fIoh\fP.  This may include
+enabling the IP block, resetting it, and placing it into a
+post-setup state, depending on the type of IP block and applicable
+flags.  IP blocks are reset to prevent any previous configuration
+by the bootloader or previous operating system from interfering
+with power management or other parts of the system.  The reset can
+be avoided; see \fBomap_hwmod_no_setup_reset\fP.  This is the second of
+two phases for hwmod initialization.  Code called here generally
+affects the IP block hardware, or system integration hardware
+associated with the IP block.  Returns 0.

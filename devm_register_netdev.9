@@ -1,0 +1,17 @@
+.TH "devm_register_netdev" 9 "devm_register_netdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_register_netdev \- resource managed variant of register_netdev()
+.SH SYNOPSIS
+.B "int" devm_register_netdev
+.BI "(struct device *dev "  ","
+.BI "struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+managing device for this netdev - usually the parent device
+.IP "ndev" 12
+device to register
+
+This is a devres variant of \fBregister_netdev\fP for which the unregister
+function will be call automatically when the managing device is
+detached. Note: the net_device used must also be resource managed by
+the same struct device.

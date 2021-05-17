@@ -1,0 +1,20 @@
+.TH "__ring_buffer_alloc" 9 "__ring_buffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ring_buffer_alloc \- allocate a new ring_buffer
+.SH SYNOPSIS
+.B "struct trace_buffer *" __ring_buffer_alloc
+.BI "(unsigned long size "  ","
+.BI "unsigned flags "  ","
+.BI "struct lock_class_key *key "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+the size in bytes per cpu that is needed.
+.IP "flags" 12
+attributes to set for the ring buffer.
+.IP "key" 12
+ring buffer reader_lock_key.
+.SH "DESCRIPTION"
+Currently the only flag that is available is the RB_FL_OVERWRITE
+flag. This flag means that the buffer will overwrite old data
+when the buffer wraps. If this flag is not set, the buffer will
+drop data when the tail hits the head.

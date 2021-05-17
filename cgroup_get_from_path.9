@@ -1,0 +1,14 @@
+.TH "cgroup_get_from_path" 9 "cgroup_get_from_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_get_from_path \- lookup and get a cgroup from its default hierarchy path
+.SH SYNOPSIS
+.B "struct cgroup *" cgroup_get_from_path
+.BI "(const char *path "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path on the default hierarchy
+.SH "DESCRIPTION"
+Find the cgroup at \fIpath\fP on the default hierarchy, increment its
+reference count and return it.  Returns pointer to the found cgroup on
+success, ERR_PTR(-ENOENT) if \fIpath\fP doesn't exist and ERR_PTR(-ENOTDIR)
+if \fIpath\fP points to a non-directory.

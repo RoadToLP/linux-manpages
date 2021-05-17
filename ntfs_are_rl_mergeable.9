@@ -1,0 +1,20 @@
+.TH "ntfs_are_rl_mergeable" 9 "ntfs_are_rl_mergeable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_are_rl_mergeable \- test if two runlists can be joined together
+.SH SYNOPSIS
+.B "bool" ntfs_are_rl_mergeable
+.BI "(runlist_element *dst "  ","
+.BI "runlist_element *src "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+original runlist
+.IP "src" 12
+new runlist to test for mergeability with \fIdst\fP
+.SH "DESCRIPTION"
+Test if two runlists can be joined together. For this, their VCNs and LCNs
+must be adjacent.
+
+It is up to the caller to serialize access to the runlists \fIdst\fP and \fIsrc\fP.
+.SH "RETURN"
+true   Success, the runlists can be merged.
+false  Failure, the runlists cannot be merged.

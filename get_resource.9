@@ -1,0 +1,18 @@
+.TH "get_resource" 9 "get_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_resource \- find resource of given size and split up larger ones.
+.SH SYNOPSIS
+.B "struct pci_resource *" get_resource
+.BI "(struct pci_resource **head "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+the list to search for resources
+.IP "size" 12
+the size limit to use
+.SH "DESCRIPTION"
+This function sorts the resource list by size and then
+returns the first node of "size" length.  If it finds a node
+larger than "size" it will split it up.
+
+size must be a power of two.

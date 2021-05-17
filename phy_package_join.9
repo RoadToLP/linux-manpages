@@ -1,0 +1,35 @@
+.TH "phy_package_join" 9 "phy_package_join" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_package_join \- join a common PHY group
+.SH SYNOPSIS
+.B "int" phy_package_join
+.BI "(struct phy_device *phydev "  ","
+.BI "int addr "  ","
+.BI "size_t priv_size "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+target phy_device struct
+.IP "addr" 12
+cookie and PHY address for global register access
+.IP "priv_size" 12
+if non-zero allocate this amount of bytes for private data
+.SH "DESCRIPTION"
+This joins a PHY group and provides a shared storage for all phydevs in
+this group. This is intended to be used for packages which contain
+more than one PHY, for example a quad PHY transceiver.
+
+The addr parameter serves as a cookie which has to have the same value
+for all members of one group and as a PHY address to access generic
+registers of a PHY package. Usually, one of the PHY addresses of the
+different PHYs in the package provides access to these global registers.
+The address which is given here, will be used in the \fBphy_package_read\fP
+and \fBphy_package_write\fP convenience functions. If your PHY doesn't have
+global registers you can just pick any of the PHY addresses.
+
+This will set the shared pointer of the phydev to the shared storage.
+If this is the first call for a this cookie the shared storage will be
+allocated. If priv_size is non-zero, the given amount of bytes are
+allocated for the priv member.
+
+Returns < 1 on error, 0 on success. Esp. calling \fBphy_package_join\fP
+with the same cookie but a different priv_size is an error.

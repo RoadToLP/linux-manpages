@@ -1,0 +1,15 @@
+.TH "eeh_remove_device" 9 "eeh_remove_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_remove_device \- Undo EEH setup for the indicated pci device
+.SH SYNOPSIS
+.B "void" eeh_remove_device
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pci device to be removed
+.SH "DESCRIPTION"
+This routine should be called when a device is removed from
+a running system (e.g. by hotplug or dlpar).  It unregisters
+the PCI device from the EEH subsystem.  I/O errors affecting
+this device will no longer be detected after this call; thus,
+i/o errors affecting this slot may leave this device unusable.

@@ -1,0 +1,20 @@
+.TH "ata_sff_interrupt" 9 "ata_sff_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_interrupt \- Default SFF ATA host interrupt handler
+.SH SYNOPSIS
+.B "irqreturn_t" ata_sff_interrupt
+.BI "(int irq "  ","
+.BI "void *dev_instance "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+irq line (unused)
+.IP "dev_instance" 12
+pointer to our ata_host information structure
+
+Default interrupt handler for PCI IDE devices.  Calls
+\fBata_sff_port_intr\fP for each port that is not disabled.
+
+LOCKING:
+Obtains host lock during operation.
+.SH "RETURN"
+IRQ_NONE or IRQ_HANDLED.

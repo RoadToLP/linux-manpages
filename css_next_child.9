@@ -1,0 +1,24 @@
+.TH "css_next_child" 9 "css_next_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_next_child \- find the next child of a given css
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" css_next_child
+.BI "(struct cgroup_subsys_state *pos "  ","
+.BI "struct cgroup_subsys_state *parent "  ");"
+.SH ARGUMENTS
+.IP "pos" 12
+the current position (NULL to initiate traversal)
+.IP "parent" 12
+css whose children to walk
+.SH "DESCRIPTION"
+This function returns the next child of \fIparent\fP and should be called
+under either cgroup_mutex or RCU read lock.  The only requirement is
+that \fIparent\fP and \fIpos\fP are accessible.  The next sibling is guaranteed to
+be returned regardless of their states.
+
+If a subsystem synchronizes ->\fBcss_online\fP and the start of iteration, a
+css which finished ->\fBcss_online\fP is guaranteed to be visible in the
+future iterations and will stay visible until the last reference is put.
+A css which hasn't finished ->\fBcss_online\fP or already finished
+->\fBcss_offline\fP may show up during traversal.  It's each subsystem's
+responsibility to synchronize against on/offlining.

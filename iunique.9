@@ -1,0 +1,21 @@
+.TH "iunique" 9 "iunique" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iunique \- get a unique inode number
+.SH SYNOPSIS
+.B "ino_t" iunique
+.BI "(struct super_block *sb "  ","
+.BI "ino_t max_reserved "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+.IP "max_reserved" 12
+highest reserved inode number
+
+Obtain an inode number that is unique on the system for a given
+superblock. This is used by file systems that have no natural
+permanent inode numbering system. An inode number is returned that
+is higher than the reserved limit but unique.
+
+BUGS:
+With a large number of inodes live on the file system this function
+currently becomes quite slow.

@@ -1,0 +1,22 @@
+.TH "drm_bridge_chain_mode_fixup" 9 "drm_bridge_chain_mode_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_chain_mode_fixup \- fixup proposed mode for all bridges in the encoder chain
+.SH SYNOPSIS
+.B "bool" drm_bridge_chain_mode_fixup
+.BI "(struct drm_bridge *bridge "  ","
+.BI "const struct drm_display_mode *mode "  ","
+.BI "struct drm_display_mode *adjusted_mode "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "mode" 12
+desired mode to be set for the bridge
+.IP "adjusted_mode" 12
+updated mode that works for this bridge
+.SH "DESCRIPTION"
+Calls \fIdrm_bridge_funcs.mode_fixup\fP for all the bridges in the
+encoder chain, starting from the first bridge to the last.
+.SH "NOTE"
+the bridge passed should be the one closest to the encoder
+.SH "RETURN"
+true on success, false on failure

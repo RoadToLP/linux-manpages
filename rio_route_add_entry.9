@@ -1,0 +1,30 @@
+.TH "rio_route_add_entry" 9 "rio_route_add_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_route_add_entry \- Add a route entry to a switch routing table
+.SH SYNOPSIS
+.B "int" rio_route_add_entry
+.BI "(struct rio_dev *rdev "  ","
+.BI "u16 table "  ","
+.BI "u16 route_destid "  ","
+.BI "u8 route_port "  ","
+.BI "int lock "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+RIO device
+.IP "table" 12
+Routing table ID
+.IP "route_destid" 12
+Destination ID to be routed
+.IP "route_port" 12
+Port number to be routed
+.IP "lock" 12
+apply a hardware lock on switch device flag (1=lock, 0=no_lock)
+.SH "DESCRIPTION"
+If available calls the switch specific \fBadd_entry\fP method to add a route
+entry into a switch routing table. Otherwise uses standard RT update method
+as defined by RapidIO specification. A specific routing table can be selected
+using the \fItable\fP argument if a switch has per port routing tables or
+the standard (or global) table may be used by passing
+RIO_GLOBAL_TABLE in \fItable\fP.
+
+Returns 0 on success or -EINVAL on failure.

@@ -1,0 +1,25 @@
+.TH "dwc2_hsotg_write_fifo" 9 "dwc2_hsotg_write_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_write_fifo \- write packet Data to the TxFIFO
+.SH SYNOPSIS
+.B "int" dwc2_hsotg_write_fifo
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_hsotg_ep *hs_ep "  ","
+.BI "struct dwc2_hsotg_req *hs_req "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The controller state.
+.IP "hs_ep" 12
+The endpoint we're going to write for.
+.IP "hs_req" 12
+The request to write data for.
+.SH "DESCRIPTION"
+This is called when the TxFIFO has some space in it to hold a new
+transmission and we have something to give it. The actual setup of
+the data size is done elsewhere, so all we have to do is to actually
+write the data.
+
+The return value is zero if there is more space (or nothing was done)
+otherwise -ENOSPC is returned if the FIFO space was used up.
+
+This routine is only needed for PIO

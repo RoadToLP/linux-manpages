@@ -1,0 +1,24 @@
+.TH "pdcspath_hwpath_write" 9 "pdcspath_hwpath_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdcspath_hwpath_write \- This function handles hardware path modifying.
+.SH SYNOPSIS
+.B "ssize_t" pdcspath_hwpath_write
+.BI "(struct pdcspath_entry *entry "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+An allocated and populated pdscpath_entry struct.
+.IP "buf" 12
+The input buffer to read from.
+.IP "count" 12
+The number of bytes to be read.
+.SH "DESCRIPTION"
+We will call this function to change the current hardware path.
+Hardware paths are to be given '/'-delimited, without brackets.
+We make sure that the provided path actually maps to an existing
+device, BUT nothing would prevent some foolish user to set the path to some
+PCI bridge or even a CPU...
+A better work around would be to make sure we are at the end of a device tree
+for instance, but it would be IMHO beyond the simple scope of that driver.
+The aim is to provide a facility. Data correctness is left to userland.

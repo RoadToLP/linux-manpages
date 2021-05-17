@@ -1,0 +1,90 @@
+.TH "ntfs_may_write_mft_record" 9 "ntfs_may_write_mft_record" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_may_write_mft_record \- check if an mft record may be written out
+.SH SYNOPSIS
+.B "bool" ntfs_may_write_mft_record
+.BI "(ntfs_volume *vol "  ","
+.BI "const unsigned long mft_no "  ","
+.BI "const MFT_RECORD *m "  ","
+.BI "ntfs_inode **locked_ni "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+[IN]  ntfs volume on which the mft record to check resides
+.IP "mft_no" 12
+[IN]  mft record number of the mft record to check
+.IP "m" 12
+[IN]  mapped mft record to check
+.IP "locked_ni" 12
+[OUT] caller has to unlock this ntfs inode if one is returned
+.SH "DESCRIPTION"
+Check if the mapped (base or extent) mft record \fIm\fP with mft record number
+\fImft_no\fP belonging to the ntfs volume \fIvol\fP may be written out.  If necessary
+and possible the ntfs inode of the mft record is locked and the base vfs
+inode is pinned.  The locked ntfs inode is then returned in \fIlocked_ni\fP.  The
+caller is responsible for unlocking the ntfs inode and unpinning the base
+vfs inode.
+
+Return 'true' if the mft record may be written out and 'false' if not.
+
+The caller has locked the page and cleared the uptodate flag on it which
+means that we can safely write out any dirty mft records that do not have
+their inodes in icache as determined by \fBilookup5\fP as anyone
+opening/creating such an inode would block when attempting to map the mft
+record in \fBread_cache_page\fP until we are finished with the write out.
+
+Here is a description of the tests we perform:
+
+If the inode is found in icache we know the mft record must be a base mft
+record.  If it is dirty, we do not write it and return 'false' as the vfs
+inode write paths will result in the access times being updated which would
+cause the base mft record to be redirtied and written out again.  (We know
+the access time update will modify the base mft record because Windows
+chkdsk complains if the standard information attribute is not in the base
+mft record.)
+
+If the inode is in icache and not dirty, we attempt to lock the mft record
+and if we find the lock was already taken, it is not safe to write the mft
+record and we return 'false'.
+
+If we manage to obtain the lock we have exclusive access to the mft record,
+which also allows us safe writeout of the mft record.  We then set
+\fIlocked_ni\fP to the locked ntfs inode and return 'true'.
+
+Note we cannot just lock the mft record and sleep while waiting for the lock
+because this would deadlock due to lock reversal (normally the mft record is
+locked before the page is locked but we already have the page locked here
+when we try to lock the mft record).
+
+If the inode is not in icache we need to perform further checks.
+
+If the mft record is not a FILE record or it is a base mft record, we can
+safely write it and return 'true'.
+
+We now know the mft record is an extent mft record.  We check if the inode
+corresponding to its base mft record is in icache and obtain a reference to
+it if it is.  If it is not, we can safely write it and return 'true'.
+
+We now have the base inode for the extent mft record.  We check if it has an
+ntfs inode for the extent mft record attached and if not it is safe to write
+the extent mft record and we return 'true'.
+
+The ntfs inode for the extent mft record is attached to the base inode so we
+attempt to lock the extent mft record and if we find the lock was already
+taken, it is not safe to write the extent mft record and we return 'false'.
+
+If we manage to obtain the lock we have exclusive access to the extent mft
+record, which also allows us safe writeout of the extent mft record.  We
+set the ntfs inode of the extent mft record clean and then set \fIlocked_ni\fP to
+the now locked ntfs inode and return 'true'.
+
+Note, the reason for actually writing dirty mft records here and not just
+relying on the vfs inode dirty code paths is that we can have mft records
+modified without them ever having actual inodes in memory.  Also we can have
+dirty mft records with clean ntfs inodes in memory.  None of the described
+cases would result in the dirty mft records being written out if we only
+relied on the vfs inode dirty code paths.  And these cases can really occur
+during allocation of new mft records and in particular when the
+initialized_size of the $MFT/$DATA attribute is extended and the new space
+is initialized using \fBntfs_mft_record_format\fP.  The clean inode can then
+appear if the mft record is reused for a new inode before it got written
+out.

@@ -1,0 +1,16 @@
+.TH "put_unbound_pool" 9 "put_unbound_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+put_unbound_pool \- put a worker_pool
+.SH SYNOPSIS
+.B "void" put_unbound_pool
+.BI "(struct worker_pool *pool "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+worker_pool to put
+.SH "DESCRIPTION"
+Put \fIpool\fP.  If its refcnt reaches zero, it gets destroyed in RCU
+safe manner.  \fBget_unbound_pool\fP calls this function on its failure path
+and this function should be able to release pools which went through,
+successfully or not, \fBinit_worker_pool\fP.
+
+Should be called with wq_pool_mutex held.

@@ -1,0 +1,22 @@
+.TH "blk_lld_busy" 9 "blk_lld_busy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_lld_busy \- Check if underlying low-level drivers of a device are busy
+.SH SYNOPSIS
+.B "int" blk_lld_busy
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue of the device being checked
+.SH "DESCRIPTION"
+Check if underlying low-level drivers of a device are busy.
+If the drivers want to export their busy state, they must set own
+exporting function using \fBblk_queue_lld_busy\fP first.
+
+Basically, this function is used only by request stacking drivers
+to stop dispatching requests to underlying devices when underlying
+devices are busy.  This behavior helps more I/O merging on the queue
+of the request stacking driver and prevents I/O throughput regression
+on burst I/O load.
+.SH "RETURN"
+0 - Not busy (The request stacking driver should dispatch request)
+1 - Busy (The request stacking driver should stop dispatching request)

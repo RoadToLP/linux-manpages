@@ -1,0 +1,24 @@
+.TH "rpm_resume" 9 "rpm_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpm_resume \- Carry out runtime resume of given device.
+.SH SYNOPSIS
+.B "int" rpm_resume
+.BI "(struct device *dev "  ","
+.BI "int rpmflags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to resume.
+.IP "rpmflags" 12
+Flag bits.
+.SH "DESCRIPTION"
+Check if the device's runtime PM status allows it to be resumed.  Cancel
+any scheduled or pending requests.  If another resume has been started
+earlier, either return immediately or wait for it to finish, depending on the
+RPM_NOWAIT and RPM_ASYNC flags.  Similarly, if there's a suspend running in
+parallel with this function, either tell the other process to resume after
+suspending (deferred_resume) or wait for it to finish.  If the RPM_ASYNC
+flag is set then queue a resume request; otherwise run the
+->\fBruntime_resume\fP callback directly.  Queue an idle notification for the
+device if the resume succeeded.
+
+This function must be called under dev->power.lock with interrupts disabled.

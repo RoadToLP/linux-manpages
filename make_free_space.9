@@ -1,0 +1,23 @@
+.TH "make_free_space" 9 "make_free_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_free_space \- make more free space on the file-system.
+.SH SYNOPSIS
+.B "int" make_free_space
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function is called when an operation cannot be budgeted because there
+is supposedly no free space. But in most cases there is some free space:
+o budgeting is pessimistic, so it always budgets more than it is actually
+needed, so shrinking the liability is one way to make free space - the
+cached data will take less space then it was budgeted for;
+o GC may turn some dark space into free space (budgeting treats dark space
+as not available);
+o commit may free some LEB, i.e., turn freeable LEBs into free LEBs.
+
+So this function tries to do the above. Returns -EAGAIN if some free space
+was presumably made and the caller has to re-try budgeting the operation.
+Returns -ENOSPC if it couldn't do more free space, and other negative error
+codes on failures.

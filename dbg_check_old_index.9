@@ -1,0 +1,20 @@
+.TH "dbg_check_old_index" 9 "dbg_check_old_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dbg_check_old_index \- check the old copy of the index.
+.SH SYNOPSIS
+.B "int" dbg_check_old_index
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_zbranch *zroot "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "zroot" 12
+root of the new index
+.SH "DESCRIPTION"
+In order to be able to recover from an unclean unmount, a complete copy of
+the index must exist on flash. This is the "old" index. The commit process
+must write the "new" index to flash without overwriting or destroying any
+part of the old index. This function is run at commit end in order to check
+that the old index does indeed exist completely intact.
+
+This function returns 0 on success and a negative error code on failure.

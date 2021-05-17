@@ -1,0 +1,22 @@
+.TH "tb_wait_for_port" 9 "tb_wait_for_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_wait_for_port \- wait for a port to become ready
+.SH SYNOPSIS
+.B "int" tb_wait_for_port
+.BI "(struct tb_port *port "  ","
+.BI "bool wait_if_unplugged "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+Port to wait
+.IP "wait_if_unplugged" 12
+Wait also when port is unplugged
+.SH "DESCRIPTION"
+Wait up to 1 second for a port to reach state TB_PORT_UP. If
+wait_if_unplugged is set then we also wait if the port is in state
+TB_PORT_UNPLUGGED (it takes a while for the device to be registered after
+switch resume). Otherwise we only wait if a device is registered but the link
+has not yet been established.
+.SH "RETURN"
+Returns an error code on failure. Returns 0 if the port is not
+connected or failed to reach state TB_PORT_UP within one second. Returns 1
+if the port is connected and in state TB_PORT_UP.

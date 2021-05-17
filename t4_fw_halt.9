@@ -1,0 +1,25 @@
+.TH "t4_fw_halt" 9 "t4_fw_halt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_fw_halt \- issue a reset/halt to FW and put uP into RESET
+.SH SYNOPSIS
+.B "int" t4_fw_halt
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "int force "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW RESET command (if desired)
+.IP "force" 12
+force uP into RESET even if FW RESET command fails
+
+Issues a RESET command to firmware (if desired) with a HALT indication
+and then puts the microprocessor into RESET state.  The RESET command
+will only be issued if a legitimate mailbox is provided (mbox <=
+PCIE_FW_MASTER_M).
+
+This is generally used in order for the host to safely manipulate the
+adapter without fear of conflicting with whatever the firmware might
+be doing.  The only way out of this state is to RESTART the firmware
+\&...

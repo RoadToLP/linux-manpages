@@ -1,0 +1,30 @@
+.TH "snd_card_new" 9 "snd_card_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_card_new \- create and initialize a soundcard structure
+.SH SYNOPSIS
+.B "int" snd_card_new
+.BI "(struct device *parent "  ","
+.BI "int idx "  ","
+.BI "const char *xid "  ","
+.BI "struct module *module "  ","
+.BI "int extra_size "  ","
+.BI "struct snd_card **card_ret "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+the parent device object
+.IP "idx" 12
+card index (address) [0 ... (SNDRV_CARDS-1)]
+.IP "xid" 12
+card identification (ASCII string)
+.IP "module" 12
+top level module for locking
+.IP "extra_size" 12
+allocate this extra size after the main soundcard structure
+.IP "card_ret" 12
+the pointer to store the created card instance
+
+The function allocates snd_card instance via kzalloc with the given
+space for the driver to use freely.  The allocated struct is stored
+in the given card_ret pointer.
+.SH "RETURN"
+Zero if successful or a negative error code.

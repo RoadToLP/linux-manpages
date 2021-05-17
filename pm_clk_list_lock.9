@@ -1,0 +1,17 @@
+.TH "pm_clk_list_lock" 9 "pm_clk_list_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_clk_list_lock \- ensure exclusive access for modifying the PM clock entry list.
+.SH SYNOPSIS
+.B "void" pm_clk_list_lock
+.BI "(struct pm_subsys_data *psd "  ");"
+.SH ARGUMENTS
+.IP "psd" 12
+pm_subsys_data instance corresponding to the PM clock entry list
+and clk_op_might_sleep count to be modified.
+.SH "DESCRIPTION"
+Get exclusive access before modifying the PM clock entry list and the
+clock_op_might_sleep count to guard against concurrent modifications.
+This also protects against a concurrent clock_op_might_sleep and PM clock
+entry list usage in \fBpm_clk_suspend\fP/\fBpm_clk_resume\fP that may or may not
+happen in atomic context, hence both the mutex and the spinlock must be
+taken here.

@@ -1,0 +1,16 @@
+.TH "cm_unregister" 9 "cm_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cm_unregister \- unregister per-SoC low-level data & function pointers
+.SH SYNOPSIS
+.B "int" cm_unregister
+.BI "(const struct cm_ll_data *cld "  ");"
+.SH ARGUMENTS
+.IP "cld" 12
+low-level per-SoC OMAP CM data & function pointers to unregister
+.SH "DESCRIPTION"
+Unregister per-SoC low-level OMAP CM data and function pointers
+that were previously registered with \fBcm_register\fP.  The
+caller may not destroy any of the data pointed to by \fIcld\fP until
+this function returns successfully.  Returns 0 upon success, or
+-EINVAL if \fIcld\fP is NULL or if \fIcld\fP does not match the struct
+cm_ll_data * previously registered by \fBcm_register\fP.

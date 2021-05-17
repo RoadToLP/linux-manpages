@@ -1,0 +1,14 @@
+.TH "fastpath_timer_check" 9 "fastpath_timer_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fastpath_timer_check \- POSIX CPU timers fast path.
+.SH SYNOPSIS
+.B "bool" fastpath_timer_check
+.BI "(struct task_struct *tsk "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+The task (thread) being checked.
+.SH "DESCRIPTION"
+Check the task and thread group timers.  If both are zero (there are no
+timers set) return false.  Otherwise snapshot the task and thread group
+timers and compare them with the corresponding expiration times.  Return
+true if a timer has expired, else return false.

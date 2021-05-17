@@ -1,0 +1,24 @@
+.TH "qib_verbs_send" 9 "qib_verbs_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_verbs_send \- send a packet
+.SH SYNOPSIS
+.B "int" qib_verbs_send
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct ib_header *hdr "  ","
+.BI "u32 hdrwords "  ","
+.BI "struct rvt_sge_state *ss "  ","
+.BI "u32 len "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP to send on
+.IP "hdr" 12
+the packet header
+.IP "hdrwords" 12
+the number of 32-bit words in the header
+.IP "ss" 12
+the SGE to send
+.IP "len" 12
+the length of the packet in bytes
+.SH "DESCRIPTION"
+Return zero if packet is sent or queued OK.
+Return non-zero and clear qp->s_flags RVT_S_BUSY otherwise.

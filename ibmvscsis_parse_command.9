@@ -1,0 +1,19 @@
+.TH "ibmvscsis_parse_command" 9 "ibmvscsis_parse_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_parse_command \- Parse an element taken from the cmd rsp queue.
+.SH SYNOPSIS
+.B "long" ibmvscsis_parse_command
+.BI "(struct scsi_info *vscsi "  ","
+.BI "struct viosrp_crq *crq "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.IP "crq" 12
+Pointer to CRQ element containing the SRP request
+.SH "DESCRIPTION"
+This function will return success if the command queue element is valid
+and the srp iu or MAD request it pointed to was also valid.  That does
+not mean that an error was not returned to the client.
+
+EXECUTION ENVIRONMENT:
+Interrupt, intr lock held

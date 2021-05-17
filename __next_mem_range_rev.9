@@ -1,0 +1,35 @@
+.TH "__next_mem_range_rev" 9 "__next_mem_range_rev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__next_mem_range_rev \- generic next function for for_each_*_range_rev()
+.SH SYNOPSIS
+.B "void __init_memblock" __next_mem_range_rev
+.BI "(u64 *idx "  ","
+.BI "int nid "  ","
+.BI "enum memblock_flags flags "  ","
+.BI "struct memblock_type *type_a "  ","
+.BI "struct memblock_type *type_b "  ","
+.BI "phys_addr_t *out_start "  ","
+.BI "phys_addr_t *out_end "  ","
+.BI "int *out_nid "  ");"
+.SH ARGUMENTS
+.IP "idx" 12
+pointer to u64 loop variable
+.IP "nid" 12
+node selector, NUMA_NO_NODE for all nodes
+.IP "flags" 12
+pick from blocks based on memory attributes
+.IP "type_a" 12
+pointer to memblock_type from where the range is taken
+.IP "type_b" 12
+pointer to memblock_type which excludes memory from being taken
+.IP "out_start" 12
+ptr to phys_addr_t for start address of the range, can be NULL
+.IP "out_end" 12
+ptr to phys_addr_t for end address of the range, can be NULL
+.IP "out_nid" 12
+ptr to int for nid of the range, can be NULL
+.SH "DESCRIPTION"
+Finds the next range from type_a which is not marked as unsuitable
+in type_b.
+
+Reverse of \fB__next_mem_range\fP.

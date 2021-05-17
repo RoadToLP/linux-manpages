@@ -1,0 +1,24 @@
+.TH "workqueue_congested" 9 "workqueue_congested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+workqueue_congested \- test whether a workqueue is congested
+.SH SYNOPSIS
+.B "bool" workqueue_congested
+.BI "(int cpu "  ","
+.BI "struct workqueue_struct *wq "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU in question
+.IP "wq" 12
+target workqueue
+.SH "DESCRIPTION"
+Test whether \fIwq\fP's cpu workqueue for \fIcpu\fP is congested.  There is
+no synchronization around this function and the test result is
+unreliable and only useful as advisory hints or for debugging.
+
+If \fIcpu\fP is WORK_CPU_UNBOUND, the test is performed on the local CPU.
+Note that both per-cpu and unbound workqueues may be associated with
+multiple pool_workqueues which have separate congested states.  A
+workqueue being congested on one CPU doesn't mean the workqueue is also
+contested on other CPUs / NUMA nodes.
+.SH "RETURN"
+true if congested, false otherwise.

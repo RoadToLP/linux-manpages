@@ -1,0 +1,20 @@
+.TH "assoc_array_destroy" 9 "assoc_array_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assoc_array_destroy \- Destroy an associative array
+.SH SYNOPSIS
+.B "void" assoc_array_destroy
+.BI "(struct assoc_array *array "  ","
+.BI "const struct assoc_array_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+The array to destroy.
+.IP "ops" 12
+The operations to use.
+.SH "DESCRIPTION"
+Discard all metadata and free all objects in an associative array.  The
+array will be empty and ready to use again upon completion.  This function
+cannot fail.
+
+The caller must prevent all other accesses whilst this takes place as no
+attempt is made to adjust pointers gracefully to permit RCU readlock-holding
+accesses to continue.  On the other hand, no memory allocation is required.

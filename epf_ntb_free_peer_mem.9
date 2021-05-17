@@ -1,0 +1,45 @@
+.TH "epf_ntb_free_peer_mem" 9 "epf_ntb_free_peer_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_free_peer_mem \- Free memory allocated in peers outbound address space
+.SH SYNOPSIS
+.B "void" epf_ntb_free_peer_mem
+.BI "(struct epf_ntb_epc *ntb_epc "  ");"
+.SH ARGUMENTS
+.IP "ntb_epc" 12
+EPC associated with one of the HOST which holds peers outbound
+address regions
+.SH "DESCRIPTION"
++-----------------+    +---->+----------------+-----------+-----------------+
+|       BAR0      |    |     |   Doorbell 1   +-----------> MSI|X ADDRESS 1 |
++-----------------+    |     +----------------+           +-----------------+
+|       BAR1      |    |     |   Doorbell 2   +---------+ |                 |
++-----------------+----+     +----------------+         | |                 |
+|       BAR2      |          |   Doorbell 3   +-------+ | +-----------------+
++-----------------+----+     +----------------+       | +-> MSI|X ADDRESS 2 |
+|       BAR3      |    |     |   Doorbell 4   +-----+ |   +-----------------+
++-----------------+    |     |----------------+     | |   |                 |
+|       BAR4      |    |     |                |     | |   +-----------------+
++-----------------+    |     |      MW1       +---+ | +-->+ MSI|X ADDRESS 3||
+|       BAR5      |    |     |                |   | |     +-----------------+
++-----------------+    +---->-----------------+   | |     |                 |
+EP CONTROLLER 1            |                |   | |     +-----------------+
+|                |   | +---->+ MSI|X ADDRESS 4 |
++----------------+   |       +-----------------+
+(A)      EP CONTROLLER 2     |       |                 |
+(OB SPACE)        |       |                 |
++------->      MW1        |
+|                 |
+|                 |
+(B)     +-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+PCI Address Space
+(Managed by HOST2)
+
+Free memory allocated in EP CONTROLLER 2 (OB SPACE) in the above diagram.
+It'll free Doorbell 1, Doorbell 2, Doorbell 3, Doorbell 4, MW1 (and MW2, MW3,
+MW4).

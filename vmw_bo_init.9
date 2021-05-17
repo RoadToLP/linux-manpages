@@ -1,0 +1,31 @@
+.TH "vmw_bo_init" 9 "vmw_bo_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_bo_init \- Initialize a vmw buffer object
+.SH SYNOPSIS
+.B "int" vmw_bo_init
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_buffer_object *vmw_bo "  ","
+.BI "size_t size "  ","
+.BI "struct ttm_placement *placement "  ","
+.BI "bool interruptible "  ","
+.BI "bool pin "  ","
+.BI "void (*bo_free)(struct ttm_buffer_object *bo) "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to the device private struct
+.IP "vmw_bo" 12
+Pointer to the struct vmw_buffer_object to initialize.
+.IP "size" 12
+Buffer object size in bytes.
+.IP "placement" 12
+Initial placement.
+.IP "interruptible" 12
+Whether waits should be performed interruptible.
+.IP "pin" 12
+If the BO should be created pinned at a fixed location.
+.IP "bo_free" 12
+The buffer object destructor.
+.SH "RETURN"
+Zero on success, negative error code on error.
+.SH "DESCRIPTION"
+Note that on error, the code will free the buffer object.

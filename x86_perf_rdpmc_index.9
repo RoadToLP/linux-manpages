@@ -1,0 +1,19 @@
+.TH "x86_perf_rdpmc_index" 9 "x86_perf_rdpmc_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+x86_perf_rdpmc_index \- Return PMC counter used for event
+.SH SYNOPSIS
+.B "int" x86_perf_rdpmc_index
+.BI "(struct perf_event *event "  ");"
+.SH ARGUMENTS
+.IP "event" 12
+the perf_event to which the PMC counter was assigned
+.SH "DESCRIPTION"
+The counter assigned to this performance event may change if interrupts
+are enabled. This counter should thus never be used while interrupts are
+enabled. Before this function is used to obtain the assigned counter the
+event should be checked for validity using, for example,
+\fBperf_event_read_local\fP, within the same interrupt disabled section in
+which this counter is planned to be used.
+.SH "RETURN"
+The index of the performance monitoring counter assigned to
+\fIperf_event\fP.

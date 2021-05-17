@@ -1,0 +1,22 @@
+.TH "__netdev_alloc_skb" 9 "__netdev_alloc_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__netdev_alloc_skb \- allocate an skbuff for rx on a specific device
+.SH SYNOPSIS
+.B "struct sk_buff *" __netdev_alloc_skb
+.BI "(struct net_device *dev "  ","
+.BI "unsigned int len "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network device to receive on
+.IP "len" 12
+length to allocate
+.IP "gfp_mask" 12
+get_free_pages mask, passed to alloc_skb
+
+Allocate a new \fIsk_buff\fP and assign it a usage count of one. The
+buffer has NET_SKB_PAD headroom built in. Users should allocate
+the headroom they think they need without accounting for the
+built in space. The built in space is used for optimisations.
+
+NULL is returned if there is no free memory.

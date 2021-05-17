@@ -1,0 +1,30 @@
+.TH "bio_add_hw_page" 9 "bio_add_hw_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_add_hw_page \- attempt to add a page to a bio with hw constraints
+.SH SYNOPSIS
+.B "int" bio_add_hw_page
+.BI "(struct request_queue *q "  ","
+.BI "struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int max_sectors "  ","
+.BI "bool *same_page "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the target queue
+.IP "bio" 12
+destination bio
+.IP "page" 12
+page to add
+.IP "len" 12
+vec entry length
+.IP "offset" 12
+vec entry offset
+.IP "max_sectors" 12
+maximum number of sectors that can be added
+.IP "same_page" 12
+return if the segment has been merged inside the same page
+.SH "DESCRIPTION"
+Add a page to a bio while respecting the hardware max_sectors, max_segment
+and gap limitations.

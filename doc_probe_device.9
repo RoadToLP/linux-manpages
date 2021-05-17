@@ -1,0 +1,21 @@
+.TH "doc_probe_device" 9 "doc_probe_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_probe_device \- Check if a device is available
+.SH SYNOPSIS
+.B "struct mtd_info *" doc_probe_device
+.BI "(struct docg3_cascade *cascade "  ","
+.BI "int floor "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "cascade" 12
+the cascade of chips this devices will belong to
+.IP "floor" 12
+the floor of the probed device
+.IP "dev" 12
+the device
+.SH "DESCRIPTION"
+Checks whether a device at the specified IO range, and floor is available.
+
+Returns a mtd_info struct if there is a device, ENODEV if none found, ENOMEM
+if a memory allocation failed. If floor 0 is checked, a reset of the ASIC is
+launched.

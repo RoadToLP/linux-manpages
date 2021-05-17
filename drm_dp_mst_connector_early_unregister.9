@@ -1,0 +1,16 @@
+.TH "drm_dp_mst_connector_early_unregister" 9 "drm_dp_mst_connector_early_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_connector_early_unregister \- Early MST connector unregistration
+.SH SYNOPSIS
+.B "void" drm_dp_mst_connector_early_unregister
+.BI "(struct drm_connector *connector "  ","
+.BI "struct drm_dp_mst_port *port "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+The MST connector
+.IP "port" 12
+The MST port for this connector
+.SH "DESCRIPTION"
+Helper to unregister the remote aux device for this MST port, registered by
+\fBdrm_dp_mst_connector_late_register\fP. Drivers should call this from their mst
+connector's early_unregister hook.

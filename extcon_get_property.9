@@ -1,0 +1,25 @@
+.TH "extcon_get_property" 9 "extcon_get_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+extcon_get_property \- Get the property value of an external connector.
+.SH SYNOPSIS
+.B "int" extcon_get_property
+.BI "(struct extcon_dev *edev "  ","
+.BI "unsigned int id "  ","
+.BI "unsigned int prop "  ","
+.BI "union extcon_property_value *prop_val "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+the extcon device
+.IP "id" 12
+the unique id indicating an external connector
+.IP "prop" 12
+the property id indicating an extcon property
+.IP "prop_val" 12
+the pointer which store the value of extcon property
+.SH "DESCRIPTION"
+Note that when getting the property value of external connector,
+the external connector should be attached. If detached state, function
+return 0 without property value. Also, the each property should be
+included in the list of supported properties according to extcon type.
+
+Returns 0 if success or error number if fail.

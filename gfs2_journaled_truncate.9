@@ -1,0 +1,19 @@
+.TH "gfs2_journaled_truncate" 9 "gfs2_journaled_truncate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_journaled_truncate \- Wrapper for truncate_pagecache for jdata files
+.SH SYNOPSIS
+.B "int" gfs2_journaled_truncate
+.BI "(struct inode *inode "  ","
+.BI "u64 oldsize "  ","
+.BI "u64 newsize "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode being truncated
+.IP "oldsize" 12
+The original (larger) size
+.IP "newsize" 12
+The new smaller size
+.SH "DESCRIPTION"
+With jdata files, we have to journal a revoke for each block which is
+truncated. As a result, we need to split this into separate transactions
+if the number of pages being truncated gets too large.

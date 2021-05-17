@@ -1,0 +1,17 @@
+.TH "batadv_master_del_slave" 9 "batadv_master_del_slave" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_master_del_slave \- remove hard_iface from the current master iface
+.SH SYNOPSIS
+.B "int" batadv_master_del_slave
+.BI "(struct batadv_hard_iface *slave "  ","
+.BI "struct net_device *master "  ");"
+.SH ARGUMENTS
+.IP "slave" 12
+the interface enslaved in another master
+.IP "master" 12
+the master from which slave has to be removed
+.SH "DESCRIPTION"
+Invoke ndo_del_slave on master passing slave as argument. In this way the
+slave is free'd and the master can correctly change its internal state.
+.SH "RETURN"
+0 on success, a negative value representing the error otherwise

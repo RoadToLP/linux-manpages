@@ -1,0 +1,15 @@
+.TH "acpi_gpiochip_request_interrupts" 9 "acpi_gpiochip_request_interrupts" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_gpiochip_request_interrupts \- Register isr for gpio chip ACPI events
+.SH SYNOPSIS
+.B "void" acpi_gpiochip_request_interrupts
+.BI "(struct gpio_chip *chip "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+GPIO chip
+.SH "DESCRIPTION"
+ACPI5 platforms can use GPIO signaled ACPI events. These GPIO interrupts are
+handled by ACPI event methods which need to be called from the GPIO
+chip's interrupt handler. \fBacpi_gpiochip_request_interrupts\fP finds out which
+GPIO pins have ACPI event methods and assigns interrupt handlers that calls
+the ACPI event methods for those pins.

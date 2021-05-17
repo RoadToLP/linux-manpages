@@ -1,0 +1,37 @@
+.TH "fallible_resolve_collision" 9 "fallible_resolve_collision" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fallible_resolve_collision \- resolve a collision even if nodes are missing.
+.SH SYNOPSIS
+.B "int" fallible_resolve_collision
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "struct ubifs_znode **zn "  ","
+.BI "int *n "  ","
+.BI "const struct fscrypt_name *nm "  ","
+.BI "int adding "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key
+.IP "zn" 12
+znode is returned here
+.IP "n" 12
+branch number is passed and returned here
+.IP "nm" 12
+name of directory entry
+.IP "adding" 12
+indicates caller is adding a key to the TNC
+.SH "DESCRIPTION"
+This is a "fallible" version of the '\fBresolve_collision\fP' function which
+does not panic if one of the nodes referred to by TNC does not exist on the
+media. This may happen when replaying the journal if a deleted node was
+Garbage-collected and the commit was not done. A branch that refers to a node
+that is not present is called a dangling branch. The following are the return
+codes for this function:
+o if \fInm\fP was found, 1 is returned and \fIzn\fP and \fIn\fP are set to the found
+branch;
+o if we are \fIadding\fP and \fInm\fP was not found, 0 is returned;
+o if we are not \fIadding\fP and \fInm\fP was not found, but a dangling branch was
+found, then 1 is returned and \fIzn\fP and \fIn\fP are set to the dangling branch;
+o a negative error code is returned in case of failure.

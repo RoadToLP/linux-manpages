@@ -1,0 +1,20 @@
+.TH "ttm_buffer_object_transfer" 9 "ttm_buffer_object_transfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ttm_buffer_object_transfer \- 
+.SH SYNOPSIS
+.B "int" ttm_buffer_object_transfer
+.BI "(struct ttm_buffer_object *bo "  ","
+.BI "struct ttm_buffer_object **new_obj "  ");"
+.SH ARGUMENTS
+.IP "bo" 12
+A pointer to a struct ttm_buffer_object.
+.IP "new_obj" 12
+A pointer to a pointer to a newly created ttm_buffer_object,
+holding the data of \fIbo\fP with the old placement.
+.SH "DESCRIPTION"
+This is a utility function that may be called after an accelerated move
+has been scheduled. A new buffer object is created as a placeholder for
+the old data while it's being copied. When that buffer object is idle,
+it can be destroyed, releasing the space of the old placement.
+.SH "RETURN"
+!0: Failure.

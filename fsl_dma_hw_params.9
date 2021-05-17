@@ -1,0 +1,37 @@
+.TH "fsl_dma_hw_params" 9 "fsl_dma_hw_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_dma_hw_params \- continue initializing the DMA links
+.SH SYNOPSIS
+.B "int" fsl_dma_hw_params
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_pcm_substream *substream "  ","
+.BI "struct snd_pcm_hw_params *hw_params "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+-- undescribed --
+.IP "substream" 12
+-- undescribed --
+.IP "hw_params" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function obtains hardware parameters about the opened stream and
+programs the DMA controller accordingly.
+
+One drawback of big-endian is that when copying integers of different
+sizes to a fixed-sized register, the address to which the integer must be
+copied is dependent on the size of the integer.
+
+For example, if P is the address of a 32-bit register, and X is a 32-bit
+integer, then X should be copied to address P.  However, if X is a 16-bit
+integer, then it should be copied to P+2.  If X is an 8-bit register,
+then it should be copied to P+3.
+
+So for playback of 8-bit samples, the DMA controller must transfer single
+bytes from the DMA buffer to the last byte of the STX0 register, i.e.
+offset by 3 bytes. For 16-bit samples, the offset is two bytes.
+
+For 24-bit samples, the offset is 1 byte.  However, the DMA controller
+does not support 3-byte copies (the DAHTS register supports only 1, 2, 4,
+and 8 bytes at a time).  So we do not support packed 24-bit samples.
+24-bit data must be padded to 32 bits.

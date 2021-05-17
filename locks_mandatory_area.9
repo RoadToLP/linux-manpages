@@ -1,0 +1,23 @@
+.TH "locks_mandatory_area" 9 "locks_mandatory_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+locks_mandatory_area \- Check for a conflicting lock
+.SH SYNOPSIS
+.B "int" locks_mandatory_area
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "unsigned char type "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the file to check
+.IP "filp" 12
+how the file was opened (if it was)
+.IP "start" 12
+first byte in the file to check
+.IP "end" 12
+lastbyte in the file to check
+.IP "type" 12
+F_WRLCK for a write lock, else F_RDLCK
+.SH "DESCRIPTION"
+Searches the inode's list of locks to find any POSIX locks which conflict.

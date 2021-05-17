@@ -1,0 +1,17 @@
+.TH "mux_control_deselect" 9 "mux_control_deselect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mux_control_deselect \- Deselect the previously selected multiplexer state.
+.SH SYNOPSIS
+.B "int" mux_control_deselect
+.BI "(struct mux_control *mux "  ");"
+.SH ARGUMENTS
+.IP "mux" 12
+The mux-control to deselect.
+.SH "DESCRIPTION"
+It is required that a single call is made to \fBmux_control_deselect\fP for
+each and every successful call made to either of \fBmux_control_select\fP or
+\fBmux_control_try_select\fP.
+.SH "RETURN"
+0 on success and a negative errno on error. An error can only
+occur if the mux has an idle state. Note that even if an error occurs, the
+mux-control is unlocked and is thus free for the next access.

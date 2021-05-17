@@ -1,0 +1,19 @@
+.TH "coresight_find_default_sink" 9 "coresight_find_default_sink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+coresight_find_default_sink \- Find a sink suitable for use as a default sink.
+.SH SYNOPSIS
+.B "struct coresight_device *" coresight_find_default_sink
+.BI "(struct coresight_device *csdev "  ");"
+.SH ARGUMENTS
+.IP "csdev" 12
+starting source to find a connected sink.
+.SH "DESCRIPTION"
+Walks connections graph looking for a suitable sink to enable for the
+supplied source. Uses CoreSight device subtypes and distance from source
+to select the best sink.
+
+If a sink is found, then the default sink for this device is set and
+will be automatically used in future.
+
+Used in cases where the CoreSight user (perf / sysfs) has not selected a
+sink.

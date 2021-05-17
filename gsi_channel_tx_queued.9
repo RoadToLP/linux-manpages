@@ -1,0 +1,23 @@
+.TH "gsi_channel_tx_queued" 9 "gsi_channel_tx_queued" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsi_channel_tx_queued \- Report queued TX transfers for a channel
+.SH SYNOPSIS
+.B "void" gsi_channel_tx_queued
+.BI "(struct gsi_channel *channel "  ");"
+.SH ARGUMENTS
+.IP "channel" 12
+Channel for which to report
+.SH "DESCRIPTION"
+Report to the network stack the number of bytes and transactions that
+have been queued to hardware since last call.  This and the next function
+supply information used by the network stack for throttling.
+
+For each channel we track the number of transactions used and bytes of
+data those transactions represent.  We also track what those values are
+each time this function is called.  Subtracting the two tells us
+the number of bytes and transactions that have been added between
+successive calls.
+
+Calling this each time we ring the channel doorbell allows us to
+provide accurate information to the network stack about how much
+work we've given the hardware at any point in time.

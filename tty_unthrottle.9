@@ -1,0 +1,17 @@
+.TH "tty_unthrottle" 9 "tty_unthrottle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_unthrottle \- flow control
+.SH SYNOPSIS
+.B "void" tty_unthrottle
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Indicate that a tty may continue transmitting data down the stack.
+Takes the termios rwsem to protect against parallel throttle/unthrottle
+and also to ensure the driver can consistently reference its own
+termios data at this point when implementing software flow control.
+
+Drivers should however remember that the stack can issue a throttle,
+then change flow control method, then unthrottle.

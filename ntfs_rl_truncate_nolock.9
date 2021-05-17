@@ -1,0 +1,33 @@
+.TH "ntfs_rl_truncate_nolock" 9 "ntfs_rl_truncate_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_rl_truncate_nolock \- truncate a runlist starting at a specified vcn
+.SH SYNOPSIS
+.B "int" ntfs_rl_truncate_nolock
+.BI "(const ntfs_volume *vol "  ","
+.BI "runlist *const runlist "  ","
+.BI "const s64 new_length "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume (needed for error output)
+.IP "runlist" 12
+runlist to truncate
+.IP "new_length" 12
+the new length of the runlist in VCNs
+.SH "DESCRIPTION"
+Truncate the runlist described by \fIrunlist\fP as well as the memory buffer
+holding the runlist elements to a length of \fInew_length\fP VCNs.
+
+If \fInew_length\fP lies within the runlist, the runlist elements with VCNs of
+\fInew_length\fP and above are discarded.  As a special case if \fInew_length\fP is
+zero, the runlist is discarded and set to NULL.
+
+If \fInew_length\fP lies beyond the runlist, a sparse runlist element is added to
+the end of the runlist \fIrunlist\fP or if the last runlist element is a sparse
+one already, this is extended.
+
+Note, no checking is done for unmapped runlist elements.  It is assumed that
+the caller has mapped any elements that need to be mapped already.
+
+Return 0 on success and -errno on error.
+
+Locking: The caller must hold \fIrunlist->lock\fP for writing.

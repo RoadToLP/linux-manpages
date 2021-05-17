@@ -1,0 +1,18 @@
+.TH "framebuffer_alloc" 9 "framebuffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+framebuffer_alloc \- creates a new frame buffer info structure
+.SH SYNOPSIS
+.B "struct fb_info *" framebuffer_alloc
+.BI "(size_t size "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of driver private data, can be zero
+.IP "dev" 12
+pointer to the device for this fb, this can be NULL
+.SH "DESCRIPTION"
+Creates a new frame buffer info structure. Also reserves \fIsize\fP bytes
+for driver private data (info->par). info->par (if any) will be
+aligned to sizeof(long).
+
+Returns the new structure, or NULL if an error occurred.

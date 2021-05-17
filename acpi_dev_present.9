@@ -1,0 +1,29 @@
+.TH "acpi_dev_present" 9 "acpi_dev_present" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_present \- Detect that a given ACPI device is present
+.SH SYNOPSIS
+.B "bool" acpi_dev_present
+.BI "(const char *hid "  ","
+.BI "const char *uid "  ","
+.BI "s64 hrv "  ");"
+.SH ARGUMENTS
+.IP "hid" 12
+Hardware ID of the device.
+.IP "uid" 12
+Unique ID of the device, pass NULL to not check _UID
+.IP "hrv" 12
+Hardware Revision of the device, pass -1 to not check _HRV
+.SH "DESCRIPTION"
+Return true if a matching device was present at the moment of invocation.
+Note that if the device is pluggable, it may since have disappeared.
+
+Note that unlike \fBacpi_dev_found\fP this function checks the status
+of the device. So for devices which are present in the dsdt, but
+which are disabled (their _STA callback returns 0) this function
+will return false.
+
+For this function to work, \fBacpi_bus_scan\fP must have been executed
+which happens in the \fBsubsys_initcall\fP subsection. Hence, do not
+call from a \fBsubsys_initcall\fP or earlier (use \fBacpi_get_devices\fP
+instead). Calling from \fBmodule_init\fP is fine (which is synonymous
+with \fBdevice_initcall\fP).

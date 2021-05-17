@@ -1,0 +1,16 @@
+.TH "pciehp_check_presence" 9 "pciehp_check_presence" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pciehp_check_presence \- synthesize event if presence has changed
+.SH SYNOPSIS
+.B "void" pciehp_check_presence
+.BI "(struct controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+controller to check
+.SH "DESCRIPTION"
+On probe and resume, an explicit presence check is necessary to bring up an
+occupied slot or bring down an unoccupied slot.  This can't be triggered by
+events in the Slot Status register, they may be stale and are therefore
+cleared.  Secondly, sending an interrupt for "events that occur while
+interrupt generation is disabled [when] interrupt generation is subsequently
+enabled" is optional per PCIe r4.0, sec 6.7.3.4.

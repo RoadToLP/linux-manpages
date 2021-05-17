@@ -1,0 +1,37 @@
+.TH "kvm_mips_map_page" 9 "kvm_mips_map_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_map_page \- Map a guest physical page.
+.SH SYNOPSIS
+.B "int" kvm_mips_map_page
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned long gpa "  ","
+.BI "bool write_fault "  ","
+.BI "pte_t *out_entry "  ","
+.BI "pte_t *out_buddy "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+VCPU pointer.
+.IP "gpa" 12
+Guest physical address of fault.
+.IP "write_fault" 12
+Whether the fault was due to a write.
+.IP "out_entry" 12
+New PTE for \fIgpa\fP (written on success unless NULL).
+.IP "out_buddy" 12
+New PTE for \fIgpa\fP's buddy (written on success unless
+NULL).
+.SH "DESCRIPTION"
+Handle GPA faults by creating a new GPA mapping (or updating an existing
+one).
+
+This takes care of marking pages young or dirty (idle/dirty page tracking),
+asking KVM for the corresponding PFN, and creating a mapping in the GPA page
+tables. Derived mappings (GVA page tables and TLBs) must be handled by the
+caller.
+.SH "RETURN"
+0 on success, in which case the caller may use the \fIout_entry\fP
+and \fIout_buddy\fP PTEs to update derived mappings and resume guest
+execution.
+-EFAULT if there is no memory region at \fIgpa\fP or a write was
+attempted to a read-only memory region. This is usually handled
+as an MMIO access.

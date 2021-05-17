@@ -1,0 +1,15 @@
+.TH "fscache_obtained_object" 9 "fscache_obtained_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscache_obtained_object \- Note successful object lookup or creation
+.SH SYNOPSIS
+.B "void" fscache_obtained_object
+.BI "(struct fscache_object *object "  ");"
+.SH ARGUMENTS
+.IP "object" 12
+Object pointing to cookie to mark
+.SH "DESCRIPTION"
+Note successful lookup and/or creation, permitting those waiting to write
+data to a backing object to continue.
+
+Note that after calling this, an object's cookie may be relinquished by the
+netfs, and so must be accessed with object lock held.

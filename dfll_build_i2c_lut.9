@@ -1,0 +1,20 @@
+.TH "dfll_build_i2c_lut" 9 "dfll_build_i2c_lut" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfll_build_i2c_lut \- build the I2C voltage register lookup table
+.SH SYNOPSIS
+.B "int" dfll_build_i2c_lut
+.BI "(struct tegra_dfll *td "  ","
+.BI "unsigned long v_max "  ");"
+.SH ARGUMENTS
+.IP "td" 12
+DFLL instance
+.IP "v_max" 12
+Vmax from OPP table
+.SH "DESCRIPTION"
+The DFLL hardware has 33 bytes of look-up table RAM that must be filled with
+PMIC voltage register values that span the entire DFLL operating range.
+This function builds the look-up table based on the OPP table provided by
+the soc-specific platform driver (td->soc->opp_dev) and the PMIC
+register-to-voltage mapping queried from the regulator framework.
+
+On success, fills in td->lut and returns 0, or -err on failure.

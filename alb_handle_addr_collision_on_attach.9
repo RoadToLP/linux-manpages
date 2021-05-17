@@ -1,0 +1,29 @@
+.TH "alb_handle_addr_collision_on_attach" 9 "alb_handle_addr_collision_on_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alb_handle_addr_collision_on_attach \- 
+.SH SYNOPSIS
+.B "int" alb_handle_addr_collision_on_attach
+.BI "(struct bonding *bond "  ","
+.BI "struct slave *slave "  ");"
+.SH ARGUMENTS
+.IP "bond" 12
+bonding we're working on
+.IP "slave" 12
+the slave that was just attached
+.SH "DESCRIPTION"
+checks uniqueness of slave's mac address and handles the case the
+new slave uses the bonds mac address.
+
+If the permanent hw address of \fIslave\fP is \fIbond\fP's hw address, we need to
+find a different hw address to give \fIslave\fP, that isn't in use by any other
+slave in the bond. This address must be, of course, one of the permanent
+addresses of the other slaves.
+
+We go over the slave list, and for each slave there we compare its
+permanent hw address with the current address of all the other slaves.
+If no match was found, then we've found a slave with a permanent address
+that isn't used by any other slave in the bond, so we can assign it to
+\fIslave\fP.
+
+assumption: this function is called before \fIslave\fP is attached to the
+bond slave list.

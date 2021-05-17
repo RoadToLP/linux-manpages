@@ -1,0 +1,29 @@
+.TH "ethnl_parse_header_dev_get" 9 "ethnl_parse_header_dev_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_parse_header_dev_get \- parse request header
+.SH SYNOPSIS
+.B "int" ethnl_parse_header_dev_get
+.BI "(struct ethnl_req_info *req_info "  ","
+.BI "const struct nlattr *header "  ","
+.BI "struct net *net "  ","
+.BI "struct netlink_ext_ack *extack "  ","
+.BI "bool require_dev "  ");"
+.SH ARGUMENTS
+.IP "req_info" 12
+structure to put results into
+.IP "header" 12
+nest attribute with request header
+.IP "net" 12
+request netns
+.IP "extack" 12
+netlink extack for error reporting
+.IP "require_dev" 12
+fail if no device identified in header
+.SH "DESCRIPTION"
+Parse request header in nested attribute \fInest\fP and puts results into
+the structure pointed to by \fIreq_info\fP. Extack from \fIinfo\fP is used for error
+reporting. If req_info->dev is not null on return, reference to it has
+been taken. If error is returned, *req_info is null initialized and no
+reference is held.
+.SH "RETURN"
+0 on success or negative error code

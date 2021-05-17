@@ -1,0 +1,21 @@
+.TH "clkdm_read_wkdep" 9 "clkdm_read_wkdep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_read_wkdep \- read wakeup dependency state from clkdm2 to clkdm1
+.SH SYNOPSIS
+.B "int" clkdm_read_wkdep
+.BI "(struct clockdomain *clkdm1 "  ","
+.BI "struct clockdomain *clkdm2 "  ");"
+.SH ARGUMENTS
+.IP "clkdm1" 12
+wake this struct clockdomain * up (dependent)
+.IP "clkdm2" 12
+when this struct clockdomain * wakes up (source)
+.SH "DESCRIPTION"
+Return 1 if a hardware wakeup dependency exists wherein \fIclkdm1\fP will be
+awoken when \fIclkdm2\fP wakes up; 0 if dependency is not set; -EINVAL
+if either clockdomain pointer is invalid; or -ENOENT if the hardware
+is incapable.
+
+REVISIT: Currently this function only represents software-controllable
+wakeup dependencies.  Wakeup dependencies fixed in hardware are not
+yet handled here.

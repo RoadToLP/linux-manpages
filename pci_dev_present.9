@@ -1,0 +1,16 @@
+.TH "pci_dev_present" 9 "pci_dev_present" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_dev_present \- Returns 1 if device matching the device list is present, 0 if not.
+.SH SYNOPSIS
+.B "int" pci_dev_present
+.BI "(const struct pci_device_id *ids "  ");"
+.SH ARGUMENTS
+.IP "ids" 12
+A pointer to a null terminated list of struct pci_device_id structures
+that describe the type of PCI device the caller is trying to find.
+.SH "DESCRIPTION"
+Obvious fact: You do not have a reference to any device that might be found
+by this function, so if that device is removed from the system right after
+this function is finished, the value will be stale.  Use this function to
+find devices that are usually built into a system, or for a general hint as
+to if another device happens to be present at this specific moment in time.

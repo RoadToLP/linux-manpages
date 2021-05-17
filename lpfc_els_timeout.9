@@ -1,0 +1,15 @@
+.TH "lpfc_els_timeout" 9 "lpfc_els_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_timeout \- Handler funciton to the els timer
+.SH SYNOPSIS
+.B "void" lpfc_els_timeout
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer context used to obtain the vport.
+.SH "DESCRIPTION"
+This routine is invoked by the ELS timer after timeout. It posts the ELS
+timer timeout event by setting the WORKER_ELS_TMO bit to the work port
+event bitmap and then invokes the \fBlpfc_worker_wake_up\fP routine to wake
+up the worker thread. It is for the worker thread to invoke the routine
+\fBlpfc_els_timeout_handler\fP to work on the posted event WORKER_ELS_TMO.

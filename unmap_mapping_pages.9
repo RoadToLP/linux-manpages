@@ -1,0 +1,23 @@
+.TH "unmap_mapping_pages" 9 "unmap_mapping_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_mapping_pages \- Unmap pages from processes.
+.SH SYNOPSIS
+.B "void" unmap_mapping_pages
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t nr "  ","
+.BI "bool even_cows "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+The address space containing pages to be unmapped.
+.IP "start" 12
+Index of first page to be unmapped.
+.IP "nr" 12
+Number of pages to be unmapped.  0 to unmap to end of file.
+.IP "even_cows" 12
+Whether to unmap even private COWed pages.
+.SH "DESCRIPTION"
+Unmap the pages in this address space from any userspace process which
+has them mmaped.  Generally, you want to remove COWed pages as well when
+a file is being truncated, but not when invalidating pages from the page
+cache.

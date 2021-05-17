@@ -1,0 +1,27 @@
+.TH "kvm_vgic_addr" 9 "kvm_vgic_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_vgic_addr \- set or get vgic VM base addresses
+.SH SYNOPSIS
+.B "int" kvm_vgic_addr
+.BI "(struct kvm *kvm "  ","
+.BI "unsigned long type "  ","
+.BI "u64 *addr "  ","
+.BI "bool write "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+pointer to the vm struct
+.IP "type" 12
+the VGIC addr type, one of KVM_VGIC_V[23]_ADDR_TYPE_XXX
+.IP "addr" 12
+pointer to address value
+.IP "write" 12
+if true set the address in the VM address space, if false read the
+address
+.SH "DESCRIPTION"
+Set or get the vgic base addresses for the distributor and the virtual CPU
+interface in the VM physical address space.  These addresses are properties
+of the emulated core/SoC and therefore user space initially knows this
+information.
+Check them for sanity (alignment, double assignment). We can't check for
+overlapping regions in case of a virtual GICv3 here, since we don't know
+the number of VCPUs yet, so we defer this check to \fBmap_resources\fP.

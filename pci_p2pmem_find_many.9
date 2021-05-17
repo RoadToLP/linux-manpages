@@ -1,0 +1,22 @@
+.TH "pci_p2pmem_find_many" 9 "pci_p2pmem_find_many" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_p2pmem_find_many \- find a peer-to-peer DMA memory device compatible with the specified list of clients and shortest distance (as determined by pci_p2pmem_dma())
+.SH SYNOPSIS
+.B "struct pci_dev *" pci_p2pmem_find_many
+.BI "(struct device **clients "  ","
+.BI "int num_clients "  ");"
+.SH ARGUMENTS
+.IP "clients" 12
+array of devices to check (NULL-terminated)
+.IP "num_clients" 12
+number of client devices in the list
+.SH "DESCRIPTION"
+If multiple devices are behind the same switch, the one "closest" to the
+client devices in use will be chosen first. (So if one of the providers is
+the same as one of the clients, that provider will be used ahead of any
+other providers that are unrelated). If multiple providers are an equal
+distance away, one will be chosen at random.
+
+Returns a pointer to the PCI device with a reference taken (use pci_dev_put
+to return the reference) or NULL if no compatible device is found. The
+found provider will also be assigned to the client list.

@@ -1,0 +1,19 @@
+.TH "ipu_irq_map" 9 "ipu_irq_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipu_irq_map \- map an IPU interrupt source to an IRQ number
+.SH SYNOPSIS
+.B "int" ipu_irq_map
+.BI "(unsigned int source "  ");"
+.SH ARGUMENTS
+.IP "source" 12
+interrupt source bit position (see below)
+.SH "RETURN"
+mapped IRQ number or negative error code
+.SH "DESCRIPTION"
+The source parameter has to be explained further. On i.MX31 IPU has 137 IRQ
+sources, they are broken down in 5 32-bit registers, like 32, 32, 24, 32, 17.
+However, the source argument of this function is not the sequence number of
+the possible IRQ, but rather its bit position. So, first interrupt in fourth
+register has source number 96, and not 88. This makes calculations easier,
+and also provides forward compatibility with any future IPU implementations
+with any interrupt bit assignments.

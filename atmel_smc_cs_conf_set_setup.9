@@ -1,0 +1,23 @@
+.TH "atmel_smc_cs_conf_set_setup" 9 "atmel_smc_cs_conf_set_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atmel_smc_cs_conf_set_setup \- set the SMC CS conf xx_SETUP parameter to a specific value
+.SH SYNOPSIS
+.B "int" atmel_smc_cs_conf_set_setup
+.BI "(struct atmel_smc_cs_conf *conf "  ","
+.BI "unsigned int shift "  ","
+.BI "unsigned int ncycles "  ");"
+.SH ARGUMENTS
+.IP "conf" 12
+SMC CS conf descriptor
+.IP "shift" 12
+the position of the xx_SETUP field in the SETUP register
+.IP "ncycles" 12
+value (expressed in MCK clk cycles) to assign to this xx_SETUP
+parameter
+.SH "DESCRIPTION"
+This function encodes the \fIncycles\fP value as described in the datasheet
+(section "SMC Setup Register"), and then stores the result in the
+\fIconf->setup\fP field at \fIshift\fP position.
+
+Returns -EINVAL if \fIshift\fP is invalid, -ERANGE if \fIncycles\fP does not fit in
+the field, and 0 otherwise.

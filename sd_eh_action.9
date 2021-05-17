@@ -1,0 +1,19 @@
+.TH "sd_eh_action" 9 "sd_eh_action" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_eh_action \- error handling callback
+.SH SYNOPSIS
+.B "int" sd_eh_action
+.BI "(struct scsi_cmnd *scmd "  ","
+.BI "int eh_disp "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+sd-issued command that has failed
+.IP "eh_disp" 12
+The recovery disposition suggested by the midlayer
+
+This function is called by the SCSI midlayer upon completion of an
+error test command (currently TEST UNIT READY). The result of sending
+the eh command is passed in eh_disp.  We're looking for devices that
+fail medium access commands but are OK with non access commands like
+test unit ready (so wrongly see the device as having a successful
+recovery)

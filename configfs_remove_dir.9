@@ -1,0 +1,15 @@
+.TH "configfs_remove_dir" 9 "configfs_remove_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+configfs_remove_dir \- remove an config_item's directory.
+.SH SYNOPSIS
+.B "void" configfs_remove_dir
+.BI "(struct config_item * item "  ");"
+.SH ARGUMENTS
+.IP "item" 12
+config_item we're removing.
+.SH "DESCRIPTION"
+The only thing special about this is that we remove any files in
+the directory before we remove the directory, and we've inlined
+what used to be \fBconfigfs_rmdir\fP below, instead of calling separately.
+
+Caller holds the mutex of the item's inode

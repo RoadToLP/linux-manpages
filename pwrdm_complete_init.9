@@ -1,0 +1,18 @@
+.TH "pwrdm_complete_init" 9 "pwrdm_complete_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_complete_init \- set up the powerdomain layer
+.SH SYNOPSIS
+.B "int" pwrdm_complete_init
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Do whatever is necessary to initialize registered powerdomains and
+powerdomain code.  Currently, this programs the next power state
+for each powerdomain to ON.  This prevents powerdomains from
+unexpectedly losing context or entering high wakeup latency modes
+with non-power-management-enabled kernels.  Must be called after
+\fBpwrdm_register_pwrdms\fP.  Returns -EACCES if called before
+\fBpwrdm_register_pwrdms\fP, or 0 upon success.

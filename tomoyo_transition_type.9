@@ -1,0 +1,23 @@
+.TH "tomoyo_transition_type" 9 "tomoyo_transition_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_transition_type \- Get domain transition type.
+.SH SYNOPSIS
+.B "enum tomoyo_transition_type" tomoyo_transition_type
+.BI "(const struct tomoyo_policy_namespace *ns "  ","
+.BI "const struct tomoyo_path_info *domainname "  ","
+.BI "const struct tomoyo_path_info *program "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+Pointer to "struct tomoyo_policy_namespace".
+.IP "domainname" 12
+The name of current domain.
+.IP "program" 12
+The name of requested program.
+.SH "DESCRIPTION"
+Returns TOMOYO_TRANSITION_CONTROL_TRANSIT if executing \fIprogram\fP causes
+domain transition across namespaces, TOMOYO_TRANSITION_CONTROL_INITIALIZE if
+executing \fIprogram\fP reinitializes domain transition within that namespace,
+TOMOYO_TRANSITION_CONTROL_KEEP if executing \fIprogram\fP stays at \fIdomainname\fP ,
+others otherwise.
+
+Caller holds \fBtomoyo_read_lock\fP.

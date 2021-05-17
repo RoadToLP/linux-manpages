@@ -1,0 +1,19 @@
+.TH "setup_kdump_cmdline" 9 "setup_kdump_cmdline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setup_kdump_cmdline \- Prepend "elfcorehdr=<addr> " to command line of kdump kernel for exporting the core.
+.SH SYNOPSIS
+.B "char *" setup_kdump_cmdline
+.BI "(struct kimage *image "  ","
+.BI "char *cmdline "  ","
+.BI "unsigned long cmdline_len "  ");"
+.SH ARGUMENTS
+.IP "image" 12
+Kexec image
+.IP "cmdline" 12
+Command line parameters to update.
+.IP "cmdline_len" 12
+Length of the cmdline parameters.
+.SH "DESCRIPTION"
+kdump segment must be setup before calling this function.
+
+Returns new cmdline buffer for kdump kernel on success, NULL otherwise.

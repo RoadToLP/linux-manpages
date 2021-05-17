@@ -1,0 +1,24 @@
+.TH "pci_legacy_read" 9 "pci_legacy_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_legacy_read \- read from legacy I/O space
+.SH SYNOPSIS
+.B "int" pci_legacy_read
+.BI "(struct pci_bus *bus "  ","
+.BI "u16 port "  ","
+.BI "u32 *val "  ","
+.BI "u8 size "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus to read
+.IP "port" 12
+legacy port value
+.IP "val" 12
+caller allocated storage for returned value
+.IP "size" 12
+number of bytes to read
+.SH "DESCRIPTION"
+Simply reads \fIsize\fP bytes from \fIport\fP and puts the result in \fIval\fP.
+
+Again, this (and the write routine) are generic versions that can be
+overridden by the platform.  This is necessary on platforms that don't
+support legacy I/O routing or that hard fail on legacy I/O timeouts.

@@ -1,0 +1,30 @@
+.TH "tty_open" 9 "tty_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_open \- open a tty device
+.SH SYNOPSIS
+.B "int" tty_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of device file
+.IP "filp" 12
+file pointer to tty
+
+tty_open and tty_release keep up the tty count that contains the
+number of opens done on a tty. We cannot use the inode-count, as
+different inodes might point to the same tty.
+
+Open-counting is needed for pty masters, as well as for keeping
+track of serial lines: DTR is dropped when the last close happens.
+(This is not done solely through tty->count, now.  - Ted 1/27/92)
+
+The termios state of a pty is reset on first open so that
+settings don't persist across reuse.
+
+Locking: tty_mutex protects tty, tty_lookup_driver and tty_init_dev.
+tty->count should protect the rest.
+->siglock protects ->signal/->sighand
+.SH "NOTE"
+the tty_unlock/lock cases without a ref are only safe due to
+tty_mutex

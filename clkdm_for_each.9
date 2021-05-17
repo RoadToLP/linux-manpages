@@ -1,0 +1,22 @@
+.TH "clkdm_for_each" 9 "clkdm_for_each" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_for_each \- call function on each registered clockdomain
+.SH SYNOPSIS
+.B "int" clkdm_for_each
+.BI "(int (*fn)(struct clockdomain *clkdm, void *user) "  ","
+.BI "void *user "  ");"
+.SH ARGUMENTS
+.IP "fn" 12
+callback function *
+.IP "user" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Call the supplied function \fIfn\fP for each registered clockdomain.
+The callback function \fIfn\fP can return anything but 0 to bail
+out early from the iterator.  The callback function is called with
+the clkdm_mutex held, so no clockdomain structure manipulation
+functions should be called from the callback, although hardware
+clockdomain control functions are fine.  Returns the last return
+value of the callback function, which should be 0 for success or
+anything else to indicate failure; or -EINVAL if the function pointer
+is null.

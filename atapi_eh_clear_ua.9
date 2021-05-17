@@ -1,0 +1,18 @@
+.TH "atapi_eh_clear_ua" 9 "atapi_eh_clear_ua" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atapi_eh_clear_ua \- Clear ATAPI UNIT ATTENTION after reset
+.SH SYNOPSIS
+.B "int" atapi_eh_clear_ua
+.BI "(struct ata_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ATAPI device to clear UA for
+
+Resets and other operations can make an ATAPI device raise
+UNIT ATTENTION which causes the next operation to fail.  This
+function clears UA.
+
+LOCKING:
+EH context (may sleep).
+.SH "RETURN"
+0 on success, -errno on failure.

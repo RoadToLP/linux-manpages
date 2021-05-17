@@ -1,0 +1,18 @@
+.TH "napi_rx_handler" 9 "napi_rx_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+napi_rx_handler \- the NAPI handler for Rx processing
+.SH SYNOPSIS
+.B "int" napi_rx_handler
+.BI "(struct napi_struct *napi "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "napi" 12
+the napi instance
+.IP "budget" 12
+how many packets we can process in this round
+
+Handler for new data events when using NAPI.  This does not need any
+locking or protection from interrupts as data interrupts are off at
+this point and other adapter interrupts do not interfere (the latter
+in not a concern at all with MSI-X as non-data interrupts then have
+a separate handler).

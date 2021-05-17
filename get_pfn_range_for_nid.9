@@ -1,0 +1,20 @@
+.TH "get_pfn_range_for_nid" 9 "get_pfn_range_for_nid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_pfn_range_for_nid \- Return the start and end page frames for a node
+.SH SYNOPSIS
+.B "void" get_pfn_range_for_nid
+.BI "(unsigned int nid "  ","
+.BI "unsigned long *start_pfn "  ","
+.BI "unsigned long *end_pfn "  ");"
+.SH ARGUMENTS
+.IP "nid" 12
+The nid to return the range for. If MAX_NUMNODES, the min and max PFN are returned.
+.IP "start_pfn" 12
+Passed by reference. On return, it will have the node start_pfn.
+.IP "end_pfn" 12
+Passed by reference. On return, it will have the node end_pfn.
+.SH "DESCRIPTION"
+It returns the start and end page frame of a node based on information
+provided by \fBmemblock_set_node\fP. If called for a node
+with no available memory, a warning is printed and the start and end
+PFNs will be 0.

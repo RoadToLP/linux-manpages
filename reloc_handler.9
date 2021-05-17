@@ -1,0 +1,32 @@
+.TH "reloc_handler" 9 "reloc_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reloc_handler \- Apply a particular relocation to a module
+.SH SYNOPSIS
+.B "int" reloc_handler
+.BI "(u32 type "  ","
+.BI "struct module *me "  ","
+.BI "u32 *location "  ","
+.BI "u32 base "  ","
+.BI "Elf_Addr v "  ","
+.BI "bool rela "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+type of the relocation to apply
+.IP "me" 12
+the module to apply the reloc to
+.IP "location" 12
+the address at which the reloc is to be applied
+.IP "base" 12
+the existing value at location for REL-style; 0 for RELA-style
+.IP "v" 12
+the value of the reloc, with addend for RELA-style
+.IP "rela" 12
+indication of is this a RELA (true) or REL (false) relocation
+.SH "DESCRIPTION"
+Each implemented relocation function applies a particular type of
+relocation to the module \fIme\fP. Relocs that may be found in either REL or RELA
+variants can be handled by making use of the \fIbase\fP & \fIv\fP parameters which are
+set to values which abstract the difference away from the particular reloc
+implementations.
+.SH "RETURN"
+0 upon success, else -ERRNO

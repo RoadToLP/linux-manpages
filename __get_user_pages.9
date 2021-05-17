@@ -1,0 +1,77 @@
+.TH "__get_user_pages" 9 "__get_user_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__get_user_pages \- pin user pages in memory
+.SH SYNOPSIS
+.B "long" __get_user_pages
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ","
+.BI "struct vm_area_struct **vmas "  ","
+.BI "int *locked "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+mm_struct of target mm
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying pin behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long. Or NULL, if caller
+only intends to ensure the pages are faulted in.
+.IP "vmas" 12
+array of pointers to vmas corresponding to each page.
+Or NULL if the caller does not require them.
+.IP "locked" 12
+whether we're still with the mmap_lock held
+.SH "DESCRIPTION"
+Returns either number of pages pinned (which may be less than the
+number requested), or an error. Details about the return value:
+
+-- If nr_pages is 0, returns 0.
+-- If nr_pages is >0, but no pages were pinned, returns -errno.
+-- If nr_pages is >0, and some pages were pinned, returns the number of
+pages pinned. Again, this may be less than nr_pages.
+-- 0 return value is possible when the fault would need to be retried.
+
+The caller is responsible for releasing returned \fIpages\fP, via \fBput_page\fP.
+
+\fIvmas\fP are valid only as long as mmap_lock is held.
+
+Must be called with mmap_lock held.  It may be released.  See below.
+
+__get_user_pages walks a process's page tables and takes a reference to
+each struct page that each user address corresponds to at a given
+instant. That is, it takes the page that would be accessed if a user
+thread accesses the given user virtual address at that instant.
+
+This does not guarantee that the page exists in the user mappings when
+__get_user_pages returns, and there may even be a completely different
+page there in some cases (eg. if mmapped pagecache has been invalidated
+and subsequently re faulted). However it does guarantee that the page
+won't be freed completely. And mostly callers simply care that the page
+contains data that was valid *at some point in time*. Typically, an IO
+or similar operation cannot guarantee anything stronger anyway because
+locks can't be held over the syscall boundary.
+
+If \fIgup_flags\fP & FOLL_WRITE == 0, the page must not be written to. If
+the page is written to, set_page_dirty (or set_page_dirty_lock, as
+appropriate) must be called after the page is finished with, and
+before put_page is called.
+
+If \fIlocked\fP != NULL, *\fIlocked\fP will be set to 0 when mmap_lock is
+released by an \fBup_read\fP.  That can happen if \fIgup_flags\fP does not
+have FOLL_NOWAIT.
+
+A caller using such a combination of \fIlocked\fP and \fIgup_flags\fP
+must therefore hold the mmap_lock for reading only, and recognize
+when it's been released.  Otherwise, it must be held for either
+reading or writing and will not be released.
+
+In most cases, get_user_pages or get_user_pages_fast should be used
+instead of __get_user_pages. __get_user_pages should be used only if
+you need some special \fIgup_flags\fP.

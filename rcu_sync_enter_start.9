@@ -1,0 +1,14 @@
+.TH "rcu_sync_enter_start" 9 "rcu_sync_enter_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_sync_enter_start \- Force readers onto slow path for multiple updates
+.SH SYNOPSIS
+.B "void" rcu_sync_enter_start
+.BI "(struct rcu_sync *rsp "  ");"
+.SH ARGUMENTS
+.IP "rsp" 12
+Pointer to rcu_sync structure to use for synchronization
+.SH "DESCRIPTION"
+Must be called after \fBrcu_sync_init\fP and before first use.
+
+Ensures \fBrcu_sync_is_idle\fP returns false and rcu_sync_{enter,exit}()
+pairs turn into NO-OPs.

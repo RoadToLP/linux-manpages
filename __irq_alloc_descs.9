@@ -1,0 +1,28 @@
+.TH "__irq_alloc_descs" 9 "__irq_alloc_descs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__irq_alloc_descs \- allocate and initialize a range of irq descriptors
+.SH SYNOPSIS
+.B "int __ref" __irq_alloc_descs
+.BI "(int irq "  ","
+.BI "unsigned int from "  ","
+.BI "unsigned int cnt "  ","
+.BI "int node "  ","
+.BI "struct module *owner "  ","
+.BI "const struct irq_affinity_desc *affinity "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Allocate for specific irq number if irq >= 0
+.IP "from" 12
+Start the search from this irq number
+.IP "cnt" 12
+Number of consecutive irqs to allocate.
+.IP "node" 12
+Preferred node on which the irq descriptor should be allocated
+.IP "owner" 12
+Owning module (can be NULL)
+.IP "affinity" 12
+Optional pointer to an affinity mask array of size \fIcnt\fP which
+hints where the irq descriptors should be allocated and which
+default affinities to use
+.SH "DESCRIPTION"
+Returns the first irq number or error code

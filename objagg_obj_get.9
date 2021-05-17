@@ -1,0 +1,31 @@
+.TH "objagg_obj_get" 9 "objagg_obj_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+objagg_obj_get \- gets an object within objagg instance
+.SH SYNOPSIS
+.B "struct objagg_obj *" objagg_obj_get
+.BI "(struct objagg *objagg "  ","
+.BI "void *obj "  ");"
+.SH ARGUMENTS
+.IP "objagg" 12
+objagg instance
+.IP "obj" 12
+user-specific private object pointer
+.SH "NOTE"
+all locking must be provided by the caller.
+.SH "DESCRIPTION"
+Size of the "obj" memory is specified in "objagg->ops".
+
+There are 3 main options this function wraps:
+1) The object according to "obj" already exist. In that case
+the reference counter is incrementes and the object is returned.
+2) The object does not exist, but it can be aggregated within
+another object. In that case, user ops->\fBdelta_create\fP is called
+to obtain delta data and a new object is created with returned
+user-delta private pointer.
+3) The object does not exist and cannot be aggregated into
+any of the existing objects. In that case, user ops->\fBroot_create\fP
+is called to create the root and a new object is created with
+returned user-root private pointer.
+
+Returns a pointer to objagg object instance in case of success,
+otherwise it returns pointer error using ERR_PTR macro.

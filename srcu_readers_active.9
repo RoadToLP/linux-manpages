@@ -1,0 +1,13 @@
+.TH "srcu_readers_active" 9 "srcu_readers_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srcu_readers_active \- returns true if there are readers. and false otherwise
+.SH SYNOPSIS
+.B "bool" srcu_readers_active
+.BI "(struct srcu_struct *ssp "  ");"
+.SH ARGUMENTS
+.IP "ssp" 12
+which srcu_struct to count active readers (holding srcu_read_lock).
+.SH "DESCRIPTION"
+Note that this is not an atomic primitive, and can therefore suffer
+severe errors when invoked on an active srcu_struct.  That said, it
+can be useful as an error check at cleanup time.

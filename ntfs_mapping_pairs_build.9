@@ -1,0 +1,55 @@
+.TH "ntfs_mapping_pairs_build" 9 "ntfs_mapping_pairs_build" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_mapping_pairs_build \- build the mapping pairs array from a runlist
+.SH SYNOPSIS
+.B "int" ntfs_mapping_pairs_build
+.BI "(const ntfs_volume *vol "  ","
+.BI "s8 *dst "  ","
+.BI "const int dst_len "  ","
+.BI "const runlist_element *rl "  ","
+.BI "const VCN first_vcn "  ","
+.BI "const VCN last_vcn "  ","
+.BI "VCN *const stop_vcn "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume (needed for the ntfs version)
+.IP "dst" 12
+destination buffer to which to write the mapping pairs array
+.IP "dst_len" 12
+size of destination buffer \fIdst\fP in bytes
+.IP "rl" 12
+locked runlist for which to build the mapping pairs array
+.IP "first_vcn" 12
+first vcn which to include in the mapping pairs array
+.IP "last_vcn" 12
+last vcn which to include in the mapping pairs array
+.IP "stop_vcn" 12
+first vcn outside destination buffer on success or -ENOSPC
+.SH "DESCRIPTION"
+Create the mapping pairs array from the locked runlist \fIrl\fP, starting at vcn
+\fIfirst_vcn\fP and finishing with vcn \fIlast_vcn\fP and save the array in \fIdst\fP.
+\fIdst_len\fP is the size of \fIdst\fP in bytes and it should be at least equal to the
+value obtained by calling \fBntfs_get_size_for_mapping_pairs\fP.
+
+A \fIlast_vcn\fP of -1 means end of runlist and in that case the mapping pairs
+array corresponding to the runlist starting at vcn \fIfirst_vcn\fP and finishing
+at the end of the runlist is created.
+
+If \fIrl\fP is NULL, just write a single terminator byte to \fIdst\fP.
+
+On success or -ENOSPC error, if \fIstop_vcn\fP is not NULL, *\fIstop_vcn\fP is set to
+the first vcn outside the destination buffer.  Note that on error, \fIdst\fP has
+been filled with all the mapping pairs that will fit, thus it can be treated
+as partial success, in that a new attribute extent needs to be created or
+the next extent has to be used and the mapping pairs build has to be
+continued with \fIfirst_vcn\fP set to *\fIstop_vcn\fP.
+
+Return 0 on success and -errno on error.  The following error codes are
+defined:
+-EINVAL - Run list contains unmapped elements.  Make sure to only pass
+fully mapped runlists to this function.
+-EIO    - The runlist is corrupt.
+-ENOSPC - The destination buffer is too small.
+
+Locking: \fIrl\fP must be locked on entry (either for reading or writing), it
+remains locked throughout, and is left locked upon return.

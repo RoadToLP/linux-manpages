@@ -1,0 +1,25 @@
+.TH "sys_capset" 9 "sys_capset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_capset \- set capabilities for a process or (*) a group of processes
+.SH SYNOPSIS
+.B "long" sys_capset
+.BI "(cap_user_header_t header "  ","
+.BI "const cap_user_data_t data "  ");"
+.SH ARGUMENTS
+.IP "header" 12
+pointer to struct that contains capability version and
+target pid data
+.IP "data" 12
+pointer to struct that contains the effective, permitted,
+and inheritable capabilities
+.SH "DESCRIPTION"
+Set capabilities for the current process only.  The ability to any other
+process(es) has been deprecated and removed.
+
+The restrictions on setting capabilities are specified as:
+
+I: any raised capabilities must be a subset of the old permitted
+P: any raised capabilities must be a subset of the old permitted
+E: must be set to a subset of new permitted
+
+Returns 0 on success and < 0 on error.

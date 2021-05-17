@@ -1,0 +1,19 @@
+.TH "power_supply_get_by_phandle" 9 "power_supply_get_by_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+power_supply_get_by_phandle \- Search for a power supply and returns its ref
+.SH SYNOPSIS
+.B "struct power_supply *" power_supply_get_by_phandle
+.BI "(struct device_node *np "  ","
+.BI "const char *property "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+Pointer to device node holding phandle property
+.IP "property" 12
+Name of property holding a power supply name
+.SH "DESCRIPTION"
+If power supply was found, it increases reference count for the
+internal power supply's device. The user should \fBpower_supply_put\fP
+after usage.
+.SH "RETURN"
+On success returns a reference to a power supply with
+matching name equals to value under \fIproperty\fP, NULL or ERR_PTR otherwise.

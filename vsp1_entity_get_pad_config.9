@@ -1,0 +1,23 @@
+.TH "vsp1_entity_get_pad_config" 9 "vsp1_entity_get_pad_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vsp1_entity_get_pad_config \- Get the pad configuration for an entity
+.SH SYNOPSIS
+.B "struct v4l2_subdev_pad_config *" vsp1_entity_get_pad_config
+.BI "(struct vsp1_entity *entity "  ","
+.BI "struct v4l2_subdev_pad_config *cfg "  ","
+.BI "enum v4l2_subdev_format_whence which "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+the entity
+.IP "cfg" 12
+the TRY pad configuration
+.IP "which" 12
+configuration selector (ACTIVE or TRY)
+.SH "DESCRIPTION"
+When called with which set to V4L2_SUBDEV_FORMAT_ACTIVE the caller must hold
+the entity lock to access the returned configuration.
+
+Return the pad configuration requested by the which argument. The TRY
+configuration is passed explicitly to the function through the cfg argument
+and simply returned when requested. The ACTIVE configuration comes from the
+entity structure.

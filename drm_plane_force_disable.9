@@ -1,0 +1,20 @@
+.TH "drm_plane_force_disable" 9 "drm_plane_force_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_plane_force_disable \- Forcibly disable a plane
+.SH SYNOPSIS
+.B "void" drm_plane_force_disable
+.BI "(struct drm_plane *plane "  ");"
+.SH ARGUMENTS
+.IP "plane" 12
+plane to disable
+.SH "DESCRIPTION"
+Forces the plane to be disabled.
+
+Used when the plane's current framebuffer is destroyed,
+and when restoring fbdev mode.
+
+Note that this function is not suitable for atomic drivers, since it doesn't
+wire through the lock acquisition context properly and hence can't handle
+retries or driver private locks. You probably want to use
+\fBdrm_atomic_helper_disable_plane\fP or
+\fBdrm_atomic_helper_disable_planes_on_crtc\fP instead.

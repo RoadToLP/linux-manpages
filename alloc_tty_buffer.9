@@ -1,0 +1,21 @@
+.TH "alloc_tty_buffer" 9 "alloc_tty_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_tty_buffer \- Return a new struct iucv_tty_buffer element.
+.SH SYNOPSIS
+.B "struct iucv_tty_buffer *" alloc_tty_buffer
+.BI "(size_t size "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+Size of the internal buffer used to store data.
+.IP "flags" 12
+Memory allocation flags passed to mempool.
+.SH "DESCRIPTION"
+This function allocates a new struct iucv_tty_buffer element and, optionally,
+allocates an internal data buffer with the specified size \fIsize\fP.
+The internal data buffer is always allocated with GFP_DMA which is
+required for receiving and sending data with IUCV.
+.SH "NOTE"
+The total message size arises from the internal buffer size and the
+members of the iucv_tty_msg structure.
+The function returns NULL if memory allocation has failed.

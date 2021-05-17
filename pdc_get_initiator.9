@@ -1,0 +1,21 @@
+.TH "pdc_get_initiator" 9 "pdc_get_initiator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_get_initiator \- Get the SCSI Interface Card params (SCSI ID, SDTR, SE or LVD)
+.SH SYNOPSIS
+.B "int" pdc_get_initiator
+.BI "(struct hardware_path *hwpath "  ","
+.BI "struct pdc_initiator *initiator "  ");"
+.SH ARGUMENTS
+.IP "hwpath" 12
+fully bc.mod style path to the device.
+.IP "initiator" 12
+the array to return the result into
+.SH "DESCRIPTION"
+Get the SCSI operational parameters from PDC.
+Needed since HPUX never used BIOS or symbios card NVRAM.
+Most ncr/sym cards won't have an entry and just use whatever
+capabilities of the card are (eg Ultra, LVD). But there are
+several cases where it's useful:
+o set SCSI id for Multi-initiator clusters,
+o cable too long (ie SE scsi 10Mhz won't support 6m length),
+o bus width exported is less than what the interface chip supports.

@@ -1,0 +1,21 @@
+.TH "file_ns_capable" 9 "file_ns_capable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+file_ns_capable \- Determine if the file's opener had a capability in effect
+.SH SYNOPSIS
+.B "bool" file_ns_capable
+.BI "(const struct file *file "  ","
+.BI "struct user_namespace *ns "  ","
+.BI "int cap "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The file we want to check
+.IP "ns" 12
+The usernamespace we want the capability in
+.IP "cap" 12
+The capability to be tested for
+.SH "DESCRIPTION"
+Return true if task that opened the file had a capability in effect
+when the file was opened.
+
+This does not set PF_SUPERPRIV because the caller may not
+actually be privileged.

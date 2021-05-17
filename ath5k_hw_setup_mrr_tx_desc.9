@@ -1,0 +1,36 @@
+.TH "ath5k_hw_setup_mrr_tx_desc" 9 "ath5k_hw_setup_mrr_tx_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_setup_mrr_tx_desc \- Initialize an MRR tx control descriptor
+.SH SYNOPSIS
+.B "int" ath5k_hw_setup_mrr_tx_desc
+.BI "(struct ath5k_hw *ah "  ","
+.BI "struct ath5k_desc *desc "  ","
+.BI "u_int tx_rate1 "  ","
+.BI "u_int tx_tries1 "  ","
+.BI "u_int tx_rate2 "  ","
+.BI "u_int tx_tries2 "  ","
+.BI "u_int tx_rate3 "  ","
+.BI "u_int tx_tries3 "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "desc" 12
+The \fIstruct ath5k_desc\fP
+.IP "tx_rate1" 12
+HW idx for rate used on transmission series 1
+.IP "tx_tries1" 12
+Max number of retransmissions for transmission series 1
+.IP "tx_rate2" 12
+HW idx for rate used on transmission series 2
+.IP "tx_tries2" 12
+Max number of retransmissions for transmission series 2
+.IP "tx_rate3" 12
+HW idx for rate used on transmission series 3
+.IP "tx_tries3" 12
+Max number of retransmissions for transmission series 3
+.SH "DESCRIPTION"
+Multi rate retry (MRR) tx control descriptors are available only on AR5212
+MACs, they are part of the normal 4-word tx control descriptor (see above)
+but we handle them through a separate function for better abstraction.
+
+Returns 0 on success or -EINVAL on invalid input

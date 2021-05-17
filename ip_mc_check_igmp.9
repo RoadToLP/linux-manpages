@@ -1,0 +1,20 @@
+.TH "ip_mc_check_igmp" 9 "ip_mc_check_igmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ip_mc_check_igmp \- checks whether this is a sane IGMP packet
+.SH SYNOPSIS
+.B "int" ip_mc_check_igmp
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to validate
+.SH "DESCRIPTION"
+Checks whether an IPv4 packet is a valid IGMP packet. If so sets
+skb transport header accordingly and returns zero.
+
+-EINVAL: A broken packet was detected, i.e. it violates some internet
+standard
+-ENOMSG: IP header validation succeeded but it is not an IGMP packet.
+-ENOMEM: A memory allocation failure happened.
+
+Caller needs to set the skb network header and free any returned skb if it
+differs from the provided skb.

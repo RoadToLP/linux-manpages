@@ -1,0 +1,22 @@
+.TH "gfs2_lookupi" 9 "gfs2_lookupi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_lookupi \- Look up a filename in a directory and return its inode
+.SH SYNOPSIS
+.B "struct inode *" gfs2_lookupi
+.BI "(struct inode *dir "  ","
+.BI "const struct qstr *name "  ","
+.BI "int is_root "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+-- undescribed --
+.IP "name" 12
+The name of the inode to look for
+.IP "is_root" 12
+If 1, ignore the caller's permissions
+.SH "DESCRIPTION"
+This can be called via the VFS filldir function when NFS is doing
+a readdirplus and the inode which its intending to stat isn't
+already in cache. In this case we must not take the directory glock
+again, since the readdir call will have already taken that lock.
+.SH "RETURN"
+errno

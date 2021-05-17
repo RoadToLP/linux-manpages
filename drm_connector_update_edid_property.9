@@ -1,0 +1,20 @@
+.TH "drm_connector_update_edid_property" 9 "drm_connector_update_edid_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_update_edid_property \- update the edid property of a connector
+.SH SYNOPSIS
+.B "int" drm_connector_update_edid_property
+.BI "(struct drm_connector *connector "  ","
+.BI "const struct edid *edid "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+drm connector
+.IP "edid" 12
+new value of the edid property
+.SH "DESCRIPTION"
+This function creates a new blob modeset object and assigns its id to the
+connector's edid property.
+Since we also parse tile information from EDID's displayID block, we also
+set the connector's tile property here. See \fBdrm_connector_set_tile_property\fP
+for more details.
+.SH "RETURN"
+Zero on success, negative errno on failure.

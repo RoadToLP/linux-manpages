@@ -1,0 +1,24 @@
+.TH "omap3_noncore_dpll_set_rate_and_parent" 9 "omap3_noncore_dpll_set_rate_and_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3_noncore_dpll_set_rate_and_parent \- set rate and parent for a DPLL clock
+.SH SYNOPSIS
+.B "int" omap3_noncore_dpll_set_rate_and_parent
+.BI "(struct clk_hw *hw "  ","
+.BI "unsigned long rate "  ","
+.BI "unsigned long parent_rate "  ","
+.BI "u8 index "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the clock to set rate and parent for
+.IP "rate" 12
+target rate for the DPLL
+.IP "parent_rate" 12
+clock rate of the DPLL parent
+.IP "index" 12
+new parent index for the DPLL, 0 - reference, 1 - bypass
+.SH "DESCRIPTION"
+Sets rate and parent for a DPLL clock. If new parent is the bypass
+clock, only selects the parent. Otherwise proceeds with a rate
+change, as this will effectively also change the parent as the
+DPLL is put into locked mode. Returns 0 with success, negative error
+value otherwise.

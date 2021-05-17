@@ -1,0 +1,19 @@
+.TH "ice_calc_vf_first_vector_idx" 9 "ice_calc_vf_first_vector_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_calc_vf_first_vector_idx \- Calculate MSIX vector index in the PF space
+.SH SYNOPSIS
+.B "int" ice_calc_vf_first_vector_idx
+.BI "(struct ice_pf *pf "  ","
+.BI "struct ice_vf *vf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+pointer to PF structure
+.IP "vf" 12
+pointer to VF that the first MSIX vector index is being calculated for
+.SH "DESCRIPTION"
+This returns the first MSIX vector index in PF space that is used by this VF.
+This index is used when accessing PF relative registers such as
+GLINT_VECT2FUNC and GLINT_DYN_CTL.
+This will always be the OICR index in the AVF driver so any functionality
+using vf->first_vector_idx for queue configuration will have to increment by
+1 to avoid meddling with the OICR index.

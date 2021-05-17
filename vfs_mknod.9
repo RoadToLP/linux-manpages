@@ -1,0 +1,29 @@
+.TH "vfs_mknod" 9 "vfs_mknod" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_mknod \- create device node or file
+.SH SYNOPSIS
+.B "int" vfs_mknod
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *dir "  ","
+.BI "struct dentry *dentry "  ","
+.BI "umode_t mode "  ","
+.BI "dev_t dev "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dir" 12
+inode of \fIdentry\fP
+.IP "dentry" 12
+pointer to dentry of the base directory
+.IP "mode" 12
+mode of the new device node or file
+.IP "dev" 12
+device number of device to create
+.SH "DESCRIPTION"
+Create a device node or file.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions.
+On non-idmapped mounts or if permission checking is to be performed on the
+raw inode simply passs init_user_ns.

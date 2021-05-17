@@ -1,0 +1,24 @@
+.TH "usb_ep_dequeue" 9 "usb_ep_dequeue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ep_dequeue \- dequeues (cancels, unlinks) an I/O request from an endpoint
+.SH SYNOPSIS
+.B "int" usb_ep_dequeue
+.BI "(struct usb_ep *ep "  ","
+.BI "struct usb_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint associated with the request
+.IP "req" 12
+the request being canceled
+.SH "DESCRIPTION"
+If the request is still active on the endpoint, it is dequeued and
+eventually its completion routine is called (with status -ECONNRESET);
+else a negative error code is returned.  This routine is asynchronous,
+that is, it may return before the completion routine runs.
+
+Note that some hardware can't clear out write fifos (to unlink the request
+at the head of the queue) except as part of disconnecting from usb. Such
+restrictions prevent drivers from supporting configuration changes,
+even to configuration zero (a "chapter 9" requirement).
+
+This routine may be called in interrupt context.

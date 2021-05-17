@@ -1,0 +1,18 @@
+.TH "rvt_error_qp" 9 "rvt_error_qp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_error_qp \- put a QP into the error state
+.SH SYNOPSIS
+.B "int" rvt_error_qp
+.BI "(struct rvt_qp *qp "  ","
+.BI "enum ib_wc_status err "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP to put into the error state
+.IP "err" 12
+the receive completion error to signal if a RWQE is active
+.SH "DESCRIPTION"
+Flushes both send and receive work queues.
+.SH "RETURN"
+true if last WQE event should be generated.
+The QP r_lock and s_lock should be held and interrupts disabled.
+If we are already in error state, just return.

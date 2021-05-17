@@ -1,0 +1,42 @@
+.TH "rtrs_clt_open" 9 "rtrs_clt_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtrs_clt_open \- Open a session to an RTRS server
+.SH SYNOPSIS
+.B "struct rtrs_clt *" rtrs_clt_open
+.BI "(struct rtrs_clt_ops *ops "  ","
+.BI "const char *sessname "  ","
+.BI "const struct rtrs_addr *paths "  ","
+.BI "size_t paths_num "  ","
+.BI "u16 port "  ","
+.BI "size_t pdu_sz "  ","
+.BI "u8 reconnect_delay_sec "  ","
+.BI "u16 max_segments "  ","
+.BI "size_t max_segment_size "  ","
+.BI "s16 max_reconnect_attempts "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+holds the link event callback and the private pointer.
+.IP "sessname" 12
+name of the session
+.IP "paths" 12
+Paths to be established defined by their src and dst addresses
+.IP "paths_num" 12
+Number of elements in the \fIpaths\fP array
+.IP "port" 12
+port to be used by the RTRS session
+.IP "pdu_sz" 12
+Size of extra payload which can be accessed after permit allocation.
+.IP "reconnect_delay_sec" 12
+time between reconnect tries
+.IP "max_segments" 12
+Max. number of segments per IO request
+.IP "max_segment_size" 12
+Max. size of one segment
+.IP "max_reconnect_attempts" 12
+Number of times to reconnect on error before giving
+up, 0 for * disabled, -1 for forever
+.SH "DESCRIPTION"
+Starts session establishment with the rtrs_server. The function can block
+up to ~2000ms before it returns.
+
+Return a valid pointer on success otherwise PTR_ERR.

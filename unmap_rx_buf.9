@@ -1,0 +1,18 @@
+.TH "unmap_rx_buf" 9 "unmap_rx_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_rx_buf \- unmap the current Rx buffer on an SGE free list
+.SH SYNOPSIS
+.B "void" unmap_rx_buf
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_fl *q "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the SGE free list
+
+Unmap the current buffer on an SGE free-buffer Rx queue.   The
+buffer must be made inaccessible to HW before calling this function.
+
+This is similar to \fIfree_rx_bufs\fP above but does not free the buffer.
+Do note that the FL still loses any further access to the buffer.

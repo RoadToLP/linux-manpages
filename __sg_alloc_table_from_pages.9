@@ -1,0 +1,46 @@
+.TH "__sg_alloc_table_from_pages" 9 "__sg_alloc_table_from_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__sg_alloc_table_from_pages \- Allocate and initialize an sg table from an array of pages
+.SH SYNOPSIS
+.B "struct scatterlist *" __sg_alloc_table_from_pages
+.BI "(struct sg_table *sgt "  ","
+.BI "struct page **pages "  ","
+.BI "unsigned int n_pages "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned long size "  ","
+.BI "unsigned int max_segment "  ","
+.BI "struct scatterlist *prv "  ","
+.BI "unsigned int left_pages "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "sgt" 12
+The sg table header to use
+.IP "pages" 12
+Pointer to an array of page pointers
+.IP "n_pages" 12
+Number of pages in the pages array
+.IP "offset" 12
+Offset from start of the first page to the start of a buffer
+.IP "size" 12
+Number of valid bytes in the buffer (after offset)
+.IP "max_segment" 12
+Maximum size of a scatterlist element in bytes
+.IP "prv" 12
+Last populated sge in sgt
+.IP "left_pages" 12
+Left pages caller have to set after this call
+.IP "gfp_mask" 12
+GFP allocation mask
+.SH "DESCRIPTION"
+If \fIprv\fP is NULL, allocate and initialize an sg table from a list of pages,
+else reuse the scatterlist passed in at \fIprv\fP.
+Contiguous ranges of the pages are squashed into a single scatterlist
+entry up to the maximum size specified in \fImax_segment\fP.  A user may
+provide an offset at a start and a size of valid data in a buffer
+specified by the page array.
+.SH "RETURN"
+Last SGE in sgt on success, PTR_ERR on otherwise.
+The allocation in \fIsgt\fP must be released by sg_free_table.
+.SH "NOTES"
+If this function returns non-0 (eg failure), the caller must call
+\fBsg_free_table\fP to cleanup any leftover allocations.

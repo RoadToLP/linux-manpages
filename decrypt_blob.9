@@ -1,0 +1,22 @@
+.TH "decrypt_blob" 9 "decrypt_blob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+decrypt_blob \- Decrypt data using an asymmetric key
+.SH SYNOPSIS
+.B "int" decrypt_blob
+.BI "(struct kernel_pkey_params *params "  ","
+.BI "const void *enc "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+Various parameters
+.IP "enc" 12
+Encrypted data to be decrypted, length params->enc_len
+.IP "data" 12
+Decrypted data buffer, length params->data_len
+.SH "DESCRIPTION"
+Decrypt the specified data blob using the private key specified by
+params->key.  The decrypted data is wrapped in an encoding if
+params->encoding is specified (eg. "pkcs1").
+
+Returns the length of the data placed in the decrypted data buffer or an
+error.

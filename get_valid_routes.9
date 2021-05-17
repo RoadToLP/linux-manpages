@@ -1,0 +1,23 @@
+.TH "get_valid_routes" 9 "get_valid_routes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_valid_routes \- Calls low-level driver get_valid_routes function to either return a count of valid routes to user, or copy of list of all valid device routes to buffer in userspace.
+.SH SYNOPSIS
+.B "int" get_valid_routes
+.BI "(struct comedi_device *dev "  ","
+.BI "unsigned int *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+comedi device pointer
+.IP "data" 12
+data from user insn call.  The length of the data must be >= 2.
+data[0] must contain the INSN_DEVICE_CONFIG config_id.
+data[1](input) contains the number of _pairs_ for which memory is
+allotted from the user.  If the user specifies '0', then only
+the number of pairs available is returned.
+data[1](output) returns either the number of pairs available (if none
+where requested) or the number of _pairs_ that are copied back
+to the user.
+data[2::2] returns each (source, destination) pair.
+.SH "RETURN"
+-EINVAL if low-level driver does not allocate and return routes as
+expected.  Returns 0 otherwise.

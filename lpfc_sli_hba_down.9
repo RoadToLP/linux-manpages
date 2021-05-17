@@ -1,0 +1,20 @@
+.TH "lpfc_sli_hba_down" 9 "lpfc_sli_hba_down" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_hba_down \- Resource cleanup function for the HBA
+.SH SYNOPSIS
+.B "int" lpfc_sli_hba_down
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function cleans up all iocb, buffers, mailbox commands
+while shutting down the HBA. This function is called with no
+lock held and always returns 1.
+This function does the following to cleanup driver resources:
+- Free discovery resources for each virtual port
+- Cleanup any pending fabric iocbs
+- Iterate through the iocb txq and free each entry
+in the list.
+- Free up any buffer posted to the HBA
+- Free mailbox commands in the mailbox queue.

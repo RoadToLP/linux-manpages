@@ -1,0 +1,16 @@
+.TH "llc_sap_open" 9 "llc_sap_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_sap_open \- open interface to the upper layers.
+.SH SYNOPSIS
+.B "struct llc_sap *" llc_sap_open
+.BI "(unsigned char lsap "  ","
+.BI "int (*func)(struct sk_buff *skb, struct net_device *dev, struct packet_type *pt, struct net_device *orig_dev) "  ");"
+.SH ARGUMENTS
+.IP "lsap" 12
+SAP number.
+.IP "func" 12
+rcv func for datalink protos
+
+Interface function to upper layer. Each one who wants to get a SAP
+(for example NetBEUI) should call this function. Returns the opened
+SAP for success, NULL for failure.

@@ -1,0 +1,20 @@
+.TH "process_responses" 9 "process_responses" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_responses \- process responses from an SGE response queue
+.SH SYNOPSIS
+.B "int" process_responses
+.BI "(struct sge_rspq *q "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the ingress queue to process
+.IP "budget" 12
+how many responses can be processed in this round
+
+Process responses from an SGE response queue up to the supplied budget.
+Responses include received packets as well as control messages from FW
+or HW.
+
+Additionally choose the interrupt holdoff time for the next interrupt
+on this queue.  If the system is under memory shortage use a fairly
+long delay to help recovery.

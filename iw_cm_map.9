@@ -1,0 +1,18 @@
+.TH "iw_cm_map" 9 "iw_cm_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iw_cm_map \- Use portmapper to map the ports
+.SH SYNOPSIS
+.B "int" iw_cm_map
+.BI "(struct iw_cm_id *cm_id "  ","
+.BI "bool active "  ");"
+.SH ARGUMENTS
+.IP "cm_id" 12
+connection manager pointer
+.IP "active" 12
+Indicates the active side when true
+returns nonzero for error only if \fBiwpm_create_mapinfo\fP fails
+.SH "DESCRIPTION"
+Tries to add a mapping for a port using the Portmapper. If
+successful in mapping the IP/Port it will check the remote
+mapped IP address for a wildcard IP address and replace the
+zero IP address with the remote_addr.

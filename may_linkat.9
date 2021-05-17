@@ -1,0 +1,26 @@
+.TH "may_linkat" 9 "may_linkat" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+may_linkat \- Check permissions for creating a hardlink
+.SH SYNOPSIS
+.B "int" may_linkat
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct path *link "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "link" 12
+the source to hardlink from
+.SH "DESCRIPTION"
+Block hardlink when all of:
+- sysctl_protected_hardlinks enabled
+- fsuid does not match inode
+- hardlink source is unsafe (see \fBsafe_hardlink_source\fP above)
+- not CAP_FOWNER in a namespace with the inode owner uid mapped
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions.
+On non-idmapped mounts or if permission checking is to be performed on the
+raw inode simply passs init_user_ns.
+
+Returns 0 if successful, -ve on error.

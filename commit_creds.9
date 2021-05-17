@@ -1,0 +1,19 @@
+.TH "commit_creds" 9 "commit_creds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+commit_creds \- Install new credentials upon the current task
+.SH SYNOPSIS
+.B "int" commit_creds
+.BI "(struct cred *new "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+The credentials to be assigned
+.SH "DESCRIPTION"
+Install a new set of credentials to the current task, using RCU to replace
+the old set.  Both the objective and the subjective credentials pointers are
+updated.  This function may not be called if the subjective credentials are
+in an overridden state.
+
+This function eats the caller's reference to the new credentials.
+
+Always returns 0 thus allowing this function to be tail-called at the end
+of, say, \fBsys_setgid\fP.

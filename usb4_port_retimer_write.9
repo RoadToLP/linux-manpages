@@ -1,0 +1,26 @@
+.TH "usb4_port_retimer_write" 9 "usb4_port_retimer_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_port_retimer_write \- Write to retimer sideband registers
+.SH SYNOPSIS
+.B "int" usb4_port_retimer_write
+.BI "(struct tb_port *port "  ","
+.BI "u8 index "  ","
+.BI "u8 reg "  ","
+.BI "const void *buf "  ","
+.BI "u8 size "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB4 port
+.IP "index" 12
+Retimer index
+.IP "reg" 12
+Sideband register to write
+.IP "buf" 12
+Data that is written starting from \fIreg\fP
+.IP "size" 12
+Number of bytes to write
+.SH "DESCRIPTION"
+Writes retimer sideband registers starting from \fIreg\fP. The retimer is
+connected to \fIport\fP at \fIindex\fP. Returns 0 in case of success. If there
+is no retimer present at given \fIindex\fP returns -ENODEV. In any other
+failure returns negative errno.

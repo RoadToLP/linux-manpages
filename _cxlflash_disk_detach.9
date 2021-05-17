@@ -1,0 +1,21 @@
+.TH "_cxlflash_disk_detach" 9 "_cxlflash_disk_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_cxlflash_disk_detach \- detaches a LUN from a context
+.SH SYNOPSIS
+.B "int" _cxlflash_disk_detach
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct ctx_info *ctxi "  ","
+.BI "struct dk_cxlflash_detach *detach "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "ctxi" 12
+Context owning resources.
+.IP "detach" 12
+Detach ioctl data structure.
+.SH "DESCRIPTION"
+As part of the detach, all per-context resources associated with the LUN
+are cleaned up. When detaching the last LUN for a context, the context
+itself is cleaned up and released.
+.SH "RETURN"
+0 on success, -errno on failure

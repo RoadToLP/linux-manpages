@@ -1,0 +1,46 @@
+.TH "nx842_exec_vas" 9 "nx842_exec_vas" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nx842_exec_vas \- compress/decompress data using the 842 algorithm
+.SH SYNOPSIS
+.B "int" nx842_exec_vas
+.BI "(const unsigned char *in "  ","
+.BI "unsigned int inlen "  ","
+.BI "unsigned char *out "  ","
+.BI "unsigned int *outlenp "  ","
+.BI "void *workmem "  ","
+.BI "int fc "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+input buffer pointer
+.IP "inlen" 12
+input buffer size
+.IP "out" 12
+output buffer pointer
+.IP "outlenp" 12
+output buffer size pointer
+.IP "workmem" 12
+working memory buffer pointer, size determined by
+nx842_powernv_driver.workmem_size
+.IP "fc" 12
+function code, see CCW Function Codes in nx-842.h
+.SH "DESCRIPTION"
+
+(De)compression provided by the NX842 coprocessor on IBM PowerNV systems.
+This compresses or decompresses the provided input buffer into the provided
+output buffer.
+
+Upon return from this function \fIoutlen\fP contains the length of the
+output data.  If there is an error then \fIoutlen\fP will be 0 and an
+error will be specified by the return code from this function.
+
+The \fIworkmem\fP buffer should only be used by one function call at a time.
+.SH "RETURN"
+0          Success, output of length \fIoutlenp\fP stored in the buffer
+at \fIout\fP
+-ENODEV    Hardware unavailable
+-ENOSPC    Output buffer is to small
+-EMSGSIZE  Input buffer too large
+-EINVAL    buffer constraints do not fix nx842_constraints
+-EPROTO    hardware error during operation
+-ETIMEDOUT hardware did not complete operation in reasonable time
+-EINTR     operation was aborted

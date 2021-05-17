@@ -1,0 +1,14 @@
+.TH "pmcraid_eh_abort_handler" 9 "pmcraid_eh_abort_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_eh_abort_handler \- entry point for aborting a single task on errors
+.SH SYNOPSIS
+.B "int" pmcraid_eh_abort_handler
+.BI "(struct scsi_cmnd *scsi_cmd "  ");"
+.SH ARGUMENTS
+.IP "scsi_cmd" 12
+scsi command struct given by mid-layer. When this is called
+mid-layer ensures that no other commands are queued. This
+never gets called under interrupt, but a separate eh thread.
+.SH "DESCRIPTION"
+Return value:
+SUCCESS / FAILED

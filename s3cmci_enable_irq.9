@@ -1,0 +1,20 @@
+.TH "s3cmci_enable_irq" 9 "s3cmci_enable_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3cmci_enable_irq \- enable IRQ, after having disabled it.
+.SH SYNOPSIS
+.B "void" s3cmci_enable_irq
+.BI "(struct s3cmci_host *host "  ","
+.BI "bool more "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The device state.
+.IP "more" 12
+True if more IRQs are expected from transfer.
+.SH "DESCRIPTION"
+Enable the main IRQ if needed after it has been disabled.
+
+The IRQ can be one of the following states:
+- disabled during IDLE
+- disabled whilst processing data
+- enabled during transfer
+- enabled whilst awaiting SDIO interrupt detection

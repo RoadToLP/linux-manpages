@@ -1,0 +1,22 @@
+.TH "soctherm_edp_isr" 9 "soctherm_edp_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soctherm_edp_isr \- Disables any active interrupts
+.SH SYNOPSIS
+.B "irqreturn_t" soctherm_edp_isr
+.BI "(int irq "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The interrupt request number
+.IP "arg" 12
+Opaque pointer to an argument
+.SH "DESCRIPTION"
+Writes to the OC_INTR_DISABLE register the over current interrupt status,
+masking any asserted interrupts. Doing this prevents the same interrupts
+from triggering this isr repeatedly. The thread woken by this isr will
+handle asserted interrupts and subsequently unmask/re-enable them.
+
+The OC_INTR_DISABLE register indicates which OC interrupts
+have been disabled.
+.SH "RETURN"
+IRQ_WAKE_THREAD, handler requests to wake the handler thread

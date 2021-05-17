@@ -1,0 +1,19 @@
+.TH "parport_ip32_fifo_wait_break" 9 "parport_ip32_fifo_wait_break" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_ip32_fifo_wait_break \- check if the waiting function should return
+.SH SYNOPSIS
+.B "unsigned int" parport_ip32_fifo_wait_break
+.BI "(struct parport *p "  ","
+.BI "unsigned long expire "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+pointer to \fIstruct parport\fP
+.IP "expire" 12
+timeout expiring date, in jiffies
+.SH "DESCRIPTION"
+\fBparport_ip32_fifo_wait_break\fP checks if the waiting function should return
+immediately or not.  The break conditions are:
+- expired timeout;
+- a pending signal;
+- nFault asserted low.
+This function also calls \fBcond_resched\fP.

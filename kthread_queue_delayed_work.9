@@ -1,0 +1,23 @@
+.TH "kthread_queue_delayed_work" 9 "kthread_queue_delayed_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_queue_delayed_work \- queue the associated kthread work after a delay.
+.SH SYNOPSIS
+.B "bool" kthread_queue_delayed_work
+.BI "(struct kthread_worker *worker "  ","
+.BI "struct kthread_delayed_work *dwork "  ","
+.BI "unsigned long delay "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+target kthread_worker
+.IP "dwork" 12
+kthread_delayed_work to queue
+.IP "delay" 12
+number of jiffies to wait before queuing
+.SH "DESCRIPTION"
+If the work has not been pending it starts a timer that will queue
+the work after the given \fIdelay\fP. If \fIdelay\fP is zero, it queues the
+work immediately.
+.SH "RETURN"
+false if the \fIwork\fP has already been pending. It means that
+either the timer was running or the work was queued. It returns true
+otherwise.

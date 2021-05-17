@@ -1,0 +1,19 @@
+.TH "intel_frontbuffer_flip_prepare" 9 "intel_frontbuffer_flip_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_frontbuffer_flip_prepare \- prepare asynchronous frontbuffer flip
+.SH SYNOPSIS
+.B "void" intel_frontbuffer_flip_prepare
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "unsigned frontbuffer_bits "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device
+.IP "frontbuffer_bits" 12
+frontbuffer plane tracking bits
+.SH "DESCRIPTION"
+This function gets called after scheduling a flip on \fIobj\fP. The actual
+frontbuffer flushing will be delayed until completion is signalled with
+intel_frontbuffer_flip_complete. If an invalidate happens in between this
+flush will be cancelled.
+
+Can be called without any locks held.

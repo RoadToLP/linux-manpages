@@ -1,0 +1,25 @@
+.TH "rcvbuf_limit" 9 "rcvbuf_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcvbuf_limit \- get proper overload limit of socket receive queue
+.SH SYNOPSIS
+.B "unsigned int" rcvbuf_limit
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.IP "skb" 12
+message
+.SH "DESCRIPTION"
+For connection oriented messages, irrespective of importance,
+default queue limit is 2 MB.
+
+For connectionless messages, queue limits are based on message
+importance as follows:
+
+TIPC_LOW_IMPORTANCE       (2 MB)
+TIPC_MEDIUM_IMPORTANCE    (4 MB)
+TIPC_HIGH_IMPORTANCE      (8 MB)
+TIPC_CRITICAL_IMPORTANCE  (16 MB)
+.SH "RETURN"
+overload limit according to corresponding message importance

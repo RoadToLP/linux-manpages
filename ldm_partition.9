@@ -1,0 +1,22 @@
+.TH "ldm_partition" 9 "ldm_partition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_partition \- Find out whether a device is a dynamic disk and handle it
+.SH SYNOPSIS
+.B "int" ldm_partition
+.BI "(struct parsed_partitions *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Partition check state including device holding the LDM Database
+.SH "DESCRIPTION"
+This determines whether the device \fIbdev\fP is a dynamic disk and if so creates
+the partitions necessary in the gendisk structure pointed to by \fIhd\fP.
+
+We create a dummy device 1, which contains the LDM database, and then create
+each partition described by the LDM database in sequence as devices 2+. For
+example, if the device is hda, we would have: hda1: LDM database, hda2, hda3,
+and so on: the actual data containing partitions.
+.SH "RETURN"
+1 Success, \fIstate->bdev\fP is a dynamic disk and we handled it
+0 Success, \fIstate->bdev\fP is not a dynamic disk
+-1 An error occurred before enough information had been read
+Or \fIstate->bdev\fP is a dynamic disk, but it may be corrupted

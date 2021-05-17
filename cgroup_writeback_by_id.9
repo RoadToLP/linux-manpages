@@ -1,0 +1,24 @@
+.TH "cgroup_writeback_by_id" 9 "cgroup_writeback_by_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_writeback_by_id \- initiate cgroup writeback from bdi and memcg IDs
+.SH SYNOPSIS
+.B "int" cgroup_writeback_by_id
+.BI "(u64 bdi_id "  ","
+.BI "int memcg_id "  ","
+.BI "unsigned long nr "  ","
+.BI "enum wb_reason reason "  ","
+.BI "struct wb_completion *done "  ");"
+.SH ARGUMENTS
+.IP "bdi_id" 12
+target bdi id
+.IP "memcg_id" 12
+target memcg css id
+.IP "nr" 12
+number of pages to write, 0 for best-effort dirty flushing
+.IP "reason" 12
+reason why some writeback work initiated
+.IP "done" 12
+target wb_completion
+.SH "DESCRIPTION"
+Initiate flush of the bdi_writeback identified by \fIbdi_id\fP and \fImemcg_id\fP
+with the specified parameters.

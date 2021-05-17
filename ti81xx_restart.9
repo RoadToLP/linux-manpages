@@ -1,0 +1,18 @@
+.TH "ti81xx_restart" 9 "ti81xx_restart" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti81xx_restart \- trigger a software restart of the SoC
+.SH SYNOPSIS
+.B "void" ti81xx_restart
+.BI "(enum reboot_mode mode "  ","
+.BI "const char *cmd "  ");"
+.SH ARGUMENTS
+.IP "mode" 12
+the "reboot mode", see arch/arm/kernel/{setup,process}.c
+.IP "cmd" 12
+passed from the userspace program rebooting the system (if provided)
+.SH "DESCRIPTION"
+Resets the SoC.  For \fIcmd\fP, see the 'reboot' syscall in
+kernel/sys.c.  No return value.
+.SH "NOTE"
+Warm reset does not seem to work, may require resetting
+clocks to bypass mode.

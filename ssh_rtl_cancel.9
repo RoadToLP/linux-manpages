@@ -1,0 +1,30 @@
+.TH "ssh_rtl_cancel" 9 "ssh_rtl_cancel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_rtl_cancel \- Cancel request.
+.SH SYNOPSIS
+.B "bool" ssh_rtl_cancel
+.BI "(struct ssh_request *rqst "  ","
+.BI "bool pending "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+The request to cancel.
+.IP "pending" 12
+Whether to also cancel pending requests.
+.SH "DESCRIPTION"
+Cancels the given request. If \fIpending\fP is false, this will not cancel
+pending requests, i.e. requests that have already been submitted to the
+packet layer but not been completed yet. If \fIpending\fP is true, this will
+cancel the given request regardless of the state it is in.
+
+If the request has been canceled by calling this function, both completion
+and release callbacks of the request will be executed in a reasonable
+time-frame. This may happen during execution of this function, however,
+there is no guarantee for this. For example, a request currently
+transmitting will be canceled/completed only after transmission has
+completed, and the respective callbacks will be executed on the transmitter
+thread, which may happen during, but also some time after execution of the
+cancel function.
+.SH "RETURN"
+Returns true if the given request has been canceled or completed,
+either by this function or prior to calling this function, false
+otherwise. If \fIpending\fP is true, this function will always return true.

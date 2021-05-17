@@ -1,0 +1,25 @@
+.TH "dir_new_leaf" 9 "dir_new_leaf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dir_new_leaf \- Add a new leaf onto hash chain
+.SH SYNOPSIS
+.B "int" dir_new_leaf
+.BI "(struct inode *inode "  ","
+.BI "const struct qstr *name "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The directory
+.IP "name" 12
+The name we are adding
+.SH "DESCRIPTION"
+This adds a new dir leaf onto an existing leaf when there is not
+enough space to add a new dir entry. This is a last resort after
+we've expanded the hash table to max size and also split existing
+leaf blocks, so it will only occur for very large directories.
+
+The dist parameter is set to 1 for leaf blocks directly attached
+to the hash table, 2 for one layer of indirection, 3 for two layers
+etc. We are thus able to tell the difference between an old leaf
+with dist set to zero (i.e. "don't know") and a new one where we
+set this information for debug/fsck purposes.
+.SH "RETURN"
+0 on success, or -ve on error

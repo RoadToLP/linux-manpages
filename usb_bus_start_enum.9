@@ -1,0 +1,21 @@
+.TH "usb_bus_start_enum" 9 "usb_bus_start_enum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_bus_start_enum \- start immediate enumeration (for OTG)
+.SH SYNOPSIS
+.B "int" usb_bus_start_enum
+.BI "(struct usb_bus *bus "  ","
+.BI "unsigned port_num "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the bus (must use hcd framework)
+.IP "port_num" 12
+1-based number of port; usually bus->otg_port
+.SH "CONTEXT"
+atomic
+.SH "DESCRIPTION"
+Starts enumeration, with an immediate reset followed later by
+hub_wq identifying and possibly configuring the device.
+This is needed by OTG controller drivers, where it helps meet
+HNP protocol timing requirements for starting a port reset.
+.SH "RETURN"
+0 if successful.

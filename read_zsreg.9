@@ -1,0 +1,17 @@
+.TH "read_zsreg" 9 "read_zsreg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_zsreg \- Read a register from a Z85230
+.SH SYNOPSIS
+.B "u8" read_zsreg
+.BI "(struct z8530_channel *c "  ","
+.BI "u8 reg "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+Z8530 channel to read from (2 per chip)
+.IP "reg" 12
+Register to read
+FIXME: Use a spinlock.
+
+Most of the Z8530 registers are indexed off the control registers.
+A read is done by writing to the control register and reading the
+register back.  The caller must hold the lock

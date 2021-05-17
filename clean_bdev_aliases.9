@@ -1,0 +1,29 @@
+.TH "clean_bdev_aliases" 9 "clean_bdev_aliases" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clean_bdev_aliases \- clean a range of buffers in block device
+.SH SYNOPSIS
+.B "void" clean_bdev_aliases
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t block "  ","
+.BI "sector_t len "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+Block device to clean buffers in
+.IP "block" 12
+Start of a range of blocks to clean
+.IP "len" 12
+Number of blocks to clean
+.SH "DESCRIPTION"
+We are taking a range of blocks for data and we don't want writeback of any
+buffer-cache aliases starting from return from this function and until the
+moment when something will explicitly mark the buffer dirty (hopefully that
+will not happen until we will free that block ;-) We don't even need to mark
+it not-uptodate - nobody can expect anything from a newly allocated buffer
+anyway. We used to use \fBunmap_buffer\fP for such invalidation, but that was
+wrong. We definitely don't want to mark the alias unmapped, for example - it
+would confuse anyone who might pick it with \fBbread\fP afterwards...
+
+Also..  Note that \fBbforget\fP doesn't lock the buffer.  So there can be
+writeout I/O going on against recently-freed buffers.  We don't wait on that
+I/O in \fBbforget\fP - it's more efficient to wait on the I/O only if we really
+need to.  That happens here.

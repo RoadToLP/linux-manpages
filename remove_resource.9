@@ -1,0 +1,20 @@
+.TH "remove_resource" 9 "remove_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+remove_resource \- Remove a resource in the resource tree
+.SH SYNOPSIS
+.B "int" remove_resource
+.BI "(struct resource *old "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+resource to remove
+.SH "DESCRIPTION"
+Returns 0 on success, -EINVAL if the resource is not valid.
+
+This function removes a resource previously inserted by \fBinsert_resource\fP
+or \fBinsert_resource_conflict\fP, and moves the children (if any) up to
+where they were before.  \fBinsert_resource\fP and \fBinsert_resource_conflict\fP
+insert a new resource, and move any conflicting resources down to the
+children of the new resource.
+
+\fBinsert_resource\fP, \fBinsert_resource_conflict\fP and \fBremove_resource\fP are
+intended for producers of resources, such as FW modules and bus drivers.

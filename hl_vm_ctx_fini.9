@@ -1,0 +1,24 @@
+.TH "hl_vm_ctx_fini" 9 "hl_vm_ctx_fini" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hl_vm_ctx_fini \- virtual memory teardown of context.
+.SH SYNOPSIS
+.B "void" hl_vm_ctx_fini
+.BI "(struct hl_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+pointer to the habanalabs context structure.
+.SH "DESCRIPTION"
+This function perform teardown the following:
+- Virtual block list of available virtual memory.
+- Virtual address to area descriptor hashtable.
+- MMU for context.
+
+In addition this function does the following:
+- Unmaps the existing hashtable nodes if the hashtable is not empty. The
+hashtable should be empty as no valid mappings should exist at this
+point.
+- Frees any existing physical page list from the idr which relates to the
+current context asid.
+- This function checks the virtual block list for correctness. At this point
+the list should contain one element which describes the whole virtual
+memory range of the context. Otherwise, a warning is printed.

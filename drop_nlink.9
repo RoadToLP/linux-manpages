@@ -1,0 +1,16 @@
+.TH "drop_nlink" 9 "drop_nlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drop_nlink \- directly drop an inode's link count
+.SH SYNOPSIS
+.B "void" drop_nlink
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode
+.SH "DESCRIPTION"
+This is a low-level filesystem helper to replace any
+direct filesystem manipulation of i_nlink.  In cases
+where we are attempting to track writes to the
+filesystem, a decrement to zero means an imminent
+write when the file is truncated and actually unlinked
+on the filesystem.

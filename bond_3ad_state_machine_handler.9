@@ -1,0 +1,18 @@
+.TH "bond_3ad_state_machine_handler" 9 "bond_3ad_state_machine_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bond_3ad_state_machine_handler \- handle state machines timeout
+.SH SYNOPSIS
+.B "void" bond_3ad_state_machine_handler
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work context to fetch bonding struct to work on from
+.SH "DESCRIPTION"
+The state machine handling concept in this module is to check every tick
+which state machine should operate any function. The execution order is
+round robin, so when we have an interaction between state machines, the
+reply of one to each other might be delayed until next tick.
+
+This function also complete the initialization when the agg_select_timer
+times out, and it selects an aggregator for the ports that are yet not
+related to any aggregator, and selects the active aggregator for a bond.

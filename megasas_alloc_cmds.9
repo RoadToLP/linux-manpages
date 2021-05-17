@@ -1,0 +1,23 @@
+.TH "megasas_alloc_cmds" 9 "megasas_alloc_cmds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_alloc_cmds \- Allocates the command packets
+.SH SYNOPSIS
+.B "int" megasas_alloc_cmds
+.BI "(struct megasas_instance *instance "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Adapter soft state
+.SH "DESCRIPTION"
+Each command that is issued to the FW, whether IO commands from the OS or
+internal commands like IOCTLs, are wrapped in local data structure called
+megasas_cmd. The frame embedded in this megasas_cmd is actually issued to
+the FW.
+
+Each frame has a 32-bit field called context (tag). This context is used
+to get back the megasas_cmd from the frame when a frame gets completed in
+the ISR. Typically the address of the megasas_cmd itself would be used as
+the context. But we wanted to keep the differences between 32 and 64 bit
+systems to the mininum. We always use 32 bit integers for the context. In
+this driver, the 32 bit values are the indices into an array cmd_list.
+This array is used only to look up the megasas_cmd given the context. The
+free commands themselves are maintained in a linked list called cmd_pool.

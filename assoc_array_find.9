@@ -1,0 +1,21 @@
+.TH "assoc_array_find" 9 "assoc_array_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assoc_array_find \- Find an object by index key
+.SH SYNOPSIS
+.B "void *" assoc_array_find
+.BI "(const struct assoc_array *array "  ","
+.BI "const struct assoc_array_ops *ops "  ","
+.BI "const void *index_key "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+The associative array to search.
+.IP "ops" 12
+The operations to use.
+.IP "index_key" 12
+The key to the object.
+.SH "DESCRIPTION"
+Find an object in an associative array by walking through the internal tree
+to the node that should contain the object and then searching the leaves
+there.  NULL is returned if the requested object was not found in the array.
+
+The caller must hold the RCU read lock or better.

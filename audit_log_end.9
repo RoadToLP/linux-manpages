@@ -1,0 +1,14 @@
+.TH "audit_log_end" 9 "audit_log_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+audit_log_end \- end one audit record
+.SH SYNOPSIS
+.B "void" audit_log_end
+.BI "(struct audit_buffer *ab "  ");"
+.SH ARGUMENTS
+.IP "ab" 12
+the audit_buffer
+.SH "DESCRIPTION"
+We can not do a netlink send inside an irq context because it blocks (last
+arg, flags, is not set to MSG_DONTWAIT), so the audit buffer is placed on a
+queue and a kthread is scheduled to remove them from the queue outside the
+irq context.  May be called in any context.

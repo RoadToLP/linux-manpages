@@ -1,0 +1,22 @@
+.TH "svc_fill_symlink_pathname" 9 "svc_fill_symlink_pathname" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_fill_symlink_pathname \- Construct pathname argument for VFS symlink call
+.SH SYNOPSIS
+.B "char *" svc_fill_symlink_pathname
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "struct kvec *first "  ","
+.BI "void *p "  ","
+.BI "size_t total "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+svc_rqst to operate on
+.IP "first" 12
+buffer containing first section of pathname
+.IP "p" 12
+buffer containing remaining section of pathname
+.IP "total" 12
+total length of the pathname argument
+.SH "DESCRIPTION"
+The VFS symlink API demands a NUL-terminated pathname in mapped memory.
+Returns pointer to a NUL-terminated string, or an ERR_PTR. Caller must free
+the returned string.

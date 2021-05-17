@@ -1,0 +1,20 @@
+.TH "eeh_pe_tree_insert" 9 "eeh_pe_tree_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_pe_tree_insert \- Add EEH device to parent PE
+.SH SYNOPSIS
+.B "int" eeh_pe_tree_insert
+.BI "(struct eeh_dev *edev "  ","
+.BI "struct eeh_pe *new_pe_parent "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+EEH device
+.IP "new_pe_parent" 12
+PE to create additional PEs under
+.SH "DESCRIPTION"
+Add EEH device to the PE in edev->pe_config_addr. If a PE already
+exists with that address then \fIedev\fP is added to that PE. Otherwise
+a new PE is created and inserted into the PE tree as a child of
+\fInew_pe_parent\fP.
+
+If \fInew_pe_parent\fP is NULL then the new PE will be inserted under
+directly under the the PHB.

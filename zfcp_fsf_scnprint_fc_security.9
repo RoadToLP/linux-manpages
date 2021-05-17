@@ -1,0 +1,40 @@
+.TH "zfcp_fsf_scnprint_fc_security" 9 "zfcp_fsf_scnprint_fc_security" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_fsf_scnprint_fc_security \- translate FC Endpoint Security flags into mnemonics and place in a buffer
+.SH SYNOPSIS
+.B "ssize_t" zfcp_fsf_scnprint_fc_security
+.BI "(char *buf "  ","
+.BI "size_t size "  ","
+.BI "u32 fc_security "  ","
+.BI "enum zfcp_fsf_print_fmt fmt "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+the buffer to place the translated FC Endpoint Security flag(s)
+into
+.IP "size" 12
+the size of the buffer, including the trailing null space
+.IP "fc_security" 12
+one or more FC Endpoint Security flags, or zero
+.IP "fmt" 12
+specifies whether a list or a single item is to be put into the
+buffer
+.SH "DESCRIPTION"
+The Fibre Channel (FC) Endpoint Security flags are translated into mnemonics.
+If the FC Endpoint Security flags are zero "none" is placed into the buffer.
+
+With ZFCP_FSF_PRINT_FMT_LIST the mnemonics are placed as a list separated by
+a comma followed by a space into the buffer. If one or more FC Endpoint
+Security flags cannot be translated into a mnemonic, as they are undefined
+in zfcp_fsf_fc_security_mnemonics, their bitwise ORed value in hexadecimal
+representation is placed into the buffer.
+
+With ZFCP_FSF_PRINT_FMT_SINGLEITEM only one single mnemonic is placed into
+the buffer. If the FC Endpoint Security flag cannot be translated, as it is
+undefined in zfcp_fsf_fc_security_mnemonics, its value in hexadecimal
+representation is placed into the buffer. If more than one FC Endpoint
+Security flag was specified, their value in hexadecimal representation is
+placed into the buffer. The macro ZFCP_FSF_MAX_FC_SECURITY_MNEMONIC_LENGTH
+can be used to define a buffer that is large enough to hold one mnemonic.
+.SH "RETURN"
+The number of characters written into buf not including the trailing
+'\0'. If size is == 0 the function returns 0.

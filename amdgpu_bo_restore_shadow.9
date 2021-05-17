@@ -1,0 +1,18 @@
+.TH "amdgpu_bo_restore_shadow" 9 "amdgpu_bo_restore_shadow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_bo_restore_shadow \- restore an &amdgpu_bo shadow
+.SH SYNOPSIS
+.B "int" amdgpu_bo_restore_shadow
+.BI "(struct amdgpu_bo *shadow "  ","
+.BI "struct dma_fence **fence "  ");"
+.SH ARGUMENTS
+.IP "shadow" 12
+\fIamdgpu_bo\fP shadow to be restored
+.IP "fence" 12
+dma_fence associated with the operation
+.SH "DESCRIPTION"
+Copies a buffer object's shadow content back to the object.
+This is used for recovering a buffer from its shadow in case of a gpu
+reset where vram context may be lost.
+.SH "RETURN"
+0 for success or a negative error code on failure.

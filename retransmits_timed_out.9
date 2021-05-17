@@ -1,0 +1,22 @@
+.TH "retransmits_timed_out" 9 "retransmits_timed_out" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+retransmits_timed_out \- returns true if this connection has timed out
+.SH SYNOPSIS
+.B "bool" retransmits_timed_out
+.BI "(struct sock *sk "  ","
+.BI "unsigned int boundary "  ","
+.BI "unsigned int timeout "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+The current socket
+.IP "boundary" 12
+max number of retransmissions
+.IP "timeout" 12
+A custom timeout value.
+If set to 0 the default timeout is calculated and used.
+Using TCP_RTO_MIN and the number of unsuccessful retransmits.
+.SH "DESCRIPTION"
+The default "timeout" value this function can calculate and use
+is equivalent to the timeout of a TCP Connection
+after "boundary" unsuccessful, exponentially backed-off
+retransmissions with an initial RTO of TCP_RTO_MIN.

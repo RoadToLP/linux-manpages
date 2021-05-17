@@ -1,0 +1,19 @@
+.TH "i40iw_qp_uk_init" 9 "i40iw_qp_uk_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_qp_uk_init \- initialize shared qp
+.SH SYNOPSIS
+.B "enum i40iw_status_code" i40iw_qp_uk_init
+.BI "(struct i40iw_qp_uk *qp "  ","
+.BI "struct i40iw_qp_uk_init_info *info "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+hw qp (user and kernel)
+.IP "info" 12
+qp initialization info
+.SH "DESCRIPTION"
+initializes the vars used in both user and kernel mode.
+size of the wqe depends on numbers of max. fragements
+allowed. Then size of wqe * the number of wqes should be the
+amount of memory allocated for sq and rq. If srq is used,
+then rq_base will point to one rq wqe only (not the whole
+array of wqes)

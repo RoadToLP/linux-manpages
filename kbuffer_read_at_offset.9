@@ -1,0 +1,27 @@
+.TH "kbuffer_read_at_offset" 9 "kbuffer_read_at_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbuffer_read_at_offset \- read the event that is at offset
+.SH SYNOPSIS
+.B "void *" kbuffer_read_at_offset
+.BI "(struct kbuffer *kbuf "  ","
+.BI "int offset "  ","
+.BI "unsigned long long *ts "  ");"
+.SH ARGUMENTS
+.IP "kbuf" 12
+The kbuffer to read from
+.IP "offset" 12
+The offset into the subbuffer
+.IP "ts" 12
+The address to store the timestamp of the event (may be NULL to ignore)
+.SH "DESCRIPTION"
+The \fIoffset\fP must be an index from the \fIkbuf\fP subbuffer beginning.
+If \fIoffset\fP is bigger than the stored subbuffer, NULL will be returned.
+
+Returns the data of the record that is at \fIoffset\fP. Note, \fIoffset\fP does
+not need to be the start of the record, the offset just needs to be
+in the record (or beginning of it).
+
+Note, the kbuf timestamp and pointers are updated to the
+returned record. That is, \fBkbuffer_read_event\fP will return the same
+data and timestamp, and \fBkbuffer_next_event\fP will increment from
+this record.

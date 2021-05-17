@@ -1,0 +1,23 @@
+.TH "ntfs_iget" 9 "ntfs_iget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_iget \- obtain a struct inode corresponding to a specific normal inode
+.SH SYNOPSIS
+.B "struct inode *" ntfs_iget
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long mft_no "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of mounted volume
+.IP "mft_no" 12
+mft record number / inode number to obtain
+.SH "DESCRIPTION"
+Obtain the struct inode corresponding to a specific normal inode (i.e. a
+file or directory).
+
+If the inode is in the cache, it is just returned with an increased
+reference count. Otherwise, a new struct inode is allocated and initialized,
+and finally \fBntfs_read_locked_inode\fP is called to read in the inode and
+fill in the remainder of the inode structure.
+
+Return the struct inode on success. Check the return value with \fBIS_ERR\fP and
+if true, the function failed and the error code is obtained from \fBPTR_ERR\fP.

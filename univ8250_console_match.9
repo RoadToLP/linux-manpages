@@ -1,0 +1,29 @@
+.TH "univ8250_console_match" 9 "univ8250_console_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+univ8250_console_match \- non-standard console matching
+.SH SYNOPSIS
+.B "int" univ8250_console_match
+.BI "(struct console *co "  ","
+.BI "char *name "  ","
+.BI "int idx "  ","
+.BI "char *options "  ");"
+.SH ARGUMENTS
+.IP "co" 12
+registering console
+.IP "name" 12
+name from console command line
+.IP "idx" 12
+index from console command line
+.IP "options" 12
+ptr to option string from console command line
+
+Only attempts to match console command lines of the form:
+console=uart[8250],io|mmio|mmio16|mmio32,<addr>[,<options>]
+console=uart[8250],0x<addr>[,<options>]
+This form is used to register an initial earlycon boot console and
+replace it with the serial8250_console at 8250 driver init.
+
+Performs console setup for a match (as required by interface)
+If no <options> are specified, then assume the h/w is already setup.
+
+Returns 0 if console matches; otherwise non-zero to use default matching

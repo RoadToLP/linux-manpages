@@ -1,0 +1,21 @@
+.TH "pcpu_alloc_alloc_info" 9 "pcpu_alloc_alloc_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_alloc_alloc_info \- allocate percpu allocation info
+.SH SYNOPSIS
+.B "struct pcpu_alloc_info *" pcpu_alloc_alloc_info
+.BI "(int nr_groups "  ","
+.BI "int nr_units "  ");"
+.SH ARGUMENTS
+.IP "nr_groups" 12
+the number of groups
+.IP "nr_units" 12
+the number of units
+.SH "DESCRIPTION"
+Allocate ai which is large enough for \fInr_groups\fP groups containing
+\fInr_units\fP units.  The returned ai's groups[0].cpu_map points to the
+cpu_map array which is long enough for \fInr_units\fP and filled with
+NR_CPUS.  It's the caller's responsibility to initialize cpu_map
+pointer of other groups.
+.SH "RETURN"
+Pointer to the allocated pcpu_alloc_info on success, NULL on
+failure.

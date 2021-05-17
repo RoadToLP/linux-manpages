@@ -1,0 +1,42 @@
+.TH "zbud_reclaim_page" 9 "zbud_reclaim_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zbud_reclaim_page \- evicts allocations from a pool page and frees it
+.SH SYNOPSIS
+.B "int" zbud_reclaim_page
+.BI "(struct zbud_pool *pool "  ","
+.BI "unsigned int retries "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool from which a page will attempt to be evicted
+.IP "retries" 12
+number of pages on the LRU list for which eviction will
+be attempted before failing
+.SH "DESCRIPTION"
+zbud reclaim is different from normal system reclaim in that the reclaim is
+done from the bottom, up.  This is because only the bottom layer, zbud, has
+information on how the allocations are organized within each zbud page. This
+has the potential to create interesting locking situations between zbud and
+the user, however.
+
+To avoid these, this is how \fBzbud_reclaim_page\fP should be called:
+
+The user detects a page should be reclaimed and calls \fBzbud_reclaim_page\fP.
+\fBzbud_reclaim_page\fP will remove a zbud page from the pool LRU list and call
+the user-defined eviction handler with the pool and handle as arguments.
+
+If the handle can not be evicted, the eviction handler should return
+non-zero. \fBzbud_reclaim_page\fP will add the zbud page back to the
+appropriate list and try the next zbud page on the LRU up to
+a user defined number of retries.
+
+If the handle is successfully evicted, the eviction handler should
+return 0 _and_ should have called \fBzbud_free\fP on the handle. \fBzbud_free\fP
+contains logic to delay freeing the page if the page is under reclaim,
+as indicated by the setting of the PG_reclaim flag on the underlying page.
+
+If all buddies in the zbud page are successfully evicted, then the
+zbud page can be freed.
+.SH "RETURN"
+0 if page is successfully freed, otherwise -EINVAL if there are
+no pages to evict or an eviction handler is not registered, -EAGAIN if
+the retry limit was hit.

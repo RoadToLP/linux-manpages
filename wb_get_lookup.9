@@ -1,0 +1,30 @@
+.TH "wb_get_lookup" 9 "wb_get_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wb_get_lookup \- get wb for a given memcg
+.SH SYNOPSIS
+.B "struct bdi_writeback *" wb_get_lookup
+.BI "(struct backing_dev_info *bdi "  ","
+.BI "struct cgroup_subsys_state *memcg_css "  ");"
+.SH ARGUMENTS
+.IP "bdi" 12
+target bdi
+.IP "memcg_css" 12
+cgroup_subsys_state of the target memcg (must have positive ref)
+.SH "DESCRIPTION"
+Try to get the wb for \fImemcg_css\fP on \fIbdi\fP.  The returned wb has its
+refcount incremented.
+
+This function uses \fBcss_get\fP on \fImemcg_css\fP and thus expects its refcnt
+to be positive on invocation.  IOW, \fBrcu_read_lock\fP protection on
+\fImemcg_css\fP isn't enough.  try_get it before calling this function.
+
+A wb is keyed by its associated memcg.  As blkcg implicitly enables
+memcg on the default hierarchy, memcg association is guaranteed to be
+more specific (equal or descendant to the associated blkcg) and thus can
+identify both the memcg and blkcg associations.
+
+Because the blkcg associated with a memcg may change as blkcg is enabled
+and disabled closer to root in the hierarchy, each wb keeps track of
+both the memcg and blkcg associated with it and verifies the blkcg on
+each lookup.  On mismatch, the existing wb is discarded and a new one is
+created.

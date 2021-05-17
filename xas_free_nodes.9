@@ -1,0 +1,16 @@
+.TH "xas_free_nodes" 9 "xas_free_nodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_free_nodes \- Free this node and all nodes that it references
+.SH SYNOPSIS
+.B "void" xas_free_nodes
+.BI "(struct xa_state *xas "  ","
+.BI "struct xa_node *top "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+Array operation state.
+.IP "top" 12
+Node to free
+.SH "DESCRIPTION"
+This node has been removed from the tree.  We must now free it and all
+of its subnodes.  There may be RCU walkers with references into the tree,
+so we must replace all entries with retry markers.

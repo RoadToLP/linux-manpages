@@ -1,0 +1,33 @@
+.TH "lpfc_sli4_enable_msix" 9 "lpfc_sli4_enable_msix" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_enable_msix \- Enable MSI-X interrupt mode to SLI-4 device
+.SH SYNOPSIS
+.B "int" lpfc_sli4_enable_msix
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine is invoked to enable the MSI-X interrupt vectors to device
+with SLI-4 interface spec.  It also allocates MSI-X vectors and maps them
+to cpus on the system.
+
+When cfg_irq_numa is enabled, the adapter will only allocate vectors for
+the number of cpus on the same numa node as this adapter.  The vectors are
+allocated without requesting OS affinity mapping.  A vector will be
+allocated and assigned to each online and offline cpu.  If the cpu is
+online, then affinity will be set to that cpu.  If the cpu is offline, then
+affinity will be set to the nearest peer cpu within the numa node that is
+online.  If there are no online cpus within the numa node, affinity is not
+assigned and the OS may do as it pleases. Note: cpu vector affinity mapping
+is consistent with the way cpu online/offline is handled when cfg_irq_numa is
+configured.
+
+If numa mode is not enabled and there is more than 1 vector allocated, then
+the driver relies on the managed irq interface where the OS assigns vector to
+cpu affinity.  The driver will then use that affinity mapping to setup its
+cpu mapping table.
+
+Return codes
+0 - successful
+other values - error

@@ -1,0 +1,20 @@
+.TH "vio_cmo_alloc" 9 "vio_cmo_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vio_cmo_alloc \- allocate IO memory for CMO-enable devices
+.SH SYNOPSIS
+.B "int" vio_cmo_alloc
+.BI "(struct vio_dev *viodev "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "viodev" 12
+VIO device requesting IO memory
+.IP "size" 12
+size of allocation requested
+.SH "DESCRIPTION"
+Allocations come from memory reserved for the devices and any excess
+IO memory available to all devices.  The spare pool used to service
+hotplug must be equal to VIO_CMO_MIN_ENT for the excess pool to be
+made available.
+
+Return codes:
+0 for successful allocation and -ENOMEM for a failure

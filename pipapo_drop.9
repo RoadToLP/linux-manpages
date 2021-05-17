@@ -1,0 +1,44 @@
+.TH "pipapo_drop" 9 "pipapo_drop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_drop \- Delete entry from lookup and mapping tables, given rule map
+.SH SYNOPSIS
+.B "void" pipapo_drop
+.BI "(struct nft_pipapo_match *m "  ","
+.BI "union nft_pipapo_map_bucket rulemap[] "  ");"
+.SH ARGUMENTS
+.IP "m" 12
+Matching data
+.IP "rulemap" 12
+Table of rule maps, arrays of first rule and amount of rules
+in next field a given entry maps to, for each field
+.SH "DESCRIPTION"
+For each rule in lookup table buckets mapping to this set of rules, drop
+all bits set in lookup table mapping. In pictures, assuming we want to drop
+rules 0 and 1 from this lookup table:
+
+bucket
+group  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+0    0                                              1,2
+1   1,2                                      0
+2    0                                      1,2
+3    0                              1,2
+4  0,1,2
+5    0   1   2
+6  0,1,2 1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+7   1,2 1,2  1   1   1  0,1  1   1   1   1   1   1   1   1   1   1
+
+rule 2 becomes rule 0, and the result will be:
+
+bucket
+group  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+0                                                    0
+1    0
+2                                            0
+3                                    0
+4    0
+5            0
+6    0
+7    0   0
+
+once this is done, call \fBunmap\fP to drop all the corresponding rule references
+from mapping tables.

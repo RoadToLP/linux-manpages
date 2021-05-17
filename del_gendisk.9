@@ -1,0 +1,24 @@
+.TH "del_gendisk" 9 "del_gendisk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+del_gendisk \- remove the gendisk
+.SH SYNOPSIS
+.B "void" del_gendisk
+.BI "(struct gendisk *disk "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+the struct gendisk to remove
+.SH "DESCRIPTION"
+Removes the gendisk and all its associated resources. This deletes the
+partitions associated with the gendisk, and unregisters the associated
+request_queue.
+
+This is the counter to the respective \fB__device_add_disk\fP call.
+
+The final removal of the struct gendisk happens when its refcount reaches 0
+with \fBput_disk\fP, which should be called after \fBdel_gendisk\fP, if
+\fB__device_add_disk\fP was used.
+
+Drivers exist which depend on the release of the gendisk to be synchronous,
+it should not be deferred.
+.SH "CONTEXT"
+can sleep

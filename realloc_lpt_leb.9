@@ -1,0 +1,21 @@
+.TH "realloc_lpt_leb" 9 "realloc_lpt_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+realloc_lpt_leb \- allocate an LPT LEB that is empty.
+.SH SYNOPSIS
+.B "int" realloc_lpt_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "int *lnum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number is passed and returned here
+.SH "DESCRIPTION"
+This function duplicates exactly the results of the function alloc_lpt_leb.
+It is used during end commit to reallocate the same LEB numbers that were
+allocated by alloc_lpt_leb during start commit.
+
+This function finds the next LEB that was allocated by the alloc_lpt_leb
+function starting from \fIlnum\fP. If a LEB is found it is returned in \fIlnum\fP and
+the function returns 0. Otherwise the function returns -ENOSPC.
+Note however, that LPT is designed never to run out of space.

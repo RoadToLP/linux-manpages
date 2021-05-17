@@ -1,0 +1,32 @@
+.TH "__vmalloc_node" 9 "__vmalloc_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vmalloc_node \- allocate virtually contiguous memory
+.SH SYNOPSIS
+.B "void *" __vmalloc_node
+.BI "(unsigned long size "  ","
+.BI "unsigned long align "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int node "  ","
+.BI "const void *caller "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+allocation size
+.IP "align" 12
+desired alignment
+.IP "gfp_mask" 12
+flags for the page level allocator
+.IP "node" 12
+node to use for allocation or NUMA_NO_NODE
+.IP "caller" 12
+caller's return address
+.SH "DESCRIPTION"
+Allocate enough pages to cover \fIsize\fP from the page level allocator with
+\fIgfp_mask\fP flags.  Map them into contiguous kernel virtual space.
+
+Reclaim modifiers in \fIgfp_mask\fP - __GFP_NORETRY, __GFP_RETRY_MAYFAIL
+and __GFP_NOFAIL are not supported
+
+Any use of gfp flags outside of GFP_KERNEL should be consulted
+with mm people.
+.SH "RETURN"
+pointer to the allocated memory or NULL on error

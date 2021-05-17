@@ -1,0 +1,14 @@
+.TH "psb_gtt_detach_pages" 9 "psb_gtt_detach_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+psb_gtt_detach_pages \- attach and pin GEM pages
+.SH SYNOPSIS
+.B "void" psb_gtt_detach_pages
+.BI "(struct gtt_range *gt "  ");"
+.SH ARGUMENTS
+.IP "gt" 12
+the gtt range
+
+Undo the effect of psb_gtt_attach_pages. At this point the pages
+must have been removed from the GTT as they could now be paged out
+and move bus address. This is protected via the gtt mutex which the
+caller must hold.

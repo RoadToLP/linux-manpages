@@ -1,0 +1,22 @@
+.TH "__napi_alloc_skb" 9 "__napi_alloc_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__napi_alloc_skb \- allocate skbuff for rx in a specific NAPI instance
+.SH SYNOPSIS
+.B "struct sk_buff *" __napi_alloc_skb
+.BI "(struct napi_struct *napi "  ","
+.BI "unsigned int len "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "napi" 12
+napi instance this buffer was allocated for
+.IP "len" 12
+length to allocate
+.IP "gfp_mask" 12
+get_free_pages mask, passed to alloc_skb and alloc_pages
+
+Allocate a new sk_buff for use in NAPI receive.  This buffer will
+attempt to allocate the head from a special reserved region used
+only for NAPI Rx allocation.  By doing this we can save several
+CPU cycles by avoiding having to disable and re-enable IRQs.
+
+NULL is returned if there is no free memory.

@@ -1,0 +1,24 @@
+.TH "ice_set_rc_coalesce" 9 "ice_set_rc_coalesce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_rc_coalesce \- set ITR values for specific ring container
+.SH SYNOPSIS
+.B "int" ice_set_rc_coalesce
+.BI "(enum ice_container_type c_type "  ","
+.BI "struct ethtool_coalesce *ec "  ","
+.BI "struct ice_ring_container *rc "  ","
+.BI "struct ice_vsi *vsi "  ");"
+.SH ARGUMENTS
+.IP "c_type" 12
+container type, Rx or Tx
+.IP "ec" 12
+ethtool structure from user to update ITR settings
+.IP "rc" 12
+ring container that the ITR values will come from
+.IP "vsi" 12
+VSI associated to the ring container
+.SH "DESCRIPTION"
+Set specific ITR values. This is done per ice_ring_container because each
+q_vector can have 1 or more rings and all of said ring(s) will have the same
+ITR values.
+
+Returns 0 on success, negative otherwise.

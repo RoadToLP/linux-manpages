@@ -1,0 +1,37 @@
+.TH "zynqmp_dp_aux_cmd_submit" 9 "zynqmp_dp_aux_cmd_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_dp_aux_cmd_submit \- Submit aux command
+.SH SYNOPSIS
+.B "int" zynqmp_dp_aux_cmd_submit
+.BI "(struct zynqmp_dp *dp "  ","
+.BI "u32 cmd "  ","
+.BI "u16 addr "  ","
+.BI "u8 *buf "  ","
+.BI "u8 bytes "  ","
+.BI "u8 *reply "  ");"
+.SH ARGUMENTS
+.IP "dp" 12
+DisplayPort IP core structure
+.IP "cmd" 12
+aux command
+.IP "addr" 12
+aux address
+.IP "buf" 12
+buffer for command data
+.IP "bytes" 12
+number of bytes for \fIbuf\fP
+.IP "reply" 12
+reply code to be returned
+.SH "DESCRIPTION"
+Submit an aux command. All aux related commands, native or i2c aux
+read/write, are submitted through this function. The function is mapped to
+the transfer function of struct drm_dp_aux. This function involves in
+multiple register reads/writes, thus synchronization is needed, and it is
+done by drm_dp_helper using \fIhw_mutex\fP. The calling thread goes into sleep
+if there's no immediate reply to the command submission. The reply code is
+returned at \fIreply\fP if \fIreply\fP != NULL.
+.SH "RETURN"
+0 if the command is submitted properly, or corresponding error code:
+-EBUSY when there is any request already being processed
+-ETIMEDOUT when receiving reply is timed out
+-EIO when received bytes are less than requested

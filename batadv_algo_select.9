@@ -1,0 +1,20 @@
+.TH "batadv_algo_select" 9 "batadv_algo_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_algo_select \- Select algorithm of soft interface
+.SH SYNOPSIS
+.B "int" batadv_algo_select
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "name" 12
+name of the algorithm to select
+.SH "DESCRIPTION"
+The algorithm callbacks for the soft interface will be set when the algorithm
+with the correct name was found. Any previous selected algorithm will not be
+deinitialized and the new selected algorithm will also not be initialized.
+It is therefore not allowed to call batadv_algo_select outside the creation
+function of the soft interface.
+.SH "RETURN"
+0 on success or negative error number in case of failure

@@ -1,0 +1,19 @@
+.TH "cros_ec_keyb_register_bs" 9 "cros_ec_keyb_register_bs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_keyb_register_bs \- Register non-matrix buttons/switches
+.SH SYNOPSIS
+.B "int" cros_ec_keyb_register_bs
+.BI "(struct cros_ec_keyb *ckdev "  ");"
+.SH ARGUMENTS
+.IP "ckdev" 12
+The keyboard device
+.SH "DESCRIPTION"
+
+Handles all the bits of the keyboard driver related to non-matrix buttons
+and switches, including asking the EC about which are present and telling
+the kernel to expect them.
+
+If this device has no support for buttons and switches we'll return no error
+but the ckdev->bs_idev will remain NULL when this function exits.
+
+Returns 0 if no error or -error upon error.

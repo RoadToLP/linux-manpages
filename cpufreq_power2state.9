@@ -1,0 +1,28 @@
+.TH "cpufreq_power2state" 9 "cpufreq_power2state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_power2state \- convert power to a cooling device state
+.SH SYNOPSIS
+.B "int" cpufreq_power2state
+.BI "(struct thermal_cooling_device *cdev "  ","
+.BI "u32 power "  ","
+.BI "unsigned long *state "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+\fIthermal_cooling_device\fP pointer
+.IP "power" 12
+power in milliwatts to be converted
+.IP "state" 12
+pointer in which to store the resulting state
+.SH "DESCRIPTION"
+Calculate a cooling device state for the cpus described by \fIcdev\fP
+that would allow them to consume at most \fIpower\fP mW and store it in
+\fIstate\fP.  Note that this calculation depends on external factors
+such as the cpu load or the current static power.  Calling this
+function with the same power as input can yield different cooling
+device states depending on those external factors.
+.SH "RETURN"
+0 on success, -ENODEV if no cpus are online or -EINVAL if
+the calculated frequency could not be converted to a valid state.
+The latter should not happen unless the frequencies available to
+cpufreq have changed since the initialization of the cpu cooling
+device.

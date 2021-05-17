@@ -1,0 +1,19 @@
+.TH "__mod_lruvec_state" 9 "__mod_lruvec_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__mod_lruvec_state \- update lruvec memory statistics
+.SH SYNOPSIS
+.B "void" __mod_lruvec_state
+.BI "(struct lruvec *lruvec "  ","
+.BI "enum node_stat_item idx "  ","
+.BI "int val "  ");"
+.SH ARGUMENTS
+.IP "lruvec" 12
+the lruvec
+.IP "idx" 12
+the stat item
+.IP "val" 12
+delta to add to the counter, can be negative
+.SH "DESCRIPTION"
+The lruvec is the intersection of the NUMA node and a cgroup. This
+function updates the all three counters that are affected by a
+change of state at this level: per-node, per-cgroup, per-lruvec.

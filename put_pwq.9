@@ -1,0 +1,12 @@
+.TH "put_pwq" 9 "put_pwq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+put_pwq \- put a pool_workqueue reference
+.SH SYNOPSIS
+.B "void" put_pwq
+.BI "(struct pool_workqueue *pwq "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+pool_workqueue to put
+.SH "DESCRIPTION"
+Drop a reference of \fIpwq\fP.  If its refcnt reaches zero, schedule its
+destruction.  The caller should be holding the matching pool->lock.

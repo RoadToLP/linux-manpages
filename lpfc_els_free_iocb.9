@@ -1,0 +1,34 @@
+.TH "lpfc_els_free_iocb" 9 "lpfc_els_free_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_free_iocb \- Free a command iocb and its associated resources
+.SH SYNOPSIS
+.B "int" lpfc_els_free_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *elsiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "elsiocb" 12
+pointer to lpfc els command iocb data structure.
+.SH "DESCRIPTION"
+This routine frees a command IOCB and its associated resources. The
+command IOCB data structure contains the reference to various associated
+resources, these fields must be set to NULL if the associated reference
+not present:
+context1 - reference to ndlp
+context2 - reference to cmd
+context2->next - reference to rsp
+context3 - reference to bpl
+
+It first properly decrements the reference count held on ndlp for the
+IOCB completion callback function. If LPFC_DELAY_MEM_FREE flag is not
+set, it invokes the \fBlpfc_els_free_data\fP routine to release the Direct
+Memory Access (DMA) buffers associated with the IOCB. Otherwise, it
+adds the DMA buffer the \fIphba\fP data structure for the delayed release.
+If reference to the Buffer Pointer List (BPL) is present, the
+\fBlpfc_els_free_bpl\fP routine is invoked to release the DMA memory
+associated with BPL. Finally, the \fBlpfc_sli_release_iocbq\fP routine is
+invoked to release the IOCB data structure back to \fIphba\fP IOCBQ list.
+
+Return code
+0 - Success (currently, always return 0)

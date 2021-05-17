@@ -1,0 +1,29 @@
+.TH "ecryptfs_parse_options" 9 "ecryptfs_parse_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_parse_options \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_parse_options
+.BI "(struct ecryptfs_sb_info *sbi "  ","
+.BI "char *options "  ","
+.BI "uid_t *check_ruid "  ");"
+.SH ARGUMENTS
+.IP "sbi" 12
+-- undescribed --
+.IP "options" 12
+The options passed to the kernel
+.IP "check_ruid" 12
+set to 1 if device uid should be checked against the ruid
+.SH "DESCRIPTION"
+Parse mount options:
+debug=N         - ecryptfs_verbosity level for debug output
+sig=XXX         - description(signature) of the key to use
+
+Returns the dentry object of the lower-level (lower/interposed)
+directory; We want to mount our stackable file system on top of
+that lower directory.
+
+The signature of the key to use must be the description of a key
+already in the keyring. Mounting will fail if the key can not be
+found.
+
+Returns zero on success; non-zero on error

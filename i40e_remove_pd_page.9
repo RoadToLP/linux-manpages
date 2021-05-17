@@ -1,0 +1,23 @@
+.TH "i40e_remove_pd_page" 9 "i40e_remove_pd_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_remove_pd_page \- Remove a page from the page descriptor table
+.SH SYNOPSIS
+.B "i40e_status" i40e_remove_pd_page
+.BI "(struct i40e_hw *hw "  ","
+.BI "struct i40e_hmc_info *hmc_info "  ","
+.BI "u32 idx "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "hmc_info" 12
+pointer to the HMC configuration information structure
+.IP "idx" 12
+segment descriptor index to find the relevant page descriptor
+.SH "DESCRIPTION"
+This function:
+1. Marks the entry in pd table (for paged address mode) invalid
+2. write to register PMPDINV to invalidate the backing page in FV cache
+3. Decrement the ref count for  pd_entry
+assumptions:
+1. caller can deallocate the memory used by pd after this function
+returns.

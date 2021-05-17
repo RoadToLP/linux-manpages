@@ -1,0 +1,25 @@
+.TH "__lpfc_nvme_ls_req" 9 "__lpfc_nvme_ls_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_nvme_ls_req \- Generic service routine to issue an NVME LS request
+.SH SYNOPSIS
+.B "int" __lpfc_nvme_ls_req
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "struct nvmefc_ls_req *pnvme_lsreq "  ","
+.BI "void (*gen_req_cmp)(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe, struct lpfc_wcqe_complete *wcqe) "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The local port issuing the LS
+.IP "ndlp" 12
+The remote port to send the LS to
+.IP "pnvme_lsreq" 12
+Pointer to LS request structure from the transport
+.IP "gen_req_cmp" 12
+Completion call-back
+.SH "DESCRIPTION"
+Routine validates the ndlp, builds buffers and sends a GEN_REQUEST
+WQE to perform the LS operation.
+
+Return value :
+0 - Success
+non-zero: various error codes, in form of -Exxx

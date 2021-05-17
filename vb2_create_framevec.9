@@ -1,0 +1,18 @@
+.TH "vb2_create_framevec" 9 "vb2_create_framevec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vb2_create_framevec \- map virtual addresses to pfns
+.SH SYNOPSIS
+.B "struct frame_vector *" vb2_create_framevec
+.BI "(unsigned long start "  ","
+.BI "unsigned long length "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+Virtual user address where we start mapping
+.IP "length" 12
+Length of a range to map
+.SH "DESCRIPTION"
+This function allocates and fills in a vector with pfns corresponding to
+virtual address range passed in arguments. If pfns have corresponding pages,
+page references are also grabbed to pin pages in memory. The function
+returns pointer to the vector on success and error pointer in case of
+failure. Returned vector needs to be freed via \fBvb2_destroy_pfnvec\fP.

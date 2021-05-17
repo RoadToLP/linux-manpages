@@ -1,0 +1,24 @@
+.TH "snd_card_rw_proc_new" 9 "snd_card_rw_proc_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_card_rw_proc_new \- Create a read/write text proc file entry for the card
+.SH SYNOPSIS
+.B "int" snd_card_rw_proc_new
+.BI "(struct snd_card *card "  ","
+.BI "const char *name "  ","
+.BI "void *private_data "  ","
+.BI "void (*read)(struct snd_info_entry *, struct snd_info_buffer *) "  ","
+.BI "void (*write)(struct snd_info_entry *entry, struct snd_info_buffer *buffer) "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "name" 12
+the file name
+.IP "private_data" 12
+the arbitrary private data
+.IP "read" 12
+the read callback
+.IP "write" 12
+the write callback, NULL for read-only
+.SH "DESCRIPTION"
+This proc file entry will be registered via \fBsnd_card_register\fP call, and
+it will be removed automatically at the card removal, too.

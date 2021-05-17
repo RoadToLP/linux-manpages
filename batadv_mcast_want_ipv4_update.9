@@ -1,0 +1,20 @@
+.TH "batadv_mcast_want_ipv4_update" 9 "batadv_mcast_want_ipv4_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_mcast_want_ipv4_update \- update want-all-ipv4 counter and list
+.SH SYNOPSIS
+.B "void" batadv_mcast_want_ipv4_update
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_orig_node *orig "  ","
+.BI "u8 mcast_flags "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "orig" 12
+the orig_node which multicast state might have changed of
+.IP "mcast_flags" 12
+flags indicating the new multicast state
+.SH "DESCRIPTION"
+If the BATADV_MCAST_WANT_ALL_IPV4 flag of this originator, orig, has
+toggled then this method updates the counter and the list accordingly.
+
+Caller needs to hold orig->mcast_handler_lock.

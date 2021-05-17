@@ -1,0 +1,21 @@
+.TH "ice_set_dflt_vsi" 9 "ice_set_dflt_vsi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_dflt_vsi \- set the default forwarding VSI
+.SH SYNOPSIS
+.B "int" ice_set_dflt_vsi
+.BI "(struct ice_sw *sw "  ","
+.BI "struct ice_vsi *vsi "  ");"
+.SH ARGUMENTS
+.IP "sw" 12
+switch used to assign the default forwarding VSI
+.IP "vsi" 12
+VSI getting set as the default forwarding VSI on the switch
+.SH "DESCRIPTION"
+If the VSI passed in is already the default VSI and it's enabled just return
+success.
+
+If there is already a default VSI on the switch and it's enabled then return
+-EEXIST since there can only be one default VSI per switch.
+
+Otherwise try to set the VSI passed in as the switch's default VSI and
+return the result.

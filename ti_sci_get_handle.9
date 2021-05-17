@@ -1,0 +1,18 @@
+.TH "ti_sci_get_handle" 9 "ti_sci_get_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_get_handle \- Get the TI SCI handle for a device
+.SH SYNOPSIS
+.B "const struct ti_sci_handle *" ti_sci_get_handle
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to device for which we want SCI handle
+.SH "NOTE"
+The function does not track individual clients of the framework
+and is expected to be maintained by caller of TI SCI protocol library.
+ti_sci_put_handle must be balanced with successful ti_sci_get_handle
+.SH "RETURN"
+pointer to handle if successful, else:
+-EPROBE_DEFER if the instance is not ready
+-ENODEV if the required node handler is missing
+-EINVAL if invalid conditions are encountered.

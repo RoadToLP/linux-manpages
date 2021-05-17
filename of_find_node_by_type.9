@@ -1,0 +1,19 @@
+.TH "of_find_node_by_type" 9 "of_find_node_by_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_node_by_type \- Find a node by its "device_type" property
+.SH SYNOPSIS
+.B "struct device_node *" of_find_node_by_type
+.BI "(struct device_node *from "  ","
+.BI "const char *type "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+The node to start searching from, or NULL to start searching
+the entire device tree. The node you pass will not be
+searched, only the next one will; typically, you pass
+what the previous call returned. \fBof_node_put\fP will be
+called on from for you.
+.IP "type" 12
+The type string to match against
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.

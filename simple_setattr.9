@@ -1,0 +1,24 @@
+.TH "simple_setattr" 9 "simple_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_setattr \- setattr for simple filesystem
+.SH SYNOPSIS
+.B "int" simple_setattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct iattr *iattr "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+-- undescribed --
+.IP "dentry" 12
+dentry
+.IP "iattr" 12
+iattr structure
+.SH "DESCRIPTION"
+Returns 0 on success, -error on failure.
+
+simple_setattr is a simple ->setattr implementation without a proper
+implementation of size changes.
+
+It can either be used for in-memory filesystems or special files
+on simple regular filesystems.  Anything that needs to change on-disk
+or wire state on size changes needs its own setattr method.

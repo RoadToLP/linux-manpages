@@ -1,0 +1,30 @@
+.TH "drm_atomic_helper_page_flip_target" 9 "drm_atomic_helper_page_flip_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_page_flip_target \- do page flip on target vblank period.
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_page_flip_target
+.BI "(struct drm_crtc *crtc "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_pending_vblank_event *event "  ","
+.BI "uint32_t flags "  ","
+.BI "uint32_t target "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+DRM CRTC
+.IP "fb" 12
+DRM framebuffer
+.IP "event" 12
+optional DRM event to signal upon completion
+.IP "flags" 12
+flip flags for non-vblank sync'ed updates
+.IP "target" 12
+specifying the target vblank period when the flip to take effect
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+Provides a default \fIdrm_crtc_funcs.page_flip_target\fP implementation.
+Similar to \fBdrm_atomic_helper_page_flip\fP with extra parameter to specify
+target vblank period to flip.
+.SH "RETURN"
+Returns 0 on success, negative errno numbers on failure.

@@ -1,0 +1,23 @@
+.TH "lpfc_bg_err_inject" 9 "lpfc_bg_err_inject" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bg_err_inject \- Determine if we should inject an error
+.SH SYNOPSIS
+.B "int" lpfc_bg_err_inject
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct scsi_cmnd *sc "  ","
+.BI "uint32_t *reftag "  ","
+.BI "uint16_t *apptag "  ","
+.BI "uint32_t new_guard "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "sc" 12
+The SCSI command to examine
+.IP "reftag" 12
+(out) BlockGuard reference tag for transmitted data
+.IP "apptag" 12
+(out) BlockGuard application tag for transmitted data
+.IP "new_guard" 12
+(in) Value to replace CRC with if needed
+.SH "DESCRIPTION"
+Returns BG_ERR_* bit mask or 0 if request ignored

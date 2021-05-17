@@ -1,0 +1,22 @@
+.TH "tty_port_register_device" 9 "tty_port_register_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_port_register_device \- register tty device
+.SH SYNOPSIS
+.B "struct device *" tty_port_register_device
+.BI "(struct tty_port *port "  ","
+.BI "struct tty_driver *driver "  ","
+.BI "unsigned index "  ","
+.BI "struct device *device "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty_port of the device
+.IP "driver" 12
+tty_driver for this device
+.IP "index" 12
+index of the tty
+.IP "device" 12
+parent if exists, otherwise NULL
+.SH "DESCRIPTION"
+It is the same as tty_register_device except the provided \fIport\fP is linked to
+a concrete tty specified by \fIindex\fP. Use this or tty_port_install (or both).
+Call tty_port_link_device as a last resort.

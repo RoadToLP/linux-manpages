@@ -1,0 +1,25 @@
+.TH "ring_buffer_poll_wait" 9 "ring_buffer_poll_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_poll_wait \- poll on buffer input
+.SH SYNOPSIS
+.B "__poll_t" ring_buffer_poll_wait
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ","
+.BI "struct file *filp "  ","
+.BI "poll_table *poll_table "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+buffer to wait on
+.IP "cpu" 12
+the cpu buffer to wait on
+.IP "filp" 12
+the file descriptor
+.IP "poll_table" 12
+The poll descriptor
+.SH "DESCRIPTION"
+If \fIcpu\fP == RING_BUFFER_ALL_CPUS then the task will wake up as soon
+as data is added to any of the \fIbuffer\fP's cpu buffers. Otherwise
+it will wait for data to be added to a specific cpu buffer.
+
+Returns EPOLLIN | EPOLLRDNORM if data exists in the buffers,
+zero otherwise.

@@ -1,0 +1,18 @@
+.TH "hvc_iucv_notifier_add" 9 "hvc_iucv_notifier_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_notifier_add \- HVC notifier for opening a TTY for the first time.
+.SH SYNOPSIS
+.B "int" hvc_iucv_notifier_add
+.BI "(struct hvc_struct *hp "  ","
+.BI "int id "  ");"
+.SH ARGUMENTS
+.IP "hp" 12
+Pointer to the HVC device (struct hvc_struct)
+.IP "id" 12
+Additional data (originally passed to hvc_alloc): the index of an struct
+hvc_iucv_private instance.
+.SH "DESCRIPTION"
+The function sets the tty state to TTY_OPENED for the struct hvc_iucv_private
+instance that is derived from \fIid\fP. Always returns 0.
+
+Locking:     struct hvc_iucv_private->lock, spin_lock_bh

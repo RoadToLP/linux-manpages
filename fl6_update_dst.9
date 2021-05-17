@@ -1,0 +1,18 @@
+.TH "fl6_update_dst" 9 "fl6_update_dst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fl6_update_dst \- update flowi destination address with info given by srcrt option, if any.
+.SH SYNOPSIS
+.B "struct in6_addr *" fl6_update_dst
+.BI "(struct flowi6 *fl6 "  ","
+.BI "const struct ipv6_txoptions *opt "  ","
+.BI "struct in6_addr *orig "  ");"
+.SH ARGUMENTS
+.IP "fl6" 12
+flowi6 for which daddr is to be updated
+.IP "opt" 12
+struct ipv6_txoptions in which to look for srcrt opt
+.IP "orig" 12
+copy of original daddr address if modified
+.SH "DESCRIPTION"
+Returns NULL if no txoptions or no srcrt, otherwise returns orig
+and initial value of fl6->daddr set in orig

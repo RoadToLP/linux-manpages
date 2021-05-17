@@ -1,0 +1,40 @@
+.TH "kernfs_path_from_node_locked" 9 "kernfs_path_from_node_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_path_from_node_locked \- find a pseudo-absolute path to @kn_to, where kn_from is treated as root of the path.
+.SH SYNOPSIS
+.B "int" kernfs_path_from_node_locked
+.BI "(struct kernfs_node *kn_to "  ","
+.BI "struct kernfs_node *kn_from "  ","
+.BI "char *buf "  ","
+.BI "size_t buflen "  ");"
+.SH ARGUMENTS
+.IP "kn_to" 12
+kernfs node to which path is needed
+.IP "kn_from" 12
+kernfs node which should be treated as root for the path
+.IP "buf" 12
+buffer to copy the path into
+.IP "buflen" 12
+size of \fIbuf\fP
+.SH "DESCRIPTION"
+We need to handle couple of scenarios here:
+[1] when \fIkn_from\fP is an ancestor of \fIkn_to\fP at some level
+kn_from: /n1/n2/n3
+kn_to:   /n1/n2/n3/n4/n5
+result:  /n4/n5
+
+[2] when \fIkn_from\fP is on a different hierarchy and we need to find common
+ancestor between \fIkn_from\fP and \fIkn_to\fP.
+kn_from: /n1/n2/n3/n4
+kn_to:   /n1/n2/n5
+result:  /../../n5
+OR
+kn_from: /n1/n2/n3/n4/n5   [depth=5]
+kn_to:   /n1/n2/n3         [depth=3]
+result:  /../..
+
+[3] when \fIkn_to\fP is NULL result will be "(null)"
+
+Returns the length of the full path.  If the full length is equal to or
+greater than \fIbuflen\fP, \fIbuf\fP contains the truncated path with the trailing
+'\0'.  On error, -errno is returned.

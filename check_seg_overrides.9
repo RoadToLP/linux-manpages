@@ -1,0 +1,20 @@
+.TH "check_seg_overrides" 9 "check_seg_overrides" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_seg_overrides \- check if segment override prefixes are allowed
+.SH SYNOPSIS
+.B "bool" check_seg_overrides
+.BI "(struct insn *insn "  ","
+.BI "int regoff "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Valid instruction with segment override prefixes
+.IP "regoff" 12
+Operand offset, in pt_regs, for which the check is performed
+.SH "DESCRIPTION"
+For a particular register used in register-indirect addressing, determine if
+segment override prefixes can be used. Specifically, no overrides are allowed
+for rDI if used with a string instruction.
+
+True if segment override prefixes can be used with the register indicated
+in \fIregoff\fP. False if otherwise.
+.SH "RETURN"

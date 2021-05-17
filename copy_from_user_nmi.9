@@ -1,0 +1,27 @@
+.TH "copy_from_user_nmi" 9 "copy_from_user_nmi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_from_user_nmi \- NMI safe copy from user
+.SH SYNOPSIS
+.B "unsigned long" copy_from_user_nmi
+.BI "(void *to "  ","
+.BI "const void __user *from "  ","
+.BI "unsigned long n "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+Pointer to the destination buffer
+.IP "from" 12
+Pointer to a user space address of the current task
+.IP "n" 12
+Number of bytes to copy
+.SH "RETURN"
+The number of not copied bytes. 0 is success, i.e. all bytes copied
+.SH "DESCRIPTION"
+Contrary to other \fBcopy_from_user\fP variants this function can be called
+from NMI context. Despite the name it is not restricted to be called
+from NMI context. It is safe to be called from any other context as
+well. It disables pagefaults across the copy which means a fault will
+abort the copy.
+
+For NMI context invocations this relies on the nested NMI work to allow
+atomic faults from the NMI path; the nested NMI paths are careful to
+preserve CR2.

@@ -1,0 +1,42 @@
+.TH "register_restart_handler" 9 "register_restart_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_restart_handler \- Register function to be called to reset the system
+.SH SYNOPSIS
+.B "int" register_restart_handler
+.BI "(struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+Info about handler function to be called
+\fInb->priority\fP:  Handler priority. Handlers should follow the
+following guidelines for setting priorities.
+0:      Restart handler of last resort,
+with limited restart capabilities
+128:    Default restart handler; use if no other
+restart handler is expected to be available,
+and/or if restart functionality is
+sufficient to restart the entire system
+255:    Highest priority restart handler, will
+preempt all other restart handlers
+
+Registers a function with code to be called to restart the
+system.
+
+Registered functions will be called from machine_restart as last
+step of the restart sequence (if the architecture specific
+machine_restart function calls do_kernel_restart - see below
+for details).
+Registered functions are expected to restart the system immediately.
+If more than one function is registered, the restart handler priority
+selects which function will be called first.
+
+Restart handlers are expected to be registered from non-architecture
+code, typically from drivers. A typical use case would be a system
+where restart functionality is provided through a watchdog. Multiple
+restart handlers may exist; for example, one restart handler might
+restart the entire system, while another only restarts the CPU.
+In such cases, the restart handler which only restarts part of the
+hardware is expected to register with low priority to ensure that
+it only runs if no other means to restart the system is available.
+
+Currently always returns zero, as \fBatomic_notifier_chain_register\fP
+always returns zero.

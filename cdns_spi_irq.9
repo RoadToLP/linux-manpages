@@ -1,0 +1,21 @@
+.TH "cdns_spi_irq" 9 "cdns_spi_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns_spi_irq \- Interrupt service routine of the SPI controller
+.SH SYNOPSIS
+.B "irqreturn_t" cdns_spi_irq
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number
+.IP "dev_id" 12
+Pointer to the xspi structure
+.SH "DESCRIPTION"
+This function handles TX empty and Mode Fault interrupts only.
+On TX empty interrupt this function reads the received data from RX FIFO and
+fills the TX FIFO if there is any data remaining to be transferred.
+On Mode Fault interrupt this function indicates that transfer is completed,
+the SPI subsystem will identify the error as the remaining bytes to be
+transferred is non-zero.
+.SH "RETURN"
+IRQ_HANDLED when handled; IRQ_NONE otherwise.

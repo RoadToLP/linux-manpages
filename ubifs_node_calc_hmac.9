@@ -1,0 +1,25 @@
+.TH "ubifs_node_calc_hmac" 9 "ubifs_node_calc_hmac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_node_calc_hmac \- calculate the HMAC of a UBIFS node
+.SH SYNOPSIS
+.B "int" ubifs_node_calc_hmac
+.BI "(const struct ubifs_info *c "  ","
+.BI "const void *node "  ","
+.BI "int len "  ","
+.BI "int ofs_hmac "  ","
+.BI "void *hmac "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "node" 12
+the node to insert a HMAC into.
+.IP "len" 12
+the length of the node
+.IP "ofs_hmac" 12
+the offset in the node where the HMAC is inserted
+.IP "hmac" 12
+returned HMAC
+.SH "DESCRIPTION"
+This function calculates a HMAC of a UBIFS node. The HMAC is expected to be
+embedded into the node, so this area is not covered by the HMAC. Also not
+covered is the UBIFS_NODE_MAGIC and the CRC of the node.

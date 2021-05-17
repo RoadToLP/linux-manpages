@@ -1,0 +1,27 @@
+.TH "sprd_mcdt_chan_int_enable" 9 "sprd_mcdt_chan_int_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sprd_mcdt_chan_int_enable \- enable the interrupt mode for the MCDT channel
+.SH SYNOPSIS
+.B "int" sprd_mcdt_chan_int_enable
+.BI "(struct sprd_mcdt_chan *chan "  ","
+.BI "u32 water_mark "  ","
+.BI "struct sprd_mcdt_chan_callback *cb "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+the MCDT channel
+.IP "water_mark" 12
+water mark to trigger a interrupt
+.IP "cb" 12
+callback when a interrupt happened
+.SH "DESCRIPTION"
+Now it only can enable fifo almost full interrupt for ADC channel and fifo
+almost empty interrupt for DAC channel. Morevoer for interrupt mode, user
+should use \fBsprd_mcdt_chan_read\fP or \fBsprd_mcdt_chan_write\fP to read or write
+data manually.
+
+For ADC channel, user can start to read data once receiving one fifo full
+interrupt. For DAC channel, user can start to write data once receiving one
+fifo empty interrupt or just call \fBsprd_mcdt_chan_write\fP to write data
+directly.
+
+Returns 0 on success, or an error code on failure.

@@ -1,0 +1,19 @@
+.TH "ubifs_calc_dark" 9 "ubifs_calc_dark" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_calc_dark \- calculate LEB dark space size.
+.SH SYNOPSIS
+.B "int" ubifs_calc_dark
+.BI "(const struct ubifs_info *c "  ","
+.BI "int spc "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "spc" 12
+amount of free and dirty space in the LEB
+.SH "DESCRIPTION"
+This function calculates and returns amount of dark space in an LEB which
+has \fIspc\fP bytes of free and dirty space.
+
+UBIFS is trying to account the space which might not be usable, and this
+space is called "dark space". For example, if an LEB has only 512 free
+bytes, it is dark space, because it cannot fit a large data node.

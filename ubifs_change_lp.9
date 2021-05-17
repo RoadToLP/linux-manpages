@@ -1,0 +1,32 @@
+.TH "ubifs_change_lp" 9 "ubifs_change_lp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_change_lp \- change LEB properties.
+.SH SYNOPSIS
+.B "const struct ubifs_lprops *" ubifs_change_lp
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct ubifs_lprops *lp "  ","
+.BI "int free "  ","
+.BI "int dirty "  ","
+.BI "int flags "  ","
+.BI "int idx_gc_cnt "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "lp" 12
+LEB properties to change
+.IP "free" 12
+new free space amount
+.IP "dirty" 12
+new dirty space amount
+.IP "flags" 12
+new flags
+.IP "idx_gc_cnt" 12
+change to the count of \fIidx_gc\fP list
+.SH "DESCRIPTION"
+This function changes LEB properties (\fIfree\fP, \fIdirty\fP or \fIflag\fP). However, the
+property which has the LPROPS_NC value is not changed. Returns a pointer to
+the updated LEB properties on success and a negative error code on failure.
+
+Note, the LEB properties may have had to be copied (due to COW) and
+consequently the pointer returned may not be the same as the pointer
+passed.

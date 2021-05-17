@@ -1,0 +1,18 @@
+.TH "nf_ct_iterate_destroy" 9 "nf_ct_iterate_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nf_ct_iterate_destroy \- destroy unconfirmed conntracks and iterate table
+.SH SYNOPSIS
+.B "void" nf_ct_iterate_destroy
+.BI "(int (*iter)(struct nf_conn *i, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+callback to invoke for each conntrack
+.IP "data" 12
+data to pass to \fIiter\fP
+.SH "DESCRIPTION"
+Like nf_ct_iterate_cleanup, but first marks conntracks on the
+unconfirmed list as dying (so they will not be inserted into
+main table).
+
+Can only be called in module exit path.

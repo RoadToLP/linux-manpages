@@ -1,0 +1,31 @@
+.TH "ntfs_collate" 9 "ntfs_collate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_collate \- collate two data items using a specified collation rule
+.SH SYNOPSIS
+.B "int" ntfs_collate
+.BI "(ntfs_volume *vol "  ","
+.BI "COLLATION_RULE cr "  ","
+.BI "const void *data1 "  ","
+.BI "const int data1_len "  ","
+.BI "const void *data2 "  ","
+.BI "const int data2_len "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume to which the data items belong
+.IP "cr" 12
+collation rule to use when comparing the items
+.IP "data1" 12
+first data item to collate
+.IP "data1_len" 12
+length in bytes of \fIdata1\fP
+.IP "data2" 12
+second data item to collate
+.IP "data2_len" 12
+length in bytes of \fIdata2\fP
+.SH "DESCRIPTION"
+Collate the two data items \fIdata1\fP and \fIdata2\fP using the collation rule \fIcr\fP
+and return -1, 0, ir 1 if \fIdata1\fP is found, respectively, to collate before,
+to match, or to collate after \fIdata2\fP.
+
+For speed we use the collation rule \fIcr\fP as an index into two tables of
+function pointers to call the appropriate collation function.

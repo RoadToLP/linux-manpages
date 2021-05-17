@@ -1,0 +1,32 @@
+.TH "mma9551_gpio_config" 9 "mma9551_gpio_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mma9551_gpio_config \- configure gpio
+.SH SYNOPSIS
+.B "int" mma9551_gpio_config
+.BI "(struct i2c_client *client "  ","
+.BI "enum mma9551_gpio_pin pin "  ","
+.BI "u8 app_id "  ","
+.BI "u8 bitnum "  ","
+.BI "int polarity "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+I2C client
+.IP "pin" 12
+GPIO pin to configure
+.IP "app_id" 12
+Application ID
+.IP "bitnum" 12
+Bit number of status register being assigned to the GPIO pin.
+.IP "polarity" 12
+The polarity parameter is described in section 6.2.2, page 66,
+of the Software Reference Manual.  Basically, polarity=0 means
+the interrupt line has the same value as the selected bit,
+while polarity=1 means the line is inverted.
+.SH "DESCRIPTION"
+Assign a bit from an application’s status register to a specific GPIO pin.
+
+Locking note: This function must be called with the device lock held.
+Locking is not handled inside the function. Callers should ensure they
+serialize access to the HW.
+.SH "RETURN"
+0 on success, negative value on failure.

@@ -1,0 +1,20 @@
+.TH "kthread_stop" 9 "kthread_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_stop \- stop a thread created by kthread_create().
+.SH SYNOPSIS
+.B "int" kthread_stop
+.BI "(struct task_struct *k "  ");"
+.SH ARGUMENTS
+.IP "k" 12
+thread created by \fBkthread_create\fP.
+.SH "DESCRIPTION"
+Sets \fBkthread_should_stop\fP for \fIk\fP to return true, wakes it, and
+waits for it to exit. This can also be called after \fBkthread_create\fP
+instead of calling \fBwake_up_process\fP: the thread will exit without
+calling \fBthreadfn\fP.
+
+If \fBthreadfn\fP may call \fBdo_exit\fP itself, the caller must ensure
+task_struct can't go away.
+
+Returns the result of \fBthreadfn\fP, or -EINTR if \fBwake_up_process\fP
+was never called.

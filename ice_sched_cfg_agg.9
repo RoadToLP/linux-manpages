@@ -1,0 +1,27 @@
+.TH "ice_sched_cfg_agg" 9 "ice_sched_cfg_agg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sched_cfg_agg \- configure aggregator node
+.SH SYNOPSIS
+.B "enum ice_status" ice_sched_cfg_agg
+.BI "(struct ice_port_info *pi "  ","
+.BI "u32 agg_id "  ","
+.BI "enum ice_agg_type agg_type "  ","
+.BI "unsigned long *tc_bitmap "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+port information structure
+.IP "agg_id" 12
+aggregator ID
+.IP "agg_type" 12
+aggregator type queue, VSI, or aggregator group
+.IP "tc_bitmap" 12
+bits TC bitmap
+.SH "DESCRIPTION"
+It registers a unique aggregator node into scheduler services. It
+allows a user to register with a unique ID to track it's resources.
+The aggregator type determines if this is a queue group, VSI group
+or aggregator group. It then creates the aggregator node(s) for requested
+TC(s) or removes an existing aggregator node including its configuration
+if indicated via tc_bitmap. Call ice_rm_agg_cfg to release aggregator
+resources and remove aggregator ID.
+This function needs to be called with scheduler lock held.

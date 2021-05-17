@@ -1,0 +1,24 @@
+.TH "zfcp_scsi_adapter_register" 9 "zfcp_scsi_adapter_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_scsi_adapter_register \- Allocate and register SCSI and FC host with SCSI midlayer
+.SH SYNOPSIS
+.B "int" zfcp_scsi_adapter_register
+.BI "(struct zfcp_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+The zfcp adapter to register with the SCSI midlayer
+.SH "DESCRIPTION"
+Allocates the SCSI host object for the given adapter, sets basic properties
+(such as the transport template, QDIO limits, ...), and registers it with
+the midlayer.
+
+During registration with the midlayer the corresponding FC host object for
+the referenced transport class is also implicitely allocated.
+
+Upon success adapter->scsi_host is set, and upon failure it remains NULL. If
+adapter->scsi_host is already set, nothing is done.
+.SH "RETURN"
+* 0       - Allocation and registration was successful
+* -EEXIST - SCSI and FC host did already exist, nothing was done, nothing
+was changed
+* -EIO    - Allocation or registration failed

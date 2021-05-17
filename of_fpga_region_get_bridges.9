@@ -1,0 +1,20 @@
+.TH "of_fpga_region_get_bridges" 9 "of_fpga_region_get_bridges" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_fpga_region_get_bridges \- create a list of bridges
+.SH SYNOPSIS
+.B "int" of_fpga_region_get_bridges
+.BI "(struct fpga_region *region "  ");"
+.SH ARGUMENTS
+.IP "region" 12
+FPGA region
+.SH "DESCRIPTION"
+Create a list of bridges including the parent bridge and the bridges
+specified by "fpga-bridges" property.  Note that the
+fpga_bridges_enable/disable/put functions are all fine with an empty list
+if that happens.
+
+Caller should call fpga_bridges_put(\fIregion->bridge_list\fP) when
+done with the bridges.
+
+Return 0 for success (even if there are no bridges specified)
+or -EBUSY if any of the bridges are in use.

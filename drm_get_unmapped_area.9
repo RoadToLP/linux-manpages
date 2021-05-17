@@ -1,0 +1,36 @@
+.TH "drm_get_unmapped_area" 9 "drm_get_unmapped_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_get_unmapped_area \- Get an unused user-space virtual memory area suitable for huge page table entries.
+.SH SYNOPSIS
+.B "unsigned long" drm_get_unmapped_area
+.BI "(struct file *file "  ","
+.BI "unsigned long uaddr "  ","
+.BI "unsigned long len "  ","
+.BI "unsigned long pgoff "  ","
+.BI "unsigned long flags "  ","
+.BI "struct drm_vma_offset_manager *mgr "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The struct file representing the address space being \fBmmap\fP'd.
+.IP "uaddr" 12
+Start address suggested by user-space.
+.IP "len" 12
+Length of the area.
+.IP "pgoff" 12
+The page offset into the address space.
+.IP "flags" 12
+mmap flags
+.IP "mgr" 12
+The address space manager used by the drm driver. This argument can
+probably be removed at some point when all drivers use the same
+address space manager.
+.SH "DESCRIPTION"
+This function attempts to find an unused user-space virtual memory area
+that can accommodate the size we want to map, and that is properly
+aligned to facilitate huge page table entries matching actual
+huge pages or huge page aligned memory in buffer objects. Buffer objects
+are assumed to start at huge page boundary pfns (io memory) or be
+populated by huge pages aligned to the start of the buffer object
+(system- or coherent memory). Adapted from shmem_get_unmapped_area.
+.SH "RETURN"
+aligned user-space address.

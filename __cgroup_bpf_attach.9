@@ -1,0 +1,27 @@
+.TH "__cgroup_bpf_attach" 9 "__cgroup_bpf_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_attach \- Attach the program or the link to a cgroup, and propagate the change to descendants
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_attach
+.BI "(struct cgroup *cgrp "  ","
+.BI "struct bpf_prog *prog "  ","
+.BI "struct bpf_prog *replace_prog "  ","
+.BI "struct bpf_cgroup_link *link "  ","
+.BI "enum bpf_attach_type type "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+The cgroup which descendants to traverse
+.IP "prog" 12
+A program to attach
+.IP "replace_prog" 12
+Previously attached program to replace if BPF_F_REPLACE is set
+.IP "link" 12
+A link to attach
+.IP "type" 12
+Type of attach operation
+.IP "flags" 12
+Option flags
+.SH "DESCRIPTION"
+Exactly one of \fIprog\fP or \fIlink\fP can be non-null.
+Must be called with cgroup_mutex held.

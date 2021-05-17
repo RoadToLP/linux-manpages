@@ -1,0 +1,28 @@
+.TH "btt_init" 9 "btt_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btt_init \- initialize a block translation table for the given device
+.SH SYNOPSIS
+.B "struct btt *" btt_init
+.BI "(struct nd_btt *nd_btt "  ","
+.BI "unsigned long long rawsize "  ","
+.BI "u32 lbasize "  ","
+.BI "u8 *uuid "  ","
+.BI "struct nd_region *nd_region "  ");"
+.SH ARGUMENTS
+.IP "nd_btt" 12
+device with BTT geometry and backing device info
+.IP "rawsize" 12
+raw size in bytes of the backing device
+.IP "lbasize" 12
+lba size of the backing device
+.IP "uuid" 12
+A uuid for the backing device - this is stored on media
+.IP "nd_region" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Initialize a Block Translation Table on a backing device to provide
+single sector power fail atomicity.
+.SH "CONTEXT"
+Might sleep.
+.SH "RETURN"
+Pointer to a new struct btt on success, NULL on failure.

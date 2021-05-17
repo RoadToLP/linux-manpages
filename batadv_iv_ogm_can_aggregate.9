@@ -1,0 +1,32 @@
+.TH "batadv_iv_ogm_can_aggregate" 9 "batadv_iv_ogm_can_aggregate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_iv_ogm_can_aggregate \- find out if an OGM can be aggregated on an existing forward packet
+.SH SYNOPSIS
+.B "bool" batadv_iv_ogm_can_aggregate
+.BI "(const struct batadv_ogm_packet *new_bat_ogm_packet "  ","
+.BI "struct batadv_priv *bat_priv "  ","
+.BI "int packet_len "  ","
+.BI "unsigned long send_time "  ","
+.BI "bool directlink "  ","
+.BI "const struct batadv_hard_iface *if_incoming "  ","
+.BI "const struct batadv_hard_iface *if_outgoing "  ","
+.BI "const struct batadv_forw_packet *forw_packet "  ");"
+.SH ARGUMENTS
+.IP "new_bat_ogm_packet" 12
+OGM packet to be aggregated
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "packet_len" 12
+(total) length of the OGM
+.IP "send_time" 12
+timestamp (jiffies) when the packet is to be sent
+.IP "directlink" 12
+true if this is a direct link packet
+.IP "if_incoming" 12
+interface where the packet was received
+.IP "if_outgoing" 12
+interface for which the retransmission should be considered
+.IP "forw_packet" 12
+the forwarded packet which should be checked
+.SH "RETURN"
+true if new_packet can be aggregated with forw_packet

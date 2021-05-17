@@ -1,0 +1,21 @@
+.TH "dwc2_hsotg_map_dma" 9 "dwc2_hsotg_map_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_map_dma \- map the DMA memory being used for the request
+.SH SYNOPSIS
+.B "int" dwc2_hsotg_map_dma
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_hsotg_ep *hs_ep "  ","
+.BI "struct usb_request *req "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The device state.
+.IP "hs_ep" 12
+The endpoint the request is on.
+.IP "req" 12
+The request being processed.
+.SH "DESCRIPTION"
+We've been asked to queue a request, so ensure that the memory buffer
+is correctly setup for DMA. If we've been passed an extant DMA address
+then ensure the buffer has been synced to memory. If our buffer has no
+DMA memory, then we map the memory and mark our request to allow us to
+cleanup on completion.

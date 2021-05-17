@@ -1,0 +1,27 @@
+.TH "hfa384x_cmd_callback" 9 "hfa384x_cmd_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfa384x_cmd_callback \- Issue a Prism2 command; callback when completed
+.SH SYNOPSIS
+.B "int" hfa384x_cmd_callback
+.BI "(struct net_device *dev "  ","
+.BI "u16 cmd "  ","
+.BI "u16 param0 "  ","
+.BI "void (*callback)(struct net_device *dev, long context, u16 resp0, u16 status) "  ","
+.BI "long context "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to net_device
+.IP "cmd" 12
+Prism2 command code (HFA384X_CMD_CODE_*)
+.IP "param0" 12
+value for Param0 register
+.IP "callback" 12
+command completion callback function (NULL = no callback)
+.IP "context" 12
+context data to be given to the callback function
+.SH "DESCRIPTION"
+Issue given command (possibly after waiting in command queue) and use
+callback function to indicate command completion. This can be called both
+from user and interrupt context. The callback function will be called in
+hardware IRQ context. It can be NULL, when no function is called when
+command is completed.

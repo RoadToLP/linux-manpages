@@ -1,0 +1,24 @@
+.TH "ath_reg_apply_ir_flags" 9 "ath_reg_apply_ir_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath_reg_apply_ir_flags \- 
+.SH SYNOPSIS
+.B "void" ath_reg_apply_ir_flags
+.BI "(struct wiphy *wiphy "  ","
+.BI "struct ath_regulatory *reg "  ","
+.BI "enum nl80211_reg_initiator initiator "  ");"
+.SH ARGUMENTS
+.IP "wiphy" 12
+the wiphy to use
+.IP "reg" 12
+regulatory structure - used for country selection
+.IP "initiator" 12
+the regulatory hint initiator
+.SH "DESCRIPTION"
+If no country IE has been received always enable passive scan
+and no-ibss on these channels. This is only done for specific
+regulatory SKUs.
+
+If a country IE has been received check its rule for this
+channel first before enabling active scan. The passive scan
+would have been enforced by the initial processing of our
+custom regulatory domain.

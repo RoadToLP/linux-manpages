@@ -1,0 +1,16 @@
+.TH "mbox_chan_txdone" 9 "mbox_chan_txdone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_chan_txdone \- A way for controller driver to notify the framework that the last TX has completed.
+.SH SYNOPSIS
+.B "void" mbox_chan_txdone
+.BI "(struct mbox_chan *chan "  ","
+.BI "int r "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Pointer to the mailbox chan on which TX happened.
+.IP "r" 12
+Status of last TX - OK or ERROR
+.SH "DESCRIPTION"
+The controller that has IRQ for TX ACK calls this atomic API
+to tick the TX state machine. It works only if txdone_irq
+is set by the controller.

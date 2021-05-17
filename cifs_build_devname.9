@@ -1,0 +1,19 @@
+.TH "cifs_build_devname" 9 "cifs_build_devname" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cifs_build_devname \- build a devicename from a UNC and optional prepath
+.SH SYNOPSIS
+.B "char *" cifs_build_devname
+.BI "(char *nodename "  ","
+.BI "const char *prepath "  ");"
+.SH ARGUMENTS
+.IP "nodename" 12
+pointer to UNC string
+.IP "prepath" 12
+pointer to prefixpath (or NULL if there isn't one)
+.SH "DESCRIPTION"
+Build a new cifs devicename after chasing a DFS referral. Allocate a buffer
+big enough to hold the final thing. Copy the UNC from the nodename, and
+concatenate the prepath onto the end of it if there is one.
+
+Returns pointer to the built string, or a ERR_PTR. Caller is responsible
+for freeing the returned string.

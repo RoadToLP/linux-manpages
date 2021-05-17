@@ -1,0 +1,15 @@
+.TH "check_mft_mirror" 9 "check_mft_mirror" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_mft_mirror \- compare contents of the mft mirror with the mft
+.SH SYNOPSIS
+.B "bool" check_mft_mirror
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs super block describing device whose mft mirror to check
+.SH "DESCRIPTION"
+Return 'true' on success or 'false' on error.
+
+Note, this function also results in the mft mirror runlist being completely
+mapped into memory.  The mft mirror write code requires this and will \fBBUG\fP
+should it find an unmapped runlist element.

@@ -1,0 +1,26 @@
+.TH "lpfc_idiag_mbxacc_write" 9 "lpfc_idiag_mbxacc_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_idiag_mbxacc_write \- Syntax check and set up idiag mbxacc commands
+.SH SYNOPSIS
+.B "ssize_t" lpfc_idiag_mbxacc_write
+.BI "(struct file *file "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t nbytes "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The file pointer to read from.
+.IP "buf" 12
+The buffer to copy the user data from.
+.IP "nbytes" 12
+The number of bytes to get.
+.IP "ppos" 12
+The position in the file to start reading from.
+.SH "DESCRIPTION"
+This routine get the debugfs idiag command struct from user space and then
+perform the syntax check for driver mailbox command (dump) and sets up the
+necessary states in the idiag command struct accordingly.
+
+It returns the \fInbytges\fP passing in from debugfs user space when successful.
+In case of error conditions, it returns proper error code back to the user
+space.

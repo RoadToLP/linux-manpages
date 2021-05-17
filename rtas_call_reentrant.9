@@ -1,0 +1,30 @@
+.TH "rtas_call_reentrant" 9 "rtas_call_reentrant" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtas_call_reentrant \- Used for reentrant rtas calls
+.SH SYNOPSIS
+.B "int" rtas_call_reentrant
+.BI "(int token "  ","
+.BI "int nargs "  ","
+.BI "int nret "  ","
+.BI "int *outputs "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "token" 12
+Token for desired reentrant RTAS call
+.IP "nargs" 12
+Number of Input Parameters
+.IP "nret" 12
+Number of Output Parameters
+.IP "outputs" 12
+Array of outputs
+.IP "..." 12
+Inputs for desired RTAS call
+.SH "DESCRIPTION"
+According to LoPAR documentation, only "ibm,int-on", "ibm,int-off",
+"ibm,get-xive" and "ibm,set-xive" are currently reentrant.
+Reentrant calls need their own rtas_args buffer, so not using rtas.args, but
+PACA one instead.
+.SH "RETURN"
+-1 on error,
+First output value of RTAS call if (nret > 0),
+0 otherwise,

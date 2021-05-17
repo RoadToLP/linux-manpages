@@ -1,0 +1,21 @@
+.TH "w1_next_pullup" 9 "w1_next_pullup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+w1_next_pullup \- register for a strong pullup
+.SH SYNOPSIS
+.B "void" w1_next_pullup
+.BI "(struct w1_master *dev "  ","
+.BI "int delay "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the master device
+.IP "delay" 12
+time in milliseconds
+.SH "DESCRIPTION"
+Put out a strong pull-up of the specified duration after the next write
+operation.  Not all hardware supports strong pullups.  Hardware that
+doesn't support strong pullups will sleep for the given time after the
+write operation without a strong pullup.  This is a one shot request for
+the next write, specifying zero will clear a previous request.
+The w1 master lock must be held.
+.SH "RETURN"
+0=success, anything else=error

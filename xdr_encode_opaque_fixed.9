@@ -1,0 +1,22 @@
+.TH "xdr_encode_opaque_fixed" 9 "xdr_encode_opaque_fixed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_encode_opaque_fixed \- Encode fixed length opaque data
+.SH SYNOPSIS
+.B "__be32 *" xdr_encode_opaque_fixed
+.BI "(__be32 *p "  ","
+.BI "const void *ptr "  ","
+.BI "unsigned int nbytes "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+pointer to current position in XDR buffer.
+.IP "ptr" 12
+pointer to data to encode (or NULL)
+.IP "nbytes" 12
+size of data.
+.SH "DESCRIPTION"
+Copy the array of data of length nbytes at ptr to the XDR buffer
+at position p, then align to the next 32-bit boundary by padding
+with zero bytes (see RFC1832).
+Returns the updated current XDR buffer position
+.SH "NOTE"
+if ptr is NULL, only the padding is performed.

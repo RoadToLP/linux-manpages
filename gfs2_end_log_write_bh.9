@@ -1,0 +1,20 @@
+.TH "gfs2_end_log_write_bh" 9 "gfs2_end_log_write_bh" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_end_log_write_bh \- end log write of pagecache data with buffers
+.SH SYNOPSIS
+.B "void" gfs2_end_log_write_bh
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct bio_vec *bvec "  ","
+.BI "blk_status_t error "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The superblock
+.IP "bvec" 12
+The bio_vec
+.IP "error" 12
+The i/o status
+.SH "DESCRIPTION"
+This finds the relevant buffers and unlocks them and sets the
+error flag according to the status of the i/o request. This is
+used when the log is writing data which has an in-place version
+that is pinned in the pagecache.

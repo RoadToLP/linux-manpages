@@ -1,0 +1,32 @@
+.TH "lpfc_mq_create" 9 "lpfc_mq_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mq_create \- Create a mailbox Queue on the HBA
+.SH SYNOPSIS
+.B "int32_t" lpfc_mq_create
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *mq "  ","
+.BI "struct lpfc_queue *cq "  ","
+.BI "uint32_t subtype "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "mq" 12
+The queue structure to use to create the mailbox queue.
+.IP "cq" 12
+The completion queue to associate with this cq.
+.IP "subtype" 12
+The queue's subtype.
+.SH "DESCRIPTION"
+This function creates a mailbox queue, as detailed in \fImq\fP, on a port,
+described by \fIphba\fP by sending a MQ_CREATE mailbox command to the HBA.
+
+The \fIphba\fP struct is used to send mailbox command to HBA. The \fIcq\fP struct
+is used to get the entry count and entry size that are necessary to
+determine the number of pages to allocate and use for this queue. This
+function will send the MQ_CREATE mailbox command to the HBA to setup the
+mailbox queue. This function is asynchronous and will wait for the mailbox
+command to finish before continuing.
+
+On success this function will return a zero. If unable to allocate enough
+memory this function will return -ENOMEM. If the queue create mailbox command
+fails this function will return -ENXIO.

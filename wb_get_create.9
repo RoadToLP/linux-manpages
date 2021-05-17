@@ -1,0 +1,18 @@
+.TH "wb_get_create" 9 "wb_get_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wb_get_create \- get wb for a given memcg, create if necessary
+.SH SYNOPSIS
+.B "struct bdi_writeback *" wb_get_create
+.BI "(struct backing_dev_info *bdi "  ","
+.BI "struct cgroup_subsys_state *memcg_css "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "bdi" 12
+target bdi
+.IP "memcg_css" 12
+cgroup_subsys_state of the target memcg (must have positive ref)
+.IP "gfp" 12
+allocation mask to use
+.SH "DESCRIPTION"
+Try to get the wb for \fImemcg_css\fP on \fIbdi\fP.  If it doesn't exist, try to
+create one.  See \fBwb_get_lookup\fP for more details.

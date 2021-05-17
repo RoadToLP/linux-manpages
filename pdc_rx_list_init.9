@@ -1,0 +1,24 @@
+.TH "pdc_rx_list_init" 9 "pdc_rx_list_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_rx_list_init \- Start a new receive descriptor list for a given PDC.
+.SH SYNOPSIS
+.B "int" pdc_rx_list_init
+.BI "(struct pdc_state *pdcs "  ","
+.BI "struct scatterlist *dst_sg "  ","
+.BI "void *ctx "  ");"
+.SH ARGUMENTS
+.IP "pdcs" 12
+PDC state for SPU handling request
+.IP "dst_sg" 12
+scatterlist providing rx buffers for response to be returned to
+mailbox client
+.IP "ctx" 12
+Opaque context for this request
+.SH "DESCRIPTION"
+Posts a single receive descriptor to hold the metadata that precedes a
+response. For example, with SPU-M, the metadata is a 32-byte DMA header and
+an 8-byte BCM header. Moves the msg_start descriptor indexes for both tx and
+rx to indicate the start of a new message.
+.SH "RETURN"
+PDC_SUCCESS if successful
+< 0 if an error (e.g., rx ring is full)

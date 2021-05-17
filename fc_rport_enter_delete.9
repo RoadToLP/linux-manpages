@@ -1,0 +1,21 @@
+.TH "fc_rport_enter_delete" 9 "fc_rport_enter_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_rport_enter_delete \- Schedule a remote port to be deleted
+.SH SYNOPSIS
+.B "void" fc_rport_enter_delete
+.BI "(struct fc_rport_priv *rdata "  ","
+.BI "enum fc_rport_event event "  ");"
+.SH ARGUMENTS
+.IP "rdata" 12
+The remote port to be deleted
+.IP "event" 12
+The event to report as the reason for deletion
+.SH "DESCRIPTION"
+Allow state change into DELETE only once.
+
+Call queue_work only if there's no event already pending.
+Set the new event so that the old pending event will not occur.
+Since we have the mutex, even if \fBfc_rport_work\fP is already started,
+it'll see the new event.
+
+Reference counting: does not modify kref

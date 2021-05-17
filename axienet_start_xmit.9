@@ -1,0 +1,20 @@
+.TH "axienet_start_xmit" 9 "axienet_start_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axienet_start_xmit \- Starts the transmission.
+.SH SYNOPSIS
+.B "netdev_tx_t" axienet_start_xmit
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+sk_buff pointer that contains data to be Txed.
+.IP "ndev" 12
+Pointer to net_device structure.
+.SH "RETURN"
+NETDEV_TX_OK, on success
+NETDEV_TX_BUSY, if any of the descriptors are not free
+.SH "DESCRIPTION"
+This function is invoked from upper layers to initiate transmission. The
+function uses the next available free BDs and populates their fields to
+start the transmission. Additionally if checksum offloading is supported,
+it populates AXI Stream Control fields with appropriate values.

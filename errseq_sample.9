@@ -1,0 +1,18 @@
+.TH "errseq_sample" 9 "errseq_sample" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+errseq_sample \- Grab current errseq_t value.
+.SH SYNOPSIS
+.B "errseq_t" errseq_sample
+.BI "(errseq_t *eseq "  ");"
+.SH ARGUMENTS
+.IP "eseq" 12
+Pointer to errseq_t to be sampled.
+.SH "DESCRIPTION"
+This function allows callers to initialise their errseq_t variable.
+If the error has been "seen", new callers will not see an old error.
+If there is an unseen error in \fIeseq\fP, the caller of this function will
+see it the next time it checks for an error.
+.SH "CONTEXT"
+Any context.
+.SH "RETURN"
+The current errseq value.

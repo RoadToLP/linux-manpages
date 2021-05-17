@@ -1,0 +1,16 @@
+.TH "bio_truncate" 9 "bio_truncate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_truncate \- truncate the bio to small size of @new_size
+.SH SYNOPSIS
+.B "void" bio_truncate
+.BI "(struct bio *bio "  ","
+.BI "unsigned new_size "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+the bio to be truncated
+.IP "new_size" 12
+new size for truncating the bio
+.SH "DESCRIPTION"
+Truncate the bio to new size of \fInew_size\fP. If bio_op(bio) is
+REQ_OP_READ, zero the truncated part. This function should only
+be used for handling corner cases, such as bio eod.

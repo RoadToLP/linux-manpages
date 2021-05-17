@@ -1,0 +1,18 @@
+.TH "ima_bprm_check" 9 "ima_bprm_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_bprm_check \- based on policy, collect/store measurement.
+.SH SYNOPSIS
+.B "int" ima_bprm_check
+.BI "(struct linux_binprm *bprm "  ");"
+.SH ARGUMENTS
+.IP "bprm" 12
+contains the linux_binprm structure
+.SH "DESCRIPTION"
+The OS protects against an executable file, already open for write,
+from being executed in \fBdeny_write_access\fP and an executable file,
+already open for execute, from being modified in \fBget_write_access\fP.
+So we can be certain that what we verify and measure here is actually
+what is being executed.
+
+On success return 0.  On integrity appraisal error, assuming the file
+is in policy and IMA-appraisal is in enforcing mode, return -EACCES.

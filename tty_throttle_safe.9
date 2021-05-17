@@ -1,0 +1,16 @@
+.TH "tty_throttle_safe" 9 "tty_throttle_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_throttle_safe \- flow control
+.SH SYNOPSIS
+.B "int" tty_throttle_safe
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Similar to \fBtty_throttle\fP but will only attempt throttle
+if tty->flow_change is TTY_THROTTLE_SAFE. Prevents an accidental
+throttle due to race conditions when throttling is conditional
+on factors evaluated prior to throttling.
+
+Returns 0 if tty is throttled (or was already throttled)

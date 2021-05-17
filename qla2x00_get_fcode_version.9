@@ -1,0 +1,25 @@
+.TH "qla2x00_get_fcode_version" 9 "qla2x00_get_fcode_version" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qla2x00_get_fcode_version \- Determine an FCODE image's version.
+.SH SYNOPSIS
+.B "void" qla2x00_get_fcode_version
+.BI "(struct qla_hw_data *ha "  ","
+.BI "uint32_t pcids "  ");"
+.SH ARGUMENTS
+.IP "ha" 12
+HA context
+.IP "pcids" 12
+Pointer to the FCODE PCI data structure
+.SH "DESCRIPTION"
+The process of retrieving the FCODE version information is at best
+described as interesting.
+
+Within the first 100h bytes of the image an ASCII string is present
+which contains several pieces of information including the FCODE
+version.  Unfortunately it seems the only reliable way to retrieve
+the version is by scanning for another sentinel within the string,
+the FCODE build date:
+
+\&... 2.00.02 10/17/02 ...
+
+Returns QLA_SUCCESS on successful retrieval of version.

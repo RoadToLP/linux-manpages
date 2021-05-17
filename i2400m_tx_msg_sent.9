@@ -1,0 +1,16 @@
+.TH "i2400m_tx_msg_sent" 9 "i2400m_tx_msg_sent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_tx_msg_sent \- indicate the transmission of a TX message
+.SH SYNOPSIS
+.B "void" i2400m_tx_msg_sent
+.BI "(struct i2400m *i2400m "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.SH "DESCRIPTION"
+Called by the bus-specific driver when a message has been sent;
+this pops it from the FIFO; and as there is space, start the queue
+in case it was stopped.
+
+Should be called even if the message send failed and we are
+dropping this TX message.

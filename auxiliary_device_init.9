@@ -1,0 +1,22 @@
+.TH "auxiliary_device_init" 9 "auxiliary_device_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+auxiliary_device_init \- check auxiliary_device and initialize
+.SH SYNOPSIS
+.B "int" auxiliary_device_init
+.BI "(struct auxiliary_device *auxdev "  ");"
+.SH ARGUMENTS
+.IP "auxdev" 12
+auxiliary device struct
+.SH "DESCRIPTION"
+This is the first step in the two-step process to register an
+auxiliary_device.
+
+When this function returns an error code, then the device_initialize will
+*not* have been performed, and the caller will be responsible to free any
+memory allocated for the auxiliary_device in the error path directly.
+
+It returns 0 on success.  On success, the device_initialize has been
+performed.  After this point any error unwinding will need to include a call
+to \fBauxiliary_device_uninit\fP.  In this post-initialize error scenario, a call
+to the device's .release callback will be triggered, and all memory clean-up
+is expected to be handled there.

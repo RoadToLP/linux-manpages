@@ -1,0 +1,30 @@
+.TH "core_tmr_drain_state_list" 9 "core_tmr_drain_state_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+core_tmr_drain_state_list \- abort SCSI commands associated with a device
+.SH SYNOPSIS
+.B "void" core_tmr_drain_state_list
+.BI "(struct se_device *dev "  ","
+.BI "struct se_cmd *prout_cmd "  ","
+.BI "struct se_session *tmr_sess "  ","
+.BI "bool tas "  ","
+.BI "struct list_head *preempt_and_abort_list "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which to abort outstanding SCSI commands.
+.IP "prout_cmd" 12
+Pointer to the SCSI PREEMPT AND ABORT if this function is called
+to realize the PREEMPT AND ABORT functionality.
+.IP "tmr_sess" 12
+Session through which the LUN RESET has been received.
+.IP "tas" 12
+Task Aborted Status (TAS) bit from the SCSI control mode page.
+A quote from SPC-4, paragraph "7.5.10 Control mode page":
+"A task aborted status (TAS) bit set to zero specifies that
+aborted commands shall be terminated by the device server
+without any response to the application client. A TAS bit set
+to one specifies that commands aborted by the actions of an I_T
+nexus other than the I_T nexus on which the command was
+received shall be completed with TASK ABORTED status."
+.IP "preempt_and_abort_list" 12
+For the PREEMPT AND ABORT functionality, a list
+with registrations that will be preempted.

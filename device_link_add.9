@@ -1,0 +1,65 @@
+.TH "device_link_add" 9 "device_link_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_link_add \- Create a link between two devices.
+.SH SYNOPSIS
+.B "struct device_link *" device_link_add
+.BI "(struct device *consumer "  ","
+.BI "struct device *supplier "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "consumer" 12
+Consumer end of the link.
+.IP "supplier" 12
+Supplier end of the link.
+.IP "flags" 12
+Link flags.
+.SH "DESCRIPTION"
+The caller is responsible for the proper synchronization of the link creation
+with runtime PM.  First, setting the DL_FLAG_PM_RUNTIME flag will cause the
+runtime PM framework to take the link into account.  Second, if the
+DL_FLAG_RPM_ACTIVE flag is set in addition to it, the supplier devices will
+be forced into the active meta state and reference-counted upon the creation
+of the link.  If DL_FLAG_PM_RUNTIME is not set, DL_FLAG_RPM_ACTIVE will be
+ignored.
+
+If DL_FLAG_STATELESS is set in \fIflags\fP, the caller of this function is
+expected to release the link returned by it directly with the help of either
+\fBdevice_link_del\fP or \fBdevice_link_remove\fP.
+
+If that flag is not set, however, the caller of this function is handing the
+management of the link over to the driver core entirely and its return value
+can only be used to check whether or not the link is present.  In that case,
+the DL_FLAG_AUTOREMOVE_CONSUMER and DL_FLAG_AUTOREMOVE_SUPPLIER device link
+flags can be used to indicate to the driver core when the link can be safely
+deleted.  Namely, setting one of them in \fIflags\fP indicates to the driver core
+that the link is not going to be used (by the given caller of this function)
+after unbinding the consumer or supplier driver, respectively, from its
+device, so the link can be deleted at that point.  If none of them is set,
+the link will be maintained until one of the devices pointed to by it (either
+the consumer or the supplier) is unregistered.
+
+Also, if DL_FLAG_STATELESS, DL_FLAG_AUTOREMOVE_CONSUMER and
+DL_FLAG_AUTOREMOVE_SUPPLIER are not set in \fIflags\fP (that is, a persistent
+managed device link is being added), the DL_FLAG_AUTOPROBE_CONSUMER flag can
+be used to request the driver core to automatically probe for a consumer
+driver after successfully binding a driver to the supplier device.
+
+The combination of DL_FLAG_STATELESS and one of DL_FLAG_AUTOREMOVE_CONSUMER,
+DL_FLAG_AUTOREMOVE_SUPPLIER, or DL_FLAG_AUTOPROBE_CONSUMER set in \fIflags\fP at
+the same time is invalid and will cause NULL to be returned upfront.
+However, if a device link between the given \fIconsumer\fP and \fIsupplier\fP pair
+exists already when this function is called for them, the existing link will
+be returned regardless of its current type and status (the link's flags may
+be modified then).  The caller of this function is then expected to treat
+the link as though it has just been created, so (in particular) if
+DL_FLAG_STATELESS was passed in \fIflags\fP, the link needs to be released
+explicitly when not needed any more (as stated above).
+
+A side effect of the link creation is re-ordering of dpm_list and the
+devices_kset list by moving the consumer device and all devices depending
+on it to the ends of these lists (that does not happen to devices that have
+not been registered when this function is called).
+
+The supplier device is required to be registered when this function is called
+and NULL will be returned if that is not the case.  The consumer device need
+not be registered, however.

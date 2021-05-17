@@ -1,0 +1,28 @@
+.TH "r600_vram_gtt_location" 9 "r600_vram_gtt_location" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r600_vram_gtt_location \- try to find VRAM & GTT location
+.SH SYNOPSIS
+.B "void" r600_vram_gtt_location
+.BI "(struct radeon_device *rdev "  ","
+.BI "struct radeon_mc *mc "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device structure holding all necessary informations
+.IP "mc" 12
+memory controller structure holding memory informations
+.SH "DESCRIPTION"
+Function will place try to place VRAM at same place as in CPU (PCI)
+address space as some GPU seems to have issue when we reprogram at
+different address space.
+
+If there is not enough space to fit the unvisible VRAM after the
+aperture then we limit the VRAM size to the aperture.
+
+If we are using AGP then place VRAM adjacent to AGP aperture are we need
+them to be in one from GPU point of view so that we can program GPU to
+catch access outside them (weird GPU policy see ??).
+
+This function will never fails, worst case are limiting VRAM or GTT.
+.SH "NOTE"
+GTT start, end, size should be initialized before calling this
+function on AGP platform.

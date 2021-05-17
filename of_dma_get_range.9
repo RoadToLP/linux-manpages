@@ -1,0 +1,23 @@
+.TH "of_dma_get_range" 9 "of_dma_get_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_dma_get_range \- Get DMA range info and put it into a map array
+.SH SYNOPSIS
+.B "int" of_dma_get_range
+.BI "(struct device_node *np "  ","
+.BI "const struct bus_dma_region **map "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node to get DMA range info
+.IP "map" 12
+dma range structure to return
+.SH "DESCRIPTION"
+Look in bottom up direction for the first "dma-ranges" property
+and parse it.  Put the information into a DMA offset map array.
+
+dma-ranges format:
+DMA addr (dma_addr)     : naddr cells
+CPU addr (phys_addr_t)  : pna cells
+size                    : nsize cells
+
+It returns -ENODEV if "dma-ranges" property was not found for this
+device in the DT.

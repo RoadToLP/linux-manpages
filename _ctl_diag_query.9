@@ -1,0 +1,16 @@
+.TH "_ctl_diag_query" 9 "_ctl_diag_query" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_ctl_diag_query \- query relevant info associated with diag buffers
+.SH SYNOPSIS
+.B "long" _ctl_diag_query
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "void __user *arg "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "arg" 12
+user space buffer containing ioctl content
+.SH "DESCRIPTION"
+The application will send only buffer_type and unique_id.  Driver will
+inspect unique_id first, if valid, fill in all the info.  If unique_id is
+0x00, the driver will return info specified by Buffer Type.

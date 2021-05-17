@@ -1,0 +1,16 @@
+.TH "iio_dma_buffer_block_list_abort" 9 "iio_dma_buffer_block_list_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_dma_buffer_block_list_abort \- Indicate that a list block has been aborted
+.SH SYNOPSIS
+.B "void" iio_dma_buffer_block_list_abort
+.BI "(struct iio_dma_buffer_queue *queue "  ","
+.BI "struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "queue" 12
+Queue for which to complete blocks.
+.IP "list" 12
+List of aborted blocks. All blocks in this list must be from \fIqueue\fP.
+.SH "DESCRIPTION"
+Typically called from the \fBabort\fP callback after the DMA controller has been
+stopped. This will set bytes_used to 0 for each block in the list and then
+hand the blocks back to the queue.

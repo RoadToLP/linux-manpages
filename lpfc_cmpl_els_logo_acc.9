@@ -1,0 +1,26 @@
+.TH "lpfc_cmpl_els_logo_acc" 9 "lpfc_cmpl_els_logo_acc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_logo_acc \- Completion callback function to logo acc response
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_logo_acc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion callback function to the Logout (LOGO)
+Accept (ACC) Response ELS command. This routine is invoked to indicate
+the completion of the LOGO process. It invokes the \fBlpfc_nlp_not_used\fP to
+release the ndlp if it has the last reference remaining (reference count
+is 1). If succeeded (meaning ndlp released), it sets the IOCB context1
+field to NULL to inform the following \fBlpfc_els_free_iocb\fP routine no
+ndlp reference count needs to be decremented. Otherwise, the ndlp
+reference use-count shall be decremented by the \fBlpfc_els_free_iocb\fP
+routine. Finally, the \fBlpfc_els_free_iocb\fP is invoked to release the
+IOCB data structure.

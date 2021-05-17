@@ -1,0 +1,23 @@
+.TH "lpfc_sli_cancel_iocbs" 9 "lpfc_sli_cancel_iocbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_cancel_iocbs \- Cancel all iocbs from a list.
+.SH SYNOPSIS
+.B "void" lpfc_sli_cancel_iocbs
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct list_head *iocblist "  ","
+.BI "uint32_t ulpstatus "  ","
+.BI "uint32_t ulpWord4 "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "iocblist" 12
+List of IOCBs.
+.IP "ulpstatus" 12
+ULP status in IOCB command field.
+.IP "ulpWord4" 12
+ULP word-4 in IOCB command field.
+.SH "DESCRIPTION"
+This function is called with a list of IOCBs to cancel. It cancels the IOCB
+on the list by invoking the complete callback function associated with the
+IOCB with the provided \fIulpstatus\fP and \fIulpword4\fP set to the IOCB commond
+fields.

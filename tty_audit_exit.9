@@ -1,0 +1,16 @@
+.TH "tty_audit_exit" 9 "tty_audit_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_audit_exit \- Handle a task exit
+.SH SYNOPSIS
+.B "void" tty_audit_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Make sure all buffered data is written out and deallocate the buffer.
+Only needs to be called if current->signal->tty_audit_buf != NULL.
+
+The process is single-threaded at this point; no other threads share
+current->signal.

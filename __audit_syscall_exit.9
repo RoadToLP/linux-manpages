@@ -1,0 +1,18 @@
+.TH "__audit_syscall_exit" 9 "__audit_syscall_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__audit_syscall_exit \- deallocate audit context after a system call
+.SH SYNOPSIS
+.B "void" __audit_syscall_exit
+.BI "(int success "  ","
+.BI "long return_code "  ");"
+.SH ARGUMENTS
+.IP "success" 12
+success value of the syscall
+.IP "return_code" 12
+return value of the syscall
+.SH "DESCRIPTION"
+Tear down after system call.  If the audit context has been marked as
+auditable (either because of the AUDIT_RECORD_CONTEXT state from
+filtering, or because some other part of the kernel wrote an audit
+message), then write out the syscall information.  In call cases,
+free the names stored from \fBgetname\fP.

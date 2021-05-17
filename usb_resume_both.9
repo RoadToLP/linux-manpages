@@ -1,0 +1,27 @@
+.TH "usb_resume_both" 9 "usb_resume_both" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_resume_both \- resume a USB device and its interfaces
+.SH SYNOPSIS
+.B "int" usb_resume_both
+.BI "(struct usb_device *udev "  ","
+.BI "pm_message_t msg "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+the usb_device to resume
+.IP "msg" 12
+Power Management message describing this state transition
+.SH "DESCRIPTION"
+This is the central routine for resuming USB devices.  It calls the
+the resume method for \fIudev\fP and then calls the resume methods for all
+the interface drivers in \fIudev\fP.
+
+Autoresume requests originating from a child device or an interface
+driver may be made without the protection of \fIudev\fP's device lock, but
+all other resume calls will hold the lock.  Usbcore will insure that
+method calls do not arrive during bind, unbind, or reset operations.
+However drivers must be prepared to handle resume calls arriving at
+unpredictable times.
+
+This routine can run only in process context.
+.SH "RETURN"
+0 on success.

@@ -1,0 +1,25 @@
+.TH "cppi_next_rx_segment" 9 "cppi_next_rx_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cppi_next_rx_segment \- dma read for the next chunk of a buffer
+.SH SYNOPSIS
+.B "void" cppi_next_rx_segment
+.BI "(struct musb *musb "  ","
+.BI "struct cppi_channel *rx "  ","
+.BI "int onepacket "  ");"
+.SH ARGUMENTS
+.IP "musb" 12
+the controller
+.IP "rx" 12
+dma channel
+.IP "onepacket" 12
+true unless caller treats short reads as errors, and
+performs fault recovery above usbcore.
+.SH "CONTEXT"
+controller irqlocked
+.SH "DESCRIPTION"
+See above notes about why we can't use multi-BD RX queues except in
+rare cases (mass storage class), and can never use the hardware "rndis"
+mode (since it's not a "true" RNDIS mode) with complete safety..
+
+It's ESSENTIAL that callers specify "onepacket" mode unless they kick in
+code to recover from corrupted datastreams after each short transfer.

@@ -1,0 +1,32 @@
+.TH "i40e_disallow_matching_filters" 9 "i40e_disallow_matching_filters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_disallow_matching_filters \- Check that new filters differ
+.SH SYNOPSIS
+.B "int" i40e_disallow_matching_filters
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "struct i40e_fdir_filter *input "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+pointer to the targeted VSI
+.IP "input" 12
+new filter to check
+.SH "DESCRIPTION"
+Due to hardware limitations, it is not possible for two filters that match
+similar criteria to be programmed at the same time. This is true for a few
+reasons:
+
+(a) all filters matching a particular flow type must use the same input
+set, that is they must match the same criteria.
+(b) different flow types will never match the same packet, as the flow type
+is decided by hardware before checking which rules apply.
+(c) hardware has no way to distinguish which order filters apply in.
+
+Due to this, we can't really support using the location data to order
+filters in the hardware parsing. It is technically possible for the user to
+request two filters matching the same criteria but which select different
+queues. In this case, rather than keep both filters in the list, we reject
+the 2nd filter when the user requests adding it.
+
+This avoids needing to track location for programming the filter to
+hardware, and ensures that we avoid some strange scenarios involving
+deleting filters which match the same criteria.

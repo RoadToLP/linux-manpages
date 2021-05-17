@@ -1,0 +1,19 @@
+.TH "device_attach" 9 "device_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_attach \- try to attach device to a driver.
+.SH SYNOPSIS
+.B "int" device_attach
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+Walk the list of drivers that the bus has and call
+\fBdriver_probe_device\fP for each pair. If a compatible
+pair is found, break out and return.
+
+Returns 1 if the device was bound to a driver;
+0 if no matching driver was found;
+-ENODEV if the device is not registered.
+
+When called for a USB interface, \fIdev->parent\fP lock must be held.

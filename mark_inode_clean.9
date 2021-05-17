@@ -1,0 +1,17 @@
+.TH "mark_inode_clean" 9 "mark_inode_clean" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mark_inode_clean \- mark UBIFS inode as clean.
+.SH SYNOPSIS
+.B "void" mark_inode_clean
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_inode *ui "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "ui" 12
+UBIFS inode to mark as clean
+.SH "DESCRIPTION"
+This helper function marks UBIFS inode \fIui\fP as clean by cleaning the
+\fIui->dirty\fP flag and releasing its budget. Note, VFS may still treat the
+inode as dirty and try to write it back, but '\fBubifs_write_inode\fP' would
+just do nothing.

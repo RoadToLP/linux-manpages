@@ -1,0 +1,20 @@
+.TH "ata_link_online" 9 "ata_link_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_link_online \- test whether the given link is online
+.SH SYNOPSIS
+.B "bool" ata_link_online
+.BI "(struct ata_link *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to test
+
+Test whether \fIlink\fP is online.  This is identical to
+\fBata_phys_link_online\fP when there's no slave link.  When
+there's a slave link, this function should only be called on
+the master link and will return true if any of M/S links is
+online.
+
+LOCKING:
+None.
+.SH "RETURN"
+True if the port online status is available and online.

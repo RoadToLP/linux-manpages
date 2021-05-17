@@ -1,0 +1,46 @@
+.TH "rpcb_register" 9 "rpcb_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcb_register \- set or unset a port registration with the local rpcbind svc
+.SH SYNOPSIS
+.B "int" rpcb_register
+.BI "(struct net *net "  ","
+.BI "u32 prog "  ","
+.BI "u32 vers "  ","
+.BI "int prot "  ","
+.BI "unsigned short port "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+target network namespace
+.IP "prog" 12
+RPC program number to bind
+.IP "vers" 12
+RPC version number to bind
+.IP "prot" 12
+transport protocol to register
+.IP "port" 12
+port value to register
+.SH "DESCRIPTION"
+Returns zero if the registration request was dispatched successfully
+and the rpcbind daemon returned success.  Otherwise, returns an errno
+value that reflects the nature of the error (request could not be
+dispatched, timed out, or rpcbind returned an error).
+
+RPC services invoke this function to advertise their contact
+information via the system's rpcbind daemon.  RPC services
+invoke this function once for each [program, version, transport]
+tuple they wish to advertise.
+
+Callers may also unregister RPC services that are no longer
+available by setting the passed-in port to zero.  This removes
+all registered transports for [program, version] from the local
+rpcbind database.
+
+This function uses rpcbind protocol version 2 to contact the
+local rpcbind daemon.
+
+Registration works over both AF_INET and AF_INET6, and services
+registered via this function are advertised as available for any
+address.  If the local rpcbind daemon is listening on AF_INET6,
+services registered via this function will be advertised on
+IN6ADDR_ANY (ie available for all AF_INET and AF_INET6
+addresses).

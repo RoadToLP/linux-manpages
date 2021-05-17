@@ -1,0 +1,30 @@
+.TH "r600_cs_common_vline_parse" 9 "r600_cs_common_vline_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r600_cs_common_vline_parse \- common vline parser
+.SH SYNOPSIS
+.B "int" r600_cs_common_vline_parse
+.BI "(struct radeon_cs_parser *p "  ","
+.BI "uint32_t *vline_start_end "  ","
+.BI "uint32_t *vline_status "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+parser structure holding parsing context.
+.IP "vline_start_end" 12
+table of vline_start_end registers
+.IP "vline_status" 12
+table of vline_status registers
+.SH "DESCRIPTION"
+Userspace sends a special sequence for VLINE waits.
+PACKET0 - VLINE_START_END + value
+PACKET3 - WAIT_REG_MEM poll vline status reg
+RELOC (P3) - crtc_id in reloc.
+
+This function parses this and relocates the VLINE START END
+and WAIT_REG_MEM packets to the correct crtc.
+It also detects a switched off crtc and nulls out the
+wait in that case. This function is common for all ASICs that
+are R600 and newer. The parsing algorithm is the same, and only
+differs in which registers are used.
+
+Caller is the ASIC-specific function which passes the parser
+context and ASIC-specific register table

@@ -1,0 +1,31 @@
+.TH "amdgpu_vm_bo_replace_map" 9 "amdgpu_vm_bo_replace_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_bo_replace_map \- map bo inside a vm, replacing existing mappings
+.SH SYNOPSIS
+.B "int" amdgpu_vm_bo_replace_map
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct amdgpu_bo_va *bo_va "  ","
+.BI "uint64_t saddr "  ","
+.BI "uint64_t offset "  ","
+.BI "uint64_t size "  ","
+.BI "uint64_t flags "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "bo_va" 12
+bo_va to store the address
+.IP "saddr" 12
+where to map the BO
+.IP "offset" 12
+requested offset in the BO
+.IP "size" 12
+BO size in bytes
+.IP "flags" 12
+attributes of pages (read/write/valid/etc.)
+.SH "DESCRIPTION"
+Add a mapping of the BO at the specefied addr into the VM. Replace existing
+mappings as we do so.
+
+Object has to be reserved and unreserved outside!
+.SH "RETURN"
+0 for success, error for failure.

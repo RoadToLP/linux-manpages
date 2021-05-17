@@ -1,0 +1,20 @@
+.TH "batadv_frag_init_chain" 9 "batadv_frag_init_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_frag_init_chain \- check and prepare fragment chain for new fragment
+.SH SYNOPSIS
+.B "bool" batadv_frag_init_chain
+.BI "(struct batadv_frag_table_entry *chain "  ","
+.BI "u16 seqno "  ");"
+.SH ARGUMENTS
+.IP "chain" 12
+chain in fragments table to init
+.IP "seqno" 12
+sequence number of the received fragment
+.SH "DESCRIPTION"
+Make chain ready for a fragment with sequence number "seqno". Delete existing
+entries if they have an "old" sequence number.
+
+Caller must hold chain->lock.
+.SH "RETURN"
+true if chain is empty and the caller can just insert the new
+fragment without searching for the right position.

@@ -1,0 +1,28 @@
+.TH "pci_dev_str_match_path" 9 "pci_dev_str_match_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_dev_str_match_path \- test if a path string matches a device
+.SH SYNOPSIS
+.B "int" pci_dev_str_match_path
+.BI "(struct pci_dev *dev "  ","
+.BI "const char *path "  ","
+.BI "const char **endptr "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device to test
+.IP "path" 12
+string to match the device against
+.IP "endptr" 12
+pointer to the string after the match
+.SH "DESCRIPTION"
+Test if a string (typically from a kernel parameter) formatted as a
+path of device/function addresses matches a PCI device. The string must
+be of the form:
+
+[<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
+
+A path for a device can be obtained using 'lspci -t'.  Using a path
+is more robust against bus renumbering than using only a single bus,
+device and function address.
+
+Returns 1 if the string matches the device, 0 if it does not and
+a negative error code if it fails to parse the string.

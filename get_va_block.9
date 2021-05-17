@@ -1,0 +1,27 @@
+.TH "get_va_block" 9 "get_va_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_va_block \- get a virtual block for the given size and alignment.
+.SH SYNOPSIS
+.B "u64" get_va_block
+.BI "(struct hl_device *hdev "  ","
+.BI "struct hl_va_range *va_range "  ","
+.BI "u64 size "  ","
+.BI "u64 hint_addr "  ","
+.BI "u32 va_block_align "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+pointer to the habanalabs device structure.
+.IP "va_range" 12
+pointer to the virtual addresses range.
+.IP "size" 12
+requested block size.
+.IP "hint_addr" 12
+hint for requested address by the user.
+.IP "va_block_align" 12
+required alignment of the virtual block start address.
+.SH "DESCRIPTION"
+This function does the following:
+- Iterate on the virtual block list to find a suitable virtual block for the
+given size, hint address and alignment.
+- Reserve the requested block and update the list.
+- Return the start address of the virtual block.

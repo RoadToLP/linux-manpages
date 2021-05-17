@@ -1,0 +1,32 @@
+.TH "read_cap16" 9 "read_cap16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_cap16 \- issues a SCSI READ_CAP16 command
+.SH SYNOPSIS
+.B "int" read_cap16
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct llun_info *lli "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "lli" 12
+LUN destined for capacity request.
+.SH "DESCRIPTION"
+The READ_CAP16 can take quite a while to complete. Should an EEH occur while
+in \fBscsi_execute\fP, the EEH handler will attempt to recover. As part of the
+recovery, the handler drains all currently running ioctls, waiting until they
+have completed before proceeding with a reset. As this routine is used on the
+ioctl path, this can create a condition where the EEH handler becomes stuck,
+infinitely waiting for this ioctl thread. To avoid this behavior, temporarily
+unmark this thread as an ioctl thread by releasing the ioctl read semaphore.
+This will allow the EEH handler to proceed with a recovery while this thread
+is still running. Once the \fBscsi_execute\fP returns, reacquire the ioctl read
+semaphore and check the adapter state in case it changed while inside of
+\fBscsi_execute\fP. The state check will wait if the adapter is still being
+recovered or return a failure if the recovery failed. In the event that the
+adapter reset failed, simply return the failure as the ioctl would be unable
+to continue.
+
+Note that the above puts a requirement on this routine to only be called on
+an ioctl thread.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,17 @@
+.TH "zfcp_fsf_req_complete" 9 "zfcp_fsf_req_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_fsf_req_complete \- process completion of a FSF request
+.SH SYNOPSIS
+.B "void" zfcp_fsf_req_complete
+.BI "(struct zfcp_fsf_req *req "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+The FSF request that has been completed.
+.SH "DESCRIPTION"
+When a request has been completed either from the FCP adapter,
+or it has been dismissed due to a queue shutdown, this function
+is called to process the completion status and trigger further
+events related to the FSF request.
+Caller must ensure that the request has been removed from
+adapter->req_list, to protect against concurrent modification
+by \fBzfcp_erp_strategy_check_fsfreq\fP.

@@ -1,0 +1,26 @@
+.TH "read_properties_unlocked" 9 "read_properties_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_properties_unlocked \- validate + copy userspace stream open properties
+.SH SYNOPSIS
+.B "int" read_properties_unlocked
+.BI "(struct i915_perf *perf "  ","
+.BI "u64 __user *uprops "  ","
+.BI "u32 n_props "  ","
+.BI "struct perf_open_properties *props "  ");"
+.SH ARGUMENTS
+.IP "perf" 12
+i915 perf instance
+.IP "uprops" 12
+The array of u64 key value pairs given by userspace
+.IP "n_props" 12
+The number of key value pairs expected in \fIuprops\fP
+.IP "props" 12
+The stream configuration built up while validating properties
+.SH "DESCRIPTION"
+Note this function only validates properties in isolation it doesn't
+validate that the combination of properties makes sense or that all
+properties necessary for a particular kind of stream have been set.
+
+Note that there currently aren't any ordering requirements for properties so
+we shouldn't validate or assume anything about ordering here. This doesn't
+rule out defining new properties with ordering requirements in the future.

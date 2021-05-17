@@ -1,0 +1,25 @@
+.TH "radix_tree_replace_slot" 9 "radix_tree_replace_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_replace_slot \- replace item in a slot
+.SH SYNOPSIS
+.B "void" radix_tree_replace_slot
+.BI "(struct radix_tree_root *root "  ","
+.BI "void __rcu **slot "  ","
+.BI "void *item "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "slot" 12
+pointer to slot
+.IP "item" 12
+new item to store in the slot.
+.SH "DESCRIPTION"
+For use with \fBradix_tree_lookup_slot\fP and
+\fBradix_tree_gang_lookup_tag_slot\fP.  Caller must hold tree write locked
+across slot lookup and replacement.
+.SH "NOTE"
+This cannot be used to switch between non-entries (empty slots),
+regular entries, and value entries, as that requires accounting
+inside the radix tree node. When switching from one type of entry or
+deleting, use \fB__radix_tree_lookup\fP and \fB__radix_tree_replace\fP or
+\fBradix_tree_iter_replace\fP.

@@ -1,0 +1,27 @@
+.TH "vfio_ap_has_queue" 9 "vfio_ap_has_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfio_ap_has_queue \- 
+.SH SYNOPSIS
+.B "int" vfio_ap_has_queue
+.BI "(struct device *dev "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+an AP queue device
+.IP "data" 12
+a struct vfio_ap_queue_reserved reference
+.SH "DESCRIPTION"
+Flags whether the AP queue device (\fIdev\fP) has a queue ID containing the APQN,
+apid or apqi specified in \fIdata\fP:
+
+- If \fIdata\fP contains both an apid and apqi value, then \fIdata\fP will be flagged
+as reserved if the APID and APQI fields for the AP queue device matches
+
+- If \fIdata\fP contains only an apid value, \fIdata\fP will be flagged as
+reserved if the APID field in the AP queue device matches
+
+- If \fIdata\fP contains only an apqi value, \fIdata\fP will be flagged as
+reserved if the APQI field in the AP queue device matches
+
+Returns 0 to indicate the input to function succeeded. Returns -EINVAL if
+\fIdata\fP does not contain either an apid or apqi.

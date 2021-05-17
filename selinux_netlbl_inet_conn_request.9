@@ -1,0 +1,17 @@
+.TH "selinux_netlbl_inet_conn_request" 9 "selinux_netlbl_inet_conn_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+selinux_netlbl_inet_conn_request \- Label an incoming stream connection
+.SH SYNOPSIS
+.B "int" selinux_netlbl_inet_conn_request
+.BI "(struct request_sock *req "  ","
+.BI "u16 family "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+incoming connection request socket
+.IP "family" 12
+-- undescribed --
+.SH "DESCRIPTION"
+A new incoming connection request is represented by \fIreq\fP, we need to label
+the new request_sock here and the stack will ensure the on-the-wire label
+will get preserved when a full sock is created once the connection handshake
+is complete.  Returns zero on success, negative values on failure.

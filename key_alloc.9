@@ -1,0 +1,52 @@
+.TH "key_alloc" 9 "key_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_alloc \- Allocate a key of the specified type.
+.SH SYNOPSIS
+.B "struct key *" key_alloc
+.BI "(struct key_type *type "  ","
+.BI "const char *desc "  ","
+.BI "kuid_t uid "  ","
+.BI "kgid_t gid "  ","
+.BI "const struct cred *cred "  ","
+.BI "key_perm_t perm "  ","
+.BI "unsigned long flags "  ","
+.BI "struct key_restriction *restrict_link "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+The type of key to allocate.
+.IP "desc" 12
+The key description to allow the key to be searched out.
+.IP "uid" 12
+The owner of the new key.
+.IP "gid" 12
+The group ID for the new key's group permissions.
+.IP "cred" 12
+The credentials specifying UID namespace.
+.IP "perm" 12
+The permissions mask of the new key.
+.IP "flags" 12
+Flags specifying quota properties.
+.IP "restrict_link" 12
+Optional link restriction for new keyrings.
+.SH "DESCRIPTION"
+Allocate a key of the specified type with the attributes given.  The key is
+returned in an uninstantiated state and the caller needs to instantiate the
+key before returning.
+
+The restrict_link structure (if not NULL) will be freed when the
+keyring is destroyed, so it must be dynamically allocated.
+
+The user's key count quota is updated to reflect the creation of the key and
+the user's key data quota has the default for the key type reserved.  The
+instantiation function should amend this as necessary.  If insufficient
+quota is available, -EDQUOT will be returned.
+
+The LSM security modules can prevent a key being created, in which case
+-EACCES will be returned.
+
+Returns a pointer to the new key if successful and an error code otherwise.
+
+Note that the caller needs to ensure the key type isn't uninstantiated.
+Internally this can be done by locking key_types_sem.  Externally, this can
+be done by either never unregistering the key type, or making sure
+\fBkey_alloc\fP calls don't race with module unloading.

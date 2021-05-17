@@ -1,0 +1,17 @@
+.TH "drm_atomic_set_fb_for_plane" 9 "drm_atomic_set_fb_for_plane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_set_fb_for_plane \- set framebuffer for plane
+.SH SYNOPSIS
+.B "void" drm_atomic_set_fb_for_plane
+.BI "(struct drm_plane_state *plane_state "  ","
+.BI "struct drm_framebuffer *fb "  ");"
+.SH ARGUMENTS
+.IP "plane_state" 12
+atomic state object for the plane
+.IP "fb" 12
+fb to use for the plane
+.SH "DESCRIPTION"
+Changing the assigned framebuffer for a plane requires us to grab a reference
+to the new fb and drop the reference to the old fb, if there is one. This
+function takes care of all these details besides updating the pointer in the
+state object itself.

@@ -1,0 +1,25 @@
+.TH "drm_atomic_get_crtc_state" 9 "drm_atomic_get_crtc_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_get_crtc_state \- get CRTC state
+.SH SYNOPSIS
+.B "struct drm_crtc_state *" drm_atomic_get_crtc_state
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+global atomic state object
+.IP "crtc" 12
+CRTC to get state object for
+.SH "DESCRIPTION"
+This function returns the CRTC state for the given CRTC, allocating it if
+needed. It will also grab the relevant CRTC lock to make sure that the state
+is consistent.
+
+WARNING: Drivers may only add new CRTC states to a \fIstate\fP if
+drm_atomic_state.allow_modeset is set, or if it's a driver-internal commit
+not created by userspace through an IOCTL call.
+
+Either the allocated state or the error code encoded into the pointer. When
+the error is EDEADLK then the w/w mutex code has detected a deadlock and the
+entire atomic sequence must be restarted. All other errors are fatal.
+.SH "RETURN"

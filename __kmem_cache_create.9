@@ -1,0 +1,30 @@
+.TH "__kmem_cache_create" 9 "__kmem_cache_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__kmem_cache_create \- Create a cache.
+.SH SYNOPSIS
+.B "int" __kmem_cache_create
+.BI "(struct kmem_cache *cachep "  ","
+.BI "slab_flags_t flags "  ");"
+.SH ARGUMENTS
+.IP "cachep" 12
+cache management descriptor
+.IP "flags" 12
+SLAB flags
+.SH "DESCRIPTION"
+Returns a ptr to the cache on success, NULL on failure.
+Cannot be called within a int, but can be interrupted.
+The \fIctor\fP is run when new pages are allocated by the cache.
+
+The flags are
+
+SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
+to catch references to uninitialised memory.
+
+SLAB_RED_ZONE - Insert `Red' zones around the allocated memory to check
+for buffer overruns.
+
+SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
+cacheline.  This can be beneficial if you're counting cycles as closely
+as davem.
+.SH "RETURN"
+a pointer to the created cache or NULL in case of error

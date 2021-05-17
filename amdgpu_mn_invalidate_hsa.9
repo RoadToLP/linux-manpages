@@ -1,0 +1,18 @@
+.TH "amdgpu_mn_invalidate_hsa" 9 "amdgpu_mn_invalidate_hsa" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_mn_invalidate_hsa \- callback to notify about mm change
+.SH SYNOPSIS
+.B "bool" amdgpu_mn_invalidate_hsa
+.BI "(struct mmu_interval_notifier *mni "  ","
+.BI "const struct mmu_notifier_range *range "  ","
+.BI "unsigned long cur_seq "  ");"
+.SH ARGUMENTS
+.IP "mni" 12
+the range (mm) is about to update
+.IP "range" 12
+details on the invalidation
+.IP "cur_seq" 12
+Value to pass to \fBmmu_interval_set_seq\fP
+.SH "DESCRIPTION"
+We temporarily evict the BO attached to this range. This necessitates
+evicting all user-mode queues of the process.

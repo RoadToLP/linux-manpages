@@ -1,0 +1,17 @@
+.TH "ata_std_end_eh" 9 "ata_std_end_eh" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_std_end_eh \- non-libsas ata_ports complete eh with this common routine
+.SH SYNOPSIS
+.B "void" ata_std_end_eh
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to end EH for
+.SH "DESCRIPTION"
+In the libata object model there is a 1:1 mapping of ata_port to
+shost, so host fields can be directly manipulated under ap->lock, in
+the libsas case we need to hold a lock at the ha->level to coordinate
+these events.
+
+LOCKING:
+spin_lock_irqsave(host lock)

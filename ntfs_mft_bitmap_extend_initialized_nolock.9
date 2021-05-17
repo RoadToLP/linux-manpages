@@ -1,0 +1,19 @@
+.TH "ntfs_mft_bitmap_extend_initialized_nolock" 9 "ntfs_mft_bitmap_extend_initialized_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_mft_bitmap_extend_initialized_nolock \- extend mftbmp initialized data
+.SH SYNOPSIS
+.B "int" ntfs_mft_bitmap_extend_initialized_nolock
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+volume on which to extend the mft bitmap attribute
+.SH "DESCRIPTION"
+Extend the initialized portion of the mft bitmap attribute on the ntfs
+volume \fIvol\fP by 8 bytes.
+
+Return 0 on success and -error on error.
+
+Locking: Caller must hold vol->mftbmp_lock for writing.
+.SH "NOTE"
+Only changes initialized_size and data_size, i.e. requires that
+allocated_size is big enough to fit the new initialized_size.

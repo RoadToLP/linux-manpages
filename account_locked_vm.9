@@ -1,0 +1,20 @@
+.TH "account_locked_vm" 9 "account_locked_vm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+account_locked_vm \- account locked pages to an mm's locked_vm
+.SH SYNOPSIS
+.B "int" account_locked_vm
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long pages "  ","
+.BI "bool inc "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+mm to account against, may be NULL
+.IP "pages" 12
+number of pages to account
+.IP "inc" 12
+true if \fIpages\fP should be considered positive, false if not
+.SH "DESCRIPTION"
+Assumes a non-NULL \fImm\fP is valid (i.e. at least one reference on it).
+.SH "RETURN"
+* 0       on success, or if mm is NULL
+* -ENOMEM if RLIMIT_MEMLOCK would be exceeded.

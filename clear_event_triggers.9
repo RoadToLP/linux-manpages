@@ -1,0 +1,18 @@
+.TH "clear_event_triggers" 9 "clear_event_triggers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clear_event_triggers \- Clear all triggers associated with a trace array
+.SH SYNOPSIS
+.B "void" clear_event_triggers
+.BI "(struct trace_array *tr "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+The trace array to clear
+.SH "DESCRIPTION"
+For each trigger, the triggering event has its tm_ref decremented
+via \fBtrace_event_trigger_enable_disable\fP, and any associated event
+(in the case of enable/disable_event triggers) will have its sm_ref
+decremented via \fBfree\fP->\fBtrace_event_enable_disable\fP.  That
+combination effectively reverses the soft-mode/trigger state added
+by trigger registration.
+
+Must be called with event_mutex held.

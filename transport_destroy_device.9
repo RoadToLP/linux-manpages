@@ -1,0 +1,16 @@
+.TH "transport_destroy_device" 9 "transport_destroy_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+transport_destroy_device \- destroy a removed device
+.SH SYNOPSIS
+.B "void" transport_destroy_device
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to eliminate from the transport class.
+.SH "DESCRIPTION"
+This call triggers the elimination of storage associated with the
+transport classdev.  Note: all it really does is relinquish a
+reference to the classdev.  The memory will not be freed until the
+last reference goes to zero.  Note also that the classdev retains a
+reference count on dev, so dev too will remain for as long as the
+transport class device remains around.

@@ -1,0 +1,19 @@
+.TH "ne_create_vm_ioctl" 9 "ne_create_vm_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ne_create_vm_ioctl \- Alloc slot to be associated with an enclave. Create enclave file descriptor to be further used for enclave resources handling e.g. memory regions and CPUs.
+.SH SYNOPSIS
+.B "int" ne_create_vm_ioctl
+.BI "(struct ne_pci_dev *ne_pci_dev "  ","
+.BI "u64 __user *slot_uid "  ");"
+.SH ARGUMENTS
+.IP "ne_pci_dev" 12
+Private data associated with the PCI device.
+.IP "slot_uid" 12
+User pointer to store the generated unique slot id
+associated with an enclave to.
+.SH "CONTEXT"
+Process context. This function is called with the ne_pci_dev enclave
+mutex held.
+.SH "RETURN"
+* Enclave fd on success.
+* Negative return value on failure.

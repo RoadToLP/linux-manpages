@@ -1,0 +1,31 @@
+.TH "tty_init_dev" 9 "tty_init_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_init_dev \- initialise a tty device
+.SH SYNOPSIS
+.B "struct tty_struct *" tty_init_dev
+.BI "(struct tty_driver *driver "  ","
+.BI "int idx "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+tty driver we are opening a device on
+.IP "idx" 12
+device index
+
+Prepare a tty device. This may not be a "new" clean device but
+could also be an active device. The pty drivers require special
+handling because of this.
+
+Locking:
+The function is called under the tty_mutex, which
+protects us from the tty struct or driver itself going away.
+
+On exit the tty device has the line discipline attached and
+a reference count of 1. If a pair was created for pty/tty use
+and the other was a pty master then it too has a reference count of 1.
+.SH "DESCRIPTION"
+WSH 06/09/97: Rewritten to remove races and properly clean up after a
+failed open.  The new code protects the open with a mutex, so it's
+really quite straightforward.  The mutex locking can probably be
+relaxed for the (most common) case of reopening a tty.
+.SH "RETURN"
+returned tty structure

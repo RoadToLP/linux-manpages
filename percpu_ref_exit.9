@@ -1,0 +1,15 @@
+.TH "percpu_ref_exit" 9 "percpu_ref_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_exit \- undo percpu_ref_init()
+.SH SYNOPSIS
+.B "void" percpu_ref_exit
+.BI "(struct percpu_ref *ref "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+percpu_ref to exit
+.SH "DESCRIPTION"
+This function exits \fIref\fP.  The caller is responsible for ensuring that
+\fIref\fP is no longer in active use.  The usual places to invoke this
+function from are the \fIref\fP->\fBrelease\fP callback or in init failure path
+where \fBpercpu_ref_init\fP succeeded but other parts of the initialization
+of the embedding object failed.

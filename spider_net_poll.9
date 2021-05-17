@@ -1,0 +1,19 @@
+.TH "spider_net_poll" 9 "spider_net_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spider_net_poll \- NAPI poll function called by the stack to return packets
+.SH SYNOPSIS
+.B "int" spider_net_poll
+.BI "(struct napi_struct *napi "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "napi" 12
+napi device structure
+.IP "budget" 12
+number of packets we can pass to the stack at most
+.SH "DESCRIPTION"
+returns 0 if no more packets available to the driver/stack. Returns 1,
+if the quota is exceeded, but the driver has still packets.
+
+spider_net_poll returns all packets from the rx descriptors to the stack
+(using netif_receive_skb). If all/enough packets are up, the driver
+reenables interrupts and returns 0. If not, 1 is returned.

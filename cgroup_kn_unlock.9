@@ -1,0 +1,15 @@
+.TH "cgroup_kn_unlock" 9 "cgroup_kn_unlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_kn_unlock \- unlocking helper for cgroup kernfs methods
+.SH SYNOPSIS
+.B "void" cgroup_kn_unlock
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+the kernfs_node being serviced
+.SH "DESCRIPTION"
+This helper undoes \fBcgroup_kn_lock_live\fP and should be invoked before
+the method finishes if locking succeeded.  Note that once this function
+returns the cgroup returned by \fBcgroup_kn_lock_live\fP may become
+inaccessible any time.  If the caller intends to continue to access the
+cgroup, it should pin it before invoking this function.

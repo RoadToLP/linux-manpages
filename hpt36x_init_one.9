@@ -1,0 +1,26 @@
+.TH "hpt36x_init_one" 9 "hpt36x_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hpt36x_init_one \- Initialise an HPT366/368
+.SH SYNOPSIS
+.B "int" hpt36x_init_one
+.BI "(struct pci_dev *dev "  ","
+.BI "const struct pci_device_id *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.IP "id" 12
+Entry in match table
+
+Initialise an HPT36x device. There are some interesting complications
+here. Firstly the chip may report 366 and be one of several variants.
+Secondly all the timings depend on the clock for the chip which we must
+detect and look up
+
+This is the known chip mappings. It may be missing a couple of later
+releases.
+
+Chip version            PCI             Rev     Notes
+HPT366                  4 (HPT366)      0       UDMA66
+HPT366                  4 (HPT366)      1       UDMA66
+HPT368                  4 (HPT366)      2       UDMA66
+HPT37x/30x              4 (HPT366)      3+      Other driver

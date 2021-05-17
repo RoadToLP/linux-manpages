@@ -1,0 +1,17 @@
+.TH "musb_set_host" 9 "musb_set_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+musb_set_host \- set and initialize host mode
+.SH SYNOPSIS
+.B "int" musb_set_host
+.BI "(struct musb *musb "  ");"
+.SH ARGUMENTS
+.IP "musb" 12
+musb controller driver data
+.SH "DESCRIPTION"
+At least some musb revisions need to enable devctl session bit in
+peripheral mode to switch to host mode. Initializes things to host
+mode and sets A_IDLE. SoC glue needs to advance state further
+based on phy provided VBUS state.
+
+Note that the SoC glue code may need to wait for musb to settle
+on enable before calling this to avoid babble.

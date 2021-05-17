@@ -1,0 +1,21 @@
+.TH "aa_split_fqname" 9 "aa_split_fqname" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_split_fqname \- split a fqname into a profile and namespace name
+.SH SYNOPSIS
+.B "char *" aa_split_fqname
+.BI "(char *fqname "  ","
+.BI "char **ns_name "  ");"
+.SH ARGUMENTS
+.IP "fqname" 12
+a full qualified name in namespace profile format (NOT NULL)
+.IP "ns_name" 12
+pointer to portion of the string containing the ns name (NOT NULL)
+.SH "RETURN"
+profile name or NULL if one is not specified
+.SH "DESCRIPTION"
+Split a namespace name from a profile name (see policy.c for naming
+description).  If a portion of the name is missing it returns NULL for
+that portion.
+.SH "NOTE"
+may modify the \fIfqname\fP string.  The pointers returned point
+into the \fIfqname\fP string.

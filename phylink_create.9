@@ -1,0 +1,27 @@
+.TH "phylink_create" 9 "phylink_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phylink_create \- create a phylink instance
+.SH SYNOPSIS
+.B "struct phylink *" phylink_create
+.BI "(struct phylink_config *config "  ","
+.BI "struct fwnode_handle *fwnode "  ","
+.BI "phy_interface_t iface "  ","
+.BI "const struct phylink_mac_ops *mac_ops "  ");"
+.SH ARGUMENTS
+.IP "config" 12
+a pointer to the target \fIstruct phylink_config\fP
+.IP "fwnode" 12
+a pointer to a \fIstruct fwnode_handle\fP describing the network
+interface
+.IP "iface" 12
+the desired link mode defined by \fItypedef phy_interface_t\fP
+.IP "mac_ops" 12
+a pointer to a \fIstruct phylink_mac_ops\fP for the MAC.
+.SH "DESCRIPTION"
+Create a new phylink instance, and parse the link parameters found in \fInp\fP.
+This will parse in-band modes, fixed-link or SFP configuration.
+
+Returns a pointer to a \fIstruct phylink\fP, or an error-pointer value. Users
+must use \fBIS_ERR\fP to check for errors from this function.
+.SH "NOTE"
+the rtnl lock must not be held when calling this function.

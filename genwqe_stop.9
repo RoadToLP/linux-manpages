@@ -1,0 +1,18 @@
+.TH "genwqe_stop" 9 "genwqe_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_stop \- Stop card operation
+.SH SYNOPSIS
+.B "int" genwqe_stop
+.BI "(struct genwqe_dev *cd "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+GenWQE device information
+.SH "DESCRIPTION"
+Recovery notes:
+As long as genwqe_thread runs we might access registers during
+error data capture. Same is with the genwqe_health_thread.
+When \fBgenwqe_bus_reset\fP fails this function might called two times:
+first by the \fBgenwqe_health_thread\fP and later by \fBgenwqe_remove\fP to
+unbind the device. We must be able to survive that.
+
+This function must be robust enough to be called twice.

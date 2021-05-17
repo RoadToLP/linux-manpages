@@ -1,0 +1,19 @@
+.TH "clkdm_add_sleepdep" 9 "clkdm_add_sleepdep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_add_sleepdep \- add a sleep dependency from clkdm2 to clkdm1
+.SH SYNOPSIS
+.B "int" clkdm_add_sleepdep
+.BI "(struct clockdomain *clkdm1 "  ","
+.BI "struct clockdomain *clkdm2 "  ");"
+.SH ARGUMENTS
+.IP "clkdm1" 12
+prevent this struct clockdomain * from sleeping (dependent)
+.IP "clkdm2" 12
+when this struct clockdomain * is active (source)
+.SH "DESCRIPTION"
+Prevent \fIclkdm1\fP from automatically going inactive (and then to
+retention or off) if \fIclkdm2\fP is active.  Returns -EINVAL if
+presented with invalid clockdomain pointers or called on a machine
+that does not support software-configurable hardware sleep
+dependencies, -ENOENT if the specified dependency cannot be set in
+hardware, or 0 upon success.

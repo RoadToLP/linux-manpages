@@ -1,0 +1,21 @@
+.TH "fcoe_ctlr_mode_set" 9 "fcoe_ctlr_mode_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_mode_set \- Set or reset the ctlr's mode
+.SH SYNOPSIS
+.B "void" fcoe_ctlr_mode_set
+.BI "(struct fc_lport *lport "  ","
+.BI "struct fcoe_ctlr *fip "  ","
+.BI "enum fip_mode fip_mode "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port to be (re)configured
+.IP "fip" 12
+The FCoE controller whose mode is changing
+.IP "fip_mode" 12
+The new fip mode
+.SH "DESCRIPTION"
+Note that the we shouldn't be changing the libfc discovery settings
+(fc_disc_config) while an lport is going through the libfc state
+machine. The mode can only be changed when a fcoe_ctlr device is
+disabled, so that should ensure that this routine is only called
+when nothing is happening.

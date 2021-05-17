@@ -1,0 +1,23 @@
+.TH "insn_get_seg_base" 9 "insn_get_seg_base" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_get_seg_base \- Obtain base address of segment descriptor.
+.SH SYNOPSIS
+.B "unsigned long" insn_get_seg_base
+.BI "(struct pt_regs *regs "  ","
+.BI "int seg_reg_idx "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "seg_reg_idx" 12
+Index of the segment register pointing to seg descriptor
+.SH "DESCRIPTION"
+Obtain the base address of the segment as indicated by the segment descriptor
+pointed by the segment selector. The segment selector is obtained from the
+input segment register index \fIseg_reg_idx\fP.
+
+In protected mode, base address of the segment. Zero in long mode,
+except when FS or GS are used. In virtual-8086 mode, the segment
+selector shifted 4 bits to the right.
+
+-1L in case of error.
+.SH "RETURN"

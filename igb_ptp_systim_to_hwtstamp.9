@@ -1,0 +1,26 @@
+.TH "igb_ptp_systim_to_hwtstamp" 9 "igb_ptp_systim_to_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_ptp_systim_to_hwtstamp \- convert system time value to hw timestamp
+.SH SYNOPSIS
+.B "void" igb_ptp_systim_to_hwtstamp
+.BI "(struct igb_adapter *adapter "  ","
+.BI "struct skb_shared_hwtstamps *hwtstamps "  ","
+.BI "u64 systim "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private structure
+.IP "hwtstamps" 12
+timestamp structure to update
+.IP "systim" 12
+unsigned 64bit system time value.
+.SH "DESCRIPTION"
+We need to convert the system time value stored in the RX/TXSTMP registers
+into a hwtstamp which can be used by the upper level timestamping functions.
+
+The 'tmreg_lock' spinlock is used to protect the consistency of the
+system time value. This is needed because reading the 64 bit time
+value involves reading two (or three) 32 bit registers. The first
+read latches the value. Ditto for writing.
+
+In addition, here have extended the system time with an overflow
+counter in software.

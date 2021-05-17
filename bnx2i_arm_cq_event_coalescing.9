@@ -1,0 +1,16 @@
+.TH "bnx2i_arm_cq_event_coalescing" 9 "bnx2i_arm_cq_event_coalescing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_arm_cq_event_coalescing \- arms CQ to enable EQ notification
+.SH SYNOPSIS
+.B "int" bnx2i_arm_cq_event_coalescing
+.BI "(struct bnx2i_endpoint *ep "  ","
+.BI "u8 action "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+endpoint (transport identifier) structure
+.IP "action" 12
+action, ARM or DISARM. For now only ARM_CQE is used
+.SH "DESCRIPTION"
+Arm'ing CQ will enable chip to generate global EQ events inorder to interrupt
+the driver. EQ event is generated CQ index is hit or at least 1 CQ is
+outstanding and on chip timer expires

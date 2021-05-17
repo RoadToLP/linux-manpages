@@ -1,0 +1,21 @@
+.TH "ds1685_rtc_get_ssn" 9 "ds1685_rtc_get_ssn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ds1685_rtc_get_ssn \- retrieve the silicon serial number.
+.SH SYNOPSIS
+.B "void" ds1685_rtc_get_ssn
+.BI "(struct ds1685_priv *rtc "  ","
+.BI "u8 *ssn "  ");"
+.SH ARGUMENTS
+.IP "rtc" 12
+pointer to the ds1685 rtc structure.
+.IP "ssn" 12
+u8 array to hold the bits of the silicon serial number.
+.SH "DESCRIPTION"
+This number starts at 0x40, and is 8-bytes long, ending at 0x47. The
+first byte is the model number, the next six bytes are the serial number
+digits, and the final byte is a CRC check byte.  Together, they form the
+silicon serial number.
+
+These values are stored in bank1, so ds1685_rtc_switch_to_bank1 must be
+called first before calling this function, else data will be read out of
+the bank0 NVRAM.  Be sure to call ds1685_rtc_switch_to_bank0 when done.

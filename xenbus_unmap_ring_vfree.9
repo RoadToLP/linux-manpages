@@ -1,0 +1,19 @@
+.TH "xenbus_unmap_ring_vfree" 9 "xenbus_unmap_ring_vfree" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xenbus_unmap_ring_vfree \- 
+.SH SYNOPSIS
+.B "int" xenbus_unmap_ring_vfree
+.BI "(struct xenbus_device *dev "  ","
+.BI "void *vaddr "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+xenbus device
+.IP "vaddr" 12
+addr to unmap
+.SH "DESCRIPTION"
+Based on Rusty Russell's skeleton driver's unmap_page.
+Unmap a page of memory in this domain that was imported from another domain.
+Use xenbus_unmap_ring_vfree if you mapped in your memory with
+xenbus_map_ring_valloc (it will free the virtual address space).
+Returns 0 on success and returns GNTST_* on error
+(see xen/include/interface/grant_table.h).

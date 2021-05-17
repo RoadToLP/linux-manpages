@@ -1,0 +1,25 @@
+.TH "acpi_release_memory" 9 "acpi_release_memory" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_release_memory \- Release any mappings done to a memory region
+.SH SYNOPSIS
+.B "acpi_status" acpi_release_memory
+.BI "(acpi_handle handle "  ","
+.BI "struct resource *res "  ","
+.BI "u32 level "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Handle to namespace node
+.IP "res" 12
+Memory resource
+.IP "level" 12
+A level that terminates the search
+.SH "DESCRIPTION"
+Walks through \fIhandle\fP and unmaps all SystemMemory Operation Regions that
+overlap with \fIres\fP and that have already been activated (mapped).
+
+This is a helper that allows drivers to place special requirements on memory
+region that may overlap with operation regions, primarily allowing them to
+safely map the region as non-cached memory.
+
+The unmapped Operation Regions will be automatically remapped next time they
+are called, so the drivers do not need to do anything else.

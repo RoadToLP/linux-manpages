@@ -1,0 +1,24 @@
+.TH "lpfc_fc_frame_to_vport" 9 "lpfc_fc_frame_to_vport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fc_frame_to_vport \- Finds the vport that a frame is destined to
+.SH SYNOPSIS
+.B "struct lpfc_vport *" lpfc_fc_frame_to_vport
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct fc_frame_header *fc_hdr "  ","
+.BI "uint16_t fcfi "  ","
+.BI "uint32_t did "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to the HBA structure to search for the vport on
+.IP "fc_hdr" 12
+A pointer to the FC Header data (In Big Endian Format)
+.IP "fcfi" 12
+The FC Fabric ID that the frame came from
+.IP "did" 12
+Destination ID to match against
+.SH "DESCRIPTION"
+This function searches the \fIphba\fP for a vport that matches the content of the
+\fIfc_hdr\fP passed in and the \fIfcfi\fP. This function uses the \fIfc_hdr\fP to fetch the
+VFI, if the Virtual Fabric Tagging Header exists, and the DID. This function
+returns the matching vport pointer or NULL if unable to match frame to a
+vport.

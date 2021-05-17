@@ -1,0 +1,24 @@
+.TH "sock_create_kern" 9 "sock_create_kern" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sock_create_kern \- creates a socket (kernel space)
+.SH SYNOPSIS
+.B "int" sock_create_kern
+.BI "(struct net *net "  ","
+.BI "int family "  ","
+.BI "int type "  ","
+.BI "int protocol "  ","
+.BI "struct socket **res "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+net namespace
+.IP "family" 12
+protocol family (AF_INET, ...)
+.IP "type" 12
+communication type (SOCK_STREAM, ...)
+.IP "protocol" 12
+protocol (0, ...)
+.IP "res" 12
+new socket
+
+A wrapper around \fB__sock_create\fP.
+Returns 0 or an error. This function internally uses GFP_KERNEL.

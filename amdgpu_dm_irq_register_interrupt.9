@@ -1,0 +1,29 @@
+.TH "amdgpu_dm_irq_register_interrupt" 9 "amdgpu_dm_irq_register_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dm_irq_register_interrupt \- Register a handler within DM.
+.SH SYNOPSIS
+.B "void *" amdgpu_dm_irq_register_interrupt
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct dc_interrupt_params *int_params "  ","
+.BI "void (*ih)(void *) "  ","
+.BI "void *handler_args "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+The base driver device containing the DM device.
+.IP "int_params" 12
+Interrupt parameters containing the source, and handler context
+.IP "ih" 12
+Function pointer to the interrupt handler to register
+.IP "handler_args" 12
+Arguments passed to the handler when the interrupt occurs
+.SH "DESCRIPTION"
+Register an interrupt handler for the given IRQ source, under the given
+context. The context can either be high or low. High context handlers are
+executed directly within ISR context, while low context is executed within a
+workqueue, thereby allowing operations that sleep.
+
+Registered handlers are called in a FIFO manner, i.e. the most recently
+registered handler will be called first.
+.SH "RETURN"
+Handler data \fIstruct amdgpu_dm_irq_handler_data\fP containing the IRQ
+source, handler function, and args

@@ -1,0 +1,15 @@
+.TH "genwqe_setup_pf_jtimer" 9 "genwqe_setup_pf_jtimer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_setup_pf_jtimer \- Setup PF hardware timeouts for DDCB execution
+.SH SYNOPSIS
+.B "bool" genwqe_setup_pf_jtimer
+.BI "(struct genwqe_dev *cd "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+GenWQE device information
+.SH "DESCRIPTION"
+Do this _after_ \fBcard_reset\fP is called. Otherwise the values will
+vanish. The settings need to be done when the queues are inactive.
+
+The max. timeout value is 2^(10+x) * T (6ns for 166MHz) * 15/16.
+The min. timeout value is 2^(10+x) * T (6ns for 166MHz) * 14/16.

@@ -1,0 +1,17 @@
+.TH "usb_block_urb" 9 "usb_block_urb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_block_urb \- reliably prevent further use of an URB
+.SH SYNOPSIS
+.B "void" usb_block_urb
+.BI "(struct urb *urb "  ");"
+.SH ARGUMENTS
+.IP "urb" 12
+pointer to URB to be blocked, may be NULL
+.SH "DESCRIPTION"
+After the routine has run, attempts to resubmit the URB will fail
+with error -EPERM.  Thus even if the URB's completion handler always
+tries to resubmit, it will not succeed and the URB will become idle.
+
+The URB must not be deallocated while this routine is running.  In
+particular, when a driver calls this routine, it must insure that the
+completion handler cannot deallocate the URB.

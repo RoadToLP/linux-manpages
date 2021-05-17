@@ -1,0 +1,24 @@
+.TH "ntb_transport_tx_enqueue" 9 "ntb_transport_tx_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntb_transport_tx_enqueue \- Enqueue a new NTB queue entry
+.SH SYNOPSIS
+.B "int" ntb_transport_tx_enqueue
+.BI "(struct ntb_transport_qp *qp "  ","
+.BI "void *cb "  ","
+.BI "void *data "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+NTB transport layer queue the entry is to be enqueued on
+.IP "cb" 12
+per buffer pointer for callback function to use
+.IP "data" 12
+pointer to data buffer that will be sent
+.IP "len" 12
+length of the data buffer
+.SH "DESCRIPTION"
+Enqueue a new transmit buffer onto the transport queue from which a NTB
+payload will be transmitted.  This assumes that a lock is being held to
+serialize access to the qp.
+.SH "RETURN"
+An appropriate -ERRNO error value on error, or zero for success.

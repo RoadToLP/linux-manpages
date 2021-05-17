@@ -1,0 +1,29 @@
+.TH "unmap_vmas" 9 "unmap_vmas" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_vmas \- unmap a range of memory covered by a list of vma's
+.SH SYNOPSIS
+.B "void" unmap_vmas
+.BI "(struct mmu_gather *tlb "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long start_addr "  ","
+.BI "unsigned long end_addr "  ");"
+.SH ARGUMENTS
+.IP "tlb" 12
+address of the caller's struct mmu_gather
+.IP "vma" 12
+the starting vma
+.IP "start_addr" 12
+virtual address at which to start unmapping
+.IP "end_addr" 12
+virtual address at which to end unmapping
+.SH "DESCRIPTION"
+Unmap all pages in the vma list.
+
+Only addresses between `start' and `end' will be unmapped.
+
+The VMA list must be sorted in ascending virtual address order.
+
+\fBunmap_vmas\fP assumes that the caller will flush the whole unmapped address
+range after \fBunmap_vmas\fP returns.  So the only responsibility here is to
+ensure that any thus-far unmapped pages are flushed before \fBunmap_vmas\fP
+drops the lock and schedules.

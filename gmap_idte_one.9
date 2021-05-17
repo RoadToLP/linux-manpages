@@ -1,0 +1,17 @@
+.TH "gmap_idte_one" 9 "gmap_idte_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_idte_one \- invalidate a single region or segment table entry
+.SH SYNOPSIS
+.B "void" gmap_idte_one
+.BI "(unsigned long asce "  ","
+.BI "unsigned long vaddr "  ");"
+.SH ARGUMENTS
+.IP "asce" 12
+region or segment table *origin* + table-type bits
+.IP "vaddr" 12
+virtual address to identify the table entry to flush
+.SH "DESCRIPTION"
+The invalid bit of a single region or segment table entry is set
+and the associated TLB entries depending on the entry are flushed.
+The table-type of the \fIasce\fP identifies the portion of the \fIvaddr\fP
+that is used as the invalidation index.

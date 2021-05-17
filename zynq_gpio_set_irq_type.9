@@ -1,0 +1,22 @@
+.TH "zynq_gpio_set_irq_type" 9 "zynq_gpio_set_irq_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynq_gpio_set_irq_type \- Set the irq type for a gpio pin
+.SH SYNOPSIS
+.B "int" zynq_gpio_set_irq_type
+.BI "(struct irq_data *irq_data "  ","
+.BI "unsigned int type "  ");"
+.SH ARGUMENTS
+.IP "irq_data" 12
+irq data containing irq number of gpio pin
+.IP "type" 12
+interrupt type that is to be set for the gpio pin
+.SH "DESCRIPTION"
+This function gets the gpio pin number and its bank from the gpio pin number
+and configures the INT_TYPE, INT_POLARITY and INT_ANY registers.
+.SH "RETURN"
+0, negative error otherwise.
+TYPE-EDGE_RISING,  INT_TYPE - 1, INT_POLARITY - 1,  INT_ANY - 0;
+TYPE-EDGE_FALLING, INT_TYPE - 1, INT_POLARITY - 0,  INT_ANY - 0;
+TYPE-EDGE_BOTH,    INT_TYPE - 1, INT_POLARITY - NA, INT_ANY - 1;
+TYPE-LEVEL_HIGH,   INT_TYPE - 0, INT_POLARITY - 1,  INT_ANY - NA;
+TYPE-LEVEL_LOW,    INT_TYPE - 0, INT_POLARITY - 0,  INT_ANY - NA

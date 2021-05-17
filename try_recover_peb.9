@@ -1,0 +1,37 @@
+.TH "try_recover_peb" 9 "try_recover_peb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_recover_peb \- try to recover from write failure.
+.SH SYNOPSIS
+.B "int" try_recover_peb
+.BI "(struct ubi_volume *vol "  ","
+.BI "int pnum "  ","
+.BI "int lnum "  ","
+.BI "const void *buf "  ","
+.BI "int offset "  ","
+.BI "int len "  ","
+.BI "struct ubi_vid_io_buf *vidb "  ","
+.BI "bool *retry "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+volume description object
+.IP "pnum" 12
+the physical eraseblock to recover
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+data which was not written because of the write failure
+.IP "offset" 12
+offset of the failed write
+.IP "len" 12
+how many bytes should have been written
+.IP "vidb" 12
+VID buffer
+.IP "retry" 12
+whether the caller should retry in case of failure
+.SH "DESCRIPTION"
+This function is called in case of a write failure and moves all good data
+from the potentially bad physical eraseblock to a good physical eraseblock.
+This function also writes the data which was not written due to the failure.
+Returns 0 in case of success, and a negative error code in case of failure.
+In case of failure, the retry parameter is set to false if this is a fatal
+error (retrying won't help), and true otherwise.

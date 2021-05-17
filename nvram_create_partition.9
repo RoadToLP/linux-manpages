@@ -1,0 +1,24 @@
+.TH "nvram_create_partition" 9 "nvram_create_partition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvram_create_partition \- Create a partition in nvram
+.SH SYNOPSIS
+.B "loff_t" nvram_create_partition
+.BI "(const char *name "  ","
+.BI "int sig "  ","
+.BI "int req_size "  ","
+.BI "int min_size "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of the partition to create
+.IP "sig" 12
+signature of the partition to create
+.IP "req_size" 12
+size of data to allocate in bytes
+.IP "min_size" 12
+minimum acceptable size (0 means req_size)
+.SH "DESCRIPTION"
+Returns a negative error code or a positive nvram index
+of the beginning of the data area of the newly created
+partition. If you provided a min_size smaller than req_size
+you need to query for the actual size yourself after the
+call using \fBnvram_partition_get_size\fP.

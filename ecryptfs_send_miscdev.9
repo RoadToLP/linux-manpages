@@ -1,0 +1,31 @@
+.TH "ecryptfs_send_miscdev" 9 "ecryptfs_send_miscdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_send_miscdev \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_send_miscdev
+.BI "(char *data "  ","
+.BI "size_t data_size "  ","
+.BI "struct ecryptfs_msg_ctx *msg_ctx "  ","
+.BI "u8 msg_type "  ","
+.BI "u16 msg_flags "  ","
+.BI "struct ecryptfs_daemon *daemon "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+Data to send to daemon; may be NULL
+.IP "data_size" 12
+Amount of data to send to daemon
+.IP "msg_ctx" 12
+Message context, which is used to handle the reply. If
+this is NULL, then we do not expect a reply.
+.IP "msg_type" 12
+Type of message
+.IP "msg_flags" 12
+Flags for message
+.IP "daemon" 12
+eCryptfs daemon object
+.SH "DESCRIPTION"
+Add msg_ctx to queue and then, if it exists, notify the blocked
+miscdevess about the data being available. Must be called with
+ecryptfs_daemon_hash_mux held.
+
+Returns zero on success; non-zero otherwise

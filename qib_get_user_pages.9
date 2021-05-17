@@ -1,0 +1,21 @@
+.TH "qib_get_user_pages" 9 "qib_get_user_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_get_user_pages \- lock user pages into memory
+.SH SYNOPSIS
+.B "int" qib_get_user_pages
+.BI "(unsigned long start_page "  ","
+.BI "size_t num_pages "  ","
+.BI "struct page **p "  ");"
+.SH ARGUMENTS
+.IP "start_page" 12
+the start page
+.IP "num_pages" 12
+the number of pages
+.IP "p" 12
+the output page structures
+.SH "DESCRIPTION"
+This function takes a given start page (page aligned user virtual
+address) and pins it and the following specified number of pages.  For
+now, num_pages is always 1, but that will probably change at some point
+(because caller is doing expected sends on a single virtually contiguous
+buffer, so we can do all pages at once).

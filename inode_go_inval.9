@@ -1,0 +1,15 @@
+.TH "inode_go_inval" 9 "inode_go_inval" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_go_inval \- prepare a inode glock to be released
+.SH SYNOPSIS
+.B "void" inode_go_inval
+.BI "(struct gfs2_glock *gl "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+the glock
+.IP "flags" 12
+.SH "DESCRIPTION"
+Normally we invalidate everything, but if we are moving into
+LM_ST_DEFERRED from LM_ST_SHARED or LM_ST_EXCLUSIVE then we
+can keep hold of the metadata, since it won't have changed.

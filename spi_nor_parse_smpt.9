@@ -1,0 +1,22 @@
+.TH "spi_nor_parse_smpt" 9 "spi_nor_parse_smpt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_nor_parse_smpt \- parse Sector Map Parameter Table
+.SH SYNOPSIS
+.B "int" spi_nor_parse_smpt
+.BI "(struct spi_nor *nor "  ","
+.BI "const struct sfdp_parameter_header *smpt_header "  ","
+.BI "struct spi_nor_flash_parameter *params "  ");"
+.SH ARGUMENTS
+.IP "nor" 12
+pointer to a 'struct spi_nor'
+.IP "smpt_header" 12
+sector map parameter table header
+.IP "params" 12
+pointer to a duplicate 'struct spi_nor_flash_parameter'
+that is used for storing SFDP parsed data
+.SH "DESCRIPTION"
+This table is optional, but when available, we parse it to identify the
+location and size of sectors within the main data array of the flash memory
+device and to identify which Erase Types are supported by each sector.
+.SH "RETURN"
+0 on success, -errno otherwise.

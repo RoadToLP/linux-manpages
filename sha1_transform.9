@@ -1,0 +1,26 @@
+.TH "sha1_transform" 9 "sha1_transform" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sha1_transform \- single block SHA1 transform (deprecated)
+.SH SYNOPSIS
+.B "void" sha1_transform
+.BI "(__u32 *digest "  ","
+.BI "const char *data "  ","
+.BI "__u32 *array "  ");"
+.SH ARGUMENTS
+.IP "digest" 12
+160 bit digest to update
+.IP "data" 12
+512 bits of data to hash
+.IP "array" 12
+16 words of workspace (see note)
+.SH "DESCRIPTION"
+This function executes SHA-1's internal compression function.  It updates the
+160-bit internal state (\fIdigest\fP) with a single 512-bit data block (\fIdata\fP).
+
+Don't use this function.  SHA-1 is no longer considered secure.  And even if
+you do have to use SHA-1, this isn't the correct way to hash something with
+SHA-1 as this doesn't handle padding and finalization.
+.SH "NOTE"
+If the hash is security sensitive, the caller should be sure
+to clear the workspace. This is left to the caller to avoid
+unnecessary clears between chained hashing operations.

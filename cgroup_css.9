@@ -1,0 +1,18 @@
+.TH "cgroup_css" 9 "cgroup_css" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_css \- obtain a cgroup's css for the specified subsystem
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" cgroup_css
+.BI "(struct cgroup *cgrp "  ","
+.BI "struct cgroup_subsys *ss "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+the cgroup of interest
+.IP "ss" 12
+the subsystem of interest (NULL returns \fIcgrp->self\fP)
+.SH "DESCRIPTION"
+Return \fIcgrp\fP's css (cgroup_subsys_state) associated with \fIss\fP.  This
+function must be called either under cgroup_mutex or \fBrcu_read_lock\fP and
+the caller is responsible for pinning the returned css if it wants to
+keep accessing it outside the said locks.  This function may return
+NULL if \fIcgrp\fP doesn't have \fIsubsys_id\fP enabled.

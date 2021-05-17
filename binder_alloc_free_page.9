@@ -1,0 +1,21 @@
+.TH "binder_alloc_free_page" 9 "binder_alloc_free_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_alloc_free_page \- shrinker callback to free pages
+.SH SYNOPSIS
+.B "enum lru_status" binder_alloc_free_page
+.BI "(struct list_head *item "  ","
+.BI "struct list_lru_one *lru "  ","
+.BI "spinlock_t *lock "  ","
+.BI "void *cb_arg "  ");"
+.SH ARGUMENTS
+.IP "item" 12
+item to free
+.IP "lru" 12
+-- undescribed --
+.IP "lock" 12
+lock protecting the item
+.IP "cb_arg" 12
+callback argument
+.SH "DESCRIPTION"
+Called from \fBlist_lru_walk\fP in \fBbinder_shrink_scan\fP to free
+up pages when the system is under memory pressure.

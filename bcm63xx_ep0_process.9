@@ -1,0 +1,19 @@
+.TH "bcm63xx_ep0_process" 9 "bcm63xx_ep0_process" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm63xx_ep0_process \- ep0 worker thread / state machine.
+.SH SYNOPSIS
+.B "void" bcm63xx_ep0_process
+.BI "(struct work_struct *w "  ");"
+.SH ARGUMENTS
+.IP "w" 12
+Workqueue struct.
+.SH "DESCRIPTION"
+bcm63xx_ep0_process is triggered any time an event occurs on ep0.  It
+is used to synchronize ep0 events and ensure that both HW and SW events
+occur in a well-defined order.  When the ep0 IUDMA queues are idle, it may
+synthesize SET_CONFIGURATION / SET_INTERFACE requests that were consumed
+by the USBD hardware.
+
+The worker function will continue iterating around the state machine
+until there is nothing left to do.  Usually "nothing left to do" means
+that we're waiting for a new event from the hardware.

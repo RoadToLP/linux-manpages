@@ -1,0 +1,37 @@
+.TH "__xa_alloc_cyclic" 9 "__xa_alloc_cyclic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__xa_alloc_cyclic \- Find somewhere to store this entry in the XArray.
+.SH SYNOPSIS
+.B "int" __xa_alloc_cyclic
+.BI "(struct xarray *xa "  ","
+.BI "u32 *id "  ","
+.BI "void *entry "  ","
+.BI "struct xa_limit limit "  ","
+.BI "u32 *next "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "xa" 12
+XArray.
+.IP "id" 12
+Pointer to ID.
+.IP "entry" 12
+New entry.
+.IP "limit" 12
+Range of allocated ID.
+.IP "next" 12
+Pointer to next ID to allocate.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Finds an empty entry in \fIxa\fP between \fIlimit.min\fP and \fIlimit.max\fP,
+stores the index into the \fIid\fP pointer, then stores the entry at
+that index.  A concurrent lookup will not see an uninitialised \fIid\fP.
+The search for an empty entry will start at \fInext\fP and will wrap
+around if necessary.
+.SH "CONTEXT"
+Any context.  Expects xa_lock to be held on entry.  May
+release and reacquire xa_lock if \fIgfp\fP flags permit.
+.SH "RETURN"
+0 if the allocation succeeded without wrapping.  1 if the
+allocation succeeded after wrapping, -ENOMEM if memory could not be
+allocated or -EBUSY if there are no free entries in \fIlimit\fP.

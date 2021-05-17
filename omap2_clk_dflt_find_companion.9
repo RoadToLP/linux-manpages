@@ -1,0 +1,30 @@
+.TH "omap2_clk_dflt_find_companion" 9 "omap2_clk_dflt_find_companion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_clk_dflt_find_companion \- find companion clock to @clk
+.SH SYNOPSIS
+.B "void" omap2_clk_dflt_find_companion
+.BI "(struct clk_hw_omap *clk "  ","
+.BI "struct clk_omap_reg *other_reg "  ","
+.BI "u8 *other_bit "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk * to find the companion clock of
+.IP "other_reg" 12
+void __iomem ** to return the companion clock CM_*CLKEN va in
+.IP "other_bit" 12
+u8 ** to return the companion clock bit shift in
+.SH "NOTE"
+We don't need special code here for INVERT_ENABLE for the
+time being since INVERT_ENABLE only applies to clocks enabled by
+CM_CLKEN_PLL
+.SH "DESCRIPTION"
+Convert CM_ICLKEN* <-> CM_FCLKEN*.  This conversion assumes it's
+just a matter of XORing the bits.
+
+Some clocks don't have companion clocks.  For example, modules with
+only an interface clock (such as MAILBOXES) don't have a companion
+clock.  Right now, this code relies on the hardware exporting a bit
+in the correct companion register that indicates that the
+nonexistent 'companion clock' is active.  Future patches will
+associate this type of code with per-module data structures to
+avoid this issue, and remove the casts.  No return value.

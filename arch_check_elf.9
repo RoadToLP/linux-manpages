@@ -1,0 +1,26 @@
+.TH "arch_check_elf" 9 "arch_check_elf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arch_check_elf \- check an ELF executable
+.SH SYNOPSIS
+.B "int" arch_check_elf
+.BI "(struct elfhdr *ehdr "  ","
+.BI "bool has_interp "  ","
+.BI "struct elfhdr *interp_ehdr "  ","
+.BI "struct arch_elf_state *state "  ");"
+.SH ARGUMENTS
+.IP "ehdr" 12
+The main ELF header
+.IP "has_interp" 12
+True if the ELF has an interpreter, else false.
+.IP "interp_ehdr" 12
+The interpreter's ELF header
+.IP "state" 12
+Architecture-specific state preserved throughout the process
+of loading the ELF.
+.SH "DESCRIPTION"
+Provides a final opportunity for architecture code to reject the loading
+of the ELF & cause an exec syscall to return an error. This is called after
+all program headers to be checked by arch_elf_pt_proc have been.
+.SH "RETURN"
+Zero to proceed with the ELF load, non-zero to fail the ELF load
+with that return code.

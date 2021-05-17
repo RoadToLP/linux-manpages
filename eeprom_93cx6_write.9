@@ -1,0 +1,22 @@
+.TH "eeprom_93cx6_write" 9 "eeprom_93cx6_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeprom_93cx6_write \- write data to the EEPROM
+.SH SYNOPSIS
+.B "void" eeprom_93cx6_write
+.BI "(struct eeprom_93cx6 *eeprom "  ","
+.BI "u8 addr "  ","
+.BI "u16 data "  ");"
+.SH ARGUMENTS
+.IP "eeprom" 12
+Pointer to eeprom structure
+.IP "addr" 12
+Address to write data to.
+.IP "data" 12
+The data to write to address \fIaddr\fP.
+.SH "DESCRIPTION"
+Write the \fIdata\fP to the specified \fIaddr\fP in the EEPROM and
+waiting for the device to finish writing.
+
+Note, since we do not expect large number of write operations
+we delay in between parts of the operation to avoid using excessive
+amounts of CPU time busy waiting.

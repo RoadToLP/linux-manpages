@@ -1,0 +1,18 @@
+.TH "kgdb_roundup_cpus" 9 "kgdb_roundup_cpus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kgdb_roundup_cpus \- Get other CPUs into a holding pattern
+.SH SYNOPSIS
+.B "void" kgdb_roundup_cpus
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+On SMP systems, we need to get the attention of the other CPUs
+and get them be in a known state.  This should do what is needed
+to get the other CPUs to call \fBkgdb_wait\fP. Note that on some arches,
+the NMI approach is not used for rounding up all the CPUs. For example,
+in case of MIPS, \fBsmp_call_function\fP is used to roundup CPUs.
+
+On non-SMP systems, this is not called.

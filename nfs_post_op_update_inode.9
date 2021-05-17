@@ -1,0 +1,21 @@
+.TH "nfs_post_op_update_inode" 9 "nfs_post_op_update_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_post_op_update_inode \- try to update the inode attribute cache
+.SH SYNOPSIS
+.B "int" nfs_post_op_update_inode
+.BI "(struct inode *inode "  ","
+.BI "struct nfs_fattr *fattr "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pointer to inode
+.IP "fattr" 12
+updated attributes
+.SH "DESCRIPTION"
+After an operation that has changed the inode metadata, mark the
+attribute cache as being invalid, then try to update it.
+
+NB: if the server didn't return any post op attributes, this
+function will force the retrieval of attributes before the next
+NFS request.  Thus it should be used only for operations that
+are expected to change one or more attributes, to avoid
+unnecessary NFS requests and trips through \fBnfs_update_inode\fP.

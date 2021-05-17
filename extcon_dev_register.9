@@ -1,0 +1,19 @@
+.TH "extcon_dev_register" 9 "extcon_dev_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+extcon_dev_register \- Register an new extcon device
+.SH SYNOPSIS
+.B "int" extcon_dev_register
+.BI "(struct extcon_dev *edev "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+the extcon device to be registered
+.SH "DESCRIPTION"
+Among the members of edev struct, please set the "user initializing data"
+do not set the values of "internal data", which are initialized by
+this function.
+
+Note that before calling this funciton, have to allocate the memory
+of an extcon device by using the \fBextcon_dev_allocate\fP. And the extcon
+dev should include the supported_cable information.
+
+Returns 0 if success or error number if fail.

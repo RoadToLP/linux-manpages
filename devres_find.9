@@ -1,0 +1,24 @@
+.TH "devres_find" 9 "devres_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devres_find \- Find device resource
+.SH SYNOPSIS
+.B "void *" devres_find
+.BI "(struct device *dev "  ","
+.BI "dr_release_t release "  ","
+.BI "dr_match_t match "  ","
+.BI "void *match_data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to lookup resource from
+.IP "release" 12
+Look for resources associated with this release function
+.IP "match" 12
+Match function (optional)
+.IP "match_data" 12
+Data for the match function
+.SH "DESCRIPTION"
+Find the latest devres of \fIdev\fP which is associated with \fIrelease\fP
+and for which \fImatch\fP returns 1.  If \fImatch\fP is NULL, it's considered
+to match all.
+.SH "RETURN"
+Pointer to found devres, NULL if not found.

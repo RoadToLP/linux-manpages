@@ -1,0 +1,35 @@
+.TH "fscrypt_encrypt_pagecache_blocks" 9 "fscrypt_encrypt_pagecache_blocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_encrypt_pagecache_blocks \- Encrypt filesystem blocks from a pagecache page
+.SH SYNOPSIS
+.B "struct page *" fscrypt_encrypt_pagecache_blocks
+.BI "(struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offs "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+The locked pagecache page containing the block(s) to encrypt
+.IP "len" 12
+Total size of the block(s) to encrypt.  Must be a nonzero
+multiple of the filesystem's block size.
+.IP "offs" 12
+Byte offset within \fIpage\fP of the first block to encrypt.  Must be
+a multiple of the filesystem's block size.
+.IP "gfp_flags" 12
+Memory allocation flags.  See details below.
+.SH "DESCRIPTION"
+A new bounce page is allocated, and the specified block(s) are encrypted into
+it.  In the bounce page, the ciphertext block(s) will be located at the same
+offsets at which the plaintext block(s) were located in the source page; any
+other parts of the bounce page will be left uninitialized.  However, normally
+blocksize == PAGE_SIZE and the whole page is encrypted at once.
+
+This is for use by the filesystem's ->\fBwritepages\fP method.
+
+The bounce page allocation is mempool-backed, so it will always succeed when
+\fIgfp_flags\fP includes __GFP_DIRECT_RECLAIM, e.g. when it's GFP_NOFS.  However,
+only the first page of each bio can be allocated this way.  To prevent
+deadlocks, for any additional pages a mask like GFP_NOWAIT must be used.
+.SH "RETURN"
+the new encrypted bounce page on success; an \fBERR_PTR\fP on failure

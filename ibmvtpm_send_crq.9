@@ -1,0 +1,47 @@
+.TH "ibmvtpm_send_crq" 9 "ibmvtpm_send_crq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvtpm_send_crq \- Send a CRQ request
+.SH SYNOPSIS
+.B "int" ibmvtpm_send_crq
+.BI "(struct vio_dev *vdev "  ","
+.BI "u8 valid "  ","
+.BI "u8 msg "  ","
+.BI "u16 len "  ","
+.BI "u32 data "  ");"
+.SH ARGUMENTS
+.IP "vdev" 12
+vio device struct
+.IP "valid" 12
+Valid field
+.IP "msg" 12
+Type field
+.IP "len" 12
+Length field
+.IP "data" 12
+Data field
+.SH "DESCRIPTION"
+The ibmvtpm crq is defined as follows:
+
+Byte  |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7
+-----------------------------------------------------------------------
+Word0 | Valid | Type  |     Length    |              Data
+-----------------------------------------------------------------------
+Word1 |                Reserved
+-----------------------------------------------------------------------
+
+Which matches the following structure (on bigendian host):
+
+struct ibmvtpm_crq {
+u8 valid;
+u8 msg;
+__be16 len;
+__be32 data;
+__be64 reserved;
+} __attribute__((packed, aligned(8)));
+
+However, the value is passed in a register so just compute the numeric value
+to load into the register avoiding byteswap altogether. Endian only affects
+memory loads and stores - registers are internally represented the same.
+.SH "RETURN"
+0 (H_SUCCESS) - Success
+Non-zero - Failure

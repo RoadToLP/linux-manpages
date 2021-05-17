@@ -1,0 +1,21 @@
+.TH "ubifs_find_free_leb_for_idx" 9 "ubifs_find_free_leb_for_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_find_free_leb_for_idx \- find a free LEB for the index.
+.SH SYNOPSIS
+.B "int" ubifs_find_free_leb_for_idx
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.SH "DESCRIPTION"
+This function looks for a free LEB and returns that LEB number. The returned
+LEB is marked as "taken", "index".
+
+Only empty LEBs are allocated. This is for two reasons. First, the commit
+calculates the number of LEBs to allocate based on the assumption that they
+will be empty. Secondly, free space at the end of an index LEB is not
+guaranteed to be empty because it may have been used by the in-the-gaps
+method prior to an unclean unmount.
+
+If no LEB is found -ENOSPC is returned. For other failures another negative
+error code is returned.

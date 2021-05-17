@@ -1,0 +1,17 @@
+.TH "usb_gadget_vbus_disconnect" 9 "usb_gadget_vbus_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_vbus_disconnect \- notify controller about VBUS session end
+.SH SYNOPSIS
+.B "int" usb_gadget_vbus_disconnect
+.BI "(struct usb_gadget *gadget "  ");"
+.SH ARGUMENTS
+.IP "gadget" 12
+the device whose VBUS supply is being described
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+This call is used by a driver for an external transceiver (or GPIO)
+that detects a VBUS power session ending.  Common responses include
+reversing everything done in \fBusb_gadget_vbus_connect\fP.
+
+Returns zero on success, else negative errno.

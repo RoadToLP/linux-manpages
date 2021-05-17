@@ -1,0 +1,23 @@
+.TH "of_get_videomode" 9 "of_get_videomode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_get_videomode \- get the videomode #<index> from devicetree
+.SH SYNOPSIS
+.B "int" of_get_videomode
+.BI "(struct device_node *np "  ","
+.BI "struct videomode *vm "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+devicenode with the display_timings
+.IP "vm" 12
+set to return value
+.IP "index" 12
+index into list of display_timings
+(Set this to OF_USE_NATIVE_MODE to use whatever mode is
+specified as native mode in the DT.)
+.SH "DESCRIPTION"
+Get a list of all display timings and put the one
+specified by index into *vm. This function should only be used, if
+only one videomode is to be retrieved. A driver that needs to work
+with multiple/all videomodes should work with
+of_get_display_timings instead.

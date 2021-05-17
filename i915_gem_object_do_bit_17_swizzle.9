@@ -1,0 +1,20 @@
+.TH "i915_gem_object_do_bit_17_swizzle" 9 "i915_gem_object_do_bit_17_swizzle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_object_do_bit_17_swizzle \- fixup bit 17 swizzling
+.SH SYNOPSIS
+.B "void" i915_gem_object_do_bit_17_swizzle
+.BI "(struct drm_i915_gem_object *obj "  ","
+.BI "struct sg_table *pages "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+i915 GEM buffer object
+.IP "pages" 12
+the scattergather list of physical pages
+.SH "DESCRIPTION"
+This function fixes up the swizzling in case any page frame number for this
+object has changed in bit 17 since that state has been saved with
+\fBi915_gem_object_save_bit_17_swizzle\fP.
+
+This is called when pinning backing storage again, since the kernel is free
+to move unpinned backing storage around (either by directly moving pages or
+by swapping them out and back in again).

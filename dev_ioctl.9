@@ -1,0 +1,23 @@
+.TH "dev_ioctl" 9 "dev_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_ioctl \- network device ioctl
+.SH SYNOPSIS
+.B "int" dev_ioctl
+.BI "(struct net *net "  ","
+.BI "unsigned int cmd "  ","
+.BI "struct ifreq *ifr "  ","
+.BI "bool *need_copyout "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "cmd" 12
+command to issue
+.IP "ifr" 12
+pointer to a struct ifreq in user space
+.IP "need_copyout" 12
+whether or not \fBcopy_to_user\fP should be called
+
+Issue ioctl functions to devices. This is normally called by the
+user space syscall interfaces but can sometimes be useful for
+other purposes. The return value is the return from the syscall if
+positive or a negative errno code on error.

@@ -1,0 +1,22 @@
+.TH "pcpu_chunk_populated" 9 "pcpu_chunk_populated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_chunk_populated \- post-population bookkeeping
+.SH SYNOPSIS
+.B "void" pcpu_chunk_populated
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+pcpu_chunk which got populated
+.IP "page_start" 12
+the start page
+.IP "page_end" 12
+the end page
+.SH "DESCRIPTION"
+Pages in [\fIpage_start\fP,\fIpage_end\fP) have been populated to \fIchunk\fP.  Update
+the bookkeeping information accordingly.  Must be called after each
+successful population.
+
+If this is \fIfor_alloc\fP, do not increment pcpu_nr_empty_pop_pages because it
+is to serve an allocation in that area.

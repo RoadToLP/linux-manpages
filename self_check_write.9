@@ -1,0 +1,25 @@
+.TH "self_check_write" 9 "self_check_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+self_check_write \- make sure write succeeded.
+.SH SYNOPSIS
+.B "int" self_check_write
+.BI "(struct ubi_device *ubi "  ","
+.BI "const void *buf "  ","
+.BI "int pnum "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "buf" 12
+buffer with data which were written
+.IP "pnum" 12
+physical eraseblock number the data were written to
+.IP "offset" 12
+offset within the physical eraseblock the data were written to
+.IP "len" 12
+how many bytes were written
+.SH "DESCRIPTION"
+This functions reads data which were recently written and compares it with
+the original data buffer - the data have to match. Returns zero if the data
+match and a negative error code if not or in case of failure.

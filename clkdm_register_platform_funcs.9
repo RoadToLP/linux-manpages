@@ -1,0 +1,15 @@
+.TH "clkdm_register_platform_funcs" 9 "clkdm_register_platform_funcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_register_platform_funcs \- register clockdomain implementation fns
+.SH SYNOPSIS
+.B "int" clkdm_register_platform_funcs
+.BI "(struct clkdm_ops *co "  ");"
+.SH ARGUMENTS
+.IP "co" 12
+func pointers for arch specific implementations
+.SH "DESCRIPTION"
+Register the list of function pointers used to implement the
+clockdomain functions on different OMAP SoCs.  Should be called
+before any other clkdm_register*() function.  Returns -EINVAL if
+\fIco\fP is null, -EEXIST if platform functions have already been
+registered, or 0 upon success.

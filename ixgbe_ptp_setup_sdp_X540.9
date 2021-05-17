@@ -1,0 +1,19 @@
+.TH "ixgbe_ptp_setup_sdp_X540" 9 "ixgbe_ptp_setup_sdp_X540" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ptp_setup_sdp_X540 \- 
+.SH SYNOPSIS
+.B "void" ixgbe_ptp_setup_sdp_X540
+.BI "(struct ixgbe_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+private adapter structure
+.SH "DESCRIPTION"
+this function enables or disables the clock out feature on SDP0 for
+the X540 device. It will create a 1 second periodic output that can
+be used as the PPS (via an interrupt).
+
+It calculates when the system time will be on an exact second, and then
+aligns the start of the PPS signal to that value.
+
+This works by using the cycle counter shift and mult values in reverse, and
+assumes that the values we're shifting will not overflow.

@@ -1,0 +1,35 @@
+.TH "drm_atomic_helper_dirtyfb" 9 "drm_atomic_helper_dirtyfb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_dirtyfb \- Helper for dirtyfb.
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_dirtyfb
+.BI "(struct drm_framebuffer *fb "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "unsigned int flags "  ","
+.BI "unsigned int color "  ","
+.BI "struct drm_clip_rect *clips "  ","
+.BI "unsigned int num_clips "  ");"
+.SH ARGUMENTS
+.IP "fb" 12
+DRM framebuffer.
+.IP "file_priv" 12
+Drm file for the ioctl call.
+.IP "flags" 12
+Dirty fb annotate flags.
+.IP "color" 12
+Color for annotate fill.
+.IP "clips" 12
+Dirty region.
+.IP "num_clips" 12
+Count of clip in clips.
+.SH "DESCRIPTION"
+A helper to implement \fIdrm_framebuffer_funcs.dirty\fP using damage interface
+during plane update. If num_clips is 0 then this helper will do a full plane
+update. This is the same behaviour expected by DIRTFB IOCTL.
+
+Note that this helper is blocking implementation. This is what current
+drivers and userspace expect in their DIRTYFB IOCTL implementation, as a way
+to rate-limit userspace and make sure its rendering doesn't get ahead of
+uploading new data too much.
+.SH "RETURN"
+Zero on success, negative errno on failure.

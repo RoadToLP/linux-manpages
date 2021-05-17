@@ -1,0 +1,15 @@
+.TH "drm_dev_unplug" 9 "drm_dev_unplug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dev_unplug \- unplug a DRM device
+.SH SYNOPSIS
+.B "void" drm_dev_unplug
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+This unplugs a hotpluggable DRM device, which makes it inaccessible to
+userspace operations. Entry-points can use \fBdrm_dev_enter\fP and
+\fBdrm_dev_exit\fP to protect device resources in a race free manner. This
+essentially unregisters the device like \fBdrm_dev_unregister\fP, but can be
+called while there are still open users of \fIdev\fP.

@@ -1,0 +1,32 @@
+.TH "linear_range_get_selector_low_array" 9 "linear_range_get_selector_low_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+linear_range_get_selector_low_array \- return linear range selector for value
+.SH SYNOPSIS
+.B "int" linear_range_get_selector_low_array
+.BI "(const struct linear_range *r "  ","
+.BI "int ranges "  ","
+.BI "unsigned int val "  ","
+.BI "unsigned int *selector "  ","
+.BI "bool *found "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+pointer to array of linear ranges where selector is looked from
+.IP "ranges" 12
+amount of ranges to scan from array
+.IP "val" 12
+value for which the selector is searched
+.IP "selector" 12
+address where found selector value is updated
+.IP "found" 12
+flag to indicate that given value was in the range
+.SH "DESCRIPTION"
+Scan array of ranges for selector for which range value matches given
+input value. Value is matching if it is equal or smaller than given
+value. If given value is found to be in a range scanning is stopped and
+\fIfound\fP is set true. If a range with values smaller than given value is found
+but the range max is being smaller than given value, then the range's
+biggest selector is updated to \fIselector\fP but scanning ranges is continued
+and \fIfound\fP is set to false.
+.SH "RETURN"
+0 on success, -EINVAL if range array is invalid or does not contain
+range with a value smaller or equal to given value

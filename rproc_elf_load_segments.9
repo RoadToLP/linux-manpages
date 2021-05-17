@@ -1,0 +1,31 @@
+.TH "rproc_elf_load_segments" 9 "rproc_elf_load_segments" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_elf_load_segments \- load firmware segments to memory
+.SH SYNOPSIS
+.B "int" rproc_elf_load_segments
+.BI "(struct rproc *rproc "  ","
+.BI "const struct firmware *fw "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+remote processor which will be booted using these fw segments
+.IP "fw" 12
+the ELF firmware image
+.SH "DESCRIPTION"
+This function loads the firmware segments to memory, where the remote
+processor expects them.
+
+Some remote processors will expect their code and data to be placed
+in specific device addresses, and can't have them dynamically assigned.
+
+We currently support only those kind of remote processors, and expect
+the program header's paddr member to contain those addresses. We then go
+through the physically contiguous "carveout" memory regions which we
+allocated (and mapped) earlier on behalf of the remote processor,
+and "translate" device address to kernel addresses, so we can copy the
+segments where they are expected.
+
+Currently we only support remote processors that required carveout
+allocations and got them mapped onto their iommus. Some processors
+might be different: they might not have iommus, and would prefer to
+directly allocate memory for every segment/resource. This is not yet
+supported, though.

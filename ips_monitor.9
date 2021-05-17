@@ -1,0 +1,16 @@
+.TH "ips_monitor" 9 "ips_monitor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ips_monitor \- temp/power monitoring thread
+.SH SYNOPSIS
+.B "int" ips_monitor
+.BI "(void *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ips driver structure
+.SH "DESCRIPTION"
+This is the main function for the IPS driver.  It monitors power and
+tempurature in the MCP and adjusts CPU and GPU power clams accordingly.
+
+We keep a 5s moving average of power consumption and tempurature.  Using
+that data, along with CPU vs GPU preference, we adjust the power clamps
+up or down.

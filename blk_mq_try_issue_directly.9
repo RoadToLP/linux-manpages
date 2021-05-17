@@ -1,0 +1,20 @@
+.TH "blk_mq_try_issue_directly" 9 "blk_mq_try_issue_directly" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_try_issue_directly \- Try to send a request directly to device driver.
+.SH SYNOPSIS
+.B "void" blk_mq_try_issue_directly
+.BI "(struct blk_mq_hw_ctx *hctx "  ","
+.BI "struct request *rq "  ","
+.BI "blk_qc_t *cookie "  ");"
+.SH ARGUMENTS
+.IP "hctx" 12
+Pointer of the associated hardware queue.
+.IP "rq" 12
+Pointer to request to be sent.
+.IP "cookie" 12
+Request queue cookie.
+.SH "DESCRIPTION"
+If the device has enough resources to accept a new request now, send the
+request directly to device driver. Else, insert at hctx->dispatch queue, so
+we can try send it another time in the future. Requests inserted at this
+queue have higher priority.

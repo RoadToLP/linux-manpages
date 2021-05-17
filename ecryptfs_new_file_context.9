@@ -1,0 +1,24 @@
+.TH "ecryptfs_new_file_context" 9 "ecryptfs_new_file_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_new_file_context \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_new_file_context
+.BI "(struct inode *ecryptfs_inode "  ");"
+.SH ARGUMENTS
+.IP "ecryptfs_inode" 12
+The eCryptfs inode
+.SH "DESCRIPTION"
+If the crypto context for the file has not yet been established,
+this is where we do that.  Establishing a new crypto context
+involves the following decisions:
+- What cipher to use?
+- What set of authentication tokens to use?
+Here we just worry about getting enough information into the
+authentication tokens so that we know that they are available.
+We associate the available authentication tokens with the new file
+via the set of signatures in the crypt_stat struct.  Later, when
+the headers are actually written out, we may again defer to
+userspace to perform the encryption of the session key; for the
+foreseeable future, this will be the case with public key packets.
+
+Returns zero on success; non-zero otherwise

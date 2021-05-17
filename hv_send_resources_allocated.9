@@ -1,0 +1,22 @@
+.TH "hv_send_resources_allocated" 9 "hv_send_resources_allocated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hv_send_resources_allocated \- Report local resource choices
+.SH SYNOPSIS
+.B "int" hv_send_resources_allocated
+.BI "(struct hv_device *hdev "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+VMBus's tracking struct for this root PCI bus
+.SH "DESCRIPTION"
+The host OS is expecting to be sent a request as a message
+which contains all the resources that the device will use.
+The response contains those same resources, "translated"
+which is to say, the values which should be used by the
+hardware, when it delivers an interrupt.  (MMIO resources are
+used in local terms.)  This is nice for Windows, and lines up
+with the FDO/PDO split, which doesn't exist in Linux.  Linux
+is deeply expecting to scan an emulated PCI configuration
+space.  So this message is sent here only to drive the state
+machine on the host forward.
+.SH "RETURN"
+0 on success, -errno on failure

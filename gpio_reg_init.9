@@ -1,0 +1,45 @@
+.TH "gpio_reg_init" 9 "gpio_reg_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpio_reg_init \- add a fixed in/out register as gpio
+.SH SYNOPSIS
+.B "struct gpio_chip *" gpio_reg_init
+.BI "(struct device *dev "  ","
+.BI "void __iomem *reg "  ","
+.BI "int base "  ","
+.BI "int num "  ","
+.BI "const char *label "  ","
+.BI "u32 direction "  ","
+.BI "u32 def_out "  ","
+.BI "const char *const *names "  ","
+.BI "struct irq_domain *irqdom "  ","
+.BI "const int *irqs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+optional struct device associated with this register
+.IP "reg" 12
+-- undescribed --
+.IP "base" 12
+start gpio number, or -1 to allocate
+.IP "num" 12
+number of GPIOs, maximum 32
+.IP "label" 12
+GPIO chip label
+.IP "direction" 12
+bitmask of fixed direction, one per GPIO signal, 1 = in
+.IP "def_out" 12
+initial GPIO output value
+.IP "names" 12
+array of num strings describing each GPIO signal or NULL
+.IP "irqdom" 12
+irq domain or NULL
+.IP "irqs" 12
+array of num ints describing the interrupt mapping for each
+GPIO signal, or NULL.  If \fIirqdom\fP is NULL, then this
+describes the Linux interrupt number, otherwise it describes
+the hardware interrupt number in the specified irq domain.
+.SH "DESCRIPTION"
+Add a single-register GPIO device containing up to 32 GPIO signals,
+where each GPIO has a fixed input or output configuration.  Only
+input GPIOs are assumed to be readable from the register, and only
+then after a double-read.  Output values are assumed not to be
+readable.

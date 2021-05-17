@@ -1,0 +1,19 @@
+.TH "efi_capsule_setup_info" 9 "efi_capsule_setup_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_setup_info \- obtain the efi capsule header in the binary and setup capsule_info structure
+.SH SYNOPSIS
+.B "int" efi_capsule_setup_info
+.BI "(struct capsule_info *cap_info "  ","
+.BI "void *kbuff "  ","
+.BI "size_t hdr_bytes "  ");"
+.SH ARGUMENTS
+.IP "cap_info" 12
+pointer to current instance of capsule_info structure
+.IP "kbuff" 12
+a mapped first page buffer pointer
+.IP "hdr_bytes" 12
+the total received number of bytes for efi header
+.SH "DESCRIPTION"
+Platforms with non-standard capsule update mechanisms can override
+this __weak function so they can perform any required capsule
+image munging. See \fBquark_quirk_function\fP for an example.

@@ -1,0 +1,27 @@
+.TH "batadv_tvlv_handler_register" 9 "batadv_tvlv_handler_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tvlv_handler_register \- register tvlv handler based on the provided type and version (both need to match) for ogm tvlv payload and/or unicast payload
+.SH SYNOPSIS
+.B "void" batadv_tvlv_handler_register
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "void (*optr)(struct batadv_priv *bat_priv, struct batadv_orig_node *orig, u8 flags, void *tvlv_value, u16 tvlv_value_len) "  ","
+.BI "int (*uptr)(struct batadv_priv *bat_priv, u8 *src, u8 *dst, void *tvlv_value, u16 tvlv_value_len) "  ","
+.BI "u8 type "  ","
+.BI "u8 version "  ","
+.BI "u8 flags "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "optr" 12
+ogm tvlv handler callback function. This function receives the orig
+node, flags and the tvlv content as argument to process.
+.IP "uptr" 12
+unicast tvlv handler callback function. This function receives the
+source & destination of the unicast packet as well as the tvlv content
+to process.
+.IP "type" 12
+tvlv handler type to be registered
+.IP "version" 12
+tvlv handler version to be registered
+.IP "flags" 12
+flags to enable or disable TVLV API behavior

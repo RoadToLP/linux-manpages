@@ -1,0 +1,23 @@
+.TH "kmx61_set_mode" 9 "kmx61_set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmx61_set_mode \- set KMX61 device operating mode
+.SH SYNOPSIS
+.B "int" kmx61_set_mode
+.BI "(struct kmx61_data *data "  ","
+.BI "u8 mode "  ","
+.BI "u8 device "  ","
+.BI "bool update "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+kmx61 device private data pointer
+.IP "mode" 12
+bitmask, indicating operating mode for \fIdevice\fP
+.IP "device" 12
+bitmask, indicating device for which \fImode\fP needs to be set
+.IP "update" 12
+update stby bits stored in device's private  \fIdata\fP
+.SH "DESCRIPTION"
+For each sensor (accelerometer/magnetometer) there are two operating modes
+STANDBY and OPERATION. Neither accel nor magn can be disabled independently
+if they are both enabled. Internal sensors state is saved in acc_stby and
+mag_stby members of driver's private \fIdata\fP.

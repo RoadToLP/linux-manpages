@@ -1,0 +1,33 @@
+.TH "acpi_get_gpiod_by_index" 9 "acpi_get_gpiod_by_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_get_gpiod_by_index \- get a GPIO descriptor from device resources
+.SH SYNOPSIS
+.B "struct gpio_desc *" acpi_get_gpiod_by_index
+.BI "(struct acpi_device *adev "  ","
+.BI "const char *propname "  ","
+.BI "int index "  ","
+.BI "struct acpi_gpio_info *info "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+pointer to a ACPI device to get GPIO from
+.IP "propname" 12
+Property name of the GPIO (optional)
+.IP "index" 12
+index of GpioIo/GpioInt resource (starting from 0)
+.IP "info" 12
+info pointer to fill in (optional)
+.SH "DESCRIPTION"
+Function goes through ACPI resources for \fIadev\fP and based on \fIindex\fP looks
+up a GpioIo/GpioInt resource, translates it to the Linux GPIO descriptor,
+and returns it. \fIindex\fP matches GpioIo/GpioInt resources only so if there
+are total 3 GPIO resources, the index goes from 0 to 2.
+
+If \fIpropname\fP is specified the GPIO is looked using device property. In
+that case \fIindex\fP is used to select the GPIO entry in the property value
+(in case of multiple).
+
+If the GPIO cannot be translated or there is an error, an ERR_PTR is
+returned.
+.SH "NOTE"
+if the GPIO resource has multiple entries in the pin list, this
+function only returns the first.

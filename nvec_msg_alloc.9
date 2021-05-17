@@ -1,0 +1,21 @@
+.TH "nvec_msg_alloc" 9 "nvec_msg_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvec_msg_alloc \- 
+.SH SYNOPSIS
+.B "struct nvec_msg *" nvec_msg_alloc
+.BI "(struct nvec_chip *nvec "  ","
+.BI "enum nvec_msg_category category "  ");"
+.SH ARGUMENTS
+.IP "nvec" 12
+A \fIstruct nvec_chip\fP
+.IP "category" 12
+Pool category, see \fIenum nvec_msg_category\fP
+.SH "DESCRIPTION"
+Allocate a single \fIstruct nvec_msg\fP object from the message pool of
+\fInvec\fP. The result shall be passed to \fBnvec_msg_free\fP if no longer
+used.
+
+Outgoing messages are placed in the upper 75% of the pool, keeping the
+lower 25% available for RX buffers only. The reason is to prevent a
+situation where all buffers are full and a message is thus endlessly
+retried because the response could never be processed.

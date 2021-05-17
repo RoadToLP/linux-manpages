@@ -1,0 +1,15 @@
+.TH "i40e_ptp_create_clock" 9 "i40e_ptp_create_clock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_create_clock \- Create PTP clock device for userspace
+.SH SYNOPSIS
+.B "long" i40e_ptp_create_clock
+.BI "(struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.SH "DESCRIPTION"
+This function creates a new PTP clock device. It only creates one if we
+don't already have one, so it is safe to call. Will return error if it
+can't create one, but success if we already have a device. Should be used
+by i40e_ptp_init to create clock initially, and prevent global resets from
+creating new clock devices.

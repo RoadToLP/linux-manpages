@@ -1,0 +1,21 @@
+.TH "drm_crtc_add_crc_entry" 9 "drm_crtc_add_crc_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_add_crc_entry \- Add entry with CRC information for a frame
+.SH SYNOPSIS
+.B "int" drm_crtc_add_crc_entry
+.BI "(struct drm_crtc *crtc "  ","
+.BI "bool has_frame "  ","
+.BI "uint32_t frame "  ","
+.BI "uint32_t *crcs "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC to which the frame belongs
+.IP "has_frame" 12
+whether this entry has a frame number to go with
+.IP "frame" 12
+number of the frame these CRCs are about
+.IP "crcs" 12
+array of CRC values, with length matching #drm_crtc_crc.values_cnt
+.SH "DESCRIPTION"
+For each frame, the driver polls the source of CRCs for new data and calls
+this function to add them to the buffer from where userspace reads.

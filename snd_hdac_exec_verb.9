@@ -1,0 +1,23 @@
+.TH "snd_hdac_exec_verb" 9 "snd_hdac_exec_verb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_exec_verb \- execute an encoded verb
+.SH SYNOPSIS
+.B "int" snd_hdac_exec_verb
+.BI "(struct hdac_device *codec "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned int flags "  ","
+.BI "unsigned int *res "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the codec object
+.IP "cmd" 12
+encoded verb to execute
+.IP "flags" 12
+optional flags, pass zero for default
+.IP "res" 12
+the pointer to store the result, NULL if running async
+.SH "DESCRIPTION"
+Returns zero if successful, or a negative error code.
+
+This calls the exec_verb op when set in hdac_codec.  If not,
+call the default \fBsnd_hdac_bus_exec_verb\fP.

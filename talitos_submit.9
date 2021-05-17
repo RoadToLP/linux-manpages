@@ -1,0 +1,25 @@
+.TH "talitos_submit" 9 "talitos_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+talitos_submit \- submits a descriptor to the device for processing
+.SH SYNOPSIS
+.B "int" talitos_submit
+.BI "(struct device *dev "  ","
+.BI "int ch "  ","
+.BI "struct talitos_desc *desc "  ","
+.BI "void (*callback)(struct device *dev, struct talitos_desc *desc, void *context, int error) "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the SEC device to be used
+.IP "ch" 12
+the SEC device channel to be used
+.IP "desc" 12
+the descriptor to be processed by the device
+.IP "callback" 12
+whom to call when processing is complete
+.IP "context" 12
+a handle for use by caller (optional)
+.SH "DESCRIPTION"
+desc must contain valid dma-mapped (bus physical) address pointers.
+callback must check err and feedback in descriptor header
+for device processing status.

@@ -1,0 +1,27 @@
+.TH "get_reg_offset_16" 9 "get_reg_offset_16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_reg_offset_16 \- Obtain offset of register indicated by instruction
+.SH SYNOPSIS
+.B "int" get_reg_offset_16
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int *offs1 "  ","
+.BI "int *offs2 "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction containing ModRM byte
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "offs1" 12
+Offset of the first operand register
+.IP "offs2" 12
+Offset of the second opeand register, if applicable
+.SH "DESCRIPTION"
+Obtain the offset, in pt_regs, of the registers indicated by the ModRM byte
+in \fIinsn\fP. This function is to be used with 16-bit address encodings. The
+\fIoffs1\fP and \fIoffs2\fP will be written with the offset of the two registers
+indicated by the instruction. In cases where any of the registers is not
+referenced by the instruction, the value will be set to -EDOM.
+
+0 on success, -EINVAL on error.
+.SH "RETURN"

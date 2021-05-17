@@ -1,0 +1,20 @@
+.TH "rpc_clnt_iterate_for_each_xprt" 9 "rpc_clnt_iterate_for_each_xprt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_clnt_iterate_for_each_xprt \- Apply a function to all transports
+.SH SYNOPSIS
+.B "int" rpc_clnt_iterate_for_each_xprt
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "int (*fn)(struct rpc_clnt *, struct rpc_xprt *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+pointer to client
+.IP "fn" 12
+function to apply
+.IP "data" 12
+void pointer to function data
+.SH "DESCRIPTION"
+Iterates through the list of RPC transports currently attached to the
+client and applies the function fn(clnt, xprt, data).
+
+On error, the iteration stops, and the function returns the error value.

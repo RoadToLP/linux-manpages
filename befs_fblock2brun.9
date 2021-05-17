@@ -1,0 +1,26 @@
+.TH "befs_fblock2brun" 9 "befs_fblock2brun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_fblock2brun \- give back block run for fblock
+.SH SYNOPSIS
+.B "int" befs_fblock2brun
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *data "  ","
+.BI "befs_blocknr_t fblock "  ","
+.BI "befs_block_run *run "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the superblock
+.IP "data" 12
+datastream to read from
+.IP "fblock" 12
+the blocknumber with the file position to find
+.IP "run" 12
+The found run is passed back through this pointer
+.SH "DESCRIPTION"
+Takes a file position and gives back a brun who's starting block
+is block number fblock of the file.
+
+Returns BEFS_OK or BEFS_ERR.
+
+Calls specialized functions for each of the three possible
+datastream regions.

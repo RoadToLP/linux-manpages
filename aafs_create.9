@@ -1,0 +1,32 @@
+.TH "aafs_create" 9 "aafs_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aafs_create \- create a dentry in the apparmorfs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" aafs_create
+.BI "(const char *name "  ","
+.BI "umode_t mode "  ","
+.BI "struct dentry *parent "  ","
+.BI "void *data "  ","
+.BI "void *link "  ","
+.BI "const struct file_operations *fops "  ","
+.BI "const struct inode_operations *iops "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of dentry to create
+.IP "mode" 12
+permissions the file should have
+.IP "parent" 12
+parent directory for this dentry
+.IP "data" 12
+data to store on inode.i_private, available in \fBopen\fP
+.IP "link" 12
+if symlink, symlink target string
+.IP "fops" 12
+struct file_operations that should be used for
+.IP "iops" 12
+struct of inode_operations that should be used
+.SH "DESCRIPTION"
+This is the basic "create a xxx" function for apparmorfs.
+
+Returns a pointer to a dentry if it succeeds, that must be free with
+\fBaafs_remove\fP. Will return ERR_PTR on failure.

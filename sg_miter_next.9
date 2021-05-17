@@ -1,0 +1,19 @@
+.TH "sg_miter_next" 9 "sg_miter_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sg_miter_next \- proceed mapping iterator to the next mapping
+.SH SYNOPSIS
+.B "bool" sg_miter_next
+.BI "(struct sg_mapping_iter *miter "  ");"
+.SH ARGUMENTS
+.IP "miter" 12
+sg mapping iter to proceed
+.SH "DESCRIPTION"
+Proceeds \fImiter\fP to the next mapping.  \fImiter\fP should have been started
+using \fBsg_miter_start\fP.  On successful return, \fImiter->page\fP,
+\fImiter->addr\fP and \fImiter->length\fP point to the current mapping.
+.SH "CONTEXT"
+Preemption disabled if SG_MITER_ATOMIC.  Preemption must stay disabled
+till \fImiter\fP is stopped.  May sleep if !SG_MITER_ATOMIC.
+.SH "RETURN"
+true if \fImiter\fP contains the next mapping.  false if end of sg
+list is reached.

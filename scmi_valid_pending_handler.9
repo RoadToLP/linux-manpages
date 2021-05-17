@@ -1,0 +1,21 @@
+.TH "scmi_valid_pending_handler" 9 "scmi_valid_pending_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_valid_pending_handler \- Helper to check pending status of handlers
+.SH SYNOPSIS
+.B "int" scmi_valid_pending_handler
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "struct scmi_event_handler *hndl "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "hndl" 12
+The event handler to check
+.SH "DESCRIPTION"
+An handler is considered pending when its r_evt == NULL, because the related
+event was still unknown at handler's registration time; anyway, since all
+protocols register their supported events once for all at protocols'
+initialization time, a pending handler cannot be considered valid anymore if
+the underlying event (which it is waiting for), belongs to an already
+initialized and registered protocol.
+.SH "RETURN"
+0 on Success

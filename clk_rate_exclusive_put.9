@@ -1,0 +1,23 @@
+.TH "clk_rate_exclusive_put" 9 "clk_rate_exclusive_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_rate_exclusive_put \- release exclusivity over clock rate control
+.SH SYNOPSIS
+.B "void" clk_rate_exclusive_put
+.BI "(struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+the clk over which the exclusivity is released
+.SH "DESCRIPTION"
+\fBclk_rate_exclusive_put\fP completes a critical section during which a clock
+consumer cannot tolerate any other consumer making any operation on the
+clock which could result in a rate change or rate glitch. Exclusive clocks
+cannot have their rate changed, either directly or indirectly due to changes
+further up the parent chain of clocks. As a result, clocks up parent chain
+also get under exclusive control of the calling consumer.
+
+If exlusivity is claimed more than once on clock, even by the same consumer,
+the rate effectively gets locked as exclusivity can't be preempted.
+
+Calls to \fBclk_rate_exclusive_put\fP must be balanced with calls to
+\fBclk_rate_exclusive_get\fP. Calls to this function may sleep, and do not return
+error status.

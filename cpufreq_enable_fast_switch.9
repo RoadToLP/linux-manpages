@@ -1,0 +1,16 @@
+.TH "cpufreq_enable_fast_switch" 9 "cpufreq_enable_fast_switch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_enable_fast_switch \- Enable fast frequency switching for policy.
+.SH SYNOPSIS
+.B "void" cpufreq_enable_fast_switch
+.BI "(struct cpufreq_policy *policy "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+cpufreq policy to enable fast frequency switching for.
+.SH "DESCRIPTION"
+Try to enable fast frequency switching for \fIpolicy\fP.
+
+The attempt will fail if there is at least one transition notifier registered
+at this point, as fast frequency switching is quite fundamentally at odds
+with transition notifiers.  Thus if successful, it will make registration of
+transition notifiers fail going forward.

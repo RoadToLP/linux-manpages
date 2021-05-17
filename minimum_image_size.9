@@ -1,0 +1,20 @@
+.TH "minimum_image_size" 9 "minimum_image_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+minimum_image_size \- Estimate the minimum acceptable size of an image.
+.SH SYNOPSIS
+.B "unsigned long" minimum_image_size
+.BI "(unsigned long saveable "  ");"
+.SH ARGUMENTS
+.IP "saveable" 12
+Number of saveable pages in the system.
+.SH "DESCRIPTION"
+We want to avoid attempting to free too much memory too hard, so estimate the
+minimum acceptable size of a hibernation image to use as the lower limit for
+preallocating memory.
+
+We assume that the minimum image size should be proportional to
+
+[number of saveable pages] - [number of pages that can be freed in theory]
+
+where the second term is the sum of (1) reclaimable slab pages, (2) active
+and (3) inactive anonymous pages, (4) active and (5) inactive file pages.

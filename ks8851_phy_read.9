@@ -1,0 +1,24 @@
+.TH "ks8851_phy_read" 9 "ks8851_phy_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_phy_read \- MII interface PHY register read.
+.SH SYNOPSIS
+.B "int" ks8851_phy_read
+.BI "(struct net_device *dev "  ","
+.BI "int phy_addr "  ","
+.BI "int reg "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The network device the PHY is on.
+.IP "phy_addr" 12
+Address of PHY (ignored as we only have one)
+.IP "reg" 12
+The register to read.
+.SH "DESCRIPTION"
+This call reads data from the PHY register specified in \fIreg\fP. Since the
+device does not support all the MII registers, the non-existent values
+are always returned as zero.
+
+We return zero for unsupported registers as the MII code does not check
+the value returned for any error status, and simply returns it to the
+caller. The mii-tool that the driver was tested with takes any -ve error
+as real PHY capabilities, thus displaying incorrect data to the user.

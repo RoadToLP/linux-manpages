@@ -1,0 +1,24 @@
+.TH "swsusp_alloc" 9 "swsusp_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swsusp_alloc \- Allocate memory for hibernation image.
+.SH SYNOPSIS
+.B "int" swsusp_alloc
+.BI "(struct memory_bitmap *copy_bm "  ","
+.BI "unsigned int nr_pages "  ","
+.BI "unsigned int nr_highmem "  ");"
+.SH ARGUMENTS
+.IP "copy_bm" 12
+-- undescribed --
+.IP "nr_pages" 12
+-- undescribed --
+.IP "nr_highmem" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+We first try to allocate as many highmem pages as there are
+saveable highmem pages in the system.  If that fails, we allocate
+non-highmem pages for the copies of the remaining highmem ones.
+
+In this approach it is likely that the copies of highmem pages will
+also be located in the high memory, because of the way in which
+\fBcopy_data_pages\fP works.

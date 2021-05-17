@@ -1,0 +1,34 @@
+.TH "iscsi_session_setup" 9 "iscsi_session_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_session_setup \- create iscsi cls session and host and session
+.SH SYNOPSIS
+.B "struct iscsi_cls_session *" iscsi_session_setup
+.BI "(struct iscsi_transport *iscsit "  ","
+.BI "struct Scsi_Host *shost "  ","
+.BI "uint16_t cmds_max "  ","
+.BI "int dd_size "  ","
+.BI "int cmd_task_size "  ","
+.BI "uint32_t initial_cmdsn "  ","
+.BI "unsigned int id "  ");"
+.SH ARGUMENTS
+.IP "iscsit" 12
+iscsi transport template
+.IP "shost" 12
+scsi host
+.IP "cmds_max" 12
+session can queue
+.IP "dd_size" 12
+private driver data size, added to session allocation size
+.IP "cmd_task_size" 12
+LLD task private data size
+.IP "initial_cmdsn" 12
+initial CmdSN
+.IP "id" 12
+target ID to add to this session
+.SH "DESCRIPTION"
+This can be used by software iscsi_transports that allocate
+a session per scsi host.
+
+Callers should set cmds_max to the largest total numer (mgmt + scsi) of
+tasks they support. The iscsi layer reserves ISCSI_MGMT_CMDS_MAX tasks
+for nop handling and login/logout requests.

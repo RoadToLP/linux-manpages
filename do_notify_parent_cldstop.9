@@ -1,0 +1,21 @@
+.TH "do_notify_parent_cldstop" 9 "do_notify_parent_cldstop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_notify_parent_cldstop \- notify parent of stopped/continued state change
+.SH SYNOPSIS
+.B "void" do_notify_parent_cldstop
+.BI "(struct task_struct *tsk "  ","
+.BI "bool for_ptracer "  ","
+.BI "int why "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+task reporting the state change
+.IP "for_ptracer" 12
+the notification is for ptracer
+.IP "why" 12
+CLD_{CONTINUED|STOPPED|TRAPPED} to report
+.SH "DESCRIPTION"
+Notify \fItsk\fP's parent that the stopped/continued state has changed.  If
+\fIfor_ptracer\fP is false, \fItsk\fP's group leader notifies to its real parent.
+If true, \fItsk\fP reports to \fItsk->parent\fP which should be the ptracer.
+.SH "CONTEXT"
+Must be called with tasklist_lock at least read locked.

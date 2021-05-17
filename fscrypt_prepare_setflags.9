@@ -1,0 +1,20 @@
+.TH "fscrypt_prepare_setflags" 9 "fscrypt_prepare_setflags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_prepare_setflags \- prepare to change flags with FS_IOC_SETFLAGS
+.SH SYNOPSIS
+.B "int" fscrypt_prepare_setflags
+.BI "(struct inode *inode "  ","
+.BI "unsigned int oldflags "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode on which flags are being changed
+.IP "oldflags" 12
+the old flags
+.IP "flags" 12
+the new flags
+.SH "DESCRIPTION"
+The caller should be holding i_rwsem for write.
+.SH "RETURN"
+0 on success; -errno if the flags change isn't allowed or if
+another error occurs.

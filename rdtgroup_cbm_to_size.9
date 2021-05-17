@@ -1,0 +1,24 @@
+.TH "rdtgroup_cbm_to_size" 9 "rdtgroup_cbm_to_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_cbm_to_size \- Translate CBM to size in bytes
+.SH SYNOPSIS
+.B "unsigned int" rdtgroup_cbm_to_size
+.BI "(struct rdt_resource *r "  ","
+.BI "struct rdt_domain *d "  ","
+.BI "unsigned long cbm "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+RDT resource to which \fId\fP belongs.
+.IP "d" 12
+RDT domain instance.
+.IP "cbm" 12
+bitmask for which the size should be computed.
+.SH "DESCRIPTION"
+The bitmask provided associated with the RDT domain instance \fId\fP will be
+translated into how many bytes it represents. The size in bytes is
+computed by first dividing the total cache size by the CBM length to
+determine how many bytes each bit in the bitmask represents. The result
+is multiplied with the number of bits set in the bitmask.
+
+\fIcbm\fP is unsigned long, even if only 32 bits are used to make the
+bitmap functions work correctly.

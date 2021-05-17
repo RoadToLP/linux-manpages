@@ -1,0 +1,17 @@
+.TH "disable_irq" 9 "disable_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disable_irq \- disable an irq and wait for completion
+.SH SYNOPSIS
+.B "void" disable_irq
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt to disable
+
+Disable the selected interrupt line.  Enables and Disables are
+nested.
+This function waits for any pending IRQ handlers for this interrupt
+to complete before returning. If you use this function while
+holding a resource the IRQ handler may need you will deadlock.
+
+This function may be called - with care - from IRQ context.

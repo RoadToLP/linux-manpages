@@ -1,0 +1,33 @@
+.TH "am33xx_prm_deassert_hardreset" 9 "am33xx_prm_deassert_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+am33xx_prm_deassert_hardreset \- deassert a submodule hardreset line and wait
+.SH SYNOPSIS
+.B "int" am33xx_prm_deassert_hardreset
+.BI "(u8 shift "  ","
+.BI "u8 st_shift "  ","
+.BI "u8 part "  ","
+.BI "s16 inst "  ","
+.BI "u16 rstctrl_offs "  ","
+.BI "u16 rstst_offs "  ");"
+.SH ARGUMENTS
+.IP "shift" 12
+register bit shift corresponding to the reset line to deassert
+.IP "st_shift" 12
+reset status register bit shift corresponding to the reset line
+.IP "part" 12
+PRM partition, not used for AM33xx
+.IP "inst" 12
+CM instance register offset (*_INST macro)
+.IP "rstctrl_offs" 12
+-- undescribed --
+.IP "rstst_offs" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Some IPs like dsp, ipu or iva contain processors that require an HW
+reset line to be asserted / deasserted in order to fully enable the
+IP.  These modules may have multiple hard-reset lines that reset
+different 'submodules' inside the IP block.  This function will
+take the submodule out of reset and wait until the PRCM indicates
+that the reset has completed before returning.  Returns 0 upon success or
+-EINVAL upon an argument error, -EEXIST if the submodule was already out
+of reset, or -EBUSY if the submodule did not exit reset promptly.

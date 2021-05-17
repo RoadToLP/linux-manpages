@@ -1,0 +1,23 @@
+.TH "vm_map_pages_zero" 9 "vm_map_pages_zero" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_map_pages_zero \- map range of kernel pages starts with zero offset
+.SH SYNOPSIS
+.B "int" vm_map_pages_zero
+.BI "(struct vm_area_struct *vma "  ","
+.BI "struct page **pages "  ","
+.BI "unsigned long num "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "pages" 12
+pointer to array of source kernel pages
+.IP "num" 12
+number of pages in page array
+.SH "DESCRIPTION"
+Similar to \fBvm_map_pages\fP, except that it explicitly sets the offset
+to 0. This function is intended for the drivers that did not consider
+vm_pgoff.
+.SH "CONTEXT"
+Process context. Called by mmap handlers.
+.SH "RETURN"
+0 on success and error code otherwise.

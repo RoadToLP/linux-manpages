@@ -1,0 +1,23 @@
+.TH "swap_words_32" 9 "swap_words_32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swap_words_32 \- swap two elements in 32-bit chunks
+.SH SYNOPSIS
+.B "void" swap_words_32
+.BI "(void *a "  ","
+.BI "void *b "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+pointer to the first element to swap
+.IP "b" 12
+pointer to the second element to swap
+.IP "n" 12
+element size (must be a multiple of 4)
+.SH "DESCRIPTION"
+Exchange the two objects in memory.  This exploits base+index addressing,
+which basically all CPUs have, to minimize loop overhead computations.
+
+For some reason, on x86 gcc 7.3.0 adds a redundant test of n at the
+bottom of the loop, even though the zero flag is stil valid from the
+subtract (since the intervening mov instructions don't alter the flags).
+Gcc 8.1.0 doesn't have that problem.

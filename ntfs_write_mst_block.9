@@ -1,0 +1,31 @@
+.TH "ntfs_write_mst_block" 9 "ntfs_write_mst_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_write_mst_block \- write a @page to the backing store
+.SH SYNOPSIS
+.B "int" ntfs_write_mst_block
+.BI "(struct page *page "  ","
+.BI "struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page cache page to write out
+.IP "wbc" 12
+writeback control structure
+.SH "DESCRIPTION"
+This function is for writing pages belonging to non-resident, mst protected
+attributes to their backing store.  The only supported attributes are index
+allocation and $MFT/$DATA.  Both directory inodes and index inodes are
+supported for the index allocation case.
+
+The page must remain locked for the duration of the write because we apply
+the mst fixups, write, and then undo the fixups, so if we were to unlock the
+page before undoing the fixups, any other user of the page will see the
+page contents as corrupt.
+
+We clear the page uptodate flag for the duration of the function to ensure
+exclusion for the $MFT/$DATA case against someone mapping an mft record we
+are about to apply the mst fixups to.
+
+Return 0 on success and -errno on error.
+
+Based on \fBntfs_write_block\fP, \fBntfs_mft_writepage\fP, and
+\fBwrite_mft_record_nolock\fP.

@@ -1,0 +1,26 @@
+.TH "zynqmp_pm_clock_get_parents" 9 "zynqmp_pm_clock_get_parents" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_pm_clock_get_parents \- Get the first 3 parents of clock for given id
+.SH SYNOPSIS
+.B "int" zynqmp_pm_clock_get_parents
+.BI "(u32 clock_id "  ","
+.BI "u32 index "  ","
+.BI "struct parents_resp *response "  ");"
+.SH ARGUMENTS
+.IP "clock_id" 12
+Clock ID
+.IP "index" 12
+Parent index
+.IP "response" 12
+Parents of the given clock
+.SH "DESCRIPTION"
+This function is used to get 3 parents for the clock specified by
+given clock ID.
+
+This API will return 3 parents with a single response. To get
+other parents, master should call same API in loop with new
+parent index till error is returned. E.g First call should have
+index 0 which will return parents 0,1 and 2. Next call, index
+should be 3 which will return parent 3,4 and 5 and so on.
+.SH "RETURN"
+0 on success else error+reason

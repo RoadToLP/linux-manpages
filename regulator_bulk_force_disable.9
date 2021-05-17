@@ -1,0 +1,21 @@
+.TH "regulator_bulk_force_disable" 9 "regulator_bulk_force_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_bulk_force_disable \- force disable multiple regulator consumers
+.SH SYNOPSIS
+.B "int" regulator_bulk_force_disable
+.BI "(int num_consumers "  ","
+.BI "struct regulator_bulk_data *consumers "  ");"
+.SH ARGUMENTS
+.IP "num_consumers" 12
+Number of consumers
+.IP "consumers" 12
+Consumer data; clients are stored here.
+\fIreturn\fP         0 on success, an errno on failure
+.SH "DESCRIPTION"
+This convenience API allows consumers to forcibly disable multiple regulator
+clients in a single API call.
+.SH "NOTE"
+This should be used for situations when device damage will
+likely occur if the regulators are not disabled (e.g. over temp).
+Although regulator_force_disable function call for some consumers can
+return error numbers, the function is called for all consumers.

@@ -1,0 +1,39 @@
+.TH "amdgpu_debugfs_process_reg_op" 9 "amdgpu_debugfs_process_reg_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_debugfs_process_reg_op \- Handle MMIO register reads/writes
+.SH SYNOPSIS
+.B "int" amdgpu_debugfs_process_reg_op
+.BI "(bool read "  ","
+.BI "struct file *f "  ","
+.BI "char __user *buf "  ","
+.BI "size_t size "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "read" 12
+True if reading
+.IP "f" 12
+open file handle
+.IP "buf" 12
+User buffer to write/read to
+.IP "size" 12
+Number of bytes to write/read
+.IP "pos" 12
+Offset to seek to
+.SH "DESCRIPTION"
+This debugfs entry has special meaning on the offset being sought.
+Various bits have different meanings:
+
+Bit 62:  Indicates a GRBM bank switch is needed
+Bit 61:  Indicates a SRBM bank switch is needed (implies bit 62 is
+zero)
+Bits 24..33: The SE or ME selector if needed
+Bits 34..43: The SH (or SA) or PIPE selector if needed
+Bits 44..53: The INSTANCE (or CU/WGP) or QUEUE selector if needed
+
+Bit 23:  Indicates that the PM power gating lock should be held
+This is necessary to read registers that might be
+unreliable during a power gating transistion.
+
+The lower bits are the BYTE offset of the register to read.  This
+allows reading multiple registers in a single call and having
+the returned size reflect that.

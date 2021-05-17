@@ -1,0 +1,28 @@
+.TH "dma_mmap_from_dev_coherent" 9 "dma_mmap_from_dev_coherent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_mmap_from_dev_coherent \- mmap memory from the device coherent pool
+.SH SYNOPSIS
+.B "int" dma_mmap_from_dev_coherent
+.BI "(struct device *dev "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "void *vaddr "  ","
+.BI "size_t size "  ","
+.BI "int *ret "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device from which the memory was allocated
+.IP "vma" 12
+vm_area for the userspace memory
+.IP "vaddr" 12
+cpu address returned by dma_alloc_from_dev_coherent
+.IP "size" 12
+size of the memory buffer allocated
+.IP "ret" 12
+result from \fBremap_pfn_range\fP
+.SH "DESCRIPTION"
+This checks whether the memory was allocated from the per-device
+coherent memory pool and if so, maps that memory to the provided vma.
+
+Returns 1 if \fIvaddr\fP belongs to the device coherent pool and the caller
+should return \fIret\fP, or 0 if they should proceed with mapping memory from
+generic areas.

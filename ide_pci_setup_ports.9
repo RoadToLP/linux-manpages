@@ -1,0 +1,26 @@
+.TH "ide_pci_setup_ports" 9 "ide_pci_setup_ports" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_pci_setup_ports \- configure ports/devices on PCI IDE
+.SH SYNOPSIS
+.B "void" ide_pci_setup_ports
+.BI "(struct pci_dev *dev "  ","
+.BI "const struct ide_port_info *d "  ","
+.BI "struct ide_hw *hw "  ","
+.BI "struct ide_hw **hws "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.IP "d" 12
+IDE port info
+.IP "hw" 12
+struct ide_hw instances corresponding to this PCI IDE device
+.IP "hws" 12
+struct ide_hw pointers table to update
+
+Scan the interfaces attached to this device and do any
+necessary per port setup. Attach the devices and ask the
+generic DMA layer to do its work for us.
+
+Normally called automaticall from do_ide_pci_setup_device,
+but is also used directly as a helper function by some controllers
+where the chipset setup is not the default PCI IDE one.

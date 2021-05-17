@@ -1,0 +1,26 @@
+.TH "ata_qc_complete_multiple" 9 "ata_qc_complete_multiple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_qc_complete_multiple \- Complete multiple qcs successfully
+.SH SYNOPSIS
+.B "int" ata_qc_complete_multiple
+.BI "(struct ata_port *ap "  ","
+.BI "u64 qc_active "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port in question
+.IP "qc_active" 12
+new qc_active mask
+
+Complete in-flight commands.  This functions is meant to be
+called from low-level driver's interrupt routine to complete
+requests normally.  ap->qc_active and \fIqc_active\fP is compared
+and commands are completed accordingly.
+
+Always use this function when completing multiple NCQ commands
+from IRQ handlers instead of calling \fBata_qc_complete\fP
+multiple times to keep IRQ expect status properly in sync.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.SH "RETURN"
+Number of completed commands on success, -errno otherwise.

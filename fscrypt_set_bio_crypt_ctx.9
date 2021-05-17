@@ -1,0 +1,27 @@
+.TH "fscrypt_set_bio_crypt_ctx" 9 "fscrypt_set_bio_crypt_ctx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_set_bio_crypt_ctx \- prepare a file contents bio for inline crypto
+.SH SYNOPSIS
+.B "void" fscrypt_set_bio_crypt_ctx
+.BI "(struct bio *bio "  ","
+.BI "const struct inode *inode "  ","
+.BI "u64 first_lblk "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+a bio which will eventually be submitted to the file
+.IP "inode" 12
+the file's inode
+.IP "first_lblk" 12
+the first file logical block number in the I/O
+.IP "gfp_mask" 12
+memory allocation flags - these must be a waiting mask so that
+bio_crypt_set_ctx can't fail.
+.SH "DESCRIPTION"
+If the contents of the file should be encrypted (or decrypted) with inline
+encryption, then assign the appropriate encryption context to the bio.
+
+Normally the bio should be newly allocated (i.e. no pages added yet), as
+otherwise \fBfscrypt_mergeable_bio\fP won't work as intended.
+
+The encryption context will be freed automatically when the bio is freed.

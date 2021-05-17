@@ -1,0 +1,28 @@
+.TH "__security_genfs_sid" 9 "__security_genfs_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__security_genfs_sid \- Helper to obtain a SID for a file in a filesystem
+.SH SYNOPSIS
+.B "int" __security_genfs_sid
+.BI "(struct selinux_policy *policy "  ","
+.BI "const char *fstype "  ","
+.BI "char *path "  ","
+.BI "u16 orig_sclass "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+-- undescribed --
+.IP "fstype" 12
+filesystem type
+.IP "path" 12
+path from root of mount
+.IP "orig_sclass" 12
+-- undescribed --
+.IP "sid" 12
+SID for path
+.SH "DESCRIPTION"
+Obtain a SID to use for a file in a filesystem that
+cannot support xattr or use a fixed labeling behavior like
+transition SIDs or task SIDs.
+
+WARNING: This function may return -ESTALE, indicating that the caller
+must retry the operation after re-acquiring the policy pointer!

@@ -1,0 +1,22 @@
+.TH "pci_pm_reset" 9 "pci_pm_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_pm_reset \- Put device into PCI_D3 and back into PCI_D0.
+.SH SYNOPSIS
+.B "int" pci_pm_reset
+.BI "(struct pci_dev *dev "  ","
+.BI "int probe "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to reset.
+.IP "probe" 12
+If set, only check if the device can be reset this way.
+.SH "DESCRIPTION"
+If \fIdev\fP supports native PCI PM and its PCI_PM_CTRL_NO_SOFT_RESET flag is
+unset, it will be reinitialized internally when going from PCI_D3hot to
+PCI_D0.  If that's the case and the device is not in a low-power state
+already, force it into PCI_D3hot and back to PCI_D0, causing it to be reset.
+.SH "NOTE"
+This causes the caller to sleep for twice the device power transition
+cooldown period, which for the D0->D3hot and D3hot->D0 transitions is 10 ms
+by default (i.e. unless the \fIdev\fP's d3hot_delay field has a different value).
+Moreover, only devices in D0 can be reset by this function.

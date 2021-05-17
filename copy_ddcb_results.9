@@ -1,0 +1,20 @@
+.TH "copy_ddcb_results" 9 "copy_ddcb_results" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_ddcb_results \- Copy output state from real DDCB to request
+.SH SYNOPSIS
+.B "void" copy_ddcb_results
+.BI "(struct ddcb_requ *req "  ","
+.BI "int ddcb_no "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+pointer to requsted DDCB parameters
+.IP "ddcb_no" 12
+pointer to ddcb number being tapped
+.SH "DESCRIPTION"
+Copy DDCB ASV to request struct. There is no endian
+conversion made, since data structure in ASV is still
+unknown here.
+
+This is needed by:
+- \fBgenwqe_purge_ddcb\fP
+- \fBgenwqe_check_ddcb_queue\fP

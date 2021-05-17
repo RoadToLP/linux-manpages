@@ -1,0 +1,17 @@
+.TH "ipr_reset_alert" 9 "ipr_reset_alert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipr_reset_alert \- Alert the adapter of a pending reset
+.SH SYNOPSIS
+.B "int" ipr_reset_alert
+.BI "(struct ipr_cmnd *ipr_cmd "  ");"
+.SH ARGUMENTS
+.IP "ipr_cmd" 12
+ipr command struct
+.SH "DESCRIPTION"
+This function alerts the adapter that it will be reset.
+If memory space is not currently enabled, proceed directly
+to running BIST on the adapter. The timer must always be started
+so we guarantee we do not run BIST from ipr_isr.
+
+Return value:
+IPR_RC_JOB_RETURN

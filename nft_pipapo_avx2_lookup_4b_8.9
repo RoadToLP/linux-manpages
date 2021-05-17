@@ -1,0 +1,34 @@
+.TH "nft_pipapo_avx2_lookup_4b_8" 9 "nft_pipapo_avx2_lookup_4b_8" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_avx2_lookup_4b_8 \- AVX2-based lookup for 8 four-bit groups
+.SH SYNOPSIS
+.B "int" nft_pipapo_avx2_lookup_4b_8
+.BI "(unsigned long *map "  ","
+.BI "unsigned long *fill "  ","
+.BI "struct nft_pipapo_field *f "  ","
+.BI "int offset "  ","
+.BI "const u8 *pkt "  ","
+.BI "bool first "  ","
+.BI "bool last "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Previous match result, used as initial bitmap
+.IP "fill" 12
+Destination bitmap to be filled with current match result
+.IP "f" 12
+Field, containing lookup and mapping tables
+.IP "offset" 12
+Ignore buckets before the given index, no bits are filled there
+.IP "pkt" 12
+Packet data, pointer to input nftables register
+.IP "first" 12
+If this is the first field, don't source previous result
+.IP "last" 12
+Last field: stop at the first match and return bit index
+.SH "DESCRIPTION"
+See \fBnft_pipapo_avx2_lookup_4b_2\fP.
+
+This is used for 32-bit fields (i.e. IPv4 addresses).
+.SH "RETURN"
+-1 on no match, rule index of match if \fIlast\fP, otherwise first long
+word index to be checked next (i.e. first filled word).

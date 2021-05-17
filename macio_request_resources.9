@@ -1,0 +1,19 @@
+.TH "macio_request_resources" 9 "macio_request_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+macio_request_resources \- Reserve all memory resources
+.SH SYNOPSIS
+.B "int" macio_request_resources
+.BI "(struct macio_dev *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+MacIO device whose resources are to be reserved
+.IP "name" 12
+Name to be associated with resource.
+
+Mark all memory regions associated with MacIO device \fIdev\fP as
+being reserved by owner \fIname\fP.  Do not access any address inside
+the memory regions unless this call returns successfully.
+
+Returns 0 on success, or EBUSY on error.  A warning
+message is also printed on failure.

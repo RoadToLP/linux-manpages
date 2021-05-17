@@ -1,0 +1,20 @@
+.TH "pl022_interrupt_handler" 9 "pl022_interrupt_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pl022_interrupt_handler \- Interrupt handler for SSP controller
+.SH SYNOPSIS
+.B "irqreturn_t" pl022_interrupt_handler
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number
+.IP "dev_id" 12
+Local device data
+.SH "DESCRIPTION"
+This function handles interrupts generated for an interrupt based transfer.
+If a receive overrun (ROR) interrupt is there then we disable SSP, flag the
+current message's state as STATE_ERROR and schedule the tasklet
+pump_transfers which will do the postprocessing of the current message by
+calling \fBgiveback\fP. Otherwise it reads data from RX FIFO till there is no
+more data, and writes data in TX FIFO till it is not full. If we complete
+the transfer we move to the next transfer and schedule the tasklet.

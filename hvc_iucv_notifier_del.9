@@ -1,0 +1,20 @@
+.TH "hvc_iucv_notifier_del" 9 "hvc_iucv_notifier_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_notifier_del \- HVC notifier for closing a TTY for the last time.
+.SH SYNOPSIS
+.B "void" hvc_iucv_notifier_del
+.BI "(struct hvc_struct *hp "  ","
+.BI "int id "  ");"
+.SH ARGUMENTS
+.IP "hp" 12
+Pointer to the HVC device (struct hvc_struct)
+.IP "id" 12
+Additional data (originally passed to hvc_alloc):
+the index of an struct hvc_iucv_private instance.
+.SH "DESCRIPTION"
+This routine notifies the HVC back-end that the last tty device fd has been
+closed.  The function cleans up tty resources.  The clean-up of the IUCV
+connection is done in \fBhvc_iucv_dtr_rts\fP and depends on the HUPCL termios
+control setting.
+
+Locking:     struct hvc_iucv_private->lock

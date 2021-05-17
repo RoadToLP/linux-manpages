@@ -1,0 +1,43 @@
+.TH "dns_query" 9 "dns_query" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dns_query \- Query the DNS
+.SH SYNOPSIS
+.B "int" dns_query
+.BI "(struct net *net "  ","
+.BI "const char *type "  ","
+.BI "const char *name "  ","
+.BI "size_t namelen "  ","
+.BI "const char *options "  ","
+.BI "char **_result "  ","
+.BI "time64_t *_expiry "  ","
+.BI "bool invalidate "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+The network namespace to operate in.
+.IP "type" 12
+Query type (or NULL for straight host->IP lookup)
+.IP "name" 12
+Name to look up
+.IP "namelen" 12
+Length of name
+.IP "options" 12
+Request options (or NULL if no options)
+.IP "_result" 12
+Where to place the returned data (or NULL)
+.IP "_expiry" 12
+Where to store the result expiry time (or NULL)
+.IP "invalidate" 12
+Always invalidate the key after use
+.SH "DESCRIPTION"
+The data will be returned in the pointer at *result, if provided, and the
+caller is responsible for freeing it.
+
+The description should be of the form "[<query_type>:]<domain_name>", and
+the options need to be appropriate for the query type requested.  If no
+query_type is given, then the query is a straight hostname to IP address
+lookup.
+
+The DNS resolution lookup is performed by upcalling to userspace by way of
+requesting a key of type dns_resolver.
+
+Returns the size of the result on success, -ve error code otherwise.

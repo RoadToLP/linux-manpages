@@ -1,0 +1,23 @@
+.TH "idr_replace" 9 "idr_replace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_replace \- replace pointer for given ID.
+.SH SYNOPSIS
+.B "void *" idr_replace
+.BI "(struct idr *idr "  ","
+.BI "void *ptr "  ","
+.BI "unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "ptr" 12
+New pointer to associate with the ID.
+.IP "id" 12
+ID to change.
+.SH "DESCRIPTION"
+Replace the pointer registered with an ID and return the old value.
+This function can be called under the RCU read lock concurrently with
+\fBidr_alloc\fP and \fBidr_remove\fP (as long as the ID being removed is not
+the one being replaced!).
+.SH "RETURN"
+the old value on success.  -ENOENT indicates that \fIid\fP was not
+found.  -EINVAL indicates that \fIptr\fP was not valid.

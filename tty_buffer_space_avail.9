@@ -1,0 +1,16 @@
+.TH "tty_buffer_space_avail" 9 "tty_buffer_space_avail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_buffer_space_avail \- return unused buffer space
+.SH SYNOPSIS
+.B "int" tty_buffer_space_avail
+.BI "(struct tty_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty port owning the flip buffer
+
+Returns the # of bytes which can be written by the driver without
+reaching the buffer limit.
+.SH "NOTE"
+this does not guarantee that memory is available to write
+the returned # of bytes (use \fBtty_prepare_flip_string_xxx\fP to
+pre-allocate if memory guarantee is required).

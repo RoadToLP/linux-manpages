@@ -1,0 +1,30 @@
+.TH "msix_request_irq" 9 "msix_request_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msix_request_irq \- Allocate a free MSIx IRQ
+.SH SYNOPSIS
+.B "int" msix_request_irq
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "void *arg "  ","
+.BI "irq_handler_t handler "  ","
+.BI "irq_handler_t thread "  ","
+.BI "enum irq_type type "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+valid devdata
+.IP "arg" 12
+context information for the IRQ
+.IP "handler" 12
+IRQ handler
+.IP "thread" 12
+IRQ thread handler (could be NULL)
+.IP "type" 12
+affinty IRQ type
+.IP "name" 12
+IRQ name
+.SH "DESCRIPTION"
+Allocated an MSIx vector if available, and then create the appropriate
+meta data needed to keep track of the pci IRQ request.
+.SH "RETURN"
+< 0   Error
+>= 0  MSIx vector

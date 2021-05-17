@@ -1,0 +1,28 @@
+.TH "mma9551_read_config_byte" 9 "mma9551_read_config_byte" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mma9551_read_config_byte \- read 1 configuration byte
+.SH SYNOPSIS
+.B "int" mma9551_read_config_byte
+.BI "(struct i2c_client *client "  ","
+.BI "u8 app_id "  ","
+.BI "u16 reg "  ","
+.BI "u8 *val "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+I2C client
+.IP "app_id" 12
+Application ID
+.IP "reg" 12
+Application register
+.IP "val" 12
+Pointer to store value read
+.SH "DESCRIPTION"
+Read one configuration byte from the device using MMA955xL command format.
+Commands to the MMA955xL platform consist of a write followed
+by one or more reads.
+
+Locking note: This function must be called with the device lock held.
+Locking is not handled inside the function. Callers should ensure they
+serialize access to the HW.
+.SH "RETURN"
+0 on success, negative value on failure.

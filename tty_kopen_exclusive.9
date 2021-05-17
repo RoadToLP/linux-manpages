@@ -1,0 +1,20 @@
+.TH "tty_kopen_exclusive" 9 "tty_kopen_exclusive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_kopen_exclusive \- open a tty device for kernel
+.SH SYNOPSIS
+.B "struct tty_struct *" tty_kopen_exclusive
+.BI "(dev_t device "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+dev_t of device to open
+
+Opens tty exclusively for kernel. Performs the driver lookup,
+makes sure it's not already opened and performs the first-time
+tty initialization.
+
+Returns the locked initialized \fItty_struct\fP
+
+Claims the global tty_mutex to serialize:
+- concurrent first-time tty initialization
+- concurrent tty driver removal w/ lookup
+- concurrent tty removal from driver table

@@ -1,0 +1,16 @@
+.TH "eeh_check_failure" 9 "eeh_check_failure" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_check_failure \- Check if all 1's data is due to EEH slot freeze
+.SH SYNOPSIS
+.B "int" eeh_check_failure
+.BI "(const volatile void __iomem *token "  ");"
+.SH ARGUMENTS
+.IP "token" 12
+I/O address
+.SH "DESCRIPTION"
+Check for an EEH failure at the given I/O address. Call this
+routine if the result of a read was all 0xff's and you want to
+find out if this is due to an EEH slot freeze event. This routine
+will query firmware for the EEH status.
+
+Note this routine is safe to call in an interrupt context.

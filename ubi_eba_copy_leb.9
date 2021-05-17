@@ -1,0 +1,25 @@
+.TH "ubi_eba_copy_leb" 9 "ubi_eba_copy_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_eba_copy_leb \- copy logical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_eba_copy_leb
+.BI "(struct ubi_device *ubi "  ","
+.BI "int from "  ","
+.BI "int to "  ","
+.BI "struct ubi_vid_io_buf *vidb "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "from" 12
+physical eraseblock number from where to copy
+.IP "to" 12
+physical eraseblock number where to copy
+.IP "vidb" 12
+data structure from where the VID header is derived
+.SH "DESCRIPTION"
+This function copies logical eraseblock from physical eraseblock \fIfrom\fP to
+physical eraseblock \fIto\fP. The \fIvid_hdr\fP buffer may be changed by this
+function. Returns:
+o 0 in case of success;
+o MOVE_CANCEL_RACE, MOVE_TARGET_WR_ERR, MOVE_TARGET_BITFLIPS, etc;
+o a negative error code in case of failure.

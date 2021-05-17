@@ -1,0 +1,16 @@
+.TH "usb_gadget_udc_set_speed" 9 "usb_gadget_udc_set_speed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_udc_set_speed \- tells usb device controller speed supported by current driver
+.SH SYNOPSIS
+.B "void" usb_gadget_udc_set_speed
+.BI "(struct usb_udc *udc "  ","
+.BI "enum usb_device_speed speed "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+The device we want to set maximum speed
+.IP "speed" 12
+The maximum speed to allowed to run
+.SH "DESCRIPTION"
+This call is issued by the UDC Class driver before calling
+\fBusb_gadget_udc_start\fP in order to make sure that we don't try to
+connect on speeds the gadget driver doesn't support.

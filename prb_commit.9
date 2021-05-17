@@ -1,0 +1,20 @@
+.TH "prb_commit" 9 "prb_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prb_commit \- Commit (previously reserved) data to the ringbuffer.
+.SH SYNOPSIS
+.B "void" prb_commit
+.BI "(struct prb_reserved_entry *e "  ");"
+.SH ARGUMENTS
+.IP "e" 12
+The entry containing the reserved data information.
+.SH "DESCRIPTION"
+This is the public function available to writers to commit data.
+
+Note that the data is not yet available to readers until it is finalized.
+Finalizing happens automatically when space for the next record is
+reserved.
+
+See \fBprb_final_commit\fP for a version of this function that finalizes
+immediately.
+.SH "CONTEXT"
+Any context. Enables local interrupts.

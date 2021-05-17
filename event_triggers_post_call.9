@@ -1,0 +1,19 @@
+.TH "event_triggers_post_call" 9 "event_triggers_post_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_triggers_post_call \- Call 'post_triggers' for a trace event
+.SH SYNOPSIS
+.B "void" event_triggers_post_call
+.BI "(struct trace_event_file *file "  ","
+.BI "enum event_trigger_type tt "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace_event_file associated with the event
+.IP "tt" 12
+enum event_trigger_type containing a set bit for each trigger to invoke
+.SH "DESCRIPTION"
+For each trigger associated with an event, invoke the trigger
+function registered with the associated trigger command, if the
+corresponding bit is set in the tt enum passed into this function.
+See \fIevent_triggers_call\fP for details on how those bits are set.
+
+Called from tracepoint handlers (with \fBrcu_read_lock_sched\fP held).

@@ -1,0 +1,24 @@
+.TH "fm10k_tlv_msg_parse" 9 "fm10k_tlv_msg_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_tlv_msg_parse \- Parses message header and calls function handler
+.SH SYNOPSIS
+.B "s32" fm10k_tlv_msg_parse
+.BI "(struct fm10k_hw *hw "  ","
+.BI "u32 *msg "  ","
+.BI "struct fm10k_mbx_info *mbx "  ","
+.BI "const struct fm10k_msg_data *data "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+Pointer to hardware structure
+.IP "msg" 12
+Pointer to message
+.IP "mbx" 12
+Pointer to mailbox information structure
+.IP "data" 12
+Pointer to message handler data structure
+
+This function should be the first function called upon receiving a
+message.  The handler will identify the message type and call the correct
+handler for the given message.  It will return the value from the function
+call on a recognized message type, otherwise it will return
+FM10K_NOT_IMPLEMENTED on an unrecognized type.

@@ -1,0 +1,22 @@
+.TH "ssam_controller_statelock" 9 "ssam_controller_statelock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_controller_statelock \- Lock the controller against state transitions.
+.SH SYNOPSIS
+.B "void" ssam_controller_statelock
+.BI "(struct ssam_controller *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The controller to lock.
+.SH "DESCRIPTION"
+Lock the controller against state transitions. Holding this lock guarantees
+that the controller will not transition between states, i.e. if the
+controller is in state "started", when this lock has been acquired, it will
+remain in this state at least until the lock has been released.
+
+Multiple clients may concurrently hold this lock. In other words: The
+``statelock`` functions represent the read-lock part of a r/w-semaphore.
+Actions causing state transitions of the controller must be executed while
+holding the write-part of this r/w-semaphore (see \fBssam_controller_lock\fP
+and \fBssam_controller_unlock\fP for that).
+
+See \fBssam_controller_stateunlock\fP for the corresponding unlock function.

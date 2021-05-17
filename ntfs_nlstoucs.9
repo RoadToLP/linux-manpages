@@ -1,0 +1,34 @@
+.TH "ntfs_nlstoucs" 9 "ntfs_nlstoucs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_nlstoucs \- convert NLS string to little endian Unicode string
+.SH SYNOPSIS
+.B "int" ntfs_nlstoucs
+.BI "(const ntfs_volume *vol "  ","
+.BI "const char *ins "  ","
+.BI "const int ins_len "  ","
+.BI "ntfschar **outs "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume which we are working with
+.IP "ins" 12
+input NLS string buffer
+.IP "ins_len" 12
+length of input string in bytes
+.IP "outs" 12
+on return contains the allocated output Unicode string buffer
+.SH "DESCRIPTION"
+Convert the input string \fIins\fP, which is in whatever format the loaded NLS
+map dictates, into a little endian, 2-byte Unicode string.
+
+This function allocates the string and the caller is responsible for
+calling kmem_cache_free(ntfs_name_cache, *\fIouts\fP); when finished with it.
+
+On success the function returns the number of Unicode characters written to
+the output string *\fIouts\fP (>= 0), not counting the terminating Unicode NULL
+character. *\fIouts\fP is set to the allocated output string buffer.
+
+On error, a negative number corresponding to the error code is returned. In
+that case the output string is not allocated. Both *\fIouts\fP and *\fIouts_len\fP
+are then undefined.
+
+This might look a bit odd due to fast path optimization...

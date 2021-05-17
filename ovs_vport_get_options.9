@@ -1,0 +1,22 @@
+.TH "ovs_vport_get_options" 9 "ovs_vport_get_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_get_options \- retrieve device options
+.SH SYNOPSIS
+.B "int" ovs_vport_get_options
+.BI "(const struct vport *vport "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+vport from which to retrieve the options.
+.IP "skb" 12
+sk_buff where options should be appended.
+.SH "DESCRIPTION"
+Retrieves the configuration of the given device, appending an
+OVS_VPORT_ATTR_OPTIONS attribute that in turn contains nested
+vport-specific attributes to \fIskb\fP.
+
+Returns 0 if successful, -EMSGSIZE if \fIskb\fP has insufficient room, or another
+negative error code if a real error occurred.  If an error occurs, \fIskb\fP is
+left unmodified.
+
+Must be called with ovs_mutex or rcu_read_lock.

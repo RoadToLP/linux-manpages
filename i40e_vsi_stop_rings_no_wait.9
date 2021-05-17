@@ -1,0 +1,16 @@
+.TH "i40e_vsi_stop_rings_no_wait" 9 "i40e_vsi_stop_rings_no_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_vsi_stop_rings_no_wait \- Stop a VSI's rings and do not delay
+.SH SYNOPSIS
+.B "void" i40e_vsi_stop_rings_no_wait
+.BI "(struct i40e_vsi *vsi "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the VSI being shutdown
+.SH "DESCRIPTION"
+This function stops all the rings for a VSI but does not delay to verify
+that rings have been disabled. It is expected that the caller is shutting
+down multiple VSIs at once and will delay together for all the VSIs after
+initiating the shutdown. This is particularly useful for shutting down lots
+of VFs together. Otherwise, a large delay can be incurred while configuring
+each VSI in serial.

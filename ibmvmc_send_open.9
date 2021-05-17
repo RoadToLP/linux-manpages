@@ -1,0 +1,24 @@
+.TH "ibmvmc_send_open" 9 "ibmvmc_send_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvmc_send_open \- Interface Open
+.SH SYNOPSIS
+.B "int" ibmvmc_send_open
+.BI "(struct ibmvmc_buffer *buffer "  ","
+.BI "struct ibmvmc_hmc *hmc "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+Pointer to ibmvmc_buffer struct
+.IP "hmc" 12
+Pointer to ibmvmc_hmc struct
+.SH "DESCRIPTION"
+This command is sent by the management partition as the result of a
+management partition device request. It causes the hypervisor to
+prepare a set of data buffers for the management application connection
+indicated HMC idx. A unique HMC Idx would be used if multiple management
+applications running concurrently were desired. Before responding to this
+command, the hypervisor must provide the management partition with at
+least one of these new buffers via the Add Buffer. This indicates whether
+the messages are inbound or outbound from the hypervisor.
+.SH "RETURN"
+0 - Success
+Non-zero - Failure

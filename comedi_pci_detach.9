@@ -1,0 +1,19 @@
+.TH "comedi_pci_detach" 9 "comedi_pci_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_pci_detach \- A generic "detach" handler for PCI COMEDI drivers
+.SH SYNOPSIS
+.B "void" comedi_pci_detach
+.BI "(struct comedi_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.SH "DESCRIPTION"
+COMEDI drivers for PCI devices that need no special clean-up of private data
+and have no ioremapped regions other than that pointed to by \fIdev->mmio\fP may
+use this function as its "detach" handler called by the COMEDI core when a
+COMEDI device is being detached from the low-level driver.  It may be also
+called from a more specific "detach" handler that does additional clean-up.
+
+Free the IRQ if \fIdev->irq\fP is non-zero, iounmap \fIdev->mmio\fP if it is
+non-NULL, and call \fBcomedi_pci_disable\fP to release the PCI device's regions
+and disable it.

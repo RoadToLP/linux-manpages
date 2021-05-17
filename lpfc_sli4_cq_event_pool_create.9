@@ -1,0 +1,21 @@
+.TH "lpfc_sli4_cq_event_pool_create" 9 "lpfc_sli4_cq_event_pool_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_cq_event_pool_create \- Create completion-queue event free pool
+.SH SYNOPSIS
+.B "int" lpfc_sli4_cq_event_pool_create
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine is invoked to allocate and set up a pool of completion queue
+events. The body of the completion queue event is a completion queue entry
+CQE. For now, this pool is used for the interrupt service routine to queue
+the following HBA completion queue events for the worker thread to process:
+- Mailbox asynchronous events
+- Receive queue completion unsolicited events
+Later, this can be used for all the slow-path events.
+
+Return codes
+0 - successful
+-ENOMEM - No available memory

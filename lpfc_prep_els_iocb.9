@@ -1,0 +1,45 @@
+.TH "lpfc_prep_els_iocb" 9 "lpfc_prep_els_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_prep_els_iocb \- Allocate and prepare a lpfc iocb data structure
+.SH SYNOPSIS
+.B "struct lpfc_iocbq *" lpfc_prep_els_iocb
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint8_t expectRsp "  ","
+.BI "uint16_t cmdSize "  ","
+.BI "uint8_t retry "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "uint32_t did "  ","
+.BI "uint32_t elscmd "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "expectRsp" 12
+flag indicating whether response is expected.
+.IP "cmdSize" 12
+size of the ELS command.
+.IP "retry" 12
+number of retries to the command IOCB when it fails.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "did" 12
+destination identifier.
+.IP "elscmd" 12
+the ELS command code.
+.SH "DESCRIPTION"
+This routine is used for allocating a lpfc-IOCB data structure from
+the driver lpfc-IOCB free-list and prepare the IOCB with the parameters
+passed into the routine for discovery state machine to issue an Extended
+Link Service (ELS) commands. It is a generic lpfc-IOCB allocation
+and preparation routine that is used by all the discovery state machine
+routines and the ELS command-specific fields will be later set up by
+the individual discovery machine routines after calling this routine
+allocating and preparing a generic IOCB data structure. It fills in the
+Buffer Descriptor Entries (BDEs), allocates buffers for both command
+payload and response payload (if expected). The reference count on the
+ndlp is incremented by 1 and the reference to the ndlp is put into
+context1 of the IOCB data structure for this IOCB to hold the ndlp
+reference for the command's callback function to access later.
+
+Return code
+Pointer to the newly allocated/prepared els iocb data structure
+NULL - when els iocb data structure allocation/preparation failed

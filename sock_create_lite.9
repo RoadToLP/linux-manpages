@@ -1,0 +1,23 @@
+.TH "sock_create_lite" 9 "sock_create_lite" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sock_create_lite \- creates a socket
+.SH SYNOPSIS
+.B "int" sock_create_lite
+.BI "(int family "  ","
+.BI "int type "  ","
+.BI "int protocol "  ","
+.BI "struct socket **res "  ");"
+.SH ARGUMENTS
+.IP "family" 12
+protocol family (AF_INET, ...)
+.IP "type" 12
+communication type (SOCK_STREAM, ...)
+.IP "protocol" 12
+protocol (0, ...)
+.IP "res" 12
+new socket
+
+Creates a new socket and assigns it to \fIres\fP, passing through LSM.
+The new socket initialization is not complete, see \fBkernel_accept\fP.
+Returns 0 or an error. On failure \fIres\fP is set to NULL.
+This function internally uses GFP_KERNEL.

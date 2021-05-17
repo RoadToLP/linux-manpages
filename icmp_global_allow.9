@@ -1,0 +1,15 @@
+.TH "icmp_global_allow" 9 "icmp_global_allow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+icmp_global_allow \- Are we allowed to send one more ICMP message ?
+.SH SYNOPSIS
+.B "bool" icmp_global_allow
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Uses a token bucket to limit our ICMP messages to ~sysctl_icmp_msgs_per_sec.
+Returns false if we reached the limit and can not send another packet.
+.SH "NOTE"
+called with BH disabled

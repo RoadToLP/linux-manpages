@@ -1,0 +1,21 @@
+.TH "lpfc_sli_get_buff" 9 "lpfc_sli_get_buff" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_get_buff \- Get the buffer associated with the buffer tag
+.SH SYNOPSIS
+.B "struct lpfc_dmabuf *" lpfc_sli_get_buff
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "uint32_t tag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "tag" 12
+buffer tag.
+.SH "DESCRIPTION"
+This function is called with no lock held. When QUE_BUFTAG_BIT bit
+is set in the tag the buffer is posted for a particular exchange,
+the function will return the buffer without replacing the buffer.
+If the buffer is for unsolicited ELS or CT traffic, this function
+returns the buffer and also posts another buffer to the firmware.

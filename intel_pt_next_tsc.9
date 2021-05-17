@@ -1,0 +1,24 @@
+.TH "intel_pt_next_tsc" 9 "intel_pt_next_tsc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pt_next_tsc \- find and return next TSC.
+.SH SYNOPSIS
+.B "bool" intel_pt_next_tsc
+.BI "(unsigned char *buf "  ","
+.BI "size_t len "  ","
+.BI "uint64_t *tsc "  ","
+.BI "size_t *rem "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+buffer
+.IP "len" 12
+size of buffer
+.IP "tsc" 12
+TSC value returned
+.IP "rem" 12
+returns remaining size when TSC is found
+.SH "DESCRIPTION"
+Find a TSC packet in \fIbuf\fP and return the TSC value.  This function assumes
+that \fIbuf\fP starts at a PSB and that PSB+ will contain TSC and so stops if a
+PSBEND packet is found.
+.SH "RETURN"
+true if TSC is found, false otherwise.

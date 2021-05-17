@@ -1,0 +1,25 @@
+.TH "rproc_set_firmware" 9 "rproc_set_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_set_firmware \- assign a new firmware
+.SH SYNOPSIS
+.B "int" rproc_set_firmware
+.BI "(struct rproc *rproc "  ","
+.BI "const char *fw_name "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+rproc handle to which the new firmware is being assigned
+.IP "fw_name" 12
+new firmware name to be assigned
+.SH "DESCRIPTION"
+This function allows remoteproc drivers or clients to configure a custom
+firmware name that is different from the default name used during remoteproc
+registration. The function does not trigger a remote processor boot,
+only sets the firmware name used for a subsequent boot. This function
+should also be called only when the remote processor is offline.
+
+This allows either the userspace to configure a different name through
+sysfs or a kernel-level remoteproc or a remoteproc client driver to set
+a specific firmware when it is controlling the boot and shutdown of the
+remote processor.
+.SH "RETURN"
+0 on success or a negative value upon failure

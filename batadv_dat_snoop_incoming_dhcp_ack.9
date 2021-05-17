@@ -1,0 +1,19 @@
+.TH "batadv_dat_snoop_incoming_dhcp_ack" 9 "batadv_dat_snoop_incoming_dhcp_ack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_snoop_incoming_dhcp_ack \- snoop DHCPACK and fill DAT cache
+.SH SYNOPSIS
+.B "void" batadv_dat_snoop_incoming_dhcp_ack
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int hdr_size "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+the packet to snoop
+.IP "hdr_size" 12
+header size, up to the tail of the batman-adv header
+.SH "DESCRIPTION"
+This function first checks whether the given skb is a valid DHCPACK. If
+so then its source MAC and IP as well as its DHCP Client Hardware Address
+field and DHCP Your IP Address field are added to the local DAT cache.

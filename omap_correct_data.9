@@ -1,0 +1,25 @@
+.TH "omap_correct_data" 9 "omap_correct_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_correct_data \- Compares the ECC read with HW generated ECC
+.SH SYNOPSIS
+.B "int" omap_correct_data
+.BI "(struct nand_chip *chip "  ","
+.BI "u_char *dat "  ","
+.BI "u_char *read_ecc "  ","
+.BI "u_char *calc_ecc "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "dat" 12
+page data
+.IP "read_ecc" 12
+ecc read from nand flash
+.IP "calc_ecc" 12
+ecc read from HW ECC registers
+.SH "DESCRIPTION"
+Compares the ecc read from nand spare area with ECC registers values
+and if ECC's mismatched, it will call 'omap_compare_ecc' for error
+detection and correction. If there are no errors, 0 is returned. If
+there were errors and all of the errors were corrected, the number of
+corrected errors is returned. If uncorrectable errors exist, -1 is
+returned.

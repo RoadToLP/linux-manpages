@@ -1,0 +1,20 @@
+.TH "intel_uncore_forcewake_get" 9 "intel_uncore_forcewake_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_uncore_forcewake_get \- grab forcewake domain references
+.SH SYNOPSIS
+.B "void" intel_uncore_forcewake_get
+.BI "(struct intel_uncore *uncore "  ","
+.BI "enum forcewake_domains fw_domains "  ");"
+.SH ARGUMENTS
+.IP "uncore" 12
+the intel_uncore structure
+.IP "fw_domains" 12
+forcewake domains to get reference on
+.SH "DESCRIPTION"
+This function can be used get GT's forcewake domain references.
+Normal register access will handle the forcewake domains automatically.
+However if some sequence requires the GT to not power down a particular
+forcewake domains this function should be called at the beginning of the
+sequence. And subsequently the reference should be dropped by symmetric
+call to \fBintel_unforce_forcewake_put\fP. Usually caller wants all the domains
+to be kept awake so the \fIfw_domains\fP would be then FORCEWAKE_ALL.

@@ -1,0 +1,23 @@
+.TH "clkdm_read_sleepdep" 9 "clkdm_read_sleepdep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_read_sleepdep \- read sleep dependency state from clkdm2 to clkdm1
+.SH SYNOPSIS
+.B "int" clkdm_read_sleepdep
+.BI "(struct clockdomain *clkdm1 "  ","
+.BI "struct clockdomain *clkdm2 "  ");"
+.SH ARGUMENTS
+.IP "clkdm1" 12
+prevent this struct clockdomain * from sleeping (dependent)
+.IP "clkdm2" 12
+when this struct clockdomain * is active (source)
+.SH "DESCRIPTION"
+Return 1 if a hardware sleep dependency exists wherein \fIclkdm1\fP will
+not be allowed to automatically go inactive if \fIclkdm2\fP is active;
+0 if \fIclkdm1\fP's automatic power state inactivity transition is independent
+of \fIclkdm2\fP's; -EINVAL if either clockdomain pointer is invalid or called
+on a machine that does not support software-configurable hardware sleep
+dependencies; or -ENOENT if the hardware is incapable.
+
+REVISIT: Currently this function only represents software-controllable
+sleep dependencies.  Sleep dependencies fixed in hardware are not
+yet handled here.

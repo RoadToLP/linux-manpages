@@ -1,0 +1,21 @@
+.TH "trace_pid_next" 9 "trace_pid_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_pid_next \- Used for seq_file to get to the next pid of a pid_list
+.SH SYNOPSIS
+.B "void *" trace_pid_next
+.BI "(struct trace_pid_list *pid_list "  ","
+.BI "void *v "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "pid_list" 12
+The pid list to show
+.IP "v" 12
+The last pid that was shown (+1 the actual pid to let zero be displayed)
+.IP "pos" 12
+The position of the file
+.SH "DESCRIPTION"
+This is used by the seq_file "next" operation to iterate the pids
+listed in a trace_pid_list structure.
+
+Returns the pid+1 as we want to display pid of zero, but NULL would
+stop the iteration.

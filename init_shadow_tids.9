@@ -1,0 +1,16 @@
+.TH "init_shadow_tids" 9 "init_shadow_tids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+init_shadow_tids \- allocate the shadow TID array
+.SH SYNOPSIS
+.B "void" init_shadow_tids
+.BI "(struct qib_devdata *dd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.SH "DESCRIPTION"
+allocate the shadow TID array, so we can qib_munlock previous
+entries.  It may make more sense to move the pageshadow to the
+ctxt data structure, so we only allocate memory for ctxts actually
+in use, since we at 8k per ctxt, now.
+We don't want failures here to prevent use of the driver/chip,
+so no return value.

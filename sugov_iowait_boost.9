@@ -1,0 +1,23 @@
+.TH "sugov_iowait_boost" 9 "sugov_iowait_boost" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sugov_iowait_boost \- Updates the IO boost status of a CPU.
+.SH SYNOPSIS
+.B "void" sugov_iowait_boost
+.BI "(struct sugov_cpu *sg_cpu "  ","
+.BI "u64 time "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "sg_cpu" 12
+the sugov data for the CPU to boost
+.IP "time" 12
+the update time from the caller
+.IP "flags" 12
+SCHED_CPUFREQ_IOWAIT if the task is waking up after an IO wait
+.SH "DESCRIPTION"
+Each time a task wakes up after an IO operation, the CPU utilization can be
+boosted to a certain utilization which doubles at each "frequent and
+successive" wakeup from IO, ranging from IOWAIT_BOOST_MIN to the utilization
+of the maximum OPP.
+
+To keep doubling, an IO boost has to be requested at least once per tick,
+otherwise we restart from the utilization of the minimum OPP.

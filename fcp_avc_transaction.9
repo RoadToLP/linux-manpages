@@ -1,0 +1,37 @@
+.TH "fcp_avc_transaction" 9 "fcp_avc_transaction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcp_avc_transaction \- send an AV/C command and wait for its response
+.SH SYNOPSIS
+.B "int" fcp_avc_transaction
+.BI "(struct fw_unit *unit "  ","
+.BI "const void *command "  ","
+.BI "unsigned int command_size "  ","
+.BI "void *response "  ","
+.BI "unsigned int response_size "  ","
+.BI "unsigned int response_match_bytes "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+a unit on the target device
+.IP "command" 12
+a buffer containing the command frame; must be DMA-able
+.IP "command_size" 12
+the size of \fIcommand\fP
+.IP "response" 12
+a buffer for the response frame
+.IP "response_size" 12
+the maximum size of \fIresponse\fP
+.IP "response_match_bytes" 12
+a bitmap specifying the bytes used to detect the
+correct response frame
+.SH "DESCRIPTION"
+This function sends a FCP command frame to the target and waits for the
+corresponding response frame to be returned.
+
+Because it is possible for multiple FCP transactions to be active at the
+same time, the correct response frame is detected by the value of certain
+bytes.  These bytes must be set in \fIresponse\fP before calling this function,
+and the corresponding bits must be set in \fIresponse_match_bytes\fP.
+
+\fIcommand\fP and \fIresponse\fP can point to the same buffer.
+
+Returns the actual size of the response frame, or a negative error code.

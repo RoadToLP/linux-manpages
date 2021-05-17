@@ -1,0 +1,46 @@
+.TH "insert_node" 9 "insert_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insert_node \- insert a node to the replay list
+.SH SYNOPSIS
+.B "int" insert_node
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "int len "  ","
+.BI "const u8 *hash "  ","
+.BI "union ubifs_key *key "  ","
+.BI "unsigned long long sqnum "  ","
+.BI "int deletion "  ","
+.BI "int *used "  ","
+.BI "loff_t old_size "  ","
+.BI "loff_t new_size "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+node logical eraseblock number
+.IP "offs" 12
+node offset
+.IP "len" 12
+node length
+.IP "hash" 12
+-- undescribed --
+.IP "key" 12
+node key
+.IP "sqnum" 12
+sequence number
+.IP "deletion" 12
+non-zero if this is a deletion
+.IP "used" 12
+number of bytes in use in a LEB
+.IP "old_size" 12
+truncation old size
+.IP "new_size" 12
+truncation new size
+.SH "DESCRIPTION"
+This function inserts a scanned non-direntry node to the replay list. The
+replay list contains \fIstruct\fP replay_entry elements, and we sort this list in
+sequence number order before applying it. The replay list is applied at the
+very end of the replay process. Since the list is sorted in sequence number
+order, the older modifications are applied first. This function returns zero
+in case of success and a negative error code in case of failure.

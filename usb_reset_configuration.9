@@ -1,0 +1,30 @@
+.TH "usb_reset_configuration" 9 "usb_reset_configuration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_reset_configuration \- lightweight device reset
+.SH SYNOPSIS
+.B "int" usb_reset_configuration
+.BI "(struct usb_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose configuration is being reset
+.SH "DESCRIPTION"
+This issues a standard SET_CONFIGURATION request to the device using
+the current configuration.  The effect is to reset most USB-related
+state in the device, including interface altsettings (reset to zero),
+endpoint halts (cleared), and endpoint state (only for bulk and interrupt
+endpoints).  Other usbcore state is unchanged, including bindings of
+usb device drivers to interfaces.
+
+Because this affects multiple interfaces, avoid using this with composite
+(multi-interface) devices.  Instead, the driver for each interface may
+use \fBusb_set_interface\fP on the interfaces it claims.  Be careful though;
+some devices don't support the SET_INTERFACE request, and others won't
+reset all the interface state (notably endpoint state).  Resetting the whole
+configuration would affect other drivers' interfaces.
+
+The caller must own the device lock.
+
+If this routine fails the device will probably be in an unusable state
+with endpoints disabled, and interfaces only partially enabled.
+.SH "RETURN"
+Zero on success, else a negative error code.

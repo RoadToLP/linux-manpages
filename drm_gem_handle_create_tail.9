@@ -1,0 +1,23 @@
+.TH "drm_gem_handle_create_tail" 9 "drm_gem_handle_create_tail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_handle_create_tail \- internal functions to create a handle
+.SH SYNOPSIS
+.B "int" drm_gem_handle_create_tail
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct drm_gem_object *obj "  ","
+.BI "u32 *handlep "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+drm file-private structure to register the handle for
+.IP "obj" 12
+object to register
+.IP "handlep" 12
+pointer to return the created handle to the caller
+.SH "DESCRIPTION"
+This expects the \fIdrm_device.object_name_lock\fP to be held already and will
+drop it before returning. Used to avoid races in establishing new handles
+when importing an object from either an flink name or a dma-buf.
+
+Handles must be release again through \fBdrm_gem_handle_delete\fP. This is done
+when userspace closes \fIfile_priv\fP for all attached handles, or through the
+GEM_CLOSE ioctl for individual handles.

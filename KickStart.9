@@ -1,0 +1,33 @@
+.TH "KickStart" 9 "KickStart" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+KickStart \- Perform hard reset of MPT adapter.
+.SH SYNOPSIS
+.B "int" KickStart
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int force "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "force" 12
+Force hard reset
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+
+This routine places MPT adapter in diagnostic mode via the
+WriteSequence register, and then performs a hard reset of adapter
+via the Diagnostic register.
+
+Inputs:   sleepflag - CAN_SLEEP (non-interrupt thread)
+or NO_SLEEP (interrupt thread, use mdelay)
+force - 1 if doorbell active, board fault state
+board operational, IOC_RECOVERY or
+IOC_BRINGUP and there is an alt_ioc.
+0 else
+.SH "RETURN"
+1 - hard reset, READY
+0 - no reset due to History bit, READY
+-1 - no reset due to History bit but not READY
+OR reset but failed to come READY
+-2 - no reset, could not enter DIAG mode
+-3 - reset but bad FW bit

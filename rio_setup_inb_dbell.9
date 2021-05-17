@@ -1,0 +1,22 @@
+.TH "rio_setup_inb_dbell" 9 "rio_setup_inb_dbell" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_setup_inb_dbell \- bind inbound doorbell callback
+.SH SYNOPSIS
+.B "int" rio_setup_inb_dbell
+.BI "(struct rio_mport *mport "  ","
+.BI "void *dev_id "  ","
+.BI "struct resource *res "  ","
+.BI "void (*dinb) (struct rio_mport * mport, void *dev_id, u16 src, u16 dst, u16 info) "  ");"
+.SH ARGUMENTS
+.IP "mport" 12
+RIO master port to bind the doorbell callback
+.IP "dev_id" 12
+Device specific pointer to pass on event
+.IP "res" 12
+Doorbell message resource
+.IP "dinb" 12
+Callback to execute when doorbell is received
+.SH "DESCRIPTION"
+Adds a doorbell resource/callback pair into a port's
+doorbell event list. Returns 0 if the request has been
+satisfied.

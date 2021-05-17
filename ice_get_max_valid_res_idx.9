@@ -1,0 +1,14 @@
+.TH "ice_get_max_valid_res_idx" 9 "ice_get_max_valid_res_idx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_get_max_valid_res_idx \- Get the max valid resource index
+.SH SYNOPSIS
+.B "int" ice_get_max_valid_res_idx
+.BI "(struct ice_res_tracker *res "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+pointer to the resource to find the max valid index for
+.SH "DESCRIPTION"
+Start from the end of the ice_res_tracker and return right when we find the
+first res->list entry with the ICE_RES_VALID_BIT set. This function is only
+valid for SR-IOV because it is the only consumer that manipulates the
+res->end and this is always called when res->end is set to res->num_entries.

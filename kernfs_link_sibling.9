@@ -1,0 +1,17 @@
+.TH "kernfs_link_sibling" 9 "kernfs_link_sibling" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_link_sibling \- link kernfs_node into sibling rbtree
+.SH SYNOPSIS
+.B "int" kernfs_link_sibling
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+kernfs_node of interest
+
+Link \fIkn\fP into its sibling rbtree which starts from
+\fIkn->parent->dir.children\fP.
+
+Locking:
+mutex_lock(kernfs_mutex)
+.SH "RETURN"
+0 on susccess -EEXIST on failure.

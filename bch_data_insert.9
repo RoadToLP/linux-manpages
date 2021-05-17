@@ -1,0 +1,25 @@
+.TH "bch_data_insert" 9 "bch_data_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bch_data_insert \- stick some data in the cache
+.SH SYNOPSIS
+.B "void" bch_data_insert
+.BI "(struct closure *cl "  ");"
+.SH ARGUMENTS
+.IP "cl" 12
+closure pointer.
+.SH "DESCRIPTION"
+This is the starting point for any data to end up in a cache device; it could
+be from a normal write, or a writeback write, or a write to a flash only
+volume - it's also used by the moving garbage collector to compact data in
+mostly empty buckets.
+
+It first writes the data to the cache, creating a list of keys to be inserted
+(if the data had to be fragmented there will be multiple keys); after the
+data is written it calls bch_journal, and after the keys have been added to
+the next journal write they're inserted into the btree.
+
+It inserts the data in op->bio; bi_sector is used for the key offset,
+and op->inode is used for the key inode.
+
+If op->bypass is true, instead of inserting the data it invalidates the
+region of the cache represented by op->bio and op->inode.

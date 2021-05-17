@@ -1,0 +1,25 @@
+.TH "asd_ascb_alloc_list" 9 "asd_ascb_alloc_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_ascb_alloc_list \- - allocate a list of aSCBs
+.SH SYNOPSIS
+.B "struct asd_ascb *" asd_ascb_alloc_list
+.BI "(struct asd_ha_struct *asd_ha "  ","
+.BI "int *num "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to host adapter structure
+.IP "num" 12
+pointer to integer number of aSCBs
+.IP "gfp_flags" 12
+GFP_ flags.
+.SH "DESCRIPTION"
+This is the only function which is used to allocate aSCBs.
+It can allocate one or many. If more than one, then they form
+a linked list in two ways: by their list field of the ascb struct
+and by the next_scb field of the scb_header.
+
+Returns NULL if no memory was available, else pointer to a list
+of ascbs.  When this function returns, \fInum\fP would be the number
+of SCBs which were not able to be allocated, 0 if all requested
+were able to be allocated.

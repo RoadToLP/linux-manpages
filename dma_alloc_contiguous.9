@@ -1,0 +1,24 @@
+.TH "dma_alloc_contiguous" 9 "dma_alloc_contiguous" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_alloc_contiguous \- allocate contiguous pages
+.SH SYNOPSIS
+.B "struct page *" dma_alloc_contiguous
+.BI "(struct device *dev "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to device for which the allocation is performed.
+.IP "size" 12
+Requested allocation size.
+.IP "gfp" 12
+Allocation flags.
+.SH "DESCRIPTION"
+tries to use device specific contiguous memory area if available, or it
+tries to use per-numa cma, if the allocation fails, it will fallback to
+try default global one.
+
+Note that it bypass one-page size of allocations from the per-numa and
+global area as the addresses within one page are always contiguous, so
+there is no need to waste CMA pages for that kind; it also helps reduce
+fragmentations.

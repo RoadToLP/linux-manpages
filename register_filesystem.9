@@ -1,0 +1,17 @@
+.TH "register_filesystem" 9 "register_filesystem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_filesystem \- register a new filesystem
+.SH SYNOPSIS
+.B "int" register_filesystem
+.BI "(struct file_system_type * fs "  ");"
+.SH ARGUMENTS
+.IP "fs" 12
+the file system structure
+
+Adds the file system passed to the list of file systems the kernel
+is aware of for mount and other syscalls. Returns 0 on success,
+or a negative errno code on an error.
+
+The \fIstruct file_system_type\fP that is passed is linked into the kernel 
+structures and must not be freed until the file system has been
+unregistered.

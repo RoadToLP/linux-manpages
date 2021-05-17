@@ -1,0 +1,28 @@
+.TH "vmw_cmdbuf_res_remove" 9 "vmw_cmdbuf_res_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_res_remove \- Stage a command buffer managed resource for removal.
+.SH SYNOPSIS
+.B "int" vmw_cmdbuf_res_remove
+.BI "(struct vmw_cmdbuf_res_manager *man "  ","
+.BI "enum vmw_cmdbuf_res_type res_type "  ","
+.BI "u32 user_key "  ","
+.BI "struct list_head *list "  ","
+.BI "struct vmw_resource **res_p "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+Pointer to the command buffer resource manager.
+.IP "res_type" 12
+The resource type.
+.IP "user_key" 12
+The user-space id of the resource.
+.IP "list" 12
+The staging list.
+.IP "res_p" 12
+If the resource is in an already committed state, points to the
+struct vmw_resource on successful return. The pointer will be
+non ref-counted.
+.SH "DESCRIPTION"
+This function looks up the struct vmw_cmdbuf_res entry from the manager
+hash table and, if it exists, removes it. Depending on its current staging
+state it then either removes the entry from the staging list or adds it
+to it with a staging state of removal.

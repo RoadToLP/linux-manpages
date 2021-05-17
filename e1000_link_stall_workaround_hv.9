@@ -1,0 +1,16 @@
+.TH "e1000_link_stall_workaround_hv" 9 "e1000_link_stall_workaround_hv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_link_stall_workaround_hv \- Si workaround
+.SH SYNOPSIS
+.B "s32" e1000_link_stall_workaround_hv
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+This function works around a Si bug where the link partner can get
+a link up indication before the PHY does.  If small packets are sent
+by the link partner they can be placed in the packet buffer without
+being properly accounted for by the PHY and will stall preventing
+further packets from being received.  The workaround is to clear the
+packet buffer after the PHY detects link up.

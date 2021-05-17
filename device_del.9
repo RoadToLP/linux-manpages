@@ -1,0 +1,18 @@
+.TH "device_del" 9 "device_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_del \- delete device from system.
+.SH SYNOPSIS
+.B "void" device_del
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+This is the first part of the device unregistration
+sequence. This removes the device from the lists we control
+from here, has it removed from the other driver model
+subsystems it was added to in \fBdevice_add\fP, and removes it
+from the kobject hierarchy.
+.SH "NOTE"
+this should be called manually _iff_ \fBdevice_add\fP was
+also called manually.

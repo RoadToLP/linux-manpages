@@ -1,0 +1,39 @@
+.TH "pci_dev_str_match" 9 "pci_dev_str_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_dev_str_match \- test if a string matches a device
+.SH SYNOPSIS
+.B "int" pci_dev_str_match
+.BI "(struct pci_dev *dev "  ","
+.BI "const char *p "  ","
+.BI "const char **endptr "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device to test
+.IP "p" 12
+string to match the device against
+.IP "endptr" 12
+pointer to the string after the match
+.SH "DESCRIPTION"
+Test if a string (typically from a kernel parameter) matches a specified
+PCI device. The string may be of one of the following formats:
+
+[<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
+pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+
+The first format specifies a PCI bus/device/function address which
+may change if new hardware is inserted, if motherboard firmware changes,
+or due to changes caused in kernel parameters. If the domain is
+left unspecified, it is taken to be 0.  In order to be robust against
+bus renumbering issues, a path of PCI device/function numbers may be used
+to address the specific device.  The path for a device can be determined
+through the use of 'lspci -t'.
+
+The second format matches devices using IDs in the configuration
+space which may match multiple devices in the system. A value of 0
+for any field will match all devices. (Note: this differs from
+in-kernel code that uses PCI_ANY_ID which is ~0; this is for
+legacy reasons and convenience so users don't have to specify
+FFFFFFFFs on the command line.)
+
+Returns 1 if the string matches the device, 0 if it does not and
+a negative error code if the string cannot be parsed.

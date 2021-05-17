@@ -1,0 +1,18 @@
+.TH "amdgpu_vm_check_clean_reserved" 9 "amdgpu_vm_check_clean_reserved" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_check_clean_reserved \- check if a VM is clean
+.SH SYNOPSIS
+.B "int" amdgpu_vm_check_clean_reserved
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct amdgpu_vm *vm "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "vm" 12
+the VM to check
+.SH "DESCRIPTION"
+check all entries of the root PD, if any subsequent PDs are allocated,
+it means there are page table creating and filling, and is no a clean
+VM
+.SH "RETURN"
+0 if this VM is clean

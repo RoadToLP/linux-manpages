@@ -1,0 +1,20 @@
+.TH "s2io_xmit" 9 "s2io_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s2io_xmit \- Tx entry point of te driver
+.SH SYNOPSIS
+.B "netdev_tx_t" s2io_xmit
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the socket buffer containing the Tx data.
+.IP "dev" 12
+device pointer.
+.SH "DESCRIPTION"
+This function is the Tx entry point of the driver. S2IO NIC supports
+certain protocol assist features on Tx side, namely  CSO, S/G, LSO.
+.SH "NOTE"
+when device can't queue the pkt,just the trans_start variable will
+not be upadted.
+Return value:
+0 on success & 1 on failure.

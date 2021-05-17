@@ -1,0 +1,20 @@
+.TH "__llc_lookup_established" 9 "__llc_lookup_established" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__llc_lookup_established \- Finds connection for the remote/local sap/mac
+.SH SYNOPSIS
+.B "struct sock *" __llc_lookup_established
+.BI "(struct llc_sap *sap "  ","
+.BI "struct llc_addr *daddr "  ","
+.BI "struct llc_addr *laddr "  ");"
+.SH ARGUMENTS
+.IP "sap" 12
+SAP
+.IP "daddr" 12
+address of remote LLC (MAC + SAP)
+.IP "laddr" 12
+address of local LLC (MAC + SAP)
+
+Search connection list of the SAP and finds connection using the remote
+mac, remote sap, local mac, and local sap. Returns pointer for
+connection found, NULL otherwise.
+Caller has to make sure local_bh is disabled.

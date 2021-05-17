@@ -1,0 +1,21 @@
+.TH "of_irq_parse_raw" 9 "of_irq_parse_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_irq_parse_raw \- Low level interrupt tree parsing
+.SH SYNOPSIS
+.B "int" of_irq_parse_raw
+.BI "(const __be32 *addr "  ","
+.BI "struct of_phandle_args *out_irq "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+address specifier (start of "reg" property of the device) in be32 format
+.IP "out_irq" 12
+structure of_phandle_args updated by this function
+.SH "DESCRIPTION"
+Returns 0 on success and a negative number on error
+
+This function is a low-level interrupt tree walking function. It
+can be used to do a partial walk with synthetized reg and interrupts
+properties, for example when resolving PCI interrupts when no device
+node exist for the parent. It takes an interrupt specifier structure as
+input, walks the tree looking for any interrupt-map properties, translates
+the specifier for each map, and then returns the translated map.

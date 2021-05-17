@@ -1,0 +1,24 @@
+.TH "blkdev_get_by_path" 9 "blkdev_get_by_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkdev_get_by_path \- open a block device by name
+.SH SYNOPSIS
+.B "struct block_device *" blkdev_get_by_path
+.BI "(const char *path "  ","
+.BI "fmode_t mode "  ","
+.BI "void *holder "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to the block device to open
+.IP "mode" 12
+FMODE_* mask
+.IP "holder" 12
+exclusive holder identifier
+.SH "DESCRIPTION"
+Open the block device described by the device file at \fIpath\fP.  If \fImode\fP
+includes FMODE_EXCL, the block device is opened with exclusive access.
+Specifying FMODE_EXCL with a NULL \fIholder\fP is invalid.  Exclusive opens may
+nest for the same \fIholder\fP.
+.SH "CONTEXT"
+Might sleep.
+.SH "RETURN"
+Reference to the block_device on success, ERR_PTR(-errno) on failure.

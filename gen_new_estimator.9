@@ -1,0 +1,32 @@
+.TH "gen_new_estimator" 9 "gen_new_estimator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen_new_estimator \- create a new rate estimator
+.SH SYNOPSIS
+.B "int" gen_new_estimator
+.BI "(struct gnet_stats_basic_packed *bstats "  ","
+.BI "struct gnet_stats_basic_cpu __percpu *cpu_bstats "  ","
+.BI "struct net_rate_estimator __rcu **rate_est "  ","
+.BI "spinlock_t *lock "  ","
+.BI "seqcount_t *running "  ","
+.BI "struct nlattr *opt "  ");"
+.SH ARGUMENTS
+.IP "bstats" 12
+basic statistics
+.IP "cpu_bstats" 12
+bstats per cpu
+.IP "rate_est" 12
+rate estimator statistics
+.IP "lock" 12
+lock for statistics and control path
+.IP "running" 12
+qdisc running seqcount
+.IP "opt" 12
+rate estimator configuration TLV
+.SH "DESCRIPTION"
+Creates a new rate estimator with \fIbstats\fP as source and \fIrate_est\fP
+as destination. A new timer with the interval specified in the
+configuration TLV is created. Upon each interval, the latest statistics
+will be read from \fIbstats\fP and the estimated rate will be stored in
+\fIrate_est\fP with the statistics lock grabbed during this period.
+
+Returns 0 on success or a negative error code.

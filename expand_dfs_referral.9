@@ -1,0 +1,29 @@
+.TH "expand_dfs_referral" 9 "expand_dfs_referral" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+expand_dfs_referral \- Perform a dfs referral query and update the cifs_sb
+.SH SYNOPSIS
+.B "int" expand_dfs_referral
+.BI "(const unsigned int xid "  ","
+.BI "struct cifs_ses *ses "  ","
+.BI "struct smb3_fs_context *ctx "  ","
+.BI "struct cifs_sb_info *cifs_sb "  ","
+.BI "char *ref_path "  ");"
+.SH ARGUMENTS
+.IP "xid" 12
+-- undescribed --
+.IP "ses" 12
+-- undescribed --
+.IP "ctx" 12
+-- undescribed --
+.IP "cifs_sb" 12
+-- undescribed --
+.IP "ref_path" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+If a referral is found, cifs_sb->ctx->mount_options will be (re-)allocated
+to a string containing updated options for the submount.  Otherwise it
+will be left untouched.
+
+Returns the rc from get_dfs_path to the caller, which can be used to
+determine whether there were referrals.

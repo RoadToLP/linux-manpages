@@ -1,0 +1,32 @@
+.TH "pipapo_refill" 9 "pipapo_refill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_refill \- For each set bit, set bits from selected mapping table item
+.SH SYNOPSIS
+.B "int" pipapo_refill
+.BI "(unsigned long *map "  ","
+.BI "int len "  ","
+.BI "int rules "  ","
+.BI "unsigned long *dst "  ","
+.BI "union nft_pipapo_map_bucket *mt "  ","
+.BI "bool match_only "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Bitmap to be scanned for set bits
+.IP "len" 12
+Length of bitmap in longs
+.IP "rules" 12
+Number of rules in field
+.IP "dst" 12
+Destination bitmap
+.IP "mt" 12
+Mapping table containing bit set specifiers
+.IP "match_only" 12
+Find a single bit and return, don't fill
+.SH "DESCRIPTION"
+Iteration over set bits with \fB__builtin_ctzl\fP: Daniel Lemire, public domain.
+
+For each bit set in map, select the bucket from mapping table with index
+corresponding to the position of the bit set. Use start bit and amount of
+bits specified in bucket to fill region in dst.
+.SH "RETURN"
+-1 on no match, bit position on 'match_only', 0 otherwise.

@@ -1,0 +1,28 @@
+.TH "i40iw_add_pd_table_entry" 9 "i40iw_add_pd_table_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_add_pd_table_entry \- Adds page descriptor to the specified table
+.SH SYNOPSIS
+.B "enum i40iw_status_code" i40iw_add_pd_table_entry
+.BI "(struct i40iw_hw *hw "  ","
+.BI "struct i40iw_hmc_info *hmc_info "  ","
+.BI "u32 pd_index "  ","
+.BI "struct i40iw_dma_mem *rsrc_pg "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to our HW structure
+.IP "hmc_info" 12
+pointer to the HMC configuration information structure
+.IP "pd_index" 12
+which page descriptor index to manipulate
+.IP "rsrc_pg" 12
+if not NULL, use preallocated page instead of allocating new one.
+.SH "DESCRIPTION"
+This function:
+1. Initializes the pd entry
+2. Adds pd_entry in the pd_table
+3. Mark the entry valid in i40iw_hmc_pd_entry structure
+4. Initializes the pd_entry's ref count to 1
+assumptions:
+1. The memory for pd should be pinned down, physically contiguous and
+aligned on 4K boundary and zeroed memory.
+2. It should be 4K in size.

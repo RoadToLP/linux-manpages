@@ -1,0 +1,49 @@
+.TH "lpfc_sli_issue_iocb_wait" 9 "lpfc_sli_issue_iocb_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_issue_iocb_wait \- Synchronous function to issue iocb commands
+.SH SYNOPSIS
+.B "int" lpfc_sli_issue_iocb_wait
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t ring_number "  ","
+.BI "struct lpfc_iocbq *piocb "  ","
+.BI "struct lpfc_iocbq *prspiocbq "  ","
+.BI "uint32_t timeout "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object..
+.IP "ring_number" 12
+Ring number
+.IP "piocb" 12
+Pointer to command iocb.
+.IP "prspiocbq" 12
+Pointer to response iocb.
+.IP "timeout" 12
+Timeout in number of seconds.
+.SH "DESCRIPTION"
+This function issues the iocb to firmware and waits for the
+iocb to complete. The iocb_cmpl field of the shall be used
+to handle iocbs which time out. If the field is NULL, the
+function shall free the iocbq structure.  If more clean up is
+needed, the caller is expected to provide a completion function
+that will provide the needed clean up.  If the iocb command is
+not completed within timeout seconds, the function will either
+free the iocbq structure (if iocb_cmpl == NULL) or execute the
+completion function set in the iocb_cmpl field and then return
+a status of IOCB_TIMEDOUT.  The caller should not free the iocb
+resources if this function returns IOCB_TIMEDOUT.
+The function waits for the iocb completion using an
+non-interruptible wait.
+This function will sleep while waiting for iocb completion.
+So, this function should not be called from any context which
+does not allow sleeping. Due to the same reason, this function
+cannot be called with interrupt disabled.
+This function assumes that the iocb completions occur while
+this function sleep. So, this function cannot be called from
+the thread which process iocb completion for this ring.
+This function clears the iocb_flag of the iocb object before
+issuing the iocb and the iocb completion handler sets this
+flag and wakes this thread when the iocb completes.
+The contents of the response iocb will be copied to prspiocbq
+by the completion handler when the command completes.
+This function returns IOCB_SUCCESS when success.
+This function is called with no lock held.

@@ -1,0 +1,21 @@
+.TH "idr_remove" 9 "idr_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+idr_remove \- Remove an ID from the IDR.
+.SH SYNOPSIS
+.B "void *" idr_remove
+.BI "(struct idr *idr "  ","
+.BI "unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "idr" 12
+IDR handle.
+.IP "id" 12
+Pointer ID.
+.SH "DESCRIPTION"
+Removes this ID from the IDR.  If the ID was not previously in the IDR,
+this function returns NULL.
+
+Since this function modifies the IDR, the caller should provide their
+own locking to ensure that concurrent modification of the same IDR is
+not possible.
+.SH "RETURN"
+The pointer formerly associated with this ID.

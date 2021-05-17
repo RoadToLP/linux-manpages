@@ -1,0 +1,20 @@
+.TH "_transport_sas_node_find_by_sas_address" 9 "_transport_sas_node_find_by_sas_address" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_transport_sas_node_find_by_sas_address \- sas node search
+.SH SYNOPSIS
+.B "struct _sas_node *" _transport_sas_node_find_by_sas_address
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "u64 sas_address "  ","
+.BI "struct hba_port *port "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "sas_address" 12
+sas address of expander or sas host
+.IP "port" 12
+hba port entry
+.SH "CONTEXT"
+Calling function should acquire ioc->sas_node_lock.
+.SH "DESCRIPTION"
+Search for either hba phys or expander device based on handle, then returns
+the sas_node object.

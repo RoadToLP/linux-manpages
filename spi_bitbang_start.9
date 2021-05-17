@@ -1,0 +1,33 @@
+.TH "spi_bitbang_start" 9 "spi_bitbang_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_bitbang_start \- start up a polled/bitbanging SPI master driver
+.SH SYNOPSIS
+.B "int" spi_bitbang_start
+.BI "(struct spi_bitbang *bitbang "  ");"
+.SH ARGUMENTS
+.IP "bitbang" 12
+driver handle
+.SH "DESCRIPTION"
+Caller should have zero-initialized all parts of the structure, and then
+provided callbacks for chip selection and I/O loops.  If the master has
+a transfer method, its final step should call spi_bitbang_transfer; or,
+that's the default if the transfer routine is not initialized.  It should
+also set up the bus number and number of chipselects.
+
+For i/o loops, provide callbacks either per-word (for bitbanging, or for
+hardware that basically exposes a shift register) or per-spi_transfer
+(which takes better advantage of hardware like fifos or DMA engines).
+
+Drivers using per-word I/O loops should use (or call) spi_bitbang_setup,
+spi_bitbang_cleanup and spi_bitbang_setup_transfer to handle those spi
+master methods.  Those methods are the defaults if the bitbang->txrx_bufs
+routine isn't initialized.
+
+This routine registers the spi_master, which will process requests in a
+dedicated task, keeping IRQs unblocked most of the time.  To stop
+processing those requests, call \fBspi_bitbang_stop\fP.
+
+On success, this routine will take a reference to master. The caller is
+responsible for calling \fBspi_bitbang_stop\fP to decrement the reference and
+\fBspi_master_put\fP as counterpart of \fBspi_alloc_master\fP to prevent a memory
+leak.

@@ -1,0 +1,18 @@
+.TH "vio_cmo_dealloc" 9 "vio_cmo_dealloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vio_cmo_dealloc \- deallocate IO memory from CMO-enable devices
+.SH SYNOPSIS
+.B "void" vio_cmo_dealloc
+.BI "(struct vio_dev *viodev "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "viodev" 12
+VIO device freeing IO memory
+.IP "size" 12
+size of deallocation
+.SH "DESCRIPTION"
+IO memory is freed by the device back to the correct memory pools.
+The spare pool is replenished first from either memory pool, then
+the reserve pool is used to reduce device entitlement, the excess
+pool is used to increase the reserve pool toward the desired entitlement
+target, and then the remaining memory is returned to the pools.

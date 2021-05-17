@@ -1,0 +1,17 @@
+.TH "ipa_suspend_handler" 9 "ipa_suspend_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_suspend_handler \- Handle the suspend IPA interrupt
+.SH SYNOPSIS
+.B "void" ipa_suspend_handler
+.BI "(struct ipa *ipa "  ","
+.BI "enum ipa_irq_id irq_id "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.IP "irq_id" 12
+IPA interrupt type (unused)
+.SH "DESCRIPTION"
+If an RX endpoint is in suspend state, and the IPA has a packet
+destined for that endpoint, the IPA generates a SUSPEND interrupt
+to inform the AP that it should resume the endpoint.  If we get
+one of these interrupts we just resume everything.

@@ -1,0 +1,16 @@
+.TH "zfcp_fc_sym_name_update" 9 "zfcp_fc_sym_name_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_fc_sym_name_update \- Retrieve and update the symbolic port name
+.SH SYNOPSIS
+.B "void" zfcp_fc_sym_name_update
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+ns_up_work of the adapter where to update the symbolic port name
+.SH "DESCRIPTION"
+Retrieve the current symbolic port name that may have been set by
+the hardware using the GSPN request and update the fc_host
+symbolic_name sysfs attribute. When running in NPIV mode (and hence
+the port name is unique for this system), update the symbolic port
+name to add Linux specific information and update the FC nameserver
+using the RSPN request.

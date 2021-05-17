@@ -1,0 +1,16 @@
+.TH "lease_get_mtime" 9 "lease_get_mtime" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lease_get_mtime \- update modified time of an inode with exclusive lease
+.SH SYNOPSIS
+.B "void" lease_get_mtime
+.BI "(struct inode *inode "  ","
+.BI "struct timespec64 *time "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode
+.IP "time" 12
+pointer to a timespec which contains the last modified time
+.SH "DESCRIPTION"
+This is to force NFS clients to flush their caches for files with
+exclusive leases.  The justification is that if someone has an
+exclusive lease, then they could be modifying it.

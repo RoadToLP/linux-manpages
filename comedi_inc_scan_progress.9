@@ -1,0 +1,17 @@
+.TH "comedi_inc_scan_progress" 9 "comedi_inc_scan_progress" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_inc_scan_progress \- Update scan progress in asynchronous command
+.SH SYNOPSIS
+.B "void" comedi_inc_scan_progress
+.BI "(struct comedi_subdevice *s "  ","
+.BI "unsigned int num_bytes "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "num_bytes" 12
+Amount of data in bytes to increment scan progress.
+.SH "DESCRIPTION"
+Increments the scan progress by the number of bytes specified by \fInum_bytes\fP.
+If the scan progress reaches or exceeds the scan length in bytes, reduce
+it modulo the scan length in bytes and set the "end of scan" asynchronous
+event flag (COMEDI_CB_EOS) to be processed later.

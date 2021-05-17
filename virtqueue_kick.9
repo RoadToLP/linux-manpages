@@ -1,0 +1,17 @@
+.TH "virtqueue_kick" 9 "virtqueue_kick" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+virtqueue_kick \- update after add_buf
+.SH SYNOPSIS
+.B "bool" virtqueue_kick
+.BI "(struct virtqueue *vq "  ");"
+.SH ARGUMENTS
+.IP "vq" 12
+the struct virtqueue
+.SH "DESCRIPTION"
+After one or more virtqueue_add_* calls, invoke this to kick
+the other side.
+
+Caller must ensure we don't call this with other virtqueue
+operations at the same time (except where noted).
+
+Returns false if kick failed, otherwise true.

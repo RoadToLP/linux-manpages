@@ -1,0 +1,72 @@
+.TH "fsl_dma_open" 9 "fsl_dma_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_dma_open \- open a new substream.
+.SH SYNOPSIS
+.B "int" fsl_dma_open
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_pcm_substream *substream "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+-- undescribed --
+.IP "substream" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Each substream has its own DMA buffer.
+
+ALSA divides the DMA buffer into N periods.  We create NUM_DMA_LINKS link
+descriptors that ping-pong from one period to the next.  For example, if
+there are six periods and two link descriptors, this is how they look
+before playback starts:
+
+The last link descriptor
+____________  points back to the first
+|            |
+V            |
+___    ___   |
+|   |->|   |->|
+|___|  |___|
+|      |
+|      |
+V      V
+_________________________________________
+|      |      |      |      |      |      |  The DMA buffer is
+|      |      |      |      |      |      |    divided into 6 parts
+|______|______|______|______|______|______|
+
+and here's how they look after the first period is finished playing:
+
+____________
+|            |
+V            |
+___    ___   |
+|   |->|   |->|
+|___|  |___|
+|      |
+|______________
+|       |
+V       V
+_________________________________________
+|      |      |      |      |      |      |
+|      |      |      |      |      |      |
+|______|______|______|______|______|______|
+
+The first link descriptor now points to the third period.  The DMA
+controller is currently playing the second period.  When it finishes, it
+will jump back to the first descriptor and play the third period.
+
+There are four reasons we do this:
+
+1. The only way to get the DMA controller to automatically restart the
+transfer when it gets to the end of the buffer is to use chaining
+mode.  Basic direct mode doesn't offer that feature.
+2. We need to receive an interrupt at the end of every period.  The DMA
+controller can generate an interrupt at the end of every link transfer
+(aka segment).  Making each period into a DMA segment will give us the
+interrupts we need.
+3. By creating only two link descriptors, regardless of the number of
+periods, we do not need to reallocate the link descriptors if the
+number of periods changes.
+4. All of the audio data is still stored in a single, contiguous DMA
+buffer, which is what ALSA expects.  We're just dividing it into
+contiguous parts, and creating a link descriptor for each one.

@@ -1,0 +1,24 @@
+.TH "tcf_em_tree_validate" 9 "tcf_em_tree_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcf_em_tree_validate \- validate ematch config TLV and build ematch tree
+.SH SYNOPSIS
+.B "int" tcf_em_tree_validate
+.BI "(struct tcf_proto *tp "  ","
+.BI "struct nlattr *nla "  ","
+.BI "struct tcf_ematch_tree *tree "  ");"
+.SH ARGUMENTS
+.IP "tp" 12
+classifier kind handle
+.IP "nla" 12
+ematch tree configuration TLV
+.IP "tree" 12
+destination ematch tree variable to store the resulting
+ematch tree.
+.SH "DESCRIPTION"
+This function validates the given configuration TLV \fInla\fP and builds an
+ematch tree in \fItree\fP. The resulting tree must later be copied into
+the private classifier data using \fBtcf_em_tree_change\fP. You MUST NOT
+provide the ematch tree variable of the private classifier data directly,
+the changes would not be locked properly.
+
+Returns a negative error code if the configuration TLV contains errors.

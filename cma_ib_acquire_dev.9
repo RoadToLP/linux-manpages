@@ -1,0 +1,20 @@
+.TH "cma_ib_acquire_dev" 9 "cma_ib_acquire_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cma_ib_acquire_dev \- Acquire cma device, port and SGID attribute
+.SH SYNOPSIS
+.B "int" cma_ib_acquire_dev
+.BI "(struct rdma_id_private *id_priv "  ","
+.BI "const struct rdma_id_private *listen_id_priv "  ","
+.BI "struct cma_req_info *req "  ");"
+.SH ARGUMENTS
+.IP "id_priv" 12
+cm id to bind to cma device
+.IP "listen_id_priv" 12
+listener cm id to match against
+.IP "req" 12
+Pointer to req structure containaining incoming
+request information
+\fBcma_ib_acquire_dev\fP acquires cma device, port and SGID attribute when
+rdma device matches for listen_id and incoming request. It also verifies
+that a GID table entry is present for the source address.
+Returns 0 on success, or returns error code otherwise.

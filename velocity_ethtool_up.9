@@ -1,0 +1,13 @@
+.TH "velocity_ethtool_up" 9 "velocity_ethtool_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+velocity_ethtool_up \- pre hook for ethtool
+.SH SYNOPSIS
+.B "int" velocity_ethtool_up
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network device
+
+Called before an ethtool operation. We need to make sure the
+chip is out of D3 state before we poke at it. In case of ethtool
+ops nesting, only wake the device up in the outermost block.

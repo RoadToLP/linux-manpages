@@ -1,0 +1,23 @@
+.TH "check_mode" 9 "check_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_mode \- Verify if tuner supports the requested mode
+.SH SYNOPSIS
+.B "int" check_mode
+.BI "(struct tuner *t "  ","
+.BI "enum v4l2_tuner_type mode "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+a pointer to the module's internal struct_tuner
+.IP "mode" 12
+mode of the tuner, as defined by \fIenum v4l2_tuner_type\fP.
+.SH "DESCRIPTION"
+This function checks if the tuner is capable of tuning analog TV,
+digital TV or radio, depending on what the caller wants. If the
+tuner can't support that mode, it returns -EINVAL. Otherwise, it
+returns 0.
+This function is needed for boards that have a separate tuner for
+radio (like devices with tea5767).
+.SH "NOTE"
+mt20xx uses V4L2_TUNER_DIGITAL_TV and calls set_tv_freq to
+select a TV frequency. So, t_mode = T_ANALOG_TV could actually
+be used to represent a Digital TV too.

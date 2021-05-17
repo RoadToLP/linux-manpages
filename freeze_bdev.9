@@ -1,0 +1,17 @@
+.TH "freeze_bdev" 9 "freeze_bdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freeze_bdev \- - lock a filesystem and force it into a consistent state
+.SH SYNOPSIS
+.B "int" freeze_bdev
+.BI "(struct block_device *bdev "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+blockdevice to lock
+.SH "DESCRIPTION"
+If a superblock is found on this device, we take the s_umount semaphore
+on it to make sure nobody unmounts until the snapshot creation is done.
+The reference counter (bd_fsfreeze_count) guarantees that only the last
+unfreeze process can unfreeze the frozen filesystem actually when multiple
+freeze requests arrive simultaneously. It counts up in \fBfreeze_bdev\fP and
+count down in \fBthaw_bdev\fP. When it becomes 0, \fBthaw_bdev\fP will unfreeze
+actually.

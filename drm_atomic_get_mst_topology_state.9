@@ -1,0 +1,20 @@
+.TH "drm_atomic_get_mst_topology_state" 9 "drm_atomic_get_mst_topology_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_get_mst_topology_state \- get MST topology state
+.SH SYNOPSIS
+.B "struct drm_dp_mst_topology_state *" drm_atomic_get_mst_topology_state
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_dp_mst_topology_mgr *mgr "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+global atomic state
+.IP "mgr" 12
+MST topology manager, also the private object in this case
+.SH "DESCRIPTION"
+This function wraps \fBdrm_atomic_get_priv_obj_state\fP passing in the MST atomic
+state vtable so that the private object state returned is that of a MST
+topology object. Also, \fBdrm_atomic_get_private_obj_state\fP expects the caller
+to care of the locking, so warn if don't hold the connection_mutex.
+
+The MST topology state or error pointer.
+.SH "RETURN"

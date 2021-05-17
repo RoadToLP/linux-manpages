@@ -1,0 +1,28 @@
+.TH "z8530_rx" 9 "z8530_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_rx \- Handle a PIO receive event
+.SH SYNOPSIS
+.B "void" z8530_rx
+.BI "(struct z8530_channel *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+Z8530 channel to process
+
+Receive handler for receiving in PIO mode. This is much like the 
+async one but not quite the same or as complex
+.SH "NOTE"
+Its intended that this handler can easily be separated from
+the main code to run realtime. That'll be needed for some machines
+(eg to ever clock 64kbits on a sparc ;)).
+
+The RT_LOCK macros don't do anything now. Keep the code covered
+by them as short as possible in all circumstances - clocks cost
+baud. The interrupt handler is assumed to be atomic w.r.t. to
+other code - this is true in the RT case too.
+
+We only cover the sync cases for this. If you want 2Mbit async
+do it yourself but consider medical assistance first. This non DMA 
+synchronous mode is portable code. The DMA mode assumes PCI like 
+ISA DMA
+
+Called with the device lock held

@@ -1,0 +1,32 @@
+.TH "ice_adjust_itr_by_size_and_speed" 9 "ice_adjust_itr_by_size_and_speed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_adjust_itr_by_size_and_speed \- Adjust ITR based on current traffic
+.SH SYNOPSIS
+.B "unsigned int" ice_adjust_itr_by_size_and_speed
+.BI "(struct ice_port_info *port_info "  ","
+.BI "unsigned int avg_pkt_size "  ","
+.BI "unsigned int itr "  ");"
+.SH ARGUMENTS
+.IP "port_info" 12
+port_info structure containing the current link speed
+.IP "avg_pkt_size" 12
+average size of Tx or Rx packets based on clean routine
+.IP "itr" 12
+ITR value to update
+.SH "DESCRIPTION"
+Calculate how big of an increment should be applied to the ITR value passed
+in based on wmem_default, SKB overhead, ethernet overhead, and the current
+link speed.
+
+The following is a calculation derived from:
+wmem_default / (size + overhead) = desired_pkts_per_int
+rate / bits_per_byte / (size + ethernet overhead) = pkt_rate
+(desired_pkt_rate / pkt_rate) * usecs_per_sec = ITR value
+
+Assuming wmem_default is 212992 and overhead is 640 bytes per
+packet, (256 skb, 64 headroom, 320 shared info), we can reduce the
+formula down to:
+
+wmem_default * bits_per_byte * usecs_per_sec   pkt_size + 24
+ITR = -------------------------------------------- * --------------
+rate                       pkt_size + 640

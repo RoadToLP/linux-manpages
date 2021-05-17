@@ -1,0 +1,20 @@
+.TH "usb_of_has_combined_node" 9 "usb_of_has_combined_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_of_has_combined_node \- determine whether a device has a combined node
+.SH SYNOPSIS
+.B "bool" usb_of_has_combined_node
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+USB device
+.SH "DESCRIPTION"
+Determine whether a USB device has a so called combined node which is
+shared with its sole interface. This is the case if and only if the device
+has a node and its descriptors report the following:
+
+1) bDeviceClass is 0 or 9, and
+2) bNumConfigurations is 1, and
+3) bNumInterfaces is 1.
+.SH "RETURN"
+True iff the device has a device node and its descriptors match the
+criteria for a combined node.

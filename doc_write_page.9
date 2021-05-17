@@ -1,0 +1,32 @@
+.TH "doc_write_page" 9 "doc_write_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_write_page \- Write a single page to the chip
+.SH SYNOPSIS
+.B "int" doc_write_page
+.BI "(struct docg3 *docg3 "  ","
+.BI "loff_t to "  ","
+.BI "const u_char *buf "  ","
+.BI "const u_char *oob "  ","
+.BI "int autoecc "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "to" 12
+the offset from first block and first page, in bytes, aligned on page
+size
+.IP "buf" 12
+buffer to get bytes from
+.IP "oob" 12
+buffer to get out of band bytes from (can be NULL if no OOB should be
+written)
+.IP "autoecc" 12
+if 0, all 16 bytes from OOB are taken, regardless of HW Hamming or
+BCH computations. If 1, only bytes 0-7 and byte 15 are taken,
+remaining ones are filled with hardware Hamming and BCH
+computations. Its value is not meaningfull is oob == NULL.
+.SH "DESCRIPTION"
+Write one full page (ie. 1 page split on two planes), of 512 bytes, with the
+OOB data. The OOB ECC is automatically computed by the hardware Hamming and
+BCH generator if autoecc is not null.
+
+Returns 0 if write successful, -EIO if write error, -EAGAIN if timeout

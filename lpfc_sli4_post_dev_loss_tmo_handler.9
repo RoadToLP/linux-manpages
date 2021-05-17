@@ -1,0 +1,27 @@
+.TH "lpfc_sli4_post_dev_loss_tmo_handler" 9 "lpfc_sli4_post_dev_loss_tmo_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_post_dev_loss_tmo_handler \- SLI4 post devloss timeout handler
+.SH SYNOPSIS
+.B "void" lpfc_sli4_post_dev_loss_tmo_handler
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int fcf_inuse "  ","
+.BI "uint32_t nlp_did "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to hba context object.
+.IP "fcf_inuse" 12
+SLI4 FCF in-use state reported from devloss timeout handler.
+.IP "nlp_did" 12
+remote node identifer with devloss timeout.
+.SH "DESCRIPTION"
+This function is called from the worker thread after invoking devloss
+timeout handler and releasing the reference count for the ndlp with
+which the devloss timeout was handled for SLI4 host. For the devloss
+timeout of the last remote node which had been in use of FCF, when this
+routine is invoked, it shall be guaranteed that none of the remote are
+in-use of FCF. When devloss timeout to the last remote using the FCF,
+if the FIP engine is neither in FCF table scan process nor roundrobin
+failover process, the in-use FCF shall be unregistered. If the FIP
+engine is in FCF discovery process, the devloss timeout state shall
+be set for either the FCF table scan process or roundrobin failover
+process to unregister the in-use FCF.

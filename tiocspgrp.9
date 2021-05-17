@@ -1,0 +1,20 @@
+.TH "tiocspgrp" 9 "tiocspgrp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tiocspgrp \- attempt to set process group
+.SH SYNOPSIS
+.B "int" tiocspgrp
+.BI "(struct tty_struct *tty "  ","
+.BI "struct tty_struct *real_tty "  ","
+.BI "pid_t __user *p "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty passed by user
+.IP "real_tty" 12
+tty side device matching tty passed by user
+.IP "p" 12
+pid pointer
+
+Set the process group of the tty to the session passed. Only
+permitted where the tty session is our session.
+
+Locking: RCU, ctrl lock

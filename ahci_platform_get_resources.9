@@ -1,0 +1,25 @@
+.TH "ahci_platform_get_resources" 9 "ahci_platform_get_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ahci_platform_get_resources \- Get platform resources
+.SH SYNOPSIS
+.B "struct ahci_host_priv *" ahci_platform_get_resources
+.BI "(struct platform_device *pdev "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+platform device to get resources for
+.IP "flags" 12
+bitmap representing the resource to get
+.SH "DESCRIPTION"
+This function allocates an ahci_host_priv struct, and gets the following
+resources, storing a reference to them inside the returned struct:
+
+1) mmio registers (IORESOURCE_MEM 0, mandatory)
+2) regulator for controlling the targets power (optional)
+regulator for controlling the AHCI controller (optional)
+3) 0 - AHCI_MAX_CLKS clocks, as specified in the devs devicetree node,
+or for non devicetree enabled platforms a single clock
+4) resets, if flags has AHCI_PLATFORM_GET_RESETS (optional)
+5) phys (optional)
+.SH "RETURN"
+The allocated ahci_host_priv on success, otherwise an ERR_PTR value

@@ -1,0 +1,22 @@
+.TH "netlbl_skbuff_err" 9 "netlbl_skbuff_err" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_skbuff_err \- Handle a LSM error on a sk_buff
+.SH SYNOPSIS
+.B "void" netlbl_skbuff_err
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 family "  ","
+.BI "int error "  ","
+.BI "int gateway "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "family" 12
+the family
+.IP "error" 12
+the error code
+.IP "gateway" 12
+true if host is acting as a gateway, false otherwise
+.SH "DESCRIPTION"
+Deal with a LSM problem when handling the packet in \fIskb\fP, typically this is
+a permission denied problem (-EACCES).  The correct action is determined
+according to the packet's labeling protocol.

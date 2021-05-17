@@ -1,0 +1,14 @@
+.TH "iop_adma_alloc_chan_resources" 9 "iop_adma_alloc_chan_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iop_adma_alloc_chan_resources \- returns the number of allocated descriptors
+.SH SYNOPSIS
+.B "int" iop_adma_alloc_chan_resources
+.BI "(struct dma_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+allocate descriptor resources for this channel
+.SH "NOTE"
+We keep the slots for 1 operation on iop_chan->chain at all times.  To
+avoid deadlock, via async_xor, num_descs_in_pool must at a minimum be
+greater than 2x the number slots needed to satisfy a device->max_xor
+request.

@@ -1,0 +1,27 @@
+.TH "dfl_fpga_enum_info_add_irq" 9 "dfl_fpga_enum_info_add_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfl_fpga_enum_info_add_irq \- add irq table to enum info
+.SH SYNOPSIS
+.B "int" dfl_fpga_enum_info_add_irq
+.BI "(struct dfl_fpga_enum_info *info "  ","
+.BI "unsigned int nr_irqs "  ","
+.BI "int *irq_table "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+ptr to dfl_fpga_enum_info
+.IP "nr_irqs" 12
+number of irqs of the DFL fpga device to be enumerated.
+.IP "irq_table" 12
+Linux IRQ numbers for all irqs, indexed by local irq index of
+this device.
+.SH "DESCRIPTION"
+One FPGA device may have several interrupts. This function adds irq
+information of the DFL fpga device to enum info for next step enumeration.
+This function should be called before \fBdfl_fpga_feature_devs_enumerate\fP.
+As we only support one irq domain for all DFLs in the same enum info, adding
+irq table a second time for the same enum info will return error.
+
+If we need to enumerate DFLs which belong to different irq domains, we
+should fill more enum info and enumerate them one by one.
+.SH "RETURN"
+0 on success, negative error code otherwise.

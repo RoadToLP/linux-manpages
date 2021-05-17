@@ -1,0 +1,19 @@
+.TH "mdiobus_scan" 9 "mdiobus_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mdiobus_scan \- scan a bus for MDIO devices.
+.SH SYNOPSIS
+.B "struct phy_device *" mdiobus_scan
+.BI "(struct mii_bus *bus "  ","
+.BI "int addr "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+mii_bus to scan
+.IP "addr" 12
+address on bus to scan
+.SH "DESCRIPTION"
+This function scans the MDIO bus, looking for devices which can be
+identified using a vendor/product ID in registers 2 and 3. Not all
+MDIO devices have such registers, but PHY devices typically
+do. Hence this function assumes anything found is a PHY, or can be
+treated as a PHY. Other MDIO devices, such as switches, will
+probably not be found during the scan.

@@ -1,0 +1,25 @@
+.TH "cxlflash_chr_ioctl" 9 "cxlflash_chr_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_chr_ioctl \- character device IOCTL handler
+.SH SYNOPSIS
+.B "long" cxlflash_chr_ioctl
+.BI "(struct file *file "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+File pointer for this device.
+.IP "cmd" 12
+IOCTL command.
+.IP "arg" 12
+Userspace ioctl data structure.
+.SH "DESCRIPTION"
+A read/write semaphore is used to implement a 'drain' of currently
+running ioctls. The read semaphore is taken at the beginning of each
+ioctl thread and released upon concluding execution. Additionally the
+semaphore should be released and then reacquired in any ioctl execution
+path which will wait for an event to occur that is outside the scope of
+the ioctl (i.e. an adapter reset). To drain the ioctls currently running,
+a thread simply needs to acquire the write semaphore.
+.SH "RETURN"
+0 on success, -errno on failure

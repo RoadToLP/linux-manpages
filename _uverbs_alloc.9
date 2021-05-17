@@ -1,0 +1,22 @@
+.TH "_uverbs_alloc" 9 "_uverbs_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_uverbs_alloc \- Quickly allocate memory for use with a bundle
+.SH SYNOPSIS
+.B "__malloc void *" _uverbs_alloc
+.BI "(struct uverbs_attr_bundle *bundle "  ","
+.BI "size_t size "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "bundle" 12
+The bundle
+.IP "size" 12
+Number of bytes to allocate
+.IP "flags" 12
+Allocator flags
+.SH "DESCRIPTION"
+The bundle allocator is intended for allocations that are connected with
+processing the system call related to the bundle. The allocated memory is
+always freed once the system call completes, and cannot be freed any other
+way.
+
+This tries to use a small pool of pre-allocated memory for performance.

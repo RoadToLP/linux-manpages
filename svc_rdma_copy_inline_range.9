@@ -1,0 +1,24 @@
+.TH "svc_rdma_copy_inline_range" 9 "svc_rdma_copy_inline_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_copy_inline_range \- Copy part of the inline content into pages
+.SH SYNOPSIS
+.B "int" svc_rdma_copy_inline_range
+.BI "(struct svc_rdma_read_info *info "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int remaining "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.IP "offset" 12
+offset into the Receive buffer of region to copy
+.IP "remaining" 12
+length of region to copy
+.SH "DESCRIPTION"
+Take a page at a time from rqstp->rq_pages and copy the inline
+content from the Receive buffer into that page. Update
+info->ri_pageno and info->ri_pageoff so that the next RDMA Read
+result will land contiguously with the copied content.
+
+Return values:
+0: Inline content was successfully copied
+-EINVAL: offset or length was incorrect

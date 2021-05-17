@@ -1,0 +1,19 @@
+.TH "add_timer" 9 "add_timer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_timer \- start a timer
+.SH SYNOPSIS
+.B "void" add_timer
+.BI "(struct timer_list *timer "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+the timer to be added
+.SH "DESCRIPTION"
+The kernel will do a ->function(\fItimer\fP) callback from the
+timer interrupt at the ->expires point in the future. The
+current time is 'jiffies'.
+
+The timer's ->expires, ->function fields must be set prior calling this
+function.
+
+Timers with an ->expires field in the past will be executed in the next
+timer tick.

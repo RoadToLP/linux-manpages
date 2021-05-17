@@ -1,0 +1,38 @@
+.TH "nx842_OF_upd_maxsyncop" 9 "nx842_OF_upd_maxsyncop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nx842_OF_upd_maxsyncop \- - Update the device info from OF maxsyncop prop
+.SH SYNOPSIS
+.B "int" nx842_OF_upd_maxsyncop
+.BI "(struct nx842_devdata *devdata "  ","
+.BI "struct property *prop "  ");"
+.SH ARGUMENTS
+.IP "devdata" 12
+-- undescribed --
+.IP "prop" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Definition of the 'ibm,max-sync-cop' OF property:
+Two series of cells.  The first series of cells represents the maximums
+that can be synchronously compressed. The second series of cells
+represents the maximums that can be synchronously decompressed.
+1. The first cell in each series contains the count of the number of
+data length, scatter list elements pairs that follow – each being
+of the form
+a. One cell data byte length
+b. One cell total number of scatter list elements
+
+\fIdevdata\fP - struct nx842_devdata to update
+\fIprop\fP - struct property point containing the maxsyncop for the update
+.SH "EXAMPLE"
+# od -x ibm,max-sync-cop
+0000000 0000 0001 0000 1000 0000 01fe 0000 0001
+0000020 0000 1000 0000 01fe
+
+In this example, compression supports 0x1000 (4,096) data byte length
+and 0x1fe (510) total scatter list elements.  Decompression supports
+0x1000 (4,096) data byte length and 0x1f3 (510) total scatter list
+elements.
+.SH "RETURN"
+0 on success
+-EINVAL on failure

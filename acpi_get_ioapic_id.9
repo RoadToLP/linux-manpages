@@ -1,0 +1,20 @@
+.TH "acpi_get_ioapic_id" 9 "acpi_get_ioapic_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_get_ioapic_id \- Get IOAPIC ID and physical address matching @gsi_base
+.SH SYNOPSIS
+.B "int" acpi_get_ioapic_id
+.BI "(acpi_handle handle "  ","
+.BI "u32 gsi_base "  ","
+.BI "u64 *phys_addr "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+ACPI object for IOAPIC device
+.IP "gsi_base" 12
+GSI base to match with
+.IP "phys_addr" 12
+Pointer to store physical address of matching IOAPIC record
+.SH "DESCRIPTION"
+Walk resources returned by ACPI_MAT method, then ACPI MADT table, to search
+for an ACPI IOAPIC record matching \fIgsi_base\fP.
+Return IOAPIC id and store physical address in \fIphys_addr\fP if found a match,
+otherwise return <0.

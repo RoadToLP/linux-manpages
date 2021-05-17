@@ -1,0 +1,15 @@
+.TH "snapshot_write_finalize" 9 "snapshot_write_finalize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snapshot_write_finalize \- Complete the loading of a hibernation image.
+.SH SYNOPSIS
+.B "void" snapshot_write_finalize
+.BI "(struct snapshot_handle *handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Must be called after the last call to \fBsnapshot_write_next\fP in case the last
+page in the image happens to be a highmem page and its contents should be
+stored in highmem.  Additionally, it recycles bitmap memory that's not
+necessary any more.

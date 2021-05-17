@@ -1,0 +1,29 @@
+.TH "_lpfc_move_xri_pbl_to_pvt" 9 "_lpfc_move_xri_pbl_to_pvt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_lpfc_move_xri_pbl_to_pvt \- Move some XRIs from public to private pool
+.SH SYNOPSIS
+.B "bool" _lpfc_move_xri_pbl_to_pvt
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli4_hdw_queue *qp "  ","
+.BI "struct lpfc_pbl_pool *pbl_pool "  ","
+.BI "struct lpfc_pvt_pool *pvt_pool "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure
+.IP "qp" 12
+pointer to HDW queue
+.IP "pbl_pool" 12
+specified public free XRI pool
+.IP "pvt_pool" 12
+specified private free XRI pool
+.IP "count" 12
+number of XRIs to move
+.SH "DESCRIPTION"
+This routine tries to move some free common bufs from the specified pbl_pool
+to the specified pvt_pool. It might move less than count XRIs if there's not
+enough in public pool.
+.SH "RETURN"
+true - if XRIs are successfully moved from the specified pbl_pool to the
+specified pvt_pool
+false - if the specified pbl_pool is empty or locked by someone else

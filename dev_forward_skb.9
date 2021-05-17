@@ -1,0 +1,24 @@
+.TH "dev_forward_skb" 9 "dev_forward_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_forward_skb \- loopback an skb to another netif
+.SH SYNOPSIS
+.B "int" dev_forward_skb
+.BI "(struct net_device *dev "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+destination network device
+.IP "skb" 12
+buffer to forward
+.SH "DESCRIPTION"
+return values:
+NET_RX_SUCCESS  (no congestion)
+NET_RX_DROP     (packet was dropped, but freed)
+
+dev_forward_skb can be used for injecting an skb from the
+start_xmit function of one device into the receive queue
+of another device.
+
+The receiving device may be in another namespace, so
+we have to clear all information in the skb that could
+impact namespace isolation.

@@ -1,0 +1,27 @@
+.TH "gmap_table_walk" 9 "gmap_table_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_table_walk \- walk the gmap page tables
+.SH SYNOPSIS
+.B "unsigned long *" gmap_table_walk
+.BI "(struct gmap *gmap "  ","
+.BI "unsigned long gaddr "  ","
+.BI "int level "  ");"
+.SH ARGUMENTS
+.IP "gmap" 12
+pointer to guest mapping meta data structure
+.IP "gaddr" 12
+virtual address in the guest address space
+.IP "level" 12
+page table level to stop at
+.SH "DESCRIPTION"
+Returns a table entry pointer for the given guest address and \fIlevel\fP
+\fIlevel\fP=0 : returns a pointer to a page table table entry (or NULL)
+\fIlevel\fP=1 : returns a pointer to a segment table entry (or NULL)
+\fIlevel\fP=2 : returns a pointer to a region-3 table entry (or NULL)
+\fIlevel\fP=3 : returns a pointer to a region-2 table entry (or NULL)
+\fIlevel\fP=4 : returns a pointer to a region-1 table entry (or NULL)
+
+Returns NULL if the gmap page tables could not be walked to the
+requested level.
+.SH "NOTE"
+Can also be called for shadow gmaps.

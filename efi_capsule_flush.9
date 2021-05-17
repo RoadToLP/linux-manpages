@@ -1,0 +1,16 @@
+.TH "efi_capsule_flush" 9 "efi_capsule_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_flush \- called by file close or file flush
+.SH SYNOPSIS
+.B "int" efi_capsule_flush
+.BI "(struct file *file "  ","
+.BI "fl_owner_t id "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "id" 12
+not used
+
+If a capsule is being partially uploaded then calling this function
+will be treated as upload termination and will free those completed
+buffer pages and -ECANCELED will be returned.

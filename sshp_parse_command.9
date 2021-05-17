@@ -1,0 +1,35 @@
+.TH "sshp_parse_command" 9 "sshp_parse_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sshp_parse_command \- Parse SSH command frame payload.
+.SH SYNOPSIS
+.B "int" sshp_parse_command
+.BI "(const struct device *dev "  ","
+.BI "const struct ssam_span *source "  ","
+.BI "struct ssh_command **command "  ","
+.BI "struct ssam_span *command_data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device used for logging.
+.IP "source" 12
+The source to parse from.
+.IP "command" 12
+The parsed command (output).
+.IP "command_data" 12
+The parsed command data/payload (output).
+.SH "DESCRIPTION"
+Parses and validates a SSH command frame payload. Sets the \fIcommand\fP pointer
+to the command header and the \fIcommand_data\fP span to the command data (i.e.
+payload of the command). This will result in a zero-length span if the
+command does not have any associated data/payload. This function does not
+check the frame-payload-type field, which should be checked by the caller
+before calling this function.
+
+The \fIsource\fP parameter should be the complete frame payload, e.g. returned
+by the \fBsshp_parse_frame\fP command.
+
+This function does not copy any data, but rather only validates the frame
+payload data and sets pointers (and length values) to indicate the
+respective parts.
+.SH "RETURN"
+Returns zero on success or -ENOMSG if \fIsource\fP does not represent a
+valid command-type frame payload, i.e. is too short.

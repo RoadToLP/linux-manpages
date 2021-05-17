@@ -1,0 +1,23 @@
+.TH "mem_cgroup_move_swap_account" 9 "mem_cgroup_move_swap_account" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_move_swap_account \- move swap charge and swap_cgroup's record.
+.SH SYNOPSIS
+.B "int" mem_cgroup_move_swap_account
+.BI "(swp_entry_t entry "  ","
+.BI "struct mem_cgroup *from "  ","
+.BI "struct mem_cgroup *to "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+swap entry to be moved
+.IP "from" 12
+mem_cgroup which the entry is moved from
+.IP "to" 12
+mem_cgroup which the entry is moved to
+.SH "DESCRIPTION"
+It succeeds only when the swap_cgroup's record for this entry is the same
+as the mem_cgroup's id of \fIfrom\fP.
+
+Returns 0 on success, -EINVAL on failure.
+
+The caller must have charged to \fIto\fP, IOW, called \fBpage_counter_charge\fP about
+both res and memsw, and called \fBcss_get\fP.

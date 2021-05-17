@@ -1,0 +1,24 @@
+.TH "memory_failure" 9 "memory_failure" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memory_failure \- Handle memory failure of a page.
+.SH SYNOPSIS
+.B "int" memory_failure
+.BI "(unsigned long pfn "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+Page Number of the corrupted page
+.IP "flags" 12
+fine tune action taken
+.SH "DESCRIPTION"
+This function is called by the low level machine check code
+of an architecture when it detects hardware memory corruption
+of a page. It tries its best to recover, which includes
+dropping pages, killing processes etc.
+
+The function is primarily of use for corruptions that
+happen outside the current execution context (e.g. when
+detected by a background scrubber)
+
+Must run in process context (e.g. a work queue) with interrupts
+enabled and no spinlocks hold.

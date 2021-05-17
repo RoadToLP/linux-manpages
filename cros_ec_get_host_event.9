@@ -1,0 +1,15 @@
+.TH "cros_ec_get_host_event" 9 "cros_ec_get_host_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_get_host_event \- Return a mask of event set by the ChromeOS EC.
+.SH SYNOPSIS
+.B "u32" cros_ec_get_host_event
+.BI "(struct cros_ec_device *ec_dev "  ");"
+.SH ARGUMENTS
+.IP "ec_dev" 12
+Device to fetch event from.
+.SH "DESCRIPTION"
+When MKBP is supported, when the EC raises an interrupt, we collect the
+events raised and call the functions in the ec notifier. This function
+is a helper to know which events are raised.
+.SH "RETURN"
+0 on error or non-zero bitmask of one or more EC_HOST_EVENT_*.

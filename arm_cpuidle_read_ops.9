@@ -1,0 +1,21 @@
+.TH "arm_cpuidle_read_ops" 9 "arm_cpuidle_read_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_cpuidle_read_ops \- Initialize the cpuidle ops with the device tree
+.SH SYNOPSIS
+.B "int" arm_cpuidle_read_ops
+.BI "(struct device_node *dn "  ","
+.BI "int cpu "  ");"
+.SH ARGUMENTS
+.IP "dn" 12
+a pointer to a struct device node corresponding to a cpu node
+.IP "cpu" 12
+the cpu identifier
+.SH "DESCRIPTION"
+Get the method name defined in the 'enable-method' property, retrieve the
+associated cpuidle_ops and do a struct copy. This copy is needed because all
+cpuidle_ops are tagged __initconst and will be unloaded after the init
+process.
+
+Return 0 on sucess, -ENOENT if no 'enable-method' is defined, -EOPNOTSUPP if
+no cpuidle_ops is registered for the 'enable-method', or if either init or
+suspend callback isn't defined.

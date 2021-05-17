@@ -1,0 +1,40 @@
+.TH "gb_operation_sync_timeout" 9 "gb_operation_sync_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gb_operation_sync_timeout \- implement a "simple" synchronous operation
+.SH SYNOPSIS
+.B "int" gb_operation_sync_timeout
+.BI "(struct gb_connection *connection "  ","
+.BI "int type "  ","
+.BI "void *request "  ","
+.BI "int request_size "  ","
+.BI "void *response "  ","
+.BI "int response_size "  ","
+.BI "unsigned int timeout "  ");"
+.SH ARGUMENTS
+.IP "connection" 12
+the Greybus connection to send this to
+.IP "type" 12
+the type of operation to send
+.IP "request" 12
+pointer to a memory buffer to copy the request from
+.IP "request_size" 12
+size of \fIrequest\fP
+.IP "response" 12
+pointer to a memory buffer to copy the response to
+.IP "response_size" 12
+the size of \fIresponse\fP.
+.IP "timeout" 12
+operation timeout in milliseconds
+.SH "DESCRIPTION"
+This function implements a simple synchronous Greybus operation.  It sends
+the provided operation request and waits (sleeps) until the corresponding
+operation response message has been successfully received, or an error
+occurs.  \fIrequest\fP and \fIresponse\fP are buffers to hold the request and response
+data respectively, and if they are not NULL, their size must be specified in
+\fIrequest_size\fP and \fIresponse_size\fP.
+
+If a response payload is to come back, and \fIresponse\fP is not NULL,
+\fIresponse_size\fP number of bytes will be copied into \fIresponse\fP if the operation
+is successful.
+
+If there is an error, the response buffer is left alone.

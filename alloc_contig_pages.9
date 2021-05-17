@@ -1,0 +1,32 @@
+.TH "alloc_contig_pages" 9 "alloc_contig_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_contig_pages \- - tries to find and allocate contiguous range of pages
+.SH SYNOPSIS
+.B "struct page *" alloc_contig_pages
+.BI "(unsigned long nr_pages "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int nid "  ","
+.BI "nodemask_t *nodemask "  ");"
+.SH ARGUMENTS
+.IP "nr_pages" 12
+Number of contiguous pages to allocate
+.IP "gfp_mask" 12
+GFP mask to limit search and used during compaction
+.IP "nid" 12
+Target node
+.IP "nodemask" 12
+Mask for other possible nodes
+.SH "DESCRIPTION"
+This routine is a wrapper around \fBalloc_contig_range\fP. It scans over zones
+on an applicable zonelist to find a contiguous pfn range which can then be
+tried for allocation with \fBalloc_contig_range\fP. This routine is intended
+for allocation requests which can not be fulfilled with the buddy allocator.
+
+The allocated memory is always aligned to a page boundary. If nr_pages is a
+power of two then the alignment is guaranteed to be to the given nr_pages
+(e.g. 1GB request would be aligned to 1GB).
+
+Allocated pages can be freed with \fBfree_contig_range\fP or by manually calling
+\fB__free_page\fP on each allocated page.
+.SH "RETURN"
+pointer to contiguous pages on success, or NULL if not successful.

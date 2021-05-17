@@ -1,0 +1,17 @@
+.TH "ice_rebuild" 9 "ice_rebuild" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_rebuild \- rebuild after reset
+.SH SYNOPSIS
+.B "void" ice_rebuild
+.BI "(struct ice_pf *pf "  ","
+.BI "enum ice_reset_req reset_type "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+PF to rebuild
+.IP "reset_type" 12
+type of reset
+.SH "DESCRIPTION"
+Do not rebuild VF VSI in this flow because that is already handled via
+\fBice_reset_all_vfs\fP. This is because requirements for resetting a VF after a
+PFR/CORER/GLOBER/etc. are different than the normal flow. Also, we don't want
+to reset/rebuild all the VF VSI twice.

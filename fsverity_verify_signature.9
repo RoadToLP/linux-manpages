@@ -1,0 +1,20 @@
+.TH "fsverity_verify_signature" 9 "fsverity_verify_signature" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_verify_signature \- check a verity file's signature
+.SH SYNOPSIS
+.B "int" fsverity_verify_signature
+.BI "(const struct fsverity_info *vi "  ","
+.BI "const u8 *signature "  ","
+.BI "size_t sig_size "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+the file's fsverity_info
+.IP "signature" 12
+the file's built-in signature
+.IP "sig_size" 12
+size of signature in bytes, or 0 if no signature
+.SH "DESCRIPTION"
+If the file includes a signature of its fs-verity file digest, verify it
+against the certificates in the fs-verity keyring.
+.SH "RETURN"
+0 on success (signature valid or not required); -errno on failure

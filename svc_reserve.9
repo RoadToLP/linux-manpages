@@ -1,0 +1,16 @@
+.TH "svc_reserve" 9 "svc_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_reserve \- change the space reserved for the reply to a request.
+.SH SYNOPSIS
+.B "void" svc_reserve
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "int space "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+The request in question
+.IP "space" 12
+new max space to reserve
+.SH "DESCRIPTION"
+Each request reserves some space on the output queue of the transport
+to make sure the reply fits.  This function reduces that reserved
+space to be the amount of space used already, plus \fIspace\fP.

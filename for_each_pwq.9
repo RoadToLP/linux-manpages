@@ -1,0 +1,19 @@
+.TH "for_each_pwq" 9 "for_each_pwq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+for_each_pwq \- iterate through all pool_workqueues of the specified workqueue
+.SH SYNOPSIS
+.B "for_each_pwq
+.BI "(pwq "  ","
+.BI "wq "  ");"
+.SH ARGUMENTS
+.IP "pwq" 12
+iteration cursor
+.IP "wq" 12
+the target workqueue
+.SH "DESCRIPTION"
+This must be called either with wq->mutex held or RCU read locked.
+If the pwq needs to be used beyond the locking in effect, the caller is
+responsible for guaranteeing that the pwq stays online.
+
+The if/else clause exists only for the lockdep assertion and can be
+ignored.

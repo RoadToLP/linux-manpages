@@ -1,0 +1,21 @@
+.TH "request_key_rcu" 9 "request_key_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_key_rcu \- Request key from RCU-read-locked context
+.SH SYNOPSIS
+.B "struct key *" request_key_rcu
+.BI "(struct key_type *type "  ","
+.BI "const char *description "  ","
+.BI "struct key_tag *domain_tag "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+The type of key we want.
+.IP "description" 12
+The name of the key we want.
+.IP "domain_tag" 12
+The domain in which the key operates.
+.SH "DESCRIPTION"
+Request a key from a context that we may not sleep in (such as RCU-mode
+pathwalk).  Keys under construction are ignored.
+
+Return a pointer to the found key if successful, -ENOKEY if we couldn't find
+a key or some other error if the key found was unsuitable or inaccessible.

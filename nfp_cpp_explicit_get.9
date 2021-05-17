@@ -1,0 +1,25 @@
+.TH "nfp_cpp_explicit_get" 9 "nfp_cpp_explicit_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_cpp_explicit_get \- Get the 'push' (read) data from a explicit access
+.SH SYNOPSIS
+.B "int" nfp_cpp_explicit_get
+.BI "(struct nfp_cpp_explicit *expl "  ","
+.BI "void *buff "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "expl" 12
+NFP CPP Explicit handle
+.IP "buff" 12
+Data that the target pushed in the transaction
+.IP "len" 12
+Length of data, in bytes
+.SH "DESCRIPTION"
+The 'len' parameter must be less than or equal to 128 bytes.
+
+If this function is called before all three configuration
+registers are set, it will return -1, with an errno of EINVAL.
+
+If this function is called before \fBnfp_cpp_explicit_do\fP
+has completed, it will return -1, with an errno of EBUSY.
+.SH "RETURN"
+0, or -ERRNO

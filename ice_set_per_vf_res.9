@@ -1,0 +1,26 @@
+.TH "ice_set_per_vf_res" 9 "ice_set_per_vf_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_set_per_vf_res \- check if vectors and queues are available
+.SH SYNOPSIS
+.B "int" ice_set_per_vf_res
+.BI "(struct ice_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+pointer to the PF structure
+.SH "DESCRIPTION"
+First, determine HW interrupts from common pool. If we allocate fewer VFs, we
+get more vectors and can enable more queues per VF. Note that this does not
+grab any vectors from the SW pool already allocated. Also note, that all
+vector counts include one for each VF's miscellaneous interrupt vector
+(i.e. OICR).
+
+Minimum VFs - 2 vectors, 1 queue pair
+Small VFs - 5 vectors, 4 queue pairs
+Medium VFs - 17 vectors, 16 queue pairs
+
+Second, determine number of queue pairs per VF by starting with a pre-defined
+maximum each VF supports. If this is not possible, then we adjust based on
+queue pairs available on the device.
+
+Lastly, set queue and MSI-X VF variables tracked by the PF so it can be used
+by each VF during VF initialization and reset.

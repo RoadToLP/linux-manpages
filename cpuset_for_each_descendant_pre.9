@@ -1,0 +1,20 @@
+.TH "cpuset_for_each_descendant_pre" 9 "cpuset_for_each_descendant_pre" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuset_for_each_descendant_pre \- pre-order walk of a cpuset's descendants
+.SH SYNOPSIS
+.B "cpuset_for_each_descendant_pre
+.BI "(des_cs "  ","
+.BI "pos_css "  ","
+.BI "root_cs "  ");"
+.SH ARGUMENTS
+.IP "des_cs" 12
+loop cursor pointing to the current descendant
+.IP "pos_css" 12
+used for iteration
+.IP "root_cs" 12
+target cpuset to walk ancestor of
+.SH "DESCRIPTION"
+Walk \fIdes_cs\fP through the online descendants of \fIroot_cs\fP.  Must be used
+with RCU read locked.  The caller may modify \fIpos_css\fP by calling
+\fBcss_rightmost_descendant\fP to skip subtree.  \fIroot_cs\fP is included in the
+iteration and the first node to be visited.

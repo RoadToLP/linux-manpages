@@ -1,0 +1,41 @@
+.TH "drm_crtc_vblank_helper_get_vblank_timestamp_internal" 9 "drm_crtc_vblank_helper_get_vblank_timestamp_internal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_vblank_helper_get_vblank_timestamp_internal \- precise vblank timestamp helper
+.SH SYNOPSIS
+.B "bool" drm_crtc_vblank_helper_get_vblank_timestamp_internal
+.BI "(struct drm_crtc *crtc "  ","
+.BI "int *max_error "  ","
+.BI "ktime_t *vblank_time "  ","
+.BI "bool in_vblank_irq "  ","
+.BI "drm_vblank_get_scanout_position_func get_scanout_position "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+CRTC whose vblank timestamp to retrieve
+.IP "max_error" 12
+Desired maximum allowable error in timestamps (nanosecs)
+On return contains true maximum error of timestamp
+.IP "vblank_time" 12
+Pointer to time which should receive the timestamp
+.IP "in_vblank_irq" 12
+True when called from \fBdrm_crtc_handle_vblank\fP.  Some drivers
+need to apply some workarounds for gpu-specific vblank irq quirks
+if flag is set.
+.IP "get_scanout_position" 12
+Callback function to retrieve the scanout position. See
+\fIstruct\fP drm_crtc_helper_funcs.get_scanout_position.
+.SH "DESCRIPTION"
+Implements calculation of exact vblank timestamps from given drm_display_mode
+timings and current video scanout position of a CRTC.
+
+The current implementation only handles standard video modes. For double scan
+and interlaced modes the driver is supposed to adjust the hardware mode
+(taken from \fIdrm_crtc_state.adjusted\fP mode for atomic modeset drivers) to
+match the scanout position reported.
+
+Note that atomic drivers must call \fBdrm_calc_timestamping_constants\fP before
+enabling a CRTC. The atomic helpers already take care of that in
+\fBdrm_atomic_helper_calc_timestamping_constants\fP.
+
+Returns true on success, and false on failure, i.e. when no accurate
+timestamp could be acquired.
+.SH "RETURN"

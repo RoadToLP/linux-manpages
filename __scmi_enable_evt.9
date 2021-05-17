@@ -1,0 +1,22 @@
+.TH "__scmi_enable_evt" 9 "__scmi_enable_evt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__scmi_enable_evt \- Enable/disable events generation
+.SH SYNOPSIS
+.B "int" __scmi_enable_evt
+.BI "(struct scmi_registered_event *r_evt "  ","
+.BI "u32 src_id "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "r_evt" 12
+The registered event to act upon
+.IP "src_id" 12
+The src_id to act upon
+.IP "enable" 12
+The action to perform: true->Enable, false->Disable
+.SH "DESCRIPTION"
+Takes care of proper refcounting while performing enable/disable: handles
+the special case of ALL sources requests by itself.
+Returns successfully if at least one of the required src_id has been
+successfully enabled/disabled.
+.SH "RETURN"
+0 on Success

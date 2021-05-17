@@ -1,0 +1,16 @@
+.TH "tcp_lp_owd_calculator" 9 "tcp_lp_owd_calculator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcp_lp_owd_calculator \- 
+.SH SYNOPSIS
+.B "u32" tcp_lp_owd_calculator
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to calculate one way delay for
+.SH "DESCRIPTION"
+Calculate one way delay (in relative format).
+Original implement OWD as minus of remote time difference to local time
+difference directly. As this time difference just simply equal to RTT, when
+the network status is stable, remote RTT will equal to local RTT, and result
+OWD into zero.
+It seems to be a bug and so we fixed it.

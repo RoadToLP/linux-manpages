@@ -1,0 +1,21 @@
+.TH "thermal_zone_of_sensor_unregister" 9 "thermal_zone_of_sensor_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+thermal_zone_of_sensor_unregister \- unregisters a sensor from a DT thermal zone
+.SH SYNOPSIS
+.B "void" thermal_zone_of_sensor_unregister
+.BI "(struct device *dev "  ","
+.BI "struct thermal_zone_device *tzd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+a valid struct device pointer of a sensor device. Must contain
+a valid .of_node, for the sensor node.
+.IP "tzd" 12
+a pointer to struct thermal_zone_device where the sensor is registered.
+.SH "DESCRIPTION"
+This function removes the sensor callbacks and private data from the
+thermal zone device registered with \fBthermal_zone_of_sensor_register\fP
+API. It will also silent the zone by remove the .\fBget_temp\fP and .\fBget_trend\fP
+thermal zone device callbacks.
+
+TODO: When the support to several sensors per zone is added, this
+function must search the sensor list based on \fIdev\fP parameter.

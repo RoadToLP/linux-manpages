@@ -1,0 +1,18 @@
+.TH "rpr0521_set_power_state" 9 "rpr0521_set_power_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpr0521_set_power_state \- handles runtime PM state and sensors enabled status
+.SH SYNOPSIS
+.B "int" rpr0521_set_power_state
+.BI "(struct rpr0521_data *data "  ","
+.BI "bool on "  ","
+.BI "u8 device_mask "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+rpr0521 device private data
+.IP "on" 12
+state to be set for devices in \fIdevice_mask\fP
+.IP "device_mask" 12
+bitmask specifying for which device we need to update \fIon\fP state
+.SH "DESCRIPTION"
+Calls for this function must be balanced so that each ON should have matching
+OFF. Otherwise pm usage_count gets out of sync.

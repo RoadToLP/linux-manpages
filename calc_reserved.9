@@ -1,0 +1,26 @@
+.TH "calc_reserved" 9 "calc_reserved" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_reserved \- Calculate the number of blocks to keep reserved
+.SH SYNOPSIS
+.B "unsigned int" calc_reserved
+.BI "(struct gfs2_sbd *sdp "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.SH "DESCRIPTION"
+This is complex.  We need to reserve room for all our currently used
+metadata blocks (e.g. normal file I/O rewriting file time stamps) and
+all our journaled data blocks for journaled files (e.g. files in the
+meta_fs like rindex, or files for which chattr +j was done.)
+If we don't reserve enough space, corruption will follow.
+
+We can have metadata blocks and jdata blocks in the same journal.  Each
+type gets its own log descriptor, for which we need to reserve a block.
+In fact, each type has the potential for needing more than one log descriptor
+in cases where we have more blocks than will fit in a log descriptor.
+Metadata journal entries take up half the space of journaled buffer entries.
+
+Also, we need to reserve blocks for revoke journal entries and one for an
+overall header for the lot.
+.SH "RETURN"
+the number of blocks reserved

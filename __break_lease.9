@@ -1,0 +1,22 @@
+.TH "__break_lease" 9 "__break_lease" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__break_lease \- revoke all outstanding leases on file
+.SH SYNOPSIS
+.B "int" __break_lease
+.BI "(struct inode *inode "  ","
+.BI "unsigned int mode "  ","
+.BI "unsigned int type "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode of the file to return
+.IP "mode" 12
+O_RDONLY: break only write leases; O_WRONLY or O_RDWR:
+break all leases
+.IP "type" 12
+FL_LEASE: break leases and delegations; FL_DELEG: break
+only delegations
+
+break_lease (inlined for speed) has checked there already is at least
+some kind of lock (maybe a lease) on this file.  Leases are broken on
+a call to \fBopen\fP or \fBtruncate\fP.  This function can sleep unless you
+specified O_NONBLOCK to your \fBopen\fP.

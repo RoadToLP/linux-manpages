@@ -1,0 +1,16 @@
+.TH "rz1000_init_one" 9 "rz1000_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rz1000_init_one \- Register RZ1000 ATA PCI device with kernel services
+.SH SYNOPSIS
+.B "int" rz1000_init_one
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *ent "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device to register
+.IP "ent" 12
+Entry in rz1000_pci_tbl matching with \fIpdev\fP
+
+Configure an RZ1000 interface. This doesn't require much special
+handling except that we *MUST* kill the chipset readahead or the
+user may experience data corruption.

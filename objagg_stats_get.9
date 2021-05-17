@@ -1,0 +1,22 @@
+.TH "objagg_stats_get" 9 "objagg_stats_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+objagg_stats_get \- obtains stats of the objagg instance
+.SH SYNOPSIS
+.B "const struct objagg_stats *" objagg_stats_get
+.BI "(struct objagg *objagg "  ");"
+.SH ARGUMENTS
+.IP "objagg" 12
+objagg instance
+.SH "NOTE"
+all locking must be provided by the caller.
+.SH "DESCRIPTION"
+The returned structure contains statistics of all object
+currently in use, ordered by following rules:
+1) Root objects are always on lower indexes than the rest.
+2) Objects with higher delta user count are always on lower
+indexes.
+3) In case more objects have the same delta user count,
+the objects are ordered by user count.
+
+Returns a pointer to stats instance in case of success,
+otherwise it returns pointer error using ERR_PTR macro.

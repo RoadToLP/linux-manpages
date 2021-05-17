@@ -1,0 +1,20 @@
+.TH "dfll_calculate_rate_request" 9 "dfll_calculate_rate_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfll_calculate_rate_request \- calculate DFLL parameters for a given rate
+.SH SYNOPSIS
+.B "int" dfll_calculate_rate_request
+.BI "(struct tegra_dfll *td "  ","
+.BI "struct dfll_rate_req *req "  ","
+.BI "unsigned long rate "  ");"
+.SH ARGUMENTS
+.IP "td" 12
+DFLL instance
+.IP "req" 12
+DFLL-rate-request structure
+.IP "rate" 12
+the desired DFLL rate
+.SH "DESCRIPTION"
+Populate the DFLL-rate-request record \fIreq\fP fields with the scale_bits
+and mult_bits fields, based on the target input rate. Returns 0 upon
+success, or -EINVAL if the requested rate in req->rate is too high
+or low for the DFLL to generate.

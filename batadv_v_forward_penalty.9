@@ -1,0 +1,33 @@
+.TH "batadv_v_forward_penalty" 9 "batadv_v_forward_penalty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_v_forward_penalty \- apply a penalty to the throughput metric forwarded with B.A.T.M.A.N. V OGMs
+.SH SYNOPSIS
+.B "u32" batadv_v_forward_penalty
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_hard_iface *if_incoming "  ","
+.BI "struct batadv_hard_iface *if_outgoing "  ","
+.BI "u32 throughput "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "if_incoming" 12
+the interface where the OGM has been received
+.IP "if_outgoing" 12
+the interface where the OGM has to be forwarded to
+.IP "throughput" 12
+the current throughput
+.SH "DESCRIPTION"
+Apply a penalty on the current throughput metric value based on the
+characteristic of the interface where the OGM has been received.
+
+Initially the per hardif hop penalty is applied to the throughput. After
+that the return value is then computed as follows:
+- throughput * 50%          if the incoming and outgoing interface are the
+same WiFi interface and the throughput is above
+1MBit/s
+- throughput                if the outgoing interface is the default
+interface (i.e. this OGM is processed for the
+internal table and not forwarded)
+- throughput * node hop penalty  otherwise
+.SH "RETURN"
+the penalised throughput metric.

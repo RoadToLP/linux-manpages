@@ -1,0 +1,28 @@
+.TH "drm_gem_objects_lookup" 9 "drm_gem_objects_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_objects_lookup \- look up GEM objects from an array of handles
+.SH SYNOPSIS
+.B "int" drm_gem_objects_lookup
+.BI "(struct drm_file *filp "  ","
+.BI "void __user *bo_handles "  ","
+.BI "int count "  ","
+.BI "struct drm_gem_object ***objs_out "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+DRM file private date
+.IP "bo_handles" 12
+user pointer to array of userspace handle
+.IP "count" 12
+size of handle array
+.IP "objs_out" 12
+returned pointer to array of drm_gem_object pointers
+.SH "DESCRIPTION"
+Takes an array of userspace handles and returns a newly allocated array of
+GEM objects.
+
+For a single handle lookup, use \fBdrm_gem_object_lookup\fP.
+
+\fIobjs\fP filled in with GEM object pointers. Returned GEM objects need to be
+released with \fBdrm_gem_object_put\fP. -ENOENT is returned on a lookup
+failure. 0 is returned on success.
+.SH "RETURN"

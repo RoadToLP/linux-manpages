@@ -1,0 +1,22 @@
+.TH "lpfc_idiag_open" 9 "lpfc_idiag_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_idiag_open \- idiag open debugfs
+.SH SYNOPSIS
+.B "int" lpfc_idiag_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode pointer that contains a pointer to phba.
+.IP "file" 12
+The file pointer to attach the file operation.
+.SH "DESCRIPTION"
+This routine is the entry point for the debugfs open file operation. It
+gets the reference to phba from the i_private field in \fIinode\fP, it then
+allocates buffer for the file operation, performs the necessary PCI config
+space read into the allocated buffer according to the idiag user command
+setup, and then returns a pointer to buffer in the private_data field in
+\fIfile\fP.
+.SH "RETURN"
+This function returns zero if successful. On error it will return an
+negative error value.

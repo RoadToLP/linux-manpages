@@ -1,0 +1,27 @@
+.TH "ib_register_device" 9 "ib_register_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_register_device \- Register an IB device with IB core
+.SH SYNOPSIS
+.B "int" ib_register_device
+.BI "(struct ib_device *device "  ","
+.BI "const char *name "  ","
+.BI "struct device *dma_device "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+Device to register
+.IP "name" 12
+unique string device name. This may include a '%' which will
+cause a unique index to be added to the passed device name.
+.IP "dma_device" 12
+pointer to a DMA-capable device. If NULL, then the IB
+device will be used. In this case the caller should fully
+setup the ibdev for DMA. This usually means using dma_virt_ops.
+.SH "DESCRIPTION"
+Low-level drivers use \fBib_register_device\fP to register their
+devices with the IB core.  All registered clients will receive a
+callback for each device that is added. \fIdevice\fP must be allocated
+with \fBib_alloc_device\fP.
+
+If the driver uses ops.dealloc_driver and calls any \fBib_unregister_device\fP
+asynchronously then the device pointer may become freed as soon as this
+function returns.

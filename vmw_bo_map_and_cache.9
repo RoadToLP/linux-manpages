@@ -1,0 +1,19 @@
+.TH "vmw_bo_map_and_cache" 9 "vmw_bo_map_and_cache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_bo_map_and_cache \- Map a buffer object and cache the map
+.SH SYNOPSIS
+.B "void *" vmw_bo_map_and_cache
+.BI "(struct vmw_buffer_object *vbo "  ");"
+.SH ARGUMENTS
+.IP "vbo" 12
+The buffer object to map
+.SH "RETURN"
+A kernel virtual address or NULL if mapping failed.
+.SH "DESCRIPTION"
+This function maps a buffer object into the kernel address space, or
+returns the virtual kernel address of an already existing map. The virtual
+address remains valid as long as the buffer object is pinned or reserved.
+The cached map is torn down on either
+1) Buffer object move
+2) Buffer object swapout
+3) Buffer object destruction

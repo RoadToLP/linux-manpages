@@ -1,0 +1,20 @@
+.TH "irq_domain_push_irq" 9 "irq_domain_push_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_domain_push_irq \- Push a domain in to the top of a hierarchy.
+.SH SYNOPSIS
+.B "int" irq_domain_push_irq
+.BI "(struct irq_domain *domain "  ","
+.BI "int virq "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+Domain to push.
+.IP "virq" 12
+Irq to push the domain in to.
+.IP "arg" 12
+Passed to the irq_domain_ops \fBalloc\fP function.
+.SH "DESCRIPTION"
+For an already existing irqdomain hierarchy, as might be obtained
+via a call to \fBpci_enable_msix\fP, add an additional domain to the
+head of the processing chain.  Must be called before \fBrequest_irq\fP
+has been called.

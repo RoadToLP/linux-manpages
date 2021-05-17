@@ -1,0 +1,30 @@
+.TH "batadv_dat_put_dhcp" 9 "batadv_dat_put_dhcp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_put_dhcp \- puts addresses from a DHCP packet into the DHT and DAT cache
+.SH SYNOPSIS
+.B "void" batadv_dat_put_dhcp
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "u8 *chaddr "  ","
+.BI "__be32 yiaddr "  ","
+.BI "u8 *hw_dst "  ","
+.BI "__be32 ip_dst "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "chaddr" 12
+the DHCP client MAC address
+.IP "yiaddr" 12
+the DHCP client IP address
+.IP "hw_dst" 12
+the DHCP server MAC address
+.IP "ip_dst" 12
+the DHCP server IP address
+.IP "vid" 12
+VLAN identifier
+.SH "DESCRIPTION"
+Adds given MAC/IP pairs to the local DAT cache and propagates them further
+into the DHT.
+
+For the DHT propagation, client MAC + IP will appear as the ARP Reply
+transmitter (and hw_dst/ip_dst as the target).

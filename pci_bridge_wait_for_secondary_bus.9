@@ -1,0 +1,16 @@
+.TH "pci_bridge_wait_for_secondary_bus" 9 "pci_bridge_wait_for_secondary_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_bridge_wait_for_secondary_bus \- Wait for secondary bus to be accessible
+.SH SYNOPSIS
+.B "void" pci_bridge_wait_for_secondary_bus
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI bridge
+.SH "DESCRIPTION"
+Handle necessary delays before access to the devices on the secondary
+side of the bridge are permitted after D3cold to D0 transition.
+
+For PCIe this means the delays in PCIe 5.0 section 6.6.1. For
+conventional PCI it means Tpvrh + Trhfa specified in PCI 3.0 section
+4.3.2.

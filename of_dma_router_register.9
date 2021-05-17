@@ -1,0 +1,23 @@
+.TH "of_dma_router_register" 9 "of_dma_router_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_dma_router_register \- Register a DMA router to DT DMA helpers as a controller
+.SH SYNOPSIS
+.B "int" of_dma_router_register
+.BI "(struct device_node *np "  ","
+.BI "void *(*of_dma_route_allocate) (struct of_phandle_args *, struct of_dma *) "  ","
+.BI "struct dma_router *dma_router "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node of DMA router
+.IP "of_dma_route_allocate" 12
+setup function for the router which need to
+modify the dma_spec for the DMA controller to
+use and to set up the requested route.
+.IP "dma_router" 12
+pointer to dma_router structure to be used when
+the route need to be free up.
+.SH "DESCRIPTION"
+Returns 0 on success or appropriate errno value on error.
+
+Allocated memory should be freed with appropriate \fBof_dma_controller_free\fP
+call.

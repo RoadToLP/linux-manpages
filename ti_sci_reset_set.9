@@ -1,0 +1,25 @@
+.TH "ti_sci_reset_set" 9 "ti_sci_reset_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ti_sci_reset_set \- program a device's reset
+.SH SYNOPSIS
+.B "int" ti_sci_reset_set
+.BI "(struct reset_controller_dev *rcdev "  ","
+.BI "unsigned long id "  ","
+.BI "bool assert "  ");"
+.SH ARGUMENTS
+.IP "rcdev" 12
+reset controller entity
+.IP "id" 12
+ID of the reset to toggle
+.IP "assert" 12
+boolean flag to indicate assert or deassert
+.SH "DESCRIPTION"
+This is a common internal function used to assert or deassert a device's
+reset using the TI SCI protocol. The device's reset is asserted if the
+\fIassert\fP argument is true, or deasserted if \fIassert\fP argument is false.
+The mechanism itself is a read-modify-write procedure, the current device
+reset register is read using a TI SCI device operation, the new value is
+set or un-set using the reset's mask, and the new reset value written by
+using another TI SCI device operation.
+.SH "RETURN"
+0 for successful request, else a corresponding error value

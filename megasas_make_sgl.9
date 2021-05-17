@@ -1,0 +1,22 @@
+.TH "megasas_make_sgl" 9 "megasas_make_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_make_sgl \- Build Scatter Gather List(SGLs)
+.SH SYNOPSIS
+.B "int" megasas_make_sgl
+.BI "(struct megasas_instance *instance "  ","
+.BI "struct scsi_cmnd *scp "  ","
+.BI "struct megasas_cmd_fusion *cmd "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Soft instance of controller
+.IP "scp" 12
+SCSI command pointer
+.IP "cmd" 12
+Fusion command pointer
+.SH "DESCRIPTION"
+This function will build sgls based on device type.
+For nvme drives, there is different way of building sgls in nvme native
+format- PRPs(Physical Region Page).
+
+Returns the number of sg lists actually used, zero if the sg lists
+is NULL, or -ENOMEM if the mapping failed

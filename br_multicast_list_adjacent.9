@@ -1,0 +1,23 @@
+.TH "br_multicast_list_adjacent" 9 "br_multicast_list_adjacent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+br_multicast_list_adjacent \- Returns snooped multicast addresses
+.SH SYNOPSIS
+.B "int" br_multicast_list_adjacent
+.BI "(struct net_device *dev "  ","
+.BI "struct list_head *br_ip_list "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The bridge port adjacent to which to retrieve addresses
+.IP "br_ip_list" 12
+The list to store found, snooped multicast IP addresses in
+.SH "DESCRIPTION"
+Creates a list of IP addresses (struct br_ip_list) sensed by the multicast
+snooping feature on all bridge ports of dev's bridge device, excluding
+the addresses from dev itself.
+
+Returns the number of items added to br_ip_list.
+.SH "NOTES"
+- br_ip_list needs to be initialized by caller
+- br_ip_list might contain duplicates in the end
+(needs to be taken care of by caller)
+- br_ip_list needs to be freed by caller

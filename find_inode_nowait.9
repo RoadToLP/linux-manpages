@@ -1,0 +1,34 @@
+.TH "find_inode_nowait" 9 "find_inode_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_inode_nowait \- find an inode in the inode cache
+.SH SYNOPSIS
+.B "struct inode *" find_inode_nowait
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long hashval "  ","
+.BI "int (*match)(struct inode *, unsigned long, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of file system to search
+.IP "hashval" 12
+hash value (usually inode number) to search for
+.IP "match" 12
+callback used for comparisons between inodes
+.IP "data" 12
+opaque data pointer to pass to \fImatch\fP
+.SH "DESCRIPTION"
+Search for the inode specified by \fIhashval\fP and \fIdata\fP in the inode
+cache, where the helper function \fImatch\fP will return 0 if the inode
+does not match, 1 if the inode does match, and -1 if the search
+should be stopped.  The \fImatch\fP function must be responsible for
+taking the i_lock spin_lock and checking i_state for an inode being
+freed or being initialized, and incrementing the reference count
+before returning 1.  It also must not sleep, since it is called with
+the inode_hash_lock spinlock held.
+
+This is a even more generalized version of \fBilookup5\fP when the
+function must never block --- \fBfind_inode\fP can block in
+\fB__wait_on_freeing_inode\fP --- or when the caller can not increment
+the reference count because the resulting \fBiput\fP might cause an
+inode eviction.  The tradeoff is that the \fImatch\fP funtion must be
+very carefully implemented.

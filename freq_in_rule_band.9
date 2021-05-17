@@ -1,0 +1,22 @@
+.TH "freq_in_rule_band" 9 "freq_in_rule_band" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freq_in_rule_band \- tells us if a frequency is in a frequency band
+.SH SYNOPSIS
+.B "bool" freq_in_rule_band
+.BI "(const struct ieee80211_freq_range *freq_range "  ","
+.BI "u32 freq_khz "  ");"
+.SH ARGUMENTS
+.IP "freq_range" 12
+frequency rule we want to query
+.IP "freq_khz" 12
+frequency we are inquiring about
+.SH "DESCRIPTION"
+This lets us know if a specific frequency rule is or is not relevant to
+a specific frequency's band. Bands are device specific and artificial
+definitions (the "2.4 GHz band", the "5 GHz band" and the "60GHz band"),
+however it is safe for now to assume that a frequency rule should not be
+part of a frequency's band if the start freq or end freq are off by more
+than 2 GHz for the 2.4 and 5 GHz bands, and by more than 20 GHz for the
+60 GHz band.
+This resolution can be lowered and should be considered as we add
+regulatory rule support for other "bands".

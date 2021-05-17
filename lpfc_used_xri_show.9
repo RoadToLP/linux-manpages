@@ -1,0 +1,22 @@
+.TH "lpfc_used_xri_show" 9 "lpfc_used_xri_show" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_used_xri_show \- Return maximum xpi minus the available xpi
+.SH SYNOPSIS
+.B "ssize_t" lpfc_used_xri_show
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "char *buf "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+on return contains the used xri count in decimal or "Unknown".
+.SH "DESCRIPTION"
+Calls \fBlpfc_get_hba_info\fP asking for just the mxri and axri counts.
+If \fBlpfc_get_hba_info\fP returns zero (failure) the buffer text is set
+to "Unknown" and the buffer length is returned, therefore the caller
+must check for "Unknown" in the buffer to detect a failure.
+.SH "RETURN"
+size of formatted string.

@@ -1,0 +1,19 @@
+.TH "ib_unregister_driver" 9 "ib_unregister_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_unregister_driver \- Unregister all IB devices for a driver
+.SH SYNOPSIS
+.B "void" ib_unregister_driver
+.BI "(enum rdma_driver_id driver_id "  ");"
+.SH ARGUMENTS
+.IP "driver_id" 12
+The driver to unregister
+.SH "DESCRIPTION"
+This implements a fence for device unregistration. It only returns once all
+devices associated with the driver_id have fully completed their
+unregistration and returned from ib_unregister_device*().
+
+If device's are not yet unregistered it goes ahead and starts unregistering
+them.
+
+This does not block creation of new devices with the given driver_id, that
+is the responsibility of the caller.

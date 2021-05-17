@@ -1,0 +1,25 @@
+.TH "drm_client_init" 9 "drm_client_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_client_init \- Initialise a DRM client
+.SH SYNOPSIS
+.B "int" drm_client_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_client_dev *client "  ","
+.BI "const char *name "  ","
+.BI "const struct drm_client_funcs *funcs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "client" 12
+DRM client
+.IP "name" 12
+Client name
+.IP "funcs" 12
+DRM client functions (optional)
+.SH "DESCRIPTION"
+This initialises the client and opens a \fIdrm_file\fP.
+Use \fBdrm_client_register\fP to complete the process.
+The caller needs to hold a reference on \fIdev\fP before calling this function.
+The client is freed when the \fIdrm_device\fP is unregistered. See \fBdrm_client_release\fP.
+.SH "RETURN"
+Zero on success or negative error code on failure.

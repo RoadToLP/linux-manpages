@@ -1,0 +1,32 @@
+.TH "bdx_fifo_init" 9 "bdx_fifo_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_fifo_init \- create TX/RX descriptor fifo for host-NIC communication.
+.SH SYNOPSIS
+.B "int" bdx_fifo_init
+.BI "(struct bdx_priv *priv "  ","
+.BI "struct fifo *f "  ","
+.BI "int fsz_type "  ","
+.BI "u16 reg_CFG0 "  ","
+.BI "u16 reg_CFG1 "  ","
+.BI "u16 reg_RPTR "  ","
+.BI "u16 reg_WPTR "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+NIC private structure
+.IP "f" 12
+fifo to initialize
+.IP "fsz_type" 12
+fifo size type: 0-4KB, 1-8KB, 2-16KB, 3-32KB
+.IP "reg_CFG0" 12
+offsets of registers relative to base address
+.IP "reg_CFG1" 12
+offsets of registers relative to base address
+.IP "reg_RPTR" 12
+offsets of registers relative to base address
+.IP "reg_WPTR" 12
+offsets of registers relative to base address
+.SH "DESCRIPTION"
+1K extra space is allocated at the end of the fifo to simplify
+processing of descriptors that wraps around fifo's end
+
+Returns 0 on success, negative value on failure

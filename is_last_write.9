@@ -1,0 +1,20 @@
+.TH "is_last_write" 9 "is_last_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_last_write \- determine if an offset was in the last write to a LEB.
+.SH SYNOPSIS
+.B "int" is_last_write
+.BI "(const struct ubifs_info *c "  ","
+.BI "void *buf "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "buf" 12
+buffer to check
+.IP "offs" 12
+offset to check
+.SH "DESCRIPTION"
+This function returns 1 if \fIoffs\fP was in the last write to the LEB whose data
+is in \fIbuf\fP, otherwise 0 is returned. The determination is made by checking
+for subsequent empty space starting from the next \fIc->max_write_size\fP
+boundary.

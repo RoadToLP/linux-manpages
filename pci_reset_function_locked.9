@@ -1,0 +1,22 @@
+.TH "pci_reset_function_locked" 9 "pci_reset_function_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_reset_function_locked \- quiesce and reset a PCI device function
+.SH SYNOPSIS
+.B "int" pci_reset_function_locked
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to reset
+.SH "DESCRIPTION"
+Some devices allow an individual function to be reset without affecting
+other functions in the same device.  The PCI device must be responsive
+to PCI config space in order to use this function.
+
+This function does not just reset the PCI portion of a device, but
+clears all the state associated with the device.  This function differs
+from \fB__pci_reset_function_locked\fP in that it saves and restores device state
+over the reset.  It also differs from \fBpci_reset_function\fP in that it
+requires the PCI device lock to be held.
+
+Returns 0 if the device function was successfully reset or negative if the
+device doesn't support resetting a single function.

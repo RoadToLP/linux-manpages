@@ -1,0 +1,17 @@
+.TH "binder_thread_dec_tmpref" 9 "binder_thread_dec_tmpref" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_thread_dec_tmpref \- decrement thread->tmp_ref
+.SH SYNOPSIS
+.B "void" binder_thread_dec_tmpref
+.BI "(struct binder_thread *thread "  ");"
+.SH ARGUMENTS
+.IP "thread" 12
+thread to decrement
+.SH "DESCRIPTION"
+A thread needs to be kept alive while being used to create or
+handle a transaction. \fBbinder_get_txn_from\fP is used to safely
+extract t->from from a binder_transaction and keep the thread
+indicated by t->from from being freed. When done with that
+binder_thread, this function is called to decrement the
+tmp_ref and free if appropriate (thread has been released
+and no transaction being processed by the driver)

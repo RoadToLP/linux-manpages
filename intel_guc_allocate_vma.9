@@ -1,0 +1,20 @@
+.TH "intel_guc_allocate_vma" 9 "intel_guc_allocate_vma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_guc_allocate_vma \- Allocate a GGTT VMA for GuC usage
+.SH SYNOPSIS
+.B "struct i915_vma *" intel_guc_allocate_vma
+.BI "(struct intel_guc *guc "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "guc" 12
+the guc
+.IP "size" 12
+size of area to allocate (both virtual space and memory)
+.SH "DESCRIPTION"
+This is a wrapper to create an object for use with the GuC. In order to
+use it inside the GuC, an object needs to be pinned lifetime, so we allocate
+both some backing storage and a range inside the Global GTT. We must pin
+it in the GGTT somewhere other than than [0, GUC ggtt_pin_bias) because that
+range is reserved inside GuC.
+.SH "RETURN"
+A i915_vma if successful, otherwise an ERR_PTR.

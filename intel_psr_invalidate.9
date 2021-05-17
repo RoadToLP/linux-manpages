@@ -1,0 +1,22 @@
+.TH "intel_psr_invalidate" 9 "intel_psr_invalidate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_psr_invalidate \- Invalidade PSR
+.SH SYNOPSIS
+.B "void" intel_psr_invalidate
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "unsigned frontbuffer_bits "  ","
+.BI "enum fb_op_origin origin "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device
+.IP "frontbuffer_bits" 12
+frontbuffer plane tracking bits
+.IP "origin" 12
+which operation caused the invalidate
+.SH "DESCRIPTION"
+Since the hardware frontbuffer tracking has gaps we need to integrate
+with the software frontbuffer tracking. This function gets called every
+time frontbuffer rendering starts and a buffer gets dirtied. PSR must be
+disabled if the frontbuffer mask contains a buffer relevant to PSR.
+
+Dirty frontbuffers relevant to PSR are tracked in busy_frontbuffer_bits."

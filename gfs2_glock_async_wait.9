@@ -1,0 +1,16 @@
+.TH "gfs2_glock_async_wait" 9 "gfs2_glock_async_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_glock_async_wait \- wait on multiple asynchronous glock acquisitions
+.SH SYNOPSIS
+.B "int" gfs2_glock_async_wait
+.BI "(unsigned int num_gh "  ","
+.BI "struct gfs2_holder *ghs "  ");"
+.SH ARGUMENTS
+.IP "num_gh" 12
+the number of holders in the array
+.IP "ghs" 12
+the glock holder array
+.SH "RETURN"
+0 on success, meaning all glocks have been granted and are held.
+-ESTALE if the request timed out, meaning all glocks were released,
+and the caller should retry the operation.

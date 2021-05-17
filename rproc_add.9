@@ -1,0 +1,25 @@
+.TH "rproc_add" 9 "rproc_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_add \- register a remote processor
+.SH SYNOPSIS
+.B "int" rproc_add
+.BI "(struct rproc *rproc "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+the remote processor handle to register
+.SH "DESCRIPTION"
+Registers \fIrproc\fP with the remoteproc framework, after it has been
+allocated with \fBrproc_alloc\fP.
+
+This is called by the platform-specific rproc implementation, whenever
+a new remote processor device is probed.
+
+Returns 0 on success and an appropriate error code otherwise.
+
+If found, those virtio devices will be created and added, so as a result
+of registering this remote processor, additional virtio drivers might be
+probed.
+.SH "NOTE"
+this function initiates an asynchronous firmware loading
+context, which will look for virtio devices supported by the rproc's
+firmware.

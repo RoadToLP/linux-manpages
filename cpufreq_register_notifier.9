@@ -1,0 +1,19 @@
+.TH "cpufreq_register_notifier" 9 "cpufreq_register_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_register_notifier \- Register a notifier with cpufreq.
+.SH SYNOPSIS
+.B "int" cpufreq_register_notifier
+.BI "(struct notifier_block *nb "  ","
+.BI "unsigned int list "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+notifier function to register.
+.IP "list" 12
+CPUFREQ_TRANSITION_NOTIFIER or CPUFREQ_POLICY_NOTIFIER.
+.SH "DESCRIPTION"
+Add a notifier to one of two lists: either a list of notifiers that run on
+clock rate changes (once before and once after every transition), or a list
+of notifiers that ron on cpufreq policy changes.
+
+This function may sleep and it has the same return values as
+\fBblocking_notifier_chain_register\fP.

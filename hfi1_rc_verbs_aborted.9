@@ -1,0 +1,19 @@
+.TH "hfi1_rc_verbs_aborted" 9 "hfi1_rc_verbs_aborted" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_rc_verbs_aborted \- handle abort status
+.SH SYNOPSIS
+.B "void" hfi1_rc_verbs_aborted
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct hfi1_opa_header *opah "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP
+.IP "opah" 12
+the opa header
+.SH "DESCRIPTION"
+This code modifies both ACK bit in BTH[2]
+and the s_flags to go into send one mode.
+
+This serves to throttle the send engine to only
+send a single packet in the likely case the
+a link has gone down.

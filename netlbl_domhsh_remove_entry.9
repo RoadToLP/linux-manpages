@@ -1,0 +1,17 @@
+.TH "netlbl_domhsh_remove_entry" 9 "netlbl_domhsh_remove_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_domhsh_remove_entry \- Removes a given entry from the domain table
+.SH SYNOPSIS
+.B "int" netlbl_domhsh_remove_entry
+.BI "(struct netlbl_dom_map *entry "  ","
+.BI "struct netlbl_audit *audit_info "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+the entry to remove
+.IP "audit_info" 12
+NetLabel audit information
+.SH "DESCRIPTION"
+Removes an entry from the domain hash table and handles any updates to the
+lower level protocol handler (i.e. CIPSO).  Caller is responsible for
+ensuring that the RCU read lock is held.  Returns zero on success, negative
+on failure.

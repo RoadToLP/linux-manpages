@@ -1,0 +1,18 @@
+.TH "cqhci_crypto_init" 9 "cqhci_crypto_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cqhci_crypto_init \- initialize CQHCI crypto support
+.SH SYNOPSIS
+.B "int" cqhci_crypto_init
+.BI "(struct cqhci_host *cq_host "  ");"
+.SH ARGUMENTS
+.IP "cq_host" 12
+a cqhci host
+.SH "DESCRIPTION"
+If the driver previously set MMC_CAP2_CRYPTO and the CQE declares
+CQHCI_CAP_CS, initialize the crypto support.  This involves reading the
+crypto capability registers, initializing the keyslot manager, clearing all
+keyslots, and enabling 128-bit task descriptors.
+.SH "RETURN"
+0 if crypto was initialized or isn't supported; whether
+MMC_CAP2_CRYPTO remains set indicates which one of those cases it is.
+Also can return a negative errno value on unexpected error.

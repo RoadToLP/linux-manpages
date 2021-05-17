@@ -1,0 +1,24 @@
+.TH "zfcp_port_enqueue" 9 "zfcp_port_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_port_enqueue \- enqueue port to port list of adapter
+.SH SYNOPSIS
+.B "struct zfcp_port *" zfcp_port_enqueue
+.BI "(struct zfcp_adapter *adapter "  ","
+.BI "u64 wwpn "  ","
+.BI "u32 status "  ","
+.BI "u32 d_id "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+adapter where remote port is added
+.IP "wwpn" 12
+WWPN of the remote port to be enqueued
+.IP "status" 12
+initial status for the port
+.IP "d_id" 12
+destination id of the remote port to be enqueued
+.SH "RETURN"
+pointer to enqueued port on success, ERR_PTR on error
+.SH "DESCRIPTION"
+All port internal structures are set up and the sysfs entry is generated.
+d_id is used to enqueue ports with a well known address like the Directory
+Service for nameserver lookup.

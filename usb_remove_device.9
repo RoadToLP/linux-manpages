@@ -1,0 +1,18 @@
+.TH "usb_remove_device" 9 "usb_remove_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_remove_device \- disable a device's port on its parent hub
+.SH SYNOPSIS
+.B "int" usb_remove_device
+.BI "(struct usb_device *udev "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+device to be disabled and removed
+.SH "CONTEXT"
+\fIudev\fP locked, must be able to sleep.
+.SH "DESCRIPTION"
+After \fIudev\fP's port has been disabled, hub_wq is notified and it will
+see that the device has been disconnected.  When the device is
+physically unplugged and something is plugged in, the events will
+be received and processed normally.
+.SH "RETURN"
+0 if successful. A negative error code otherwise.

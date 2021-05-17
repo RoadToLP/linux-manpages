@@ -1,0 +1,30 @@
+.TH "ubi_eba_write_leb" 9 "ubi_eba_write_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_eba_write_leb \- write data to dynamic volume.
+.SH SYNOPSIS
+.B "int" ubi_eba_write_leb
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "int lnum "  ","
+.BI "const void *buf "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+the data to write
+.IP "offset" 12
+offset within the logical eraseblock where to write
+.IP "len" 12
+how many bytes to write
+.SH "DESCRIPTION"
+This function writes data to logical eraseblock \fIlnum\fP of a dynamic volume
+\fIvol\fP. Returns zero in case of success and a negative error code in case
+of failure. In case of error, it is possible that something was still
+written to the flash media, but may be some garbage.
+This function retries UBI_IO_RETRIES times before giving up.

@@ -1,0 +1,29 @@
+.TH "oa_buffer_check_unlocked" 9 "oa_buffer_check_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+oa_buffer_check_unlocked \- check for data and update tail ptr state
+.SH SYNOPSIS
+.B "bool" oa_buffer_check_unlocked
+.BI "(struct i915_perf_stream *stream "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+i915 stream instance
+.SH "DESCRIPTION"
+This is either called via fops (for blocking reads in user ctx) or the poll
+check hrtimer (atomic ctx) to check the OA buffer tail pointer and check
+if there is data available for userspace to read.
+
+This function is central to providing a workaround for the OA unit tail
+pointer having a race with respect to what data is visible to the CPU.
+It is responsible for reading tail pointers from the hardware and giving
+the pointers time to 'age' before they are made available for reading.
+(See description of OA_TAIL_MARGIN_NSEC above for further details.)
+
+Besides returning true when there is data available to \fBread\fP this function
+also updates the tail, aging_tail and aging_timestamp in the oa_buffer
+object.
+.SH "NOTE"
+It's safe to read OA config state here unlocked, assuming that this is
+only called while the stream is enabled, while the global OA configuration
+can't be modified.
+.SH "RETURN"
+true if the OA buffer contains data, else false

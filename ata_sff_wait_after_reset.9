@@ -1,0 +1,25 @@
+.TH "ata_sff_wait_after_reset" 9 "ata_sff_wait_after_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_wait_after_reset \- wait for devices to become ready after reset
+.SH SYNOPSIS
+.B "int" ata_sff_wait_after_reset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned int devmask "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+SFF link which is just reset
+.IP "devmask" 12
+mask of present devices
+.IP "deadline" 12
+deadline jiffies for the operation
+
+Wait devices attached to SFF \fIlink\fP to become ready after
+reset.  It contains preceding 150ms wait to avoid accessing TF
+status register too early.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, -ENODEV if some or all of devices in \fIdevmask\fP
+don't seem to exist.  -errno on other errors.

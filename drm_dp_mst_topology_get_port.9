@@ -1,0 +1,18 @@
+.TH "drm_dp_mst_topology_get_port" 9 "drm_dp_mst_topology_get_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_topology_get_port \- Increment the topology refcount of a port
+.SH SYNOPSIS
+.B "void" drm_dp_mst_topology_get_port
+.BI "(struct drm_dp_mst_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+The \fIstruct drm_dp_mst_port\fP to increment the topology refcount of
+.SH "DESCRIPTION"
+Increments \fIdrm_dp_mst_port.topology_refcount\fP without checking whether or
+not it's already reached 0. This is only valid to use in scenarios where
+you are already guaranteed to have at least one active topology reference
+to \fIport\fP. Otherwise, \fBdrm_dp_mst_topology_try_get_port\fP must be used.
+
+See also:
+\fBdrm_dp_mst_topology_try_get_port\fP
+\fBdrm_dp_mst_topology_put_port\fP

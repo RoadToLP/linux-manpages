@@ -1,0 +1,28 @@
+.TH "usb_hcd_check_unlink_urb" 9 "usb_hcd_check_unlink_urb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_check_unlink_urb \- check whether an URB may be unlinked
+.SH SYNOPSIS
+.B "int" usb_hcd_check_unlink_urb
+.BI "(struct usb_hcd *hcd "  ","
+.BI "struct urb *urb "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+host controller to which \fIurb\fP was submitted
+.IP "urb" 12
+URB being checked for unlinkability
+.IP "status" 12
+error code to store in \fIurb\fP if the unlink succeeds
+.SH "DESCRIPTION"
+Host controller drivers should call this routine in their \fBdequeue\fP
+method.  The HCD's private spinlock must be held and interrupts must
+be disabled.  The actions carried out here are required for making
+sure than an unlink is valid.
+.SH "RETURN"
+0 for no error, otherwise a negative error code (in which case
+the \fBdequeue\fP method must fail).  The possible error codes are:
+
+-EIDRM: \fIurb\fP was not submitted or has already completed.
+The completion function may not have been called yet.
+
+-EBUSY: \fIurb\fP has already been unlinked.

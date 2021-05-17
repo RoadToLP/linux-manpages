@@ -1,0 +1,25 @@
+.TH "lpfc_els_rcv_rrq" 9 "lpfc_els_rcv_rrq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rrq \- Process an unsolicited rrq iocb
+.SH SYNOPSIS
+.B "void" lpfc_els_rcv_rrq
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes a Reinstate Recovery Qualifier (RRQ) IOCB
+received as an ELS unsolicited event. A request to RRQ shall only
+be accepted if the Originator Nx_Port N_Port_ID or the Responder
+Nx_Port N_Port_ID of the target Exchange is the same as the
+N_Port_ID of the Nx_Port that makes the request. If the RRQ is
+not accepted, an LS_RJT with reason code "Unable to perform
+command request" and reason code explanation "Invalid Originator
+S_ID" shall be returned. For now, we just unconditionally accept
+RRQ from the target.

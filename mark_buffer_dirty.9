@@ -1,0 +1,17 @@
+.TH "mark_buffer_dirty" 9 "mark_buffer_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mark_buffer_dirty \- mark a buffer_head as needing writeout
+.SH SYNOPSIS
+.B "void" mark_buffer_dirty
+.BI "(struct buffer_head *bh "  ");"
+.SH ARGUMENTS
+.IP "bh" 12
+the buffer_head to mark dirty
+.SH "DESCRIPTION"
+\fBmark_buffer_dirty\fP will set the dirty bit against the buffer, then set
+its backing page dirty, then tag the page as dirty in the page cache
+and then attach the address_space's inode to its superblock's dirty
+inode list.
+
+\fBmark_buffer_dirty\fP is atomic.  It takes bh->b_page->mapping->private_lock,
+i_pages lock and mapping->host->i_lock.

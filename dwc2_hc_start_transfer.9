@@ -1,0 +1,38 @@
+.TH "dwc2_hc_start_transfer" 9 "dwc2_hc_start_transfer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hc_start_transfer \- Does the setup for a data transfer for a host channel and starts the transfer
+.SH SYNOPSIS
+.B "void" dwc2_hc_start_transfer
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of DWC_otg controller
+.IP "chan" 12
+Information needed to initialize the host channel. The xfer_len value
+may be reduced to accommodate the max widths of the XferSize and
+PktCnt fields in the HCTSIZn register. The multi_count value may be
+changed to reflect the final xfer_len value.
+.SH "DESCRIPTION"
+This function may be called in either Slave mode or DMA mode. In Slave mode,
+the caller must ensure that there is sufficient space in the request queue
+and Tx Data FIFO.
+
+For an OUT transfer in Slave mode, it loads a data packet into the
+appropriate FIFO. If necessary, additional data packets are loaded in the
+Host ISR.
+
+For an IN transfer in Slave mode, a data packet is requested. The data
+packets are unloaded from the Rx FIFO in the Host ISR. If necessary,
+additional data packets are requested in the Host ISR.
+
+For a PING transfer in Slave mode, the Do Ping bit is set in the HCTSIZ
+register along with a packet count of 1 and the channel is enabled. This
+causes a single PING transaction to occur. Other fields in HCTSIZ are
+simply set to 0 since no data transfer occurs in this case.
+
+For a PING transfer in DMA mode, the HCTSIZ register is initialized with
+all the information required to perform the subsequent data transfer. In
+addition, the Do Ping bit is set in the HCTSIZ register. In this case, the
+controller performs the entire PING protocol, then starts the data
+transfer.

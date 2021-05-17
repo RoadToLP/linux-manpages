@@ -1,0 +1,23 @@
+.TH "acpi_handle_printk" 9 "acpi_handle_printk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_handle_printk \- Print message with ACPI prefix and object path
+.SH SYNOPSIS
+.B "void" acpi_handle_printk
+.BI "(const char *level "  ","
+.BI "acpi_handle handle "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "level" 12
+log level
+.IP "handle" 12
+ACPI device handle
+.IP "fmt" 12
+format string
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+This function is called through acpi_handle_<level> macros and prints
+a message with ACPI prefix and object path.  This function acquires
+the global namespace mutex to obtain an object path.  In interrupt
+context, it shows the object path as <n/a>.

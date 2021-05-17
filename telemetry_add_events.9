@@ -1,0 +1,23 @@
+.TH "telemetry_add_events" 9 "telemetry_add_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+telemetry_add_events \- Add IOSS & PSS configuration to existing settings.
+.SH SYNOPSIS
+.B "int" telemetry_add_events
+.BI "(u8 num_pss_evts "  ","
+.BI "u8 num_ioss_evts "  ","
+.BI "u32 *pss_evtmap "  ","
+.BI "u32 *ioss_evtmap "  ");"
+.SH ARGUMENTS
+.IP "num_pss_evts" 12
+Number of PSS Events (<29) in pss_evtmap. Can be 0.
+.IP "num_ioss_evts" 12
+Number of IOSS Events (<29) in ioss_evtmap. Can be 0.
+.IP "pss_evtmap" 12
+Array of PSS Event-IDs to Enable
+.IP "ioss_evtmap" 12
+Array of PSS Event-IDs to Enable
+.SH "DESCRIPTION"
+Events are appended to Old Configuration. In case of total events > 28, it
+returns error. Call telemetry_reset_events to reset after eventlog done
+.SH "RETURN"
+0 success, < 0 for failure

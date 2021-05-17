@@ -1,0 +1,22 @@
+.TH "pci_find_next_ht_capability" 9 "pci_find_next_ht_capability" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_find_next_ht_capability \- query a device's HyperTransport capabilities
+.SH SYNOPSIS
+.B "u8" pci_find_next_ht_capability
+.BI "(struct pci_dev *dev "  ","
+.BI "u8 pos "  ","
+.BI "int ht_cap "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to query
+.IP "pos" 12
+Position from which to continue searching
+.IP "ht_cap" 12
+HyperTransport capability code
+.SH "DESCRIPTION"
+To be used in conjunction with \fBpci_find_ht_capability\fP to search for
+all capabilities matching \fIht_cap\fP. \fIpos\fP should always be a value returned
+from \fBpci_find_ht_capability\fP.
+
+NB. To be 100% safe against broken PCI devices, the caller should take
+steps to avoid an infinite loop.

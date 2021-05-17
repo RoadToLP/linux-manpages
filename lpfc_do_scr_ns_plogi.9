@@ -1,0 +1,20 @@
+.TH "lpfc_do_scr_ns_plogi" 9 "lpfc_do_scr_ns_plogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_do_scr_ns_plogi \- Issue a plogi to the name server for scr
+.SH SYNOPSIS
+.B "void" lpfc_do_scr_ns_plogi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine issues a Port Login (PLOGI) to the Name Server with
+State Change Request (SCR) for a \fIvport\fP. This routine will create an
+ndlp for the Name Server associated to the \fIvport\fP if such node does
+not already exist. The PLOGI to Name Server is issued by invoking the
+\fBlpfc_issue_els_plogi\fP routine. If Fabric-Device Management Interface
+(FDMI) is configured to the \fIvport\fP, a FDMI node will be created and
+the PLOGI to FDMI is issued by invoking \fBlpfc_issue_els_plogi\fP routine.

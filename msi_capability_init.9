@@ -1,0 +1,21 @@
+.TH "msi_capability_init" 9 "msi_capability_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msi_capability_init \- configure device's MSI capability structure
+.SH SYNOPSIS
+.B "int" msi_capability_init
+.BI "(struct pci_dev *dev "  ","
+.BI "int nvec "  ","
+.BI "struct irq_affinity *affd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the pci_dev data structure of MSI device function
+.IP "nvec" 12
+number of interrupts to allocate
+.IP "affd" 12
+description of automatic IRQ affinity assignments (may be NULL)
+.SH "DESCRIPTION"
+Setup the MSI capability structure of the device with the requested
+number of interrupts.  A return value of zero indicates the successful
+setup of an entry with the new MSI IRQ.  A negative return value indicates
+an error, and a positive return value indicates the number of interrupts
+which could have been allocated.

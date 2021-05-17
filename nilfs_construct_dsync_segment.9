@@ -1,0 +1,31 @@
+.TH "nilfs_construct_dsync_segment" 9 "nilfs_construct_dsync_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_construct_dsync_segment \- construct a data-only logical segment
+.SH SYNOPSIS
+.B "int" nilfs_construct_dsync_segment
+.BI "(struct super_block *sb "  ","
+.BI "struct inode *inode "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block
+.IP "inode" 12
+inode whose data blocks should be written out
+.IP "start" 12
+start byte offset
+.IP "end" 12
+end byte offset (inclusive)
+.SH "DESCRIPTION"
+Return Value: On success, 0 is retured. On errors, one of the following
+negative error code is returned.
+
+-EROFS - Read only filesystem.
+
+-EIO - I/O error
+
+-ENOSPC - No space left on device (only in a panic state).
+
+-ERESTARTSYS - Interrupted.
+
+-ENOMEM - Insufficient memory available.

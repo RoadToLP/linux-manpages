@@ -1,0 +1,24 @@
+.TH "calculate_min_delta" 9 "calculate_min_delta" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calculate_min_delta \- Calculate a good minimum delta for mips_next_event().
+.SH SYNOPSIS
+.B "unsigned int" calculate_min_delta
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Running under virtualisation can introduce overhead into \fBmips_next_event\fP in
+the form of hypervisor emulation of CP0_Count/CP0_Compare registers,
+potentially with an unnatural frequency, which makes a fixed min_delta_ns
+value inappropriate as it may be too small.
+
+It can also introduce occasional latency from the guest being descheduled.
+
+This function calculates a good minimum delta based roughly on the 75th
+percentile of the time taken to do the \fBmips_next_event\fP sequence, in order
+to handle potentially higher overhead while also eliminating outliers due to
+unpredictable hypervisor latency (which can be handled by retries).
+.SH "RETURN"
+An appropriate minimum delta for the clock event device.

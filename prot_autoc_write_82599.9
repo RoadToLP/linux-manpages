@@ -1,0 +1,19 @@
+.TH "prot_autoc_write_82599" 9 "prot_autoc_write_82599" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prot_autoc_write_82599 \- Hides MAC differences needed for AUTOC write
+.SH SYNOPSIS
+.B "s32" prot_autoc_write_82599
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "u32 autoc "  ","
+.BI "bool locked "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "autoc" 12
+value to write to AUTOC
+.IP "locked" 12
+bool to indicate whether the SW/FW lock was already taken by
+previous proc_autoc_read_82599.
+.SH "DESCRIPTION"
+This part (82599) may need to hold a the SW/FW lock around all writes to
+AUTOC. Likewise after a write we need to do a pipeline reset.

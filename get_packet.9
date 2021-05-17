@@ -1,0 +1,26 @@
+.TH "get_packet" 9 "get_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_packet \- return the next ingress packet buffer from a free list
+.SH SYNOPSIS
+.B "struct sk_buff *" get_packet
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_fl *fl "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int drop_thres "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter that received the packet
+.IP "fl" 12
+the SGE free list holding the packet
+.IP "len" 12
+the packet length including any SGE padding
+.IP "drop_thres" 12
+# of remaining buffers before we start dropping packets
+
+Get the next packet from a free list and complete setup of the
+sk_buff.  If the packet is small we make a copy and recycle the
+original buffer, otherwise we use the original buffer itself.  If a
+positive drop threshold is supplied packets are dropped and their
+buffers recycled if (a) the number of remaining buffers is under the
+threshold and the packet is too big to copy, or (b) the packet should
+be copied but there is no memory for the copy.

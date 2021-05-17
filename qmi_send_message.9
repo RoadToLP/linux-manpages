@@ -1,0 +1,36 @@
+.TH "qmi_send_message" 9 "qmi_send_message" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_send_message \- send a QMI message
+.SH SYNOPSIS
+.B "ssize_t" qmi_send_message
+.BI "(struct qmi_handle *qmi "  ","
+.BI "struct sockaddr_qrtr *sq "  ","
+.BI "struct qmi_txn *txn "  ","
+.BI "int type "  ","
+.BI "int msg_id "  ","
+.BI "size_t len "  ","
+.BI "struct qmi_elem_info *ei "  ","
+.BI "const void *c_struct "  ");"
+.SH ARGUMENTS
+.IP "qmi" 12
+QMI client handle
+.IP "sq" 12
+destination sockaddr
+.IP "txn" 12
+transaction object to use for the message
+.IP "type" 12
+type of message to send
+.IP "msg_id" 12
+message id
+.IP "len" 12
+max length of the QMI message
+.IP "ei" 12
+QMI message description
+.IP "c_struct" 12
+object to be encoded
+.SH "DESCRIPTION"
+This function encodes \fIc_struct\fP using \fIei\fP into a message of type \fItype\fP,
+with \fImsg_id\fP and \fItxn\fP into a buffer of maximum size \fIlen\fP, and sends this to
+\fIsq\fP.
+.SH "RETURN"
+0 on success, negative errno on failure.

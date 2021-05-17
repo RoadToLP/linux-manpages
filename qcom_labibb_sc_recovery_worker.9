@@ -1,0 +1,22 @@
+.TH "qcom_labibb_sc_recovery_worker" 9 "qcom_labibb_sc_recovery_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_labibb_sc_recovery_worker \- Handle Short Circuit event
+.SH SYNOPSIS
+.B "void" qcom_labibb_sc_recovery_worker
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+SC work structure
+.SH "DESCRIPTION"
+This is the worker function to handle the Short Circuit Protection
+hardware event; This will check if the hardware is still
+signaling a short-circuit condition and will eventually never
+re-enable the regulator if such condition is still signaled after
+LABIBB_MAX_SC_COUNT times.
+
+If the driver that is consuming the regulator did not take action
+for the SC condition, or the hardware did not stabilize, this
+worker will stop rescheduling, leaving the regulators disabled
+as already done by the Portable Batch System (PBS).
+.SH "RETURN"
+IRQ_HANDLED for success or IRQ_NONE for failure.

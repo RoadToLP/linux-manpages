@@ -1,0 +1,20 @@
+.TH "dma_fence_default_wait" 9 "dma_fence_default_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_default_wait \- default sleep until the fence gets signaled or until timeout elapses
+.SH SYNOPSIS
+.B "signed long" dma_fence_default_wait
+.BI "(struct dma_fence *fence "  ","
+.BI "bool intr "  ","
+.BI "signed long timeout "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the fence to wait on
+.IP "intr" 12
+if true, do an interruptible wait
+.IP "timeout" 12
+timeout value in jiffies, or MAX_SCHEDULE_TIMEOUT
+.SH "DESCRIPTION"
+Returns -ERESTARTSYS if interrupted, 0 if the wait timed out, or the
+remaining timeout in jiffies on success. If timeout is zero the value one is
+returned if the fence is already signaled for consistency with other
+functions taking a jiffies timeout.

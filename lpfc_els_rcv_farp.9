@@ -1,0 +1,33 @@
+.TH "lpfc_els_rcv_farp" 9 "lpfc_els_rcv_farp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_farp \- Process an unsolicited farp request els command
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_farp
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes Fibre Channel Address Resolution Protocol
+(FARP) Request IOCB received as an ELS unsolicited event. Currently,
+the lpfc driver only supports matching on WWPN or WWNN for FARP. As such,
+FARP_MATCH_PORT flag and FARP_MATCH_NODE flag are checked against the
+Match Flag in the FARP request IOCB: if FARP_MATCH_PORT flag is set, the
+remote PortName is compared against the FC PortName stored in the \fIvport\fP
+data structure; if FARP_MATCH_NODE flag is set, the remote NodeName is
+compared against the FC NodeName stored in the \fIvport\fP data structure.
+If any of these matches and the FARP_REQUEST_FARPR flag is set in the
+FARP request IOCB Response Flag, the \fBlpfc_issue_els_farpr\fP routine is
+invoked to send out FARP Response to the remote node. Before sending the
+FARP Response, however, the FARP_REQUEST_PLOGI flag is check in the FARP
+request IOCB Response Flag and, if it is set, the \fBlpfc_issue_els_plogi\fP
+routine is invoked to log into the remote port first.
+
+Return code
+0 - Either the FARP Match Mode not supported or successfully processed

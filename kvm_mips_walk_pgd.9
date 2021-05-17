@@ -1,0 +1,23 @@
+.TH "kvm_mips_walk_pgd" 9 "kvm_mips_walk_pgd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_walk_pgd \- Walk page table with optional allocation.
+.SH SYNOPSIS
+.B "pte_t *" kvm_mips_walk_pgd
+.BI "(pgd_t *pgd "  ","
+.BI "struct kvm_mmu_memory_cache *cache "  ","
+.BI "unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "pgd" 12
+Page directory pointer.
+.IP "cache" 12
+MMU page cache to allocate new page tables from, or NULL.
+.IP "addr" 12
+Address to index page table using.
+.SH "DESCRIPTION"
+Walk the page tables pointed to by \fIpgd\fP to find the PTE corresponding to the
+address \fIaddr\fP. If page tables don't exist for \fIaddr\fP, they will be created
+from the MMU cache if \fIcache\fP is not NULL.
+.SH "RETURN"
+Pointer to pte_t corresponding to \fIaddr\fP.
+NULL if a page table doesn't exist for \fIaddr\fP and !\fIcache\fP.
+NULL if a page table allocation failed.

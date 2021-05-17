@@ -1,0 +1,14 @@
+.TH "genwqe_card_thread" 9 "genwqe_card_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_card_thread \- Work thread for the DDCB queue
+.SH SYNOPSIS
+.B "int" genwqe_card_thread
+.BI "(void *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+pointer to genwqe device descriptor
+.SH "DESCRIPTION"
+The idea is to check if there are DDCBs in processing. If there are
+some finished DDCBs, we process them and wakeup the
+requestors. Otherwise we give other processes time using
+\fBcond_resched\fP.

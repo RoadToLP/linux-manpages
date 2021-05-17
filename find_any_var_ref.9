@@ -1,0 +1,21 @@
+.TH "find_any_var_ref" 9 "find_any_var_ref" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_any_var_ref \- Check if there is a reference to a given trigger variable
+.SH SYNOPSIS
+.B "struct hist_field *" find_any_var_ref
+.BI "(struct hist_trigger_data *hist_data "  ","
+.BI "unsigned int var_idx "  ");"
+.SH ARGUMENTS
+.IP "hist_data" 12
+The hist trigger
+.IP "var_idx" 12
+The trigger variable identifier
+.SH "DESCRIPTION"
+Check to see whether the given variable is currently referenced by
+any other trigger.
+
+The trigger the variable is defined on is explicitly excluded - the
+assumption being that a self-reference doesn't prevent a trigger
+from being removed.
+.SH "RETURN"
+The VAR_REF field referencing the variable if so, NULL if not

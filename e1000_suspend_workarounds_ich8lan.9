@@ -1,0 +1,19 @@
+.TH "e1000_suspend_workarounds_ich8lan" 9 "e1000_suspend_workarounds_ich8lan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_suspend_workarounds_ich8lan \- workarounds needed during S0->Sx
+.SH SYNOPSIS
+.B "void" e1000_suspend_workarounds_ich8lan
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+During S0 to Sx transition, it is possible the link remains at gig
+instead of negotiating to a lower speed.  Before going to Sx, set
+'Gig Disable' to force link speed negotiation to a lower speed based on
+the LPLU setting in the NVM or custom setting.  For PCH and newer parts,
+the OEM bits PHY register (LED, GbE disable and LPLU configurations) also
+needs to be written.
+Parts that support (and are linked to a partner which support) EEE in
+100Mbps should disable LPLU since 100Mbps w/ EEE requires less power
+than 10Mbps w/o EEE.

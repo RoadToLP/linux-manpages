@@ -1,0 +1,27 @@
+.TH "dax_layout_busy_page_range" 9 "dax_layout_busy_page_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dax_layout_busy_page_range \- find first pinned page in @mapping
+.SH SYNOPSIS
+.B "struct page *" dax_layout_busy_page_range
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space to scan for a page with ref count > 1
+.IP "start" 12
+Starting offset. Page containing 'start' is included.
+.IP "end" 12
+End offset. Page containing 'end' is included. If 'end' is LLONG_MAX,
+pages from 'start' till the end of file are included.
+.SH "DESCRIPTION"
+DAX requires ZONE_DEVICE mapped pages. These pages are never
+'onlined' to the page allocator so they are considered idle when
+page->count == 1. A filesystem uses this interface to determine if
+any page in the mapping is busy, i.e. for DMA, or other
+\fBget_user_pages\fP usages.
+
+It is expected that the filesystem is holding locks to block the
+establishment of new mappings in this address_space. I.e. it expects
+to be able to run \fBunmap_mapping_range\fP and subsequently not race
+\fBmapping_mapped\fP becoming true.

@@ -1,0 +1,22 @@
+.TH "t4_read_cim_obq" 9 "t4_read_cim_obq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_read_cim_obq \- read the contents of a CIM outbound queue
+.SH SYNOPSIS
+.B "int" t4_read_cim_obq
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int qid "  ","
+.BI "u32 *data "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "qid" 12
+the queue index
+.IP "data" 12
+where to store the queue contents
+.IP "n" 12
+capacity of \fIdata\fP in 32-bit words
+
+Reads the contents of the selected CIM queue starting at address 0 up
+to the capacity of \fIdata\fP.  \fIn\fP must be a multiple of 4.  Returns < 0 on
+error and the number of 32-bit words actually read on success.

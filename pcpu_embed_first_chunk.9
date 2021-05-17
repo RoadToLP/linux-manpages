@@ -1,0 +1,46 @@
+.TH "pcpu_embed_first_chunk" 9 "pcpu_embed_first_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_embed_first_chunk \- embed the first percpu chunk into bootmem
+.SH SYNOPSIS
+.B "int" pcpu_embed_first_chunk
+.BI "(size_t reserved_size "  ","
+.BI "size_t dyn_size "  ","
+.BI "size_t atom_size "  ","
+.BI "pcpu_fc_cpu_distance_fn_t cpu_distance_fn "  ","
+.BI "pcpu_fc_alloc_fn_t alloc_fn "  ","
+.BI "pcpu_fc_free_fn_t free_fn "  ");"
+.SH ARGUMENTS
+.IP "reserved_size" 12
+the size of reserved percpu area in bytes
+.IP "dyn_size" 12
+minimum free size for dynamic allocation in bytes
+.IP "atom_size" 12
+allocation atom size
+.IP "cpu_distance_fn" 12
+callback to determine distance between cpus, optional
+.IP "alloc_fn" 12
+function to allocate percpu page
+.IP "free_fn" 12
+function to free percpu page
+.SH "DESCRIPTION"
+This is a helper to ease setting up embedded first percpu chunk and
+can be called where \fBpcpu_setup_first_chunk\fP is expected.
+
+If this function is used to setup the first chunk, it is allocated
+by calling \fIalloc_fn\fP and used as-is without being mapped into
+vmalloc area.  Allocations are always whole multiples of \fIatom_size\fP
+aligned to \fIatom_size\fP.
+
+This enables the first chunk to piggy back on the linear physical
+mapping which often uses larger page size.  Please note that this
+can result in very sparse cpu->unit mapping on NUMA machines thus
+requiring large vmalloc address space.  Don't use this allocator if
+vmalloc space is not orders of magnitude larger than distances
+between node memory addresses (ie. 32bit NUMA machines).
+
+\fIdyn_size\fP specifies the minimum dynamic area size.
+
+If the needed size is smaller than the minimum or specified unit
+size, the leftover is returned using \fIfree_fn\fP.
+.SH "RETURN"
+0 on success, -errno on failure.

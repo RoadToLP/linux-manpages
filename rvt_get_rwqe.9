@@ -1,0 +1,17 @@
+.TH "rvt_get_rwqe" 9 "rvt_get_rwqe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_get_rwqe \- copy the next RWQE into the QP's RWQE
+.SH SYNOPSIS
+.B "int" rvt_get_rwqe
+.BI "(struct rvt_qp *qp "  ","
+.BI "bool wr_id_only "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP
+.IP "wr_id_only" 12
+update qp->r_wr_id only, not qp->r_sge
+.SH "DESCRIPTION"
+Return -1 if there is a local error, 0 if no RWQE is available,
+otherwise return 1.
+
+Can be called from interrupt level.

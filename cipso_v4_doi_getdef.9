@@ -1,0 +1,14 @@
+.TH "cipso_v4_doi_getdef" 9 "cipso_v4_doi_getdef" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cipso_v4_doi_getdef \- Returns a reference to a valid DOI definition
+.SH SYNOPSIS
+.B "struct cipso_v4_doi *" cipso_v4_doi_getdef
+.BI "(u32 doi "  ");"
+.SH ARGUMENTS
+.IP "doi" 12
+the DOI value
+.SH "DESCRIPTION"
+Searches for a valid DOI definition and if one is found it is returned to
+the caller.  Otherwise NULL is returned.  The caller must ensure that
+\fBrcu_read_lock\fP is held while accessing the returned definition and the DOI
+definition reference count is decremented when the caller is done.

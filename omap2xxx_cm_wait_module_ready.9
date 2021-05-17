@@ -1,0 +1,22 @@
+.TH "omap2xxx_cm_wait_module_ready" 9 "omap2xxx_cm_wait_module_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2xxx_cm_wait_module_ready \- wait for a module to leave idle or standby
+.SH SYNOPSIS
+.B "int" omap2xxx_cm_wait_module_ready
+.BI "(u8 part "  ","
+.BI "s16 prcm_mod "  ","
+.BI "u16 idlest_id "  ","
+.BI "u8 idlest_shift "  ");"
+.SH ARGUMENTS
+.IP "part" 12
+PRCM partition, ignored for OMAP2
+.IP "prcm_mod" 12
+PRCM module offset
+.IP "idlest_id" 12
+CM_IDLESTx register ID (i.e., x = 1, 2, 3)
+.IP "idlest_shift" 12
+shift of the bit in the CM_IDLEST* register to check
+.SH "DESCRIPTION"
+Wait for the PRCM to indicate that the module identified by
+(\fIprcm_mod\fP, \fIidlest_id\fP, \fIidlest_shift\fP) is clocked.  Return 0 upon
+success or -EBUSY if the module doesn't enable in time.

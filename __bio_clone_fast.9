@@ -1,0 +1,18 @@
+.TH "__bio_clone_fast" 9 "__bio_clone_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bio_clone_fast \- clone a bio that shares the original bio's biovec
+.SH SYNOPSIS
+.B "void" __bio_clone_fast
+.BI "(struct bio *bio "  ","
+.BI "struct bio *bio_src "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+destination bio
+.IP "bio_src" 12
+bio to clone
+
+Clone a \fIbio\fP. Caller will own the returned bio, but not
+the actual data it points to. Reference count of returned
+bio will be one.
+
+Caller must ensure that \fIbio_src\fP is not freed before \fIbio\fP.

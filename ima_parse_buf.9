@@ -1,0 +1,35 @@
+.TH "ima_parse_buf" 9 "ima_parse_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_parse_buf \- Parses lengths and data from an input buffer
+.SH SYNOPSIS
+.B "int" ima_parse_buf
+.BI "(void *bufstartp "  ","
+.BI "void *bufendp "  ","
+.BI "void **bufcurp "  ","
+.BI "int maxfields "  ","
+.BI "struct ima_field_data *fields "  ","
+.BI "int *curfields "  ","
+.BI "unsigned long *len_mask "  ","
+.BI "int enforce_mask "  ","
+.BI "char *bufname "  ");"
+.SH ARGUMENTS
+.IP "bufstartp" 12
+Buffer start address.
+.IP "bufendp" 12
+Buffer end address.
+.IP "bufcurp" 12
+Pointer to remaining (non-parsed) data.
+.IP "maxfields" 12
+Length of fields array.
+.IP "fields" 12
+Array containing lengths and pointers of parsed data.
+.IP "curfields" 12
+Number of array items containing parsed data.
+.IP "len_mask" 12
+Bitmap (if bit is set, data length should not be parsed).
+.IP "enforce_mask" 12
+Check if curfields == maxfields and/or bufcurp == bufendp.
+.IP "bufname" 12
+String identifier of the input buffer.
+.SH "RETURN"
+0 on success, -EINVAL on error.

@@ -1,0 +1,13 @@
+.TH "ps3_vuart_cleanup" 9 "ps3_vuart_cleanup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_vuart_cleanup \- common cleanup helper.
+.SH SYNOPSIS
+.B "int" ps3_vuart_cleanup
+.BI "(struct ps3_system_bus_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The struct ps3_system_bus_device instance.
+.SH "DESCRIPTION"
+Cleans interrupts and HV resources.  Must be called with
+vuart_bus_priv.probe_mutex held.  Used by ps3_vuart_remove and
+ps3_vuart_shutdown.  After this call, polled reading will still work.

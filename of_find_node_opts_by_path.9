@@ -1,0 +1,25 @@
+.TH "of_find_node_opts_by_path" 9 "of_find_node_opts_by_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_node_opts_by_path \- Find a node matching a full OF path
+.SH SYNOPSIS
+.B "struct device_node *" of_find_node_opts_by_path
+.BI "(const char *path "  ","
+.BI "const char **opts "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+Either the full path to match, or if the path does not
+start with '/', the name of a property of the /aliases
+node (an alias).  In the case of an alias, the node
+matching the alias' value will be returned.
+.IP "opts" 12
+Address of a pointer into which to store the start of
+an options string appended to the end of the path with
+a ':' separator.
+
+Valid paths:
+/foo/bar        Full path
+foo             Valid alias
+foo/bar         Valid alias + relative path
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.

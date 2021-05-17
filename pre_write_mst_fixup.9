@@ -1,0 +1,28 @@
+.TH "pre_write_mst_fixup" 9 "pre_write_mst_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pre_write_mst_fixup \- apply multi sector transfer protection
+.SH SYNOPSIS
+.B "int" pre_write_mst_fixup
+.BI "(NTFS_RECORD *b "  ","
+.BI "const u32 size "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+pointer to the data to protect
+.IP "size" 12
+size in bytes of \fIb\fP
+.SH "DESCRIPTION"
+Perform the necessary pre write multi sector transfer fixup on the data
+pointer to by \fIb\fP of \fIsize\fP.
+
+Return 0 if fixup applied (success) or -EINVAL if no fixup was performed
+(assumed not needed). This is in contrast to \fBpost_read_mst_fixup\fP above.
+.SH "NOTE"
+We consider the absence / invalidity of an update sequence array to
+mean that the structure is not subject to protection and hence doesn't need
+to be fixed up. This means that you have to create a valid update sequence
+array header in the ntfs record before calling this function, otherwise it
+will fail (the header needs to contain the position of the update sequence
+array together with the number of elements in the array). You also need to
+initialise the update sequence number before calling this function
+otherwise a random word will be used (whatever was in the record at that
+position at that time).

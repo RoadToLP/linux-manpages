@@ -1,0 +1,17 @@
+.TH "sxps2_write" 9 "sxps2_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sxps2_write \- sends a byte out through the PS/2 port.
+.SH SYNOPSIS
+.B "int" sxps2_write
+.BI "(struct serio *pserio "  ","
+.BI "unsigned char c "  ");"
+.SH ARGUMENTS
+.IP "pserio" 12
+pointer to the serio structure of the PS/2 port
+.IP "c" 12
+data that needs to be written to the PS/2 port
+.SH "DESCRIPTION"
+This function checks if the PS/2 transmitter is empty and sends a byte.
+Otherwise it returns error. Transmission fails only when nothing is connected
+to the PS/2 port. Thats why, we do not try to resend the data in case of a
+failure.

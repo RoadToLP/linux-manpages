@@ -1,0 +1,28 @@
+.TH "ata_std_bios_param" 9 "ata_std_bios_param" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_std_bios_param \- generic bios head/sector/cylinder calculator used by sd.
+.SH SYNOPSIS
+.B "int" ata_std_bios_param
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct block_device *bdev "  ","
+.BI "sector_t capacity "  ","
+.BI "int geom[] "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device for which BIOS geometry is to be determined
+.IP "bdev" 12
+block device associated with \fIsdev\fP
+.IP "capacity" 12
+capacity of SCSI device
+.IP "geom" 12
+location to which geometry will be output
+
+Generic bios head/sector/cylinder calculator
+used by sd. Most BIOSes nowadays expect a XXX/255/16  (CHS)
+mapping. Some situations may arise where the disk is not
+bootable if this is not used.
+
+LOCKING:
+Defined by the SCSI layer.  We don't really care.
+.SH "RETURN"
+Zero.

@@ -1,0 +1,16 @@
+.TH "lpfc_fabric_block_timeout" 9 "lpfc_fabric_block_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fabric_block_timeout \- Handler function to the fabric block timer
+.SH SYNOPSIS
+.B "void" lpfc_fabric_block_timeout
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer context used to obtain the lpfc hba.
+.SH "DESCRIPTION"
+This routine is invoked by the fabric iocb block timer after
+timeout. It posts the fabric iocb block timeout event by setting the
+WORKER_FABRIC_BLOCK_TMO bit to work port event bitmap and then invokes
+\fBlpfc_worker_wake_up\fP routine to wake up the worker thread. It is for
+the worker thread to invoke the \fBlpfc_unblock_fabric_iocbs\fP on the
+posted event WORKER_FABRIC_BLOCK_TMO.

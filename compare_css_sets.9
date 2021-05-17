@@ -1,0 +1,21 @@
+.TH "compare_css_sets" 9 "compare_css_sets" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+compare_css_sets \- helper function for find_existing_css_set().
+.SH SYNOPSIS
+.B "bool" compare_css_sets
+.BI "(struct css_set *cset "  ","
+.BI "struct css_set *old_cset "  ","
+.BI "struct cgroup *new_cgrp "  ","
+.BI "struct cgroup_subsys_state *template[] "  ");"
+.SH ARGUMENTS
+.IP "cset" 12
+candidate css_set being tested
+.IP "old_cset" 12
+existing css_set for a task
+.IP "new_cgrp" 12
+cgroup that's being entered by the task
+.IP "template" 12
+desired set of css pointers in css_set (pre-calculated)
+.SH "DESCRIPTION"
+Returns true if "cset" matches "old_cset" except for the hierarchy
+which "new_cgrp" belongs to, for which it should match "new_cgrp".

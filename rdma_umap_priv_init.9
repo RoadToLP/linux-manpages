@@ -1,0 +1,26 @@
+.TH "rdma_umap_priv_init" 9 "rdma_umap_priv_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_umap_priv_init \- Initialize the private data of a vma
+.SH SYNOPSIS
+.B "void" rdma_umap_priv_init
+.BI "(struct rdma_umap_priv *priv "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "struct rdma_user_mmap_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+The already allocated private data
+.IP "vma" 12
+The vm area struct that needs private data
+.IP "entry" 12
+entry into the mmap_xa that needs to be linked with
+this vma
+.SH "DESCRIPTION"
+Each time we map IO memory into user space this keeps track of the
+mapping. When the device is hot-unplugged we 'zap' the mmaps in user space
+to point to the zero page and allow the hot unplug to proceed.
+
+This is necessary for cases like PCI physical hot unplug as the actual BAR
+memory may vanish after this and access to it from userspace could MCE.
+
+RDMA drivers supporting disassociation must have their user space designed
+to cope in some way with their IO pages going to the zero page.

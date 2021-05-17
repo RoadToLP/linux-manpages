@@ -1,0 +1,21 @@
+.TH "diag_ftp_2c4" 9 "diag_ftp_2c4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+diag_ftp_2c4 \- DIAGNOSE X'2C4' service call
+.SH SYNOPSIS
+.B "int" diag_ftp_2c4
+.BI "(struct diag_ftp_ldfpl *fpl "  ","
+.BI "enum hmcdrv_ftp_cmdid cmd "  ");"
+.SH ARGUMENTS
+.IP "fpl" 12
+pointer to prepared LDFPL
+.IP "cmd" 12
+FTP command to be executed
+.SH "DESCRIPTION"
+Performs a DIAGNOSE X'2C4' call with (input/output) FTP parameter list
+\fIfpl\fP and FTP function code \fIcmd\fP. In case of an error the function does
+nothing and returns an (negative) error code.
+.SH "NOTES"
+1. This function only initiates a transfer, so the caller must wait
+for completion (asynchronous execution).
+2. The FTP parameter list \fIfpl\fP must be aligned to a double-word boundary.
+3. fpl->bufaddr must be a real address, 4k aligned

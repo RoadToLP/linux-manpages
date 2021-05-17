@@ -1,0 +1,19 @@
+.TH "kvm_psci_call" 9 "kvm_psci_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_psci_call \- handle PSCI call if r0 value is in range
+.SH SYNOPSIS
+.B "int" kvm_psci_call
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Pointer to the VCPU struct
+.SH "DESCRIPTION"
+Handle PSCI calls from guests through traps from HVC instructions.
+The calling convention is similar to SMC calls to the secure world
+where the function number is placed in r0.
+
+This function returns: > 0 (success), 0 (success but exit to user
+space), and < 0 (errors)
+
+Errors:
+-EINVAL: Unrecognized PSCI function

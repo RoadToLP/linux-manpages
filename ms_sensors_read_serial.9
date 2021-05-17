@@ -1,0 +1,26 @@
+.TH "ms_sensors_read_serial" 9 "ms_sensors_read_serial" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ms_sensors_read_serial \- Serial number read function
+.SH SYNOPSIS
+.B "int" ms_sensors_read_serial
+.BI "(struct i2c_client *client "  ","
+.BI "u64 *sn "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+pointer to i2c client
+.IP "sn" 12
+pointer to 64-bits destination value
+.SH "DESCRIPTION"
+Generic i2c serial number read function for Measurement Specialties devices.
+This function is used for TSYS02d, HTU21, MS8607 chipset.
+Refer to datasheet:
+http://www.meas-spec.com/downloads/HTU2X_Serial_Number_Reading.pdf
+
+Sensor raw MSB serial number format is the following :
+[ SNB3, CRC, SNB2, CRC, SNB1, CRC, SNB0, CRC]
+Sensor raw LSB serial number format is the following :
+[ X, X, SNC1, SNC0, CRC, SNA1, SNA0, CRC]
+The resulting serial number is following :
+[ SNA1, SNA0, SNB3, SNB2, SNB1, SNB0, SNC1, SNC0]
+.SH "RETURN"
+0 on success, negative errno otherwise.

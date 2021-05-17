@@ -1,0 +1,19 @@
+.TH "kvm_mips_write_compare" 9 "kvm_mips_write_compare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_write_compare \- Modify compare and update timer.
+.SH SYNOPSIS
+.B "void" kvm_mips_write_compare
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "u32 compare "  ","
+.BI "bool ack "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "compare" 12
+New CP0_Compare value.
+.IP "ack" 12
+Whether to acknowledge timer interrupt.
+.SH "DESCRIPTION"
+Update CP0_Compare to a new value and update the timeout.
+If \fIack\fP, atomically acknowledge any pending timer interrupt, otherwise ensure
+any pending timer interrupt is preserved.

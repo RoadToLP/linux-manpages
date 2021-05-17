@@ -1,0 +1,28 @@
+.TH "find_or_add_av" 9 "find_or_add_av" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_or_add_av \- internal function to find a volume, add a volume or do both (find and add if missing).
+.SH SYNOPSIS
+.B "struct ubi_ainf_volume *" find_or_add_av
+.BI "(struct ubi_attach_info *ai "  ","
+.BI "int vol_id "  ","
+.BI "unsigned int flags "  ","
+.BI "bool *created "  ");"
+.SH ARGUMENTS
+.IP "ai" 12
+attaching information
+.IP "vol_id" 12
+the requested volume ID
+.IP "flags" 12
+a combination of the AV_FIND and AV_ADD flags describing the
+expected operation. If only AV_ADD is set, -EEXIST is returned
+if the volume already exists. If only AV_FIND is set, NULL is
+returned if the volume does not exist. And if both flags are
+set, the helper first tries to find an existing volume, and if
+it does not exist it creates a new one.
+.IP "created" 12
+in value used to inform the caller whether it"s a newly created
+volume or not.
+.SH "DESCRIPTION"
+This function returns a pointer to a volume description or an ERR_PTR if
+the operation failed. It can also return NULL if only AV_FIND is set and
+the volume does not exist.

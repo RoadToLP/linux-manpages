@@ -1,0 +1,29 @@
+.TH "rtnl_register" 9 "rtnl_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtnl_register \- Register a rtnetlink message type
+.SH SYNOPSIS
+.B "void" rtnl_register
+.BI "(int protocol "  ","
+.BI "int msgtype "  ","
+.BI "rtnl_doit_func doit "  ","
+.BI "rtnl_dumpit_func dumpit "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "protocol" 12
+Protocol family or PF_UNSPEC
+.IP "msgtype" 12
+rtnetlink message type
+.IP "doit" 12
+Function pointer called for each request message
+.IP "dumpit" 12
+Function pointer called for each dump request (NLM_F_DUMP) message
+.IP "flags" 12
+rtnl_link_flags to modifiy behaviour of doit/dumpit functions
+.SH "DESCRIPTION"
+Registers the specified function pointers (at least one of them has
+to be non-NULL) to be called whenever a request message for the
+specified protocol family and message type is received.
+
+The special protocol family PF_UNSPEC may be used to define fallback
+function pointers for the case when no entry for the specific protocol
+family exists.

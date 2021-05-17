@@ -1,0 +1,24 @@
+.TH "pcl_alloc_call" 9 "pcl_alloc_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcl_alloc_call \- Construct a parsed chunk list for the Call body
+.SH SYNOPSIS
+.B "bool" pcl_alloc_call
+.BI "(struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "__be32 *p "  ");"
+.SH ARGUMENTS
+.IP "rctxt" 12
+Ingress receive context
+.IP "p" 12
+Start of an un-decoded Read list
+.SH "DESCRIPTION"
+Assumptions:
+- The incoming Read list has already been sanity checked.
+- cl_count is already set to the number of segments in
+the un-decoded list.
+- The list might not be in order by position.
+
+Return values:
+true: Parsed chunk list was successfully constructed, and
+cl_count is updated to be the number of chunks (ie.
+unique positions) in the Read list.
+false: Memory allocation failed.

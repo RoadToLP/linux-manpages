@@ -1,0 +1,19 @@
+.TH "megasas_service_aen" 9 "megasas_service_aen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_service_aen \- Processes an event notification
+.SH SYNOPSIS
+.B "void" megasas_service_aen
+.BI "(struct megasas_instance *instance "  ","
+.BI "struct megasas_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Adapter soft state
+.IP "cmd" 12
+AEN command completed by the ISR
+.SH "DESCRIPTION"
+For AEN, driver sends a command down to FW that is held by the FW till an
+event occurs. When an event of interest occurs, FW completes the command
+that it was previously holding.
+
+This routines sends SIGIO signal to processes that have registered with the
+driver for AEN.

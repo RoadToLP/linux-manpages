@@ -1,0 +1,18 @@
+.TH "lpfc_bsg_issue_mbox_cmpl" 9 "lpfc_bsg_issue_mbox_cmpl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bsg_issue_mbox_cmpl \- lpfc_bsg_issue_mbox mbox completion handler
+.SH SYNOPSIS
+.B "void" lpfc_bsg_issue_mbox_cmpl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *pmboxq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pmboxq" 12
+Pointer to mailbox command.
+.SH "DESCRIPTION"
+This is completion handler function for mailbox commands issued from
+lpfc_bsg_issue_mbox function. This function is called by the
+mailbox event handler function with no lock held. This function
+will wake up thread waiting on the wait queue pointed by context1
+of the mailbox.

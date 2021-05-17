@@ -1,0 +1,27 @@
+.TH "ni_assign_device_routes" 9 "ni_assign_device_routes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ni_assign_device_routes \- Assign the proper lookup table for NI signal routing to the specified NI device.
+.SH SYNOPSIS
+.B "int" ni_assign_device_routes
+.BI "(const char *device_family "  ","
+.BI "const char *board_name "  ","
+.BI "const char *alt_board_name "  ","
+.BI "struct ni_route_tables *tables "  ");"
+.SH ARGUMENTS
+.IP "device_family" 12
+Device family name (determines route values).
+.IP "board_name" 12
+Board name (determines set of routes).
+.IP "alt_board_name" 12
+Optional alternate board name to try on failure.
+.IP "tables" 12
+Pointer to assigned routing information.
+.SH "DESCRIPTION"
+Finds the route values for the device family and the set of valid routes
+for the board.  If valid routes could not be found for the actual board
+name and an alternate board name has been specified, try that one.
+
+On failure, the assigned routing information may be partially filled
+(for example, with the route values but not the set of valid routes).
+.SH "RETURN"
+-ENODATA if assignment was not successful; 0 if successful.

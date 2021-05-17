@@ -1,0 +1,28 @@
+.TH "ice_flash_pldm_image" 9 "ice_flash_pldm_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_flash_pldm_image \- Write a PLDM-formatted firmware image to the device
+.SH SYNOPSIS
+.B "int" ice_flash_pldm_image
+.BI "(struct ice_pf *pf "  ","
+.BI "const struct firmware *fw "  ","
+.BI "u8 preservation "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+private device driver structure
+.IP "fw" 12
+firmware object pointing to the relevant firmware file
+.IP "preservation" 12
+preservation level to request from firmware
+.IP "extack" 12
+netlink extended ACK structure
+.SH "DESCRIPTION"
+Parse the data for a given firmware file, verifying that it is a valid PLDM
+formatted image that matches this device.
+
+Extract the device record Package Data and Component Tables and send them
+to the firmware. Extract and write the flash data for each of the three
+main flash components, "fw.mgmt", "fw.undi", and "fw.netlist". Notify
+firmware once the data is written to the inactive banks.
+.SH "RETURN"
+zero on success or a negative error code on failure.

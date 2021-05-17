@@ -1,0 +1,39 @@
+.TH "tw68_risc_buffer" 9 "tw68_risc_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tw68_risc_buffer \- 
+.SH SYNOPSIS
+.B "int" tw68_risc_buffer
+.BI "(struct pci_dev *pci "  ","
+.BI "struct tw68_buf *buf "  ","
+.BI "struct scatterlist *sglist "  ","
+.BI "unsigned int top_offset "  ","
+.BI "unsigned int bottom_offset "  ","
+.BI "unsigned int bpl "  ","
+.BI "unsigned int padding "  ","
+.BI "unsigned int lines "  ");"
+.SH ARGUMENTS
+.IP "pci" 12
+structure with info about the pci
+slot which our device is in.
+.IP "buf" 12
+structure with info about the memory
+used for our controller program.
+.IP "sglist" 12
+scatter-gather list entry
+.IP "top_offset" 12
+offset within the risc program area for the
+first odd frame line
+.IP "bottom_offset" 12
+offset within the risc program area for the
+first even frame line
+.IP "bpl" 12
+number of data bytes per scan line
+.IP "padding" 12
+number of extra bytes to add at end of line
+.IP "lines" 12
+number of scan lines
+.SH "DESCRIPTION"
+
+This routine is called by tw68-video.  It allocates
+memory for the dma controller "program" and then fills in that
+memory with the appropriate "instructions".

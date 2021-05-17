@@ -1,0 +1,21 @@
+.TH "cpuidle_select" 9 "cpuidle_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_select \- ask the cpuidle framework to choose an idle state
+.SH SYNOPSIS
+.B "int" cpuidle_select
+.BI "(struct cpuidle_driver *drv "  ","
+.BI "struct cpuidle_device *dev "  ","
+.BI "bool *stop_tick "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+the cpuidle driver
+.IP "dev" 12
+the cpuidle device
+.IP "stop_tick" 12
+indication on whether or not to stop the tick
+.SH "DESCRIPTION"
+Returns the index of the idle state.  The return value must not be negative.
+
+The memory location pointed to by \fIstop_tick\fP is expected to be written the
+'false' boolean value if the scheduler tick should not be stopped before
+entering the returned state.

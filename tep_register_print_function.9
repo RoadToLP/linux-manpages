@@ -1,0 +1,28 @@
+.TH "tep_register_print_function" 9 "tep_register_print_function" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_register_print_function \- register a helper function
+.SH SYNOPSIS
+.B "int" tep_register_print_function
+.BI "(struct tep_handle *tep "  ","
+.BI "tep_func_handler func "  ","
+.BI "enum tep_func_arg_type ret_type "  ","
+.BI "char *name "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+a handle to the trace event parser context
+.IP "func" 12
+the function to process the helper function
+.IP "ret_type" 12
+the return type of the helper function
+.IP "name" 12
+the name of the helper function
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Some events may have helper functions in the print format arguments.
+This allows a plugin to dynamically create a way to process one
+of these functions.
+
+The \fIparameters\fP is a variable list of tep_func_arg_type enums that
+must end with TEP_FUNC_ARG_VOID.

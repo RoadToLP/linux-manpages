@@ -1,0 +1,53 @@
+.TH "i915_gem_gtt_insert" 9 "i915_gem_gtt_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_gtt_insert \- insert a node into an address_space (GTT)
+.SH SYNOPSIS
+.B "int" i915_gem_gtt_insert
+.BI "(struct i915_address_space *vm "  ","
+.BI "struct drm_mm_node *node "  ","
+.BI "u64 size "  ","
+.BI "u64 alignment "  ","
+.BI "unsigned long color "  ","
+.BI "u64 start "  ","
+.BI "u64 end "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "vm" 12
+the \fIstruct i915_address_space\fP
+.IP "node" 12
+the \fIstruct drm_mm_node\fP (typically i915_vma.node)
+.IP "size" 12
+how much space to allocate inside the GTT,
+must be #I915_GTT_PAGE_SIZE aligned
+.IP "alignment" 12
+required alignment of starting offset, may be 0 but
+if specified, this must be a power-of-two and at least
+#I915_GTT_MIN_ALIGNMENT
+.IP "color" 12
+color to apply to node
+.IP "start" 12
+start of any range restriction inside GTT (0 for all),
+must be #I915_GTT_PAGE_SIZE aligned
+.IP "end" 12
+end of any range restriction inside GTT (U64_MAX for all),
+must be #I915_GTT_PAGE_SIZE aligned if not U64_MAX
+.IP "flags" 12
+control search and eviction behaviour
+.SH "DESCRIPTION"
+\fBi915_gem_gtt_insert\fP first searches for an available hole into which
+is can insert the node. The hole address is aligned to \fIalignment\fP and
+its \fIsize\fP must then fit entirely within the [\fIstart\fP, \fIend\fP] bounds. The
+nodes on either side of the hole must match \fIcolor\fP, or else a guard page
+will be inserted between the two nodes (or the node evicted). If no
+suitable hole is found, first a victim is randomly selected and tested
+for eviction, otherwise then the LRU list of objects within the GTT
+is scanned to find the first set of replacement nodes to create the hole.
+Those old overlapping nodes are evicted from the GTT (and so must be
+rebound before any future use). Any node that is currently pinned cannot
+be evicted (see \fBi915_vma_pin\fP). Similar if the node's VMA is currently
+active and #PIN_NONBLOCK is specified, that node is also skipped when
+searching for an eviction candidate. See \fBi915_gem_evict_something\fP for
+the gory details on the eviction algorithm.
+.SH "RETURN"
+0 on success, -ENOSPC if no suitable hole is found, -EINTR if
+asked to wait for eviction and interrupted.

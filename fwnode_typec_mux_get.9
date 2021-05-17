@@ -1,0 +1,17 @@
+.TH "fwnode_typec_mux_get" 9 "fwnode_typec_mux_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_typec_mux_get \- Find USB Type-C Multiplexer
+.SH SYNOPSIS
+.B "struct typec_mux *" fwnode_typec_mux_get
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "const struct typec_altmode_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+The caller device node
+.IP "desc" 12
+Alt Mode description
+.SH "DESCRIPTION"
+Finds a mux linked to the caller. This function is primarily meant for the
+Type-C drivers. Returns a reference to the mux on success, NULL if no
+matching connection was found, or ERR_PTR(-EPROBE_DEFER) when a connection
+was found but the mux has not been enumerated yet.

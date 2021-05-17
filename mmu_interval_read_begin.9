@@ -1,0 +1,23 @@
+.TH "mmu_interval_read_begin" 9 "mmu_interval_read_begin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_interval_read_begin \- Begin a read side critical section against a VA range
+.SH SYNOPSIS
+.B "unsigned long" mmu_interval_read_begin
+.BI "(struct mmu_interval_notifier *interval_sub "  ");"
+.SH ARGUMENTS
+.IP "interval_sub" 12
+The interval subscription
+.SH "DESCRIPTION"
+\fBmmu_iterval_read_begin\fP/\fBmmu_iterval_read_retry\fP implement a
+collision-retry scheme similar to seqcount for the VA range under
+subscription. If the mm invokes invalidation during the critical section
+then \fBmmu_interval_read_retry\fP will return true.
+
+This is useful to obtain shadow PTEs where teardown or setup of the SPTEs
+require a blocking context.  The critical region formed by this can sleep,
+and the required 'user_lock' can also be a sleeping lock.
+
+The caller is required to provide a 'user_lock' to serialize both teardown
+and setup.
+
+The return value should be passed to \fBmmu_interval_read_retry\fP.

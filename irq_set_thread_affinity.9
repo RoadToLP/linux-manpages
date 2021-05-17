@@ -1,0 +1,14 @@
+.TH "irq_set_thread_affinity" 9 "irq_set_thread_affinity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_set_thread_affinity \- Notify irq threads to adjust affinity
+.SH SYNOPSIS
+.B "void" irq_set_thread_affinity
+.BI "(struct irq_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+irq descriptor which has affitnity changed
+
+We just set IRQTF_AFFINITY and delegate the affinity setting
+to the interrupt thread itself. We can not call
+\fBset_cpus_allowed_ptr\fP here as we hold desc->lock and this
+code can be called from hard interrupt context.

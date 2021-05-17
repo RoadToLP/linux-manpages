@@ -1,0 +1,16 @@
+.TH "refcount_dec_not_one" 9 "refcount_dec_not_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+refcount_dec_not_one \- decrement a refcount if it is not 1
+.SH SYNOPSIS
+.B "bool" refcount_dec_not_one
+.BI "(refcount_t *r "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the refcount
+.SH "DESCRIPTION"
+No atomic_t counterpart, it decrements unless the value is 1, in which case
+it will return false.
+
+Was often done like: atomic_add_unless(\fIvar\fP, -1, 1)
+.SH "RETURN"
+true if the decrement operation was successful, false otherwise

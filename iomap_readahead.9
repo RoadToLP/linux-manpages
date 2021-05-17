@@ -1,0 +1,22 @@
+.TH "iomap_readahead" 9 "iomap_readahead" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iomap_readahead \- Attempt to read pages from a file.
+.SH SYNOPSIS
+.B "void" iomap_readahead
+.BI "(struct readahead_control *rac "  ","
+.BI "const struct iomap_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "rac" 12
+Describes the pages to be read.
+.IP "ops" 12
+The operations vector for the filesystem.
+.SH "DESCRIPTION"
+This function is for filesystems to call to implement their readahead
+address_space operation.
+.SH "CONTEXT"
+The \fIops\fP callbacks may submit I/O (eg to read the addresses of
+blocks from disc), and may wait for it.  The caller may be trying to
+access a different page, and so sleeping excessively should be avoided.
+It may allocate memory, but should avoid costly allocations.  This
+function is called with memalloc_nofs set, so allocations will not cause
+the filesystem to be reentered.

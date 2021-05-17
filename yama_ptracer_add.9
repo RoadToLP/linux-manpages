@@ -1,0 +1,17 @@
+.TH "yama_ptracer_add" 9 "yama_ptracer_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+yama_ptracer_add \- add/replace an exception for this tracer/tracee pair
+.SH SYNOPSIS
+.B "int" yama_ptracer_add
+.BI "(struct task_struct *tracer "  ","
+.BI "struct task_struct *tracee "  ");"
+.SH ARGUMENTS
+.IP "tracer" 12
+the task_struct of the process doing the ptrace
+.IP "tracee" 12
+the task_struct of the process to be ptraced
+.SH "DESCRIPTION"
+Each tracee can have, at most, one tracer registered. Each time this
+is called, the prior registered tracer will be replaced for the tracee.
+
+Returns 0 if relationship was added, -ve on error.

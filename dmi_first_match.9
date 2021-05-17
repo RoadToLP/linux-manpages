@@ -1,0 +1,19 @@
+.TH "dmi_first_match" 9 "dmi_first_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dmi_first_match \- find dmi_system_id structure matching system DMI data
+.SH SYNOPSIS
+.B "const struct dmi_system_id *" dmi_first_match
+.BI "(const struct dmi_system_id *list "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+array of dmi_system_id structures to match against
+All non-null elements of the list must match
+their slot's (field index's) data (i.e., each
+list string must be a substring of the specified
+DMI slot's string data) to be considered a
+successful match.
+
+Walk the blacklist table until the first match is found.  Return the
+pointer to the matching entry or NULL if there's no match.
+
+dmi_setup must be called before this function is called.

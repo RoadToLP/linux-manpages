@@ -1,0 +1,18 @@
+.TH "__pm_runtime_resume" 9 "__pm_runtime_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pm_runtime_resume \- Entry point for runtime resume operations.
+.SH SYNOPSIS
+.B "int" __pm_runtime_resume
+.BI "(struct device *dev "  ","
+.BI "int rpmflags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to resume.
+.IP "rpmflags" 12
+Flag bits.
+.SH "DESCRIPTION"
+If the RPM_GET_PUT flag is set, increment the device's usage count.  Then
+carry out a resume, either synchronous or asynchronous.
+
+This routine may be called in atomic context if the RPM_ASYNC flag is set,
+or if \fBpm_runtime_irq_safe\fP has been called.

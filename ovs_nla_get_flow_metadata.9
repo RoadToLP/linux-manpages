@@ -1,0 +1,32 @@
+.TH "ovs_nla_get_flow_metadata" 9 "ovs_nla_get_flow_metadata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_nla_get_flow_metadata \- parses Netlink attributes into a flow key.
+.SH SYNOPSIS
+.B "int" ovs_nla_get_flow_metadata
+.BI "(struct net *net "  ","
+.BI "const struct nlattr *a[OVS_KEY_ATTR_MAX + 1] "  ","
+.BI "u64 attrs "  ","
+.BI "struct sw_flow_key *key "  ","
+.BI "bool log "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace.
+.IP "a" 12
+Array of netlink attributes holding parsed OVS_KEY_ATTR_* Netlink
+attributes.
+.IP "attrs" 12
+Bit mask for the netlink attributes included in \fIa\fP.
+.IP "key" 12
+Receives extracted in_port, priority, tun_key, skb_mark and conntrack
+metadata.
+.IP "log" 12
+Boolean to allow kernel error logging.  Normally true, but when
+probing for feature compatibility this should be passed in as false to
+suppress unnecessary error logging.
+.SH "DESCRIPTION"
+This parses a series of Netlink attributes that form a flow key, which must
+take the same form accepted by \fBflow_from_nlattrs\fP, but only enough of it to
+get the metadata, that is, the parts of the flow key that cannot be
+extracted from the packet itself.
+
+This must be called before the packet key fields are filled in 'key'.

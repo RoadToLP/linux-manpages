@@ -1,0 +1,23 @@
+.TH "ice_acquire_global_cfg_lock" 9 "ice_acquire_global_cfg_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_acquire_global_cfg_lock \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_acquire_global_cfg_lock
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_aq_res_access_type access "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "access" 12
+access type (read or write)
+.SH "DESCRIPTION"
+This function will request ownership of the global config lock for reading
+or writing of the package. When attempting to obtain write access, the
+caller must check for the following two return values:
+
+ICE_SUCCESS        - Means the caller has acquired the global config lock
+and can perform writing of the package.
+ICE_ERR_AQ_NO_WORK - Indicates another driver has already written the
+package or has found that no update was necessary; in
+this case, the caller can just skip performing any
+update of the package.

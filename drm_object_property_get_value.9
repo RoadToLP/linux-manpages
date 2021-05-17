@@ -1,0 +1,25 @@
+.TH "drm_object_property_get_value" 9 "drm_object_property_get_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_object_property_get_value \- retrieve the value of a property
+.SH SYNOPSIS
+.B "int" drm_object_property_get_value
+.BI "(struct drm_mode_object *obj "  ","
+.BI "struct drm_property *property "  ","
+.BI "uint64_t *val "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+drm mode object to get property value from
+.IP "property" 12
+property to retrieve
+.IP "val" 12
+storage for the property value
+.SH "DESCRIPTION"
+This function retrieves the softare state of the given property for the given
+property. Since there is no driver callback to retrieve the current property
+value this might be out of sync with the hardware, depending upon the driver
+and property.
+
+Atomic drivers should never call this function directly, the core will read
+out property values through the various ->atomic_get_property callbacks.
+.SH "RETURN"
+Zero on success, error code on failure.

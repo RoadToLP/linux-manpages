@@ -1,0 +1,28 @@
+.TH "blkdev_zone_mgmt" 9 "blkdev_zone_mgmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkdev_zone_mgmt \- Execute a zone management operation on a range of zones
+.SH SYNOPSIS
+.B "int" blkdev_zone_mgmt
+.BI "(struct block_device *bdev "  ","
+.BI "enum req_opf op "  ","
+.BI "sector_t sector "  ","
+.BI "sector_t nr_sectors "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+Target block device
+.IP "op" 12
+Operation to be performed on the zones
+.IP "sector" 12
+Start sector of the first zone to operate on
+.IP "nr_sectors" 12
+Number of sectors, should be at least the length of one zone and
+must be zone size aligned.
+.IP "gfp_mask" 12
+Memory allocation flags (for bio_alloc)
+.SH "DESCRIPTION"
+Perform the specified operation on the range of zones specified by
+\fIsector\fP..\fIsector\fP+\fInr_sectors\fP. Specifying the entire disk sector range
+is valid, but the specified range should not contain conventional zones.
+The operation to execute on each zone can be a zone reset, open, close
+or finish request.

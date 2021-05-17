@@ -1,0 +1,18 @@
+.TH "sis900_check_mode" 9 "sis900_check_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sis900_check_mode \- check the media mode for sis900
+.SH SYNOPSIS
+.B "void" sis900_check_mode
+.BI "(struct net_device *net_dev "  ","
+.BI "struct mii_phy *mii_phy "  ");"
+.SH ARGUMENTS
+.IP "net_dev" 12
+the net device to be checked
+.IP "mii_phy" 12
+the mii phy
+
+Older driver gets the media mode from mii status output
+register. Now we set our media capability and auto-negotiate
+to get the upper bound of speed and duplex between two ends.
+If the types of mii phy is HOME, it doesn't need to auto-negotiate
+and autong_complete should be set to 1.

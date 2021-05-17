@@ -1,0 +1,20 @@
+.TH "print_worker_info" 9 "print_worker_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+print_worker_info \- print out worker information and description
+.SH SYNOPSIS
+.B "void" print_worker_info
+.BI "(const char *log_lvl "  ","
+.BI "struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "log_lvl" 12
+the log level to use when printing
+.IP "task" 12
+target task
+.SH "DESCRIPTION"
+If \fItask\fP is a worker and currently executing a work item, print out the
+name of the workqueue being serviced and worker description set with
+\fBset_worker_desc\fP by the currently executing work item.
+
+This function can be safely called on any task as long as the
+task_struct itself is accessible.  While safe, this function isn't
+synchronized and may print out mixups or garbages of limited length.

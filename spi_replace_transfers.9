@@ -1,0 +1,31 @@
+.TH "spi_replace_transfers" 9 "spi_replace_transfers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_replace_transfers \- replace transfers with several transfers and register change with spi_message.resources
+.SH SYNOPSIS
+.B "struct spi_replaced_transfers *" spi_replace_transfers
+.BI "(struct spi_message *msg "  ","
+.BI "struct spi_transfer *xfer_first "  ","
+.BI "size_t remove "  ","
+.BI "size_t insert "  ","
+.BI "spi_replaced_release_t release "  ","
+.BI "size_t extradatasize "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "msg" 12
+the spi_message we work upon
+.IP "xfer_first" 12
+the first spi_transfer we want to replace
+.IP "remove" 12
+number of transfers to remove
+.IP "insert" 12
+the number of transfers we want to insert instead
+.IP "release" 12
+extra release code necessary in some circumstances
+.IP "extradatasize" 12
+extra data to allocate (with alignment guarantees
+of struct \fIspi_transfer\fP)
+.IP "gfp" 12
+gfp flags
+.SH "RETURN"
+pointer to \fIspi_replaced_transfers\fP,
+PTR_ERR(...) in case of errors.

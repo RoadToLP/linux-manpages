@@ -1,0 +1,17 @@
+.TH "tomoyo_load_policy" 9 "tomoyo_load_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_load_policy \- Run external policy loader to load policy.
+.SH SYNOPSIS
+.B "void" tomoyo_load_policy
+.BI "(const char *filename "  ");"
+.SH ARGUMENTS
+.IP "filename" 12
+The program about to start.
+.SH "DESCRIPTION"
+This function checks whether \fIfilename\fP is /sbin/init , and if so
+invoke /sbin/tomoyo-init and wait for the termination of /sbin/tomoyo-init
+and then continues invocation of /sbin/init.
+/sbin/tomoyo-init reads policy files in /etc/tomoyo/ directory and
+writes to /sys/kernel/security/tomoyo/ interfaces.
+
+Returns nothing.

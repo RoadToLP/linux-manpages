@@ -1,0 +1,19 @@
+.TH "load_and_init_usnjrnl" 9 "load_and_init_usnjrnl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+load_and_init_usnjrnl \- load and setup the transaction log if present
+.SH SYNOPSIS
+.B "bool" load_and_init_usnjrnl
+.BI "(ntfs_volume *vol "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs super block describing device whose usnjrnl file to load
+.SH "DESCRIPTION"
+Return 'true' on success or 'false' on error.
+
+If $UsnJrnl is not present or in the process of being disabled, we set
+\fBNVolUsnJrnlStamped\fP and return success.
+
+If the $UsnJrnl $DATA/$J attribute has a size equal to the lowest valid usn,
+i.e. transaction logging has only just been enabled or the journal has been
+stamped and nothing has been logged since, we also set \fBNVolUsnJrnlStamped\fP
+and return success.

@@ -1,0 +1,21 @@
+.TH "prm_was_any_context_lost_old" 9 "prm_was_any_context_lost_old" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prm_was_any_context_lost_old \- was device context lost? (old API)
+.SH SYNOPSIS
+.B "bool" prm_was_any_context_lost_old
+.BI "(u8 part "  ","
+.BI "s16 inst "  ","
+.BI "u16 idx "  ");"
+.SH ARGUMENTS
+.IP "part" 12
+PRM partition ID (e.g., OMAP4430_PRM_PARTITION)
+.IP "inst" 12
+PRM instance offset (e.g., OMAP4430_PRM_MPU_INST)
+.IP "idx" 12
+CONTEXT register offset
+.SH "DESCRIPTION"
+Return 1 if any bits were set in the *_CONTEXT_* register
+identified by (\fIpart\fP, \fIinst\fP, \fIidx\fP), which means that some context
+was lost for that module; otherwise, return 0.  XXX Deprecated;
+callers need to use a less-SoC-dependent way to identify hardware
+IP blocks.

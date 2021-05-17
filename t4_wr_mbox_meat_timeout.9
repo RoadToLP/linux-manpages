@@ -1,0 +1,40 @@
+.TH "t4_wr_mbox_meat_timeout" 9 "t4_wr_mbox_meat_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_wr_mbox_meat_timeout \- send a command to FW through the given mailbox
+.SH SYNOPSIS
+.B "int" t4_wr_mbox_meat_timeout
+.BI "(struct adapter *adap "  ","
+.BI "int mbox "  ","
+.BI "const void *cmd "  ","
+.BI "int size "  ","
+.BI "void *rpl "  ","
+.BI "bool sleep_ok "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+index of the mailbox to use
+.IP "cmd" 12
+the command to write
+.IP "size" 12
+command length in bytes
+.IP "rpl" 12
+where to optionally store the reply
+.IP "sleep_ok" 12
+if true we may sleep while awaiting command completion
+.IP "timeout" 12
+time to wait for command to finish before timing out
+
+Sends the given command to FW through the selected mailbox and waits
+for the FW to execute the command.  If \fIrpl\fP is not NULL it is used to
+store the FW's reply to the command.  The command and its optional
+reply are of the same length.  FW can take up to FW_CMD_MAX_TIMEOUT ms
+to respond.  \fIsleep_ok\fP determines whether we may sleep while awaiting
+the response.  If sleeping is allowed we use progressive backoff
+otherwise we spin.
+
+The return value is 0 on success or a negative errno on failure.  A
+failure can happen either because we are not able to execute the
+command or FW executes it but signals an error.  In the latter case
+the return value is the error code indicated by FW (negated).

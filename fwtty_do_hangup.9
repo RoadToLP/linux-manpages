@@ -1,0 +1,25 @@
+.TH "fwtty_do_hangup" 9 "fwtty_do_hangup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwtty_do_hangup \- wait for ldisc to deliver all pending rx; only then hangup
+.SH SYNOPSIS
+.B "void" fwtty_do_hangup
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+When the remote has finished tx, and all in-flight rx has been received and
+pushed to the flip buffer, the remote may close its device. This will
+drop DTR on the remote which will drop carrier here. Typically, the tty is
+hung up when carrier is dropped or lost.
+
+However, there is a race between the hang up and the line discipline
+delivering its data to the reader. A hangup will cause the ldisc to flush
+(ie., clear) the read buffer and flip buffer. Because of firewire's
+relatively high throughput, the ldisc frequently lags well behind the driver,
+resulting in lost data (which has already been received and written to
+the flip buffer) when the remote closes its end.
+
+Unfortunately, since the flip buffer offers no direct method for determining
+if it holds data, ensuring the ldisc has delivered all data is problematic.

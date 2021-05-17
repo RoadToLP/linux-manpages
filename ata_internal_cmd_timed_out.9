@@ -1,0 +1,19 @@
+.TH "ata_internal_cmd_timed_out" 9 "ata_internal_cmd_timed_out" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_internal_cmd_timed_out \- notification for internal command timeout
+.SH SYNOPSIS
+.B "void" ata_internal_cmd_timed_out
+.BI "(struct ata_device *dev "  ","
+.BI "u8 cmd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device
+.IP "cmd" 12
+internal command which timed out
+
+Notify EH that internal command \fIcmd\fP for \fIdev\fP timed out.  This
+function should be called only for commands whose timeouts are
+determined using \fBata_internal_cmd_timeout\fP.
+
+LOCKING:
+EH context.

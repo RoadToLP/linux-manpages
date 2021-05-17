@@ -1,0 +1,16 @@
+.TH "cap_bprm_creds_from_file" 9 "cap_bprm_creds_from_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_bprm_creds_from_file \- Set up the proposed credentials for execve().
+.SH SYNOPSIS
+.B "int" cap_bprm_creds_from_file
+.BI "(struct linux_binprm *bprm "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "bprm" 12
+The execution parameters, including the proposed creds
+.IP "file" 12
+The file to pull the credentials from
+.SH "DESCRIPTION"
+Set up the proposed credentials for a new execution context being
+constructed by \fBexecve\fP.  The proposed creds in \fIbprm->cred\fP is altered,
+which won't take effect immediately.  Returns 0 if successful, -ve on error.

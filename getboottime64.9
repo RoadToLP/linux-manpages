@@ -1,0 +1,16 @@
+.TH "getboottime64" 9 "getboottime64" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+getboottime64 \- Return the real time of system boot.
+.SH SYNOPSIS
+.B "void" getboottime64
+.BI "(struct timespec64 *ts "  ");"
+.SH ARGUMENTS
+.IP "ts" 12
+pointer to the timespec64 to be set
+.SH "DESCRIPTION"
+Returns the wall-time of boot in a timespec64.
+
+This is based on the wall_to_monotonic offset and the total suspend
+time. Calls to settimeofday will affect the value returned (which
+basically means that however wrong your real time clock is at boot time,
+you get the right time here).

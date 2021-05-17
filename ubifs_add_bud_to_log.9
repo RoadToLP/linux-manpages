@@ -1,0 +1,24 @@
+.TH "ubifs_add_bud_to_log" 9 "ubifs_add_bud_to_log" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_add_bud_to_log \- add a new bud to the log.
+.SH SYNOPSIS
+.B "int" ubifs_add_bud_to_log
+.BI "(struct ubifs_info *c "  ","
+.BI "int jhead "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "jhead" 12
+journal head the bud belongs to
+.IP "lnum" 12
+LEB number of the bud
+.IP "offs" 12
+starting offset of the bud
+.SH "DESCRIPTION"
+This function writes a reference node for the new bud LEB \fIlnum\fP to the log,
+and adds it to the buds trees. It also makes sure that log size does not
+exceed the 'c->max_bud_bytes' limit. Returns zero in case of success,
+-EAGAIN if commit is required, and a negative error code in case of
+failure.

@@ -1,0 +1,19 @@
+.TH "ata_scsi_cmd_error_handler" 9 "ata_scsi_cmd_error_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_cmd_error_handler \- error callback for a list of commands
+.SH SYNOPSIS
+.B "void" ata_scsi_cmd_error_handler
+.BI "(struct Scsi_Host *host "  ","
+.BI "struct ata_port *ap "  ","
+.BI "struct list_head *eh_work_q "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+scsi host containing the port
+.IP "ap" 12
+ATA port within the host
+.IP "eh_work_q" 12
+list of commands to process
+.SH "DESCRIPTION"
+process the given list of commands and return those finished to the
+ap->eh_done_q.  This function is the first part of the libata error
+handler which processes a given list of failed commands.

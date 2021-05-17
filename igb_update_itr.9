@@ -1,0 +1,24 @@
+.TH "igb_update_itr" 9 "igb_update_itr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_update_itr \- update the dynamic ITR value based on statistics
+.SH SYNOPSIS
+.B "void" igb_update_itr
+.BI "(struct igb_q_vector *q_vector "  ","
+.BI "struct igb_ring_container *ring_container "  ");"
+.SH ARGUMENTS
+.IP "q_vector" 12
+pointer to q_vector
+.IP "ring_container" 12
+ring info to update the itr for
+
+Stores a new ITR value based on packets and byte
+counts during the last interrupt.  The advantage of per interrupt
+computation is faster updates and more accurate ITR for the current
+traffic pattern.  Constants in this function were computed
+based on theoretical maximum wire speed and thresholds were set based
+on testing data as well as attempting to minimize response time
+while increasing bulk throughput.
+This functionality is controlled by ethtool's coalescing settings.
+.SH "NOTE"
+These calculations are only valid when operating in a single-
+queue environment.

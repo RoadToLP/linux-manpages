@@ -1,0 +1,23 @@
+.TH "tnc_insert" 9 "tnc_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tnc_insert \- insert a node into TNC.
+.SH SYNOPSIS
+.B "int" tnc_insert
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_znode *znode "  ","
+.BI "struct ubifs_zbranch *zbr "  ","
+.BI "int n "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "znode" 12
+znode to insert into
+.IP "zbr" 12
+branch to insert
+.IP "n" 12
+slot number to insert new zbranch to
+.SH "DESCRIPTION"
+This function inserts a new node described by \fIzbr\fP into znode \fIznode\fP. If
+znode does not have a free slot for new zbranch, it is split. Parent znodes
+are splat as well if needed. Returns zero in case of success or a negative
+error code in case of failure.

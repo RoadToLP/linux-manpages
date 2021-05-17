@@ -1,0 +1,24 @@
+.TH "is_leaf_node_in_tnc" 9 "is_leaf_node_in_tnc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_leaf_node_in_tnc \- determine if a non-indexing not is in the TNC.
+.SH SYNOPSIS
+.B "int" is_leaf_node_in_tnc
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+node key
+.IP "lnum" 12
+node LEB number
+.IP "offs" 12
+node offset
+.SH "DESCRIPTION"
+This function returns 1 if the node is referred to in the TNC, 0 if it is
+not, and a negative error code in case of failure.
+
+Note, this function relies on the fact that 0:0 is never a valid LEB number
+and offset for a main-area node.

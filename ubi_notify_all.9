@@ -1,0 +1,20 @@
+.TH "ubi_notify_all" 9 "ubi_notify_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_notify_all \- send a notification to all volumes.
+.SH SYNOPSIS
+.B "int" ubi_notify_all
+.BI "(struct ubi_device *ubi "  ","
+.BI "int ntype "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ntype" 12
+notification type to send (UBI_VOLUME_ADDED, etc)
+.IP "nb" 12
+the notifier to call
+.SH "DESCRIPTION"
+This function walks all volumes of UBI device \fIubi\fP and sends the \fIntype\fP
+notification for each volume. If \fInb\fP is NULL, then all registered notifiers
+are called, otherwise only the \fInb\fP notifier is called. Returns the number of
+sent notifications.

@@ -1,0 +1,33 @@
+.TH "spum_request_pad" 9 "spum_request_pad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spum_request_pad \- Create pad bytes at the end of the data.
+.SH SYNOPSIS
+.B "void" spum_request_pad
+.BI "(u8 *pad_start "  ","
+.BI "u32 gcm_ccm_padding "  ","
+.BI "u32 hash_pad_len "  ","
+.BI "enum hash_alg auth_alg "  ","
+.BI "enum hash_mode auth_mode "  ","
+.BI "unsigned int total_sent "  ","
+.BI "u32 status_padding "  ");"
+.SH ARGUMENTS
+.IP "pad_start" 12
+Start of buffer where pad bytes are to be written
+.IP "gcm_ccm_padding" 12
+length of GCM/CCM padding, in bytes
+.IP "hash_pad_len" 12
+Number of bytes of padding extend data to full block
+.IP "auth_alg" 12
+authentication algorithm
+.IP "auth_mode" 12
+authentication mode
+.IP "total_sent" 12
+length inserted at end of hash pad
+.IP "status_padding" 12
+Number of bytes of padding to align STATUS word
+.SH "DESCRIPTION"
+There may be three forms of pad:
+1. GCM/CCM pad - for GCM/CCM mode ciphers, pad to 16-byte alignment
+2. hash pad - pad to a block length, with 0x80 data terminator and
+size at the end
+3. STAT pad - to ensure the STAT field is 4-byte aligned

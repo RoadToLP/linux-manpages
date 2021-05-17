@@ -1,0 +1,22 @@
+.TH "futex_exit_recursive" 9 "futex_exit_recursive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+futex_exit_recursive \- Set the tasks futex state to FUTEX_STATE_DEAD
+.SH SYNOPSIS
+.B "void" futex_exit_recursive
+.BI "(struct task_struct *tsk "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+task to set the state on
+.SH "DESCRIPTION"
+Set the futex exit state of the task lockless. The futex waiter code
+observes that state when a task is exiting and loops until the task has
+actually finished the futex cleanup. The worst case for this is that the
+waiter runs through the wait loop until the state becomes visible.
+
+This is called from the recursive fault handling path in \fBdo_exit\fP.
+
+This is best effort. Either the futex exit code has run already or
+not. If the OWNER_DIED bit has been set on the futex then the waiter can
+take it over. If not, the problem is pushed back to user space. If the
+futex exit code did not run yet, then an already queued waiter might
+block forever, but there is nothing which can be done about that.

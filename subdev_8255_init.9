@@ -1,0 +1,37 @@
+.TH "subdev_8255_init" 9 "subdev_8255_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+subdev_8255_init \- initialize DIO subdevice for driving I/O mapped 8255
+.SH SYNOPSIS
+.B "int" subdev_8255_init
+.BI "(struct comedi_device *dev "  ","
+.BI "struct comedi_subdevice *s "  ","
+.BI "int (*io)(struct comedi_device *dev, int dir, int port, int data, unsigned long regbase) "  ","
+.BI "unsigned long regbase "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+comedi device owning subdevice
+.IP "s" 12
+comedi subdevice to initialize
+.IP "io" 12
+(optional) register I/O call-back function
+.IP "regbase" 12
+offset of 8255 registers from dev->iobase, or call-back context
+.SH "DESCRIPTION"
+Initializes a comedi subdevice as a DIO subdevice driving an 8255 chip.
+
+If the optional I/O call-back function is provided, its prototype is of
+the following form:
+
+int my_8255_callback(struct comedi_device *dev, int dir, int port,
+int data, unsigned long regbase);
+
+where 'dev', and 'regbase' match the values passed to this function,
+'port' is the 8255 port number 0 to 3 (including the control port), 'dir'
+is the direction (0 for read, 1 for write) and 'data' is the value to be
+written.  It should return 0 if writing or the value read if reading.
+
+If the optional I/O call-back function is not provided, an internal
+call-back function is used which uses consecutive I/O port addresses
+starting at dev->iobase + regbase.
+.SH "RETURN"
+-ENOMEM if failed to allocate memory, zero on success.

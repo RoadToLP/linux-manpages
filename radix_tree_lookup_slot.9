@@ -1,0 +1,20 @@
+.TH "radix_tree_lookup_slot" 9 "radix_tree_lookup_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radix_tree_lookup_slot \- lookup a slot in a radix tree
+.SH SYNOPSIS
+.B "void __rcu **" radix_tree_lookup_slot
+.BI "(const struct radix_tree_root *root "  ","
+.BI "unsigned long index "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+radix tree root
+.IP "index" 12
+index key
+.SH "RETURN"
+the slot corresponding to the position \fIindex\fP in the
+radix tree \fIroot\fP. This is useful for update-if-exists operations.
+
+This function can be called under rcu_read_lock iff the slot is not
+modified by radix_tree_replace_slot, otherwise it must be called
+exclusive from other writers. Any dereference of the slot must be done
+using radix_tree_deref_slot.

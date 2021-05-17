@@ -1,0 +1,18 @@
+.TH "zpool_evictable" 9 "zpool_evictable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_evictable \- Test if zpool is potentially evictable
+.SH SYNOPSIS
+.B "bool" zpool_evictable
+.BI "(struct zpool *zpool "  ");"
+.SH ARGUMENTS
+.IP "zpool" 12
+The zpool to test
+.SH "DESCRIPTION"
+Zpool is only potentially evictable when it's created with struct
+zpool_ops.evict and its driver implements struct zpool_driver.shrink.
+
+However, it doesn't necessarily mean driver will use zpool_ops.evict
+in its implementation of zpool_driver.shrink. It could do internal
+defragmentation instead.
+.SH "RETURN"
+true if potentially evictable; false otherwise.

@@ -1,0 +1,26 @@
+.TH "tipc_crypto_key_xmit" 9 "tipc_crypto_key_xmit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_key_xmit \- Send a session key
+.SH SYNOPSIS
+.B "int" tipc_crypto_key_xmit
+.BI "(struct net *net "  ","
+.BI "struct tipc_aead_key *skey "  ","
+.BI "u16 gen "  ","
+.BI "u8 mode "  ","
+.BI "u32 dnode "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the struct net
+.IP "skey" 12
+the session key to be sent
+.IP "gen" 12
+the key's generation
+.IP "mode" 12
+the key's mode
+.IP "dnode" 12
+the destination node address, = 0 if broadcasting to all nodes
+.SH "DESCRIPTION"
+The session key 'skey' is packed in a TIPC v2 'MSG_CRYPTO/KEY_DISTR_MSG'
+as its data section, then xmit-ed through the uc/bc link.
+.SH "RETURN"
+0 in case of success, otherwise < 0

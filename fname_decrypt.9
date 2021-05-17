@@ -1,0 +1,19 @@
+.TH "fname_decrypt" 9 "fname_decrypt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fname_decrypt \- decrypt a filename
+.SH SYNOPSIS
+.B "int" fname_decrypt
+.BI "(const struct inode *inode "  ","
+.BI "const struct fscrypt_str *iname "  ","
+.BI "struct fscrypt_str *oname "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the parent directory (for regular filenames)
+or of the symlink (for symlink targets)
+.IP "iname" 12
+the encrypted filename to decrypt
+.IP "oname" 12
+(output) the decrypted filename.  The caller must have allocated
+enough space for this, e.g. using \fBfscrypt_fname_alloc_buffer\fP.
+.SH "RETURN"
+0 on success, -errno on failure

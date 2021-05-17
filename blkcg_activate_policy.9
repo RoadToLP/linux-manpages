@@ -1,0 +1,23 @@
+.TH "blkcg_activate_policy" 9 "blkcg_activate_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_activate_policy \- activate a blkcg policy on a request_queue
+.SH SYNOPSIS
+.B "int" blkcg_activate_policy
+.BI "(struct request_queue *q "  ","
+.BI "const struct blkcg_policy *pol "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request_queue of interest
+.IP "pol" 12
+blkcg policy to activate
+.SH "DESCRIPTION"
+Activate \fIpol\fP on \fIq\fP.  Requires GFP_KERNEL context.  \fIq\fP goes through
+bypass mode to populate its blkgs with policy_data for \fIpol\fP.
+
+Activation happens with \fIq\fP bypassed, so nobody would be accessing blkgs
+from IO path.  Update of each blkg is protected by both queue and blkcg
+locks so that holding either lock and testing \fBblkcg_policy_enabled\fP is
+always enough for dereferencing policy data.
+
+The caller is responsible for synchronizing [de]activations and policy
+[un]registerations.  Returns 0 on success, -errno on failure.

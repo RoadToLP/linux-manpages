@@ -1,0 +1,25 @@
+.TH "rvt_qp_iter" 9 "rvt_qp_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_qp_iter \- iterate all QPs
+.SH SYNOPSIS
+.B "void" rvt_qp_iter
+.BI "(struct rvt_dev_info *rdi "  ","
+.BI "u64 v "  ","
+.BI "void (*cb)(struct rvt_qp *qp, u64 v) "  ");"
+.SH ARGUMENTS
+.IP "rdi" 12
+rvt devinfo
+.IP "v" 12
+a 64-bit value
+.IP "cb" 12
+a callback
+.SH "DESCRIPTION"
+This provides a way for iterating all QPs.
+
+The \fIcb\fP is a user-defined callback and \fIv\fP is a 64-bit
+value passed to and relevant for processing in the
+cb.  An example use case would be to alter QP processing
+based on criteria not part of the rvt_qp.
+
+The code has an internal iterator to simplify
+non seq_file use cases.

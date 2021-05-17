@@ -1,0 +1,23 @@
+.TH "drm_atomic_helper_fake_vblank" 9 "drm_atomic_helper_fake_vblank" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_fake_vblank \- fake VBLANK events if needed
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_fake_vblank
+.BI "(struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+This function walks all CRTCs and fakes VBLANK events on those with
+\fIdrm_crtc_state.no_vblank\fP set to true and \fIdrm_crtc_state.event\fP != NULL.
+The primary use of this function is writeback connectors working in oneshot
+mode and faking VBLANK events. In this case they only fake the VBLANK event
+when a job is queued, and any change to the pipeline that does not touch the
+connector is leading to timeouts when calling
+\fBdrm_atomic_helper_wait_for_vblanks\fP or
+\fBdrm_atomic_helper_wait_for_flip_done\fP. In addition to writeback
+connectors, this function can also fake VBLANK events for CRTCs without
+VBLANK interrupt.
+
+This is part of the atomic helper support for nonblocking commits, see
+\fBdrm_atomic_helper_setup_commit\fP for an overview.

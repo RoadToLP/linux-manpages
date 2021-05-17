@@ -1,0 +1,34 @@
+.TH "numa_emulation" 9 "numa_emulation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+numa_emulation \- Emulate NUMA nodes
+.SH SYNOPSIS
+.B "void" numa_emulation
+.BI "(struct numa_meminfo *numa_meminfo "  ","
+.BI "int numa_dist_cnt "  ");"
+.SH ARGUMENTS
+.IP "numa_meminfo" 12
+NUMA configuration to massage
+.IP "numa_dist_cnt" 12
+The size of the physical NUMA distance table
+.SH "DESCRIPTION"
+Emulate NUMA nodes according to the numa=fake kernel parameter.
+\fInuma_meminfo\fP contains the physical memory configuration and is modified
+to reflect the emulated configuration on success.  \fInuma_dist_cnt\fP is
+used to determine the size of the physical distance table.
+
+On success, the following modifications are made.
+
+- \fInuma_meminfo\fP is updated to reflect the emulated nodes.
+
+- __apicid_to_node[] is updated such that APIC IDs are mapped to the
+emulated nodes.
+
+- NUMA distance table is rebuilt to represent distances between emulated
+nodes.  The distances are determined considering how emulated nodes
+are mapped to physical nodes and match the actual distances.
+
+- emu_nid_to_phys[] reflects how emulated nodes are mapped to physical
+nodes.  This is used by \fBnuma_add_cpu\fP and \fBnuma_remove_cpu\fP.
+
+If emulation is not enabled or fails, emu_nid_to_phys[] is filled with
+identity mapping and no other modification is made.

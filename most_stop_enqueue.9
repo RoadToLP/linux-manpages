@@ -1,0 +1,17 @@
+.TH "most_stop_enqueue" 9 "most_stop_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+most_stop_enqueue \- prevents core from enqueueing MBOs
+.SH SYNOPSIS
+.B "void" most_stop_enqueue
+.BI "(struct most_interface *iface "  ","
+.BI "int id "  ");"
+.SH ARGUMENTS
+.IP "iface" 12
+pointer to interface
+.IP "id" 12
+channel id
+.SH "DESCRIPTION"
+This is called by an HDM that _cannot_ attend to its duties and
+is imminent to get run over by the core. The core is not going to
+enqueue any further packets unless the flagging HDM calls
+most_resume \fBenqueue\fP.

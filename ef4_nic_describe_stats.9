@@ -1,0 +1,22 @@
+.TH "ef4_nic_describe_stats" 9 "ef4_nic_describe_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ef4_nic_describe_stats \- Describe supported statistics for ethtool
+.SH SYNOPSIS
+.B "size_t" ef4_nic_describe_stats
+.BI "(const struct ef4_hw_stat_desc *desc "  ","
+.BI "size_t count "  ","
+.BI "const unsigned long *mask "  ","
+.BI "u8 *names "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+Array of \fIstruct ef4_hw_stat_desc\fP describing the statistics
+.IP "count" 12
+Length of the \fIdesc\fP array
+.IP "mask" 12
+Bitmask of which elements of \fIdesc\fP are enabled
+.IP "names" 12
+Buffer to copy names to, or NULL.  The names are copied
+starting at intervals of ETH_GSTRING_LEN bytes.
+.SH "DESCRIPTION"
+Returns the number of visible statistics, i.e. the number of set
+bits in the first \fIcount\fP bits of \fImask\fP for which a name is defined.

@@ -1,0 +1,18 @@
+.TH "ca8210_interrupt_handler" 9 "ca8210_interrupt_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ca8210_interrupt_handler \- Called when an irq is received from the ca8210
+.SH SYNOPSIS
+.B "irqreturn_t" ca8210_interrupt_handler
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Id of the irq being handled
+.IP "dev_id" 12
+Pointer passed by the system, pointing to the ca8210's private data
+.SH "DESCRIPTION"
+This function is called when the irq line from the ca8210 is asserted,
+signifying that the ca8210 has a message to send upstream to us. Starts the
+asynchronous spi read.
+.SH "RETURN"
+irq return code

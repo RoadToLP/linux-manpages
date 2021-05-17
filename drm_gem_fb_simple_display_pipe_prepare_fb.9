@@ -1,0 +1,21 @@
+.TH "drm_gem_fb_simple_display_pipe_prepare_fb" 9 "drm_gem_fb_simple_display_pipe_prepare_fb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fb_simple_display_pipe_prepare_fb \- prepare_fb helper for &drm_simple_display_pipe
+.SH SYNOPSIS
+.B "int" drm_gem_fb_simple_display_pipe_prepare_fb
+.BI "(struct drm_simple_display_pipe *pipe "  ","
+.BI "struct drm_plane_state *plane_state "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+Simple display pipe
+.IP "plane_state" 12
+Plane state
+.SH "DESCRIPTION"
+This function uses \fBdrm_gem_fb_prepare_fb\fP to extract the exclusive fence
+from \fIdrm_gem_object.resv\fP and attaches it to plane state for the atomic
+helper to wait on. This is necessary to correctly implement implicit
+synchronization for any buffers shared as a struct \fIdma_buf\fP. Drivers can use
+this as their \fIdrm_simple_display_pipe_funcs.prepare_fb\fP callback.
+
+See \fBdrm_atomic_set_fence_for_plane\fP for a discussion of implicit and
+explicit fencing in atomic modeset updates.

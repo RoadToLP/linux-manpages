@@ -1,0 +1,14 @@
+.TH "i40e_ptp_tx_hang" 9 "i40e_ptp_tx_hang" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_tx_hang \- Detect error case when Tx timestamp register is hung
+.SH SYNOPSIS
+.B "void" i40e_ptp_tx_hang
+.BI "(struct i40e_pf *pf "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+The PF private data structure
+.SH "DESCRIPTION"
+This watchdog task is run periodically to make sure that we clear the Tx
+timestamp logic if we don't obtain a timestamp in a reasonable amount of
+time. It is unexpected in the normal case but if it occurs it results in
+permanently preventing timestamps of future packets.

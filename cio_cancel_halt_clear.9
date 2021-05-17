@@ -1,0 +1,22 @@
+.TH "cio_cancel_halt_clear" 9 "cio_cancel_halt_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cio_cancel_halt_clear \- Cancel running I/O by performing cancel, halt and clear ordinally if subchannel is valid.
+.SH SYNOPSIS
+.B "int" cio_cancel_halt_clear
+.BI "(struct subchannel *sch "  ","
+.BI "int *iretry "  ");"
+.SH ARGUMENTS
+.IP "sch" 12
+subchannel on which to perform the cancel_halt_clear operation
+.IP "iretry" 12
+the number of the times remained to retry the next operation
+.SH "DESCRIPTION"
+This should be called repeatedly since halt/clear are asynchronous
+operations. We do one try with cio_cancel, three tries with cio_halt,
+255 tries with cio_clear. The caller should initialize \fIiretry\fP with
+the value 255 for its first call to this, and keep using the same
+\fIiretry\fP in the subsequent calls until it gets a non -EBUSY return.
+
+Returns 0 if device now idle, -ENODEV for device not operational,
+-EBUSY if an interrupt is expected (either from halt/clear or from a
+status pending), and -EIO if out of retries.

@@ -1,0 +1,15 @@
+.TH "spum_hash_type" 9 "spum_hash_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spum_hash_type \- Determine the type of hash operation.
+.SH SYNOPSIS
+.B "enum hash_type" spum_hash_type
+.BI "(u32 src_sent "  ");"
+.SH ARGUMENTS
+.IP "src_sent" 12
+The number of bytes in the current request that have already
+been sent to the SPU to be hashed.
+.SH "DESCRIPTION"
+We do not use HASH_TYPE_FULL for requests that fit in a single SPU message.
+Using FULL causes failures (such as when the string to be hashed is empty).
+For similar reasons, we never use HASH_TYPE_FIN. Instead, submit messages
+as INIT or UPDT and do the hash padding in sw.

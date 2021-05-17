@@ -1,0 +1,20 @@
+.TH "i40e_cleanup_headers" 9 "i40e_cleanup_headers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_cleanup_headers \- Correct empty headers
+.SH SYNOPSIS
+.B "bool" i40e_cleanup_headers
+.BI "(struct i40e_ring *rx_ring "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "union i40e_rx_desc *rx_desc "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring packet is being transacted on
+.IP "skb" 12
+pointer to current skb being fixed
+.IP "rx_desc" 12
+pointer to the EOP Rx descriptor
+.SH "DESCRIPTION"
+In addition if skb is not at least 60 bytes we need to pad it so that
+it is large enough to qualify as a valid Ethernet frame.
+
+Returns true if an error was encountered and skb was freed.

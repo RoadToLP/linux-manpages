@@ -1,0 +1,15 @@
+.TH "regulator_lock_dependent" 9 "regulator_lock_dependent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_lock_dependent \- lock regulator's suppliers and coupled regulators
+.SH SYNOPSIS
+.B "void" regulator_lock_dependent
+.BI "(struct regulator_dev *rdev "  ","
+.BI "struct ww_acquire_ctx *ww_ctx "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+regulator source
+.IP "ww_ctx" 12
+w/w mutex acquire context
+.SH "DESCRIPTION"
+This function as a wrapper on \fBregulator_lock_recursive\fP, which locks
+all regulators related with rdev by coupling or supplying.

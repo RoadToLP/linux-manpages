@@ -1,0 +1,29 @@
+.TH "befs_bt_read_node" 9 "befs_bt_read_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_bt_read_node \- read in btree node and convert to cpu byteorder
+.SH SYNOPSIS
+.B "int" befs_bt_read_node
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *ds "  ","
+.BI "struct befs_btree_node *node "  ","
+.BI "befs_off_t node_off "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "ds" 12
+Datastream to read from
+.IP "node" 12
+Buffer in which to place the btree node
+.IP "node_off" 12
+Starting offset (in bytes) of the node in \fIds\fP
+.SH "DESCRIPTION"
+Calls befs_read_datastream to read in the indicated btree node and
+makes sure its header fields are in cpu byteorder, byteswapping if
+necessary.
+On success, returns BEFS_OK and *\fInode\fP contains the btree node that
+starts at \fInode_off\fP, with the node->head fields in cpu byte order.
+
+On failure, BEFS_ERR is returned.
+.SH "NOTE"
+node->bh must be NULL when this function is called the first time.
+Don't forget brelse(node->bh) after last call.

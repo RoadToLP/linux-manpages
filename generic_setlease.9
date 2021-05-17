@@ -1,0 +1,22 @@
+.TH "generic_setlease" 9 "generic_setlease" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_setlease \- sets a lease on an open file
+.SH SYNOPSIS
+.B "int" generic_setlease
+.BI "(struct file *filp "  ","
+.BI "long arg "  ","
+.BI "struct file_lock **flp "  ","
+.BI "void **priv "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file pointer
+.IP "arg" 12
+type of lease to obtain
+.IP "flp" 12
+input - file_lock to use, output - file_lock inserted
+.IP "priv" 12
+private data for lm_setup (may be NULL if lm_setup
+doesn't require it)
+
+The (input) flp->fl_lmops->lm_break function is required
+by \fBbreak_lease\fP.

@@ -1,0 +1,24 @@
+.TH "pm_clk_op_lock" 9 "pm_clk_op_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_clk_op_lock \- ensure exclusive access for performing clock operations.
+.SH SYNOPSIS
+.B "int" pm_clk_op_lock
+.BI "(struct pm_subsys_data *psd "  ","
+.BI "unsigned long *flags "  ","
+.BI "const char *fn "  ");"
+.SH ARGUMENTS
+.IP "psd" 12
+pm_subsys_data instance corresponding to the PM clock entry list
+and clk_op_might_sleep count being used.
+.IP "flags" 12
+stored irq flags.
+.IP "fn" 12
+string for the caller function's name.
+.SH "DESCRIPTION"
+This is used by \fBpm_clk_suspend\fP and \fBpm_clk_resume\fP to guard
+against concurrent modifications to the clock entry list and the
+clock_op_might_sleep count. If clock_op_might_sleep is != 0 then
+only the mutex can be locked and those functions can only be used in
+non atomic context. If clock_op_might_sleep == 0 then these functions
+may be used in any context and only the spinlock can be locked.
+Returns -EINVAL if called in atomic context when clock ops might sleep.

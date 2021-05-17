@@ -1,0 +1,20 @@
+.TH "_drbd_set_state" 9 "_drbd_set_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_drbd_set_state \- Set a new DRBD state
+.SH SYNOPSIS
+.B "enum drbd_state_rv" _drbd_set_state
+.BI "(struct drbd_device *device "  ","
+.BI "union drbd_state ns "  ","
+.BI "enum chg_state_flags flags "  ","
+.BI "struct completion *done "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "ns" 12
+new state.
+.IP "flags" 12
+Flags
+.IP "done" 12
+Optional completion, that will get completed after the \fBafter_state_ch\fP finished
+.SH "DESCRIPTION"
+Caller needs to hold req_lock. Do not call directly.

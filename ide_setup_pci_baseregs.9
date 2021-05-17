@@ -1,0 +1,19 @@
+.TH "ide_setup_pci_baseregs" 9 "ide_setup_pci_baseregs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_setup_pci_baseregs \- place a PCI IDE controller native
+.SH SYNOPSIS
+.B "int" ide_setup_pci_baseregs
+.BI "(struct pci_dev *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device of interface to switch native
+.IP "name" 12
+Name of interface
+
+We attempt to place the PCI interface into PCI native mode. If
+we succeed the BARs are ok and the controller is in PCI mode.
+Returns 0 on success or an errno code.
+
+FIXME: if we program the interface and then fail to set the BARS
+we don't switch it back to legacy mode. Do we actually care ??

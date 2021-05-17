@@ -1,0 +1,31 @@
+.TH "kernfs_remove_self" 9 "kernfs_remove_self" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_remove_self \- remove a kernfs_node from its own method
+.SH SYNOPSIS
+.B "bool" kernfs_remove_self
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+the self kernfs_node to remove
+.SH "DESCRIPTION"
+The caller must be running off of a kernfs operation which is invoked
+with an active reference - e.g. one of kernfs_ops.  This can be used to
+implement a file operation which deletes itself.
+
+For example, the "delete" file for a sysfs device directory can be
+implemented by invoking \fBkernfs_remove_self\fP on the "delete" file
+itself.  This function breaks the circular dependency of trying to
+deactivate self while holding an active ref itself.  It isn't necessary
+to modify the usual removal path to use \fBkernfs_remove_self\fP.  The
+"delete" implementation can simply invoke \fBkernfs_remove_self\fP on self
+before proceeding with the usual removal path.  kernfs will ignore later
+\fBkernfs_remove\fP on self.
+
+\fBkernfs_remove_self\fP can be called multiple times concurrently on the
+same kernfs_node.  Only the first one actually performs removal and
+returns true.  All others will wait until the kernfs operation which
+won self-removal finishes and return false.  Note that the losers wait
+for the completion of not only the winning \fBkernfs_remove_self\fP but also
+the whole kernfs_ops which won the arbitration.  This can be used to
+guarantee, for example, all concurrent writes to a "delete" file to
+finish only after the whole operation is complete.

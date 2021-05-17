@@ -1,0 +1,23 @@
+.TH "acpi_dev_pm_attach" 9 "acpi_dev_pm_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_pm_attach \- Prepare device for ACPI power management.
+.SH SYNOPSIS
+.B "int" acpi_dev_pm_attach
+.BI "(struct device *dev "  ","
+.BI "bool power_on "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to prepare.
+.IP "power_on" 12
+Whether or not to power on the device.
+.SH "DESCRIPTION"
+If \fIdev\fP has a valid ACPI handle that has a valid struct acpi_device object
+attached to it, install a wakeup notification handler for the device and
+add it to the general ACPI PM domain.  If \fIpower_on\fP is set, the device will
+be put into the ACPI D0 state before the function returns.
+
+This assumes that the \fIdev\fP's bus type uses generic power management callbacks
+(or doesn't use any power management callbacks at all).
+
+Callers must ensure proper synchronization of this function with power
+management callbacks.

@@ -1,0 +1,27 @@
+.TH "intel_reserve_shared_dplls" 9 "intel_reserve_shared_dplls" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_reserve_shared_dplls \- reserve DPLLs for CRTC and encoder combination
+.SH SYNOPSIS
+.B "bool" intel_reserve_shared_dplls
+.BI "(struct intel_atomic_state *state "  ","
+.BI "struct intel_crtc *crtc "  ","
+.BI "struct intel_encoder *encoder "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.IP "crtc" 12
+CRTC to reserve DPLLs for
+.IP "encoder" 12
+encoder
+.SH "DESCRIPTION"
+This function reserves all required DPLLs for the given CRTC and encoder
+combination in the current atomic commit \fIstate\fP and the new \fIcrtc\fP atomic
+state.
+
+The new configuration in the atomic commit \fIstate\fP is made effective by
+calling \fBintel_shared_dpll_swap_state\fP.
+
+The reserved DPLLs should be released by calling
+\fBintel_release_shared_dplls\fP.
+.SH "RETURN"
+True if all required DPLLs were successfully reserved.

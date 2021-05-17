@@ -1,0 +1,23 @@
+.TH "pseudo_lock_region_init" 9 "pseudo_lock_region_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseudo_lock_region_init \- Initialize pseudo-lock region information
+.SH SYNOPSIS
+.B "int" pseudo_lock_region_init
+.BI "(struct pseudo_lock_region *plr "  ");"
+.SH ARGUMENTS
+.IP "plr" 12
+pseudo-lock region
+.SH "DESCRIPTION"
+Called after user provided a schemata to be pseudo-locked. From the
+schemata the \fIstruct pseudo_lock_region\fP is on entry already initialized
+with the resource, domain, and capacity bitmask. Here the information
+required for pseudo-locking is deduced from this data and \fIstruct
+pseudo_lock_region\fP initialized further. This information includes:
+- size in bytes of the region to be pseudo-locked
+- cache line size to know the stride with which data needs to be accessed
+to be pseudo-locked
+- a cpu associated with the cache instance on which the pseudo-locking
+flow can be executed
+.SH "RETURN"
+0 on success, <0 on failure. Descriptive error will be written
+to last_cmd_status buffer.

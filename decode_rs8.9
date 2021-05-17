@@ -1,0 +1,45 @@
+.TH "decode_rs8" 9 "decode_rs8" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+decode_rs8 \- Decode codeword (8bit data width)
+.SH SYNOPSIS
+.B "int" decode_rs8
+.BI "(struct rs_control *rsc "  ","
+.BI "uint8_t *data "  ","
+.BI "uint16_t *par "  ","
+.BI "int len "  ","
+.BI "uint16_t *s "  ","
+.BI "int no_eras "  ","
+.BI "int *eras_pos "  ","
+.BI "uint16_t invmsk "  ","
+.BI "uint16_t *corr "  ");"
+.SH ARGUMENTS
+.IP "rsc" 12
+the rs control structure
+.IP "data" 12
+data field of a given type
+.IP "par" 12
+received parity data field
+.IP "len" 12
+data length
+.IP "s" 12
+syndrome data field, must be in index form
+(if NULL, syndrome is calculated)
+.IP "no_eras" 12
+number of erasures
+.IP "eras_pos" 12
+position of erasures, can be NULL
+.IP "invmsk" 12
+invert data mask (will be xored on data, not on parity!)
+.IP "corr" 12
+buffer to store correction bitmask on eras_pos
+
+The syndrome and parity uses a uint16_t data type to enable
+symbol size > 8. The calling code must take care of decoding of the
+syndrome result and the received parity before calling this code.
+.SH "NOTE"
+The rs_control struct \fIrsc\fP contains buffers which are used for
+decoding, so the caller has to ensure that decoder invocations are
+serialized.
+
+Returns the number of corrected symbols or -EBADMSG for uncorrectable
+errors. The count includes errors in the parity.

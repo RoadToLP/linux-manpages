@@ -1,0 +1,39 @@
+.TH "handle_mailbox_cmd_from_user" 9 "handle_mailbox_cmd_from_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_mailbox_cmd_from_user \- Dispatch a mailbox command for userspace.
+.SH SYNOPSIS
+.B "int" handle_mailbox_cmd_from_user
+.BI "(struct cxl_mem *cxlm "  ","
+.BI "const struct cxl_mem_command *cmd "  ","
+.BI "u64 in_payload "  ","
+.BI "u64 out_payload "  ","
+.BI "s32 *size_out "  ","
+.BI "u32 *retval "  ");"
+.SH ARGUMENTS
+.IP "cxlm" 12
+The CXL memory device to communicate with.
+.IP "cmd" 12
+The validated command.
+.IP "in_payload" 12
+Pointer to userspace's input payload.
+.IP "out_payload" 12
+Pointer to userspace's output payload.
+.IP "size_out" 12
+(Input) Max payload size to copy out.
+(Output) Payload size hardware generated.
+.IP "retval" 12
+Hardware generated return code from the operation.
+.SH "RETURN"
+* 0        - Mailbox transaction succeeded. This implies the mailbox
+protocol completed successfully not that the operation itself
+was successful.
+* -ENOMEM  - Couldn't allocate a bounce buffer.
+* -EFAULT  - Something happened with copy_to/from_user.
+* -EINTR   - Mailbox acquisition interrupted.
+* -EXXX    - Transaction level failures.
+.SH "DESCRIPTION"
+Creates the appropriate mailbox command and dispatches it on behalf of a
+userspace request. The input and output payloads are copied between
+userspace.
+
+See \fBcxl_send_cmd\fP.

@@ -1,0 +1,16 @@
+.TH "timecounter_read_delta" 9 "timecounter_read_delta" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+timecounter_read_delta \- get nanoseconds since last call of this function
+.SH SYNOPSIS
+.B "u64" timecounter_read_delta
+.BI "(struct timecounter *tc "  ");"
+.SH ARGUMENTS
+.IP "tc" 12
+Pointer to time counter
+.SH "DESCRIPTION"
+When the underlying cycle counter runs over, this will be handled
+correctly as long as it does not run over more than once between
+calls.
+
+The first call to this function for a new time counter initializes
+the time tracking and returns an undefined result.

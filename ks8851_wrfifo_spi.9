@@ -1,0 +1,20 @@
+.TH "ks8851_wrfifo_spi" 9 "ks8851_wrfifo_spi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_wrfifo_spi \- write packet to TX FIFO via SPI
+.SH SYNOPSIS
+.B "void" ks8851_wrfifo_spi
+.BI "(struct ks8851_net *ks "  ","
+.BI "struct sk_buff *txp "  ","
+.BI "bool irq "  ");"
+.SH ARGUMENTS
+.IP "ks" 12
+The device state.
+.IP "txp" 12
+The sk_buff to transmit.
+.IP "irq" 12
+IRQ on completion of the packet.
+.SH "DESCRIPTION"
+Send the \fItxp\fP to the chip. This means creating the relevant packet header
+specifying the length of the packet and the other information the chip
+needs, such as IRQ on completion. Send the header and the packet data to
+the device.

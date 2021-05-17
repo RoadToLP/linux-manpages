@@ -1,0 +1,16 @@
+.TH "lpfc_sli_get_buffer_tag" 9 "lpfc_sli_get_buffer_tag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_get_buffer_tag \- allocates a tag for a CMD_QUE_XRI64_CX buffer
+.SH SYNOPSIS
+.B "uint32_t" lpfc_sli_get_buffer_tag
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+When HBQ is enabled, buffers are searched based on tags. This function
+allocates a tag for buffer posted using CMD_QUE_XRI64_CX iocb. The
+tag is bit wise or-ed with QUE_BUFTAG_BIT to make sure that the tag
+does not conflict with tags of buffer posted for unsolicited events.
+The function returns the allocated tag. The function is called with
+no locks held.

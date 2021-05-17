@@ -1,0 +1,15 @@
+.TH "zfcp_scsi_terminate_rport_io" 9 "zfcp_scsi_terminate_rport_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_scsi_terminate_rport_io \- Terminate all I/O on a rport
+.SH SYNOPSIS
+.B "void" zfcp_scsi_terminate_rport_io
+.BI "(struct fc_rport *rport "  ");"
+.SH ARGUMENTS
+.IP "rport" 12
+The FC rport where to teminate I/O
+.SH "DESCRIPTION"
+Abort all pending SCSI commands for a port by closing the
+port. Using a reopen avoids a conflict with a shutdown
+overwriting a reopen. The "forced" ensures that a disappeared port
+is not opened again as valid due to the cached plogi data in
+non-NPIV mode.

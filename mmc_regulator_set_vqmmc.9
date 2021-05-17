@@ -1,0 +1,26 @@
+.TH "mmc_regulator_set_vqmmc" 9 "mmc_regulator_set_vqmmc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmc_regulator_set_vqmmc \- Set VQMMC as per the ios
+.SH SYNOPSIS
+.B "int" mmc_regulator_set_vqmmc
+.BI "(struct mmc_host *mmc "  ","
+.BI "struct mmc_ios *ios "  ");"
+.SH ARGUMENTS
+.IP "mmc" 12
+the host to regulate
+.IP "ios" 12
+io bus settings
+.SH "DESCRIPTION"
+For 3.3V signaling, we try to match VQMMC to VMMC as closely as possible.
+That will match the behavior of old boards where VQMMC and VMMC were supplied
+by the same supply.  The Bus Operating conditions for 3.3V signaling in the
+SD card spec also define VQMMC in terms of VMMC.
+If this is not possible we'll try the full 2.7-3.6V of the spec.
+
+For 1.2V and 1.8V signaling we'll try to get as close as possible to the
+requested voltage.  This is definitely a good idea for UHS where there's a
+separate regulator on the card that's trying to make 1.8V and it's best if
+we match.
+
+This function is expected to be used by a controller's
+\fBstart_signal_voltage_switch\fP function.

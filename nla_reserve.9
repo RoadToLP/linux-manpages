@@ -1,0 +1,21 @@
+.TH "nla_reserve" 9 "nla_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nla_reserve \- reserve room for attribute on the skb
+.SH SYNOPSIS
+.B "struct nlattr *" nla_reserve
+.BI "(struct sk_buff *skb "  ","
+.BI "int attrtype "  ","
+.BI "int attrlen "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+socket buffer to reserve room on
+.IP "attrtype" 12
+attribute type
+.IP "attrlen" 12
+length of attribute payload
+.SH "DESCRIPTION"
+Adds a netlink attribute header to a socket buffer and reserves
+room for the payload but does not copy it.
+
+Returns NULL if the tailroom of the skb is insufficient to store
+the attribute header and payload.

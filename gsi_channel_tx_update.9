@@ -1,0 +1,31 @@
+.TH "gsi_channel_tx_update" 9 "gsi_channel_tx_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsi_channel_tx_update \- Report completed TX transfers
+.SH SYNOPSIS
+.B "void" gsi_channel_tx_update
+.BI "(struct gsi_channel *channel "  ","
+.BI "struct gsi_trans *trans "  ");"
+.SH ARGUMENTS
+.IP "channel" 12
+Channel that has completed transmitting packets
+.IP "trans" 12
+Last transation known to be complete
+.SH "DESCRIPTION"
+Compute the number of transactions and bytes that have been transferred
+over a TX channel since the given transaction was committed.  Report this
+information to the network stack.
+
+At the time a transaction is committed, we record its channel's
+committed transaction and byte counts *in the transaction*.
+Completions are signaled by the hardware with an interrupt, and
+we can determine the latest completed transaction at that time.
+
+The difference between the byte/transaction count recorded in
+the transaction and the count last time we recorded a completion
+tells us exactly how much data has been transferred between
+completions.
+
+Calling this each time we learn of a newly-completed transaction
+allows us to provide accurate information to the network stack
+about how much work has been completed by the hardware at a given
+point in time.

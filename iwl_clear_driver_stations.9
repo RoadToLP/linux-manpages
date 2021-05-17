@@ -1,0 +1,14 @@
+.TH "iwl_clear_driver_stations" 9 "iwl_clear_driver_stations" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iwl_clear_driver_stations \- clear knowledge of all stations from driver
+.SH SYNOPSIS
+.B "void" iwl_clear_driver_stations
+.BI "(struct iwl_priv *priv "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+iwl priv struct
+.SH "DESCRIPTION"
+This is called during \fBiwl_down\fP to make sure that in the case
+we're coming there from a hardware restart mac80211 will be
+able to reconfigure stations -- if we're getting there in the
+normal down flow then the stations will already be cleared.

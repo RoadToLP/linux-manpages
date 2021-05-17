@@ -1,0 +1,27 @@
+.TH "s5p_hash_final" 9 "s5p_hash_final" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_final \- close up hash and calculate digest
+.SH SYNOPSIS
+.B "int" s5p_hash_final
+.BI "(struct ahash_request *req "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+AHASH request
+.SH "NOTE"
+in final req->src do not have any data, and req->nbytes can be
+non-zero.
+.SH "DESCRIPTION"
+If there were no input data processed yet and the buffered hash data is
+less than BUFLEN (64) then calculate the final hash immediately by using
+SW algorithm fallback.
+
+Otherwise enqueues the current AHASH request with OP_FINAL operation op
+and finalize hash message in HW. Note that if digcnt!=0 then there were
+previous update op, so there are always some buffered bytes in ctx->buffer,
+which means that ctx->bufcnt!=0
+.SH "RETURN"
+0 if the request has been processed immediately,
+-EINPROGRESS if the operation has been queued for later execution or is set
+to processing by HW,
+-EBUSY if queue is full and request should be resubmitted later,
+other negative values denotes an error.

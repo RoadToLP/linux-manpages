@@ -1,0 +1,27 @@
+.TH "ubifs_recover_leb" 9 "ubifs_recover_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_recover_leb \- scan and recover a LEB.
+.SH SYNOPSIS
+.B "struct ubifs_scan_leb *" ubifs_recover_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "void *sbuf "  ","
+.BI "int jhead "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number
+.IP "offs" 12
+offset
+.IP "sbuf" 12
+LEB-sized buffer to use
+.IP "jhead" 12
+journal head number this LEB belongs to (-1 if the LEB does not
+belong to any journal head)
+.SH "DESCRIPTION"
+This function does a scan of a LEB, but caters for errors that might have
+been caused by the unclean unmount from which we are attempting to recover.
+Returns the scanned information on success and a negative error code on
+failure.

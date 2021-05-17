@@ -1,0 +1,25 @@
+.TH "blkg_rwstat_recursive_sum" 9 "blkg_rwstat_recursive_sum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkg_rwstat_recursive_sum \- collect hierarchical blkg_rwstat
+.SH SYNOPSIS
+.B "void" blkg_rwstat_recursive_sum
+.BI "(struct blkcg_gq *blkg "  ","
+.BI "struct blkcg_policy *pol "  ","
+.BI "int off "  ","
+.BI "struct blkg_rwstat_sample *sum "  ");"
+.SH ARGUMENTS
+.IP "blkg" 12
+blkg of interest
+.IP "pol" 12
+blkcg_policy which contains the blkg_rwstat
+.IP "off" 12
+offset to the blkg_rwstat in blkg_policy_data or \fIblkg\fP
+.IP "sum" 12
+blkg_rwstat_sample structure containing the results
+.SH "DESCRIPTION"
+Collect the blkg_rwstat specified by \fIblkg\fP, \fIpol\fP and \fIoff\fP and all its
+online descendants and their aux counts.  The caller must be holding the
+queue lock for online tests.
+
+If \fIpol\fP is NULL, blkg_rwstat is at \fIoff\fP bytes into \fIblkg\fP; otherwise, it
+is at \fIoff\fP bytes into \fIblkg\fP's blkg_policy_data of the policy.

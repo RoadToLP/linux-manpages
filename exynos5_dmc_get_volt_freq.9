@@ -1,0 +1,27 @@
+.TH "exynos5_dmc_get_volt_freq" 9 "exynos5_dmc_get_volt_freq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_dmc_get_volt_freq \- Gets the frequency and voltage from the OPP table.
+.SH SYNOPSIS
+.B "int" exynos5_dmc_get_volt_freq
+.BI "(struct exynos5_dmc *dmc "  ","
+.BI "unsigned long *freq "  ","
+.BI "unsigned long *target_rate "  ","
+.BI "unsigned long *target_volt "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "dmc" 12
+device for which the frequency is going to be changed
+.IP "freq" 12
+requested frequency in KHz
+.IP "target_rate" 12
+returned frequency which is the same or lower than
+requested
+.IP "target_volt" 12
+returned voltage which corresponds to the returned
+frequency
+.IP "flags" 12
+devfreq flags provided for this frequency change request
+.SH "DESCRIPTION"
+Function gets requested frequency and checks OPP framework for needed
+frequency and voltage. It populates the values 'target_rate' and
+'target_volt' or returns error value when OPP framework fails.

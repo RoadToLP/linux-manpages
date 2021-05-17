@@ -1,0 +1,16 @@
+.TH "ww_mutex_unlock" 9 "ww_mutex_unlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ww_mutex_unlock \- release the w/w mutex
+.SH SYNOPSIS
+.B "void" ww_mutex_unlock
+.BI "(struct ww_mutex *lock "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the mutex to be released
+.SH "DESCRIPTION"
+Unlock a mutex that has been locked by this task previously with any of the
+ww_mutex_lock* functions (with or without an acquire context). It is
+forbidden to release the locks after releasing the acquire context.
+
+This function must not be used in interrupt context. Unlocking
+of a unlocked mutex is not allowed.

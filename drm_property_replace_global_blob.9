@@ -1,0 +1,42 @@
+.TH "drm_property_replace_global_blob" 9 "drm_property_replace_global_blob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_property_replace_global_blob \- replace existing blob property
+.SH SYNOPSIS
+.B "int" drm_property_replace_global_blob
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_property_blob **replace "  ","
+.BI "size_t length "  ","
+.BI "const void *data "  ","
+.BI "struct drm_mode_object *obj_holds_id "  ","
+.BI "struct drm_property *prop_holds_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "replace" 12
+location of blob property pointer to be replaced
+.IP "length" 12
+length of data for new blob, or 0 for no data
+.IP "data" 12
+content for new blob, or NULL for no data
+.IP "obj_holds_id" 12
+optional object for property holding blob ID
+.IP "prop_holds_id" 12
+optional property holding blob ID
+\fIreturn\fP 0 on success or error on failure
+.SH "DESCRIPTION"
+This function will replace a global property in the blob list, optionally
+updating a property which holds the ID of that property.
+
+If length is 0 or data is NULL, no new blob will be created, and the holding
+property, if specified, will be set to 0.
+
+Access to the replace pointer is assumed to be protected by the caller, e.g.
+by holding the relevant modesetting object lock for its parent.
+
+For example, a drm_connector has a 'PATH' property, which contains the ID
+of a blob property with the value of the MST path information. Calling this
+function with replace pointing to the connector's path_blob_ptr, length and
+data set for the new path information, obj_holds_id set to the connector's
+base object, and prop_holds_id set to the path property name, will perform
+a completely atomic update. The access to path_blob_ptr is protected by the
+caller holding a lock on the connector.

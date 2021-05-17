@@ -1,0 +1,32 @@
+.TH "v4l2_phys_addr_validate" 9 "v4l2_phys_addr_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v4l2_phys_addr_validate \- validate a physical address from an EDID
+.SH SYNOPSIS
+.B "int" v4l2_phys_addr_validate
+.BI "(u16 phys_addr "  ","
+.BI "u16 *parent "  ","
+.BI "u16 *port "  ");"
+.SH ARGUMENTS
+.IP "phys_addr" 12
+the physical address to validate
+.IP "parent" 12
+if not NULL, then this is filled with the parents PA.
+.IP "port" 12
+if not NULL, then this is filled with the input port.
+.SH "DESCRIPTION"
+This validates a physical address as read from an EDID. If the
+PA is invalid (such as 1.0.1.0 since '0' is only allowed at the end),
+then it will return -EINVAL.
+
+The parent PA is passed into parent and the input port is passed into
+port. For example:
+
+PA = 0.0.0.0: has parent 0.0.0.0 and input port 0.
+
+PA = 1.0.0.0: has parent 0.0.0.0 and input port 1.
+
+PA = 3.2.0.0: has parent 3.0.0.0 and input port 2.
+
+PA = f.f.f.f: has parent f.f.f.f and input port 0.
+.SH "RETURN"
+0 if the PA is valid, -EINVAL if not.

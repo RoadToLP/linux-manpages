@@ -1,0 +1,19 @@
+.TH "dma_buf_export" 9 "dma_buf_export" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_buf_export \- Creates a new dma_buf, and associates an anon file with this buffer, so it can be exported. Also connect the allocator specific data and ops to the buffer. Additionally, provide a name string for exporter; useful in debugging.
+.SH SYNOPSIS
+.B "struct dma_buf *" dma_buf_export
+.BI "(const struct dma_buf_export_info *exp_info "  ");"
+.SH ARGUMENTS
+.IP "exp_info" 12
+[in]    holds all the export related information provided
+by the exporter. see \fIstruct dma_buf_export_info\fP
+for further details.
+.SH "DESCRIPTION"
+Returns, on success, a newly created struct dma_buf object, which wraps the
+supplied private data and operations for struct dma_buf_ops. On either
+missing ops, or error in allocating struct dma_buf, will return negative
+error.
+
+For most cases the easiest way to create \fIexp_info\fP is through the
+DEFINE_DMA_BUF_EXPORT_INFO macro.

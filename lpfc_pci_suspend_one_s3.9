@@ -1,0 +1,25 @@
+.TH "lpfc_pci_suspend_one_s3" 9 "lpfc_pci_suspend_one_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_pci_suspend_one_s3 \- PCI func to suspend SLI-3 device for power mgmnt
+.SH SYNOPSIS
+.B "int __maybe_unused" lpfc_pci_suspend_one_s3
+.BI "(struct device *dev_d "  ");"
+.SH ARGUMENTS
+.IP "dev_d" 12
+pointer to device
+.SH "DESCRIPTION"
+This routine is to be called from the kernel's PCI subsystem to support
+system Power Management (PM) to device with SLI-3 interface spec. When
+PM invokes this method, it quiesces the device by stopping the driver's
+worker thread for the device, turning off device's interrupt and DMA,
+and bring the device offline. Note that as the driver implements the
+minimum PM requirements to a power-aware driver's PM support for the
+suspend/resume -- all the possible PM messages (SUSPEND, HIBERNATE, FREEZE)
+to the \fBsuspend\fP method call will be treated as SUSPEND and the driver will
+fully reinitialize its device during \fBresume\fP method call, the driver will
+set device to PCI_D3hot state in PCI config space instead of setting it
+according to the \fImsg\fP provided by the PM.
+
+Return code
+0 - driver suspended the device
+Error otherwise

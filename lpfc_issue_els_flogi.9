@@ -1,0 +1,31 @@
+.TH "lpfc_issue_els_flogi" 9 "lpfc_issue_els_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_els_flogi \- Issue an flogi iocb command for a vport
+.SH SYNOPSIS
+.B "int" lpfc_issue_els_flogi
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "uint8_t retry "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "retry" 12
+number of retries to the command IOCB.
+.SH "DESCRIPTION"
+This routine issues a Fabric Login (FLOGI) Request ELS command
+for a \fIvport\fP. The initiator service parameters are put into the payload
+of the FLOGI Request IOCB and the top-level callback function pointer
+to \fBlpfc_cmpl_els_flogi\fP routine is put to the IOCB completion callback
+function field. The lpfc_issue_fabric_iocb routine is invoked to send
+out FLOGI ELS command with one outstanding fabric IOCB at a time.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the FLOGI ELS command.
+
+Return code
+0 - successfully issued flogi iocb for \fIvport\fP
+1 - failed to issue flogi iocb for \fIvport\fP

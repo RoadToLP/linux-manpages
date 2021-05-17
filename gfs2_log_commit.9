@@ -1,0 +1,21 @@
+.TH "gfs2_log_commit" 9 "gfs2_log_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_log_commit \- Commit a transaction to the log
+.SH SYNOPSIS
+.B "void" gfs2_log_commit
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct gfs2_trans *tr "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+the filesystem
+.IP "tr" 12
+the transaction
+.SH "DESCRIPTION"
+We wake up gfs2_logd if the number of pinned blocks exceed thresh1
+or the total number of used blocks (pinned blocks plus AIL blocks)
+is greater than thresh2.
+
+At mount time thresh1 is 2/5ths of journal size, thresh2 is 4/5ths of
+journal size.
+.SH "RETURN"
+errno

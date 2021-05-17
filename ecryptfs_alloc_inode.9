@@ -1,0 +1,17 @@
+.TH "ecryptfs_alloc_inode" 9 "ecryptfs_alloc_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_alloc_inode \- allocate an ecryptfs inode
+.SH SYNOPSIS
+.B "struct inode *" ecryptfs_alloc_inode
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Pointer to the ecryptfs super block
+.SH "DESCRIPTION"
+Called to bring an inode into existence.
+
+Only handle allocation, setting up structures should be done in
+ecryptfs_read_inode. This is because the kernel, between now and
+then, will 0 out the private data pointer.
+
+Returns a pointer to a newly allocated inode, NULL otherwise

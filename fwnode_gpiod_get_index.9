@@ -1,0 +1,33 @@
+.TH "fwnode_gpiod_get_index" 9 "fwnode_gpiod_get_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_gpiod_get_index \- obtain a GPIO from firmware node
+.SH SYNOPSIS
+.B "struct gpio_desc *" fwnode_gpiod_get_index
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "const char *con_id "  ","
+.BI "int index "  ","
+.BI "enum gpiod_flags flags "  ","
+.BI "const char *label "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+handle of the firmware node
+.IP "con_id" 12
+function within the GPIO consumer
+.IP "index" 12
+index of the GPIO to obtain for the consumer
+.IP "flags" 12
+GPIO initialization flags
+.IP "label" 12
+label to attach to the requested GPIO
+.SH "DESCRIPTION"
+This function can be used for drivers that get their configuration
+from opaque firmware.
+
+The function properly finds the corresponding GPIO using whatever is the
+underlying firmware interface and then makes sure that the GPIO
+descriptor is requested before it is returned to the caller.
+
+In case of error an \fBERR_PTR\fP is returned.
+.SH "RETURN"
+On successful request the GPIO pin is configured in accordance with
+provided \fIflags\fP.

@@ -1,0 +1,33 @@
+.TH "drm_plane_init" 9 "drm_plane_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_plane_init \- Initialize a legacy plane
+.SH SYNOPSIS
+.B "int" drm_plane_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_plane *plane "  ","
+.BI "uint32_t possible_crtcs "  ","
+.BI "const struct drm_plane_funcs *funcs "  ","
+.BI "const uint32_t *formats "  ","
+.BI "unsigned int format_count "  ","
+.BI "bool is_primary "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "plane" 12
+plane object to init
+.IP "possible_crtcs" 12
+bitmask of possible CRTCs
+.IP "funcs" 12
+callbacks for the new plane
+.IP "formats" 12
+array of supported formats (DRM_FORMAT\_\*)
+.IP "format_count" 12
+number of elements in \fIformats\fP
+.IP "is_primary" 12
+plane type (primary vs overlay)
+.SH "DESCRIPTION"
+Legacy API to initialize a DRM plane.
+
+New drivers should call \fBdrm_universal_plane_init\fP instead.
+.SH "RETURN"
+Zero on success, error code on failure.

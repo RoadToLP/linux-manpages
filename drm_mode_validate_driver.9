@@ -1,0 +1,18 @@
+.TH "drm_mode_validate_driver" 9 "drm_mode_validate_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_validate_driver \- make sure the mode is somewhat sane
+.SH SYNOPSIS
+.B "enum drm_mode_status" drm_mode_validate_driver
+.BI "(struct drm_device *dev "  ","
+.BI "const struct drm_display_mode *mode "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "mode" 12
+mode to check
+.SH "DESCRIPTION"
+First do basic validation on the mode, and then allow the driver
+to check for device/driver specific limitations via the optional
+\fIdrm_mode_config_helper_funcs.mode_valid\fP hook.
+.SH "RETURN"
+The mode status

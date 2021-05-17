@@ -1,0 +1,21 @@
+.TH "nft_pipapo_activate" 9 "nft_pipapo_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_activate \- Mark element reference as active given key, commit
+.SH SYNOPSIS
+.B "void" nft_pipapo_activate
+.BI "(const struct net *net "  ","
+.BI "const struct nft_set *set "  ","
+.BI "const struct nft_set_elem *elem "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace
+.IP "set" 12
+nftables API set representation
+.IP "elem" 12
+nftables API element representation containing key data
+.SH "DESCRIPTION"
+On insertion, elements are added to a copy of the matching data currently
+in use for lookups, and not directly inserted into current lookup data, so
+we'll take care of that by calling \fBpipapo_commit\fP here. Both
+\fBnft_pipapo_insert\fP and \fBnft_pipapo_activate\fP are called once for each
+element, hence we can't purpose either one as a real commit operation.

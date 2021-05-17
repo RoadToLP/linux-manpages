@@ -1,0 +1,56 @@
+.TH "binder_validate_fixup" 9 "binder_validate_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_validate_fixup \- validates pointer/fd fixups happen in order.
+.SH SYNOPSIS
+.B "bool" binder_validate_fixup
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_buffer *b "  ","
+.BI "binder_size_t objects_start_offset "  ","
+.BI "binder_size_t buffer_obj_offset "  ","
+.BI "binder_size_t fixup_offset "  ","
+.BI "binder_size_t last_obj_offset "  ","
+.BI "binder_size_t last_min_offset "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+binder_proc owning the buffer
+.IP "b" 12
+transaction buffer
+.IP "objects_start_offset" 12
+offset to start of objects buffer
+.IP "buffer_obj_offset" 12
+offset to binder_buffer_object in which to fix up
+.IP "fixup_offset" 12
+start offset in \fIbuffer\fP to fix up
+.IP "last_obj_offset" 12
+offset to last binder_buffer_object that we fixed
+.IP "last_min_offset" 12
+minimum fixup offset in object at \fIlast_obj_offset\fP
+.SH "RETURN"
+true if a fixup in buffer \fIbuffer\fP at offset \fIoffset\fP is
+allowed.
+.SH "DESCRIPTION"
+For safety reasons, we only allow fixups inside a buffer to happen
+at increasing offsets; additionally, we only allow fixup on the last
+buffer object that was verified, or one of its parents.
+
+Example of what is allowed:
+
+A
+B (parent = A, offset = 0)
+C (parent = A, offset = 16)
+D (parent = C, offset = 0)
+E (parent = A, offset = 32) // min_offset is 16 (C.parent_offset)
+
+Examples of what is not allowed:
+
+Decreasing offsets within the same parent:
+A
+C (parent = A, offset = 16)
+B (parent = A, offset = 0) // decreasing offset within A
+
+Referring to a parent that wasn't the last object or any of its parents:
+A
+B (parent = A, offset = 0)
+C (parent = A, offset = 0)
+C (parent = A, offset = 16)
+D (parent = B, offset = 0) // B is not A or any of A's parents

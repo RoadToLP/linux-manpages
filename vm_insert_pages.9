@@ -1,0 +1,26 @@
+.TH "vm_insert_pages" 9 "vm_insert_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_insert_pages \- insert multiple pages into user vma, batching the pmd lock.
+.SH SYNOPSIS
+.B "int" vm_insert_pages
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "struct page **pages "  ","
+.BI "unsigned long *num "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target start user address of these pages
+.IP "pages" 12
+source kernel pages
+.IP "num" 12
+in: number of pages to map. out: number of pages that were *not*
+mapped. (0 means all pages were successfully mapped).
+.SH "DESCRIPTION"
+Preferred over \fBvm_insert_page\fP when inserting multiple pages.
+
+In case of error, we may have mapped a subset of the provided
+pages. It is the caller's responsibility to account for this case.
+
+The same restrictions apply as in \fBvm_insert_page\fP.

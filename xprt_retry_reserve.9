@@ -1,0 +1,14 @@
+.TH "xprt_retry_reserve" 9 "xprt_retry_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_retry_reserve \- allocate an RPC request slot
+.SH SYNOPSIS
+.B "void" xprt_retry_reserve
+.BI "(struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+RPC task requesting a slot allocation
+.SH "DESCRIPTION"
+If no more slots are available, place the task on the transport's
+backlog queue.
+Note that the only difference with xprt_reserve is that we now
+ignore the value of the XPRT_CONGESTED flag.

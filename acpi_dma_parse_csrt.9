@@ -1,0 +1,20 @@
+.TH "acpi_dma_parse_csrt" 9 "acpi_dma_parse_csrt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dma_parse_csrt \- parse CSRT to exctract additional DMA resources
+.SH SYNOPSIS
+.B "void" acpi_dma_parse_csrt
+.BI "(struct acpi_device *adev "  ","
+.BI "struct acpi_dma *adma "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device to match with
+.IP "adma" 12
+struct acpi_dma of the given DMA controller
+.SH "DESCRIPTION"
+CSRT or Core System Resources Table is a proprietary ACPI table
+introduced by Microsoft. This table can contain devices that are not in
+the system DSDT table. In particular DMA controllers might be described
+here.
+
+We are using this table to get the request line range of the specific DMA
+controller to be used later.

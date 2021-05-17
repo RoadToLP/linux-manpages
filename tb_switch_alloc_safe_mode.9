@@ -1,0 +1,23 @@
+.TH "tb_switch_alloc_safe_mode" 9 "tb_switch_alloc_safe_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_switch_alloc_safe_mode \- allocate a switch that is in safe mode
+.SH SYNOPSIS
+.B "struct tb_switch *" tb_switch_alloc_safe_mode
+.BI "(struct tb *tb "  ","
+.BI "struct device *parent "  ","
+.BI "u64 route "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Pointer to the owning domain
+.IP "parent" 12
+Parent device for this switch
+.IP "route" 12
+Route string for this switch
+.SH "DESCRIPTION"
+This creates a switch in safe mode. This means the switch pretty much
+lacks all capabilities except DMA configuration port before it is
+flashed with a valid NVM firmware.
+
+The returned switch must be released by calling \fBtb_switch_put\fP.
+.SH "RETURN"
+Pointer to the allocated switch or \fBERR_PTR\fP in case of failure

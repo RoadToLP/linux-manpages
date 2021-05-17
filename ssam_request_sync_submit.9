@@ -1,0 +1,25 @@
+.TH "ssam_request_sync_submit" 9 "ssam_request_sync_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_sync_submit \- Submit a synchronous request.
+.SH SYNOPSIS
+.B "int" ssam_request_sync_submit
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "struct ssam_request_sync *rqst "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller with which to submit the request.
+.IP "rqst" 12
+The request to submit.
+.SH "DESCRIPTION"
+Submit a synchronous request. The request has to be initialized and
+properly set up, including response buffer (may be NULL if no response is
+expected) and command message data. This function does not wait for the
+request to be completed.
+
+If this function succeeds, \fBssam_request_sync_wait\fP must be used to ensure
+that the request has been completed before the response data can be
+accessed and/or the request can be freed. On failure, the request may
+immediately be freed.
+
+This function may only be used if the controller is active, i.e. has been
+initialized and not suspended.

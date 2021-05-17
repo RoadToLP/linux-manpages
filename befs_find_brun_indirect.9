@@ -1,0 +1,33 @@
+.TH "befs_find_brun_indirect" 9 "befs_find_brun_indirect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_find_brun_indirect \- find a block run in the datastream
+.SH SYNOPSIS
+.B "int" befs_find_brun_indirect
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *data "  ","
+.BI "befs_blocknr_t blockno "  ","
+.BI "befs_block_run *run "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the superblock
+.IP "data" 12
+the datastream
+.IP "blockno" 12
+the blocknumber to find
+.IP "run" 12
+The found run is passed back through this pointer
+.SH "DESCRIPTION"
+Finds the block run that starts at file block number blockno
+in the file represented by the datastream data, if that
+blockno is in the indirect region of the datastream.
+
+Return value is BEFS_OK if the blockrun is found, BEFS_ERR
+otherwise.
+
+Algorithm:
+For each block in the indirect run of the datastream, read
+it in and search through it for search_blk.
+
+XXX:
+Really should check to make sure blockno is inside indirect
+region.

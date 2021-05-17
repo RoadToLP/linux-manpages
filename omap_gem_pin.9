@@ -1,0 +1,21 @@
+.TH "omap_gem_pin" 9 "omap_gem_pin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_gem_pin \- Pin a GEM object in memory
+.SH SYNOPSIS
+.B "int" omap_gem_pin
+.BI "(struct drm_gem_object *obj "  ","
+.BI "dma_addr_t *dma_addr "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+the GEM object
+.IP "dma_addr" 12
+the DMA address
+.SH "DESCRIPTION"
+Pin the given GEM object in memory and fill the dma_addr pointer with the
+object's DMA address. If the buffer is not physically contiguous it will be
+remapped through the TILER to provide a contiguous view.
+
+Pins are reference-counted, calling this function multiple times is allowed
+as long the corresponding \fBomap_gem_unpin\fP calls are balanced.
+
+Return 0 on success or a negative error code otherwise.

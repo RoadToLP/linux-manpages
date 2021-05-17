@@ -1,0 +1,14 @@
+.TH "find_free_tcs" 9 "find_free_tcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_free_tcs \- Find free tcs in the given tcs_group; only for active.
+.SH SYNOPSIS
+.B "int" find_free_tcs
+.BI "(struct tcs_group *tcs "  ");"
+.SH ARGUMENTS
+.IP "tcs" 12
+A pointer to the active-only tcs_group (or the wake tcs_group if
+we borrowed it because there are zero active-only ones).
+.SH "DESCRIPTION"
+Must be called with the drv->lock held since that protects tcs_in_use.
+.SH "RETURN"
+The first tcs that's free.

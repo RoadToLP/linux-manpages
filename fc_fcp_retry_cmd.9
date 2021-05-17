@@ -1,0 +1,17 @@
+.TH "fc_fcp_retry_cmd" 9 "fc_fcp_retry_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_retry_cmd \- Retry a fcp_pkt
+.SH SYNOPSIS
+.B "void" fc_fcp_retry_cmd
+.BI "(struct fc_fcp_pkt *fsp "  ","
+.BI "int status_code "  ");"
+.SH ARGUMENTS
+.IP "fsp" 12
+The FCP packet to be retried
+.IP "status_code" 12
+The FCP status code to set
+.SH "DESCRIPTION"
+Sets the status code to be FC_ERROR and then calls
+\fBfc_fcp_complete_locked\fP which in turn calls \fBfc_io_compl\fP.
+\fBfc_io_compl\fP will notify the SCSI-ml that the I/O is done.
+The SCSI-ml will retry the command.

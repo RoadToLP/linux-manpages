@@ -1,0 +1,24 @@
+.TH "xbc_node_find_value" 9 "xbc_node_find_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xbc_node_find_value \- Find a value node which matches given key
+.SH SYNOPSIS
+.B "const char *" xbc_node_find_value
+.BI "(struct xbc_node *parent "  ","
+.BI "const char *key "  ","
+.BI "struct xbc_node **vnode "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+An XBC node.
+.IP "key" 12
+A key string.
+.IP "vnode" 12
+A container pointer of found XBC node.
+.SH "DESCRIPTION"
+Search a value node under \fIparent\fP whose (parent) key node matches \fIkey\fP,
+store it in *\fIvnode\fP, and returns the value string.
+The \fIkey\fP can contain several words jointed with '.'. If \fIparent\fP is NULL,
+this searches the node from whole tree. Return the value string if a
+matched key found, return NULL if no node is matched.
+Note that this returns 0-length string and stores NULL in *\fIvnode\fP if the
+key has no value. And also it will return the value of the first entry if
+the value is an array.

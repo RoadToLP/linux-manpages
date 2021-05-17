@@ -1,0 +1,19 @@
+.TH "skb_scrub_packet" 9 "skb_scrub_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_scrub_packet \- scrub an skb
+.SH SYNOPSIS
+.B "void" skb_scrub_packet
+.BI "(struct sk_buff *skb "  ","
+.BI "bool xnet "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to clean
+.IP "xnet" 12
+packet is crossing netns
+.SH "DESCRIPTION"
+skb_scrub_packet can be used after encapsulating or decapsulting a packet
+into/from a tunnel. Some information have to be cleared during these
+operations.
+skb_scrub_packet can also be used to clean a skb before injecting it in
+another namespace (\fIxnet\fP == true). We have to clear all information in the
+skb that could impact namespace isolation.

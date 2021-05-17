@@ -1,0 +1,44 @@
+.TH "ocs_aes_ccm_op" 9 "ocs_aes_ccm_op" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ocs_aes_ccm_op \- Perform CCM operation.
+.SH SYNOPSIS
+.B "int" ocs_aes_ccm_op
+.BI "(struct ocs_aes_dev *aes_dev "  ","
+.BI "enum ocs_cipher cipher "  ","
+.BI "enum ocs_instruction instruction "  ","
+.BI "dma_addr_t dst_dma_list "  ","
+.BI "dma_addr_t src_dma_list "  ","
+.BI "u32 src_size "  ","
+.BI "u8 *iv "  ","
+.BI "dma_addr_t adata_dma_list "  ","
+.BI "u32 adata_size "  ","
+.BI "u8 *in_tag "  ","
+.BI "u32 tag_size "  ");"
+.SH ARGUMENTS
+.IP "aes_dev" 12
+The OCS AES device to use.
+.IP "cipher" 12
+The Cipher to use (AES or SM4).
+.IP "instruction" 12
+The instruction to perform (encrypt or decrypt).
+.IP "dst_dma_list" 12
+The OCS DMA list mapping output memory.
+.IP "src_dma_list" 12
+The OCS DMA list mapping input payload data.
+.IP "src_size" 12
+The amount of data mapped by \fIsrc_dma_list\fP.
+.IP "iv" 12
+The input IV vector.
+.IP "adata_dma_list" 12
+The OCS DMA list mapping input A-data.
+.IP "adata_size" 12
+The amount of data mapped by \fIadata_dma_list\fP.
+.IP "in_tag" 12
+Input tag.
+.IP "tag_size" 12
+The size (in bytes) of \fIin_tag\fP.
+.SH "NOTE"
+for encrypt the tag is appended to the ciphertext (in the memory
+mapped by \fIdst_dma_list\fP).
+.SH "RETURN"
+0 on success, negative error code otherwise.

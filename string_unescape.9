@@ -1,0 +1,48 @@
+.TH "string_unescape" 9 "string_unescape" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+string_unescape \- unquote characters in the given string
+.SH SYNOPSIS
+.B "int" string_unescape
+.BI "(char *src "  ","
+.BI "char *dst "  ","
+.BI "size_t size "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+source buffer (escaped)
+.IP "dst" 12
+destination buffer (unescaped)
+.IP "size" 12
+size of the destination buffer (0 to unlimit)
+.IP "flags" 12
+combination of the flags.
+.SH "DESCRIPTION"
+The function unquotes characters in the given string.
+
+Because the size of the output will be the same as or less than the size of
+the input, the transformation may be performed in place.
+
+Caller must provide valid source and destination pointers. Be aware that
+destination buffer will always be NULL-terminated. Source string must be
+NULL-terminated as well.  The supported flags are::
+
+UNESCAPE_SPACE:
+'\f' - form feed
+'\n' - new line
+'\r' - carriage return
+'\t' - horizontal tab
+'\v' - vertical tab
+UNESCAPE_OCTAL:
+'\NNN' - byte with octal value NNN (1 to 3 digits)
+UNESCAPE_HEX:
+'\xHH' - byte with hexadecimal value HH (1 to 2 digits)
+UNESCAPE_SPECIAL:
+'\"' - double quote
+'\\' - backslash
+'\a' - alert (BEL)
+'\e' - escape
+UNESCAPE_ANY:
+all previous together
+.SH "RETURN"
+The amount of the characters processed to the destination buffer excluding
+trailing '\0' is returned.

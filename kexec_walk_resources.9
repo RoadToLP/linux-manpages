@@ -1,0 +1,16 @@
+.TH "kexec_walk_resources" 9 "kexec_walk_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kexec_walk_resources \- call func(data) on free memory regions
+.SH SYNOPSIS
+.B "int" kexec_walk_resources
+.BI "(struct kexec_buf *kbuf "  ","
+.BI "int (*func)(struct resource *, void *) "  ");"
+.SH ARGUMENTS
+.IP "kbuf" 12
+Context info for the search. Also passed to \fIfunc\fP.
+.IP "func" 12
+Function to call for each memory region.
+.SH "RETURN"
+The memory walk will stop when func returns a non-zero value
+and that value will be returned. If all free regions are visited without
+func returning non-zero, then zero will be returned.

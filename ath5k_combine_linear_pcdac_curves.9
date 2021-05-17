@@ -1,0 +1,26 @@
+.TH "ath5k_combine_linear_pcdac_curves" 9 "ath5k_combine_linear_pcdac_curves" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_combine_linear_pcdac_curves \- Combine available PCDAC Curves
+.SH SYNOPSIS
+.B "void" ath5k_combine_linear_pcdac_curves
+.BI "(struct ath5k_hw *ah "  ","
+.BI "s16* table_min "  ","
+.BI "s16 *table_max "  ","
+.BI "u8 pdcurves "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "table_min" 12
+Minimum power (x min)
+.IP "table_max" 12
+Maximum power (x max)
+.IP "pdcurves" 12
+Number of pd curves
+.SH "DESCRIPTION"
+Combine available XPD Curves and fill Linear Power to PCDAC table on RF5112
+RFX112 can have up to 2 curves (one for low txpower range and one for
+higher txpower range). We need to put them both on pcdac_out and place
+them in the correct location. In case we only have one curve available
+just fit it on pcdac_out (it's supposed to cover the entire range of
+available pwr levels since it's always the higher power curve). Extrapolate
+below and above final table if needed.

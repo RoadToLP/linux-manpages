@@ -1,0 +1,22 @@
+.TH "truncate_pagecache_range" 9 "truncate_pagecache_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+truncate_pagecache_range \- unmap and remove pagecache that is hole-punched
+.SH SYNOPSIS
+.B "void" truncate_pagecache_range
+.BI "(struct inode *inode "  ","
+.BI "loff_t lstart "  ","
+.BI "loff_t lend "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode
+.IP "lstart" 12
+offset of beginning of hole
+.IP "lend" 12
+offset of last byte of hole
+.SH "DESCRIPTION"
+This function should typically be called before the filesystem
+releases resources associated with the freed range (eg. deallocates
+blocks). This way, pagecache will always stay logically coherent
+with on-disk format, and the filesystem would not have to deal with
+situations such as writepage being called for a page that has already
+had its underlying blocks deallocated.

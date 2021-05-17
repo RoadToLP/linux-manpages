@@ -1,0 +1,17 @@
+.TH "cgroup_e_css_by_mask" 9 "cgroup_e_css_by_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_e_css_by_mask \- obtain a cgroup's effective css for the specified ss
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" cgroup_e_css_by_mask
+.BI "(struct cgroup *cgrp "  ","
+.BI "struct cgroup_subsys *ss "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+the cgroup of interest
+.IP "ss" 12
+the subsystem of interest (NULL returns \fIcgrp->self\fP)
+.SH "DESCRIPTION"
+Similar to \fBcgroup_css\fP but returns the effective css, which is defined
+as the matching css of the nearest ancestor including self which has \fIss\fP
+enabled.  If \fIss\fP is associated with the hierarchy \fIcgrp\fP is on, this
+function is guaranteed to return non-NULL css.

@@ -1,0 +1,16 @@
+.TH "ubifs_gc_should_commit" 9 "ubifs_gc_should_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_gc_should_commit \- determine if it is time for GC to run commit.
+.SH SYNOPSIS
+.B "int" ubifs_gc_should_commit
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function is called by garbage collection to determine if commit should
+be run. If commit state is \fICOMMIT_BACKGROUND\fP, which means that the journal
+is full enough to start commit, this function returns true. It is not
+absolutely necessary to commit yet, but it feels like this should be better
+then to keep doing GC. This function returns 1 if GC has to initiate commit
+and 0 if not.

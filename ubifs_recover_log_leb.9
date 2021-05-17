@@ -1,0 +1,24 @@
+.TH "ubifs_recover_log_leb" 9 "ubifs_recover_log_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_recover_log_leb \- scan and recover a log LEB.
+.SH SYNOPSIS
+.B "struct ubifs_scan_leb *" ubifs_recover_log_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "void *sbuf "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number
+.IP "offs" 12
+offset
+.IP "sbuf" 12
+LEB-sized buffer to use
+.SH "DESCRIPTION"
+This function does a scan of a LEB, but caters for errors that might have
+been caused by unclean reboots from which we are attempting to recover
+(assume that only the last log LEB can be corrupted by an unclean reboot).
+
+This function returns 0 on success and a negative error code on failure.

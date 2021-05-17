@@ -1,0 +1,28 @@
+.TH "usb_driver_set_configuration" 9 "usb_driver_set_configuration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_driver_set_configuration \- Provide a way for drivers to change device configurations
+.SH SYNOPSIS
+.B "int" usb_driver_set_configuration
+.BI "(struct usb_device *udev "  ","
+.BI "int config "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+the device whose configuration is being updated
+.IP "config" 12
+the configuration being chosen.
+.SH "CONTEXT"
+In process context, must be able to sleep
+.SH "DESCRIPTION"
+Device interface drivers are not allowed to change device configurations.
+This is because changing configurations will destroy the interface the
+driver is bound to and create new ones; it would be like a floppy-disk
+driver telling the computer to replace the floppy-disk drive with a
+tape drive!
+
+Still, in certain specialized circumstances the need may arise.  This
+routine gets around the normal restrictions by using a work thread to
+submit the change-config request.
+.SH "RETURN"
+0 if the request was successfully queued, error code otherwise.
+The caller has no way to know whether the queued request will eventually
+succeed.

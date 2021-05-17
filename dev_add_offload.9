@@ -1,0 +1,17 @@
+.TH "dev_add_offload" 9 "dev_add_offload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_add_offload \- register offload handlers
+.SH SYNOPSIS
+.B "void" dev_add_offload
+.BI "(struct packet_offload *po "  ");"
+.SH ARGUMENTS
+.IP "po" 12
+protocol offload declaration
+
+Add protocol offload handlers to the networking stack. The passed
+\fIproto_offload\fP is linked into kernel lists and may not be freed until
+it has been removed from the kernel lists.
+
+This call does not sleep therefore it can not
+guarantee all CPU's that are in middle of receiving packets
+will see the new offload handlers (until the next received packet).

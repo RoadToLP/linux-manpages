@@ -1,0 +1,16 @@
+.TH "of_phy_get" 9 "of_phy_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_phy_get \- lookup and obtain a reference to a phy using a device_node.
+.SH SYNOPSIS
+.B "struct phy *" of_phy_get
+.BI "(struct device_node *np "  ","
+.BI "const char *con_id "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device_node for which to get the phy
+.IP "con_id" 12
+name of the phy from device's point of view
+.SH "DESCRIPTION"
+Returns the phy driver, after getting a refcount to it; or
+-ENODEV if there is no such phy. The caller is responsible for
+calling \fBphy_put\fP to release that count.

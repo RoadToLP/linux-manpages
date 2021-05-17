@@ -1,0 +1,32 @@
+.TH "__generic_block_fiemap" 9 "__generic_block_fiemap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__generic_block_fiemap \- FIEMAP for block based inodes (no locking)
+.SH SYNOPSIS
+.B "int" __generic_block_fiemap
+.BI "(struct inode *inode "  ","
+.BI "struct fiemap_extent_info *fieinfo "  ","
+.BI "loff_t start "  ","
+.BI "loff_t len "  ","
+.BI "get_block_t *get_block "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to map
+.IP "fieinfo" 12
+the fiemap info struct that will be passed back to userspace
+.IP "start" 12
+where to start mapping in the inode
+.IP "len" 12
+how much space to map
+.IP "get_block" 12
+the fs's get_block function
+.SH "DESCRIPTION"
+This does FIEMAP for block based inodes.  Basically it will just loop
+through get_block until we hit the number of extents we want to map, or we
+go past the end of the file and hit a hole.
+
+If it is possible to have data blocks beyond a hole past \fIinode->i_size\fP, then
+please do not use this function, it will stop at the first unmapped block
+beyond i_size.
+
+If you use this function directly, you need to do your own locking. Use
+generic_block_fiemap if you want the locking done for you.

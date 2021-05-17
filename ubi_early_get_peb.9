@@ -1,0 +1,21 @@
+.TH "ubi_early_get_peb" 9 "ubi_early_get_peb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_early_get_peb \- get a free physical eraseblock.
+.SH SYNOPSIS
+.B "struct ubi_ainf_peb *" ubi_early_get_peb
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+attaching information
+.SH "DESCRIPTION"
+This function returns a free physical eraseblock. It is supposed to be
+called on the UBI initialization stages when the wear-leveling sub-system is
+not initialized yet. This function picks a physical eraseblocks from one of
+the lists, writes the EC header if it is needed, and removes it from the
+list.
+
+This function returns a pointer to the "aeb" of the found free PEB in case
+of success and an error code in case of failure.

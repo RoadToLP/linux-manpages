@@ -1,0 +1,29 @@
+.TH "of_mm_gpiochip_add_data" 9 "of_mm_gpiochip_add_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_mm_gpiochip_add_data \- Add memory mapped GPIO chip (bank)
+.SH SYNOPSIS
+.B "int" of_mm_gpiochip_add_data
+.BI "(struct device_node *np "  ","
+.BI "struct of_mm_gpio_chip *mm_gc "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node of the GPIO chip
+.IP "mm_gc" 12
+pointer to the of_mm_gpio_chip allocated structure
+.IP "data" 12
+driver data to store in the struct gpio_chip
+.SH "DESCRIPTION"
+To use this function you should allocate and fill mm_gc with:
+
+1) In the gpio_chip structure:
+- all the callbacks
+- of_gpio_n_cells
+- of_xlate callback (optional)
+
+3) In the of_mm_gpio_chip structure:
+- save_regs callback (optional)
+
+If succeeded, this function will map bank's memory and will
+do all necessary work for you. Then you'll able to use .regs
+to manage GPIOs from the callbacks.

@@ -1,0 +1,24 @@
+.TH "firmware_map_add_entry" 9 "firmware_map_add_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_map_add_entry \- Does the real work to add a firmware memmap entry.
+.SH SYNOPSIS
+.B "int" firmware_map_add_entry
+.BI "(u64 start "  ","
+.BI "u64 end "  ","
+.BI "const char *type "  ","
+.BI "struct firmware_map_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+Start of the memory range.
+.IP "end" 12
+End of the memory range (exclusive).
+.IP "type" 12
+Type of the memory range.
+.IP "entry" 12
+Pre-allocated (either \fBkmalloc\fP or bootmem allocator), uninitialised
+entry.
+.SH "DESCRIPTION"
+Common implementation of \fBfirmware_map_add\fP and \fBfirmware_map_add_early\fP
+which expects a pre-allocated struct firmware_map_entry.
+.SH "RETURN"
+0 always

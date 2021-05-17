@@ -1,0 +1,19 @@
+.TH "snd_hdac_i915_set_bclk" 9 "snd_hdac_i915_set_bclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_i915_set_bclk \- Reprogram BCLK for HSW/BDW
+.SH SYNOPSIS
+.B "void" snd_hdac_i915_set_bclk
+.BI "(struct hdac_bus *bus "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+HDA core bus
+.SH "DESCRIPTION"
+Intel HSW/BDW display HDA controller is in GPU. Both its power and link BCLK
+depends on GPU. Two Extended Mode registers EM4 (M value) and EM5 (N Value)
+are used to convert CDClk (Core Display Clock) to 24MHz BCLK:
+BCLK = CDCLK * M / N
+The values will be lost when the display power well is disabled and need to
+be restored to avoid abnormal playback speed.
+
+Call this function at initializing and changing power well, as well as
+at ELD notifier for the hotplug.

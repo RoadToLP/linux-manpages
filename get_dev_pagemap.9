@@ -1,0 +1,15 @@
+.TH "get_dev_pagemap" 9 "get_dev_pagemap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_dev_pagemap \- take a new live reference on the dev_pagemap for @pfn
+.SH SYNOPSIS
+.B "struct dev_pagemap *" get_dev_pagemap
+.BI "(unsigned long pfn "  ","
+.BI "struct dev_pagemap *pgmap "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+page frame number to lookup page_map
+.IP "pgmap" 12
+optional known pgmap that already has a reference
+.SH "DESCRIPTION"
+If \fIpgmap\fP is non-NULL and covers \fIpfn\fP it will be returned as-is.  If \fIpgmap\fP
+is non-NULL but does not cover \fIpfn\fP the reference to it will be released.

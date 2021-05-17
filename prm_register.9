@@ -1,0 +1,16 @@
+.TH "prm_register" 9 "prm_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prm_register \- register per-SoC low-level data with the PRM
+.SH SYNOPSIS
+.B "int" prm_register
+.BI "(struct prm_ll_data *pld "  ");"
+.SH ARGUMENTS
+.IP "pld" 12
+low-level per-SoC OMAP PRM data & function pointers to register
+.SH "DESCRIPTION"
+Register per-SoC low-level OMAP PRM data and function pointers with
+the OMAP PRM common interface.  The caller must keep the data
+pointed to by \fIpld\fP valid until it calls \fBprm_unregister\fP and
+it returns successfully.  Returns 0 upon success, -EINVAL if \fIpld\fP
+is NULL, or -EEXIST if \fBprm_register\fP has already been called
+without an intervening \fBprm_unregister\fP.

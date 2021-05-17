@@ -1,0 +1,17 @@
+.TH "tick_nohz_update_jiffies" 9 "tick_nohz_update_jiffies" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tick_nohz_update_jiffies \- update jiffies when idle was interrupted
+.SH SYNOPSIS
+.B "void" tick_nohz_update_jiffies
+.BI "(ktime_t now "  ");"
+.SH ARGUMENTS
+.IP "now" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Called from interrupt entry when the CPU was idle
+
+In case the sched_tick was stopped on this CPU, we have to check if jiffies
+must be updated. Otherwise an interrupt handler could use a stale jiffy
+value. We do this unconditionally on any CPU, as we don't know whether the
+CPU, which has the update task assigned is in a long sleep.

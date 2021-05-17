@@ -1,0 +1,19 @@
+.TH "psb_intel_init_bios" 9 "psb_intel_init_bios" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+psb_intel_init_bios \- initialize VBIOS settings & find VBT
+.SH SYNOPSIS
+.B "int" psb_intel_init_bios
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Loads the Video BIOS and checks that the VBT exists.  Sets scratch registers
+to appropriate values.
+
+VBT existence is a sanity check that is relied on by other i830_bios.c code.
+Note that it would be better to use a BIOS call to get the VBT, as BIOSes may
+feed an updated VBT back through that, compared to what we'll fetch using
+this method of groping around in the BIOS data.
+
+Returns 0 on success, nonzero on failure.

@@ -1,0 +1,18 @@
+.TH "drm_gem_dmabuf_vmap" 9 "drm_gem_dmabuf_vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_dmabuf_vmap \- dma_buf vmap implementation for GEM
+.SH SYNOPSIS
+.B "int" drm_gem_dmabuf_vmap
+.BI "(struct dma_buf *dma_buf "  ","
+.BI "struct dma_buf_map *map "  ");"
+.SH ARGUMENTS
+.IP "dma_buf" 12
+buffer to be mapped
+.IP "map" 12
+the virtual address of the buffer
+.SH "DESCRIPTION"
+Sets up a kernel virtual mapping. This can be used as the \fIdma_buf_ops.vmap\fP
+callback. Calls into \fIdrm_gem_object_funcs.vmap\fP for device specific handling.
+The kernel virtual address is returned in map.
+
+Returns 0 on success or a negative errno code otherwise.

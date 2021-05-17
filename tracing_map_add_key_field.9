@@ -1,0 +1,25 @@
+.TH "tracing_map_add_key_field" 9 "tracing_map_add_key_field" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_add_key_field \- Add a field describing a tracing_map key
+.SH SYNOPSIS
+.B "int" tracing_map_add_key_field
+.BI "(struct tracing_map *map "  ","
+.BI "unsigned int offset "  ","
+.BI "tracing_map_cmp_fn_t cmp_fn "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The tracing_map
+.IP "offset" 12
+The offset within the key
+.IP "cmp_fn" 12
+The comparison function that will be used to sort on the key
+.SH "DESCRIPTION"
+Let the map know there is a key and that if it's used as a sort key
+to use cmp_fn.
+
+A key can be a subset of a compound key; for that purpose, the
+offset param is used to describe where within the compound key
+the key referenced by this key field resides.
+.SH "RETURN"
+The index identifying the field in the map and associated
+tracing_map_elts, or -EINVAL on error.

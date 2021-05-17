@@ -1,0 +1,27 @@
+.TH "sparse_add_section" 9 "sparse_add_section" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sparse_add_section \- add a memory section, or populate an existing one
+.SH SYNOPSIS
+.B "int" sparse_add_section
+.BI "(int nid "  ","
+.BI "unsigned long start_pfn "  ","
+.BI "unsigned long nr_pages "  ","
+.BI "struct vmem_altmap *altmap "  ");"
+.SH ARGUMENTS
+.IP "nid" 12
+The node to add section on
+.IP "start_pfn" 12
+start pfn of the memory range
+.IP "nr_pages" 12
+number of pfns to add in the section
+.IP "altmap" 12
+device page map
+.SH "DESCRIPTION"
+This is only intended for hotplug.
+
+Note that only VMEMMAP supports sub-section aligned hotplug,
+the proper alignment and size are gated by \fBcheck_pfn_span\fP.
+.SH "RETURN"
+* 0          - On success.
+* -EEXIST    - Section has been present.
+* -ENOMEM    - Out of memory.

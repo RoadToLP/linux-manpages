@@ -1,0 +1,20 @@
+.TH "lpfc_sli4_port_sta_fn_reset" 9 "lpfc_sli4_port_sta_fn_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_port_sta_fn_reset \- The SLI4 function reset due to port status reg
+.SH SYNOPSIS
+.B "int" lpfc_sli4_port_sta_fn_reset
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int mbx_action "  ","
+.BI "bool en_rn_msg "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "mbx_action" 12
+flag for mailbox shutdown action.
+.IP "en_rn_msg" 12
+send reset/port recovery message.
+This routine is invoked to perform an SLI4 port PCI function reset in
+response to port status register polling attention. It waits for port
+status register (ERR, RDY, RN) bits before proceeding with function reset.
+During this process, interrupt vectors are freed and later requested
+for handling possible port resource change.

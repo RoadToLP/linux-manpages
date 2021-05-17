@@ -1,0 +1,24 @@
+.TH "sci_controller_set_interrupt_coalescence" 9 "sci_controller_set_interrupt_coalescence" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sci_controller_set_interrupt_coalescence \- This method allows the user to configure the interrupt coalescence.
+.SH SYNOPSIS
+.B "enum sci_status" sci_controller_set_interrupt_coalescence
+.BI "(struct isci_host *ihost "  ","
+.BI "u32 coalesce_number "  ","
+.BI "u32 coalesce_timeout "  ");"
+.SH ARGUMENTS
+.IP "ihost" 12
+-- undescribed --
+.IP "coalesce_number" 12
+Used to control the number of entries in the Completion
+Queue before an interrupt is generated. If the number of entries exceed
+this number, an interrupt will be generated. The valid range of the input
+is [0, 256]. A setting of 0 results in coalescing being disabled.
+.IP "coalesce_timeout" 12
+Timeout value in microseconds. The valid range of the
+input is [0, 2700000] . A setting of 0 is allowed and results in no
+interrupt coalescing timeout.
+.SH "DESCRIPTION"
+Indicate if the user successfully set the interrupt coalesce parameters.
+SCI_SUCCESS The user successfully updated the interrutp coalescence.
+SCI_FAILURE_INVALID_PARAMETER_VALUE The user input value is out of range.

@@ -1,0 +1,26 @@
+.TH "qrtr_tx_wait" 9 "qrtr_tx_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qrtr_tx_wait \- flow control for outgoing packets
+.SH SYNOPSIS
+.B "int" qrtr_tx_wait
+.BI "(struct qrtr_node *node "  ","
+.BI "int dest_node "  ","
+.BI "int dest_port "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+qrtr_node that the packet is to be send to
+.IP "dest_node" 12
+node id of the destination
+.IP "dest_port" 12
+port number of the destination
+.IP "type" 12
+type of message
+.SH "DESCRIPTION"
+The flow control scheme is based around the low and high "watermarks". When
+the low watermark is passed the confirm_rx flag is set on the outgoing
+message, which will trigger the remote to send a control message of the type
+QRTR_TYPE_RESUME_TX to reset the counter. If the high watermark is hit
+further transmision should be paused.
+.SH "RETURN"
+1 if confirm_rx should be set, 0 otherwise or errno failure

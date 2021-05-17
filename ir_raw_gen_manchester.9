@@ -1,0 +1,31 @@
+.TH "ir_raw_gen_manchester" 9 "ir_raw_gen_manchester" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_raw_gen_manchester \- Encode data with Manchester (bi-phase) modulation.
+.SH SYNOPSIS
+.B "int" ir_raw_gen_manchester
+.BI "(struct ir_raw_event **ev "  ","
+.BI "unsigned int max "  ","
+.BI "const struct ir_raw_timings_manchester *timings "  ","
+.BI "unsigned int n "  ","
+.BI "u64 data "  ");"
+.SH ARGUMENTS
+.IP "ev" 12
+Pointer to pointer to next free event. *\fIev\fP is incremented for
+each raw event filled.
+.IP "max" 12
+Maximum number of raw events to fill.
+.IP "timings" 12
+Manchester modulation timings.
+.IP "n" 12
+Number of bits of data.
+.IP "data" 12
+Data bits to encode.
+.SH "DESCRIPTION"
+Encodes the \fIn\fP least significant bits of \fIdata\fP using Manchester (bi-phase)
+modulation with the timing characteristics described by \fItimings\fP, writing up
+to \fImax\fP raw IR events using the *\fIev\fP pointer.
+.SH "RETURN"
+0 on success.
+-ENOBUFS if there isn't enough space in the array to fit the
+full encoded data. In this case all \fImax\fP events will have been
+written.

@@ -1,0 +1,24 @@
+.TH "scmi_sensor_reading_get" 9 "scmi_sensor_reading_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_sensor_reading_get \- Read scalar sensor value
+.SH SYNOPSIS
+.B "int" scmi_sensor_reading_get
+.BI "(const struct scmi_handle *handle "  ","
+.BI "u32 sensor_id "  ","
+.BI "u64 *value "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Platform handle
+.IP "sensor_id" 12
+Sensor ID
+.IP "value" 12
+The 64bit value sensor reading
+.SH "DESCRIPTION"
+This function returns a single 64 bit reading value representing the sensor
+value; if the platform SCMI Protocol implementation and the sensor support
+multiple axis and timestamped-reads, this just returns the first axis while
+dropping the timestamp value.
+Use instead the \fIscmi_sensor_reading_get_timestamped\fP to retrieve the array of
+timestamped multi-axis values.
+.SH "RETURN"
+0 on Success

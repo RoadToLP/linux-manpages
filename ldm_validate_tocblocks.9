@@ -1,0 +1,23 @@
+.TH "ldm_validate_tocblocks" 9 "ldm_validate_tocblocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_validate_tocblocks \- Validate the table of contents and its backups
+.SH SYNOPSIS
+.B "bool" ldm_validate_tocblocks
+.BI "(struct parsed_partitions *state "  ","
+.BI "unsigned long base "  ","
+.BI "struct ldmdb *ldb "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Partition check state including device holding the LDM Database
+.IP "base" 12
+Offset, into \fIstate->bdev\fP, of the database
+.IP "ldb" 12
+Cache of the database structures
+.SH "DESCRIPTION"
+Find and compare the four tables of contents of the LDM Database stored on
+\fIstate->bdev\fP and return the parsed information into \fItoc1\fP.
+
+The offsets and sizes of the configs are range-checked against a privhead.
+.SH "RETURN"
+'true'   \fItoc1\fP contains validated TOCBLOCK info
+'false'  \fItoc1\fP contents are undefined

@@ -1,0 +1,20 @@
+.TH "lpfc_fc_frame_add" 9 "lpfc_fc_frame_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_fc_frame_add \- Adds a frame to the vport's list of received sequences
+.SH SYNOPSIS
+.B "struct hbq_dmabuf *" lpfc_fc_frame_add
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct hbq_dmabuf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a vitural port
+.IP "dmabuf" 12
+pointer to a dmabuf that describes the hdr and data of the FC frame
+.SH "DESCRIPTION"
+This function searches through the existing incomplete sequences that have
+been sent to this \fIvport\fP. If the frame matches one of the incomplete
+sequences then the dbuf in the \fIdmabuf\fP is added to the list of frames that
+make up that sequence. If no sequence is found that matches this frame then
+the function will add the hbuf in the \fIdmabuf\fP to the \fIvport\fP's rcv_buffer_list
+This function returns a pointer to the first dmabuf in the sequence list that
+the frame was linked to.

@@ -1,0 +1,21 @@
+.TH "sgl_free_n_order" 9 "sgl_free_n_order" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sgl_free_n_order \- free a scatterlist and its pages
+.SH SYNOPSIS
+.B "void" sgl_free_n_order
+.BI "(struct scatterlist *sgl "  ","
+.BI "int nents "  ","
+.BI "int order "  ");"
+.SH ARGUMENTS
+.IP "sgl" 12
+Scatterlist with one or more elements
+.IP "nents" 12
+Maximum number of elements to free
+.IP "order" 12
+Second argument for \fB__free_pages\fP
+.SH "NOTES"
+- If several scatterlists have been chained and each chain element is
+freed separately then it's essential to set nents correctly to avoid that a
+page would get freed twice.
+- All pages in a chained scatterlist can be freed at once by setting \fInents\fP
+to a high number.

@@ -1,0 +1,20 @@
+.TH "velocity_rx_copy" 9 "velocity_rx_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+velocity_rx_copy \- in place Rx copy for small packets
+.SH SYNOPSIS
+.B "int" velocity_rx_copy
+.BI "(struct sk_buff **rx_skb "  ","
+.BI "int pkt_size "  ","
+.BI "struct velocity_info *vptr "  ");"
+.SH ARGUMENTS
+.IP "rx_skb" 12
+network layer packet buffer candidate
+.IP "pkt_size" 12
+received data size
+.IP "vptr" 12
+velocity adapter
+
+Replace the current skb that is scheduled for Rx processing by a
+shorter, immediately allocated skb, if the received packet is small
+enough. This function returns a negative value if the received
+packet is too big or if memory is exhausted.

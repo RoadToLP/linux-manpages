@@ -1,0 +1,21 @@
+.TH "fwserial_update" 9 "fwserial_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwserial_update \- bus update function for 'firewire' serial unit devices
+.SH SYNOPSIS
+.B "void" fwserial_update
+.BI "(struct fw_unit *unit "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Updates the new node_id and bus generation for this peer. Note that locking
+is unnecessary; but careful memory barrier usage is important to enforce the
+load and store order of generation & node_id.
+
+The fw-core orders the write of node_id before generation in the parent
+fw_device to ensure that a stale node_id cannot be used with a current
+bus generation. So the generation value must be read before the node_id.
+
+In turn, this orders the write of node_id before generation in the peer to
+also ensure a stale node_id cannot be used with a current bus generation.

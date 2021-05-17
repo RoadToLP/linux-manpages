@@ -1,0 +1,27 @@
+.TH "inv_icm42600_buffer_update_watermark" 9 "inv_icm42600_buffer_update_watermark" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inv_icm42600_buffer_update_watermark \- update watermark FIFO threshold
+.SH SYNOPSIS
+.B "int" inv_icm42600_buffer_update_watermark
+.BI "(struct inv_icm42600_state *st "  ");"
+.SH ARGUMENTS
+.IP "st" 12
+driver internal state
+.SH "DESCRIPTION"
+Returns 0 on success, a negative error code otherwise.
+
+FIFO watermark threshold is computed based on the required watermark values
+set for gyro and accel sensors. Since watermark is all about acceptable data
+latency, use the smallest setting between the 2. It means choosing the
+smallest latency but this is not as simple as choosing the smallest watermark
+value. Latency depends on watermark and ODR. It requires several steps:
+1) compute gyro and accel latencies and choose the smallest value.
+2) adapt the choosen latency so that it is a multiple of both gyro and accel
+ones. Otherwise it is possible that you don't meet a requirement. (for
+example with gyro \fI100Hz\fP wm 4 and accel \fI100Hz\fP with wm 6, choosing the
+value of 4 will not meet accel latency requirement because 6 is not a
+multiple of 4. You need to use the value 2.)
+3) Since all periods are multiple of each others, watermark is computed by
+dividing this computed latency by the smallest period, which corresponds
+to the FIFO frequency. Beware that this is only true because we are not
+using 500Hz frequency which is not a multiple of the others.

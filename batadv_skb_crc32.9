@@ -1,0 +1,18 @@
+.TH "batadv_skb_crc32" 9 "batadv_skb_crc32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_skb_crc32 \- calculate CRC32 of the whole packet and skip bytes in the header
+.SH SYNOPSIS
+.B "__be32" batadv_skb_crc32
+.BI "(struct sk_buff *skb "  ","
+.BI "u8 *payload_ptr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb pointing to fragmented socket buffers
+.IP "payload_ptr" 12
+Pointer to position inside the head buffer of the skb
+marking the start of the data to be CRC'ed
+.SH "DESCRIPTION"
+payload_ptr must always point to an address in the skb head buffer and not to
+a fragment.
+.SH "RETURN"
+big endian crc32c of the checksummed data

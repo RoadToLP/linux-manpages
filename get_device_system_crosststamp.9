@@ -1,0 +1,22 @@
+.TH "get_device_system_crosststamp" 9 "get_device_system_crosststamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_device_system_crosststamp \- Synchronously capture system/device timestamp
+.SH SYNOPSIS
+.B "int" get_device_system_crosststamp
+.BI "(int (*get_time_fn) (ktime_t *device_time, struct system_counterval_t *sys_counterval, void *ctx) "  ","
+.BI "void *ctx "  ","
+.BI "struct system_time_snapshot *history_begin "  ","
+.BI "struct system_device_crosststamp *xtstamp "  ");"
+.SH ARGUMENTS
+.IP "get_time_fn" 12
+Callback to get simultaneous device time and
+system counter from the device driver
+.IP "ctx" 12
+Context passed to \fBget_time_fn\fP
+.IP "history_begin" 12
+Historical reference point used to interpolate system
+time when counter provided by the driver is before the current interval
+.IP "xtstamp" 12
+Receives simultaneously captured system and device time
+.SH "DESCRIPTION"
+Reads a timestamp from a device and correlates it to system time

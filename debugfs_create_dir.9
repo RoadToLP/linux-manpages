@@ -1,0 +1,26 @@
+.TH "debugfs_create_dir" 9 "debugfs_create_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_create_dir \- create a directory in the debugfs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" debugfs_create_dir
+.BI "(const char *name "  ","
+.BI "struct dentry *parent "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the directory to
+create.
+.IP "parent" 12
+a pointer to the parent dentry for this file.  This should be a
+directory dentry if set.  If this parameter is NULL, then the
+directory will be created in the root of the debugfs filesystem.
+.SH "DESCRIPTION"
+This function creates a directory in debugfs with the given name.
+
+This function will return a pointer to a dentry if it succeeds.  This
+pointer must be passed to the \fBdebugfs_remove\fP function when the file is
+to be removed (no automatic cleanup happens if your module is unloaded,
+you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+returned.
+
+If debugfs is not enabled in the kernel, the value -ENODEV will be
+returned.

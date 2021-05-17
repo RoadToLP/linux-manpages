@@ -1,0 +1,15 @@
+.TH "dma_buf_put" 9 "dma_buf_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_buf_put \- decreases refcount of the buffer
+.SH SYNOPSIS
+.B "void" dma_buf_put
+.BI "(struct dma_buf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "dmabuf" 12
+[in]    buffer to reduce refcount of
+.SH "DESCRIPTION"
+Uses file's refcounting done implicitly by \fBfput\fP.
+
+If, as a result of this call, the refcount becomes 0, the 'release' file
+operation related to this fd is called. It calls \fIdma_buf_ops.release\fP vfunc
+in turn, and frees the memory allocated for dmabuf when exported.

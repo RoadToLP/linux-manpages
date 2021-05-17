@@ -1,0 +1,29 @@
+.TH "efx_nic_update_stats" 9 "efx_nic_update_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efx_nic_update_stats \- Convert statistics DMA buffer to array of u64
+.SH SYNOPSIS
+.B "void" efx_nic_update_stats
+.BI "(const struct efx_hw_stat_desc *desc "  ","
+.BI "size_t count "  ","
+.BI "const unsigned long *mask "  ","
+.BI "u64 *stats "  ","
+.BI "const void *dma_buf "  ","
+.BI "bool accumulate "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+Array of \fIstruct efx_hw_stat_desc\fP describing the DMA buffer
+layout.  DMA widths of 0, 16, 32 and 64 are supported; where
+the width is specified as 0 the corresponding element of
+\fIstats\fP is not updated.
+.IP "count" 12
+Length of the \fIdesc\fP array
+.IP "mask" 12
+Bitmask of which elements of \fIdesc\fP are enabled
+.IP "stats" 12
+Buffer to update with the converted statistics.  The length
+of this array must be at least \fIcount\fP.
+.IP "dma_buf" 12
+DMA buffer containing hardware statistics
+.IP "accumulate" 12
+If set, the converted values will be added rather than
+directly stored to the corresponding elements of \fIstats\fP

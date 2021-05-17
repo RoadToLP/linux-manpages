@@ -1,0 +1,21 @@
+.TH "wilco_ec_mailbox" 9 "wilco_ec_mailbox" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wilco_ec_mailbox \- Send EC request and receive EC response.
+.SH SYNOPSIS
+.B "int" wilco_ec_mailbox
+.BI "(struct wilco_ec_device *ec "  ","
+.BI "struct wilco_ec_message *msg "  ");"
+.SH ARGUMENTS
+.IP "ec" 12
+EC device.
+.IP "msg" 12
+EC message data for request and response.
+.SH "DESCRIPTION"
+On entry msg->type, msg->request_size, and msg->request_data should all be
+filled in. If desired, msg->flags can be set.
+
+If a response is expected, msg->response_size should be set, and
+msg->response_data should point to a buffer with enough space. On exit
+msg->response_data will be filled.
+.SH "RETURN"
+number of bytes received or negative error code on failure.

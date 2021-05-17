@@ -1,0 +1,26 @@
+.TH "nfp_cpp_mutex_alloc" 9 "nfp_cpp_mutex_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_cpp_mutex_alloc \- Create a mutex handle
+.SH SYNOPSIS
+.B "struct nfp_cpp_mutex *" nfp_cpp_mutex_alloc
+.BI "(struct nfp_cpp *cpp "  ","
+.BI "int target "  ","
+.BI "unsigned long long address "  ","
+.BI "u32 key "  ");"
+.SH ARGUMENTS
+.IP "cpp" 12
+NFP CPP handle
+.IP "target" 12
+NFP CPP target ID (ie NFP_CPP_TARGET_CLS or NFP_CPP_TARGET_MU)
+.IP "address" 12
+Offset into the address space of the NFP CPP target ID
+.IP "key" 12
+32-bit unique key (must match the key at this location)
+.SH "DESCRIPTION"
+The CPP target:address must point to a 64-bit aligned location, and
+reserve 64 bits of data at the location for use by the handle.
+
+Only target/address pairs that point to entities that support the
+MU Atomic Engine's CmpAndSwap32 command are supported.
+.SH "RETURN"
+A non-NULL struct nfp_cpp_mutex * on success, NULL on failure.

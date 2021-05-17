@@ -1,0 +1,34 @@
+.TH "ice_init_pkg" 9 "ice_init_pkg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_init_pkg \- initialize/download package
+.SH SYNOPSIS
+.B "enum ice_status" ice_init_pkg
+.BI "(struct ice_hw *hw "  ","
+.BI "u8 *buf "  ","
+.BI "u32 len "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "buf" 12
+pointer to the package buffer
+.IP "len" 12
+size of the package buffer
+.SH "DESCRIPTION"
+This function initializes a package. The package contains HW tables
+required to do packet processing. First, the function extracts package
+information such as version. Then it finds the ice configuration segment
+within the package; this function then saves a copy of the segment pointer
+within the supplied package buffer. Next, the function will cache any hints
+from the package, followed by downloading the package itself. Note, that if
+a previous PF driver has already downloaded the package successfully, then
+the current driver will not have to download the package again.
+
+The local package contents will be used to query default behavior and to
+update specific sections of the HW's version of the package (e.g. to update
+the parse graph to understand new protocols).
+
+This function stores a pointer to the package buffer memory, and it is
+expected that the supplied buffer will not be freed immediately. If the
+package buffer needs to be freed, such as when read from a file, use
+\fBice_copy_and_init_pkg\fP instead of directly calling \fBice_init_pkg\fP in this
+case.

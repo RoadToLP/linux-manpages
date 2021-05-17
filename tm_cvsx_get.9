@@ -1,0 +1,26 @@
+.TH "tm_cvsx_get" 9 "tm_cvsx_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tm_cvsx_get \- get CVSX registers
+.SH SYNOPSIS
+.B "int" tm_cvsx_get
+.BI "(struct task_struct *target "  ","
+.BI "const struct user_regset *regset "  ","
+.BI "struct membuf to "  ");"
+.SH ARGUMENTS
+.IP "target" 12
+The target task.
+.IP "regset" 12
+The user regset structure.
+.IP "to" 12
+Destination of copy.
+.SH "DESCRIPTION"
+This function gets in transaction checkpointed VSX registers.
+
+When the transaction is active 'ckfp_state' holds the checkpointed
+values for the current transaction to fall back on if it aborts
+in between. This function gets those checkpointed VSX registers.
+The userspace interface buffer layout is as follows.
+
+struct data {
+u64     vsx[32];
+};

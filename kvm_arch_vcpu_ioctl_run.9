@@ -1,0 +1,15 @@
+.TH "kvm_arch_vcpu_ioctl_run" 9 "kvm_arch_vcpu_ioctl_run" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_arch_vcpu_ioctl_run \- the main VCPU run function to execute guest code
+.SH SYNOPSIS
+.B "int" kvm_arch_vcpu_ioctl_run
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+The VCPU pointer
+.SH "DESCRIPTION"
+This function is called through the VCPU_RUN ioctl called from user space. It
+will execute VM code in a loop until the time slice for the process is used
+or some emulation is needed from user space in which case the function will
+return with return value 0 and with the kvm_run structure filled in with the
+required data for the requested emulation.

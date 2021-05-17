@@ -1,0 +1,25 @@
+.TH "drm_modeset_lock" 9 "drm_modeset_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_modeset_lock \- take modeset lock
+.SH SYNOPSIS
+.B "int" drm_modeset_lock
+.BI "(struct drm_modeset_lock *lock "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+lock to take
+.IP "ctx" 12
+acquire ctx
+.SH "DESCRIPTION"
+If \fIctx\fP is not NULL, then its ww acquire context is used and the
+lock will be tracked by the context and can be released by calling
+\fBdrm_modeset_drop_locks\fP.  If -EDEADLK is returned, this means a
+deadlock scenario has been detected and it is an error to attempt
+to take any more locks without first calling \fBdrm_modeset_backoff\fP.
+
+If the \fIctx\fP is not NULL and initialized with
+DRM_MODESET_ACQUIRE_INTERRUPTIBLE, this function will fail with
+-ERESTARTSYS when interrupted.
+
+If \fIctx\fP is NULL then the function call behaves like a normal,
+uninterruptible non-nesting \fBmutex_lock\fP call.

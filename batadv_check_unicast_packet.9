@@ -1,0 +1,21 @@
+.TH "batadv_check_unicast_packet" 9 "batadv_check_unicast_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_check_unicast_packet \- Check for malformed unicast packets
+.SH SYNOPSIS
+.B "int" batadv_check_unicast_packet
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int hdr_size "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+packet to check
+.IP "hdr_size" 12
+size of header to pull
+.SH "DESCRIPTION"
+Checks for short header and bad addresses in the given packet.
+.SH "RETURN"
+negative value when check fails and 0 otherwise. The negative value
+depends on the reason: -ENODATA for bad header, -EBADR for broadcast
+destination or source, and -EREMOTE for non-local (other host) destination.

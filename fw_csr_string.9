@@ -1,0 +1,25 @@
+.TH "fw_csr_string" 9 "fw_csr_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_csr_string \- reads a string from the configuration ROM
+.SH SYNOPSIS
+.B "int" fw_csr_string
+.BI "(const u32 *directory "  ","
+.BI "int key "  ","
+.BI "char *buf "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "directory" 12
+e.g. root directory or unit directory
+.IP "key" 12
+the key of the preceding directory entry
+.IP "buf" 12
+where to put the string
+.IP "size" 12
+size of \fIbuf\fP, in bytes
+.SH "DESCRIPTION"
+The string is taken from a minimal ASCII text descriptor leaf after
+the immediate entry with \fIkey\fP.  The string is zero-terminated.
+An overlong string is silently truncated such that it and the
+zero byte fit into \fIsize\fP.
+
+Returns strlen(buf) or a negative error code.

@@ -1,0 +1,29 @@
+.TH "vme_irq_request" 9 "vme_irq_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_irq_request \- Request a specific VME interrupt.
+.SH SYNOPSIS
+.B "int" vme_irq_request
+.BI "(struct vme_dev *vdev "  ","
+.BI "int level "  ","
+.BI "int statid "  ","
+.BI "void (*callback)(int, int, void *) "  ","
+.BI "void *priv_data "  ");"
+.SH ARGUMENTS
+.IP "vdev" 12
+Pointer to VME device struct vme_dev assigned to driver instance.
+.IP "level" 12
+Interrupt priority being requested.
+.IP "statid" 12
+Interrupt vector being requested.
+.IP "callback" 12
+Pointer to callback function called when VME interrupt/vector
+received.
+.IP "priv_data" 12
+Generic pointer that will be passed to the callback function.
+.SH "DESCRIPTION"
+Request callback to be attached as a handler for VME interrupts with provided
+level and statid.
+.SH "RETURN"
+Zero on success, -EINVAL on invalid vme device, level or if the
+function is not supported, -EBUSY if the level/statid combination is
+already in use. Hardware specific errors also possible.

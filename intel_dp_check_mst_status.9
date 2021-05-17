@@ -1,0 +1,17 @@
+.TH "intel_dp_check_mst_status" 9 "intel_dp_check_mst_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_dp_check_mst_status \- service any pending MST interrupts, check link status
+.SH SYNOPSIS
+.B "bool" intel_dp_check_mst_status
+.BI "(struct intel_dp *intel_dp "  ");"
+.SH ARGUMENTS
+.IP "intel_dp" 12
+Intel DP struct
+.SH "DESCRIPTION"
+Read any pending MST interrupts, call MST core to handle these and ack the
+interrupts. Check if the main and AUX link state is ok.
+.SH "RETURN"
+- true if pending interrupts were serviced (or no interrupts were
+pending) w/o detecting an error condition.
+- false if an error condition - like AUX failure or a loss of link - is
+detected, which needs servicing from the hotplug work.

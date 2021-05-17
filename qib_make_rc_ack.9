@@ -1,0 +1,22 @@
+.TH "qib_make_rc_ack" 9 "qib_make_rc_ack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_make_rc_ack \- construct a response packet (ACK, NAK, or RDMA read)
+.SH SYNOPSIS
+.B "int" qib_make_rc_ack
+.BI "(struct qib_ibdev *dev "  ","
+.BI "struct rvt_qp *qp "  ","
+.BI "struct ib_other_headers *ohdr "  ","
+.BI "u32 pmtu "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device for this QP
+.IP "qp" 12
+a pointer to the QP
+.IP "ohdr" 12
+a pointer to the IB header being constructed
+.IP "pmtu" 12
+the path MTU
+.SH "DESCRIPTION"
+Return 1 if constructed; otherwise, return 0.
+Note that we are in the responder's side of the QP context.
+Note the QP s_lock must be held.

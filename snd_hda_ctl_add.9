@@ -1,0 +1,28 @@
+.TH "snd_hda_ctl_add" 9 "snd_hda_ctl_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_ctl_add \- Add a control element and assign to the codec
+.SH SYNOPSIS
+.B "int" snd_hda_ctl_add
+.BI "(struct hda_codec *codec "  ","
+.BI "hda_nid_t nid "  ","
+.BI "struct snd_kcontrol *kctl "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+HD-audio codec
+.IP "nid" 12
+corresponding NID (optional)
+.IP "kctl" 12
+the control element to assign
+.SH "DESCRIPTION"
+Add the given control element to an array inside the codec instance.
+All control elements belonging to a codec are supposed to be added
+by this function so that a proper clean-up works at the free or
+reconfiguration time.
+
+If non-zero \fInid\fP is passed, the NID is assigned to the control element.
+The assignment is shown in the codec proc file.
+
+\fBsnd_hda_ctl_add\fP checks the control subdev id field whether
+#HDA_SUBDEV_NID_FLAG bit is set.  If set (and \fInid\fP is zero), the lower
+bits value is taken as the NID to assign. The #HDA_NID_ITEM_AMP bit
+specifies if kctl->private_value is a HDA amplifier value.

@@ -1,0 +1,25 @@
+.TH "lpfc_sli_issue_abort_iotag" 9 "lpfc_sli_issue_abort_iotag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_issue_abort_iotag \- Abort function for a command iocb
+.SH SYNOPSIS
+.B "int" lpfc_sli_issue_abort_iotag
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "void *cmpl "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "cmdiocb" 12
+Pointer to driver command iocb object.
+.IP "cmpl" 12
+completion function.
+.SH "DESCRIPTION"
+This function issues an abort iocb for the provided command iocb. In case
+of unloading, the abort iocb will not be issued to commands on the ELS
+ring. Instead, the callback function shall be changed to those commands
+so that nothing happens when them finishes. This function is called with
+hbalock held andno ring_lock held (SLI4). The function returns IOCB_SUCCESS
+when the command iocb is an abort request.

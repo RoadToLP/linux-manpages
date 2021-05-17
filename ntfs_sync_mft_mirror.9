@@ -1,0 +1,29 @@
+.TH "ntfs_sync_mft_mirror" 9 "ntfs_sync_mft_mirror" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_sync_mft_mirror \- synchronize an mft record to the mft mirror
+.SH SYNOPSIS
+.B "int" ntfs_sync_mft_mirror
+.BI "(ntfs_volume *vol "  ","
+.BI "const unsigned long mft_no "  ","
+.BI "MFT_RECORD *m "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume on which the mft record to synchronize resides
+.IP "mft_no" 12
+mft record number of mft record to synchronize
+.IP "m" 12
+mapped, mst protected (extent) mft record to synchronize
+.IP "sync" 12
+if true, wait for i/o completion
+.SH "DESCRIPTION"
+Write the mapped, mst protected (extent) mft record \fIm\fP with mft record
+number \fImft_no\fP to the mft mirror ($MFTMirr) of the ntfs volume \fIvol\fP.
+
+On success return 0.  On error return -errno and set the volume errors flag
+in the ntfs volume \fIvol\fP.
+
+TODO:  If \fIsync\fP is false, want to do truly asynchronous i/o, i.e. just
+schedule i/o via ->writepage or do it via kntfsd or whatever.
+.SH "NOTE"
+We always perform synchronous i/o and ignore the \fIsync\fP parameter.

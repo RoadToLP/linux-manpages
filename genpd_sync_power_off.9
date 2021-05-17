@@ -1,0 +1,22 @@
+.TH "genpd_sync_power_off" 9 "genpd_sync_power_off" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genpd_sync_power_off \- Synchronously power off a PM domain and its parents.
+.SH SYNOPSIS
+.B "void" genpd_sync_power_off
+.BI "(struct generic_pm_domain *genpd "  ","
+.BI "bool use_lock "  ","
+.BI "unsigned int depth "  ");"
+.SH ARGUMENTS
+.IP "genpd" 12
+PM domain to power off, if possible.
+.IP "use_lock" 12
+use the lock.
+.IP "depth" 12
+nesting count for lockdep.
+.SH "DESCRIPTION"
+Check if the given PM domain can be powered off (during system suspend or
+hibernation) and do that if so.  Also, in that case propagate to its parents.
+
+This function is only called in "noirq" and "syscore" stages of system power
+transitions. The "noirq" callbacks may be executed asynchronously, thus in
+these cases the lock must be held.

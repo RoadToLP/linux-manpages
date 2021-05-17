@@ -1,0 +1,29 @@
+.TH "pm_runtime_get_if_active" 9 "pm_runtime_get_if_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_runtime_get_if_active \- Conditionally bump up device usage counter.
+.SH SYNOPSIS
+.B "int" pm_runtime_get_if_active
+.BI "(struct device *dev "  ","
+.BI "bool ign_usage_count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "ign_usage_count" 12
+Whether or not to look at the current usage counter value.
+.SH "DESCRIPTION"
+Return -EINVAL if runtime PM is disabled for \fIdev\fP.
+
+Otherwise, if the runtime PM status of \fIdev\fP is RPM_ACTIVE and either
+\fIign_usage_count\fP is true or the runtime PM usage counter of \fIdev\fP is not
+zero, increment the usage counter of \fIdev\fP and return 1. Otherwise, return 0
+without changing the usage counter.
+
+If \fIign_usage_count\fP is true, this function can be used to prevent suspending
+the device when its runtime PM status is RPM_ACTIVE.
+
+If \fIign_usage_count\fP is false, this function can be used to prevent
+suspending the device when both its runtime PM status is RPM_ACTIVE and its
+runtime PM usage counter is not zero.
+
+The caller is responsible for decrementing the runtime PM usage counter of
+\fIdev\fP after this function has returned a positive value for it.

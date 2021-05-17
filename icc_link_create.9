@@ -1,0 +1,20 @@
+.TH "icc_link_create" 9 "icc_link_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+icc_link_create \- create a link between two nodes
+.SH SYNOPSIS
+.B "int" icc_link_create
+.BI "(struct icc_node *node "  ","
+.BI "const int dst_id "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+source node id
+.IP "dst_id" 12
+destination node id
+.SH "DESCRIPTION"
+Create a link between two nodes. The nodes might belong to different
+interconnect providers and the \fIdst_id\fP node might not exist (if the
+provider driver has not probed yet). So just create the \fIdst_id\fP node
+and when the actual provider driver is probed, the rest of the node
+data is filled.
+.SH "RETURN"
+0 on success, or an error code otherwise

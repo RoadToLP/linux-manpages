@@ -1,0 +1,18 @@
+.TH "step_wise_throttle" 9 "step_wise_throttle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+step_wise_throttle \- throttles devices associated with the given zone
+.SH SYNOPSIS
+.B "int" step_wise_throttle
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "int trip "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+thermal_zone_device
+.IP "trip" 12
+trip point index
+.SH "DESCRIPTION"
+Throttling Logic: This uses the trend of the thermal zone to throttle.
+If the thermal zone is 'heating up' this throttles all the cooling
+devices associated with the zone and its particular trip point, by one
+step. If the zone is 'cooling down' it brings back the performance of
+the devices by one step.

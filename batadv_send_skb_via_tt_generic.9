@@ -1,0 +1,33 @@
+.TH "batadv_send_skb_via_tt_generic" 9 "batadv_send_skb_via_tt_generic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_send_skb_via_tt_generic \- send an skb via TT lookup
+.SH SYNOPSIS
+.B "int" batadv_send_skb_via_tt_generic
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int packet_type "  ","
+.BI "int packet_subtype "  ","
+.BI "u8 *dst_hint "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+payload to send
+.IP "packet_type" 12
+the batman unicast packet type to use
+.IP "packet_subtype" 12
+the unicast 4addr packet subtype (only relevant for unicast
+4addr packets)
+.IP "dst_hint" 12
+can be used to override the destination contained in the skb
+.IP "vid" 12
+the vid to be used to search the translation table
+.SH "DESCRIPTION"
+Look up the recipient node for the destination address in the ethernet
+header via the translation table. Wrap the given skb into a batman-adv
+unicast or unicast-4addr header depending on whether BATADV_UNICAST or
+BATADV_UNICAST_4ADDR was supplied as packet_type. Then send this frame
+to the according destination node.
+.SH "RETURN"
+NET_XMIT_DROP in case of error or NET_XMIT_SUCCESS otherwise.

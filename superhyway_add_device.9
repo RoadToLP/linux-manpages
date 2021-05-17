@@ -1,0 +1,26 @@
+.TH "superhyway_add_device" 9 "superhyway_add_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+superhyway_add_device \- Add a SuperHyway module
+.SH SYNOPSIS
+.B "int" superhyway_add_device
+.BI "(unsigned long base "  ","
+.BI "struct superhyway_device *sdev "  ","
+.BI "struct superhyway_bus *bus "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+Physical address where module is mapped.
+.IP "sdev" 12
+SuperHyway device to add, or NULL to allocate a new one.
+.IP "bus" 12
+Bus where SuperHyway module resides.
+.SH "DESCRIPTION"
+This is responsible for adding a new SuperHyway module. This sets up a new
+struct superhyway_device for the module being added if \fIsdev\fP == NULL.
+
+Devices are initially added in the order that they are scanned (from the
+top-down of the memory map), and are assigned an ID based on the order that
+they are added. Any manual addition of a module will thus get the ID after
+the devices already discovered regardless of where it resides in memory.
+
+Further work can and should be done in \fBsuperhyway_scan_bus\fP, to be sure
+that any new modules are properly discovered and subsequently registered.

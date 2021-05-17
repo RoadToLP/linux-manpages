@@ -1,0 +1,18 @@
+.TH "__dev_remove_offload" 9 "__dev_remove_offload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__dev_remove_offload \- remove offload handler
+.SH SYNOPSIS
+.B "void" __dev_remove_offload
+.BI "(struct packet_offload *po "  ");"
+.SH ARGUMENTS
+.IP "po" 12
+packet offload declaration
+
+Remove a protocol offload handler that was previously added to the
+kernel offload handlers by \fBdev_add_offload\fP. The passed \fIoffload_type\fP
+is removed from the kernel lists and can be freed or reused once this
+function returns.
+
+The packet type might still be in use by receivers
+and must not be freed until after all the CPU's have gone
+through a quiescent state.

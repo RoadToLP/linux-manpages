@@ -1,0 +1,28 @@
+.TH "ntfs_extent_mft_record_free" 9 "ntfs_extent_mft_record_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_extent_mft_record_free \- free an extent mft record on an ntfs volume
+.SH SYNOPSIS
+.B "int" ntfs_extent_mft_record_free
+.BI "(ntfs_inode *ni "  ","
+.BI "MFT_RECORD *m "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode of the mapped extent mft record to free
+.IP "m" 12
+mapped extent mft record of the ntfs inode \fIni\fP
+.SH "DESCRIPTION"
+Free the mapped extent mft record \fIm\fP of the extent ntfs inode \fIni\fP.
+
+Note that this function unmaps the mft record and closes and destroys \fIni\fP
+internally and hence you cannot use either \fIni\fP nor \fIm\fP any more after this
+function returns success.
+
+On success return 0 and on error return -errno.  \fIni\fP and \fIm\fP are still valid
+in this case and have not been freed.
+
+For some errors an error message is displayed and the success code 0 is
+returned and the volume is then left dirty on umount.  This makes sense in
+case we could not rollback the changes that were already done since the
+caller no longer wants to reference this mft record so it does not matter to
+the caller if something is wrong with it as long as it is properly detached
+from the base inode.

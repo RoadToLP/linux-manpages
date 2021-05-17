@@ -1,0 +1,21 @@
+.TH "usb_deregister_dev" 9 "usb_deregister_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_deregister_dev \- deregister a USB device's dynamic minor.
+.SH SYNOPSIS
+.B "void" usb_deregister_dev
+.BI "(struct usb_interface *intf "  ","
+.BI "struct usb_class_driver *class_driver "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+pointer to the usb_interface that is being deregistered
+.IP "class_driver" 12
+pointer to the usb_class_driver for this device
+.SH "DESCRIPTION"
+Used in conjunction with \fBusb_register_dev\fP.  This function is called
+when the USB driver is finished with the minor numbers gotten from a
+call to \fBusb_register_dev\fP (usually when the device is disconnected
+from the system.)
+
+This function also removes the usb class device from the sysfs tree.
+
+This should be called by all drivers that use the USB major number.

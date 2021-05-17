@@ -1,0 +1,24 @@
+.TH "llc_ui_bind" 9 "llc_ui_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_ui_bind \- bind a socket to a specific address.
+.SH SYNOPSIS
+.B "int" llc_ui_bind
+.BI "(struct socket *sock "  ","
+.BI "struct sockaddr *uaddr "  ","
+.BI "int addrlen "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+Socket to bind an address to.
+.IP "uaddr" 12
+Address the user wants the socket bound to.
+.IP "addrlen" 12
+Length of the uaddr structure.
+
+Bind a socket to a specific address. For llc a user is able to bind to
+a specific sap only or mac + sap.
+If the user desires to bind to a specific mac + sap, it is possible to
+have multiple sap connections via multiple macs.
+Bind and autobind for that matter must enforce the correct sap usage
+otherwise all hell will break loose.
+.SH "RETURN"
+0 upon success, negative otherwise.

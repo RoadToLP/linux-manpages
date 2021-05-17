@@ -1,0 +1,37 @@
+.TH "befs_btree_read" 9 "befs_btree_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_btree_read \- Traverse leafnodes of a btree
+.SH SYNOPSIS
+.B "int" befs_btree_read
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *ds "  ","
+.BI "loff_t key_no "  ","
+.BI "size_t bufsize "  ","
+.BI "char *keybuf "  ","
+.BI "size_t * keysize "  ","
+.BI "befs_off_t * value "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "ds" 12
+Datastream containing btree
+.IP "key_no" 12
+Key number (alphabetical order) of key to read
+.IP "bufsize" 12
+Size of the buffer to return key in
+.IP "keybuf" 12
+Pointer to a buffer to put the key in
+.IP "keysize" 12
+Length of the returned key
+.IP "value" 12
+Value stored with the returned key
+.SH "DESCRIPTION"
+Here's how it works: Key_no is the index of the key/value pair to
+return in keybuf/value.
+Bufsize is the size of keybuf (BEFS_NAME_LEN+1 is a good size). Keysize is
+the number of characters in the key (just a convenience).
+
+Algorithm:
+Get the first leafnode of the tree. See if the requested key is in that
+node. If not, follow the node->right link to the next leafnode. Repeat
+until the (key_no)th key is found or the tree is out of keys.

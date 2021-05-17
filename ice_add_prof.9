@@ -1,0 +1,26 @@
+.TH "ice_add_prof" 9 "ice_add_prof" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_prof \- add profile
+.SH SYNOPSIS
+.B "enum ice_status" ice_add_prof
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_block blk "  ","
+.BI "u64 id "  ","
+.BI "u8 ptypes[] "  ","
+.BI "struct ice_fv_word *es "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "blk" 12
+hardware block
+.IP "id" 12
+profile tracking ID
+.IP "ptypes" 12
+array of bitmaps indicating ptypes (ICE_FLOW_PTYPE_MAX bits)
+.IP "es" 12
+extraction sequence (length of array is determined by the block)
+.SH "DESCRIPTION"
+This function registers a profile, which matches a set of PTGs with a
+particular extraction sequence. While the hardware profile is allocated
+it will not be written until the first call to ice_add_flow that specifies
+the ID value used here.

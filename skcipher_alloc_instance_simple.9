@@ -1,0 +1,23 @@
+.TH "skcipher_alloc_instance_simple" 9 "skcipher_alloc_instance_simple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skcipher_alloc_instance_simple \- allocate instance of simple block cipher mode
+.SH SYNOPSIS
+.B "struct skcipher_instance *" skcipher_alloc_instance_simple
+.BI "(struct crypto_template *tmpl "  ","
+.BI "struct rtattr **tb "  ");"
+.SH ARGUMENTS
+.IP "tmpl" 12
+the template being instantiated
+.IP "tb" 12
+the template parameters
+.SH "DESCRIPTION"
+
+Allocate an skcipher_instance for a simple block cipher mode of operation,
+e.g. cbc or ecb.  The instance context will have just a single crypto_spawn,
+that for the underlying cipher.  The {min,max}_keysize, ivsize, blocksize,
+alignmask, and priority are set from the underlying cipher but can be
+overridden if needed.  The tfm context defaults to skcipher_ctx_simple, and
+default ->\fBsetkey\fP, ->\fBinit\fP, and ->\fBexit\fP methods are installed.
+.SH "RETURN"
+a pointer to the new instance, or an \fBERR_PTR\fP.  The caller still
+needs to register the instance.

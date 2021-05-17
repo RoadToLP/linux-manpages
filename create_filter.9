@@ -1,0 +1,31 @@
+.TH "create_filter" 9 "create_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_filter \- create a filter for a trace_event_call
+.SH SYNOPSIS
+.B "int" create_filter
+.BI "(struct trace_array *tr "  ","
+.BI "struct trace_event_call *call "  ","
+.BI "char *filter_string "  ","
+.BI "bool set_str "  ","
+.BI "struct event_filter **filterp "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+-- undescribed --
+.IP "call" 12
+trace_event_call to create a filter for
+.IP "filter_string" 12
+-- undescribed --
+.IP "set_str" 12
+remember \fIfilter_str\fP and enable detailed error in filter
+.IP "filterp" 12
+out param for created filter (always updated on return)
+Must be a pointer that references a NULL pointer.
+.SH "DESCRIPTION"
+Creates a filter for \fIcall\fP with \fIfilter_str\fP.  If \fIset_str\fP is true,
+\fIfilter_str\fP is copied and recorded in the new filter.
+
+On success, returns 0 and *\fIfilterp\fP points to the new filter.  On
+failure, returns -errno and *\fIfilterp\fP may point to NULL or to a new
+filter.  In the latter case, the returned filter contains error
+information if \fIset_str\fP is true and the caller is responsible for
+freeing it.

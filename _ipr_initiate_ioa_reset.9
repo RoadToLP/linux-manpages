@@ -1,0 +1,23 @@
+.TH "_ipr_initiate_ioa_reset" 9 "_ipr_initiate_ioa_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_ipr_initiate_ioa_reset \- Initiate an adapter reset
+.SH SYNOPSIS
+.B "void" _ipr_initiate_ioa_reset
+.BI "(struct ipr_ioa_cfg *ioa_cfg "  ","
+.BI "int (*job_step) (struct ipr_cmnd *) "  ","
+.BI "enum ipr_shutdown_type shutdown_type "  ");"
+.SH ARGUMENTS
+.IP "ioa_cfg" 12
+ioa config struct
+.IP "job_step" 12
+first job step of reset job
+.IP "shutdown_type" 12
+shutdown type
+.SH "DESCRIPTION"
+This function will initiate the reset of the given adapter
+starting at the selected job step.
+If the caller needs to wait on the completion of the reset,
+the caller must sleep on the reset_wait_q.
+
+Return value:
+none

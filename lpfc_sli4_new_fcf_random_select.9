@@ -1,0 +1,22 @@
+.TH "lpfc_sli4_new_fcf_random_select" 9 "lpfc_sli4_new_fcf_random_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_new_fcf_random_select \- Randomly select an eligible new fcf record
+.SH SYNOPSIS
+.B "bool" lpfc_sli4_new_fcf_random_select
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t fcf_cnt "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "fcf_cnt" 12
+number of eligible fcf record seen so far.
+.SH "DESCRIPTION"
+This function makes an running random selection decision on FCF record to
+use through a sequence of \fIfcf_cnt\fP eligible FCF records with equal
+probability. To perform integer manunipulation of random numbers with
+size unit32_t, the lower 16 bits of the 32-bit random number returned
+from \fBprandom_u32\fP are taken as the random random number generated.
+
+Returns true when outcome is for the newly read FCF record should be
+chosen; otherwise, return false when outcome is for keeping the previously
+chosen FCF record.

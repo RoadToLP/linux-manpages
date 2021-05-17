@@ -1,0 +1,22 @@
+.TH "usb_disconnect" 9 "usb_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_disconnect \- disconnect a device (usbcore-internal)
+.SH SYNOPSIS
+.B "void" usb_disconnect
+.BI "(struct usb_device **pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pointer to device being disconnected
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+Something got disconnected. Get rid of it and all of its children.
+
+If *pdev is a normal device then the parent hub must already be locked.
+If *pdev is a root hub then the caller must hold the usb_bus_idr_lock,
+which protects the set of root hubs as well as the list of buses.
+
+Only hub drivers (including virtual root hub drivers for host
+controllers) should ever call this.
+
+This call is synchronous, and may not be used in an interrupt context.

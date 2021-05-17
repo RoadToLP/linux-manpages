@@ -1,0 +1,21 @@
+.TH "watchdog_set_restart_priority" 9 "watchdog_set_restart_priority" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+watchdog_set_restart_priority \- Change priority of restart handler
+.SH SYNOPSIS
+.B "void" watchdog_set_restart_priority
+.BI "(struct watchdog_device *wdd "  ","
+.BI "int priority "  ");"
+.SH ARGUMENTS
+.IP "wdd" 12
+watchdog device
+.IP "priority" 12
+priority of the restart handler, should follow these guidelines:
+0:   use watchdog's restart function as last resort, has limited restart
+capabilies
+128: default restart handler, use if no other handler is expected to be
+available and/or if restart is sufficient to restart the entire system
+255: preempt all other handlers
+.SH "DESCRIPTION"
+If a wdd->ops->restart function is provided when watchdog_register_device is
+called, it will be registered as a restart handler with the priority given
+here.

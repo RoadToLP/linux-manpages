@@ -1,0 +1,40 @@
+.TH "__hwspin_trylock" 9 "__hwspin_trylock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__hwspin_trylock \- attempt to lock a specific hwspinlock
+.SH SYNOPSIS
+.B "int" __hwspin_trylock
+.BI "(struct hwspinlock *hwlock "  ","
+.BI "int mode "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "hwlock" 12
+an hwspinlock which we want to trylock
+.IP "mode" 12
+controls whether local interrupts are disabled or not
+.IP "flags" 12
+a pointer where the caller's interrupt state will be saved at (if
+requested)
+.SH "DESCRIPTION"
+This function attempts to lock an hwspinlock, and will immediately
+fail if the hwspinlock is already taken.
+
+Caution: If the mode is HWLOCK_RAW, that means user must protect the routine
+of getting hardware lock with mutex or spinlock. Since in some scenarios,
+user need some time-consuming or sleepable operations under the hardware
+lock, they need one sleepable lock (like mutex) to protect the operations.
+
+If the mode is neither HWLOCK_IN_ATOMIC nor HWLOCK_RAW, upon a successful
+return from this function, preemption (and possibly interrupts) is disabled,
+so the caller must not sleep, and is advised to release the hwspinlock as
+soon as possible. This is required in order to minimize remote cores polling
+on the hardware interconnect.
+
+The user decides whether local interrupts are disabled or not, and if yes,
+whether he wants their previous state to be saved. It is up to the user
+to choose the appropriate \fImode\fP of operation, exactly the same way users
+should decide between spin_trylock, spin_trylock_irq and
+spin_trylock_irqsave.
+
+Returns 0 if we successfully locked the hwspinlock or -EBUSY if
+the hwspinlock was already taken.
+This function will never sleep.

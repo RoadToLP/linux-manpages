@@ -1,0 +1,21 @@
+.TH "mptcp_token_iter_next" 9 "mptcp_token_iter_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptcp_token_iter_next \- iterate over the token container from given pos
+.SH SYNOPSIS
+.B "struct mptcp_sock *" mptcp_token_iter_next
+.BI "(const struct net *net "  ","
+.BI "long *s_slot "  ","
+.BI "long *s_num "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+namespace to be iterated
+.IP "s_slot" 12
+start slot number
+.IP "s_num" 12
+start number inside the given lock
+.SH "DESCRIPTION"
+This function returns the first mptcp connection structure found inside the
+token container starting from the specified position, or NULL.
+
+On successful iteration, the iterator is move to the next position and the
+the acquires a reference to the returned socket.

@@ -1,0 +1,32 @@
+.TH "hfi1_make_ruc_header_9B" 9 "hfi1_make_ruc_header_9B" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_make_ruc_header_9B \- build a 9B header
+.SH SYNOPSIS
+.B "void" hfi1_make_ruc_header_9B
+.BI "(struct rvt_qp *qp "  ","
+.BI "struct ib_other_headers *ohdr "  ","
+.BI "u32 bth0 "  ","
+.BI "u32 bth1 "  ","
+.BI "u32 bth2 "  ","
+.BI "int middle "  ","
+.BI "struct hfi1_pkt_state *ps "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the queue pair
+.IP "ohdr" 12
+a pointer to the destination header memory
+.IP "bth0" 12
+bth0 passed in from the RC/UC builder
+.IP "bth1" 12
+bth1 passed in from the RC/UC builder
+.IP "bth2" 12
+bth2 passed in from the RC/UC builder
+.IP "middle" 12
+non zero implies indicates ahg "could" be used
+.IP "ps" 12
+the current packet state
+.SH "DESCRIPTION"
+This routine may disarm ahg under these situations:
+- packet needs a GRH
+- BECN needed
+- migration state not IB_MIG_MIGRATED

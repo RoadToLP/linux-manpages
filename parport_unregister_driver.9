@@ -1,0 +1,21 @@
+.TH "parport_unregister_driver" 9 "parport_unregister_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_unregister_driver \- deregister a parallel port device driver
+.SH SYNOPSIS
+.B "void" parport_unregister_driver
+.BI "(struct parport_driver *drv "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+structure describing the driver that was given to
+\fBparport_register_driver\fP
+
+This should be called by a parallel port device driver that
+has registered itself using \fBparport_register_driver\fP when it
+is about to be unloaded.
+
+When it returns, the driver's \fBattach\fP routine will no longer
+be called, and for each port that \fBattach\fP was called for, the
+\fBdetach\fP routine will have been called.
+
+All the driver's \fBattach\fP and \fBdetach\fP calls are guaranteed to have
+finished by the time this function returns.

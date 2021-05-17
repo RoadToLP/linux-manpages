@@ -1,0 +1,18 @@
+.TH "ima_update_policy" 9 "ima_update_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_update_policy \- update default_rules with new measure rules
+.SH SYNOPSIS
+.B "void" ima_update_policy
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Called on file .release to update the default rules with a complete new
+policy.  What we do here is to splice ima_policy_rules and ima_temp_rules so
+they make a queue.  The policy may be updated multiple times and this is the
+RCU updater.
+
+Policy rules are never deleted so ima_policy_flag gets zeroed only once when
+we switch from the default policy to user defined.

@@ -1,0 +1,28 @@
+.TH "xt_copy_counters" 9 "xt_copy_counters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xt_copy_counters \- copy counters and metadata from a sockptr_t
+.SH SYNOPSIS
+.B "void *" xt_copy_counters
+.BI "(sockptr_t arg "  ","
+.BI "unsigned int len "  ","
+.BI "struct xt_counters_info *info "  ");"
+.SH ARGUMENTS
+.IP "arg" 12
+src sockptr
+.IP "len" 12
+alleged size of userspace memory
+.IP "info" 12
+where to store the xt_counters_info metadata
+.SH "DESCRIPTION"
+Copies counter meta data from \fIuser\fP and stores it in \fIinfo\fP.
+
+vmallocs memory to hold the counters, then copies the counter data
+from \fIuser\fP to the new memory and returns a pointer to it.
+
+If called from a compat syscall, \fIinfo\fP gets converted automatically to the
+64bit representation.
+
+The metadata associated with the counters is stored in \fIinfo\fP.
+.SH "RETURN"
+returns pointer that caller has to test via \fBIS_ERR\fP.
+If IS_ERR is false, caller has to vfree the pointer.

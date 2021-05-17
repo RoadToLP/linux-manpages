@@ -1,0 +1,23 @@
+.TH "axienet_free_tx_chain" 9 "axienet_free_tx_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axienet_free_tx_chain \- Clean up a series of linked TX descriptors.
+.SH SYNOPSIS
+.B "int" axienet_free_tx_chain
+.BI "(struct net_device *ndev "  ","
+.BI "u32 first_bd "  ","
+.BI "int nr_bds "  ","
+.BI "u32 *sizep "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+Pointer to the net_device structure
+.IP "first_bd" 12
+Index of first descriptor to clean up
+.IP "nr_bds" 12
+Number of descriptors to clean up, can be -1 if unknown.
+.IP "sizep" 12
+Pointer to a u32 filled with the total sum of all bytes
+in all cleaned-up descriptors. Ignored if NULL.
+.SH "DESCRIPTION"
+Would either be called after a successful transmit operation, or after
+there was an error when setting up the chain.
+Returns the number of descriptors handled.

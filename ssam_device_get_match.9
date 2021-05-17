@@ -1,0 +1,20 @@
+.TH "ssam_device_get_match" 9 "ssam_device_get_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_device_get_match \- Find and return the ID matching the device in the ID table of the bound driver.
+.SH SYNOPSIS
+.B "const struct ssam_device_id *" ssam_device_get_match
+.BI "(const struct ssam_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device for which to get the matching ID table entry.
+.SH "DESCRIPTION"
+Find the fist match for the UID of the device in the ID table of the
+currently bound driver and return it. Returns NULL if the device does not
+have a driver bound to it, the driver does not have match_table (i.e. it is
+NULL), or there is no match in the driver's match_table.
+
+This function essentially calls \fBssam_device_id_match\fP with the ID table of
+the bound device driver and the UID of the device.
+.SH "RETURN"
+Returns the first match for the UID of the device in the device
+driver's match table, or NULL if no such match could be found.

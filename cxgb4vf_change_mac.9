@@ -1,0 +1,28 @@
+.TH "cxgb4vf_change_mac" 9 "cxgb4vf_change_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4vf_change_mac \- Update match filter for a MAC address.
+.SH SYNOPSIS
+.B "int" cxgb4vf_change_mac
+.BI "(struct port_info *pi "  ","
+.BI "unsigned int viid "  ","
+.BI "int *tcam_idx "  ","
+.BI "const u8 *addr "  ","
+.BI "bool persistent "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+the port_info
+.IP "viid" 12
+the VI id
+.IP "tcam_idx" 12
+TCAM index of existing filter for old value of MAC address,
+or -1
+.IP "addr" 12
+the new MAC address value
+.IP "persistent" 12
+whether a new MAC allocation should be persistent
+
+Modifies an MPS filter and sets it to the new MAC address if
+\fItcam_idx\fP >= 0, or adds the MAC address to a new filter if
+\fItcam_idx\fP < 0. In the latter case the address is added persistently
+if \fIpersist\fP is true.
+Addresses are programmed to hash region, if tcam runs out of entries.

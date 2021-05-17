@@ -1,0 +1,37 @@
+.TH "epf_ntb_peer_spad_bar_set" 9 "epf_ntb_peer_spad_bar_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_peer_spad_bar_set \- Set peer scratchpad BAR
+.SH SYNOPSIS
+.B "int" epf_ntb_peer_spad_bar_set
+.BI "(struct epf_ntb *ntb "  ","
+.BI "enum pci_epc_interface_type type "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device that facilitates communication between HOST1 and HOST2
+.IP "type" 12
+-- undescribed --
+.SH "DESCRIPTION"
++-----------------+------->+------------------+        +-----------------+
+|       BAR0      |        |  CONFIG REGION   |        |       BAR0      |
++-----------------+----+   +------------------+<-------+-----------------+
+|       BAR1      |    |   |SCRATCHPAD REGION |        |       BAR1      |
++-----------------+    +-->+------------------+<-------+-----------------+
+|       BAR2      |            Local Memory            |       BAR2      |
++-----------------+                                    +-----------------+
+|       BAR3      |                                    |       BAR3      |
++-----------------+                                    +-----------------+
+|       BAR4      |                                    |       BAR4      |
++-----------------+                                    +-----------------+
+|       BAR5      |                                    |       BAR5      |
++-----------------+                                    +-----------------+
+EP CONTROLLER 1                                        EP CONTROLLER 2
+
+Set BAR1 of EP CONTROLLER 2 which contains the HOST2's peer scratchpad
+region. While BAR1 is the default peer scratchpad BAR, an NTB could have
+other BARs for peer scratchpad (because of 64-bit BARs or reserved BARs).
+This function can get the exact BAR used for peer scratchpad from
+epf_ntb_bar[BAR_PEER_SPAD].
+
+Since HOST2's peer scratchpad is also HOST1's self scratchpad, this function
+gets the address of peer scratchpad from
+peer_ntb_epc->epf_ntb_bar[BAR_CONFIG].

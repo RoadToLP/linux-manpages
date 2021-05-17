@@ -1,0 +1,26 @@
+.TH "sata_link_scr_lpm" 9 "sata_link_scr_lpm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_link_scr_lpm \- manipulate SControl IPM and SPM fields
+.SH SYNOPSIS
+.B "int" sata_link_scr_lpm
+.BI "(struct ata_link *link "  ","
+.BI "enum ata_lpm_policy policy "  ","
+.BI "bool spm_wakeup "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to manipulate SControl for
+.IP "policy" 12
+LPM policy to configure
+.IP "spm_wakeup" 12
+initiate LPM transition to active state
+
+Manipulate the IPM field of the SControl register of \fIlink\fP
+according to \fIpolicy\fP.  If \fIpolicy\fP is ATA_LPM_MAX_POWER and
+\fIspm_wakeup\fP is true, the SPM field is manipulated to wake up
+the link.  This function also clears PHYRDY_CHG before
+returning.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+0 on success, -errno otherwise.

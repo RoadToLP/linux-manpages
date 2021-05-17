@@ -1,0 +1,24 @@
+.TH "vmw_user_bo_noref_lookup" 9 "vmw_user_bo_noref_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_user_bo_noref_lookup \- Look up a vmw user buffer object without reference
+.SH SYNOPSIS
+.B "struct vmw_buffer_object *" vmw_user_bo_noref_lookup
+.BI "(struct ttm_object_file *tfile "  ","
+.BI "u32 handle "  ");"
+.SH ARGUMENTS
+.IP "tfile" 12
+The TTM object file the handle is registered with.
+.IP "handle" 12
+The user buffer object handle.
+.SH "DESCRIPTION"
+This function looks up a struct vmw_user_bo and returns a pointer to the
+struct vmw_buffer_object it derives from without refcounting the pointer.
+The returned pointer is only valid until \fBvmw_user_bo_noref_release\fP is
+called, and the object pointed to by the returned pointer may be doomed.
+Any persistent usage of the object requires a refcount to be taken using
+\fBttm_bo_reference_unless_doomed\fP. Iff this function returns successfully it
+needs to be paired with \fBvmw_user_bo_noref_release\fP and no sleeping-
+or scheduling functions may be called inbetween these function calls.
+.SH "RETURN"
+A struct vmw_buffer_object pointer if successful or negative
+error pointer on failure.

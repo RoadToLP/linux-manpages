@@ -1,0 +1,26 @@
+.TH "ide_build_dmatable" 9 "ide_build_dmatable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_build_dmatable \- build IDE DMA table
+.SH SYNOPSIS
+.B "int" ide_build_dmatable
+.BI "(ide_drive_t *drive "  ","
+.BI "struct ide_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+-- undescribed --
+.IP "cmd" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+\fBide_build_dmatable\fP prepares a dma request. We map the command
+to get the pci bus addresses of the buffers and then build up
+the PRD table that the IDE layer wants to be fed.
+
+Most chipsets correctly interpret a length of 0x0000 as 64KB,
+but at least one (e.g. CS5530) misinterprets it as zero (!).
+So we break the 64KB entry into two 32KB entries instead.
+
+Returns the number of built PRD entries if all went okay,
+returns 0 otherwise.
+
+May also be invoked from trm290.c

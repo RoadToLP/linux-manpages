@@ -1,0 +1,24 @@
+.TH "phy_restore_page" 9 "phy_restore_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_restore_page \- restore the page register and release the bus lock
+.SH SYNOPSIS
+.B "int" phy_restore_page
+.BI "(struct phy_device *phydev "  ","
+.BI "int oldpage "  ","
+.BI "int ret "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+a pointer to a \fIstruct phy_device\fP
+.IP "oldpage" 12
+the old page, return value from \fBphy_save_page\fP or \fBphy_select_page\fP
+.IP "ret" 12
+operation's return code
+.SH "DESCRIPTION"
+Release the MDIO bus lock, restoring \fIoldpage\fP if it is a valid page.
+This function propagates the earliest error code from the group of
+operations.
+.SH "RETURN"
+\fIoldpage\fP if it was a negative value, otherwise
+\fIret\fP if it was a negative errno value, otherwise
+\fBphy_write_page\fP's negative value if it were in error, otherwise
+\fIret\fP.

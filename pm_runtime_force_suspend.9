@@ -1,0 +1,22 @@
+.TH "pm_runtime_force_suspend" 9 "pm_runtime_force_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_runtime_force_suspend \- Force a device into suspend state if needed.
+.SH SYNOPSIS
+.B "int" pm_runtime_force_suspend
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to suspend.
+.SH "DESCRIPTION"
+Disable runtime PM so we safely can check the device's runtime PM status and
+if it is active, invoke its ->runtime_suspend callback to suspend it and
+change its runtime PM status field to RPM_SUSPENDED.  Also, if the device's
+usage and children counters don't indicate that the device was in use before
+the system-wide transition under way, decrement its parent's children counter
+(if there is a parent).  Keep runtime PM disabled to preserve the state
+unless we encounter errors.
+
+Typically this function may be invoked from a system suspend callback to make
+sure the device is put into low power state and it should only be used during
+system-wide PM transitions to sleep states.  It assumes that the analogous
+\fBpm_runtime_force_resume\fP will be used to resume the device.

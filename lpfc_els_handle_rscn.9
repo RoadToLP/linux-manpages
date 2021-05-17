@@ -1,0 +1,21 @@
+.TH "lpfc_els_handle_rscn" 9 "lpfc_els_handle_rscn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_handle_rscn \- Handle rscn for a vport
+.SH SYNOPSIS
+.B "int" lpfc_els_handle_rscn
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.SH "DESCRIPTION"
+This routine handles the Registration State Configuration Notification
+(RSCN) for a \fIvport\fP. If login to NameServer does not exist, a new ndlp shall
+be created and a Port Login (PLOGI) to the NameServer is issued. Otherwise,
+if the ndlp to NameServer exists, a Common Transport (CT) command to the
+NameServer shall be issued. If CT command to the NameServer fails to be
+issued, the \fBlpfc_els_flush_rscn\fP routine shall be invoked to clean up any
+RSCN activities with the \fIvport\fP.
+
+Return code
+0 - Cleaned up rscn on the \fIvport\fP
+1 - Wait for plogi to name server before proceed

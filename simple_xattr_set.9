@@ -1,0 +1,30 @@
+.TH "simple_xattr_set" 9 "simple_xattr_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_xattr_set \- xattr SET operation for in-memory/pseudo filesystems
+.SH SYNOPSIS
+.B "int" simple_xattr_set
+.BI "(struct simple_xattrs *xattrs "  ","
+.BI "const char *name "  ","
+.BI "const void *value "  ","
+.BI "size_t size "  ","
+.BI "int flags "  ","
+.BI "ssize_t *removed_size "  ");"
+.SH ARGUMENTS
+.IP "xattrs" 12
+target simple_xattr list
+.IP "name" 12
+name of the extended attribute
+.IP "value" 12
+value of the xattr. If NULL, will remove the attribute.
+.IP "size" 12
+size of the new xattr
+.IP "flags" 12
+XATTR_{CREATE|REPLACE}
+.IP "removed_size" 12
+returns size of the removed xattr, -1 if none removed
+.SH "DESCRIPTION"
+XATTR_CREATE is set, the xattr shouldn't exist already; otherwise fails
+with -EEXIST.  If XATTR_REPLACE is set, the xattr should exist;
+otherwise, fails with -ENODATA.
+
+Returns 0 on success, -errno on failure.

@@ -1,0 +1,27 @@
+.TH "batadv_send_skb_packet" 9 "batadv_send_skb_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_send_skb_packet \- send an already prepared packet
+.SH SYNOPSIS
+.B "int" batadv_send_skb_packet
+.BI "(struct sk_buff *skb "  ","
+.BI "struct batadv_hard_iface *hard_iface "  ","
+.BI "const u8 *dst_addr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet to send
+.IP "hard_iface" 12
+the interface to use to send the broadcast packet
+.IP "dst_addr" 12
+the payload destination
+.SH "DESCRIPTION"
+Send out an already prepared packet to the given neighbor or broadcast it
+using the specified interface. Either hard_iface or neigh_node must be not
+NULL.
+If neigh_node is NULL, then the packet is broadcasted using hard_iface,
+otherwise it is sent as unicast to the given neighbor.
+
+Regardless of the return value, the skb is consumed.
+.SH "RETURN"
+A negative errno code is returned on a failure. A success does not
+guarantee the frame will be transmitted as it may be dropped due
+to congestion or traffic shaping.

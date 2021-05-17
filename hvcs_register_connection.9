@@ -1,0 +1,29 @@
+.TH "hvcs_register_connection" 9 "hvcs_register_connection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvcs_register_connection \- establish a connection between this vty-server and a vty.
+.SH SYNOPSIS
+.B "int" hvcs_register_connection
+.BI "(uint32_t unit_address "  ","
+.BI "uint32_t p_partition_ID "  ","
+.BI "uint32_t p_unit_address "  ");"
+.SH ARGUMENTS
+.IP "unit_address" 12
+The unit address of the vty-server adapter that is to be
+establish a connection.
+.IP "p_partition_ID" 12
+The partition ID of the vty adapter that is to be connected.
+.IP "p_unit_address" 12
+The unit address of the vty adapter to which the vty-server
+is to be connected.
+.SH "DESCRIPTION"
+If this function is called once and -EINVAL is returned it may
+indicate that the partner info needs to be refreshed for the
+target unit address at which point the caller must invoke
+\fBhvcs_get_partner_info\fP and then call this function again.  If,
+for a second time, -EINVAL is returned then it indicates that
+there is probably already a partner connection registered to a
+different vty-server adapter.  It is also possible that a second
+-EINVAL may indicate that one of the parms is not valid, for
+instance if the link was removed between the vty-server adapter
+and the vty adapter that you are trying to open.  Don't shoot the
+messenger.  Firmware implemented it this way.

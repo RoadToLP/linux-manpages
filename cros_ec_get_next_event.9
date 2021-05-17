@@ -1,0 +1,27 @@
+.TH "cros_ec_get_next_event" 9 "cros_ec_get_next_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_get_next_event \- Fetch next event from the ChromeOS EC.
+.SH SYNOPSIS
+.B "int" cros_ec_get_next_event
+.BI "(struct cros_ec_device *ec_dev "  ","
+.BI "bool *wake_event "  ","
+.BI "bool *has_more_events "  ");"
+.SH ARGUMENTS
+.IP "ec_dev" 12
+Device to fetch event from.
+.IP "wake_event" 12
+Pointer to a bool set to true upon return if the event might be
+treated as a wake event. Ignored if null.
+.IP "has_more_events" 12
+Pointer to bool set to true if more than one event is
+pending.
+Some EC will set this flag to indicate \fBcros_ec_get_next_event\fP
+can be called multiple times in a row.
+It is an optimization to prevent issuing a EC command for
+nothing or wait for another interrupt from the EC to process
+the next message.
+Ignored if null.
+.SH "RETURN"
+negative error code on errors; 0 for no data; or else number of
+bytes received (i.e., an event was retrieved successfully). Event types are
+written out to \fIec_dev->event_data.event_type\fP on success.

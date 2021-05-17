@@ -1,0 +1,34 @@
+.TH "event_triggers_call" 9 "event_triggers_call" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_triggers_call \- Call triggers associated with a trace event
+.SH SYNOPSIS
+.B "enum event_trigger_type" event_triggers_call
+.BI "(struct trace_event_file *file "  ","
+.BI "void *rec "  ","
+.BI "struct ring_buffer_event *event "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace_event_file associated with the event
+.IP "rec" 12
+The trace entry for the event, NULL for unconditional invocation
+.IP "event" 12
+-- undescribed --
+.SH "DESCRIPTION"
+For each trigger associated with an event, invoke the trigger
+function registered with the associated trigger command.  If rec is
+non-NULL, it means that the trigger requires further processing and
+shouldn't be unconditionally invoked.  If rec is non-NULL and the
+trigger has a filter associated with it, rec will checked against
+the filter and if the record matches the trigger will be invoked.
+If the trigger is a 'post_trigger', meaning it shouldn't be invoked
+in any case until the current event is written, the trigger
+function isn't invoked but the bit associated with the deferred
+trigger is set in the return value.
+
+Returns an enum event_trigger_type value containing a set bit for
+any trigger that should be deferred, ETT_NONE if nothing to defer.
+
+Called from tracepoint handlers (with \fBrcu_read_lock_sched\fP held).
+.SH "RETURN"
+an enum event_trigger_type value containing a set bit for
+any trigger that should be deferred, ETT_NONE if nothing to defer.

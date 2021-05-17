@@ -1,0 +1,33 @@
+.TH "cnstr_shdsc_ahash" 9 "cnstr_shdsc_ahash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cnstr_shdsc_ahash \- ahash shared descriptor
+.SH SYNOPSIS
+.B "void" cnstr_shdsc_ahash
+.BI "(u32 * const desc "  ","
+.BI "struct alginfo *adata "  ","
+.BI "u32 state "  ","
+.BI "int digestsize "  ","
+.BI "int ctx_len "  ","
+.BI "bool import_ctx "  ","
+.BI "int era "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+pointer to buffer used for descriptor construction
+.IP "adata" 12
+pointer to authentication transform definitions.
+A split key is required for SEC Era < 6; the size of the split key
+is specified in this case.
+Valid algorithm values - one of OP_ALG_ALGSEL_{MD5, SHA1, SHA224,
+SHA256, SHA384, SHA512}.
+.IP "state" 12
+algorithm state OP_ALG_AS_{INIT, FINALIZE, INITFINALIZE, UPDATE}
+.IP "digestsize" 12
+algorithm's digest size
+.IP "ctx_len" 12
+size of Context Register
+.IP "import_ctx" 12
+true if previous Context Register needs to be restored
+must be true for ahash update and final
+must be false for for ahash first and digest
+.IP "era" 12
+SEC Era

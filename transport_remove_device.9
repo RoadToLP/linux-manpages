@@ -1,0 +1,16 @@
+.TH "transport_remove_device" 9 "transport_remove_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+transport_remove_device \- remove the visibility of a device
+.SH SYNOPSIS
+.B "void" transport_remove_device
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+generic device to remove
+.SH "DESCRIPTION"
+This call removes the visibility of the device (to the user from
+sysfs), but does not destroy it.  To eliminate a device entirely
+you must also call transport_destroy_device.  If you don't need to
+do remove and destroy as separate operations, use
+\fBtransport_unregister_device\fP (see transport_class.h) which will
+perform both calls for you.

@@ -1,0 +1,21 @@
+.TH "ecryptfs_encrypt_page" 9 "ecryptfs_encrypt_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_encrypt_page \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_encrypt_page
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+Page mapped from the eCryptfs inode for the file; contains
+decrypted content that needs to be encrypted (to a temporary
+page; not in place) and written out to the lower file
+.SH "DESCRIPTION"
+Encrypt an eCryptfs page. This is done on a per-extent basis. Note
+that eCryptfs pages may straddle the lower pages -- for instance,
+if the file was created on a machine with an 8K page size
+(resulting in an 8K header), and then the file is copied onto a
+host with a 32K page size, then when reading page 0 of the eCryptfs
+file, 24K of page 0 of the lower file will be read and decrypted,
+and then 8K of page 1 of the lower file will be read and decrypted.
+
+Returns zero on success; negative on error

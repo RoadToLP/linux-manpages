@@ -1,0 +1,19 @@
+.TH "pcpu_block_update_hint_alloc" 9 "pcpu_block_update_hint_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_block_update_hint_alloc \- update hint on allocation path
+.SH SYNOPSIS
+.B "void" pcpu_block_update_hint_alloc
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int bit_off "  ","
+.BI "int bits "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "bit_off" 12
+chunk offset
+.IP "bits" 12
+size of request
+.SH "DESCRIPTION"
+Updates metadata for the allocation path.  The metadata only has to be
+refreshed by a full scan iff the chunk's contig hint is broken.  Block level
+scans are required if the block's contig hint is broken.

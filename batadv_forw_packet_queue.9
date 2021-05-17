@@ -1,0 +1,28 @@
+.TH "batadv_forw_packet_queue" 9 "batadv_forw_packet_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_forw_packet_queue \- try to queue a forwarding packet
+.SH SYNOPSIS
+.B "void" batadv_forw_packet_queue
+.BI "(struct batadv_forw_packet *forw_packet "  ","
+.BI "spinlock_t *lock "  ","
+.BI "struct hlist_head *head "  ","
+.BI "unsigned long send_time "  ");"
+.SH ARGUMENTS
+.IP "forw_packet" 12
+the forwarding packet to queue
+.IP "lock" 12
+a key to the store (e.g. forw_{bat,bcast}_list_lock)
+.IP "head" 12
+the shelve to queue it on (e.g. forw_{bat,bcast}_list)
+.IP "send_time" 12
+timestamp (jiffies) when the packet is to be sent
+.SH "DESCRIPTION"
+This function tries to (re)queue a forwarding packet. Requeuing
+is prevented if the according interface is shutting down
+(e.g. if \fBbatadv_forw_packet_list_steal\fP was called for this
+packet earlier).
+
+Calling \fBbatadv_forw_packet_queue\fP after a call to
+\fBbatadv_forw_packet_steal\fP is forbidden!
+
+Caller needs to ensure that forw_packet->delayed_work was initialized.

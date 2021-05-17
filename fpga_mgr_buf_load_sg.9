@@ -1,0 +1,26 @@
+.TH "fpga_mgr_buf_load_sg" 9 "fpga_mgr_buf_load_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_mgr_buf_load_sg \- load fpga from image in buffer from a scatter list
+.SH SYNOPSIS
+.B "int" fpga_mgr_buf_load_sg
+.BI "(struct fpga_manager *mgr "  ","
+.BI "struct fpga_image_info *info "  ","
+.BI "struct sg_table *sgt "  ");"
+.SH ARGUMENTS
+.IP "mgr" 12
+fpga manager
+.IP "info" 12
+fpga image specific information
+.IP "sgt" 12
+scatterlist table
+.SH "DESCRIPTION"
+Step the low level fpga manager through the device-specific steps of getting
+an FPGA ready to be configured, writing the image to it, then doing whatever
+post-configuration steps necessary.  This code assumes the caller got the
+mgr pointer from \fBof_fpga_mgr_get\fP or \fBfpga_mgr_get\fP and checked that it is
+not an error code.
+
+This is the preferred entry point for FPGA programming, it does not require
+any contiguous kernel memory.
+.SH "RETURN"
+0 on success, negative error code otherwise.

@@ -1,0 +1,19 @@
+.TH "oom_cpuset_eligible" 9 "oom_cpuset_eligible" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+oom_cpuset_eligible \- check task eligiblity for kill
+.SH SYNOPSIS
+.B "bool" oom_cpuset_eligible
+.BI "(struct task_struct *start "  ","
+.BI "struct oom_control *oc "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+task struct of which task to consider
+.IP "oc" 12
+pointer to struct oom_control
+.SH "DESCRIPTION"
+Task eligibility is determined by whether or not a candidate task, \fItsk\fP,
+shares the same mempolicy nodes as current if it is bound by such a policy
+and whether or not it has the same set of allowed cpuset nodes.
+
+This function is assuming oom-killer context and 'current' has triggered
+the oom-killer.

@@ -1,0 +1,15 @@
+.TH "rcu_sync_exit" 9 "rcu_sync_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_sync_exit \- Allow readers back onto fast path after grace period
+.SH SYNOPSIS
+.B "void" rcu_sync_exit
+.BI "(struct rcu_sync *rsp "  ");"
+.SH ARGUMENTS
+.IP "rsp" 12
+Pointer to rcu_sync structure to use for synchronization
+.SH "DESCRIPTION"
+This function is used by updaters who have completed, and can therefore
+now allow readers to make use of their fastpaths after a grace period
+has elapsed.  After this grace period has completed, all subsequent
+calls to \fBrcu_sync_is_idle\fP will return true, which tells readers that
+they can once again use their fastpaths.

@@ -1,0 +1,23 @@
+.TH "io_init" 9 "io_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+io_init \- initialize I/O sub-system for a given UBI device.
+.SH SYNOPSIS
+.B "int" io_init
+.BI "(struct ubi_device *ubi "  ","
+.BI "int max_beb_per1024 "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "max_beb_per1024" 12
+maximum expected number of bad PEB per 1024 PEBs
+.SH "DESCRIPTION"
+If \fIubi->vid_hdr_offset\fP or \fIubi->leb_start\fP is zero, default offsets are
+assumed:
+o EC header is always at offset zero - this cannot be changed;
+o VID header starts just after the EC header at the closest address
+aligned to \fIio->hdrs_min_io_size\fP;
+o data starts just after the VID header at the closest address aligned to
+\fIio->min_io_size\fP
+
+This function returns zero in case of success and a negative error code in
+case of failure.

@@ -1,0 +1,17 @@
+.TH "bfq_active_insert" 9 "bfq_active_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_active_insert \- insert an entity in the active tree of its group/device.
+.SH SYNOPSIS
+.B "void" bfq_active_insert
+.BI "(struct bfq_service_tree *st "  ","
+.BI "struct bfq_entity *entity "  ");"
+.SH ARGUMENTS
+.IP "st" 12
+the service tree of the entity.
+.IP "entity" 12
+the entity being inserted.
+.SH "DESCRIPTION"
+The active tree is ordered by finish time, but an extra key is kept
+per each node, containing the minimum value for the start times of
+its children (and the node itself), so it's possible to search for
+the eligible node with the lowest finish time in logarithmic time.

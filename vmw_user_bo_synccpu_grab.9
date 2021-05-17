@@ -1,0 +1,22 @@
+.TH "vmw_user_bo_synccpu_grab" 9 "vmw_user_bo_synccpu_grab" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_user_bo_synccpu_grab \- Grab a struct vmw_user_buffer_object for cpu access, idling previous GPU operations on the buffer and optionally blocking it for further command submissions.
+.SH SYNOPSIS
+.B "int" vmw_user_bo_synccpu_grab
+.BI "(struct vmw_user_buffer_object *user_bo "  ","
+.BI "struct ttm_object_file *tfile "  ","
+.BI "uint32_t flags "  ");"
+.SH ARGUMENTS
+.IP "user_bo" 12
+Pointer to the buffer object being grabbed for CPU access
+.IP "tfile" 12
+Identifying the caller.
+.IP "flags" 12
+Flags indicating how the grab should be performed.
+.SH "RETURN"
+Zero on success, Negative error code on error. In particular,
+-EBUSY will be returned if a dontblock operation is requested and the
+buffer object is busy, and -ERESTARTSYS will be returned if a wait is
+interrupted by a signal.
+.SH "DESCRIPTION"
+A blocking grab will be automatically released when \fItfile\fP is closed.

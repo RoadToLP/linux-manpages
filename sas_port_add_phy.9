@@ -1,0 +1,19 @@
+.TH "sas_port_add_phy" 9 "sas_port_add_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sas_port_add_phy \- add another phy to a port to form a wide port
+.SH SYNOPSIS
+.B "void" sas_port_add_phy
+.BI "(struct sas_port *port "  ","
+.BI "struct sas_phy *phy "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+port to add the phy to
+.IP "phy" 12
+phy to add
+.SH "DESCRIPTION"
+When a port is initially created, it is empty (has no phys).  All
+ports must have at least one phy to operated, and all wide ports
+must have at least two.  The current code makes no difference
+between ports and wide ports, but the only object that can be
+connected to a remote device is a port, so ports must be formed on
+all devices with phys if they're connected to anything.

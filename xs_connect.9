@@ -1,0 +1,21 @@
+.TH "xs_connect" 9 "xs_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xs_connect \- connect a socket to a remote endpoint
+.SH SYNOPSIS
+.B "void" xs_connect
+.BI "(struct rpc_xprt *xprt "  ","
+.BI "struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+pointer to transport structure
+.IP "task" 12
+address of RPC task that manages state of connect request
+.SH "DESCRIPTION"
+TCP: If the remote end dropped the connection, delay reconnecting.
+
+UDP socket connects are synchronous, but we use a work queue anyway
+to guarantee that even unprivileged user processes can set up a
+socket on a privileged port.
+
+If a UDP socket connect fails, the delay behavior here prevents
+retry floods (hard mounts).

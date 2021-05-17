@@ -1,0 +1,40 @@
+.TH "packing" 9 "packing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+packing \- Convert numbers (currently u64) between a packed and an unpacked format. Unpacked means laid out in memory in the CPU's native understanding of integers, while packed means anything else that requires translation.
+.SH SYNOPSIS
+.B "int" packing
+.BI "(void *pbuf "  ","
+.BI "u64 *uval "  ","
+.BI "int startbit "  ","
+.BI "int endbit "  ","
+.BI "size_t pbuflen "  ","
+.BI "enum packing_op op "  ","
+.BI "u8 quirks "  ");"
+.SH ARGUMENTS
+.IP "pbuf" 12
+Pointer to a buffer holding the packed value.
+.IP "uval" 12
+Pointer to an u64 holding the unpacked value.
+.IP "startbit" 12
+The index (in logical notation, compensated for quirks) where
+the packed value starts within pbuf. Must be larger than, or
+equal to, endbit.
+.IP "endbit" 12
+The index (in logical notation, compensated for quirks) where
+the packed value ends within pbuf. Must be smaller than, or equal
+to, startbit.
+.IP "pbuflen" 12
+The length in bytes of the packed buffer pointed to by \fIpbuf\fP.
+.IP "op" 12
+If PACK, then uval will be treated as const pointer and copied (packed)
+into pbuf, between startbit and endbit.
+If UNPACK, then pbuf will be treated as const pointer and the logical
+value between startbit and endbit will be copied (unpacked) to uval.
+.IP "quirks" 12
+A bit mask of QUIRK_LITTLE_ENDIAN, QUIRK_LSW32_IS_FIRST and
+QUIRK_MSB_ON_THE_RIGHT.
+.SH "RETURN"
+0 on success, EINVAL or ERANGE if called incorrectly. Assuming
+correct usage, return code may be discarded.
+If op is PACK, pbuf is modified.
+If op is UNPACK, uval is modified.

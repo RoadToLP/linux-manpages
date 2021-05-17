@@ -1,0 +1,34 @@
+.TH "t4_fw_upgrade" 9 "t4_fw_upgrade" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_fw_upgrade \- perform all of the steps necessary to upgrade FW
+.SH SYNOPSIS
+.B "int" t4_fw_upgrade
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int mbox "  ","
+.BI "const u8 *fw_data "  ","
+.BI "unsigned int size "  ","
+.BI "int force "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "mbox" 12
+mailbox to use for the FW RESET command (if desired)
+.IP "fw_data" 12
+the firmware image to write
+.IP "size" 12
+image size
+.IP "force" 12
+force upgrade even if firmware doesn't cooperate
+
+Perform all of the steps necessary for upgrading an adapter's
+firmware image.  Normally this requires the cooperation of the
+existing firmware in order to halt all existing activities
+but if an invalid mailbox token is passed in we skip that step
+(though we'll still put the adapter microprocessor into RESET in
+that case).
+
+On successful return the new firmware will have been loaded and
+the adapter will have been fully RESET losing all previous setup
+state.  On unsuccessful return the adapter may be completely hosed ...
+positive errno indicates that the adapter is ~probably~ intact, a
+negative errno indicates that things are looking bad ...

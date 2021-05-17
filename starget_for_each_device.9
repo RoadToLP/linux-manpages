@@ -1,0 +1,19 @@
+.TH "starget_for_each_device" 9 "starget_for_each_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+starget_for_each_device \- helper to walk all devices of a target
+.SH SYNOPSIS
+.B "void" starget_for_each_device
+.BI "(struct scsi_target *starget "  ","
+.BI "void *data "  ","
+.BI "void (*fn)(struct scsi_device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "starget" 12
+target whose devices we want to iterate over.
+.IP "data" 12
+Opaque passed to each function call.
+.IP "fn" 12
+Function to call on each device
+.SH "DESCRIPTION"
+This traverses over each device of \fIstarget\fP.  The devices have
+a reference that must be released by scsi_host_put when breaking
+out of the loop.

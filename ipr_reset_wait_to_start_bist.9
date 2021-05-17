@@ -1,0 +1,20 @@
+.TH "ipr_reset_wait_to_start_bist" 9 "ipr_reset_wait_to_start_bist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipr_reset_wait_to_start_bist \- Wait for permission to reset IOA.
+.SH SYNOPSIS
+.B "int" ipr_reset_wait_to_start_bist
+.BI "(struct ipr_cmnd *ipr_cmd "  ");"
+.SH ARGUMENTS
+.IP "ipr_cmd" 12
+ipr command struct
+.SH "DESCRIPTION"
+This function waits for adapter permission to run BIST,
+then runs BIST. If the adapter does not give permission after a
+reasonable time, we will reset the adapter anyway. The impact of
+resetting the adapter without warning the adapter is the risk of
+losing the persistent error log on the adapter. If the adapter is
+reset while it is writing to the flash on the adapter, the flash
+segment will have bad ECC and be zeroed.
+
+Return value:
+IPR_RC_JOB_CONTINUE / IPR_RC_JOB_RETURN

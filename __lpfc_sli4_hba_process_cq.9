@@ -1,0 +1,23 @@
+.TH "__lpfc_sli4_hba_process_cq" 9 "__lpfc_sli4_hba_process_cq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli4_hba_process_cq \- Process a fast-path event queue entry
+.SH SYNOPSIS
+.B "void" __lpfc_sli4_hba_process_cq
+.BI "(struct lpfc_queue *cq "  ","
+.BI "enum lpfc_poll_mode poll_mode "  ");"
+.SH ARGUMENTS
+.IP "cq" 12
+Pointer to CQ to be processed
+.IP "poll_mode" 12
+Enum lpfc_poll_state to determine poll mode
+.SH "DESCRIPTION"
+This routine calls the cq processing routine with the handler for
+fast path CQEs.
+
+The CQ routine returns two values: the first is the calling status,
+which indicates whether work was queued to the  background discovery
+thread. If true, the routine should wakeup the discovery thread;
+the second is the delay parameter. If non-zero, rather than rearming
+the CQ and yet another interrupt, the CQ handler should be queued so
+that it is processed in a subsequent polling action. The value of
+the delay indicates when to reschedule it.

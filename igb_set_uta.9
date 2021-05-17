@@ -1,0 +1,18 @@
+.TH "igb_set_uta" 9 "igb_set_uta" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_set_uta \- Set unicast filter table address
+.SH SYNOPSIS
+.B "void" igb_set_uta
+.BI "(struct igb_adapter *adapter "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+board private structure
+.IP "set" 12
+boolean indicating if we are setting or clearing bits
+
+The unicast table address is a register array of 32-bit registers.
+The table is meant to be used in a way similar to how the MTA is used
+however due to certain limitations in the hardware it is necessary to
+set all the hash bits to 1 and use the VMOLR ROPE bit as a promiscuous
+enable bit to allow vlan tag stripping when promiscuous mode is enabled

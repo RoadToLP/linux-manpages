@@ -1,0 +1,21 @@
+.TH "qed_spq_add_entry" 9 "qed_spq_add_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qed_spq_add_entry \- Add a new entry to the pending list. Should be used while lock is being held.
+.SH SYNOPSIS
+.B "int" qed_spq_add_entry
+.BI "(struct qed_hwfn *p_hwfn "  ","
+.BI "struct qed_spq_entry *p_ent "  ","
+.BI "enum spq_priority priority "  ");"
+.SH ARGUMENTS
+.IP "p_hwfn" 12
+HW device data.
+.IP "p_ent" 12
+An entry to add.
+.IP "priority" 12
+Desired priority.
+.SH "DESCRIPTION"
+Adds an entry to the pending list is there is room (an empty
+element is available in the free_pool), or else places the
+entry in the unlimited_pending pool.
+.SH "RETURN"
+zero on success, -EINVAL on invalid \fIpriority\fP.

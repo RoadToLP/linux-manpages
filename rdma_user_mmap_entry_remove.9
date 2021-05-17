@@ -1,0 +1,13 @@
+.TH "rdma_user_mmap_entry_remove" 9 "rdma_user_mmap_entry_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_entry_remove \- Drop reference to entry and mark it as unmmapable
+.SH SYNOPSIS
+.B "void" rdma_user_mmap_entry_remove
+.BI "(struct rdma_user_mmap_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+the entry to insert into the mmap_xa
+.SH "DESCRIPTION"
+Drivers can call this to prevent userspace from creating more mappings for
+entry, however existing mmaps continue to exist and ops->\fBmmap_free\fP will
+not be called until all user mmaps are destroyed.

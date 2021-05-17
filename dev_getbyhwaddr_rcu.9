@@ -1,0 +1,21 @@
+.TH "dev_getbyhwaddr_rcu" 9 "dev_getbyhwaddr_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_getbyhwaddr_rcu \- find a device by its hardware address
+.SH SYNOPSIS
+.B "struct net_device *" dev_getbyhwaddr_rcu
+.BI "(struct net *net "  ","
+.BI "unsigned short type "  ","
+.BI "const char *ha "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "type" 12
+media type of device
+.IP "ha" 12
+hardware address
+
+Search for an interface by MAC address. Returns NULL if the device
+is not found or a pointer to the device.
+The caller must hold RCU or RTNL.
+The returned device has not had its ref count increased
+and the caller must therefore be careful about locking

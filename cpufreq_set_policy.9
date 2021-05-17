@@ -1,0 +1,24 @@
+.TH "cpufreq_set_policy" 9 "cpufreq_set_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_set_policy \- Modify cpufreq policy parameters.
+.SH SYNOPSIS
+.B "int" cpufreq_set_policy
+.BI "(struct cpufreq_policy *policy "  ","
+.BI "struct cpufreq_governor *new_gov "  ","
+.BI "unsigned int new_pol "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+Policy object to modify.
+.IP "new_gov" 12
+Policy governor pointer.
+.IP "new_pol" 12
+Policy value (for drivers with built-in governors).
+.SH "DESCRIPTION"
+Invoke the cpufreq driver's ->\fBverify\fP callback to sanity-check the frequency
+limits to be set for the policy, update \fIpolicy\fP with the verified limits
+values and either invoke the driver's ->\fBsetpolicy\fP callback (if present) or
+carry out a governor update for \fIpolicy\fP.  That is, run the current governor's
+->\fBlimits\fP callback (if \fInew_gov\fP points to the same object as the one in
+\fIpolicy\fP) or replace the governor for \fIpolicy\fP with \fInew_gov\fP.
+
+The cpuinfo part of \fIpolicy\fP is not updated by this function.

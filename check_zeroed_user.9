@@ -1,0 +1,20 @@
+.TH "check_zeroed_user" 9 "check_zeroed_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_zeroed_user \- check if a userspace buffer only contains zero bytes
+.SH SYNOPSIS
+.B "int" check_zeroed_user
+.BI "(const void __user *from "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "from" 12
+Source address, in userspace.
+.IP "size" 12
+Size of buffer.
+.SH "DESCRIPTION"
+This is effectively shorthand for "memchr_inv(from, 0, size) == NULL" for
+userspace addresses (and is more efficient because we don't care where the
+first non-zero byte is).
+.SH "RETURN"
+* 0: There were non-zero bytes present in the buffer.
+* 1: The buffer was full of zero bytes.
+* -EFAULT: access to userspace failed.

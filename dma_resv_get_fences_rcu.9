@@ -1,0 +1,23 @@
+.TH "dma_resv_get_fences_rcu" 9 "dma_resv_get_fences_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_resv_get_fences_rcu \- Get an object's shared and exclusive fences without update side lock held
+.SH SYNOPSIS
+.B "int" dma_resv_get_fences_rcu
+.BI "(struct dma_resv *obj "  ","
+.BI "struct dma_fence **pfence_excl "  ","
+.BI "unsigned *pshared_count "  ","
+.BI "struct dma_fence ***pshared "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+the reservation object
+.IP "pfence_excl" 12
+the returned exclusive fence (or NULL)
+.IP "pshared_count" 12
+the number of shared fences returned
+.IP "pshared" 12
+the array of shared fence ptrs returned (array is krealloc'd to
+the required size, and must be freed by caller)
+.SH "DESCRIPTION"
+Retrieve all fences from the reservation object. If the pointer for the
+exclusive fence is not specified the fence is put into the array of the
+shared fences as well. Returns either zero or -ENOMEM.

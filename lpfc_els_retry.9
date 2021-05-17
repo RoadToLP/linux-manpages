@@ -1,0 +1,30 @@
+.TH "lpfc_els_retry" 9 "lpfc_els_retry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_retry \- Make retry decision on an els command iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_retry
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine makes a retry decision on an ELS command IOCB, which has
+failed. The following ELS IOCBs use this function for retrying the command
+when previously issued command responsed with error status: FLOGI, PLOGI,
+PRLI, ADISC, LOGO, and FDISC. Based on the ELS command type and the
+returned error status, it makes the decision whether a retry shall be
+issued for the command, and whether a retry shall be made immediately or
+delayed. In the former case, the corresponding ELS command issuing-function
+is called to retry the command. In the later case, the ELS command shall
+be posted to the ndlp delayed event and delayed function timer set to the
+ndlp for the delayed command issusing.
+
+Return code
+0 - No retry of els command is made
+1 - Immediate or delayed retry of els command is made

@@ -1,0 +1,19 @@
+.TH "ixgbe_pull_tail" 9 "ixgbe_pull_tail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_pull_tail \- ixgbe specific version of skb_pull_tail
+.SH SYNOPSIS
+.B "void" ixgbe_pull_tail
+.BI "(struct ixgbe_ring *rx_ring "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+rx descriptor ring packet is being transacted on
+.IP "skb" 12
+pointer to current skb being adjusted
+.SH "DESCRIPTION"
+This function is an ixgbe specific version of __pskb_pull_tail.  The
+main difference between this version and the original function is that
+this function can make several assumptions about the state of things
+that allow for significant optimizations versus the standard function.
+As a result we can do things like drop a frag and maintain an accurate
+truesize for the skb.

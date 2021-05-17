@@ -1,0 +1,16 @@
+.TH "cleanup_cpu_mmu_context" 9 "cleanup_cpu_mmu_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cleanup_cpu_mmu_context \- Clean up MMU details for this CPU (newly offlined)
+.SH SYNOPSIS
+.B "void" cleanup_cpu_mmu_context
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This clears the CPU from mm_cpumask for all processes, and then flushes the
+local TLB to ensure TLB coherency in case the CPU is onlined again.
+
+KVM guest translations are not necessarily flushed here. If KVM started
+using mm_cpumask or the Linux APIs which do, this would have to be resolved.

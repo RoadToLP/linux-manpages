@@ -1,0 +1,21 @@
+.TH "arm_cpuidle_init" 9 "arm_cpuidle_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arm_cpuidle_init \- Initialize cpuidle_ops for a specific cpu
+.SH SYNOPSIS
+.B "int" arm_cpuidle_init
+.BI "(int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+the cpu to be initialized
+.SH "DESCRIPTION"
+Initialize the cpuidle ops with the device for the cpu and then call
+the cpu's idle initialization callback. This may fail if the underlying HW
+is not operational.
+.SH "RETURN"
+0 on success,
+-ENODEV if it fails to find the cpu node in the device tree,
+-EOPNOTSUPP if it does not find a registered and valid cpuidle_ops for
+this cpu,
+-ENOENT if it fails to find an 'enable-method' property,
+-ENXIO if the HW reports a failure or a misconfiguration,
+-ENOMEM if the HW report an memory allocation failure 

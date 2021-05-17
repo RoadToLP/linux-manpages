@@ -1,0 +1,27 @@
+.TH "regulator_get_optional" 9 "regulator_get_optional" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_get_optional \- obtain optional access to a regulator.
+.SH SYNOPSIS
+.B "struct regulator *" regulator_get_optional
+.BI "(struct device *dev "  ","
+.BI "const char *id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for regulator "consumer"
+.IP "id" 12
+Supply name or regulator ID.
+.SH "DESCRIPTION"
+Returns a struct regulator corresponding to the regulator producer,
+or \fBIS_ERR\fP condition containing errno.
+
+This is intended for use by consumers for devices which can have
+some supplies unconnected in normal use, such as some MMC devices.
+It can allow the regulator core to provide stub supplies for other
+supplies requested using normal \fBregulator_get\fP calls without
+disrupting the operation of drivers that can handle absent
+supplies.
+
+Use of supply names configured via \fBset_consumer_device_supply\fP is
+strongly encouraged.  It is recommended that the supply name used
+should match the name used for the supply and/or the relevant
+device pins in the datasheet.

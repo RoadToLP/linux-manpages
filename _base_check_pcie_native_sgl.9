@@ -1,0 +1,23 @@
+.TH "_base_check_pcie_native_sgl" 9 "_base_check_pcie_native_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_base_check_pcie_native_sgl \- This function is called for PCIe end devices to determine if the driver needs to build a native SGL. If so, that native SGL is built in the special contiguous buffers allocated especially for PCIe SGL creation. If the driver will not build a native SGL, return TRUE and a normal IEEE SGL will be built. Currently this routine supports NVMe.
+.SH SYNOPSIS
+.B "int" _base_check_pcie_native_sgl
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "Mpi25SCSIIORequest_t *mpi_request "  ","
+.BI "u16 smid "  ","
+.BI "struct scsi_cmnd *scmd "  ","
+.BI "struct _pcie_device *pcie_device "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "mpi_request" 12
+mf request pointer
+.IP "smid" 12
+system request message index
+.IP "scmd" 12
+scsi command
+.IP "pcie_device" 12
+points to the PCIe device's info
+.SH "RETURN"
+0 if native SGL was built, 1 if no SGL was built

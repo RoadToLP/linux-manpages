@@ -1,0 +1,35 @@
+.TH "ipcctl_obtain_check" 9 "ipcctl_obtain_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipcctl_obtain_check \- retrieve an ipc object and check permissions
+.SH SYNOPSIS
+.B "struct kern_ipc_perm *" ipcctl_obtain_check
+.BI "(struct ipc_namespace *ns "  ","
+.BI "struct ipc_ids *ids "  ","
+.BI "int id "  ","
+.BI "int cmd "  ","
+.BI "struct ipc64_perm *perm "  ","
+.BI "int extra_perm "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+ipc namespace
+.IP "ids" 12
+the table of ids where to look for the ipc
+.IP "id" 12
+the id of the ipc to retrieve
+.IP "cmd" 12
+the cmd to check
+.IP "perm" 12
+the permission to set
+.IP "extra_perm" 12
+one extra permission parameter used by msq
+.SH "DESCRIPTION"
+This function does some common audit and permissions check for some IPC_XXX
+cmd and is called from semctl_down, shmctl_down and msgctl_down.
+
+It:
+- retrieves the ipc object with the given id in the given table.
+- performs some audit and permission check, depending on the given cmd
+- returns a pointer to the ipc object or otherwise, the corresponding
+error.
+
+Call holding the both the rwsem and the rcu read lock.

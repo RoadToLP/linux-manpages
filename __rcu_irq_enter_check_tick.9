@@ -1,0 +1,33 @@
+.TH "__rcu_irq_enter_check_tick" 9 "__rcu_irq_enter_check_tick" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__rcu_irq_enter_check_tick \- Enable scheduler tick on CPU if RCU needs it.
+.SH SYNOPSIS
+.B "void" __rcu_irq_enter_check_tick
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+The scheduler tick is not normally enabled when CPUs enter the kernel
+from nohz_full userspace execution.  After all, nohz_full userspace
+execution is an RCU quiescent state and the time executing in the kernel
+is quite short.  Except of course when it isn't.  And it is not hard to
+cause a large system to spend tens of seconds or even minutes looping
+in the kernel, which can cause a number of problems, include RCU CPU
+stall warnings.
+
+Therefore, if a nohz_full CPU fails to report a quiescent state
+in a timely manner, the RCU grace-period kthread sets that CPU's
+->rcu_urgent_qs flag with the expectation that the next interrupt or
+exception will invoke this function, which will turn on the scheduler
+tick, which will enable RCU to detect that CPU's quiescent states,
+for example, due to \fBcond_resched\fP calls in CONFIG_PREEMPT=n kernels.
+The tick will be disabled once a quiescent state is reported for
+this CPU.
+
+Of course, in carefully tuned systems, there might never be an
+interrupt or exception.  In that case, the RCU grace-period kthread
+will eventually cause one to happen.  However, in less carefully
+controlled environments, this function allows RCU to get what it
+needs without creating otherwise useless interruptions.

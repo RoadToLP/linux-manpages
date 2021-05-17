@@ -1,0 +1,24 @@
+.TH "gsm_send" 9 "gsm_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_send \- send a control frame
+.SH SYNOPSIS
+.B "void" gsm_send
+.BI "(struct gsm_mux *gsm "  ","
+.BI "int addr "  ","
+.BI "int cr "  ","
+.BI "int control "  ");"
+.SH ARGUMENTS
+.IP "gsm" 12
+our GSM mux
+.IP "addr" 12
+address for control frame
+.IP "cr" 12
+command/response bit
+.IP "control" 12
+control byte including PF bit
+
+Format up and transmit a control frame. These do not go via the
+queueing logic as they should be transmitted ahead of data when
+they are needed.
+
+FIXME: Lock versus data TX path

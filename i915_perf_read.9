@@ -1,0 +1,29 @@
+.TH "i915_perf_read" 9 "i915_perf_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_perf_read \- handles read() FOP for i915 perf stream FDs
+.SH SYNOPSIS
+.B "ssize_t" i915_perf_read
+.BI "(struct file *file "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+An i915 perf stream file
+.IP "buf" 12
+destination buffer given by userspace
+.IP "count" 12
+the number of bytes userspace wants to read
+.IP "ppos" 12
+(inout) file seek position (unused)
+.SH "DESCRIPTION"
+The entry point for handling a \fBread\fP on a stream file descriptor from
+userspace. Most of the work is left to the \fBi915_perf_read_locked\fP and
+\fIi915_perf_stream_ops->read\fP but to save having stream implementations (of
+which we might have multiple later) we handle blocking read here.
+
+We can also consistently treat trying to read from a disabled stream
+as an IO error so implementations can assume the stream is enabled
+while reading.
+.SH "RETURN"
+The number of bytes copied or a negative error code on failure.

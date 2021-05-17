@@ -1,0 +1,20 @@
+.TH "e1000e_sanitize_systim" 9 "e1000e_sanitize_systim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000e_sanitize_systim \- sanitize raw cycle counter reads
+.SH SYNOPSIS
+.B "u64" e1000e_sanitize_systim
+.BI "(struct e1000_hw *hw "  ","
+.BI "u64 systim "  ","
+.BI "struct ptp_system_timestamp *sts "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "systim" 12
+PHC time value read, sanitized and returned
+.IP "sts" 12
+structure to hold system time before and after reading SYSTIML,
+may be NULL
+.SH "DESCRIPTION"
+Errata for 82574/82583 possible bad bits read from SYSTIMH/L:
+check to see that the time is incrementing at a reasonable
+rate and is a multiple of incvalue.

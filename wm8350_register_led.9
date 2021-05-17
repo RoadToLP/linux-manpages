@@ -1,0 +1,28 @@
+.TH "wm8350_register_led" 9 "wm8350_register_led" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8350_register_led \- Register a WM8350 LED output
+.SH SYNOPSIS
+.B "int" wm8350_register_led
+.BI "(struct wm8350 *wm8350 "  ","
+.BI "int lednum "  ","
+.BI "int dcdc "  ","
+.BI "int isink "  ","
+.BI "struct wm8350_led_platform_data *pdata "  ");"
+.SH ARGUMENTS
+.IP "wm8350" 12
+The WM8350 device to configure.
+.IP "lednum" 12
+LED device index to create.
+.IP "dcdc" 12
+The DCDC to use for the LED.
+.IP "isink" 12
+The ISINK to use for the LED.
+.IP "pdata" 12
+Configuration for the LED.
+.SH "DESCRIPTION"
+The WM8350 supports the use of an ISINK together with a DCDC to
+provide a power-efficient LED driver.  This function registers the
+regulators and instantiates the platform device for a LED.  The
+operating modes for the LED regulators must be configured using
+\fBwm8350_isink_set_flash\fP, \fBwm8350_dcdc25_set_mode\fP and
+\fBwm8350_dcdc_set_slot\fP prior to calling this function.

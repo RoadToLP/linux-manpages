@@ -1,0 +1,26 @@
+.TH "zynqmp_pm_clock_get_topology" 9 "zynqmp_pm_clock_get_topology" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zynqmp_pm_clock_get_topology \- Get the topology of clock for given id
+.SH SYNOPSIS
+.B "int" zynqmp_pm_clock_get_topology
+.BI "(u32 clock_id "  ","
+.BI "u32 index "  ","
+.BI "struct topology_resp *response "  ");"
+.SH ARGUMENTS
+.IP "clock_id" 12
+ID of the clock to be queried
+.IP "index" 12
+Node index of clock topology
+.IP "response" 12
+Buffer used for the topology response
+.SH "DESCRIPTION"
+This function is used to get topology information for the clock
+specified by given clock ID.
+
+This API will return 3 node of topology with a single response. To get
+other nodes, master should call same API in loop with new
+index till error is returned. E.g First call should have
+index 0 which will return nodes 0,1 and 2. Next call, index
+should be 3 which will return nodes 3,4 and 5 and so on.
+.SH "RETURN"
+0 on success else error+reason

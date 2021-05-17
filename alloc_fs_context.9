@@ -1,0 +1,26 @@
+.TH "alloc_fs_context" 9 "alloc_fs_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_fs_context \- Create a filesystem context.
+.SH SYNOPSIS
+.B "struct fs_context *" alloc_fs_context
+.BI "(struct file_system_type *fs_type "  ","
+.BI "struct dentry *reference "  ","
+.BI "unsigned int sb_flags "  ","
+.BI "unsigned int sb_flags_mask "  ","
+.BI "enum fs_context_purpose purpose "  ");"
+.SH ARGUMENTS
+.IP "fs_type" 12
+The filesystem type.
+.IP "reference" 12
+The dentry from which this one derives (or NULL)
+.IP "sb_flags" 12
+Filesystem/superblock flags (SB_*)
+.IP "sb_flags_mask" 12
+Applicable members of \fIsb_flags\fP
+.IP "purpose" 12
+The purpose that this configuration shall be used for.
+.SH "DESCRIPTION"
+Open a filesystem and create a mount context.  The mount context is
+initialised with the supplied flags and, if a submount/automount from
+another superblock (referred to by \fIreference\fP) is supplied, may have
+parameters such as namespaces copied across from that superblock.

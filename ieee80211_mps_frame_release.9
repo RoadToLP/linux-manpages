@@ -1,0 +1,17 @@
+.TH "ieee80211_mps_frame_release" 9 "ieee80211_mps_frame_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ieee80211_mps_frame_release \- release frames buffered due to mesh power save
+.SH SYNOPSIS
+.B "void" ieee80211_mps_frame_release
+.BI "(struct sta_info *sta "  ","
+.BI "struct ieee802_11_elems *elems "  ");"
+.SH ARGUMENTS
+.IP "sta" 12
+mesh STA
+.IP "elems" 12
+IEs of beacon or probe response
+.SH "DESCRIPTION"
+For peers if we have individually-addressed frames buffered or the peer
+indicates buffered frames, send a corresponding MPSP trigger frame. Since
+we do not evaluate the awake window duration, QoS Nulls are used as MPSP
+trigger frames. If the neighbour STA is not a peer, only send single frames.

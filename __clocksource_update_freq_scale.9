@@ -1,0 +1,21 @@
+.TH "__clocksource_update_freq_scale" 9 "__clocksource_update_freq_scale" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__clocksource_update_freq_scale \- Used update clocksource with new freq
+.SH SYNOPSIS
+.B "void" __clocksource_update_freq_scale
+.BI "(struct clocksource *cs "  ","
+.BI "u32 scale "  ","
+.BI "u32 freq "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+clocksource to be registered
+.IP "scale" 12
+Scale factor multiplied against freq to get clocksource hz
+.IP "freq" 12
+clocksource frequency (cycles per second) divided by scale
+.SH "DESCRIPTION"
+This should only be called from the clocksource->\fBenable\fP method.
+
+This *SHOULD NOT* be called directly! Please use the
+\fB__clocksource_update_freq_hz\fP or \fB__clocksource_update_freq_khz\fP helper
+functions.

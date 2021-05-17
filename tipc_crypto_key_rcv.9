@@ -1,0 +1,18 @@
+.TH "tipc_crypto_key_rcv" 9 "tipc_crypto_key_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_key_rcv \- Receive a session key
+.SH SYNOPSIS
+.B "bool" tipc_crypto_key_rcv
+.BI "(struct tipc_crypto *rx "  ","
+.BI "struct tipc_msg *hdr "  ");"
+.SH ARGUMENTS
+.IP "rx" 12
+the RX crypto
+.IP "hdr" 12
+the TIPC v2 message incl. the receiving session key in its data
+.SH "DESCRIPTION"
+This function retrieves the session key in the message from peer, then
+schedules a RX work to attach the key to the corresponding RX crypto.
+.SH "RETURN"
+"true" if the key has been scheduled for attaching, otherwise
+"false".

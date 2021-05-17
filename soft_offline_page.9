@@ -1,0 +1,29 @@
+.TH "soft_offline_page" 9 "soft_offline_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soft_offline_page \- Soft offline a page.
+.SH SYNOPSIS
+.B "int" soft_offline_page
+.BI "(unsigned long pfn "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "pfn" 12
+pfn to soft-offline
+.IP "flags" 12
+flags. Same as \fBmemory_failure\fP.
+.SH "DESCRIPTION"
+Returns 0 on success, otherwise negated errno.
+
+Soft offline a page, by migration or invalidation,
+without killing anything. This is for the case when
+a page is not corrupted yet (so it's still valid to access),
+but has had a number of corrected errors and is better taken
+out.
+
+The actual policy on when to do that is maintained by
+user space.
+
+This should never impact any application or cause data loss,
+however it might take some time.
+
+This is not a 100% solution for all memory, but tries to be
+``good enough'' for the majority of memory.

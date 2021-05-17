@@ -1,0 +1,16 @@
+.TH "cgroup_rm_cftypes" 9 "cgroup_rm_cftypes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_rm_cftypes \- remove an array of cftypes from a subsystem
+.SH SYNOPSIS
+.B "int" cgroup_rm_cftypes
+.BI "(struct cftype *cfts "  ");"
+.SH ARGUMENTS
+.IP "cfts" 12
+zero-length name terminated array of cftypes
+.SH "DESCRIPTION"
+Unregister \fIcfts\fP.  Files described by \fIcfts\fP are removed from all
+existing cgroups and all future cgroups won't have them either.  This
+function can be called anytime whether \fIcfts\fP' subsys is attached or not.
+
+Returns 0 on successful unregistration, -ENOENT if \fIcfts\fP is not
+registered.

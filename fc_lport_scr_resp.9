@@ -1,0 +1,19 @@
+.TH "fc_lport_scr_resp" 9 "fc_lport_scr_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_lport_scr_resp \- Handle response to State Change Register (SCR) request
+.SH SYNOPSIS
+.B "void" fc_lport_scr_resp
+.BI "(struct fc_seq *sp "  ","
+.BI "struct fc_frame *fp "  ","
+.BI "void *lp_arg "  ");"
+.SH ARGUMENTS
+.IP "sp" 12
+current sequence in SCR exchange
+.IP "fp" 12
+response frame
+.IP "lp_arg" 12
+Fibre Channel lport port instance that sent the registration request
+.SH "DESCRIPTION"
+Locking Note: This function will be called without the lport lock
+held, but it will lock, call an _enter_* function or fc_lport_error
+and then unlock the lport.

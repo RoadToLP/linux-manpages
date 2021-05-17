@@ -1,0 +1,25 @@
+.TH "sdma_send_txreq" 9 "sdma_send_txreq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdma_send_txreq \- submit a tx req to ring
+.SH SYNOPSIS
+.B "int" sdma_send_txreq
+.BI "(struct sdma_engine *sde "  ","
+.BI "struct iowait_work *wait "  ","
+.BI "struct sdma_txreq *tx "  ","
+.BI "bool pkts_sent "  ");"
+.SH ARGUMENTS
+.IP "sde" 12
+sdma engine to use
+.IP "wait" 12
+SE wait structure to use when full (may be NULL)
+.IP "tx" 12
+sdma_txreq to submit
+.IP "pkts_sent" 12
+has any packet been sent yet?
+.SH "DESCRIPTION"
+The call submits the tx into the ring.  If a iowait structure is non-NULL
+the packet will be queued to the list in wait.
+.SH "RETURN"
+0 - Success, -EINVAL - sdma_txreq incomplete, -EBUSY - no space in
+ring (wait == NULL)
+-EIOCBQUEUED - tx queued to iowait, -ECOMM bad sdma state

@@ -1,0 +1,28 @@
+.TH "__hwspin_unlock" 9 "__hwspin_unlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__hwspin_unlock \- unlock a specific hwspinlock
+.SH SYNOPSIS
+.B "void" __hwspin_unlock
+.BI "(struct hwspinlock *hwlock "  ","
+.BI "int mode "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "hwlock" 12
+a previously-acquired hwspinlock which we want to unlock
+.IP "mode" 12
+controls whether local interrupts needs to be restored or not
+.IP "flags" 12
+previous caller's interrupt state to restore (if requested)
+.SH "DESCRIPTION"
+This function will unlock a specific hwspinlock, enable preemption and
+(possibly) enable interrupts or restore their previous state.
+\fIhwlock\fP must be already locked before calling this function: it is a bug
+to call unlock on a \fIhwlock\fP that is already unlocked.
+
+The user decides whether local interrupts should be enabled or not, and
+if yes, whether he wants their previous state to be restored. It is up
+to the user to choose the appropriate \fImode\fP of operation, exactly the
+same way users decide between spin_unlock, spin_unlock_irq and
+spin_unlock_irqrestore.
+
+The function will never sleep.

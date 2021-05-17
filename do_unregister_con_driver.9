@@ -1,0 +1,16 @@
+.TH "do_unregister_con_driver" 9 "do_unregister_con_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_unregister_con_driver \- unregister console driver from console layer
+.SH SYNOPSIS
+.B "int" do_unregister_con_driver
+.BI "(const struct consw *csw "  ");"
+.SH ARGUMENTS
+.IP "csw" 12
+console driver
+.SH "DESCRIPTION"
+All drivers that registers to the console layer must
+call this function upon exit, or if the console driver is in a state
+where it won't be able to handle console services, such as the
+framebuffer console without loaded framebuffer drivers.
+
+The driver must unbind first prior to unregistration.

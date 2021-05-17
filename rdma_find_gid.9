@@ -1,0 +1,23 @@
+.TH "rdma_find_gid" 9 "rdma_find_gid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_find_gid \- Returns SGID attributes if the matching GID is found.
+.SH SYNOPSIS
+.B "const struct ib_gid_attr *" rdma_find_gid
+.BI "(struct ib_device *device "  ","
+.BI "const union ib_gid *gid "  ","
+.BI "enum ib_gid_type gid_type "  ","
+.BI "struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+The device to query.
+.IP "gid" 12
+The GID value to search for.
+.IP "gid_type" 12
+The GID type to search for.
+.IP "ndev" 12
+In RoCE, the net device of the device. NULL means ignore.
+.SH "DESCRIPTION"
+\fBrdma_find_gid\fP searches for the specified GID value in the software cache.
+
+Returns GID attributes if a valid GID is found or returns ERR_PTR for the
+error. The caller must invoke \fBrdma_put_gid_attr\fP to release the reference.

@@ -1,0 +1,28 @@
+.TH "devm_fpga_mgr_create" 9 "devm_fpga_mgr_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_fpga_mgr_create \- create and initialize a managed FPGA manager struct
+.SH SYNOPSIS
+.B "struct fpga_manager *" devm_fpga_mgr_create
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct fpga_manager_ops *mops "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+fpga manager device from pdev
+.IP "name" 12
+fpga manager name
+.IP "mops" 12
+pointer to structure of fpga manager ops
+.IP "priv" 12
+fpga manager private data
+.SH "DESCRIPTION"
+This function is intended for use in a FPGA manager driver's probe function.
+After the manager driver creates the manager struct with
+\fBdevm_fpga_mgr_create\fP, it should register it with \fBfpga_mgr_register\fP.  The
+manager driver's remove function should call \fBfpga_mgr_unregister\fP.  The
+manager struct allocated with this function will be freed automatically on
+driver detach.  This includes the case of a probe function returning error
+before calling \fBfpga_mgr_register\fP, the struct will still get cleaned up.
+.SH "RETURN"
+pointer to struct fpga_manager or NULL

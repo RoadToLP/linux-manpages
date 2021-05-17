@@ -1,0 +1,26 @@
+.TH "ext2_find_near" 9 "ext2_find_near" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_find_near \- find a place for allocation with sufficient locality
+.SH SYNOPSIS
+.B "ext2_fsblk_t" ext2_find_near
+.BI "(struct inode *inode "  ","
+.BI "Indirect *ind "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+owner
+.IP "ind" 12
+descriptor of indirect block.
+
+This function returns the preferred place for block allocation.
+It is used when heuristic for sequential allocation fails.
+Rules are:
++ if there is a block to the left of our position - allocate near it.
++ if pointer will live in indirect block - allocate near that block.
++ if pointer will live in inode - allocate in the same cylinder group.
+.SH "DESCRIPTION"
+In the latter case we colour the starting block by the callers PID to
+prevent it from clashing with concurrent allocations for a different inode
+in the same block group.   The PID is used here so that functionally related
+files will be close-by on-disk.
+
+Caller must make sure that \fIind\fP is valid and will stay that way.

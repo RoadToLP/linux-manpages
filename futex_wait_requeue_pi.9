@@ -1,0 +1,54 @@
+.TH "futex_wait_requeue_pi" 9 "futex_wait_requeue_pi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+futex_wait_requeue_pi \- Wait on uaddr and take uaddr2
+.SH SYNOPSIS
+.B "int" futex_wait_requeue_pi
+.BI "(u32 __user *uaddr "  ","
+.BI "unsigned int flags "  ","
+.BI "u32 val "  ","
+.BI "ktime_t *abs_time "  ","
+.BI "u32 bitset "  ","
+.BI "u32 __user *uaddr2 "  ");"
+.SH ARGUMENTS
+.IP "uaddr" 12
+the futex we initially wait on (non-pi)
+.IP "flags" 12
+futex flags (FLAGS_SHARED, FLAGS_CLOCKRT, etc.), they must be
+the same type, no requeueing from private to shared, etc.
+.IP "val" 12
+the expected value of uaddr
+.IP "abs_time" 12
+absolute timeout
+.IP "bitset" 12
+32 bit wakeup bitset set by userspace, defaults to all
+.IP "uaddr2" 12
+the pi futex we will take prior to returning to user-space
+.SH "DESCRIPTION"
+The caller will wait on uaddr and will be requeued by \fBfutex_requeue\fP to
+uaddr2 which must be PI aware and unique from uaddr.  Normal wakeup will wake
+on uaddr2 and complete the acquisition of the rt_mutex prior to returning to
+userspace.  This ensures the rt_mutex maintains an owner when it has waiters;
+without one, the pi logic would not know which task to boost/deboost, if
+there was a need to.
+
+We call schedule in \fBfutex_wait_queue_me\fP when we enqueue and return there
+via the following--
+1) wakeup on uaddr2 after an atomic lock acquisition by \fBfutex_requeue\fP
+2) wakeup on uaddr2 after a requeue
+3) signal
+4) timeout
+
+If 3, cleanup and return -ERESTARTNOINTR.
+
+If 2, we may then block on trying to take the rt_mutex and return via:
+5) successful lock
+6) signal
+7) timeout
+8) other lock acquisition failure
+
+If 6, return -EWOULDBLOCK (restarting the syscall would do the same).
+
+If 4 or 7, we cleanup and return with -ETIMEDOUT.
+.SH "RETURN"
+-  0 - On success;
+- <0 - On error

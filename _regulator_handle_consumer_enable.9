@@ -1,0 +1,25 @@
+.TH "_regulator_handle_consumer_enable" 9 "_regulator_handle_consumer_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_regulator_handle_consumer_enable \- handle that a consumer enabled
+.SH SYNOPSIS
+.B "int" _regulator_handle_consumer_enable
+.BI "(struct regulator *regulator "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.SH "DESCRIPTION"
+Some things on a regulator consumer (like the contribution towards total
+load on the regulator) only have an effect when the consumer wants the
+regulator enabled.  Explained in example with two consumers of the same
+regulator:
+consumer A: set_load(100);       => total load = 0
+consumer A: \fBregulator_enable\fP;  => total load = 100
+consumer B: set_load(1000);      => total load = 100
+consumer B: \fBregulator_enable\fP;  => total load = 1100
+consumer A: \fBregulator_disable\fP; => total_load = 1000
+
+This function (together with _regulator_handle_consumer_disable) is
+responsible for keeping track of the refcount for a given regulator consumer
+and applying / unapplying these things.
+
+Returns 0 upon no error; -error upon error.

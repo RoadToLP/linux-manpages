@@ -1,0 +1,68 @@
+.TH "epf_ntb_configure_mw" 9 "epf_ntb_configure_mw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_configure_mw \- Configure the Outbound Address Space for one host to access the memory window of other host
+.SH SYNOPSIS
+.B "int" epf_ntb_configure_mw
+.BI "(struct epf_ntb *ntb "  ","
+.BI "enum pci_epc_interface_type type "  ","
+.BI "u32 mw "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device that facilitates communication between HOST1 and HOST2
+.IP "type" 12
+PRIMARY interface or SECONDARY interface
+.IP "mw" 12
+Index of the memory window (either 0, 1, 2 or 3)
+.SH "DESCRIPTION"
++-----------------+    +---->+----------------+-----------+-----------------+
+|       BAR0      |    |     |   Doorbell 1   +-----------> MSI|X ADDRESS 1 |
++-----------------+    |     +----------------+           +-----------------+
+|       BAR1      |    |     |   Doorbell 2   +---------+ |                 |
++-----------------+----+     +----------------+         | |                 |
+|       BAR2      |          |   Doorbell 3   +-------+ | +-----------------+
++-----------------+----+     +----------------+       | +-> MSI|X ADDRESS 2 |
+|       BAR3      |    |     |   Doorbell 4   +-----+ |   +-----------------+
++-----------------+    |     |----------------+     | |   |                 |
+|       BAR4      |    |     |                |     | |   +-----------------+
++-----------------+    |     |      MW1       +---+ | +-->+ MSI|X ADDRESS 3||
+|       BAR5      |    |     |                |   | |     +-----------------+
++-----------------+    +---->-----------------+   | |     |                 |
+EP CONTROLLER 1            |                |   | |     +-----------------+
+|                |   | +---->+ MSI|X ADDRESS 4 |
++----------------+   |       +-----------------+
+(A)      EP CONTROLLER 2     |       |                 |
+(OB SPACE)        |       |                 |
++------->      MW1        |
+|                 |
+|                 |
+(B)     +-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+PCI Address Space
+(Managed by HOST2)
+
+This function performs stage (B) in the above diagram (see MW1) i.e., map OB
+address space of memory window to PCI address space.
+
+This operation requires 3 parameters
+1) Address in the outbound address space
+2) Address in the PCI Address space
+3) Size of the address region to be mapped
+
+The address in the outbound address space (for MW1, MW2, MW3 and MW4) is
+stored in epf_bar corresponding to BAR_DB_MW1 for MW1 and BAR_MW2, BAR_MW3
+BAR_MW4 for rest of the BARs of epf_ntb_epc that is connected to HOST1. This
+is populated in \fBepf_ntb_alloc_peer_mem\fP in this driver.
+
+The address and size of the PCI address region that has to be mapped would
+be provided by HOST2 in ctrl->addr and ctrl->size of epf_ntb_epc that is
+connected to HOST2.
+
+Please note Memory window1 (MW1) and Doorbell registers together will be
+mapped to a single BAR (BAR2) above for 32-bit BARs. The exact BAR that's
+used for Memory window (MW) can be obtained from epf_ntb_bar[BAR_DB_MW1],
+epf_ntb_bar[BAR_MW2], epf_ntb_bar[BAR_MW2], epf_ntb_bar[BAR_MW2].

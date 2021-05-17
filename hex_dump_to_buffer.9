@@ -1,0 +1,46 @@
+.TH "hex_dump_to_buffer" 9 "hex_dump_to_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hex_dump_to_buffer \- convert a blob of data to "hex ASCII" in memory
+.SH SYNOPSIS
+.B "int" hex_dump_to_buffer
+.BI "(const void *buf "  ","
+.BI "size_t len "  ","
+.BI "int rowsize "  ","
+.BI "int groupsize "  ","
+.BI "char *linebuf "  ","
+.BI "size_t linebuflen "  ","
+.BI "bool ascii "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+data blob to dump
+.IP "len" 12
+number of bytes in the \fIbuf\fP
+.IP "rowsize" 12
+number of bytes to print per line; must be 16 or 32
+.IP "groupsize" 12
+number of bytes to print at a time (1, 2, 4, 8; default = 1)
+.IP "linebuf" 12
+where to put the converted data
+.IP "linebuflen" 12
+total size of \fIlinebuf\fP, including space for terminating NUL
+.IP "ascii" 12
+include ASCII after the hex output
+.SH "DESCRIPTION"
+\fBhex_dump_to_buffer\fP works on one "line" of output at a time, i.e.,
+16 or 32 bytes of input data converted to hex + ASCII output.
+
+Given a buffer of u8 data, \fBhex_dump_to_buffer\fP converts the input data
+to a hex + ASCII dump at the supplied memory location.
+The converted output is always NUL-terminated.
+
+E.g.:
+hex_dump_to_buffer(frame->data, frame->len, 16, 1,
+linebuf, sizeof(linebuf), true);
+
+example output buffer:
+40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f  \fIABCDEFGHIJKLMNO\fP
+.SH "RETURN"
+The amount of bytes placed in the buffer without terminating NUL. If the
+output was truncated, then the return value is the number of bytes
+(excluding the terminating NUL) which would have been written to the final
+string if enough space had been available.

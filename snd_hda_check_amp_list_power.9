@@ -1,0 +1,22 @@
+.TH "snd_hda_check_amp_list_power" 9 "snd_hda_check_amp_list_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_check_amp_list_power \- Check the amp list and update the power
+.SH SYNOPSIS
+.B "int" snd_hda_check_amp_list_power
+.BI "(struct hda_codec *codec "  ","
+.BI "struct hda_loopback_check *check "  ","
+.BI "hda_nid_t nid "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+HD-audio codec
+.IP "check" 12
+the object containing an AMP list and the status
+.IP "nid" 12
+NID to check / update
+.SH "DESCRIPTION"
+Check whether the given NID is in the amp list.  If it's in the list,
+check the current AMP status, and update the power-status according
+to the mute status.
+
+This function is supposed to be set or called from the check_power_status
+patch ops.

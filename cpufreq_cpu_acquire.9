@@ -1,0 +1,17 @@
+.TH "cpufreq_cpu_acquire" 9 "cpufreq_cpu_acquire" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_cpu_acquire \- Find policy for a CPU, mark it as busy and lock it.
+.SH SYNOPSIS
+.B "struct cpufreq_policy *" cpufreq_cpu_acquire
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU to find the policy for.
+.SH "DESCRIPTION"
+Call \fBcpufreq_cpu_get\fP to get a reference on the cpufreq policy for \fIcpu\fP and
+if the policy returned by it is not NULL, acquire its rwsem for writing.
+Return the policy if it is active or release it and return NULL otherwise.
+
+The policy returned by this function has to be released with the help of
+\fBcpufreq_cpu_release\fP in order to release its rwsem and balance its usage
+counter properly.

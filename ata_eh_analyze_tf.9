@@ -1,0 +1,21 @@
+.TH "ata_eh_analyze_tf" 9 "ata_eh_analyze_tf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_analyze_tf \- analyze taskfile of a failed qc
+.SH SYNOPSIS
+.B "unsigned int" ata_eh_analyze_tf
+.BI "(struct ata_queued_cmd *qc "  ","
+.BI "const struct ata_taskfile *tf "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+qc to analyze
+.IP "tf" 12
+Taskfile registers to analyze
+
+Analyze taskfile of \fIqc\fP and further determine cause of
+failure.  This function also requests ATAPI sense data if
+available.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+Determined recovery action

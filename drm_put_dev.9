@@ -1,0 +1,19 @@
+.TH "drm_put_dev" 9 "drm_put_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_put_dev \- Unregister and release a DRM device
+.SH SYNOPSIS
+.B "void" drm_put_dev
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Called at module unload time or when a PCI device is unplugged.
+
+Cleans up all DRM device, calling \fBdrm_lastclose\fP.
+.SH "NOTE"
+Use of this function is deprecated. It will eventually go away
+completely.  Please use \fBdrm_dev_unregister\fP and \fBdrm_dev_put\fP explicitly
+instead to make sure that the device isn't userspace accessible any more
+while teardown is in progress, ensuring that userspace can't access an
+inconsistent state.

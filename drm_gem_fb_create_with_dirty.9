@@ -1,0 +1,30 @@
+.TH "drm_gem_fb_create_with_dirty" 9 "drm_gem_fb_create_with_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fb_create_with_dirty \- Helper function for the &drm_mode_config_funcs.fb_create callback
+.SH SYNOPSIS
+.B "struct drm_framebuffer *" drm_gem_fb_create_with_dirty
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file "  ","
+.BI "const struct drm_mode_fb_cmd2 *mode_cmd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "file" 12
+DRM file that holds the GEM handle(s) backing the framebuffer
+.IP "mode_cmd" 12
+Metadata from the userspace framebuffer creation request
+.SH "DESCRIPTION"
+This function creates a new framebuffer object described by
+\fIdrm_mode_fb_cmd2\fP. This description includes handles for the buffer(s)
+backing the framebuffer. \fBdrm_atomic_helper_dirtyfb\fP is used for the dirty
+callback giving framebuffer flushing through the atomic machinery. Use
+\fBdrm_gem_fb_create\fP if you don't need the dirty callback.
+The function does buffer size validation.
+
+Drivers should also call \fBdrm_plane_enable_fb_damage_clips\fP on all planes
+to enable userspace to use damage clips also with the ATOMIC IOCTL.
+
+Drivers can use this as their \fIdrm_mode_config_funcs.fb_create\fP callback.
+The ADDFB2 IOCTL calls into this callback.
+.SH "RETURN"
+Pointer to a \fIdrm_framebuffer\fP on success or an error pointer on failure.

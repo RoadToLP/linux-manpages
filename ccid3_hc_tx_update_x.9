@@ -1,0 +1,18 @@
+.TH "ccid3_hc_tx_update_x" 9 "ccid3_hc_tx_update_x" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccid3_hc_tx_update_x \- Update allowed sending rate X
+.SH SYNOPSIS
+.B "void" ccid3_hc_tx_update_x
+.BI "(struct sock *sk "  ","
+.BI "ktime_t *stamp "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to be updated
+.IP "stamp" 12
+most recent time if available - can be left NULL.
+.SH "DESCRIPTION"
+This function tracks draft rfc3448bis, check there for latest details.
+.SH "NOTE"
+X and X_recv are both stored in units of 64 * bytes/second, to support
+fine-grained resolution of sending rates. This requires scaling by 2^6
+throughout the code. Only X_calc is unscaled (in bytes/second).

@@ -1,0 +1,23 @@
+.TH "sof_ipc_probe_init" 9 "sof_ipc_probe_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sof_ipc_probe_init \- initialize data probing
+.SH SYNOPSIS
+.B "int" sof_ipc_probe_init
+.BI "(struct snd_sof_dev *sdev "  ","
+.BI "u32 stream_tag "  ","
+.BI "size_t buffer_size "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SOF sound device
+.IP "stream_tag" 12
+Extractor stream tag
+.IP "buffer_size" 12
+DMA buffer size to set for extractor
+.SH "DESCRIPTION"
+Host chooses whether extraction is supported or not by providing
+valid stream tag to DSP. Once specified, stream described by that
+tag will be tied to DSP for extraction for the entire lifetime of
+probe.
+
+Probing is initialized only once and each INIT request must be
+matched by DEINIT call.

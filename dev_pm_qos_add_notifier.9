@@ -1,0 +1,21 @@
+.TH "dev_pm_qos_add_notifier" 9 "dev_pm_qos_add_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_qos_add_notifier \- sets notification entry for changes to target value of per-device PM QoS constraints
+.SH SYNOPSIS
+.B "int" dev_pm_qos_add_notifier
+.BI "(struct device *dev "  ","
+.BI "struct notifier_block *notifier "  ","
+.BI "enum dev_pm_qos_req_type type "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device for the constraint
+.IP "notifier" 12
+notifier block managed by caller.
+.IP "type" 12
+request type.
+.SH "DESCRIPTION"
+Will register the notifier into a notification chain that gets called
+upon changes to the target value for the device.
+
+If the device's constraints object doesn't exist when this routine is called,
+it will be created (or error code will be returned if that fails).

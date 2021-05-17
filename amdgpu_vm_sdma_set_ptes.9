@@ -1,0 +1,30 @@
+.TH "amdgpu_vm_sdma_set_ptes" 9 "amdgpu_vm_sdma_set_ptes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_sdma_set_ptes \- helper to call the right asic function
+.SH SYNOPSIS
+.B "void" amdgpu_vm_sdma_set_ptes
+.BI "(struct amdgpu_vm_update_params *p "  ","
+.BI "struct amdgpu_bo *bo "  ","
+.BI "uint64_t pe "  ","
+.BI "uint64_t addr "  ","
+.BI "unsigned count "  ","
+.BI "uint32_t incr "  ","
+.BI "uint64_t flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+see amdgpu_vm_update_params definition
+.IP "bo" 12
+PD/PT to update
+.IP "pe" 12
+byte offset of the PDE/PTE, relative to start of PDB/PTB
+.IP "addr" 12
+dst addr to write into pe
+.IP "count" 12
+number of page entries to update
+.IP "incr" 12
+increase next addr by incr bytes
+.IP "flags" 12
+hw access flags
+.SH "DESCRIPTION"
+Traces the parameters and calls the right asic functions
+to setup the page table using the DMA.

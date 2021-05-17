@@ -1,0 +1,23 @@
+.TH "vimc_streamer_s_stream" 9 "vimc_streamer_s_stream" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vimc_streamer_s_stream \- Start/stop the streaming on the media pipeline
+.SH SYNOPSIS
+.B "int" vimc_streamer_s_stream
+.BI "(struct vimc_stream *stream "  ","
+.BI "struct vimc_ent_device *ved "  ","
+.BI "int enable "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+the pointer to the stream structure of the current stream
+.IP "ved" 12
+pointer to the vimc entity of the entity of the stream
+.IP "enable" 12
+flag to determine if stream should start/stop
+.SH "DESCRIPTION"
+When starting, check if there is no ``stream->kthread`` allocated. This
+should indicate that a stream is already running. Then, it initializes the
+pipeline, creates and runs a kthread to consume buffers through the pipeline.
+When stopping, analogously check if there is a stream running, stop the
+thread and terminates the pipeline.
+.SH "RETURN"
+0 if success, error code otherwise.

@@ -1,0 +1,13 @@
+.TH "snd_pcm_stream_lock" 9 "snd_pcm_stream_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_pcm_stream_lock \- Lock the PCM stream
+.SH SYNOPSIS
+.B "void" snd_pcm_stream_lock
+.BI "(struct snd_pcm_substream *substream "  ");"
+.SH ARGUMENTS
+.IP "substream" 12
+PCM substream
+.SH "DESCRIPTION"
+This locks the PCM stream's spinlock or mutex depending on the nonatomic
+flag of the given substream.  This also takes the global link rw lock
+(or rw sem), too, for avoiding the race with linked streams.

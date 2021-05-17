@@ -1,0 +1,15 @@
+.TH "hid_exists_dquirk" 9 "hid_exists_dquirk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hid_exists_dquirk \- find any dynamic quirks for a HID device
+.SH SYNOPSIS
+.B "struct hid_device_id *" hid_exists_dquirk
+.BI "(const struct hid_device *hdev "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+the HID device to match
+.SH "DESCRIPTION"
+Scans dquirks_list for a matching dynamic quirk and returns
+the pointer to the relevant struct hid_device_id if found.
+Must be called with a read lock held on dquirks_lock.
+.SH "RETURN"
+NULL if no quirk found, struct hid_device_id * if found.

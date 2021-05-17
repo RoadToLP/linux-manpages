@@ -1,0 +1,26 @@
+.TH "open_ubi" 9 "open_ubi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+open_ubi \- parse UBI device name string and open the UBI device.
+.SH SYNOPSIS
+.B "struct ubi_volume_desc *" open_ubi
+.BI "(const char *name "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+UBI volume name
+.IP "mode" 12
+UBI volume open mode
+.SH "DESCRIPTION"
+The primary method of mounting UBIFS is by specifying the UBI volume
+character device node path. However, UBIFS may also be mounted withoug any
+character device node using one of the following methods:
+
+o ubiX_Y    - mount UBI device number X, volume Y;
+o ubiY      - mount UBI device number 0, volume Y;
+o ubiX:NAME - mount UBI device X, volume with name NAME;
+o ubi:NAME  - mount UBI device 0, volume with name NAME.
+
+Alternative '!' separator may be used instead of ':' (because some shells
+like busybox may interpret ':' as an NFS host name separator). This function
+returns UBI volume description object in case of success and a negative
+error code in case of failure.

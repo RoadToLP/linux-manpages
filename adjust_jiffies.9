@@ -1,0 +1,17 @@
+.TH "adjust_jiffies" 9 "adjust_jiffies" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+adjust_jiffies \- Adjust the system "loops_per_jiffy".
+.SH SYNOPSIS
+.B "void" adjust_jiffies
+.BI "(unsigned long val "  ","
+.BI "struct cpufreq_freqs *ci "  ");"
+.SH ARGUMENTS
+.IP "val" 12
+CPUFREQ_PRECHANGE or CPUFREQ_POSTCHANGE.
+.IP "ci" 12
+Frequency change information.
+.SH "DESCRIPTION"
+This function alters the system "loops_per_jiffy" for the clock
+speed change. Note that loops_per_jiffy cannot be updated on SMP
+systems as each CPU might be scaled differently. So, use the arch
+per-CPU loops_per_jiffy value wherever possible.

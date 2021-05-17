@@ -1,0 +1,21 @@
+.TH "drmm_mode_config_init" 9 "drmm_mode_config_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drmm_mode_config_init \- managed DRM mode_configuration structure initialization
+.SH SYNOPSIS
+.B "int" drmm_mode_config_init
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Initialize \fIdev\fP's mode_config structure, used for tracking the graphics
+configuration of \fIdev\fP.
+
+Since this initializes the modeset locks, no locking is possible. Which is no
+problem, since this should happen single threaded at init time. It is the
+driver's problem to ensure this guarantee.
+
+Cleanup is automatically handled through registering drm_mode_config_cleanup
+with \fBdrmm_add_action\fP.
+.SH "RETURN"
+0 on success, negative error value on failure.

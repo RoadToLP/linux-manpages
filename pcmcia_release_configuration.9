@@ -1,0 +1,16 @@
+.TH "pcmcia_release_configuration" 9 "pcmcia_release_configuration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_release_configuration \- physically disable a PCMCIA device
+.SH SYNOPSIS
+.B "int" pcmcia_release_configuration
+.BI "(struct pcmcia_device *p_dev "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+pcmcia device
+.SH "DESCRIPTION"
+\fBpcmcia_release_configuration\fP is the 1:1 counterpart to
+\fBpcmcia_enable_device\fP: If a PCMCIA device is no longer used by any
+driver, the Vpp voltage is set to 0, IRQs will no longer be generated,
+and I/O ranges will be disabled. As \fBpcmcia_release_io\fP and
+\fBpcmcia_release_window\fP still need to be called, device drivers are
+expected to call \fBpcmcia_disable_device\fP instead.

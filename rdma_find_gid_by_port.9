@@ -1,0 +1,25 @@
+.TH "rdma_find_gid_by_port" 9 "rdma_find_gid_by_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_find_gid_by_port \- Returns the GID entry attributes when it finds a valid GID entry for given search parameters. It searches for the specified GID value in the local software cache.
+.SH SYNOPSIS
+.B "const struct ib_gid_attr *" rdma_find_gid_by_port
+.BI "(struct ib_device *ib_dev "  ","
+.BI "const union ib_gid *gid "  ","
+.BI "enum ib_gid_type gid_type "  ","
+.BI "u8 port "  ","
+.BI "struct net_device *ndev "  ");"
+.SH ARGUMENTS
+.IP "ib_dev" 12
+The device to query.
+.IP "gid" 12
+The GID value to search for.
+.IP "gid_type" 12
+The GID type to search for.
+.IP "port" 12
+The port number of the device where the GID value should be searched.
+.IP "ndev" 12
+In RoCE, the net device of the device. NULL means ignore.
+.SH "DESCRIPTION"
+Returns sgid attributes if the GID is found with valid reference or
+returns ERR_PTR for the error.
+The caller must invoke \fBrdma_put_gid_attr\fP to release the reference.

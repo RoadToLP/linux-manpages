@@ -1,0 +1,16 @@
+.TH "lock_page_memcg" 9 "lock_page_memcg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lock_page_memcg \- lock a page and memcg binding
+.SH SYNOPSIS
+.B "struct mem_cgroup *" lock_page_memcg
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page
+.SH "DESCRIPTION"
+This function protects unlocked LRU pages from being moved to
+another cgroup.
+
+It ensures lifetime of the returned memcg. Caller is responsible
+for the lifetime of the page; \fB__unlock_page_memcg\fP is available
+when \fIpage\fP might get freed inside the locked section.

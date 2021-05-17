@@ -1,0 +1,15 @@
+.TH "kbbl_init" 9 "kbbl_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbbl_init \- Initialize the state of the keyboard backlight.
+.SH SYNOPSIS
+.B "int" kbbl_init
+.BI "(struct wilco_ec_device *ec "  ");"
+.SH ARGUMENTS
+.IP "ec" 12
+EC device to talk to.
+.SH "DESCRIPTION"
+Gets the current brightness, ensuring that the BIOS already initialized the
+backlight to PWM mode. If not in PWM mode, then the current brightness is
+meaningless, so set the brightness to WILCO_KBBL_DEFAULT_BRIGHTNESS.
+.SH "RETURN"
+Final brightness of the keyboard, or negative error code on failure.

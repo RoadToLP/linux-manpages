@@ -1,0 +1,19 @@
+.TH "ata_acpi_on_suspend" 9 "ata_acpi_on_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_on_suspend \- ATA ACPI hook called on suspend
+.SH SYNOPSIS
+.B "int" ata_acpi_on_suspend
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+target ATA port
+.SH "DESCRIPTION"
+This function is called when \fIap\fP is about to be suspended.  All
+devices are already put to sleep but the \fBport_suspend\fP callback
+hasn't been executed yet.  Error return from this function aborts
+suspend.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+0 on success, -errno on failure.

@@ -1,0 +1,25 @@
+.TH "xdr_init_encode" 9 "xdr_init_encode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_init_encode \- Initialize a struct xdr_stream for sending data.
+.SH SYNOPSIS
+.B "void" xdr_init_encode
+.BI "(struct xdr_stream *xdr "  ","
+.BI "struct xdr_buf *buf "  ","
+.BI "__be32 *p "  ","
+.BI "struct rpc_rqst *rqst "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream struct
+.IP "buf" 12
+pointer to XDR buffer in which to encode data
+.IP "p" 12
+current pointer inside XDR buffer
+.IP "rqst" 12
+pointer to controlling rpc_rqst, for debugging
+.SH "NOTE"
+at the moment the RPC client only passes the length of our
+scratch buffer in the xdr_buf's header kvec. Previously this
+meant we needed to call \fBxdr_adjust_iovec\fP after encoding the
+data. With the new scheme, the xdr_stream manages the details
+of the buffer length, and takes care of adjusting the kvec
+length for us.

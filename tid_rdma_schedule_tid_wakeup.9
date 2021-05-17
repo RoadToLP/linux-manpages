@@ -1,0 +1,17 @@
+.TH "tid_rdma_schedule_tid_wakeup" 9 "tid_rdma_schedule_tid_wakeup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tid_rdma_schedule_tid_wakeup \- schedule wakeup for a qp
+.SH SYNOPSIS
+.B "void" tid_rdma_schedule_tid_wakeup
+.BI "(struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the qp
+.SH "DESCRIPTION"
+trigger a schedule or a waiting qp in a deadlock
+safe manner.  The qp reference is held prior
+to this call via \fBfirst_qp\fP.
+
+If the qp trigger was already scheduled (!rval)
+the the reference is dropped, otherwise the resume
+or the destroy cancel will dispatch the reference.

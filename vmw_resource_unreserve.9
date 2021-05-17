@@ -1,0 +1,28 @@
+.TH "vmw_resource_unreserve" 9 "vmw_resource_unreserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_resource_unreserve \- Unreserve a resource previously reserved for command submission.
+.SH SYNOPSIS
+.B "void" vmw_resource_unreserve
+.BI "(struct vmw_resource *res "  ","
+.BI "bool dirty_set "  ","
+.BI "bool dirty "  ","
+.BI "bool switch_backup "  ","
+.BI "struct vmw_buffer_object *new_backup "  ","
+.BI "unsigned long new_backup_offset "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to the struct vmw_resource to unreserve.
+.IP "dirty_set" 12
+Change dirty status of the resource.
+.IP "dirty" 12
+When changing dirty status indicates the new status.
+.IP "switch_backup" 12
+Backup buffer has been switched.
+.IP "new_backup" 12
+Pointer to new backup buffer if command submission
+switched. May be NULL.
+.IP "new_backup_offset" 12
+New backup offset if \fIswitch_backup\fP is true.
+.SH "DESCRIPTION"
+Currently unreserving a resource means putting it back on the device's
+resource lru list, so that it can be evicted if necessary.

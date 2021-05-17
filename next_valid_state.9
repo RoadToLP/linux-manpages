@@ -1,0 +1,22 @@
+.TH "next_valid_state" 9 "next_valid_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+next_valid_state \- Find next valid C-state
+.SH SYNOPSIS
+.B "int" next_valid_state
+.BI "(struct cpuidle_device *dev "  ","
+.BI "struct cpuidle_driver *drv "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+cpuidle device
+.IP "drv" 12
+cpuidle driver
+.IP "index" 12
+Index of currently selected c-state
+.SH "DESCRIPTION"
+If the state corresponding to index is valid, index is returned back
+to the caller. Else, this function searches for a lower c-state which is
+still valid (as defined in omap3_power_states[]) and returns its index.
+
+A state is valid if the 'valid' field is enabled and
+if it satisfies the enable_off_mode condition.

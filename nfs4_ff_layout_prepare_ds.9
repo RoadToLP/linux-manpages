@@ -1,0 +1,26 @@
+.TH "nfs4_ff_layout_prepare_ds" 9 "nfs4_ff_layout_prepare_ds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_ff_layout_prepare_ds \- prepare a DS connection for an RPC call
+.SH SYNOPSIS
+.B "struct nfs4_pnfs_ds *" nfs4_ff_layout_prepare_ds
+.BI "(struct pnfs_layout_segment *lseg "  ","
+.BI "struct nfs4_ff_layout_mirror *mirror "  ","
+.BI "bool fail_return "  ");"
+.SH ARGUMENTS
+.IP "lseg" 12
+the layout segment we're operating on
+.IP "mirror" 12
+layout mirror describing the DS to use
+.IP "fail_return" 12
+return layout on connect failure?
+.SH "DESCRIPTION"
+Try to prepare a DS connection to accept an RPC call. This involves
+selecting a mirror to use and connecting the client to it if it's not
+already connected.
+
+Since we only need a single functioning mirror to satisfy a read, we don't
+want to return the layout if there is one. For writes though, any down
+mirror should result in a LAYOUTRETURN. \fIfail_return\fP is how we distinguish
+between the two cases.
+
+Returns a pointer to a connected DS object on success or NULL on failure.

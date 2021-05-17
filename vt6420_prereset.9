@@ -1,0 +1,26 @@
+.TH "vt6420_prereset" 9 "vt6420_prereset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vt6420_prereset \- prereset for vt6420
+.SH SYNOPSIS
+.B "int" vt6420_prereset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+target ATA link
+.IP "deadline" 12
+deadline jiffies for the operation
+
+SCR registers on vt6420 are pieces of shit and may hang the
+whole machine completely if accessed with the wrong timing.
+To avoid such catastrophe, vt6420 doesn't provide generic SCR
+access operations, but uses SStatus and SControl only during
+boot probing in controlled way.
+
+As the old (pre EH update) probing code is proven to work, we
+strictly follow the access pattern.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

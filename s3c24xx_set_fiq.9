@@ -1,0 +1,22 @@
+.TH "s3c24xx_set_fiq" 9 "s3c24xx_set_fiq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c24xx_set_fiq \- set the FIQ routing
+.SH SYNOPSIS
+.B "int" s3c24xx_set_fiq
+.BI "(unsigned int irq "  ","
+.BI "u32 *ack_ptr "  ","
+.BI "bool on "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+IRQ number to route to FIQ on processor.
+.IP "ack_ptr" 12
+pointer to a location for storing the bit mask
+.IP "on" 12
+Whether to route \fIirq\fP to the FIQ, or to remove the FIQ routing.
+.SH "DESCRIPTION"
+Change the state of the IRQ to FIQ routing depending on \fIirq\fP and \fIon\fP. If
+\fIon\fP is true, the \fIirq\fP is checked to see if it can be routed and the
+interrupt controller updated to route the IRQ. If \fIon\fP is false, the FIQ
+routing is cleared, regardless of which \fIirq\fP is specified.
+
+returns the mask value for the register.

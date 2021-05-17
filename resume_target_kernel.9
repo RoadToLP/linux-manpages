@@ -1,0 +1,14 @@
+.TH "resume_target_kernel" 9 "resume_target_kernel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+resume_target_kernel \- Restore system state from a hibernation image.
+.SH SYNOPSIS
+.B "int" resume_target_kernel
+.BI "(bool platform_mode "  ");"
+.SH ARGUMENTS
+.IP "platform_mode" 12
+Whether or not to use the platform driver.
+.SH "DESCRIPTION"
+Execute device drivers' "noirq" and "late" freeze callbacks, restore the
+contents of highmem that have not been restored yet from the image and run
+the low-level code that will restore the remaining contents of memory and
+switch to the just restored target kernel.

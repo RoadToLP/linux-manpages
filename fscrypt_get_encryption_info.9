@@ -1,0 +1,25 @@
+.TH "fscrypt_get_encryption_info" 9 "fscrypt_get_encryption_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_get_encryption_info \- set up an inode's encryption key
+.SH SYNOPSIS
+.B "int" fscrypt_get_encryption_info
+.BI "(struct inode *inode "  ","
+.BI "bool allow_unsupported "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to set up the key for.  Must be encrypted.
+.IP "allow_unsupported" 12
+if true, treat an unsupported encryption policy (or
+unrecognized encryption context) the same way as the key
+being unavailable, instead of returning an error.  Use
+false unless the operation being performed is needed in
+order for files (or directories) to be deleted.
+.SH "DESCRIPTION"
+Set up ->i_crypt_info, if it hasn't already been done.
+.SH "NOTE"
+unless ->i_crypt_info is already set, this isn't GFP_NOFS-safe.  So
+generally this shouldn't be called from within a filesystem transaction.
+.SH "RETURN"
+0 if ->i_crypt_info was set or was already set, *or* if the
+encryption key is unavailable.  (Use \fBfscrypt_has_encryption_key\fP to
+distinguish these cases.)  Also can return another -errno code.

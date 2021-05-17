@@ -1,0 +1,17 @@
+.TH "gfs2_allocate_page_backing" 9 "gfs2_allocate_page_backing" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_allocate_page_backing \- Allocate blocks for a write fault
+.SH SYNOPSIS
+.B "int" gfs2_allocate_page_backing
+.BI "(struct page *page "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+The (locked) page to allocate backing for
+.IP "length" 12
+Size of the allocation
+.SH "DESCRIPTION"
+We try to allocate all the blocks required for the page in one go.  This
+might fail for various reasons, so we keep trying until all the blocks to
+back this page are allocated.  If some of the blocks are already allocated,
+that is ok too.

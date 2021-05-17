@@ -1,0 +1,34 @@
+.TH "usb_suspend_both" 9 "usb_suspend_both" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_suspend_both \- suspend a USB device and its interfaces
+.SH SYNOPSIS
+.B "int" usb_suspend_both
+.BI "(struct usb_device *udev "  ","
+.BI "pm_message_t msg "  ");"
+.SH ARGUMENTS
+.IP "udev" 12
+the usb_device to suspend
+.IP "msg" 12
+Power Management message describing this state transition
+.SH "DESCRIPTION"
+This is the central routine for suspending USB devices.  It calls the
+suspend methods for all the interface drivers in \fIudev\fP and then calls
+the suspend method for \fIudev\fP itself.  When the routine is called in
+autosuspend, if an error occurs at any stage, all the interfaces
+which were suspended are resumed so that they remain in the same
+state as the device, but when called from system sleep, all error
+from suspend methods of interfaces and the non-root-hub device itself
+are simply ignored, so all suspended interfaces are only resumed
+to the device's state when \fIudev\fP is root-hub and its suspend method
+returns failure.
+
+Autosuspend requests originating from a child device or an interface
+driver may be made without the protection of \fIudev\fP's device lock, but
+all other suspend calls will hold the lock.  Usbcore will insure that
+method calls do not arrive during bind, unbind, or reset operations.
+However drivers must be prepared to handle suspend calls arriving at
+unpredictable times.
+
+This routine can run only in process context.
+.SH "RETURN"
+0 if the suspend succeeded.

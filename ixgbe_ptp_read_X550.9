@@ -1,0 +1,15 @@
+.TH "ixgbe_ptp_read_X550" 9 "ixgbe_ptp_read_X550" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ptp_read_X550 \- read cycle counter value
+.SH SYNOPSIS
+.B "u64" ixgbe_ptp_read_X550
+.BI "(const struct cyclecounter *cc "  ");"
+.SH ARGUMENTS
+.IP "cc" 12
+cyclecounter structure
+.SH "DESCRIPTION"
+This function reads SYSTIME registers. It is called by the cyclecounter
+structure to convert from internal representation into nanoseconds. We need
+this for X550 since some skews do not have expected clock frequency and
+result of SYSTIME is 32bits of "billions of cycles" and 32 bits of
+"cycles", rather than seconds and nanoseconds.

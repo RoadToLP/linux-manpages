@@ -1,0 +1,19 @@
+.TH "drm_gem_prime_mmap" 9 "drm_gem_prime_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_prime_mmap \- PRIME mmap function for GEM drivers
+.SH SYNOPSIS
+.B "int" drm_gem_prime_mmap
+.BI "(struct drm_gem_object *obj "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.IP "vma" 12
+Virtual address range
+.SH "DESCRIPTION"
+This function sets up a userspace mapping for PRIME exported buffers using
+the same codepath that is used for regular GEM buffer mapping on the DRM fd.
+The fake GEM offset is added to vma->vm_pgoff and \fIdrm_driver->fops\fP->mmap is
+called to set up the mapping.
+
+Drivers can use this as their \fIdrm_driver.gem_prime_mmap\fP callback.

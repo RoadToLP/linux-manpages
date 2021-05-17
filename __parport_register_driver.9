@@ -1,0 +1,41 @@
+.TH "__parport_register_driver" 9 "__parport_register_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__parport_register_driver \- register a parallel port device driver
+.SH SYNOPSIS
+.B "int" __parport_register_driver
+.BI "(struct parport_driver *drv "  ","
+.BI "struct module *owner "  ","
+.BI "const char *mod_name "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+structure describing the driver
+.IP "owner" 12
+owner module of drv
+.IP "mod_name" 12
+module name string
+
+This can be called by a parallel port device driver in order
+to receive notifications about ports being found in the
+system, as well as ports no longer available.
+
+If devmodel is true then the new device model is used
+for registration.
+
+The \fIdrv\fP structure is allocated by the caller and must not be
+deallocated until after calling \fBparport_unregister_driver\fP.
+
+If using the non device model:
+The driver's \fBattach\fP function may block.  The port that
+\fBattach\fP is given will be valid for the duration of the
+callback, but if the driver wants to take a copy of the
+pointer it must call \fBparport_get_port\fP to do so.  Calling
+\fBparport_register_device\fP on that port will do this for you.
+
+The driver's \fBdetach\fP function may block.  The port that
+\fBdetach\fP is given will be valid for the duration of the
+callback, but if the driver wants to take a copy of the
+pointer it must call \fBparport_get_port\fP to do so.
+
+
+Returns 0 on success. The non device model will always succeeds.
+but the new device model can fail and will return the error code.

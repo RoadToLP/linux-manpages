@@ -1,0 +1,28 @@
+.TH "process_vm_rw_core" 9 "process_vm_rw_core" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_vm_rw_core \- core of reading/writing pages from task specified
+.SH SYNOPSIS
+.B "ssize_t" process_vm_rw_core
+.BI "(pid_t pid "  ","
+.BI "struct iov_iter *iter "  ","
+.BI "const struct iovec *rvec "  ","
+.BI "unsigned long riovcnt "  ","
+.BI "unsigned long flags "  ","
+.BI "int vm_write "  ");"
+.SH ARGUMENTS
+.IP "pid" 12
+PID of process to read/write from/to
+.IP "iter" 12
+where to copy to/from locally
+.IP "rvec" 12
+iovec array specifying where to copy to/from in the other process
+.IP "riovcnt" 12
+size of rvec array
+.IP "flags" 12
+currently unused
+.IP "vm_write" 12
+0 if reading from other process, 1 if writing to other process
+.SH "DESCRIPTION"
+Returns the number of bytes read/written or error code. May
+return less bytes than expected if an error occurs during the copying
+process.

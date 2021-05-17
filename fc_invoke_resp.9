@@ -1,0 +1,33 @@
+.TH "fc_invoke_resp" 9 "fc_invoke_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_invoke_resp \- invoke ep->resp()
+.SH SYNOPSIS
+.B "bool" fc_invoke_resp
+.BI "(struct fc_exch *ep "  ","
+.BI "struct fc_seq *sp "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+The exchange to be operated on
+.IP "sp" 12
+The sequence pointer to pass through to ->\fBresp\fP
+.IP "fp" 12
+The frame pointer to pass through to ->\fBresp\fP
+.SH "NOTES"
+It is assumed that after initialization finished (this means the
+first unlock of ex_lock after \fBfc_exch_alloc\fP) ep->resp and ep->arg are
+modified only via \fBfc_seq_set_resp\fP. This guarantees that none of these
+two variables changes if ep->resp_active > 0.
+.SH "DESCRIPTION"
+If an \fBfc_seq_set_resp\fP call is busy modifying ep->resp and ep->arg when
+this function is invoked, the first \fBspin_lock_bh\fP call in this function
+will wait until \fBfc_seq_set_resp\fP has finished modifying these variables.
+
+Since \fBfc_exch_done\fP invokes \fBfc_seq_set_resp\fP it is guaranteed that that
+ep->\fBresp\fP won't be invoked after \fBfc_exch_done\fP has returned.
+
+The response handler itself may invoke \fBfc_exch_done\fP, which will clear the
+ep->resp pointer.
+
+Return value:
+Returns true if and only if ep->resp has been invoked.

@@ -1,0 +1,16 @@
+.TH "isert_conn_terminate" 9 "isert_conn_terminate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isert_conn_terminate \- Initiate connection termination
+.SH SYNOPSIS
+.B "void" isert_conn_terminate
+.BI "(struct isert_conn *isert_conn "  ");"
+.SH ARGUMENTS
+.IP "isert_conn" 12
+isert connection struct
+.SH "NOTES"
+In case the connection state is BOUND, move state
+to TEMINATING and start teardown sequence (rdma_disconnect).
+In case the connection state is UP, complete flush as well.
+.SH "DESCRIPTION"
+This routine must be called with mutex held. Thus it is
+safe to call multiple times.

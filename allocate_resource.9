@@ -1,0 +1,30 @@
+.TH "allocate_resource" 9 "allocate_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+allocate_resource \- allocate empty slot in the resource tree given range & alignment. The resource will be reallocated with a new size if it was already allocated
+.SH SYNOPSIS
+.B "int" allocate_resource
+.BI "(struct resource *root "  ","
+.BI "struct resource *new "  ","
+.BI "resource_size_t size "  ","
+.BI "resource_size_t min "  ","
+.BI "resource_size_t max "  ","
+.BI "resource_size_t align "  ","
+.BI "resource_size_t (*alignf)(void *, const struct resource *, resource_size_t, resource_size_t) "  ","
+.BI "void *alignf_data "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+root resource descriptor
+.IP "new" 12
+resource descriptor desired by caller
+.IP "size" 12
+requested resource region size
+.IP "min" 12
+minimum boundary to allocate
+.IP "max" 12
+maximum boundary to allocate
+.IP "align" 12
+alignment requested, in bytes
+.IP "alignf" 12
+alignment function, optional, called if not NULL
+.IP "alignf_data" 12
+arbitrary data to pass to the \fIalignf\fP function

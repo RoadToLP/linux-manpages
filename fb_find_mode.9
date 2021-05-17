@@ -1,0 +1,60 @@
+.TH "fb_find_mode" 9 "fb_find_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fb_find_mode \- finds a valid video mode
+.SH SYNOPSIS
+.B "int" fb_find_mode
+.BI "(struct fb_var_screeninfo *var "  ","
+.BI "struct fb_info *info "  ","
+.BI "const char *mode_option "  ","
+.BI "const struct fb_videomode *db "  ","
+.BI "unsigned int dbsize "  ","
+.BI "const struct fb_videomode *default_mode "  ","
+.BI "unsigned int default_bpp "  ");"
+.SH ARGUMENTS
+.IP "var" 12
+frame buffer user defined part of display
+.IP "info" 12
+frame buffer info structure
+.IP "mode_option" 12
+string video mode to find
+.IP "db" 12
+video mode database
+.IP "dbsize" 12
+size of \fIdb\fP
+.IP "default_mode" 12
+default video mode to fall back to
+.IP "default_bpp" 12
+default color depth in bits per pixel
+.SH "DESCRIPTION"
+Finds a suitable video mode, starting with the specified mode
+in \fImode_option\fP with fallback to \fIdefault_mode\fP.  If
+\fIdefault_mode\fP fails, all modes in the video mode database will
+be tried.
+
+Valid mode specifiers for \fImode_option\fP::
+
+<xres>x<yres>[M][R][-<bpp>][\fI\fP<refresh>][i][p][m]
+
+or ::
+
+<name>[-<bpp>][\fI\fP<refresh>]
+
+with <xres>, <yres>, <bpp> and <refresh> decimal numbers and
+<name> a string.
+
+If 'M' is present after yres (and before refresh/bpp if present),
+the function will compute the timings using VESA(tm) Coordinated
+Video Timings (CVT).  If 'R' is present after 'M', will compute with
+reduced blanking (for flatpanels).  If 'i' or 'p' are present, compute
+interlaced or progressive mode.  If 'm' is present, add margins equal
+to 1.8% of xres rounded down to 8 pixels, and 1.8% of yres. The char
+'i', 'p' and 'm' must be after 'M' and 'R'. Example::
+
+1024x768MR-8\fI60m\fP - Reduced blank with margins at 60Hz.
+
+Returns zero for failure, 1 if using specified \fImode_option\fP,
+2 if using specified \fImode_option\fP with an ignored refresh rate,
+3 if default mode is used, 4 if fall back to any valid mode.
+.SH "NOTE"
+The passed struct \fIvar\fP is _not_ cleared!  This allows you
+to supply values for e.g. the grayscale and accel_flags fields.

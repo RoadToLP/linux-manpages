@@ -1,0 +1,29 @@
+.TH "mmu_interval_notifier_insert" 9 "mmu_interval_notifier_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_interval_notifier_insert \- Insert an interval notifier
+.SH SYNOPSIS
+.B "int" mmu_interval_notifier_insert
+.BI "(struct mmu_interval_notifier *interval_sub "  ","
+.BI "struct mm_struct *mm "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long length "  ","
+.BI "const struct mmu_interval_notifier_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "interval_sub" 12
+Interval subscription to register
+.IP "mm" 12
+mm_struct to attach to
+.IP "start" 12
+Starting virtual address to monitor
+.IP "length" 12
+Length of the range to monitor
+.IP "ops" 12
+Interval notifier operations to be called on matching events
+.SH "DESCRIPTION"
+This function subscribes the interval notifier for notifications from the
+mm.  Upon return the ops related to mmu_interval_notifier will be called
+whenever an event that intersects with the given range occurs.
+
+Upon return the range_notifier may not be present in the interval tree yet.
+The caller must use the normal interval notifier read flow via
+\fBmmu_interval_read_begin\fP to establish SPTEs for this range.

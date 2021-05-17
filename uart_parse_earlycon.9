@@ -1,0 +1,31 @@
+.TH "uart_parse_earlycon" 9 "uart_parse_earlycon" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_parse_earlycon \- Parse earlycon options
+.SH SYNOPSIS
+.B "int" uart_parse_earlycon
+.BI "(char *p "  ","
+.BI "unsigned char *iotype "  ","
+.BI "resource_size_t *addr "  ","
+.BI "char **options "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+ptr to 2nd field (ie., just beyond '<name>,')
+.IP "iotype" 12
+ptr for decoded iotype (out)
+.IP "addr" 12
+ptr for decoded mapbase/iobase (out)
+.IP "options" 12
+ptr for <options> field; NULL if not present (out)
+
+Decodes earlycon kernel command line parameters of the form
+earlycon=<name>,io|mmio|mmio16|mmio32|mmio32be|mmio32native,<addr>,<options>
+console=<name>,io|mmio|mmio16|mmio32|mmio32be|mmio32native,<addr>,<options>
+
+The optional form
+
+earlycon=<name>,0x<addr>,<options>
+console=<name>,0x<addr>,<options>
+
+is also accepted; the returned \fIiotype\fP will be UPIO_MEM.
+
+Returns 0 on success or -EINVAL on failure

@@ -1,0 +1,27 @@
+.TH "__receive_fd" 9 "__receive_fd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__receive_fd \- Install received file into file descriptor table
+.SH SYNOPSIS
+.B "int" __receive_fd
+.BI "(int fd "  ","
+.BI "struct file *file "  ","
+.BI "int __user *ufd "  ","
+.BI "unsigned int o_flags "  ");"
+.SH ARGUMENTS
+.IP "fd" 12
+fd to install into (if negative, a new fd will be allocated)
+.IP "file" 12
+struct file that was received from another process
+.IP "ufd" 12
+__user pointer to write new fd number to
+.IP "o_flags" 12
+the O_* flags to apply to the new fd entry
+.SH "DESCRIPTION"
+Installs a received file into the file descriptor table, with appropriate
+checks and count updates. Optionally writes the fd number to userspace, if
+\fIufd\fP is non-NULL.
+
+This helper handles its own reference counting of the incoming
+struct file.
+
+Returns newly install fd or -ve on error.

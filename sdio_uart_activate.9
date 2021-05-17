@@ -1,0 +1,21 @@
+.TH "sdio_uart_activate" 9 "sdio_uart_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdio_uart_activate \- start up hardware
+.SH SYNOPSIS
+.B "int" sdio_uart_activate
+.BI "(struct tty_port *tport "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tport" 12
+tty port to activate
+.IP "tty" 12
+tty bound to this port
+
+Activate a tty port. The port locking guarantees us this will be
+run exactly once per set of opens, and if successful will see the
+shutdown method run exactly once to match. Start up and shutdown are
+protected from each other by the internal locking and will not run
+at the same time even during a hangup event.
+
+If we successfully start up the port we take an extra kref as we
+will keep it around until shutdown when the kref is dropped.

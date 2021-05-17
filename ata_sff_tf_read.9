@@ -1,0 +1,20 @@
+.TH "ata_sff_tf_read" 9 "ata_sff_tf_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_tf_read \- input device's ATA taskfile shadow registers
+.SH SYNOPSIS
+.B "void" ata_sff_tf_read
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_taskfile *tf "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+Port from which input is read
+.IP "tf" 12
+ATA taskfile register set for storing input
+
+Reads ATA taskfile registers for currently-selected device
+into \fItf\fP. Assumes the device has a fully SFF compliant task file
+layout and behaviour. If you device does not (eg has a different
+status method) then you will need to provide a replacement tf_read
+
+LOCKING:
+Inherited from caller.

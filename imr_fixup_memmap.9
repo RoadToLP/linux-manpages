@@ -1,0 +1,18 @@
+.TH "imr_fixup_memmap" 9 "imr_fixup_memmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+imr_fixup_memmap \- Tear down IMRs used during bootup.
+.SH SYNOPSIS
+.B "void" imr_fixup_memmap
+.BI "(struct imr_device *idev "  ");"
+.SH ARGUMENTS
+.IP "idev" 12
+pointer to imr_device structure.
+.SH "DESCRIPTION"
+
+BIOS and Grub both setup IMRs around compressed kernel, initrd memory
+that need to be removed before the kernel hands out one of the IMR
+encased addresses to a downstream DMA agent such as the SD or Ethernet.
+IMRs on Galileo are setup to immediately reset the system on violation.
+As a result if you're running a root filesystem from SD - you'll need
+the boot-time IMRs torn down or you'll find seemingly random resets when
+using your filesystem.

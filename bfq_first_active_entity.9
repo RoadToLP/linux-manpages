@@ -1,0 +1,18 @@
+.TH "bfq_first_active_entity" 9 "bfq_first_active_entity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_first_active_entity \- find the eligible entity with the smallest finish time
+.SH SYNOPSIS
+.B "struct bfq_entity *" bfq_first_active_entity
+.BI "(struct bfq_service_tree *st "  ","
+.BI "u64 vtime "  ");"
+.SH ARGUMENTS
+.IP "st" 12
+the service tree to select from.
+.IP "vtime" 12
+the system virtual to use as a reference for eligibility
+.SH "DESCRIPTION"
+This function searches the first schedulable entity, starting from the
+root of the tree and going on the left every time on this side there is
+a subtree with at least one eligible (start <= vtime) entity. The path on
+the right is followed only if a) the left subtree contains no eligible
+entities and b) no eligible entity has been found yet.

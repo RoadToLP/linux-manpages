@@ -1,0 +1,22 @@
+.TH "get_task_io_context" 9 "get_task_io_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_task_io_context \- get io_context of a task
+.SH SYNOPSIS
+.B "struct io_context *" get_task_io_context
+.BI "(struct task_struct *task "  ","
+.BI "gfp_t gfp_flags "  ","
+.BI "int node "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+task of interest
+.IP "gfp_flags" 12
+allocation flags, used if allocation is necessary
+.IP "node" 12
+allocation node, used if allocation is necessary
+.SH "DESCRIPTION"
+Return io_context of \fItask\fP.  If it doesn't exist, it is created with
+\fIgfp_flags\fP and \fInode\fP.  The returned io_context has its reference count
+incremented.
+
+This function always goes through \fBtask_lock\fP and it's better to use
+current->io_context + \fBget_io_context\fP for current.

@@ -1,0 +1,20 @@
+.TH "ath5k_ani_save_and_clear_phy_errors" 9 "ath5k_ani_save_and_clear_phy_errors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_ani_save_and_clear_phy_errors \- Clear and save PHY error counters
+.SH SYNOPSIS
+.B "int" ath5k_ani_save_and_clear_phy_errors
+.BI "(struct ath5k_hw *ah "  ","
+.BI "struct ath5k_ani_state *as "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "as" 12
+The \fIstruct ath5k_ani_state\fP
+.SH "DESCRIPTION"
+Clear the PHY error counters as soon as possible, since this might be called
+from a MIB interrupt and we want to make sure we don't get interrupted again.
+Add the count of CCK and OFDM errors to our internal state, so it can be used
+by the algorithm later.
+
+Will be called from interrupt and tasklet context.
+Returns 0 if both counters are zero.

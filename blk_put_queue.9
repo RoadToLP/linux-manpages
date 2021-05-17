@@ -1,0 +1,15 @@
+.TH "blk_put_queue" 9 "blk_put_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_put_queue \- decrement the request_queue refcount
+.SH SYNOPSIS
+.B "void" blk_put_queue
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the request_queue structure to decrement the refcount for
+.SH "DESCRIPTION"
+Decrements the refcount of the request_queue kobject. When this reaches 0
+we'll have \fBblk_release_queue\fP called.
+.SH "CONTEXT"
+Any context, but the last reference must not be dropped from
+atomic context.

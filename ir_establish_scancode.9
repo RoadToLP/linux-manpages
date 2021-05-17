@@ -1,0 +1,26 @@
+.TH "ir_establish_scancode" 9 "ir_establish_scancode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_establish_scancode \- set a keycode in the scancode->keycode table
+.SH SYNOPSIS
+.B "unsigned int" ir_establish_scancode
+.BI "(struct rc_dev *dev "  ","
+.BI "struct rc_map *rc_map "  ","
+.BI "u64 scancode "  ","
+.BI "bool resize "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct rc_dev device descriptor
+.IP "rc_map" 12
+scancode table to be searched
+.IP "scancode" 12
+the desired scancode
+.IP "resize" 12
+controls whether we allowed to resize the table to
+accommodate not yet present scancodes
+.SH "DESCRIPTION"
+This routine is used to locate given scancode in rc_map.
+If scancode is not yet present the routine will allocate a new slot
+for it.
+.SH "RETURN"
+index of the mapping containing scancode in question
+or -1U in case of failure.

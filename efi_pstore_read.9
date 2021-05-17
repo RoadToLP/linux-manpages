@@ -1,0 +1,20 @@
+.TH "efi_pstore_read" 9 "efi_pstore_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_pstore_read \- 
+.SH SYNOPSIS
+.B "ssize_t" efi_pstore_read
+.BI "(struct pstore_record *record "  ");"
+.SH ARGUMENTS
+.IP "record" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function returns a size of NVRAM entry logged via \fBefi_pstore_write\fP.
+The meaning and behavior of efi_pstore/pstore are as below.
+
+size > 0: Got data of an entry logged via \fBefi_pstore_write\fP successfully,
+and pstore filesystem will continue reading subsequent entries.
+size == 0: Entry was not logged via \fBefi_pstore_write\fP,
+and efi_pstore driver will continue reading subsequent entries.
+size < 0: Failed to get data of entry logging via \fBefi_pstore_write\fP,
+and pstore will stop reading entry.

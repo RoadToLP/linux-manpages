@@ -1,0 +1,30 @@
+.TH "mtd_ooblayout_find_region" 9 "mtd_ooblayout_find_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtd_ooblayout_find_region \- Find the region attached to a specific byte
+.SH SYNOPSIS
+.B "int" mtd_ooblayout_find_region
+.BI "(struct mtd_info *mtd "  ","
+.BI "int byte "  ","
+.BI "int *sectionp "  ","
+.BI "struct mtd_oob_region *oobregion "  ","
+.BI "int (*iter)(struct mtd_info *, int section, struct mtd_oob_region *oobregion) "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+mtd info structure
+.IP "byte" 12
+the byte we are searching for
+.IP "sectionp" 12
+pointer where the section id will be stored
+.IP "oobregion" 12
+used to retrieve the ECC position
+.IP "iter" 12
+iterator function. Should be either mtd_ooblayout_free or
+mtd_ooblayout_ecc depending on the region type you're searching for
+.SH "DESCRIPTION"
+This function returns the section id and oobregion information of a
+specific byte. For example, say you want to know where the 4th ECC byte is
+stored, you'll use:
+
+mtd_ooblayout_find_region(mtd, 3, \fIsection\fP, \fIoobregion\fP, mtd_ooblayout_ecc);
+
+Returns zero on success, a negative error code otherwise.

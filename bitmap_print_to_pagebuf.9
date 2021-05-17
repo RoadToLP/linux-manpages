@@ -1,0 +1,27 @@
+.TH "bitmap_print_to_pagebuf" 9 "bitmap_print_to_pagebuf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_print_to_pagebuf \- convert bitmap to list or hex format ASCII string
+.SH SYNOPSIS
+.B "int" bitmap_print_to_pagebuf
+.BI "(bool list "  ","
+.BI "char *buf "  ","
+.BI "const unsigned long *maskp "  ","
+.BI "int nmaskbits "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+indicates whether the bitmap must be list
+.IP "buf" 12
+page aligned buffer into which string is placed
+.IP "maskp" 12
+pointer to bitmap to convert
+.IP "nmaskbits" 12
+size of bitmap, in bits
+.SH "DESCRIPTION"
+Output format is a comma-separated list of decimal numbers and
+ranges if list is specified or hex digits grouped into comma-separated
+sets of 8 digits/set. Returns the number of characters written to buf.
+
+It is assumed that \fIbuf\fP is a pointer into a PAGE_SIZE, page-aligned
+area and that sufficient storage remains at \fIbuf\fP to accommodate the
+\fBbitmap_print_to_pagebuf\fP output. Returns the number of characters
+actually printed to \fIbuf\fP, excluding terminating '\0'.

@@ -1,0 +1,25 @@
+.TH "ipr_biosparam" 9 "ipr_biosparam" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipr_biosparam \- Return the HSC mapping
+.SH SYNOPSIS
+.B "int" ipr_biosparam
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct block_device *block_device "  ","
+.BI "sector_t capacity "  ","
+.BI "int *parm "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device struct
+.IP "block_device" 12
+block device pointer
+.IP "capacity" 12
+capacity of the device
+.IP "parm" 12
+Array containing returned HSC values.
+.SH "DESCRIPTION"
+This function generates the HSC parms that fdisk uses.
+We want to make sure we return something that places partitions
+on 4k boundaries for best performance with the IOA.
+
+Return value:
+0 on success

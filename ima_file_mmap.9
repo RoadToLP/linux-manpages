@@ -1,0 +1,18 @@
+.TH "ima_file_mmap" 9 "ima_file_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_file_mmap \- based on policy, collect/store measurement.
+.SH SYNOPSIS
+.B "int" ima_file_mmap
+.BI "(struct file *file "  ","
+.BI "unsigned long prot "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+pointer to the file to be measured (May be NULL)
+.IP "prot" 12
+contains the protection that will be applied by the kernel.
+.SH "DESCRIPTION"
+Measure files being mmapped executable based on the \fBima_must_measure\fP
+policy decision.
+
+On success return 0.  On integrity appraisal error, assuming the file
+is in policy and IMA-appraisal is in enforcing mode, return -EACCES.

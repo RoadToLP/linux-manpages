@@ -1,0 +1,21 @@
+.TH "usb_role_switch_register" 9 "usb_role_switch_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_role_switch_register \- Register USB Role Switch
+.SH SYNOPSIS
+.B "struct usb_role_switch *" usb_role_switch_register
+.BI "(struct device *parent "  ","
+.BI "const struct usb_role_switch_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+Parent device for the switch
+.IP "desc" 12
+Description of the switch
+.SH "DESCRIPTION"
+USB Role Switch is a device capable or choosing the role for USB connector.
+On platforms where the USB controller is dual-role capable, the controller
+driver will need to register the switch. On platforms where the USB host and
+USB device controllers behind the connector are separate, there will be a
+mux, and the driver for that mux will need to register the switch.
+
+Returns handle to a new role switch or ERR_PTR. The content of \fIdesc\fP is
+copied.

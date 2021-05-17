@@ -1,0 +1,28 @@
+.TH "ecryptfs_init_lower_file" 9 "ecryptfs_init_lower_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_init_lower_file \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_init_lower_file
+.BI "(struct dentry *dentry "  ","
+.BI "struct file **lower_file "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+-- undescribed --
+.IP "lower_file" 12
+-- undescribed --
+.SH "DESCRIPTION"
+eCryptfs only ever keeps a single open file for every lower
+inode. All I/O operations to the lower inode occur through that
+file. When the first eCryptfs dentry that interposes with the first
+lower dentry for that inode is created, this function creates the
+lower file struct and associates it with the eCryptfs
+inode. When all eCryptfs files associated with the inode are released, the
+file is closed.
+
+The lower file will be opened with read/write permissions, if
+possible. Otherwise, it is opened read-only.
+
+This function does nothing if a lower file is already
+associated with the eCryptfs inode.
+
+Returns zero on success; non-zero otherwise

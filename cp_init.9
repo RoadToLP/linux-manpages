@@ -1,0 +1,24 @@
+.TH "cp_init" 9 "cp_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cp_init \- allocate ccwchains for a channel program.
+.SH SYNOPSIS
+.B "int" cp_init
+.BI "(struct channel_program *cp "  ","
+.BI "struct device *mdev "  ","
+.BI "union orb *orb "  ");"
+.SH ARGUMENTS
+.IP "cp" 12
+channel_program on which to perform the operation
+.IP "mdev" 12
+the mediated device to perform pin/unpin operations
+.IP "orb" 12
+control block for the channel program from the guest
+.SH "DESCRIPTION"
+This creates one or more ccwchain(s), and copies the raw data of
+the target channel program from \fIorb->cmd.iova\fP to the new ccwchain(s).
+
+Limitations:
+1. Supports idal(c64) ccw chaining.
+2. Supports 4k idaw.
+.SH "RETURN"
+0 on success and a negative error value on failure.

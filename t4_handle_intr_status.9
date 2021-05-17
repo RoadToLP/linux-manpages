@@ -1,0 +1,22 @@
+.TH "t4_handle_intr_status" 9 "t4_handle_intr_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_handle_intr_status \- table driven interrupt handler
+.SH SYNOPSIS
+.B "int" t4_handle_intr_status
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int reg "  ","
+.BI "const struct intr_info *acts "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter that generated the interrupt
+.IP "reg" 12
+the interrupt status register to process
+.IP "acts" 12
+table of interrupt actions
+
+A table driven interrupt handler that applies a set of masks to an
+interrupt status word and performs the corresponding actions if the
+interrupts described by the mask have occurred.  The actions include
+optionally emitting a warning or alert message.  The table is terminated
+by an entry specifying mask 0.  Returns the number of fatal interrupt
+conditions.

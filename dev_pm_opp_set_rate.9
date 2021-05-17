@@ -1,0 +1,18 @@
+.TH "dev_pm_opp_set_rate" 9 "dev_pm_opp_set_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_set_rate \- Configure new OPP based on frequency
+.SH SYNOPSIS
+.B "int" dev_pm_opp_set_rate
+.BI "(struct device *dev "  ","
+.BI "unsigned long target_freq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "target_freq" 12
+frequency to achieve
+.SH "DESCRIPTION"
+This configures the power-supplies to the levels specified by the OPP
+corresponding to the target_freq, and programs the clock to a value <=
+target_freq, as rounded by \fBclk_round_rate\fP. Device wanting to run at fmax
+provided by the opp, should have already rounded to the target OPP's
+frequency.

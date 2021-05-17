@@ -1,0 +1,15 @@
+.TH "bpf_prog_select_runtime" 9 "bpf_prog_select_runtime" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_prog_select_runtime \- select exec runtime for BPF program
+.SH SYNOPSIS
+.B "struct bpf_prog *" bpf_prog_select_runtime
+.BI "(struct bpf_prog *fp "  ","
+.BI "int *err "  ");"
+.SH ARGUMENTS
+.IP "fp" 12
+bpf_prog populated with internal BPF program
+.IP "err" 12
+pointer to error variable
+.SH "DESCRIPTION"
+Try to JIT eBPF program, if JIT is not available, use interpreter.
+The BPF program will be executed via \fBBPF_PROG_RUN\fP macro.

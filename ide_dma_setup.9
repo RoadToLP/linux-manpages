@@ -1,0 +1,20 @@
+.TH "ide_dma_setup" 9 "ide_dma_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_dma_setup \- begin a DMA phase
+.SH SYNOPSIS
+.B "int" ide_dma_setup
+.BI "(ide_drive_t *drive "  ","
+.BI "struct ide_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+target device
+.IP "cmd" 12
+command
+
+Build an IDE DMA PRD (IDE speak for scatter gather table)
+and then set up the DMA transfer registers for a device
+that follows generic IDE PCI DMA behaviour. Controllers can
+override this function if they need to
+
+Returns 0 on success. If a PIO fallback is required then 1
+is returned.

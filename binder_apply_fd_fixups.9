@@ -1,0 +1,21 @@
+.TH "binder_apply_fd_fixups" 9 "binder_apply_fd_fixups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_apply_fd_fixups \- finish fd translation
+.SH SYNOPSIS
+.B "int" binder_apply_fd_fixups
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_transaction *t "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+binder_proc associated \fIt->buffer\fP
+.IP "t" 12
+binder transaction with list of fd fixups
+.SH "DESCRIPTION"
+Now that we are in the context of the transaction target
+process, we can allocate and install fds. Process the
+list of fds to translate and fixup the buffer with the
+new fds.
+
+If we fail to allocate an fd, then free the resources by
+fput'ing files that have not been processed and ksys_close'ing
+any fds that have already been allocated.

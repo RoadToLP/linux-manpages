@@ -1,0 +1,22 @@
+.TH "drm_gem_cma_dumb_create_internal" 9 "drm_gem_cma_dumb_create_internal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_cma_dumb_create_internal \- create a dumb buffer object
+.SH SYNOPSIS
+.B "int" drm_gem_cma_dumb_create_internal
+.BI "(struct drm_file *file_priv "  ","
+.BI "struct drm_device *drm "  ","
+.BI "struct drm_mode_create_dumb *args "  ");"
+.SH ARGUMENTS
+.IP "file_priv" 12
+DRM file-private structure to create the dumb buffer for
+.IP "drm" 12
+DRM device
+.IP "args" 12
+IOCTL data
+.SH "DESCRIPTION"
+This aligns the pitch and size arguments to the minimum required. This is
+an internal helper that can be wrapped by a driver to account for hardware
+with more specific alignment requirements. It should not be used directly
+as their \fIdrm_driver.dumb_create\fP callback.
+.SH "RETURN"
+0 on success or a negative error code on failure.

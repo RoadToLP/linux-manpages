@@ -1,0 +1,19 @@
+.TH "cros_ec_sensors_capture" 9 "cros_ec_sensors_capture" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_sensors_capture \- the trigger handler function
+.SH SYNOPSIS
+.B "irqreturn_t" cros_ec_sensors_capture
+.BI "(int irq "  ","
+.BI "void *p "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+the interrupt number.
+.IP "p" 12
+a pointer to the poll function.
+.SH "DESCRIPTION"
+On a trigger event occurring, if the pollfunc is attached then this
+handler is called as a threaded interrupt (and hence may sleep). It
+is responsible for grabbing data from the device and pushing it into
+the associated buffer.
+.SH "RETURN"
+IRQ_HANDLED

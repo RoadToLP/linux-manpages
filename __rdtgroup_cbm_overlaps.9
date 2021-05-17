@@ -1,0 +1,33 @@
+.TH "__rdtgroup_cbm_overlaps" 9 "__rdtgroup_cbm_overlaps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__rdtgroup_cbm_overlaps \- Does CBM for intended closid overlap with other
+.SH SYNOPSIS
+.B "bool" __rdtgroup_cbm_overlaps
+.BI "(struct rdt_resource *r "  ","
+.BI "struct rdt_domain *d "  ","
+.BI "unsigned long cbm "  ","
+.BI "int closid "  ","
+.BI "bool exclusive "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+Resource to which domain instance \fId\fP belongs.
+.IP "d" 12
+The domain instance for which \fIclosid\fP is being tested.
+.IP "cbm" 12
+Capacity bitmask being tested.
+.IP "closid" 12
+Intended closid for \fIcbm\fP.
+.IP "exclusive" 12
+Only check if overlaps with exclusive resource groups
+.SH "DESCRIPTION"
+Checks if provided \fIcbm\fP intended to be used for \fIclosid\fP on domain
+\fId\fP overlaps with any other closids or other hardware usage associated
+with this domain. If \fIexclusive\fP is true then only overlaps with
+resource groups in exclusive mode will be considered. If \fIexclusive\fP
+is false then overlaps with any resource group or hardware entities
+will be considered.
+
+\fIcbm\fP is unsigned long, even if only 32 bits are used, to make the
+bitmap functions work correctly.
+.SH "RETURN"
+false if CBM does not overlap, true if it does.

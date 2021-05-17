@@ -1,0 +1,32 @@
+.TH "cxgb4_write_sgl" 9 "cxgb4_write_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4_write_sgl \- populate a scatter/gather list for a packet
+.SH SYNOPSIS
+.B "void" cxgb4_write_sgl
+.BI "(const struct sk_buff *skb "  ","
+.BI "struct sge_txq *q "  ","
+.BI "struct ulptx_sgl *sgl "  ","
+.BI "u64 *end "  ","
+.BI "unsigned int start "  ","
+.BI "const dma_addr_t *addr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "q" 12
+the Tx queue we are writing into
+.IP "sgl" 12
+starting location for writing the SGL
+.IP "end" 12
+points right after the end of the SGL
+.IP "start" 12
+start offset into skb main-body data to include in the SGL
+.IP "addr" 12
+the list of bus addresses for the SGL elements
+
+Generates a gather list for the buffers that make up a packet.
+The caller must provide adequate space for the SGL that will be written.
+The SGL includes all of the packet's page fragments and the data in its
+main body except for the first \fIstart\fP bytes.  \fIsgl\fP must be 16-byte
+aligned and within a Tx descriptor with available space.  \fIend\fP points
+right after the end of the SGL but does not account for any potential
+wrap around, i.e., \fIend\fP > \fIsgl\fP.

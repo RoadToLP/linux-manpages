@@ -1,0 +1,15 @@
+.TH "wb_wait_for_completion" 9 "wb_wait_for_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wb_wait_for_completion \- wait for completion of bdi_writeback_works
+.SH SYNOPSIS
+.B "void" wb_wait_for_completion
+.BI "(struct wb_completion *done "  ");"
+.SH ARGUMENTS
+.IP "done" 12
+target wb_completion
+.SH "DESCRIPTION"
+Wait for one or more work items issued to \fIbdi\fP with their ->done field
+set to \fIdone\fP, which should have been initialized with
+\fBDEFINE_WB_COMPLETION\fP.  This function returns after all such work items
+are completed.  Work items which are waited upon aren't freed
+automatically on completion.

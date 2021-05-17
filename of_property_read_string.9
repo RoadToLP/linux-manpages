@@ -1,0 +1,24 @@
+.TH "of_property_read_string" 9 "of_property_read_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_property_read_string \- Find and read a string from a property
+.SH SYNOPSIS
+.B "int" of_property_read_string
+.BI "(const struct device_node *np "  ","
+.BI "const char *propname "  ","
+.BI "const char **out_string "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node from which the property value is to be read.
+.IP "propname" 12
+name of the property to be searched.
+.IP "out_string" 12
+pointer to null terminated return string, modified only if
+return value is 0.
+.SH "DESCRIPTION"
+Search for a property in a device tree node and retrieve a null
+terminated string value (pointer to data, not a copy). Returns 0 on
+success, -EINVAL if the property does not exist, -ENODATA if property
+does not have a value, and -EILSEQ if the string is not null-terminated
+within the length of the property data.
+
+The out_string pointer is modified only if a valid string can be decoded.

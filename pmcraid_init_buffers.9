@@ -1,0 +1,18 @@
+.TH "pmcraid_init_buffers" 9 "pmcraid_init_buffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_init_buffers \- allocates memory and initializes various structures
+.SH SYNOPSIS
+.B "int" pmcraid_init_buffers
+.BI "(struct pmcraid_instance *pinstance "  ");"
+.SH ARGUMENTS
+.IP "pinstance" 12
+pointer to per adapter instance structure
+.SH "DESCRIPTION"
+This routine pre-allocates memory based on the type of block as below:
+cmdblocks(PMCRAID_MAX_CMD): kernel memory using kernel's slab_allocator,
+IOARCBs(PMCRAID_MAX_CMD)  : DMAable memory, using pci pool allocator
+config-table entries      : DMAable memory using dma_alloc_coherent
+HostRRQs                  : DMAable memory, using dma_alloc_coherent
+
+Return Value
+0 in case all of the blocks are allocated, -ENOMEM otherwise.

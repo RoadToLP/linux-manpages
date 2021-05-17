@@ -1,0 +1,38 @@
+.TH "ext4_alloc_branch" 9 "ext4_alloc_branch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_alloc_branch \- allocate and set up a chain of blocks
+.SH SYNOPSIS
+.B "int" ext4_alloc_branch
+.BI "(handle_t *handle "  ","
+.BI "struct ext4_allocation_request *ar "  ","
+.BI "int indirect_blks "  ","
+.BI "ext4_lblk_t *offsets "  ","
+.BI "Indirect *branch "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+handle for this transaction
+.IP "ar" 12
+structure describing the allocation request
+.IP "indirect_blks" 12
+number of allocated indirect blocks
+.IP "offsets" 12
+offsets (in the blocks) to store the pointers to next.
+.IP "branch" 12
+place to store the chain in.
+
+This function allocates blocks, zeroes out all but the last one,
+links them into chain and (if we are synchronous) writes them to disk.
+In other words, it prepares a branch that can be spliced onto the
+inode. It stores the information about that chain in the branch[], in
+the same format as \fBext4_get_branch\fP would do. We are calling it after
+we had read the existing part of chain and partial points to the last
+triple of that (one with zero ->key). Upon the exit we have the same
+picture as after the successful \fBext4_get_block\fP, except that in one
+place chain is disconnected - *branch->p is still zero (we did not
+set the last link), but branch->key contains the number that should
+be placed into *branch->p to fill that gap.
+
+If allocation fails we free all blocks we've allocated (and forget
+their buffer_heads) and return the error value the from failed
+\fBext4_alloc_block\fP (normally -ENOSPC). Otherwise we set the chain
+as described above and return 0.

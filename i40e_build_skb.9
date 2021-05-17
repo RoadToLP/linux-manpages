@@ -1,0 +1,18 @@
+.TH "i40e_build_skb" 9 "i40e_build_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_build_skb \- Build skb around an existing buffer
+.SH SYNOPSIS
+.B "struct sk_buff *" i40e_build_skb
+.BI "(struct i40e_ring *rx_ring "  ","
+.BI "struct i40e_rx_buffer *rx_buffer "  ","
+.BI "struct xdp_buff *xdp "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring to transact packets on
+.IP "rx_buffer" 12
+Rx buffer to pull data from
+.IP "xdp" 12
+xdp_buff pointing to the data
+.SH "DESCRIPTION"
+This function builds an skb around an existing Rx buffer, taking care
+to set up the skb correctly and avoid any memcpy overhead.

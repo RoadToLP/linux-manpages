@@ -1,0 +1,26 @@
+.TH "binder_inc_ref_for_node" 9 "binder_inc_ref_for_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_inc_ref_for_node \- increment the ref for given proc/node
+.SH SYNOPSIS
+.B "int" binder_inc_ref_for_node
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_node *node "  ","
+.BI "bool strong "  ","
+.BI "struct list_head *target_list "  ","
+.BI "struct binder_ref_data *rdata "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+proc containing the ref
+.IP "node" 12
+target node
+.IP "strong" 12
+true=strong reference, false=weak reference
+.IP "target_list" 12
+worklist to use if node is incremented
+.IP "rdata" 12
+the id/refcount data for the ref
+.SH "DESCRIPTION"
+Given a proc and node, increment the ref. Create the ref if it
+doesn't already exist
+.SH "RETURN"
+0 if successful, else errno

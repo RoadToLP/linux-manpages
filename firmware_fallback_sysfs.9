@@ -1,0 +1,35 @@
+.TH "firmware_fallback_sysfs" 9 "firmware_fallback_sysfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_fallback_sysfs \- use the fallback mechanism to find firmware
+.SH SYNOPSIS
+.B "int" firmware_fallback_sysfs
+.BI "(struct firmware *fw "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ","
+.BI "u32 opt_flags "  ","
+.BI "int ret "  ");"
+.SH ARGUMENTS
+.IP "fw" 12
+pointer to firmware image
+.IP "name" 12
+name of firmware file to look for
+.IP "device" 12
+device for which firmware is being loaded
+.IP "opt_flags" 12
+options to control firmware loading behaviour, as defined by
+\fIenum fw_opt\fP
+.IP "ret" 12
+return value from direct lookup which triggered the fallback mechanism
+.SH "DESCRIPTION"
+This function is called if direct lookup for the firmware failed, it enables
+a fallback mechanism through userspace by exposing a sysfs loading
+interface. Userspace is in charge of loading the firmware through the sysfs
+loading interface. This sysfs fallback mechanism may be disabled completely
+on a system by setting the proc sysctl value ignore_sysfs_fallback to true.
+If this is false we check if the internal API caller set the
+\fIFW_OPT_NOFALLBACK_SYSFS\fP flag, if so it would also disable the fallback
+mechanism. A system may want to enforce the sysfs fallback mechanism at all
+times, it can do this by setting ignore_sysfs_fallback to false and
+force_sysfs_fallback to true.
+Enabling force_sysfs_fallback is functionally equivalent to build a kernel
+with CONFIG_FW_LOADER_USER_HELPER_FALLBACK.

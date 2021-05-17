@@ -1,0 +1,15 @@
+.TH "dump_tasks" 9 "dump_tasks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dump_tasks \- dump current memory state of all system tasks
+.SH SYNOPSIS
+.B "void" dump_tasks
+.BI "(struct oom_control *oc "  ");"
+.SH ARGUMENTS
+.IP "oc" 12
+pointer to struct oom_control
+.SH "DESCRIPTION"
+Dumps the current memory state of all eligible tasks.  Tasks not in the same
+memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
+are not shown.
+State information includes task's pid, uid, tgid, vm size, rss,
+pgtables_bytes, swapents, oom_score_adj value, and name.

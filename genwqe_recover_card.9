@@ -1,0 +1,19 @@
+.TH "genwqe_recover_card" 9 "genwqe_recover_card" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_recover_card \- Try to recover the card if it is possible
+.SH SYNOPSIS
+.B "int" genwqe_recover_card
+.BI "(struct genwqe_dev *cd "  ","
+.BI "int fatal_err "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+GenWQE device information
+.IP "fatal_err" 12
+Indicate whether to attempt soft reset
+.SH "DESCRIPTION"
+If fatal_err is set no register access is possible anymore. It is
+likely that genwqe_start fails in that situation. Proper error
+handling is required in this case.
+
+\fBgenwqe_bus_reset\fP will cause the pci code to call \fBgenwqe_remove\fP
+and later \fBgenwqe_probe\fP for all virtual functions.

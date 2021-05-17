@@ -1,0 +1,39 @@
+.TH "simple_write_end" 9 "simple_write_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_write_end \- .write_end helper for non-block-device FSes
+.SH SYNOPSIS
+.B "int" simple_write_end
+.BI "(struct file *file "  ","
+.BI "struct address_space *mapping "  ","
+.BI "loff_t pos "  ","
+.BI "unsigned len "  ","
+.BI "unsigned copied "  ","
+.BI "struct page *page "  ","
+.BI "void *fsdata "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+See .write_end of address_space_operations
+.IP "mapping" 12
+"
+.IP "pos" 12
+"
+.IP "len" 12
+"
+.IP "copied" 12
+"
+.IP "page" 12
+"
+.IP "fsdata" 12
+"
+.SH "DESCRIPTION"
+simple_write_end does the minimum needed for updating a page after writing is
+done. It has the same API signature as the .write_end of
+address_space_operations vector. So it can just be set onto .write_end for
+FSes that don't need any other processing. i_mutex is assumed to be held.
+Block based filesystems should use \fBgeneric_write_end\fP.
+Use *ONLY* with \fBsimple_readpage\fP
+.SH "NOTE"
+Even though i_size might get updated by this function, mark_inode_dirty
+is not called, so a filesystem that actually does store data in .write_inode
+should extend on what's done here with a call to \fBmark_inode_dirty\fP in the
+case that i_size has changed.

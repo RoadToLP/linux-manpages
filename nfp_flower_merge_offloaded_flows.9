@@ -1,0 +1,20 @@
+.TH "nfp_flower_merge_offloaded_flows" 9 "nfp_flower_merge_offloaded_flows" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_flower_merge_offloaded_flows \- Merge 2 existing flows to single flow.
+.SH SYNOPSIS
+.B "int" nfp_flower_merge_offloaded_flows
+.BI "(struct nfp_app *app "  ","
+.BI "struct nfp_fl_payload *sub_flow1 "  ","
+.BI "struct nfp_fl_payload *sub_flow2 "  ");"
+.SH ARGUMENTS
+.IP "app" 12
+Pointer to the APP handle
+.IP "sub_flow1" 12
+Initial flow matched to produce merge hint
+.IP "sub_flow2" 12
+Post recirculation flow matched in merge hint
+.SH "DESCRIPTION"
+Combines 2 flows (if valid) to a single flow, removing the initial from hw
+and offloading the new, merged flow.
+.SH "RETURN"
+negative value on error, 0 in success.

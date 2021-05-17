@@ -1,0 +1,28 @@
+.TH "qib_ud_rcv" 9 "qib_ud_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_ud_rcv \- receive an incoming UD packet
+.SH SYNOPSIS
+.B "void" qib_ud_rcv
+.BI "(struct qib_ibport *ibp "  ","
+.BI "struct ib_header *hdr "  ","
+.BI "int has_grh "  ","
+.BI "void *data "  ","
+.BI "u32 tlen "  ","
+.BI "struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "ibp" 12
+the port the packet came in on
+.IP "hdr" 12
+the packet header
+.IP "has_grh" 12
+true if the packet has a GRH
+.IP "data" 12
+the packet data
+.IP "tlen" 12
+the packet length
+.IP "qp" 12
+the QP the packet came on
+.SH "DESCRIPTION"
+This is called from \fBqib_qp_rcv\fP to process an incoming UD packet
+for the given QP.
+Called at interrupt level.

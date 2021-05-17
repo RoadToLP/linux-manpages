@@ -1,0 +1,23 @@
+.TH "cpu_init" 9 "cpu_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpu_init \- 
+.SH SYNOPSIS
+.B "void" cpu_init
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is our initial entry point for each CPU, and is invoked on the
+boot CPU prior to calling \fBstart_kernel\fP. For SMP, a combination of
+this and \fBstart_secondary\fP will bring up each processor to a ready
+state prior to hand forking the idle loop.
+
+We do all of the basic processor init here, including setting up
+the caches, FPU, DSP, etc. By the time \fBstart_kernel\fP is hit (and
+subsequently \fBplatform_setup\fP) things like determining the CPU
+subtype and initial configuration will all be done.
+
+Each processor family is still responsible for doing its own probing
+and cache configuration in \fBcpu_probe\fP.

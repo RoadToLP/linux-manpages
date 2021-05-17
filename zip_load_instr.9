@@ -1,0 +1,21 @@
+.TH "zip_load_instr" 9 "zip_load_instr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zip_load_instr \- Submits the instruction into the ZIP command queue
+.SH SYNOPSIS
+.B "u32" zip_load_instr
+.BI "(union zip_inst_s *instr "  ","
+.BI "struct zip_device *zip_dev "  ");"
+.SH ARGUMENTS
+.IP "instr" 12
+Pointer to the instruction to be submitted
+.IP "zip_dev" 12
+Pointer to ZIP device structure to which the instruction is to
+be submitted
+.SH "DESCRIPTION"
+This function copies the ZIP instruction to the command queue and rings the
+doorbell to notify the engine of the instruction submission. The command
+queue is maintained in a circular fashion. When there is space for exactly
+one instruction in the queue, next chunk pointer of the queue is made to
+point to the head of the queue, thus maintaining a circular queue.
+.SH "RETURN"
+Queue number to which the instruction was submitted

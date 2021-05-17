@@ -1,0 +1,18 @@
+.TH "ice_reset" 9 "ice_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_reset \- Perform different types of reset
+.SH SYNOPSIS
+.B "enum ice_status" ice_reset
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_reset_req req "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "req" 12
+reset request
+.SH "DESCRIPTION"
+This function triggers a reset as specified by the req parameter.
+.SH "NOTE"
+If anything other than a PF reset is triggered, PXE mode is restored.
+This has to be cleared using ice_clear_pxe_mode again, once the AQ
+interface has been restored in the rebuild flow.

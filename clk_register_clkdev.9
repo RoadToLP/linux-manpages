@@ -1,0 +1,23 @@
+.TH "clk_register_clkdev" 9 "clk_register_clkdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_register_clkdev \- register one clock lookup for a struct clk
+.SH SYNOPSIS
+.B "int" clk_register_clkdev
+.BI "(struct clk *clk "  ","
+.BI "const char *con_id "  ","
+.BI "const char *dev_id "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk to associate with all clk_lookups
+.IP "con_id" 12
+connection ID string on device
+.IP "dev_id" 12
+string describing device name
+.SH "DESCRIPTION"
+con_id or dev_id may be NULL as a wildcard, just as in the rest of
+clkdev.
+
+To make things easier for mass registration, we detect error clks
+from a previous \fBclk_register\fP call, and return the error code for
+those.  This is to permit this function to be called immediately
+after \fBclk_register\fP.

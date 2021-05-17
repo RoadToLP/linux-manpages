@@ -1,0 +1,28 @@
+.TH "strnlen_user" 9 "strnlen_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strnlen_user \- - Get the size of a user string INCLUDING final NUL.
+.SH SYNOPSIS
+.B "long" strnlen_user
+.BI "(const char __user *str "  ","
+.BI "long count "  ");"
+.SH ARGUMENTS
+.IP "str" 12
+The string to measure.
+.IP "count" 12
+Maximum count (including NUL character)
+.SH "CONTEXT"
+User context only. This function may sleep if pagefaults are
+enabled.
+.SH "DESCRIPTION"
+Get the size of a NUL-terminated string in user space.
+
+Returns the size of the string INCLUDING the terminating NUL.
+If the string is too long, returns a number larger than \fIcount\fP. User
+has to check the return value against "> count".
+On exception (or invalid count), returns 0.
+
+NOTE! You should basically never use this function. There is
+almost never any valid case for using the length of a user space
+string, since the string can be changed at any time by other
+threads. Use "\fBstrncpy_from_user\fP" instead to get a stable copy
+of the string.

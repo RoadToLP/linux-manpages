@@ -1,0 +1,31 @@
+.TH "ntfs_attr_set" 9 "ntfs_attr_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_set \- fill (a part of) an attribute with a byte
+.SH SYNOPSIS
+.B "int" ntfs_attr_set
+.BI "(ntfs_inode *ni "  ","
+.BI "const s64 ofs "  ","
+.BI "const s64 cnt "  ","
+.BI "const u8 val "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode describing the attribute to fill
+.IP "ofs" 12
+offset inside the attribute at which to start to fill
+.IP "cnt" 12
+number of bytes to fill
+.IP "val" 12
+the unsigned 8-bit value with which to fill the attribute
+.SH "DESCRIPTION"
+Fill \fIcnt\fP bytes of the attribute described by the ntfs inode \fIni\fP starting at
+byte offset \fIofs\fP inside the attribute with the constant byte \fIval\fP.
+
+This function is effectively like \fBmemset\fP applied to an ntfs attribute.
+Note thie function actually only operates on the page cache pages belonging
+to the ntfs attribute and it marks them dirty after doing the \fBmemset\fP.
+Thus it relies on the vm dirty page write code paths to cause the modified
+pages to be written to the mft record/disk.
+
+Return 0 on success and -errno on error.  An error code of -ESPIPE means
+that \fIofs\fP + \fIcnt\fP were outside the end of the attribute and no write was
+performed.

@@ -1,0 +1,25 @@
+.TH "ata_scsi_qc_new" 9 "ata_scsi_qc_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_qc_new \- acquire new ata_queued_cmd reference
+.SH SYNOPSIS
+.B "struct ata_queued_cmd *" ata_scsi_qc_new
+.BI "(struct ata_device *dev "  ","
+.BI "struct scsi_cmnd *cmd "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ATA device to which the new command is attached
+.IP "cmd" 12
+SCSI command that originated this ATA command
+
+Obtain a reference to an unused ata_queued_cmd structure,
+which is the basic libata structure representing a single
+ATA command sent to the hardware.
+
+If a command was available, fill in the SCSI-specific
+portions of the structure with information on the
+current command.
+
+LOCKING:
+spin_lock_irqsave(host lock)
+.SH "RETURN"
+Command allocated, or NULL if none available.

@@ -1,0 +1,57 @@
+.TH "handle_ep0" 9 "handle_ep0" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_ep0 \- Handle control endpoint data transfers
+.SH SYNOPSIS
+.B "void" handle_ep0
+.BI "(struct pxa_udc *udc "  ","
+.BI "int fifo_irq "  ","
+.BI "int opc_irq "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+udc device
+.IP "fifo_irq" 12
+1 if triggered by fifo service type irq
+.IP "opc_irq" 12
+1 if triggered by output packet complete type irq
+.SH "CONTEXT"
+interrupt handler
+.SH "DESCRIPTION"
+Tries to transfer all pending request data into the endpoint and/or
+transfer all pending data in the endpoint into usb requests.
+Handles states of ep0 automata.
+
+PXA27x hardware handles several standard usb control requests without
+driver notification.  The requests fully handled by hardware are :
+SET_ADDRESS, SET_FEATURE, CLEAR_FEATURE, GET_CONFIGURATION, GET_INTERFACE,
+GET_STATUS
+The requests handled by hardware, but with irq notification are :
+SYNCH_FRAME, SET_CONFIGURATION, SET_INTERFACE
+The remaining standard requests really handled by handle_ep0 are :
+GET_DESCRIPTOR, SET_DESCRIPTOR, specific requests.
+Requests standardized outside of USB 2.0 chapter 9 are handled more
+uniformly, by gadget drivers.
+
+The control endpoint state machine is _not_ USB spec compliant, it's even
+hardly compliant with Intel PXA270 developers guide.
+The key points which inferred this state machine are :
+- on every setup token, bit UDCCSR0_SA is raised and held until cleared by
+software.
+- on every OUT packet received, UDCCSR0_OPC is raised and held until
+cleared by software.
+- clearing UDCCSR0_OPC always flushes ep0. If in setup stage, never do it
+before reading ep0.
+This is true only for PXA27x. This is not true anymore for PXA3xx family
+(check Back-to-Back setup packet in developers guide).
+- irq can be called on a "packet complete" event (opc_irq=1), while
+UDCCSR0_OPC is not yet raised (delta can be as big as 100ms
+from experimentation).
+- as UDCCSR0_SA can be activated while in irq handling, and clearing
+UDCCSR0_OPC would flush the setup data, we almost never clear UDCCSR0_OPC
+=> we never actually read the "status stage" packet of an IN data stage
+=> this is not documented in Intel documentation
+- hardware as no idea of STATUS STAGE, it only handle SETUP STAGE and DATA
+STAGE. The driver add STATUS STAGE to send last zero length packet in
+OUT_STATUS_STAGE.
+- special attention was needed for IN_STATUS_STAGE. If a packet complete
+event is detected, we terminate the status stage without ackowledging the
+packet (not to risk to loose a potential SETUP packet)

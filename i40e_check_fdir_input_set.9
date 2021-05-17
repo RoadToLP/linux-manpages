@@ -1,0 +1,34 @@
+.TH "i40e_check_fdir_input_set" 9 "i40e_check_fdir_input_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_check_fdir_input_set \- Check that a given rx_flow_spec mask is valid
+.SH SYNOPSIS
+.B "int" i40e_check_fdir_input_set
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "struct ethtool_rx_flow_spec *fsp "  ","
+.BI "struct i40e_rx_flow_userdef *userdef "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+pointer to the targeted VSI
+.IP "fsp" 12
+pointer to Rx flow specification
+.IP "userdef" 12
+userdefined data from flow specification
+.SH "DESCRIPTION"
+Ensures that a given ethtool_rx_flow_spec has a valid mask. Some support
+for partial matches exists with a few limitations. First, hardware only
+supports masking by word boundary (2 bytes) and not per individual bit.
+Second, hardware is limited to using one mask for a flow type and cannot
+use a separate mask for each filter.
+
+To support these limitations, if we already have a configured filter for
+the specified type, this function enforces that new filters of the type
+match the configured input set. Otherwise, if we do not have a filter of
+the specified type, we allow the input set to be updated to match the
+desired filter.
+
+To help ensure that administrators understand why filters weren't displayed
+as supported, we print a diagnostic message displaying how the input set
+would change and warning to delete the preexisting filters if required.
+
+Returns 0 on successful input set match, and a negative return code on
+failure.

@@ -1,0 +1,21 @@
+.TH "sgx_ioc_enclave_init" 9 "sgx_ioc_enclave_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sgx_ioc_enclave_init \- handler for %SGX_IOC_ENCLAVE_INIT
+.SH SYNOPSIS
+.B "long" sgx_ioc_enclave_init
+.BI "(struct sgx_encl *encl "  ","
+.BI "void __user *arg "  ");"
+.SH ARGUMENTS
+.IP "encl" 12
+an enclave pointer
+.IP "arg" 12
+userspace pointer to a struct sgx_enclave_init instance
+.SH "DESCRIPTION"
+Flush any outstanding enqueued EADD operations and perform EINIT.  The
+Launch Enclave Public Key Hash MSRs are rewritten as necessary to match
+the enclave's MRSIGNER, which is caculated from the provided sigstruct.
+.SH "RETURN"
+- 0:         Success.
+- -EPERM:    Invalid SIGSTRUCT.
+- -EIO:      EINIT failed because of a power cycle.
+- -errno:    POSIX error.

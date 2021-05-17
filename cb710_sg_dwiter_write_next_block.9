@@ -1,0 +1,19 @@
+.TH "cb710_sg_dwiter_write_next_block" 9 "cb710_sg_dwiter_write_next_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cb710_sg_dwiter_write_next_block \- write next 32-bit word to sg buffer
+.SH SYNOPSIS
+.B "void" cb710_sg_dwiter_write_next_block
+.BI "(struct sg_mapping_iter *miter "  ","
+.BI "uint32_t data "  ");"
+.SH ARGUMENTS
+.IP "miter" 12
+sg mapping iterator used for writing
+.IP "data" 12
+data to write to sg buffer
+.SH "DESCRIPTION"
+Writes 32-bit word starting at byte pointed to by \fImiter\fP\fI\fP
+handling any alignment issues.  Bytes which would be written
+past the buffer's end are silently discarded. \fImiter\fP\fI\fP is
+advanced by 4 bytes or to the end of buffer whichever is closer.
+.SH "CONTEXT"
+Same requirements as in \fBsg_miter_next\fP.

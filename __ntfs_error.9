@@ -1,0 +1,30 @@
+.TH "__ntfs_error" 9 "__ntfs_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_error \- output an error to the syslog
+.SH SYNOPSIS
+.B "void" __ntfs_error
+.BI "(const char *function "  ","
+.BI "const struct super_block *sb "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "function" 12
+name of function outputting the error
+.IP "sb" 12
+super block of mounted ntfs filesystem
+.IP "fmt" 12
+error string containing format specifications
+.IP "..." 12
+a variable number of arguments specified in \fIfmt\fP
+.SH "DESCRIPTION"
+Outputs an error to the syslog for the mounted ntfs filesystem described
+by \fIsb\fP.
+
+\fIfmt\fP and the corresponding \fI...\fP is printf style format string containing
+the error string and the corresponding format arguments, respectively.
+
+\fIfunction\fP is the name of the function from which __ntfs_error is being
+called.
+
+Note, you should be using debug.h::ntfs_error(\fIsb\fP, \fIfmt\fP, \fI...\fP) instead
+as this provides the \fIfunction\fP parameter automatically.

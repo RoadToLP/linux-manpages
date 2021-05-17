@@ -1,0 +1,19 @@
+.TH "comedi_pcmcia_auto_unconfig" 9 "comedi_pcmcia_auto_unconfig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_pcmcia_auto_unconfig \- Unconfigure/remove a PCMCIA COMEDI device
+.SH SYNOPSIS
+.B "void" comedi_pcmcia_auto_unconfig
+.BI "(struct pcmcia_device *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+PCMCIA device.
+.SH "DESCRIPTION"
+Typically called from the pcmcia_driver (*remove) function.
+Auto-unconfigure a COMEDI device attached to this PCMCIA device, using a
+pointer to the \fIstruct device\fP embedded in *\fIlink\fP as the hardware device.
+The COMEDI driver's "detach" handler will be called during unconfiguration
+of the COMEDI device.
+
+Note that the COMEDI device may have already been unconfigured using the
+COMEDI_DEVCONFIG ioctl, in which case this attempt to unconfigure it
+again should be ignored.

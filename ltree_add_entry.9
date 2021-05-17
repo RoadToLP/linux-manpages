@@ -1,0 +1,20 @@
+.TH "ltree_add_entry" 9 "ltree_add_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ltree_add_entry \- add new entry to the lock tree.
+.SH SYNOPSIS
+.B "struct ubi_ltree_entry *" ltree_add_entry
+.BI "(struct ubi_device *ubi "  ","
+.BI "int vol_id "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol_id" 12
+volume ID
+.IP "lnum" 12
+logical eraseblock number
+.SH "DESCRIPTION"
+This function adds new entry for logical eraseblock (\fIvol_id\fP, \fIlnum\fP) to the
+lock tree. If such entry is already there, its usage counter is increased.
+Returns pointer to the lock tree entry or -ENOMEM if memory allocation
+failed.

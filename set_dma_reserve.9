@@ -1,0 +1,16 @@
+.TH "set_dma_reserve" 9 "set_dma_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_dma_reserve \- set the specified number of pages reserved in the first zone
+.SH SYNOPSIS
+.B "void" set_dma_reserve
+.BI "(unsigned long new_dma_reserve "  ");"
+.SH ARGUMENTS
+.IP "new_dma_reserve" 12
+The number of pages to mark reserved
+.SH "DESCRIPTION"
+The per-cpu batchsize and zone watermarks are determined by managed_pages.
+In the DMA zone, a significant percentage may be consumed by kernel image
+and other unfreeable allocations which can skew the watermarks badly. This
+function may optionally be used to account for unfreeable pages in the
+first zone (e.g., ZONE_DMA). The effect will be lower watermarks and
+smaller per-cpu batchsize.

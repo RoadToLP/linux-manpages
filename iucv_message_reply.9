@@ -1,0 +1,28 @@
+.TH "iucv_message_reply" 9 "iucv_message_reply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iucv_message_reply \- 
+.SH SYNOPSIS
+.B "int" iucv_message_reply
+.BI "(struct iucv_path *path "  ","
+.BI "struct iucv_message *msg "  ","
+.BI "u8 flags "  ","
+.BI "void *reply "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+address of iucv path structure
+.IP "msg" 12
+address of iucv msg structure
+.IP "flags" 12
+how the reply is sent (IUCV_IPRMDATA, IUCV_IPPRTY, IUCV_IPBUFLST)
+.IP "reply" 12
+address of reply data buffer or address of struct iucv_array
+.IP "size" 12
+length of reply data buffer
+.SH "DESCRIPTION"
+This function responds to the two-way messages that you receive. You
+must identify completely the message to which you wish to reply. ie,
+pathid, msgid, and trgcls. Prmmsg signifies the data is moved into
+the parameter list.
+
+Returns the result from the CP IUCV call.

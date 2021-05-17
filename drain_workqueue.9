@@ -1,0 +1,16 @@
+.TH "drain_workqueue" 9 "drain_workqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drain_workqueue \- drain a workqueue
+.SH SYNOPSIS
+.B "void" drain_workqueue
+.BI "(struct workqueue_struct *wq "  ");"
+.SH ARGUMENTS
+.IP "wq" 12
+workqueue to drain
+.SH "DESCRIPTION"
+Wait until the workqueue becomes empty.  While draining is in progress,
+only chain queueing is allowed.  IOW, only currently pending or running
+work items on \fIwq\fP can queue further work items on it.  \fIwq\fP is flushed
+repeatedly until it becomes empty.  The number of flushing is determined
+by the depth of chaining and should be relatively short.  Whine if it
+takes too long.

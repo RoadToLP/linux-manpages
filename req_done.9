@@ -1,0 +1,22 @@
+.TH "req_done" 9 "req_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+req_done \- Complete an usb request
+.SH SYNOPSIS
+.B "void" req_done
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ","
+.BI "int status "  ","
+.BI "unsigned long *pflags "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+pxa physical endpoint
+.IP "req" 12
+pxa request
+.IP "status" 12
+usb request status sent to gadget API
+.IP "pflags" 12
+flags of previous \fBspinlock_irq_save\fP or NULL if no lock held
+.SH "CONTEXT"
+ep->lock held if flags not NULL, else ep->lock released
+.SH "DESCRIPTION"
+Retire a pxa27x usb request. Endpoint must be locked.

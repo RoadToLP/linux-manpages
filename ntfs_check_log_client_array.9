@@ -1,0 +1,22 @@
+.TH "ntfs_check_log_client_array" 9 "ntfs_check_log_client_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_check_log_client_array \- check the log client array for consistency
+.SH SYNOPSIS
+.B "bool" ntfs_check_log_client_array
+.BI "(struct inode *vi "  ","
+.BI "RESTART_PAGE_HEADER *rp "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+$LogFile inode to which the restart page belongs
+.IP "rp" 12
+restart page whose log client array to check
+.SH "DESCRIPTION"
+Check the log client array of the restart page \fIrp\fP for consistency and
+return 'true' if it is consistent and 'false' otherwise.
+
+This function assumes that the restart page header and the restart area have
+already been consistency checked.
+
+Unlike \fBntfs_check_restart_page_header\fP and \fBntfs_check_restart_area\fP, this
+function needs \fIrp->system_page_size\fP bytes in \fIrp\fP, i.e. it requires the full
+restart page and the page must be multi sector transfer deprotected.

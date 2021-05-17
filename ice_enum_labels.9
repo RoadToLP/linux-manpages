@@ -1,0 +1,23 @@
+.TH "ice_enum_labels" 9 "ice_enum_labels" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_enum_labels \- 
+.SH SYNOPSIS
+.B "char *" ice_enum_labels
+.BI "(struct ice_seg *ice_seg "  ","
+.BI "u32 type "  ","
+.BI "struct ice_pkg_enum *state "  ","
+.BI "u16 *value "  ");"
+.SH ARGUMENTS
+.IP "ice_seg" 12
+pointer to the ice segment (NULL on subsequent calls)
+.IP "type" 12
+the section type that will contain the label (0 on subsequent calls)
+.IP "state" 12
+ice_pkg_enum structure that will hold the state of the enumeration
+.IP "value" 12
+pointer to a value that will return the label's value if found
+.SH "DESCRIPTION"
+Enumerates a list of labels in the package. The caller will call
+ice_enum_labels(ice_seg, type, ...) to start the enumeration, then call
+ice_enum_labels(NULL, 0, ...) to continue. When the function returns a NULL
+the end of the list has been reached.

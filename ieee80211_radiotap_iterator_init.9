@@ -1,0 +1,50 @@
+.TH "ieee80211_radiotap_iterator_init" 9 "ieee80211_radiotap_iterator_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ieee80211_radiotap_iterator_init \- radiotap parser iterator initialization
+.SH SYNOPSIS
+.B "int" ieee80211_radiotap_iterator_init
+.BI "(struct ieee80211_radiotap_iterator *iterator "  ","
+.BI "struct ieee80211_radiotap_header *radiotap_header "  ","
+.BI "int max_length "  ","
+.BI "const struct ieee80211_radiotap_vendor_namespaces *vns "  ");"
+.SH ARGUMENTS
+.IP "iterator" 12
+radiotap_iterator to initialize
+.IP "radiotap_header" 12
+radiotap header to parse
+.IP "max_length" 12
+total length we can parse into (eg, whole packet length)
+.IP "vns" 12
+vendor namespaces to parse
+.SH "RETURN"
+0 or a negative error code if there is a problem.
+.SH "DESCRIPTION"
+This function initializes an opaque iterator struct which can then
+be passed to \fBieee80211_radiotap_iterator_next\fP to visit every radiotap
+argument which is present in the header.  It knows about extended
+present headers and handles them.
+
+How to use:
+call \fB__ieee80211_radiotap_iterator_init\fP to init a semi-opaque iterator
+struct ieee80211_radiotap_iterator (no need to init the struct beforehand)
+checking for a good 0 return code.  Then loop calling
+\fB__ieee80211_radiotap_iterator_next\fP... it returns either 0,
+-ENOENT if there are no more args to parse, or -EINVAL if there is a problem.
+The iterator's \fIthis_arg\fP member points to the start of the argument
+associated with the current argument index that is present, which can be
+found in the iterator's \fIthis_arg_index\fP member.  This arg index corresponds
+to the IEEE80211_RADIOTAP_... defines.
+
+Radiotap header length:
+You can find the CPU-endian total radiotap header length in
+iterator->max_length after executing \fBieee80211_radiotap_iterator_init\fP
+successfully.
+
+Alignment Gotcha:
+You must take care when dereferencing iterator.this_arg
+for multibyte types... the pointer is not aligned.  Use
+get_unaligned((type *)iterator.this_arg) to dereference
+iterator.this_arg for type "type" safely on all arches.
+
+Example code:
+See Documentation/networking/radiotap-headers.rst

@@ -1,0 +1,26 @@
+.TH "mesh_path_move_to_queue" 9 "mesh_path_move_to_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_path_move_to_queue \- Move or copy frames from one mpath queue to another
+.SH SYNOPSIS
+.B "void" mesh_path_move_to_queue
+.BI "(struct mesh_path *gate_mpath "  ","
+.BI "struct mesh_path *from_mpath "  ","
+.BI "bool copy "  ");"
+.SH ARGUMENTS
+.IP "gate_mpath" 12
+An active mpath the frames will be sent to (i.e. the gate)
+.IP "from_mpath" 12
+The failed mpath
+.IP "copy" 12
+When true, copy all the frames to the new mpath queue.  When false,
+move them.
+.SH "DESCRIPTION"
+
+This function is used to transfer or copy frames from an unresolved mpath to
+a gate mpath.  The function also adds the Address Extension field and
+updates the next hop.
+
+If a frame already has an Address Extension field, only the next hop and
+destination addresses are updated.
+
+The gate mpath must be an active mpath with a valid mpath->next_hop.

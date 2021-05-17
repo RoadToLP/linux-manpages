@@ -1,0 +1,17 @@
+.TH "drm_mode_set_config_internal" 9 "drm_mode_set_config_internal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_set_config_internal \- helper to call &drm_mode_config_funcs.set_config
+.SH SYNOPSIS
+.B "int" drm_mode_set_config_internal
+.BI "(struct drm_mode_set *set "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+modeset config to set
+.SH "DESCRIPTION"
+This is a little helper to wrap internal calls to the
+\fIdrm_mode_config_funcs.set_config\fP driver interface. The only thing it adds is
+correct refcounting dance.
+
+This should only be used by non-atomic legacy drivers.
+.SH "RETURN"
+Zero on success, negative errno on failure.

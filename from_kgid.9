@@ -1,0 +1,19 @@
+.TH "from_kgid" 9 "from_kgid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+from_kgid \- Create a gid from a kgid user-namespace pair.
+.SH SYNOPSIS
+.B "gid_t" from_kgid
+.BI "(struct user_namespace *targ "  ","
+.BI "kgid_t kgid "  ");"
+.SH ARGUMENTS
+.IP "targ" 12
+The user namespace we want a gid in.
+.IP "kgid" 12
+The kernel internal gid to start with.
+
+Map \fIkgid\fP into the user-namespace specified by \fItarg\fP and
+return the resulting gid.
+
+There is always a mapping into the initial user_namespace.
+
+If \fIkgid\fP has no mapping in \fItarg\fP (gid_t)-1 is returned.

@@ -1,0 +1,22 @@
+.TH "key_update" 9 "key_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_update \- Update a key's contents.
+.SH SYNOPSIS
+.B "int" key_update
+.BI "(key_ref_t key_ref "  ","
+.BI "const void *payload "  ","
+.BI "size_t plen "  ");"
+.SH ARGUMENTS
+.IP "key_ref" 12
+The pointer (plus possession flag) to the key.
+.IP "payload" 12
+The data to be used to update the key.
+.IP "plen" 12
+The length of \fIpayload\fP.
+.SH "DESCRIPTION"
+Attempt to update the contents of a key with the given payload data.  The
+caller must be granted Write permission on the key.  Negative keys can be
+instantiated by this method.
+
+Returns 0 on success, -EACCES if not permitted and -EOPNOTSUPP if the key
+type does not support updating.  The key type may return other errors.

@@ -1,0 +1,19 @@
+.TH "get_bar_size" 9 "get_bar_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_bar_size \- Get the address space consumed by a BAR
+.SH SYNOPSIS
+.B "u64" get_bar_size
+.BI "(u64 bar_val "  ");"
+.SH ARGUMENTS
+.IP "bar_val" 12
+Value that a BAR returned after -1 was written
+to it.
+.SH "DESCRIPTION"
+This function returns the size of the BAR, rounded up to 1
+page.  It has to be rounded up because the hypervisor's page
+table entry that maps the BAR into the VM can't specify an
+offset within a page.  The invariant is that the hypervisor
+must place any BARs of smaller than page length at the
+beginning of a page.
+.SH "RETURN"
+Size in bytes of the consumed MMIO space.

@@ -1,0 +1,31 @@
+.TH "ulist_add" 9 "ulist_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ulist_add \- add an element to the ulist
+.SH SYNOPSIS
+.B "int" ulist_add
+.BI "(struct ulist *ulist "  ","
+.BI "u64 val "  ","
+.BI "u64 aux "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "ulist" 12
+ulist to add the element to
+.IP "val" 12
+value to add to ulist
+.IP "aux" 12
+auxiliary value to store along with val
+.IP "gfp_mask" 12
+flags to use for allocation
+.SH "NOTE"
+locking must be provided by the caller. In case of rwlocks write
+locking is needed
+.SH "DESCRIPTION"
+Add an element to a ulist. The \fIval\fP will only be added if it doesn't
+already exist. If it is added, the auxiliary value \fIaux\fP is stored along with
+it. In case \fIval\fP already exists in the ulist, \fIaux\fP is ignored, even if
+it differs from the already stored value.
+
+ulist_add returns 0 if \fIval\fP already exists in ulist and 1 if \fIval\fP has been
+inserted.
+In case of allocation failure -ENOMEM is returned and the ulist stays
+unaltered.

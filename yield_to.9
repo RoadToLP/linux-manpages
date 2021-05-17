@@ -1,0 +1,19 @@
+.TH "yield_to" 9 "yield_to" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+yield_to \- yield the current processor to another thread in your thread group, or accelerate that thread toward the processor it's on.
+.SH SYNOPSIS
+.B "int" yield_to
+.BI "(struct task_struct *p "  ","
+.BI "bool preempt "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+target task
+.IP "preempt" 12
+whether task preemption is allowed or not
+.SH "DESCRIPTION"
+It's the caller's job to ensure that the target task struct
+can't go away on us before we can do any checks.
+.SH "RETURN"
+true (>0) if we indeed boosted the target task.
+false (0) if we failed to boost the target.
+-ESRCH if there's no task to yield to.

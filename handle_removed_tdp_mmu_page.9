@@ -1,0 +1,25 @@
+.TH "handle_removed_tdp_mmu_page" 9 "handle_removed_tdp_mmu_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_removed_tdp_mmu_page \- handle a pt removed from the TDP structure
+.SH SYNOPSIS
+.B "void" handle_removed_tdp_mmu_page
+.BI "(struct kvm *kvm "  ","
+.BI "tdp_ptep_t pt "  ","
+.BI "bool shared "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+kvm instance
+.IP "pt" 12
+the page removed from the paging structure
+.IP "shared" 12
+This operation may not be running under the exclusive use
+of the MMU lock and the operation must synchronize with other
+threads that might be modifying SPTEs.
+.SH "DESCRIPTION"
+Given a page table that has been removed from the TDP paging structure,
+iterates through the page table to clear SPTEs and free child page tables.
+
+Note that pt is passed in as a tdp_ptep_t, but it does not need RCU
+protection. Since this thread removed it from the paging structure,
+this thread will be responsible for ensuring the page is freed. Hence the
+early rcu_dereferences in the function.

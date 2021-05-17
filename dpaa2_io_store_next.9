@@ -1,0 +1,24 @@
+.TH "dpaa2_io_store_next" 9 "dpaa2_io_store_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpaa2_io_store_next \- Determine when the next dequeue result is available.
+.SH SYNOPSIS
+.B "struct dpaa2_dq *" dpaa2_io_store_next
+.BI "(struct dpaa2_io_store *s "  ","
+.BI "int *is_last "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the dpaa2_io_store object.
+.IP "is_last" 12
+indicate whether this is the last frame in the pull command.
+.SH "DESCRIPTION"
+When an object driver performs dequeues to a dpaa2_io_store, this function
+can be used to determine when the next frame result is available. Once
+this function returns non-NULL, a subsequent call to it will try to find
+the next dequeue result.
+
+Note that if a pull-dequeue has a NULL result because the target FQ/channel
+was empty, then this function will also return NULL (rather than expecting
+the caller to always check for this. As such, "is_last" can be used to
+differentiate between "end-of-empty-dequeue" and "still-waiting".
+
+Return dequeue result for a valid dequeue result, or NULL for empty dequeue.

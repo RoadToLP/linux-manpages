@@ -1,0 +1,20 @@
+.TH "lpfc_sli_mbox_sys_flush" 9 "lpfc_sli_mbox_sys_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_mbox_sys_flush \- Flush mailbox command sub-system
+.SH SYNOPSIS
+.B "void" lpfc_sli_mbox_sys_flush
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This routine flushes the mailbox command subsystem. It will unconditionally
+flush all the mailbox commands in the three possible stages in the mailbox
+command sub-system: pending mailbox command queue; the outstanding mailbox
+command; and completed mailbox command queue. It is caller's responsibility
+to make sure that the driver is in the proper state to flush the mailbox
+command sub-system. Namely, the posting of mailbox commands into the
+pending mailbox command queue from the various clients must be stopped;
+either the HBA is in a state that it will never works on the outstanding
+mailbox command (such as in EEH or ERATT conditions) or the outstanding
+mailbox command has been completed.

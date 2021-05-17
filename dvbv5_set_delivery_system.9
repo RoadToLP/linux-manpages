@@ -1,0 +1,24 @@
+.TH "dvbv5_set_delivery_system" 9 "dvbv5_set_delivery_system" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dvbv5_set_delivery_system \- Sets the delivery system for a DVBv5 API call
+.SH SYNOPSIS
+.B "int" dvbv5_set_delivery_system
+.BI "(struct dvb_frontend *fe "  ","
+.BI "u32 desired_system "  ");"
+.SH ARGUMENTS
+.IP "fe" 12
+frontend struct
+.IP "desired_system" 12
+delivery system requested by the user
+.SH "DESCRIPTION"
+A DVBv5 call know what's the desired system it wants. So, set it.
+
+There are, however, a few known issues with early DVBv5 applications that
+are also handled by this logic:
+
+1) Some early apps use SYS_UNDEFINED as the desired delivery system.
+This is an API violation, but, as we don't want to break userspace,
+convert it to the first supported delivery system.
+2) Some apps might be using a DVBv5 call in a wrong way, passing, for
+example, SYS_DVBT instead of SYS_ISDBT. This is because early usage of
+ISDB-T provided backward compat with DVB-T.

@@ -1,0 +1,42 @@
+.TH "vga_client_register" 9 "vga_client_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_client_register \- register or unregister a VGA arbitration client
+.SH SYNOPSIS
+.B "int" vga_client_register
+.BI "(struct pci_dev *pdev "  ","
+.BI "void *cookie "  ","
+.BI "void (*irq_set_state)(void *cookie, bool state) "  ","
+.BI "unsigned int (*set_vga_decode)(void *cookie, bool decode) "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pci device of the VGA client
+.IP "cookie" 12
+client cookie to be used in callbacks
+.IP "irq_set_state" 12
+irq state change callback
+.IP "set_vga_decode" 12
+vga decode change callback
+.SH "DESCRIPTION"
+Clients have two callback mechanisms they can use.
+
+\fIirq_set_state\fP callback: If a client can't disable its GPUs VGA
+resources, then we need to be able to ask it to turn off its irqs when we
+turn off its mem and io decoding.
+
+\fIset_vga_decode\fP callback: If a client can disable its GPU VGA resource, it
+will get a callback from this to set the encode/decode state.
+
+Rationale: we cannot disable VGA decode resources unconditionally some single
+GPU laptops seem to require ACPI or BIOS access to the VGA registers to
+control things like backlights etc.  Hopefully newer multi-GPU laptops do
+something saner, and desktops won't have any special ACPI for this. The
+driver will get a callback when VGA arbitration is first used by userspace
+since some older X servers have issues.
+
+This function does not check whether a client for \fIpdev\fP has been registered
+already.
+
+To unregister just call this function with \fIirq_set_state\fP and \fIset_vga_decode\fP
+both set to NULL for the same \fIpdev\fP as originally used to register them.
+.SH "RETURN"
+0 on success, -1 on failure

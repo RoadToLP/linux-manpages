@@ -1,0 +1,19 @@
+.TH "pci_update_current_state" 9 "pci_update_current_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_update_current_state \- Read power state of given device and cache it
+.SH SYNOPSIS
+.B "void" pci_update_current_state
+.BI "(struct pci_dev *dev "  ","
+.BI "pci_power_t state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to handle.
+.IP "state" 12
+State to cache in case the device doesn't have the PM capability
+.SH "DESCRIPTION"
+The power state is read from the PMCSR register, which however is
+inaccessible in D3cold.  The platform firmware is therefore queried first
+to detect accessibility of the register.  In case the platform firmware
+reports an incorrect state or the device isn't power manageable by the
+platform at all, we try to detect D3cold by testing accessibility of the
+vendor ID in config space.

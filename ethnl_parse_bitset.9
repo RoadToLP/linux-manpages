@@ -1,0 +1,30 @@
+.TH "ethnl_parse_bitset" 9 "ethnl_parse_bitset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_parse_bitset \- Compute effective value and mask from bitset nest
+.SH SYNOPSIS
+.B "int" ethnl_parse_bitset
+.BI "(unsigned long *val "  ","
+.BI "unsigned long *mask "  ","
+.BI "unsigned int nbits "  ","
+.BI "const struct nlattr *attr "  ","
+.BI "ethnl_string_array_t names "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "val" 12
+unsigned long based bitmap to put value into
+.IP "mask" 12
+unsigned long based bitmap to put mask into
+.IP "nbits" 12
+size of \fIval\fP and \fImask\fP bitmaps
+.IP "attr" 12
+nest attribute to parse and apply
+.IP "names" 12
+array of bit names; may be null for compact format
+.IP "extack" 12
+extack for error reporting
+.SH "DESCRIPTION"
+Provide \fInbits\fP size long bitmaps for value and mask so that
+x = (val & mask) | (x & ~mask) would modify any \fInbits\fP sized bitmap x
+the same way \fBethnl_update_bitset\fP with the same bitset attribute would.
+.SH "RETURN"
+negative error code on failure, 0 on success

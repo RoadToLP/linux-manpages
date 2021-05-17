@@ -1,0 +1,19 @@
+.TH "intel_display_power_put" 9 "intel_display_power_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_display_power_put \- release a power domain reference
+.SH SYNOPSIS
+.B "void" intel_display_power_put
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum intel_display_power_domain domain "  ","
+.BI "intel_wakeref_t wakeref "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.IP "domain" 12
+power domain to reference
+.IP "wakeref" 12
+wakeref acquired for the reference that is being released
+.SH "DESCRIPTION"
+This function drops the power domain reference obtained by
+\fBintel_display_power_get\fP and might power down the corresponding hardware
+block right away if this is the last reference.

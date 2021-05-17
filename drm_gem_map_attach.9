@@ -1,0 +1,18 @@
+.TH "drm_gem_map_attach" 9 "drm_gem_map_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_map_attach \- dma_buf attach implementation for GEM
+.SH SYNOPSIS
+.B "int" drm_gem_map_attach
+.BI "(struct dma_buf *dma_buf "  ","
+.BI "struct dma_buf_attachment *attach "  ");"
+.SH ARGUMENTS
+.IP "dma_buf" 12
+buffer to attach device to
+.IP "attach" 12
+buffer attachment data
+.SH "DESCRIPTION"
+Calls \fIdrm_gem_object_funcs.pin\fP for device specific handling. This can be
+used as the \fIdma_buf_ops.attach\fP callback. Must be used together with
+\fBdrm_gem_map_detach\fP.
+
+Returns 0 on success, negative error code on failure.

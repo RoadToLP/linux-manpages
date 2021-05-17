@@ -1,0 +1,33 @@
+.TH "t4_tp_indirect_rw" 9 "t4_tp_indirect_rw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_tp_indirect_rw \- Read/Write TP indirect register through LDST or backdoor
+.SH SYNOPSIS
+.B "void" t4_tp_indirect_rw
+.BI "(struct adapter *adap "  ","
+.BI "u32 reg_addr "  ","
+.BI "u32 reg_data "  ","
+.BI "u32 *buff "  ","
+.BI "u32 nregs "  ","
+.BI "u32 start_index "  ","
+.BI "int rw "  ","
+.BI "bool sleep_ok "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "reg_addr" 12
+Address Register
+.IP "reg_data" 12
+Data register
+.IP "buff" 12
+where the indirect register values are stored/written
+.IP "nregs" 12
+how many indirect registers to read/write
+.IP "start_index" 12
+index of first indirect register to read/write
+.IP "rw" 12
+READ(1) or WRITE(0)
+.IP "sleep_ok" 12
+if true we may sleep while awaiting command completion
+.SH "DESCRIPTION"
+Read/Write TP indirect registers through LDST if possible.
+Else, use backdoor access

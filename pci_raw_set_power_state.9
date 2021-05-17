@@ -1,0 +1,19 @@
+.TH "pci_raw_set_power_state" 9 "pci_raw_set_power_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_raw_set_power_state \- Use PCI PM registers to set the power state of given PCI device
+.SH SYNOPSIS
+.B "int" pci_raw_set_power_state
+.BI "(struct pci_dev *dev "  ","
+.BI "pci_power_t state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to handle.
+.IP "state" 12
+PCI power state (D0, D1, D2, D3hot) to put the device into.
+.SH "DESCRIPTION"
+RETURN VALUE:
+-EINVAL if the requested state is invalid.
+-EIO if device does not support PCI PM or its PM capabilities register has a
+wrong version, or device doesn't support the requested state.
+0 if device already is in the requested state.
+0 if device's power state has been successfully changed.

@@ -1,0 +1,25 @@
+.TH "generic_fh_to_dentry" 9 "generic_fh_to_dentry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_fh_to_dentry \- generic helper for the fh_to_dentry export operation
+.SH SYNOPSIS
+.B "struct dentry *" generic_fh_to_dentry
+.BI "(struct super_block *sb "  ","
+.BI "struct fid *fid "  ","
+.BI "int fh_len "  ","
+.BI "int fh_type "  ","
+.BI "struct inode *(*get_inode) (struct super_block *sb, u64 ino, u32 gen) "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+filesystem to do the file handle conversion on
+.IP "fid" 12
+file handle to convert
+.IP "fh_len" 12
+length of the file handle in bytes
+.IP "fh_type" 12
+type of file handle
+.IP "get_inode" 12
+filesystem callback to retrieve inode
+.SH "DESCRIPTION"
+This function decodes \fIfid\fP as long as it has one of the well-known
+Linux filehandle types and calls \fIget_inode\fP on it to retrieve the
+inode for the object specified in the file handle.

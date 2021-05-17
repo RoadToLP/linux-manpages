@@ -1,0 +1,24 @@
+.TH "svc_rdma_read_special" 9 "svc_rdma_read_special" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_read_special \- Build RDMA Read WQEs to pull a Long Message
+.SH SYNOPSIS
+.B "int" svc_rdma_read_special
+.BI "(struct svc_rdma_read_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.SH "DESCRIPTION"
+The start of the data lands in the first page just after the
+Transport header, and the rest lands in the page list of
+head->rc_arg.pages.
+
+Assumptions:
+- A PZRC is never sent in an RDMA_MSG message, though it's
+allowed by spec.
+
+Return values:
+0: RDMA Read WQEs were successfully built
+-EINVAL: client provided too many chunks or segments,
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

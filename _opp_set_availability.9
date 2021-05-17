@@ -1,0 +1,22 @@
+.TH "_opp_set_availability" 9 "_opp_set_availability" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_opp_set_availability \- helper to set the availability of an opp
+.SH SYNOPSIS
+.B "int" _opp_set_availability
+.BI "(struct device *dev "  ","
+.BI "unsigned long freq "  ","
+.BI "bool availability_req "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+OPP frequency to modify availability
+.IP "availability_req" 12
+availability status requested for this opp
+.SH "DESCRIPTION"
+Set the availability of an OPP, opp_{enable,disable} share a common logic
+which is isolated here.
+.SH "RETURN"
+-EINVAL for bad pointers, -ENOMEM if no memory available for the
+copy operation, returns 0 if no modification was done OR modification was
+successful.

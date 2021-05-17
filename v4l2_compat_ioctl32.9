@@ -1,0 +1,22 @@
+.TH "v4l2_compat_ioctl32" 9 "v4l2_compat_ioctl32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v4l2_compat_ioctl32 \- Handles a compat32 ioctl call
+.SH SYNOPSIS
+.B "long" v4l2_compat_ioctl32
+.BI "(struct file *file "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+pointer to \fIstruct file\fP with the file handler
+.IP "cmd" 12
+ioctl to be called
+.IP "arg" 12
+arguments passed from/to the ioctl handler
+.SH "DESCRIPTION"
+This function is meant to be used as .compat_ioctl fops at v4l2-dev.c
+in order to deal with 32-bit calls on a 64-bits Kernel.
+
+This function calls \fBdo_video_ioctl\fP for non-private V4L2 ioctls.
+If the function is a private one it calls vdev->fops->compat_ioctl32
+instead.

@@ -1,0 +1,21 @@
+.TH "ide_error" 9 "ide_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_error \- handle an error on the IDE
+.SH SYNOPSIS
+.B "ide_startstop_t" ide_error
+.BI "(ide_drive_t *drive "  ","
+.BI "const char *msg "  ","
+.BI "u8 stat "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive the error occurred on
+.IP "msg" 12
+message to report
+.IP "stat" 12
+status bits
+
+\fBide_error\fP takes action based on the error returned by the drive.
+For normal I/O that may well include retries. We deal with
+both new-style (taskfile) and old style command handling here.
+In the case of taskfile command handling there is work left to
+do

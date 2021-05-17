@@ -1,0 +1,18 @@
+.TH "gfs2_dispose_glock_lru" 9 "gfs2_dispose_glock_lru" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_dispose_glock_lru \- Demote a list of glocks
+.SH SYNOPSIS
+.B "void" gfs2_dispose_glock_lru
+.BI "(struct list_head *list "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+The list to dispose of
+.SH "DESCRIPTION"
+Disposing of glocks may involve disk accesses, so that here we sort
+the glocks by number (i.e. disk location of the inodes) so that if
+there are any such accesses, they'll be sent in order (mostly).
+
+Must be called under the lru_lock, but may drop and retake this
+lock. While the lru_lock is dropped, entries may vanish from the
+list, but no new entries will appear on the list (since it is
+private)

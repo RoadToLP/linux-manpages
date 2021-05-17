@@ -1,0 +1,29 @@
+.TH "drm_atomic_helper_page_flip" 9 "drm_atomic_helper_page_flip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_page_flip \- execute a legacy page flip
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_page_flip
+.BI "(struct drm_crtc *crtc "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_pending_vblank_event *event "  ","
+.BI "uint32_t flags "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+DRM CRTC
+.IP "fb" 12
+DRM framebuffer
+.IP "event" 12
+optional DRM event to signal upon completion
+.IP "flags" 12
+flip flags for non-vblank sync'ed updates
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+Provides a default \fIdrm_crtc_funcs.page_flip\fP implementation
+using the atomic driver interface.
+
+See also:
+\fBdrm_atomic_helper_page_flip_target\fP
+.SH "RETURN"
+Returns 0 on success, negative errno numbers on failure.

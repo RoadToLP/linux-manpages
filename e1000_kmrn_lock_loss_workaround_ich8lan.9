@@ -1,0 +1,21 @@
+.TH "e1000_kmrn_lock_loss_workaround_ich8lan" 9 "e1000_kmrn_lock_loss_workaround_ich8lan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_kmrn_lock_loss_workaround_ich8lan \- Kumeran workaround
+.SH SYNOPSIS
+.B "s32" e1000_kmrn_lock_loss_workaround_ich8lan
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+Work-around for 82566 Kumeran PCS lock loss:
+On link status change (i.e. PCI reset, speed change) and link is up and
+speed is gigabit-
+0) if workaround is optionally disabled do nothing
+1) wait 1ms for Kumeran link to come up
+2) check Kumeran Diagnostic register PCS lock loss bit
+3) if not set the link is locked (all is good), otherwise...
+4) reset the PHY
+5) repeat up to 10 times
+.SH "NOTE"
+this is only called for IGP3 copper when speed is 1gb.

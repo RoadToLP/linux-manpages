@@ -1,0 +1,20 @@
+.TH "kmem_dump_obj" 9 "kmem_dump_obj" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmem_dump_obj \- Print available slab provenance information
+.SH SYNOPSIS
+.B "void" kmem_dump_obj
+.BI "(void *object "  ");"
+.SH ARGUMENTS
+.IP "object" 12
+slab object for which to find provenance information.
+.SH "DESCRIPTION"
+This function uses \fBpr_cont\fP, so that the caller is expected to have
+printed out whatever preamble is appropriate.  The provenance information
+depends on the type of object and on how much debugging is enabled.
+For a slab-cache object, the fact that it is a slab object is printed,
+and, if available, the slab name, return address, and stack trace from
+the allocation of that object.
+
+This function will splat if passed a pointer to a non-slab object.
+If you are not sure what type of object you have, you should instead
+use \fBmem_dump_obj\fP.

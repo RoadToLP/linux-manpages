@@ -1,0 +1,21 @@
+.TH "blk_sync_queue" 9 "blk_sync_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_sync_queue \- cancel any pending callbacks on a queue
+.SH SYNOPSIS
+.B "void" blk_sync_queue
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue
+.SH "DESCRIPTION"
+The block layer may perform asynchronous callback activity
+on a queue, such as calling the unplug function after a timeout.
+A block device may call blk_sync_queue to ensure that any
+such activity is cancelled, thus allowing it to release resources
+that the callbacks might use. The caller must already have made sure
+that its ->submit_bio will not re-add plugging prior to calling
+this function.
+
+This function does not cancel any asynchronous activity arising
+out of elevator or throttling code. That would require \fBelevator_exit\fP
+and \fBblkcg_exit_queue\fP to be called with queue lock initialized.

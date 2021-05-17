@@ -1,0 +1,39 @@
+.TH "__irq_domain_alloc_irqs" 9 "__irq_domain_alloc_irqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__irq_domain_alloc_irqs \- Allocate IRQs from domain
+.SH SYNOPSIS
+.B "int" __irq_domain_alloc_irqs
+.BI "(struct irq_domain *domain "  ","
+.BI "int irq_base "  ","
+.BI "unsigned int nr_irqs "  ","
+.BI "int node "  ","
+.BI "void *arg "  ","
+.BI "bool realloc "  ","
+.BI "const struct irq_affinity_desc *affinity "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+domain to allocate from
+.IP "irq_base" 12
+allocate specified IRQ number if irq_base >= 0
+.IP "nr_irqs" 12
+number of IRQs to allocate
+.IP "node" 12
+NUMA node id for memory allocation
+.IP "arg" 12
+domain specific argument
+.IP "realloc" 12
+IRQ descriptors have already been allocated if true
+.IP "affinity" 12
+Optional irq affinity mask for multiqueue devices
+.SH "DESCRIPTION"
+Allocate IRQ numbers and initialized all data structures to support
+hierarchy IRQ domains.
+Parameter \fIrealloc\fP is mainly to support legacy IRQs.
+Returns error code or allocated IRQ number
+
+The whole process to setup an IRQ has been split into two steps.
+The first step, \fB__irq_domain_alloc_irqs\fP, is to allocate IRQ
+descriptor and required hardware resources. The second step,
+\fBirq_domain_activate_irq\fP, is to program hardwares with preallocated
+resources. In this way, it's easier to rollback when failing to
+allocate resources.

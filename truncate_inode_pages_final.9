@@ -1,0 +1,14 @@
+.TH "truncate_inode_pages_final" 9 "truncate_inode_pages_final" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+truncate_inode_pages_final \- truncate *all* pages before inode dies
+.SH SYNOPSIS
+.B "void" truncate_inode_pages_final
+.BI "(struct address_space *mapping "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+mapping to truncate
+.SH "DESCRIPTION"
+Called under (and serialized by) inode->i_mutex.
+
+Filesystems have to use this in the .evict_inode path to inform the
+VM that this is the final truncate and the inode is going away.

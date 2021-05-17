@@ -1,0 +1,30 @@
+.TH "ubi_io_write" 9 "ubi_io_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_write \- write data to a physical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_io_write
+.BI "(struct ubi_device *ubi "  ","
+.BI "const void *buf "  ","
+.BI "int pnum "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "buf" 12
+buffer with the data to write
+.IP "pnum" 12
+physical eraseblock number to write to
+.IP "offset" 12
+offset within the physical eraseblock where to write
+.IP "len" 12
+how many bytes to write
+.SH "DESCRIPTION"
+This function writes \fIlen\fP bytes of data from buffer \fIbuf\fP to offset \fIoffset\fP
+of physical eraseblock \fIpnum\fP. If all the data were successfully written,
+zero is returned. If an error occurred, this function returns a negative
+error code. If -EIO is returned, the physical eraseblock most probably went
+bad.
+
+Note, in case of an error, it is possible that something was still written
+to the flash media, but may be some garbage.

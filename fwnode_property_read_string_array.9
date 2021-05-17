@@ -1,0 +1,29 @@
+.TH "fwnode_property_read_string_array" 9 "fwnode_property_read_string_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_property_read_string_array \- return string array property of a node
+.SH SYNOPSIS
+.B "int" fwnode_property_read_string_array
+.BI "(const struct fwnode_handle *fwnode "  ","
+.BI "const char *propname "  ","
+.BI "const char **val "  ","
+.BI "size_t nval "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+Firmware node to get the property of
+.IP "propname" 12
+Name of the property
+.IP "val" 12
+The values are stored here or NULL to return the number of values
+.IP "nval" 12
+Size of the \fIval\fP array
+.SH "DESCRIPTION"
+Read an string list property \fIpropname\fP from the given firmware node and store
+them to \fIval\fP if found.
+.SH "RETURN"
+number of values read on success if \fIval\fP is non-NULL,
+number of values available on success if \fIval\fP is NULL,
+-EINVAL if given arguments are not valid,
+-ENODATA if the property does not have a value,
+-EPROTO or -EILSEQ if the property is not an array of strings,
+-EOVERFLOW if the size of the property is not as expected,
+-ENXIO if no suitable firmware interface is present.

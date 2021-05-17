@@ -1,0 +1,15 @@
+.TH "fc_rport_timeout" 9 "fc_rport_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_rport_timeout \- Handler for the retry_work timer
+.SH SYNOPSIS
+.B "void" fc_rport_timeout
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+Handle to the remote port that has timed out
+.SH "DESCRIPTION"
+Locking Note: Called without the rport lock held. This
+function will hold the rport lock, call an _enter_*
+function and then unlock the rport.
+
+Reference counting: Drops kref on return.

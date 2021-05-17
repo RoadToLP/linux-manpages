@@ -1,0 +1,18 @@
+.TH "__dev_get_by_index" 9 "__dev_get_by_index" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__dev_get_by_index \- find a device by its ifindex
+.SH SYNOPSIS
+.B "struct net_device *" __dev_get_by_index
+.BI "(struct net *net "  ","
+.BI "int ifindex "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "ifindex" 12
+index of device
+
+Search for an interface by index. Returns NULL if the device
+is not found or a pointer to the device. The device has not
+had its reference counter increased so the caller must be careful
+about locking. The caller must hold either the RTNL semaphore
+or \fIdev_base_lock\fP.

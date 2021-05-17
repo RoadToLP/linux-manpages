@@ -1,0 +1,17 @@
+.TH "gserial_disconnect" 9 "gserial_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gserial_disconnect \- notify TTY I/O glue that USB link is inactive
+.SH SYNOPSIS
+.B "void" gserial_disconnect
+.BI "(struct gserial *gser "  ");"
+.SH ARGUMENTS
+.IP "gser" 12
+the function, on which \fBgserial_connect\fP was called
+.SH "CONTEXT"
+any (usually from irq)
+.SH "DESCRIPTION"
+This is called to deactivate endpoints and let the TTY layer know
+that the connection went inactive ... not unlike "hangup".
+
+On return, the state is as if \fBgserial_connect\fP had never been called;
+there is no active USB I/O on these endpoints.

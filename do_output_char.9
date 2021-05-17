@@ -1,0 +1,30 @@
+.TH "do_output_char" 9 "do_output_char" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_output_char \- output one character
+.SH SYNOPSIS
+.B "int" do_output_char
+.BI "(unsigned char c "  ","
+.BI "struct tty_struct *tty "  ","
+.BI "int space "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+character (or partial unicode symbol)
+.IP "tty" 12
+terminal device
+.IP "space" 12
+space available in tty driver write buffer
+
+This is a helper function that handles one output character
+(including special characters like TAB, CR, LF, etc.),
+doing OPOST processing and putting the results in the
+tty driver's write buffer.
+
+Note that Linux currently ignores TABDLY, CRDLY, VTDLY, FFDLY
+and NLDLY.  They simply aren't relevant in the world today.
+If you ever need them, add them here.
+
+Returns the number of bytes of buffer space used or -1 if
+no space left.
+
+Locking: should be called under the output_lock to protect
+the column state and space left in the buffer

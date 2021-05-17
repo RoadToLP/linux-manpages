@@ -1,0 +1,23 @@
+.TH "ide_execute_command" 9 "ide_execute_command" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_execute_command \- execute an IDE command
+.SH SYNOPSIS
+.B "void" ide_execute_command
+.BI "(ide_drive_t *drive "  ","
+.BI "struct ide_cmd *cmd "  ","
+.BI "ide_handler_t *handler "  ","
+.BI "unsigned timeout "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+IDE drive to issue the command against
+.IP "cmd" 12
+command
+.IP "handler" 12
+handler for next phase
+.IP "timeout" 12
+timeout for command
+
+Helper function to issue an IDE command. This handles the
+atomicity requirements, command timing and ensures that the
+handler and IRQ setup do not race. All IDE command kick off
+should go via this function or do equivalent locking.

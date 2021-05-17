@@ -1,0 +1,18 @@
+.TH "zfcp_ccw_set_online" 9 "zfcp_ccw_set_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_ccw_set_online \- set_online function of zfcp driver
+.SH SYNOPSIS
+.B "int" zfcp_ccw_set_online
+.BI "(struct ccw_device *cdev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+pointer to belonging ccw device
+.SH "DESCRIPTION"
+This function gets called by the common i/o layer and sets an
+adapter into state online.  The first call will allocate all
+adapter resources that will be retained until the device is removed
+via zfcp_ccw_remove.
+
+Setting an fcp device online means that it will be registered with
+the SCSI stack, that the QDIO queues will be set up and that the
+adapter will be opened.

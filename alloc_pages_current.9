@@ -1,0 +1,20 @@
+.TH "alloc_pages_current" 9 "alloc_pages_current" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_pages_current \- Allocate pages.
+.SH SYNOPSIS
+.B "struct page *" alloc_pages_current
+.BI "(gfp_t gfp "  ","
+.BI "unsigned order "  ");"
+.SH ARGUMENTS
+.IP "gfp" 12
+GFP_USER   user allocation,
+GFP_KERNEL kernel allocation,
+GFP_HIGHMEM highmem allocation,
+GFP_FS     don't call back into a file system.
+GFP_ATOMIC don't sleep.
+.IP "order" 12
+Power of two of allocation size in pages. 0 is a single page.
+
+Allocate a page from the kernel page pool.  When not in
+interrupt context and apply the current process NUMA policy.
+Returns NULL when no page can be allocated.

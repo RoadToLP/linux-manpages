@@ -1,0 +1,22 @@
+.TH "nanddev_mtd_erase" 9 "nanddev_mtd_erase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nanddev_mtd_erase \- Generic mtd->_erase() implementation for NAND devices
+.SH SYNOPSIS
+.B "int" nanddev_mtd_erase
+.BI "(struct mtd_info *mtd "  ","
+.BI "struct erase_info *einfo "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+MTD device
+.IP "einfo" 12
+erase request
+.SH "DESCRIPTION"
+This is a simple mtd->\fB_erase\fP implementation iterating over all blocks
+concerned by \fIeinfo\fP and calling nand->ops->\fBerase\fP on each of them.
+
+Note that mtd->_erase should not be directly assigned to this helper,
+because there's no locking here. NAND specialized layers should instead
+implement there own wrapper around \fBnanddev_mtd_erase\fP taking the
+appropriate lock before calling \fBnanddev_mtd_erase\fP.
+.SH "RETURN"
+0 in case of success, a negative error code otherwise.

@@ -1,0 +1,23 @@
+.TH "__lpfc_nvme_ls_req_cmp" 9 "__lpfc_nvme_ls_req_cmp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_nvme_ls_req_cmp \- Generic completion handler for a NVME LS request.
+.SH SYNOPSIS
+.B "void" __lpfc_nvme_ls_req_cmp
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdwqe "  ","
+.BI "struct lpfc_wcqe_complete *wcqe "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object
+.IP "vport" 12
+The local port that issued the LS
+.IP "cmdwqe" 12
+Pointer to driver command WQE object.
+.IP "wcqe" 12
+Pointer to driver response CQE object.
+.SH "DESCRIPTION"
+This function is the generic completion handler for NVME LS requests.
+The function updates any states and statistics, calls the transport
+ls_req \fBdone\fP routine, then tears down the command and buffers used
+for the LS request.

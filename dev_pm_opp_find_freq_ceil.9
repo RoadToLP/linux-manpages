@@ -1,0 +1,25 @@
+.TH "dev_pm_opp_find_freq_ceil" 9 "dev_pm_opp_find_freq_ceil" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_find_freq_ceil \- Search for an rounded ceil freq
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" dev_pm_opp_find_freq_ceil
+.BI "(struct device *dev "  ","
+.BI "unsigned long *freq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+Start frequency
+.SH "DESCRIPTION"
+Search for the matching ceil *available* OPP from a starting freq
+for a device.
+
+The callers are required to call \fBdev_pm_opp_put\fP for the returned OPP after
+use.
+.SH "RETURN"
+matching *opp and refreshes *freq accordingly, else returns
+ERR_PTR in case of error and should be handled using IS_ERR. Error return
+values can be:
+EINVAL:      for bad pointer
+ERANGE:      no match found for search
+ENODEV:      if device not found in list of registered devices

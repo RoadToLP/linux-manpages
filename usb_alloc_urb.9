@@ -1,0 +1,23 @@
+.TH "usb_alloc_urb" 9 "usb_alloc_urb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_alloc_urb \- creates a new urb for a USB driver to use
+.SH SYNOPSIS
+.B "struct urb *" usb_alloc_urb
+.BI "(int iso_packets "  ","
+.BI "gfp_t mem_flags "  ");"
+.SH ARGUMENTS
+.IP "iso_packets" 12
+number of iso packets for this urb
+.IP "mem_flags" 12
+the type of memory to allocate, see \fBkmalloc\fP for a list of
+valid options for this.
+.SH "DESCRIPTION"
+Creates an urb for the USB driver to use, initializes a few internal
+structures, increments the usage counter, and returns a pointer to it.
+
+If the driver want to use this urb for interrupt, control, or bulk
+endpoints, pass '0' as the number of iso packets.
+
+The driver must call \fBusb_free_urb\fP when it is finished with the urb.
+.SH "RETURN"
+A pointer to the new urb, or NULL if no memory is available.

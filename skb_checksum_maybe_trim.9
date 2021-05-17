@@ -1,0 +1,20 @@
+.TH "skb_checksum_maybe_trim" 9 "skb_checksum_maybe_trim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_checksum_maybe_trim \- maybe trims the given skb
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_checksum_maybe_trim
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int transport_len "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to check
+.IP "transport_len" 12
+the data length beyond the network header
+.SH "DESCRIPTION"
+Checks whether the given skb has data beyond the given transport length.
+If so, returns a cloned skb trimmed to this transport length.
+Otherwise returns the provided skb. Returns NULL in error cases
+(e.g. transport_len exceeds skb length or out-of-memory).
+
+Caller needs to set the skb transport header and free any returned skb if it
+differs from the provided skb.

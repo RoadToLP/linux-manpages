@@ -1,0 +1,31 @@
+.TH "check_desc_avail" 9 "check_desc_avail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_desc_avail \- check descriptor availability on a send queue
+.SH SYNOPSIS
+.B "int" check_desc_avail
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_txq *q "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int ndesc "  ","
+.BI "unsigned int qid "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the send queue
+.IP "skb" 12
+the packet needing the descriptors
+.IP "ndesc" 12
+the number of Tx descriptors needed
+.IP "qid" 12
+the Tx queue number in its queue set (TXQ_OFLD or TXQ_CTRL)
+
+Checks if the requested number of Tx descriptors is available on an
+SGE send queue.  If the queue is already suspended or not enough
+descriptors are available the packet is queued for later transmission.
+Must be called with the Tx queue locked.
+
+Returns 0 if enough descriptors are available, 1 if there aren't
+enough descriptors and the packet has been queued, and 2 if the caller
+needs to retry because there weren't enough descriptors at the
+beginning of the call but some freed up in the mean time.

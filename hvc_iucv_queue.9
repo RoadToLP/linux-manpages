@@ -1,0 +1,25 @@
+.TH "hvc_iucv_queue" 9 "hvc_iucv_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvc_iucv_queue \- Buffer terminal data for sending.
+.SH SYNOPSIS
+.B "int" hvc_iucv_queue
+.BI "(struct hvc_iucv_private *priv "  ","
+.BI "const char *buf "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+Pointer to struct hvc_iucv_private instance.
+.IP "buf" 12
+Buffer containing data to send.
+.IP "count" 12
+Size of buffer and amount of data to send.
+.SH "DESCRIPTION"
+The function queues data for sending. To actually send the buffered data,
+a work queue function is scheduled (with QUEUE_SNDBUF_DELAY).
+The function returns the number of data bytes that has been buffered.
+
+If the device is not connected, data is ignored and the function returns
+\fIcount\fP.
+If the buffer is full, the function returns 0.
+If an existing IUCV communicaton path has been severed, -EPIPE is returned
+(that can be passed to HVC layer to cause a tty hangup).

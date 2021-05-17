@@ -1,0 +1,19 @@
+.TH "s1d13xxxfb_set_par" 9 "s1d13xxxfb_set_par" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s1d13xxxfb_set_par \- Alters the hardware state.
+.SH SYNOPSIS
+.B "int" s1d13xxxfb_set_par
+.BI "(struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+frame buffer structure
+
+Using the fb_var_screeninfo in fb_info we set the depth of the
+framebuffer. This function alters the par AND the
+fb_fix_screeninfo stored in fb_info. It doesn't not alter var in
+fb_info since we are using that data. This means we depend on the
+data in var inside fb_info to be supported by the hardware.
+xxxfb_check_var is always called before xxxfb_set_par to ensure this.
+
+XXX TODO: write proper \fBs1d13xxxfb_check_var\fP, without which that
+function is quite useless.

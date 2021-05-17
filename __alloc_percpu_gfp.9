@@ -1,0 +1,23 @@
+.TH "__alloc_percpu_gfp" 9 "__alloc_percpu_gfp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__alloc_percpu_gfp \- allocate dynamic percpu area
+.SH SYNOPSIS
+.B "void __percpu *" __alloc_percpu_gfp
+.BI "(size_t size "  ","
+.BI "size_t align "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of area to allocate in bytes
+.IP "align" 12
+alignment of area (max PAGE_SIZE)
+.IP "gfp" 12
+allocation flags
+.SH "DESCRIPTION"
+Allocate zero-filled percpu area of \fIsize\fP bytes aligned at \fIalign\fP.  If
+\fIgfp\fP doesn't contain GFP_KERNEL, the allocation doesn't block and can
+be called from any context but is a lot more likely to fail. If \fIgfp\fP
+has __GFP_NOWARN then no warning will be triggered on invalid or failed
+allocation requests.
+.SH "RETURN"
+Percpu pointer to the allocated area on success, NULL on failure.

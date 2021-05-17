@@ -1,0 +1,18 @@
+.TH "rcu_nmi_exit" 9 "rcu_nmi_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_nmi_exit \- inform RCU of exit from NMI context
+.SH SYNOPSIS
+.B "noinstr void" rcu_nmi_exit
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+If we are returning from the outermost NMI handler that interrupted an
+RCU-idle period, update rdp->dynticks and rdp->dynticks_nmi_nesting
+to let the RCU grace-period handling know that the CPU is back to
+being RCU-idle.
+
+If you add or remove a call to \fBrcu_nmi_exit\fP, be sure to test
+with CONFIG_RCU_EQS_DEBUG=y.

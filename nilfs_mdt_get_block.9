@@ -1,0 +1,37 @@
+.TH "nilfs_mdt_get_block" 9 "nilfs_mdt_get_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_mdt_get_block \- read or create a buffer on meta data file.
+.SH SYNOPSIS
+.B "int" nilfs_mdt_get_block
+.BI "(struct inode *inode "  ","
+.BI "unsigned long blkoff "  ","
+.BI "int create "  ","
+.BI "void (*init_block)(struct inode *, struct buffer_head *, void *) "  ","
+.BI "struct buffer_head **out_bh "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the meta data file
+.IP "blkoff" 12
+block offset
+.IP "create" 12
+create flag
+.IP "init_block" 12
+initializer used for newly allocated block
+.IP "out_bh" 12
+output of a pointer to the buffer_head
+.SH "DESCRIPTION"
+\fBnilfs_mdt_get_block\fP looks up the specified buffer and tries to create
+a new buffer if \fIcreate\fP is not zero.  On success, the returned buffer is
+assured to be either existing or formatted using a buffer lock on success.
+\fIout_bh\fP is substituted only when zero is returned.
+
+Return Value: On success, it returns 0. On error, the following negative
+error code is returned.
+
+-ENOMEM - Insufficient memory available.
+
+-EIO - I/O error
+
+-ENOENT - the specified block does not exist (hole block)
+
+-EROFS - Read only filesystem (for create mode)

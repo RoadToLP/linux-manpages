@@ -1,0 +1,21 @@
+.TH "ata_sff_prereset" 9 "ata_sff_prereset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_prereset \- prepare SFF link for reset
+.SH SYNOPSIS
+.B "int" ata_sff_prereset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+SFF link to be reset
+.IP "deadline" 12
+deadline jiffies for the operation
+
+SFF link \fIlink\fP is about to be reset.  Initialize it.  It first
+calls \fBata_std_prereset\fP and wait for !BSY if the port is
+being softreset.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

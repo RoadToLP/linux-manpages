@@ -1,0 +1,23 @@
+.TH "qbman_result_has_new_result" 9 "qbman_result_has_new_result" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qbman_result_has_new_result \- Check and get the dequeue response from the dq storage memory set in pull dequeue command
+.SH SYNOPSIS
+.B "int" qbman_result_has_new_result
+.BI "(struct qbman_swp *s "  ","
+.BI "const struct dpaa2_dq *dq "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the software portal object
+.IP "dq" 12
+the dequeue result read from the memory
+.SH "DESCRIPTION"
+Return 1 for getting a valid dequeue result, or 0 for not getting a valid
+dequeue result.
+
+Only used for user-provided storage of dequeue results, not DQRR. For
+efficiency purposes, the driver will perform any required endianness
+conversion to ensure that the user's dequeue result storage is in host-endian
+format. As such, once the user has called \fBqbman_result_has_new_result\fP and
+been returned a valid dequeue result, they should not call it again on
+the same memory location (except of course if another dequeue command has
+been executed to produce a new result to that location).

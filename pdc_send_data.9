@@ -1,0 +1,29 @@
+.TH "pdc_send_data" 9 "pdc_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdc_send_data \- mailbox send_data function
+.SH SYNOPSIS
+.B "int" pdc_send_data
+.BI "(struct mbox_chan *chan "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+The mailbox channel on which the data is sent. The channel
+corresponds to a DMA ringset.
+.IP "data" 12
+The mailbox message to be sent. The message must be a
+brcm_message structure.
+.SH "DESCRIPTION"
+This function is registered as the send_data function for the mailbox
+controller. From the destination scatterlist in the mailbox message, it
+creates a sequence of receive descriptors in the rx ring. From the source
+scatterlist, it creates a sequence of transmit descriptors in the tx ring.
+After creating the descriptors, it writes the rx ptr and tx ptr registers to
+initiate the DMA transfer.
+
+This function does the DMA map and unmap of the src and dst scatterlists in
+the mailbox message.
+.SH "RETURN"
+0 if successful
+-ENOTSUPP if the mailbox message is a type this driver does not
+support
+< 0 if an error

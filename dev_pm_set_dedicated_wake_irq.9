@@ -1,0 +1,24 @@
+.TH "dev_pm_set_dedicated_wake_irq" 9 "dev_pm_set_dedicated_wake_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_set_dedicated_wake_irq \- Request a dedicated wake-up interrupt
+.SH SYNOPSIS
+.B "int" dev_pm_set_dedicated_wake_irq
+.BI "(struct device *dev "  ","
+.BI "int irq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device entry
+.IP "irq" 12
+Device wake-up interrupt
+.SH "DESCRIPTION"
+Unless your hardware has separate wake-up interrupts in addition
+to the device IO interrupts, you don't need this.
+
+Sets up a threaded interrupt handler for a device that has
+a dedicated wake-up interrupt in addition to the device IO
+interrupt.
+
+The interrupt starts disabled, and needs to be managed for
+the device by the bus code or the device driver using
+\fBdev_pm_enable_wake_irq\fP and \fBdev_pm_disable_wake_irq\fP
+functions.

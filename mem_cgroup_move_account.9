@@ -1,0 +1,23 @@
+.TH "mem_cgroup_move_account" 9 "mem_cgroup_move_account" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_move_account \- move account of the page
+.SH SYNOPSIS
+.B "int" mem_cgroup_move_account
+.BI "(struct page *page "  ","
+.BI "bool compound "  ","
+.BI "struct mem_cgroup *from "  ","
+.BI "struct mem_cgroup *to "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page
+.IP "compound" 12
+charge the page as compound or small page
+.IP "from" 12
+mem_cgroup which the page is moved from.
+.IP "to" 12
+mem_cgroup which the page is moved to. \fIfrom\fP != \fIto\fP.
+.SH "DESCRIPTION"
+The caller must make sure the page is not on LRU (\fBisolate_page\fP is useful.)
+
+This function doesn't do "charge" to new cgroup and doesn't do "uncharge"
+from old cgroup.

@@ -1,0 +1,20 @@
+.TH "mmu_notifier_synchronize" 9 "mmu_notifier_synchronize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_notifier_synchronize \- Ensure all mmu_notifiers are freed
+.SH SYNOPSIS
+.B "void" mmu_notifier_synchronize
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function ensures that all outstanding async SRU work from
+\fBmmu_notifier_put\fP is completed. After it returns any mmu_notifier_ops
+associated with an unused mmu_notifier will no longer be called.
+
+Before using the caller must ensure that all of its mmu_notifiers have been
+fully released via \fBmmu_notifier_put\fP.
+
+Modules using the \fBmmu_notifier_put\fP API should call this in their __exit
+function to avoid module unloading races.

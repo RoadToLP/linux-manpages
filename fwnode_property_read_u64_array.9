@@ -1,0 +1,29 @@
+.TH "fwnode_property_read_u64_array" 9 "fwnode_property_read_u64_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_property_read_u64_array \- return a u64 array property firmware node
+.SH SYNOPSIS
+.B "int" fwnode_property_read_u64_array
+.BI "(const struct fwnode_handle *fwnode "  ","
+.BI "const char *propname "  ","
+.BI "u64 *val "  ","
+.BI "size_t nval "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+Firmware node to get the property of
+.IP "propname" 12
+Name of the property
+.IP "val" 12
+The values are stored here or NULL to return the number of values
+.IP "nval" 12
+Size of the \fIval\fP array
+.SH "DESCRIPTION"
+Read an array of u64 properties with \fIpropname\fP from \fIfwnode\fP and store them to
+\fIval\fP if found.
+.SH "RETURN"
+number of values if \fIval\fP was NULL,
+0 if the property was found (success),
+-EINVAL if given arguments are not valid,
+-ENODATA if the property does not have a value,
+-EPROTO if the property is not an array of numbers,
+-EOVERFLOW if the size of the property is not as expected,
+-ENXIO if no suitable firmware interface is present.

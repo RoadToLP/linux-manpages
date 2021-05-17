@@ -1,0 +1,20 @@
+.TH "ata_link_offline" 9 "ata_link_offline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_link_offline \- test whether the given link is offline
+.SH SYNOPSIS
+.B "bool" ata_link_offline
+.BI "(struct ata_link *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to test
+
+Test whether \fIlink\fP is offline.  This is identical to
+\fBata_phys_link_offline\fP when there's no slave link.  When
+there's a slave link, this function should only be called on
+the master link and will return true if both M/S links are
+offline.
+
+LOCKING:
+None.
+.SH "RETURN"
+True if the port offline status is available and offline.

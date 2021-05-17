@@ -1,0 +1,22 @@
+.TH "filemap_read" 9 "filemap_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_read \- Read data from the page cache.
+.SH SYNOPSIS
+.B "ssize_t" filemap_read
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ","
+.BI "ssize_t already_read "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+The iocb to read.
+.IP "iter" 12
+Destination for the data.
+.IP "already_read" 12
+Number of bytes already read by the caller.
+.SH "DESCRIPTION"
+Copies data from the page cache.  If the data is not currently present,
+uses the readahead and readpage address_space operations to fetch it.
+.SH "RETURN"
+Total number of bytes copied, including those already read by
+the caller.  If an error happens before any bytes are copied, returns
+a negative error number.

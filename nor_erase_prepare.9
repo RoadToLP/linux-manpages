@@ -1,0 +1,27 @@
+.TH "nor_erase_prepare" 9 "nor_erase_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nor_erase_prepare \- prepare a NOR flash PEB for erasure.
+.SH SYNOPSIS
+.B "int" nor_erase_prepare
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+physical eraseblock number to prepare
+.SH "DESCRIPTION"
+NOR flash, or at least some of them, have peculiar embedded PEB erasure
+algorithm: the PEB is first filled with zeroes, then it is erased. And
+filling with zeroes starts from the end of the PEB. This was observed with
+Spansion S29GL512N NOR flash.
+
+This means that in case of a power cut we may end up with intact data at the
+beginning of the PEB, and all zeroes at the end of PEB. In other words, the
+EC and VID headers are OK, but a large chunk of data at the end of PEB is
+zeroed. This makes UBI mistakenly treat this PEB as used and associate it
+with an LEB, which leads to subsequent failures (e.g., UBIFS fails).
+
+This function is called before erasing NOR PEBs and it zeroes out EC and VID
+magic numbers in order to invalidate them and prevent the failures. Returns
+zero in case of success and a negative error code in case of failure.

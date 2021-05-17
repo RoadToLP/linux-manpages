@@ -1,0 +1,24 @@
+.TH "search_bbt" 9 "search_bbt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+search_bbt \- [GENERIC] scan the device for a specific bad block table
+.SH SYNOPSIS
+.B "int" search_bbt
+.BI "(struct nand_chip *this "  ","
+.BI "uint8_t *buf "  ","
+.BI "struct nand_bbt_descr *td "  ");"
+.SH ARGUMENTS
+.IP "this" 12
+NAND chip object
+.IP "buf" 12
+temporary buffer
+.IP "td" 12
+descriptor for the bad block table
+.SH "DESCRIPTION"
+Read the bad block table by searching for a given ident pattern. Search is
+preformed either from the beginning up or from the end of the device
+downwards. The search starts always at the start of a block. If the option
+NAND_BBT_PERCHIP is given, each chip is searched for a bbt, which contains
+the bad block information of this chip. This is necessary to provide support
+for certain DOC devices.
+
+The bbt ident pattern resides in the oob area of the first page in a block.

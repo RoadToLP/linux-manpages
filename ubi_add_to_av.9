@@ -1,0 +1,31 @@
+.TH "ubi_add_to_av" 9 "ubi_add_to_av" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_add_to_av \- add used physical eraseblock to the attaching information.
+.SH SYNOPSIS
+.B "int" ubi_add_to_av
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ","
+.BI "int pnum "  ","
+.BI "int ec "  ","
+.BI "const struct ubi_vid_hdr *vid_hdr "  ","
+.BI "int bitflips "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+attaching information
+.IP "pnum" 12
+the physical eraseblock number
+.IP "ec" 12
+erase counter
+.IP "vid_hdr" 12
+the volume identifier header
+.IP "bitflips" 12
+if bit-flips were detected when this physical eraseblock was read
+.SH "DESCRIPTION"
+This function adds information about a used physical eraseblock to the
+'used' tree of the corresponding volume. The function is rather complex
+because it has to handle cases when this is not the first physical
+eraseblock belonging to the same logical eraseblock, and the newer one has
+to be picked, while the older one has to be dropped. This function returns
+zero in case of success and a negative error code in case of failure.

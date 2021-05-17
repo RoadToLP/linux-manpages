@@ -1,0 +1,13 @@
+.TH "srp_destroy_qp" 9 "srp_destroy_qp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_destroy_qp \- destroy an RDMA queue pair
+.SH SYNOPSIS
+.B "void" srp_destroy_qp
+.BI "(struct srp_rdma_ch *ch "  ");"
+.SH ARGUMENTS
+.IP "ch" 12
+SRP RDMA channel.
+.SH "DESCRIPTION"
+Drain the qp before destroying it.  This avoids that the receive
+completion handler can access the queue pair while it is
+being destroyed.

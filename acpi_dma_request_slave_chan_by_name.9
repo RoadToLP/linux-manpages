@@ -1,0 +1,22 @@
+.TH "acpi_dma_request_slave_chan_by_name" 9 "acpi_dma_request_slave_chan_by_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dma_request_slave_chan_by_name \- Get the DMA slave channel
+.SH SYNOPSIS
+.B "struct dma_chan *" acpi_dma_request_slave_chan_by_name
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device to get DMA request from
+.IP "name" 12
+represents corresponding FixedDMA descriptor for \fIdev\fP
+.SH "DESCRIPTION"
+In order to support both Device Tree and ACPI in a single driver we
+translate the names "tx" and "rx" here based on the most common case where
+the first FixedDMA descriptor is TX and second is RX.
+
+If the device has "dma-names" property the FixedDMA descriptor indices
+are retrieved based on those. Otherwise the function falls back using
+hardcoded indices.
+.SH "RETURN"
+Pointer to appropriate dma channel on success or an error pointer.

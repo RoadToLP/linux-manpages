@@ -1,0 +1,26 @@
+.TH "blk_ksm_get_slot_for_key" 9 "blk_ksm_get_slot_for_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_ksm_get_slot_for_key \- Program a key into a keyslot.
+.SH SYNOPSIS
+.B "blk_status_t" blk_ksm_get_slot_for_key
+.BI "(struct blk_keyslot_manager *ksm "  ","
+.BI "const struct blk_crypto_key *key "  ","
+.BI "struct blk_ksm_keyslot **slot_ptr "  ");"
+.SH ARGUMENTS
+.IP "ksm" 12
+The keyslot manager to program the key into.
+.IP "key" 12
+Pointer to the key object to program, including the raw key, crypto
+mode, and data unit size.
+.IP "slot_ptr" 12
+A pointer to return the pointer of the allocated keyslot.
+.SH "DESCRIPTION"
+Get a keyslot that's been programmed with the specified key.  If one already
+exists, return it with incremented refcount.  Otherwise, wait for a keyslot
+to become idle and program it.
+.SH "CONTEXT"
+Process context. Takes and releases ksm->lock.
+.SH "RETURN"
+BLK_STS_OK on success (and keyslot is set to the pointer of the
+allocated keyslot), or some other blk_status_t otherwise (and
+keyslot is set to NULL).

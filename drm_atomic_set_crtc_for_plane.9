@@ -1,0 +1,20 @@
+.TH "drm_atomic_set_crtc_for_plane" 9 "drm_atomic_set_crtc_for_plane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_set_crtc_for_plane \- set CRTC for plane
+.SH SYNOPSIS
+.B "int" drm_atomic_set_crtc_for_plane
+.BI "(struct drm_plane_state *plane_state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "plane_state" 12
+the plane whose incoming state to update
+.IP "crtc" 12
+CRTC to use for the plane
+.SH "DESCRIPTION"
+Changing the assigned CRTC for a plane requires us to grab the lock and state
+for the new CRTC, as needed. This function takes care of all these details
+besides updating the pointer in the state object itself.
+.SH "RETURN"
+0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+then the w/w mutex code has detected a deadlock and the entire atomic
+sequence must be restarted. All other errors are fatal.

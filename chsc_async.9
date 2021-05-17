@@ -1,0 +1,21 @@
+.TH "chsc_async" 9 "chsc_async" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+chsc_async \- try to start a chsc request asynchronously
+.SH SYNOPSIS
+.B "int" chsc_async
+.BI "(struct chsc_async_area *chsc_area "  ","
+.BI "struct chsc_request *request "  ");"
+.SH ARGUMENTS
+.IP "chsc_area" 12
+request to be started
+.IP "request" 12
+request structure to associate
+.SH "DESCRIPTION"
+Tries to start a chsc request on one of the existing chsc subchannels.
+.SH "RETURN"
+0 if the request was performed synchronously
+-EINPROGRESS if the request was successfully started
+-EBUSY if all chsc subchannels are busy
+-ENODEV if no chsc subchannels are available
+.SH "CONTEXT"
+interrupts disabled, chsc_lock held

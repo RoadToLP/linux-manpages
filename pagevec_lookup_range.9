@@ -1,0 +1,31 @@
+.TH "pagevec_lookup_range" 9 "pagevec_lookup_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pagevec_lookup_range \- gang pagecache lookup
+.SH SYNOPSIS
+.B "unsigned" pagevec_lookup_range
+.BI "(struct pagevec *pvec "  ","
+.BI "struct address_space *mapping "  ","
+.BI "pgoff_t *start "  ","
+.BI "pgoff_t end "  ");"
+.SH ARGUMENTS
+.IP "pvec" 12
+Where the resulting pages are placed
+.IP "mapping" 12
+The address_space to search
+.IP "start" 12
+The starting page index
+.IP "end" 12
+The final page index
+.SH "DESCRIPTION"
+\fBpagevec_lookup_range\fP will search for & return a group of up to PAGEVEC_SIZE
+pages in the mapping starting from index \fIstart\fP and upto index \fIend\fP
+(inclusive).  The pages are placed in \fIpvec\fP.  \fBpagevec_lookup\fP takes a
+reference against the pages in \fIpvec\fP.
+
+The search returns a group of mapping-contiguous pages with ascending
+indexes.  There may be holes in the indices due to not-present pages. We
+also update \fIstart\fP to index the next page for the traversal.
+
+\fBpagevec_lookup_range\fP returns the number of pages which were found. If this
+number is smaller than PAGEVEC_SIZE, the end of specified range has been
+reached.

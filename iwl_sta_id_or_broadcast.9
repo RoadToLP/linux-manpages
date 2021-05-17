@@ -1,0 +1,17 @@
+.TH "iwl_sta_id_or_broadcast" 9 "iwl_sta_id_or_broadcast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iwl_sta_id_or_broadcast \- return sta_id or broadcast sta
+.SH SYNOPSIS
+.B "int" iwl_sta_id_or_broadcast
+.BI "(struct iwl_rxon_context *context "  ","
+.BI "struct ieee80211_sta *sta "  ");"
+.SH ARGUMENTS
+.IP "context" 12
+the current context
+.IP "sta" 12
+mac80211 station
+.SH "DESCRIPTION"
+In certain circumstances mac80211 passes a station pointer
+that may be NULL, for example during TX or key setup. In
+that case, we need to use the broadcast station, so this
+inline wraps that pattern.

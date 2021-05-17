@@ -1,0 +1,36 @@
+.TH "get_mctgt_type" 9 "get_mctgt_type" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_mctgt_type \- get target type of moving charge
+.SH SYNOPSIS
+.B "enum mc_target_type" get_mctgt_type
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "pte_t ptent "  ","
+.BI "union mc_target *target "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+the vma the pte to be checked belongs
+.IP "addr" 12
+the address corresponding to the pte to be checked
+.IP "ptent" 12
+the pte to be checked
+.IP "target" 12
+the pointer the target page or swap ent will be stored(can be NULL)
+.SH "DESCRIPTION"
+Returns
+0(MC_TARGET_NONE): if the pte is not a target for move charge.
+1(MC_TARGET_PAGE): if the page corresponding to this pte is a target for
+move charge. if \fItarget\fP is not NULL, the page is stored in target->page
+with extra refcnt got(Callers should handle it).
+2(MC_TARGET_SWAP): if the swap entry corresponding to this pte is a
+target for charge migration. if \fItarget\fP is not NULL, the entry is stored
+in target->ent.
+3(MC_TARGET_DEVICE): like MC_TARGET_PAGE  but page is MEMORY_DEVICE_PRIVATE
+(so ZONE_DEVICE page and thus not on the lru).
+For now we such page is charge like a regular page would be as for all
+intent and purposes it is just special memory taking the place of a
+regular page.
+
+See Documentations/vm/hmm.txt and include/linux/hmm.h
+
+Called with pte lock held.

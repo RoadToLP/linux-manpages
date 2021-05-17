@@ -1,0 +1,25 @@
+.TH "find_acpi_cpu_topology" 9 "find_acpi_cpu_topology" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_acpi_cpu_topology \- Determine a unique topology value for a given CPU
+.SH SYNOPSIS
+.B "int" find_acpi_cpu_topology
+.BI "(unsigned int cpu "  ","
+.BI "int level "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+Kernel logical CPU number
+.IP "level" 12
+The topological level for which we would like a unique ID
+.SH "DESCRIPTION"
+Determine a topology unique ID for each thread/core/cluster/mc_grouping
+/socket/etc. This ID can then be used to group peers, which will have
+matching ids.
+
+The search terminates when either the requested level is found or
+we reach a root node. Levels beyond the termination point will return the
+same unique ID. The unique id for level 0 is the acpi processor id. All
+other levels beyond this use a generated value to uniquely identify
+a topological feature.
+.SH "RETURN"
+-ENOENT if the PPTT doesn't exist, or the CPU cannot be found.
+Otherwise returns a value which represents a unique topological feature.

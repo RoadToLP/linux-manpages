@@ -1,0 +1,27 @@
+.TH "intel_gt_handle_error" 9 "intel_gt_handle_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_gt_handle_error \- handle a gpu error
+.SH SYNOPSIS
+.B "void" intel_gt_handle_error
+.BI "(struct intel_gt *gt "  ","
+.BI "intel_engine_mask_t engine_mask "  ","
+.BI "unsigned long flags "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "gt" 12
+the intel_gt
+.IP "engine_mask" 12
+mask representing engines that are hung
+.IP "flags" 12
+control flags
+.IP "fmt" 12
+Error message format string
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Do some basic checking of register state at error time and
+dump it to the syslog.  Also call \fBi915_capture_error_state\fP to make
+sure we get a record and make it available in debugfs.  Fire a uevent
+so userspace knows something bad happened (should trigger collection
+of a ring dump etc.).

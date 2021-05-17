@@ -1,0 +1,14 @@
+.TH "blk_mq_quiesce_queue" 9 "blk_mq_quiesce_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_quiesce_queue \- wait until all ongoing dispatches have finished
+.SH SYNOPSIS
+.B "void" blk_mq_quiesce_queue
+.BI "(struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request queue.
+.SH "NOTE"
+this function does not prevent that the struct request \fBend_io\fP
+callback function is invoked. Once this function is returned, we make
+sure no dispatch can happen until the queue is unquiesced via
+\fBblk_mq_unquiesce_queue\fP.

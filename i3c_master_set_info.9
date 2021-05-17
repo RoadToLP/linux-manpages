@@ -1,0 +1,31 @@
+.TH "i3c_master_set_info" 9 "i3c_master_set_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_set_info \- set master device information
+.SH SYNOPSIS
+.B "int" i3c_master_set_info
+.BI "(struct i3c_master_controller *master "  ","
+.BI "const struct i3c_device_info *info "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+master used to send frames on the bus
+.IP "info" 12
+I3C device information
+.SH "DESCRIPTION"
+Set master device info. This should be called from
+\fIi3c_master_controller_ops\fP->\fBbus_init\fP.
+
+Not all \fIi3c_device_info\fP fields are meaningful for a master device.
+Here is a list of fields that should be properly filled:
+
+- \fIi3c_device_info->dyn_addr\fP
+- \fIi3c_device_info->bcr\fP
+- \fIi3c_device_info->dcr\fP
+- \fIi3c_device_info->pid\fP
+- \fIi3c_device_info->hdr_cap\fP if I3C_BCR_HDR_CAP bit is set in
+\fIi3c_device_info->bcr\fP
+
+This function must be called with the bus lock held in maintenance mode.
+.SH "RETURN"
+0 if \fIinfo\fP contains valid information (not every piece of
+information can be checked, but we can at least make sure \fIinfo->dyn_addr\fP
+and \fIinfo->bcr\fP are correct), -EINVAL otherwise.

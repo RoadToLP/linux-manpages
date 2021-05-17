@@ -1,0 +1,20 @@
+.TH "vmw_view_cotable_list_destroy" 9 "vmw_view_cotable_list_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_view_cotable_list_destroy \- Evict all views belonging to a cotable.
+.SH SYNOPSIS
+.B "void" vmw_view_cotable_list_destroy
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct list_head *list "  ","
+.BI "bool readback "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a device private struct.
+.IP "list" 12
+List of views belonging to a cotable.
+.IP "readback" 12
+Unused. Needed for function interface only.
+.SH "DESCRIPTION"
+This function evicts all views belonging to a cotable.
+It must be called with the binding_mutex held, and the caller must hold
+a reference to the view resource. This is typically called before the
+cotable is paged out.

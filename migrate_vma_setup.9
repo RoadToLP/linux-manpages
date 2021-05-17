@@ -1,0 +1,69 @@
+.TH "migrate_vma_setup" 9 "migrate_vma_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+migrate_vma_setup \- prepare to migrate a range of memory
+.SH SYNOPSIS
+.B "int" migrate_vma_setup
+.BI "(struct migrate_vma *args "  ");"
+.SH ARGUMENTS
+.IP "args" 12
+contains the vma, start, and pfns arrays for the migration
+.SH "RETURN"
+negative errno on failures, 0 when 0 or more pages were migrated
+without an error.
+.SH "DESCRIPTION"
+Prepare to migrate a range of memory virtual address range by collecting all
+the pages backing each virtual address in the range, saving them inside the
+src array.  Then lock those pages and unmap them. Once the pages are locked
+and unmapped, check whether each page is pinned or not.  Pages that aren't
+pinned have the MIGRATE_PFN_MIGRATE flag set (by this function) in the
+corresponding src array entry.  Then restores any pages that are pinned, by
+remapping and unlocking those pages.
+
+The caller should then allocate destination memory and copy source memory to
+it for all those entries (ie with MIGRATE_PFN_VALID and MIGRATE_PFN_MIGRATE
+flag set).  Once these are allocated and copied, the caller must update each
+corresponding entry in the dst array with the pfn value of the destination
+page and with the MIGRATE_PFN_VALID and MIGRATE_PFN_LOCKED flags set
+(destination pages must have their struct pages locked, via \fBlock_page\fP).
+
+Note that the caller does not have to migrate all the pages that are marked
+with MIGRATE_PFN_MIGRATE flag in src array unless this is a migration from
+device memory to system memory.  If the caller cannot migrate a device page
+back to system memory, then it must return VM_FAULT_SIGBUS, which has severe
+consequences for the userspace process, so it must be avoided if at all
+possible.
+
+For empty entries inside CPU page table (\fBpte_none\fP or \fBpmd_none\fP is true) we
+do set MIGRATE_PFN_MIGRATE flag inside the corresponding source array thus
+allowing the caller to allocate device memory for those unback virtual
+address.  For this the caller simply has to allocate device memory and
+properly set the destination entry like for regular migration.  Note that
+this can still fails and thus inside the device driver must check if the
+migration was successful for those entries after calling \fBmigrate_vma_pages\fP
+just like for regular migration.
+
+After that, the callers must call \fBmigrate_vma_pages\fP to go over each entry
+in the src array that has the MIGRATE_PFN_VALID and MIGRATE_PFN_MIGRATE flag
+set. If the corresponding entry in dst array has MIGRATE_PFN_VALID flag set,
+then \fBmigrate_vma_pages\fP to migrate struct page information from the source
+struct page to the destination struct page.  If it fails to migrate the
+struct page information, then it clears the MIGRATE_PFN_MIGRATE flag in the
+src array.
+
+At this point all successfully migrated pages have an entry in the src
+array with MIGRATE_PFN_VALID and MIGRATE_PFN_MIGRATE flag set and the dst
+array entry with MIGRATE_PFN_VALID flag set.
+
+Once \fBmigrate_vma_pages\fP returns the caller may inspect which pages were
+successfully migrated, and which were not.  Successfully migrated pages will
+have the MIGRATE_PFN_MIGRATE flag set for their src array entry.
+
+It is safe to update device page table after \fBmigrate_vma_pages\fP because
+both destination and source page are still locked, and the mmap_lock is held
+in read mode (hence no one can unmap the range being migrated).
+
+Once the caller is done cleaning up things and updating its page table (if it
+chose to do so, this is not an obligation) it finally calls
+\fBmigrate_vma_finalize\fP to update the CPU page table to point to new pages
+for successfully migrated pages or otherwise restore the CPU page table to
+point to the original source pages.

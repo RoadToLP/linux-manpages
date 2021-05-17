@@ -1,0 +1,40 @@
+.TH "proc_create_net_single_write" 9 "proc_create_net_single_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_create_net_single_write \- Create a writable net_ns-specific proc file
+.SH SYNOPSIS
+.B "struct proc_dir_entry *" proc_create_net_single_write
+.BI "(const char *name "  ","
+.BI "umode_t mode "  ","
+.BI "struct proc_dir_entry *parent "  ","
+.BI "int (*show)(struct seq_file *, void *) "  ","
+.BI "proc_write_t write "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the file.
+.IP "mode" 12
+The file's access mode.
+.IP "parent" 12
+The parent directory in which to create.
+.IP "show" 12
+The seqfile show method with which to read the file.
+.IP "write" 12
+The write method with which to 'modify' the file.
+.IP "data" 12
+Data for retrieval by \fBPDE_DATA\fP.
+.SH "DESCRIPTION"
+Create a network-namespaced proc file in the \fIparent\fP directory with the
+specified \fIname\fP and \fImode\fP that allows reading of a file that displays a
+single element rather than a series and also provides for the file accepting
+writes that have some arbitrary effect.
+
+The \fIshow\fP function is called to extract the readable content via the
+seq_file interface.
+
+The \fIwrite\fP function is called with the data copied into a kernel space
+scratch buffer and has a NUL appended for convenience.  The buffer may be
+modified by the \fIwrite\fP function.  \fIwrite\fP should return 0 on success.
+
+The \fIdata\fP value is accessible from the \fIshow\fP and \fIwrite\fP functions by calling
+\fBPDE_DATA\fP on the file inode.  The network namespace must be accessed by
+calling \fBseq_file_single_net\fP on the seq_file struct.

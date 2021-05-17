@@ -1,0 +1,17 @@
+.TH "set_selection_user" 9 "set_selection_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_selection_user \- set the current selection.
+.SH SYNOPSIS
+.B "int" set_selection_user
+.BI "(const struct tiocl_selection __user *sel "  ","
+.BI "struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "sel" 12
+user selection info
+.IP "tty" 12
+the console tty
+
+Invoked by the ioctl handle for the vt layer.
+
+The entire selection process is managed under the console_lock. It's
+a lot under the lock but its hardly a performance path

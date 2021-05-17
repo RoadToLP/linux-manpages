@@ -1,0 +1,26 @@
+.TH "ixgbe_ptp_convert_to_hwtstamp" 9 "ixgbe_ptp_convert_to_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ptp_convert_to_hwtstamp \- convert register value to hw timestamp
+.SH SYNOPSIS
+.B "void" ixgbe_ptp_convert_to_hwtstamp
+.BI "(struct ixgbe_adapter *adapter "  ","
+.BI "struct skb_shared_hwtstamps *hwtstamp "  ","
+.BI "u64 timestamp "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+private adapter structure
+.IP "hwtstamp" 12
+stack timestamp structure
+.IP "timestamp" 12
+unsigned 64bit system time value
+.SH "DESCRIPTION"
+We need to convert the adapter's RX/TXSTMP registers into a hwtstamp value
+which can be used by the stack's ptp functions.
+
+The lock is used to protect consistency of the cyclecounter and the SYSTIME
+registers. However, it does not need to protect against the Rx or Tx
+timestamp registers, as there can't be a new timestamp until the old one is
+unlatched by reading.
+
+In addition to the timestamp in hardware, some controllers need a software
+overflow cyclecounter, and this function takes this into account as well.

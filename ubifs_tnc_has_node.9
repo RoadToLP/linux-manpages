@@ -1,0 +1,29 @@
+.TH "ubifs_tnc_has_node" 9 "ubifs_tnc_has_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_tnc_has_node \- determine whether a node is in the TNC.
+.SH SYNOPSIS
+.B "int" ubifs_tnc_has_node
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int level "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ","
+.BI "int is_idx "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+node key
+.IP "level" 12
+index node level (if it is an index node)
+.IP "lnum" 12
+node LEB number
+.IP "offs" 12
+node offset
+.IP "is_idx" 12
+non-zero if the node is an index node
+.SH "DESCRIPTION"
+This function returns 1 if the node is in the TNC, 0 if it is not, and a
+negative error code in case of failure. For index nodes, \fIkey\fP has to be the
+key of the first child. An index node is considered to be in the TNC only if
+the corresponding znode is clean or has not been loaded.

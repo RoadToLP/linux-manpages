@@ -1,0 +1,21 @@
+.TH "sel_netnode_sid" 9 "sel_netnode_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sel_netnode_sid \- Lookup the SID of a network address
+.SH SYNOPSIS
+.B "int" sel_netnode_sid
+.BI "(void *addr "  ","
+.BI "u16 family "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+the IP address
+.IP "family" 12
+the address family
+.IP "sid" 12
+node SID
+.SH "DESCRIPTION"
+This function determines the SID of a network address using the fastest
+method possible.  First the address table is queried, but if an entry
+can't be found then the policy is queried and the result is added to the
+table to speedup future queries.  Returns zero on success, negative values
+on failure.

@@ -1,0 +1,18 @@
+.TH "xbc_node_find_next_key_value" 9 "xbc_node_find_next_key_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xbc_node_find_next_key_value \- Find the next key-value pair nodes
+.SH SYNOPSIS
+.B "const char *" xbc_node_find_next_key_value
+.BI "(struct xbc_node *root "  ","
+.BI "struct xbc_node **leaf "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+An XBC root node
+.IP "leaf" 12
+A container pointer of XBC node which starts from.
+.SH "DESCRIPTION"
+Search the next leaf node (which means the terminal key node) of *\fIleaf\fP
+under \fIroot\fP node. Returns the value and update *\fIleaf\fP if next leaf node
+is found, or NULL if no next leaf node is found.
+Note that this returns 0-length string if the key has no value, or
+the value of the first entry if the value is an array.

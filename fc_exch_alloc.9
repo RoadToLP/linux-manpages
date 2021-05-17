@@ -1,0 +1,17 @@
+.TH "fc_exch_alloc" 9 "fc_exch_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_exch_alloc \- Allocate an exchange from an EM on a local port's list of EMs.
+.SH SYNOPSIS
+.B "struct fc_exch *" fc_exch_alloc
+.BI "(struct fc_lport *lport "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port that will own the exchange
+.IP "fp" 12
+The FC frame that the exchange will be for
+.SH "DESCRIPTION"
+This function walks the list of exchange manager(EM)
+anchors to select an EM for a new exchange allocation. The
+EM is selected when a NULL match function pointer is encountered
+or when a call to a match function returns true.

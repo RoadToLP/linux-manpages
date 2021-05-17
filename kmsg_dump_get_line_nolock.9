@@ -1,0 +1,32 @@
+.TH "kmsg_dump_get_line_nolock" 9 "kmsg_dump_get_line_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmsg_dump_get_line_nolock \- retrieve one kmsg log line (unlocked version)
+.SH SYNOPSIS
+.B "bool" kmsg_dump_get_line_nolock
+.BI "(struct kmsg_dumper *dumper "  ","
+.BI "bool syslog "  ","
+.BI "char *line "  ","
+.BI "size_t size "  ","
+.BI "size_t *len "  ");"
+.SH ARGUMENTS
+.IP "dumper" 12
+registered kmsg dumper
+.IP "syslog" 12
+include the "<4>" prefixes
+.IP "line" 12
+buffer to copy the line to
+.IP "size" 12
+maximum size of the buffer
+.IP "len" 12
+length of line placed into buffer
+.SH "DESCRIPTION"
+Start at the beginning of the kmsg buffer, with the oldest kmsg
+record, and copy one record into the provided buffer.
+
+Consecutive calls will return the next available record moving
+towards the end of the buffer with the youngest messages.
+
+A return value of FALSE indicates that there are no more records to
+read.
+
+The function is similar to \fBkmsg_dump_get_line\fP, but grabs no locks.

@@ -1,0 +1,19 @@
+.TH "_deassert_hardreset" 9 "_deassert_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_deassert_hardreset \- deassert the HW reset line of submodules contained in the hwmod module.
+.SH SYNOPSIS
+.B "int" _deassert_hardreset
+.BI "(struct omap_hwmod *oh "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "name" 12
+name of the reset line to look up and deassert
+.SH "DESCRIPTION"
+Some IP like dsp, ipu or iva contain processor that require an HW
+reset line to be assert / deassert in order to enable fully the IP.
+Returns -EINVAL if \fIoh\fP is null, -ENOSYS if we have no way of
+deasserting the hardreset line on the currently-booted SoC, or passes
+along the return value from \fB_lookup_hardreset\fP or the SoC's
+deassert_hardreset code.

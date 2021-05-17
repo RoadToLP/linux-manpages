@@ -1,0 +1,19 @@
+.TH "rtc_timer_enqueue" 9 "rtc_timer_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rtc_timer_enqueue \- Adds a rtc_timer to the rtc_device timerqueue
+.SH SYNOPSIS
+.B "int" rtc_timer_enqueue
+.BI "(struct rtc_device *rtc "  ","
+.BI "struct rtc_timer *timer "  ");"
+.SH ARGUMENTS
+.IP "rtc" 12
+rtc device
+.IP "timer" 12
+timer being added.
+.SH "DESCRIPTION"
+Enqueues a timer onto the rtc devices timerqueue and sets
+the next alarm event appropriately.
+
+Sets the enabled bit on the added timer.
+
+Must hold ops_lock for proper serialization of timerqueue

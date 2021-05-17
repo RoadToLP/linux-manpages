@@ -1,0 +1,16 @@
+.TH "omap3_prm_reconfigure_io_chain" 9 "omap3_prm_reconfigure_io_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3_prm_reconfigure_io_chain \- clear latches and reconfigure I/O chain
+.SH SYNOPSIS
+.B "void" omap3_prm_reconfigure_io_chain
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Clear any previously-latched I/O wakeup events and ensure that the
+I/O wakeup gates are aligned with the current mux settings.  Works
+by asserting WUCLKIN, waiting for WUCLKOUT to be asserted, and then
+deasserting WUCLKIN and clearing the ST_IO_CHAIN WKST bit.  No
+return value. These registers are only available in 3430 es3.1 and later.

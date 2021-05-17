@@ -1,0 +1,30 @@
+.TH "drm_atomic_helper_duplicate_state" 9 "drm_atomic_helper_duplicate_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_duplicate_state \- duplicate an atomic state object
+.SH SYNOPSIS
+.B "struct drm_atomic_state *" drm_atomic_helper_duplicate_state
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_modeset_acquire_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "ctx" 12
+lock acquisition context
+.SH "DESCRIPTION"
+Makes a copy of the current atomic state by looping over all objects and
+duplicating their respective states. This is used for example by suspend/
+resume support code to save the state prior to suspend such that it can
+be restored upon resume.
+
+Note that this treats atomic state as persistent between save and restore.
+Drivers must make sure that this is possible and won't result in confusion
+or erroneous behaviour.
+
+Note that if callers haven't already acquired all modeset locks this might
+return -EDEADLK, which must be handled by calling \fBdrm_modeset_backoff\fP.
+
+See also:
+\fBdrm_atomic_helper_suspend\fP, \fBdrm_atomic_helper_resume\fP
+.SH "RETURN"
+A pointer to the copy of the atomic state object on success or an
+\fBERR_PTR\fP-encoded error code on failure.

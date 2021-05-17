@@ -1,0 +1,27 @@
+.TH "nand_ecc_choose_conf" 9 "nand_ecc_choose_conf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_ecc_choose_conf \- Set the ECC strength and ECC step size
+.SH SYNOPSIS
+.B "int" nand_ecc_choose_conf
+.BI "(struct nand_chip *chip "  ","
+.BI "const struct nand_ecc_caps *caps "  ","
+.BI "int oobavail "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+nand chip info structure
+.IP "caps" 12
+ECC engine caps info structure
+.IP "oobavail" 12
+OOB size that the ECC engine can use
+.SH "DESCRIPTION"
+Choose the ECC configuration according to following logic.
+
+1. If both ECC step size and ECC strength are already set (usually by DT)
+then check if it is supported by this controller.
+2. If the user provided the nand-ecc-maximize property, then select maximum
+ECC strength.
+3. Otherwise, try to match the ECC step size and ECC strength closest
+to the chip's requirement. If available OOB size can't fit the chip
+requirement then fallback to the maximum ECC step size and ECC strength.
+
+On success, the chosen ECC settings are set.

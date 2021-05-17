@@ -1,0 +1,15 @@
+.TH "eeh_disable_irq" 9 "eeh_disable_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_disable_irq \- Disable interrupt for the recovering device
+.SH SYNOPSIS
+.B "void" eeh_disable_irq
+.BI "(struct eeh_dev *edev "  ");"
+.SH ARGUMENTS
+.IP "edev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This routine must be called when reporting temporary or permanent
+error to the particular PCI device to disable interrupt of that
+device. If the device has enabled MSI or MSI-X interrupt, we needn't
+do real work because EEH should freeze DMA transfers for those PCI
+devices encountering EEH errors, which includes MSI or MSI-X.

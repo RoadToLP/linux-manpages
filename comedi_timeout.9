@@ -1,0 +1,30 @@
+.TH "comedi_timeout" 9 "comedi_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_timeout \- Busy-wait for a driver condition to occur
+.SH SYNOPSIS
+.B "int" comedi_timeout
+.BI "(struct comedi_device *dev "  ","
+.BI "struct comedi_subdevice *s "  ","
+.BI "struct comedi_insn *insn "  ","
+.BI "int (*cb)(struct comedi_device *dev, struct comedi_subdevice *s, struct comedi_insn *insn, unsigned long context) "  ","
+.BI "unsigned long context "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "s" 12
+COMEDI subdevice.
+.IP "insn" 12
+COMEDI instruction.
+.IP "cb" 12
+Callback to check for the condition.
+.IP "context" 12
+Private context from the driver.
+.SH "DESCRIPTION"
+Busy-waits for up to a second (COMEDI_TIMEOUT_MS) for the condition or
+some error (other than -EBUSY) to occur.  The parameters \fIdev\fP, \fIs\fP, \fIinsn\fP,
+and \fIcontext\fP are passed to the callback function, which returns -EBUSY to
+continue waiting or some other value to stop waiting (generally 0 if the
+condition occurred, or some error value).
+
+Returns -ETIMEDOUT if timed out, otherwise the return value from the
+callback function.

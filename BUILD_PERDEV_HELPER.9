@@ -1,0 +1,18 @@
+.TH "BUILD_PERDEV_HELPER" 9 "BUILD_PERDEV_HELPER" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+BUILD_PERDEV_HELPER \- Helper to call a CDMM driver callback if CPU matches.
+.SH SYNOPSIS
+.B "BUILD_PERDEV_HELPER
+.BI "(_name "  ");"
+.SH ARGUMENTS
+.IP "_name" 12
+Name of CDMM driver callback function.
+.SH "DESCRIPTION"
+Generates a bus_for_each_dev callback function to call a specific CDMM driver
+callback function for the device if the device's CPU matches that pointed to
+by the data argument.
+
+This is used for informing drivers for all devices on a given CPU of some
+event (such as the CPU going online/offline).
+
+It is expected to already be called from the appropriate CPU.

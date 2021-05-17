@@ -1,0 +1,24 @@
+.TH "ibmvscsis_free_command_q" 9 "ibmvscsis_free_command_q" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvscsis_free_command_q \- Free Command Queue
+.SH SYNOPSIS
+.B "long" ibmvscsis_free_command_q
+.BI "(struct scsi_info *vscsi "  ");"
+.SH ARGUMENTS
+.IP "vscsi" 12
+Pointer to our adapter structure
+.SH "DESCRIPTION"
+This function calls unregister_command_q, then clears interrupts and
+any pending interrupt acknowledgments associated with the command q.
+It also clears memory if there is no error.
+
+PHYP did not meet the PAPR architecture so that we must give up the
+lock. This causes a timing hole regarding state change.  To close the
+hole this routine does accounting on any change that occurred during
+the time the lock is not held.
+EXECUTION ENVIRONMENT:
+Process level, interrupt lock is held
+.SH "NOTE"
+must give up and then acquire the interrupt lock, the caller must
+make sure that state and or flags will prevent interrupt handler from
+scheduling work.

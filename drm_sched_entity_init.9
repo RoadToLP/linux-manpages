@@ -1,0 +1,28 @@
+.TH "drm_sched_entity_init" 9 "drm_sched_entity_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_sched_entity_init \- Init a context entity used by scheduler when submit to HW ring.
+.SH SYNOPSIS
+.B "int" drm_sched_entity_init
+.BI "(struct drm_sched_entity *entity "  ","
+.BI "enum drm_sched_priority priority "  ","
+.BI "struct drm_gpu_scheduler **sched_list "  ","
+.BI "unsigned int num_sched_list "  ","
+.BI "atomic_t *guilty "  ");"
+.SH ARGUMENTS
+.IP "entity" 12
+scheduler entity to init
+.IP "priority" 12
+priority of the entity
+.IP "sched_list" 12
+the list of drm scheds on which jobs from this
+entity can be submitted
+.IP "num_sched_list" 12
+number of drm sched in sched_list
+.IP "guilty" 12
+atomic_t set to 1 when a job on this queue
+is found to be guilty causing a timeout
+.SH "NOTE"
+the sched_list should have at least one element to schedule
+the entity
+.SH "DESCRIPTION"
+Returns 0 on success or a negative error code on failure.

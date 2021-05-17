@@ -1,0 +1,21 @@
+.TH "omap2_set_gpio_debounce" 9 "omap2_set_gpio_debounce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_set_gpio_debounce \- low level gpio debounce time
+.SH SYNOPSIS
+.B "int" omap2_set_gpio_debounce
+.BI "(struct gpio_bank *bank "  ","
+.BI "unsigned offset "  ","
+.BI "unsigned debounce "  ");"
+.SH ARGUMENTS
+.IP "bank" 12
+the gpio bank we're acting upon
+.IP "offset" 12
+the gpio number on this \fIbank\fP
+.IP "debounce" 12
+debounce time to use
+.SH "DESCRIPTION"
+OMAP's debounce time is in 31us steps
+<debounce time> = (GPIO_DEBOUNCINGTIME[7:0].DEBOUNCETIME + 1) x 31
+so we need to convert and round up to the closest unit.
+.SH "RETURN"
+0 on success, negative error otherwise.

@@ -1,0 +1,23 @@
+.TH "am33xx_cm_wait_module_ready" 9 "am33xx_cm_wait_module_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+am33xx_cm_wait_module_ready \- wait for a module to be in 'func' state
+.SH SYNOPSIS
+.B "int" am33xx_cm_wait_module_ready
+.BI "(u8 part "  ","
+.BI "s16 inst "  ","
+.BI "u16 clkctrl_offs "  ","
+.BI "u8 bit_shift "  ");"
+.SH ARGUMENTS
+.IP "part" 12
+PRCM partition, ignored for AM33xx
+.IP "inst" 12
+CM instance register offset (*_INST macro)
+.IP "clkctrl_offs" 12
+Module clock control register offset (*_CLKCTRL macro)
+.IP "bit_shift" 12
+bit shift for the register, ignored for AM33xx
+.SH "DESCRIPTION"
+Wait for the module IDLEST to be functional. If the idle state is in any
+the non functional state (trans, idle or disabled), module and thus the
+sysconfig cannot be accessed and will probably lead to an "imprecise
+external abort"

@@ -1,0 +1,18 @@
+.TH "regcache_cache_only" 9 "regcache_cache_only" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regcache_cache_only \- Put a register map into cache only mode
+.SH SYNOPSIS
+.B "void" regcache_cache_only
+.BI "(struct regmap *map "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+map to configure
+.IP "enable" 12
+flag if changes should be written to the hardware
+.SH "DESCRIPTION"
+When a register map is marked as cache only writes to the register
+map API will only update the register cache, they will not cause
+any hardware changes.  This is useful for allowing portions of
+drivers to act as though the device were functioning as normal when
+it is disabled for power saving reasons.

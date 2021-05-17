@@ -1,0 +1,16 @@
+.TH "batadv_gw_reselect" 9 "batadv_gw_reselect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_gw_reselect \- force a gateway reselection
+.SH SYNOPSIS
+.B "void" batadv_gw_reselect
+.BI "(struct batadv_priv *bat_priv "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.SH "DESCRIPTION"
+Set a flag to remind the GW component to perform a new gateway reselection.
+However this function does not ensure that the current gateway is going to be
+deselected. The reselection mechanism may elect the same gateway once again.
+
+This means that invoking \fBbatadv_gw_reselect\fP does not guarantee a gateway
+change and therefore a uevent is not necessarily expected.

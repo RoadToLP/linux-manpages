@@ -1,0 +1,19 @@
+.TH "add_watch_to_object" 9 "add_watch_to_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_watch_to_object \- Add a watch on an object to a watch list
+.SH SYNOPSIS
+.B "int" add_watch_to_object
+.BI "(struct watch *watch "  ","
+.BI "struct watch_list *wlist "  ");"
+.SH ARGUMENTS
+.IP "watch" 12
+The watch to add
+.IP "wlist" 12
+The watch list to add to
+.SH "DESCRIPTION"
+\fIwatch->queue\fP must have been set to point to the queue to post notifications
+to and the watch list of the object to be watched.  \fIwatch->cred\fP must also
+have been set to the appropriate credentials and a ref taken on them.
+
+The caller must pin the queue and the list both and must hold the list
+locked against racing watch additions/removals.

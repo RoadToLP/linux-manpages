@@ -1,0 +1,32 @@
+.TH "ima_match_rules" 9 "ima_match_rules" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_match_rules \- determine whether an inode matches the policy rule.
+.SH SYNOPSIS
+.B "bool" ima_match_rules
+.BI "(struct ima_rule_entry *rule "  ","
+.BI "struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct cred *cred "  ","
+.BI "u32 secid "  ","
+.BI "enum ima_hooks func "  ","
+.BI "int mask "  ","
+.BI "const char *func_data "  ");"
+.SH ARGUMENTS
+.IP "rule" 12
+a pointer to a rule
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+a pointer to an inode
+.IP "cred" 12
+a pointer to a credentials structure for user validation
+.IP "secid" 12
+the secid of the task to be validated
+.IP "func" 12
+LIM hook identifier
+.IP "mask" 12
+requested action (MAY_READ | MAY_WRITE | MAY_APPEND | MAY_EXEC)
+.IP "func_data" 12
+func specific data, may be NULL
+.SH "DESCRIPTION"
+Returns true on rule match, false on failure.

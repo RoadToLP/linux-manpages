@@ -1,0 +1,22 @@
+.TH "drm_dp_mst_get_port_malloc" 9 "drm_dp_mst_get_port_malloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_get_port_malloc \- Increment the malloc refcount of an MST port
+.SH SYNOPSIS
+.B "void" drm_dp_mst_get_port_malloc
+.BI "(struct drm_dp_mst_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+The \fIstruct drm_dp_mst_port\fP to increment the malloc refcount of
+.SH "DESCRIPTION"
+Increments \fIdrm_dp_mst_port.malloc_kref\fP. When \fIdrm_dp_mst_port.malloc_kref\fP
+reaches 0, the memory allocation for \fIport\fP will be released and \fIport\fP may
+no longer be used.
+
+Because \fIport\fP could potentially be freed at any time by the DP MST helpers
+if \fIdrm_dp_mst_port.malloc_kref\fP reaches 0, including during a call to this
+function, drivers that which to make use of \fIstruct drm_dp_mst_port\fP should
+ensure that they grab at least one main malloc reference to their MST ports
+in \fIdrm_dp_mst_topology_cbs.add_connector\fP. This callback is called before
+there is any chance for \fIdrm_dp_mst_port.malloc_kref\fP to reach 0.
+
+See also: \fBdrm_dp_mst_put_port_malloc\fP

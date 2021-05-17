@@ -1,0 +1,27 @@
+.TH "drm_fb_xrgb8888_to_gray8" 9 "drm_fb_xrgb8888_to_gray8" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_xrgb8888_to_gray8 \- Convert XRGB8888 to grayscale
+.SH SYNOPSIS
+.B "void" drm_fb_xrgb8888_to_gray8
+.BI "(u8 *dst "  ","
+.BI "void *vaddr "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_rect *clip "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+8-bit grayscale destination buffer
+.IP "vaddr" 12
+XRGB8888 source buffer
+.IP "fb" 12
+DRM framebuffer
+.IP "clip" 12
+Clip rectangle area to copy
+.SH "DESCRIPTION"
+Drm doesn't have native monochrome or grayscale support.
+Such drivers can announce the commonly supported XR24 format to userspace
+and use this function to convert to the native format.
+
+Monochrome drivers will use the most significant bit,
+where 1 means foreground color and 0 background color.
+
+ITU BT.601 is used for the RGB -> luma (brightness) conversion.

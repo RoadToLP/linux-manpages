@@ -1,0 +1,22 @@
+.TH "drm_vblank_count_and_time" 9 "drm_vblank_count_and_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vblank_count_and_time \- retrieve "cooked" vblank counter value and the system timestamp corresponding to that vblank counter value.
+.SH SYNOPSIS
+.B "u64" drm_vblank_count_and_time
+.BI "(struct drm_device *dev "  ","
+.BI "unsigned int pipe "  ","
+.BI "ktime_t *vblanktime "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "pipe" 12
+index of CRTC whose counter to retrieve
+.IP "vblanktime" 12
+Pointer to ktime_t to receive the vblank timestamp.
+.SH "DESCRIPTION"
+Fetches the "cooked" vblank count value that represents the number of
+vblank events since the system was booted, including lost events due to
+modesetting activity. Returns corresponding system timestamp of the time
+of the vblank interval that corresponds to the current vblank counter value.
+
+This is the legacy version of \fBdrm_crtc_vblank_count_and_time\fP.

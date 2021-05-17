@@ -1,0 +1,14 @@
+.TH "ring_buffer_record_disable" 9 "ring_buffer_record_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_record_disable \- stop all writes into the buffer
+.SH SYNOPSIS
+.B "void" ring_buffer_record_disable
+.BI "(struct trace_buffer *buffer "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to stop writes to.
+.SH "DESCRIPTION"
+This prevents all writes to the buffer. Any attempt to write
+to the buffer after this will fail and return NULL.
+
+The caller should call \fBsynchronize_rcu\fP after this.

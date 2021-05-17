@@ -1,0 +1,26 @@
+.TH "parse_mtd_partitions" 9 "parse_mtd_partitions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_mtd_partitions \- parse and register MTD partitions
+.SH SYNOPSIS
+.B "int" parse_mtd_partitions
+.BI "(struct mtd_info *master "  ","
+.BI "const char *const *types "  ","
+.BI "struct mtd_part_parser_data *data "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+the master partition (describes whole MTD device)
+.IP "types" 12
+names of partition parsers to try or NULL
+.IP "data" 12
+MTD partition parser-specific data
+.SH "DESCRIPTION"
+This function tries to find & register partitions on MTD device \fImaster\fP. It
+uses MTD partition parsers, specified in \fItypes\fP. However, if \fItypes\fP is NULL,
+then the default list of parsers is used. The default list contains only the
+"cmdlinepart" and "ofpart" parsers ATM.
+This function may return:
+o a negative error code in case of failure
+o number of found partitions otherwise
+.SH "NOTE"
+If there are more then one parser in \fItypes\fP, the kernel only takes the
+partitions parsed out by the first parser.

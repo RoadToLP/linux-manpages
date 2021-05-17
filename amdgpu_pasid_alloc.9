@@ -1,0 +1,16 @@
+.TH "amdgpu_pasid_alloc" 9 "amdgpu_pasid_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_pasid_alloc \- Allocate a PASID
+.SH SYNOPSIS
+.B "int" amdgpu_pasid_alloc
+.BI "(unsigned int bits "  ");"
+.SH ARGUMENTS
+.IP "bits" 12
+Maximum width of the PASID in bits, must be at least 1
+.SH "DESCRIPTION"
+Allocates a PASID of the given width while keeping smaller PASIDs
+available if possible.
+
+Returns a positive integer on success. Returns -EINVAL if bits==0.
+Returns -ENOSPC if no PASID was available. Returns -ENOMEM on
+memory allocation failure.

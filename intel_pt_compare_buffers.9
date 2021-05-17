@@ -1,0 +1,26 @@
+.TH "intel_pt_compare_buffers" 9 "intel_pt_compare_buffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pt_compare_buffers \- compare bytes in a buffer to a circular buffer.
+.SH SYNOPSIS
+.B "bool" intel_pt_compare_buffers
+.BI "(void *buf1 "  ","
+.BI "size_t compare_size "  ","
+.BI "void *buf2 "  ","
+.BI "size_t offs2 "  ","
+.BI "size_t buf2_size "  ");"
+.SH ARGUMENTS
+.IP "buf1" 12
+first buffer
+.IP "compare_size" 12
+number of bytes to compare
+.IP "buf2" 12
+second buffer (a circular buffer)
+.IP "offs2" 12
+offset in second buffer
+.IP "buf2_size" 12
+size of second buffer
+.SH "DESCRIPTION"
+The comparison allows for the possibility that the bytes to compare in the
+circular buffer are not contiguous.  It is assumed that \fIcompare_size\fP <=
+\fIbuf2_size\fP.  This function returns false if the bytes are identical, true
+otherwise.

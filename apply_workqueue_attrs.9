@@ -1,0 +1,25 @@
+.TH "apply_workqueue_attrs" 9 "apply_workqueue_attrs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apply_workqueue_attrs \- apply new workqueue_attrs to an unbound workqueue
+.SH SYNOPSIS
+.B "int" apply_workqueue_attrs
+.BI "(struct workqueue_struct *wq "  ","
+.BI "const struct workqueue_attrs *attrs "  ");"
+.SH ARGUMENTS
+.IP "wq" 12
+the target workqueue
+.IP "attrs" 12
+the workqueue_attrs to apply, allocated with \fBalloc_workqueue_attrs\fP
+.SH "DESCRIPTION"
+Apply \fIattrs\fP to an unbound workqueue \fIwq\fP.  Unless disabled, on NUMA
+machines, this function maps a separate pwq to each NUMA node with
+possibles CPUs in \fIattrs->cpumask\fP so that work items are affine to the
+NUMA node it was issued on.  Older pwqs are released as in-flight work
+items finish.  Note that a work item which repeatedly requeues itself
+back-to-back will stay on its current pwq.
+
+Performs GFP_KERNEL allocations.
+
+Assumes caller has CPU hotplug read exclusion, i.e. \fBget_online_cpus\fP.
+.SH "RETURN"
+0 on success and -errno on failure.

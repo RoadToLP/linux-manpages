@@ -1,0 +1,17 @@
+.TH "wbc_attach_and_unlock_inode" 9 "wbc_attach_and_unlock_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wbc_attach_and_unlock_inode \- associate wbc with target inode and unlock it
+.SH SYNOPSIS
+.B "void" wbc_attach_and_unlock_inode
+.BI "(struct writeback_control *wbc "  ","
+.BI "struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "wbc" 12
+writeback_control of interest
+.IP "inode" 12
+target inode
+.SH "DESCRIPTION"
+\fIinode\fP is locked and about to be written back under the control of \fIwbc\fP.
+Record \fIinode\fP's writeback context into \fIwbc\fP and unlock the i_lock.  On
+writeback completion, \fBwbc_detach_inode\fP should be called.  This is used
+to track the cgroup writeback context.

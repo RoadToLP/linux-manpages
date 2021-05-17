@@ -1,0 +1,30 @@
+.TH "zbud_alloc" 9 "zbud_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zbud_alloc \- allocates a region of a given size
+.SH SYNOPSIS
+.B "int" zbud_alloc
+.BI "(struct zbud_pool *pool "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ","
+.BI "unsigned long *handle "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+zbud pool from which to allocate
+.IP "size" 12
+size in bytes of the desired allocation
+.IP "gfp" 12
+gfp flags used if the pool needs to grow
+.IP "handle" 12
+handle of the new allocation
+.SH "DESCRIPTION"
+This function will attempt to find a free region in the pool large enough to
+satisfy the allocation request.  A search of the unbuddied lists is
+performed first. If no suitable free region is found, then a new page is
+allocated and added to the pool to satisfy the request.
+
+gfp should not set __GFP_HIGHMEM as highmem pages cannot be used
+as zbud pool pages.
+.SH "RETURN"
+0 if success and handle is set, otherwise -EINVAL if the size or
+gfp arguments are invalid or -ENOMEM if the pool was unable to allocate
+a new page.

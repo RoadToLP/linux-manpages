@@ -1,0 +1,23 @@
+.TH "tty_ldisc_receive_buf" 9 "tty_ldisc_receive_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_ldisc_receive_buf \- forward data to line discipline
+.SH SYNOPSIS
+.B "int" tty_ldisc_receive_buf
+.BI "(struct tty_ldisc *ld "  ","
+.BI "const unsigned char *p "  ","
+.BI "char *f "  ","
+.BI "int count "  ");"
+.SH ARGUMENTS
+.IP "ld" 12
+line discipline to process input
+.IP "p" 12
+char buffer
+.IP "f" 12
+TTY_* flags buffer
+.IP "count" 12
+number of bytes to process
+
+Callers other than \fBflush_to_ldisc\fP need to exclude the kworker
+from concurrent use of the line discipline, see \fBpaste_selection\fP.
+
+Returns the number of bytes processed

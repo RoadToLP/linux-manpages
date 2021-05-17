@@ -1,0 +1,16 @@
+.TH "xprt_reserve_xprt" 9 "xprt_reserve_xprt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_reserve_xprt \- serialize write access to transports
+.SH SYNOPSIS
+.B "int" xprt_reserve_xprt
+.BI "(struct rpc_xprt *xprt "  ","
+.BI "struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+pointer to the target transport
+.IP "task" 12
+task that is requesting access to the transport
+.SH "DESCRIPTION"
+This prevents mixing the payload of separate requests, and prevents
+transport connects from colliding with writes.  No congestion control
+is provided.

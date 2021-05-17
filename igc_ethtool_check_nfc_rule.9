@@ -1,0 +1,22 @@
+.TH "igc_ethtool_check_nfc_rule" 9 "igc_ethtool_check_nfc_rule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igc_ethtool_check_nfc_rule \- Check if NFC rule is valid
+.SH SYNOPSIS
+.B "int" igc_ethtool_check_nfc_rule
+.BI "(struct igc_adapter *adapter "  ","
+.BI "struct igc_nfc_rule *rule "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+Pointer to adapter
+.IP "rule" 12
+Rule under evaluation
+.SH "DESCRIPTION"
+The driver doesn't support rules with multiple matches so if more than
+one bit in filter flags is set, \fIrule\fP is considered invalid.
+
+Also, if there is already another rule with the same filter in a different
+location, \fIrule\fP is considered invalid.
+.SH "CONTEXT"
+Expects adapter->nfc_rule_lock to be held by caller.
+.SH "RETURN"
+0 in case of success, negative errno code otherwise.

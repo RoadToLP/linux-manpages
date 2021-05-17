@@ -1,0 +1,21 @@
+.TH "aemif_config_abus" 9 "aemif_config_abus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aemif_config_abus \- configure async bus parameters
+.SH SYNOPSIS
+.B "int" aemif_config_abus
+.BI "(struct platform_device *pdev "  ","
+.BI "int csnum "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+platform device to configure for
+.IP "csnum" 12
+aemif chip select number
+.SH "DESCRIPTION"
+This function programs the given timing values (in real clock) into the
+AEMIF registers taking the AEMIF clock into account.
+
+This function does not use any locking while programming the AEMIF
+because it is expected that there is only one user of a given
+chip-select.
+
+Returns 0 on success, else negative errno.

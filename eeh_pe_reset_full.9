@@ -1,0 +1,20 @@
+.TH "eeh_pe_reset_full" 9 "eeh_pe_reset_full" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_pe_reset_full \- Complete a full reset process on the indicated PE
+.SH SYNOPSIS
+.B "int" eeh_pe_reset_full
+.BI "(struct eeh_pe *pe "  ","
+.BI "bool include_passed "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+EEH PE
+.IP "include_passed" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function executes a full reset procedure on a PE, including setting
+the appropriate flags, performing a fundamental or hot reset, and then
+deactivating the reset status.  It is designed to be used within the EEH
+subsystem, as opposed to eeh_pe_reset which is exported to drivers and
+only performs a single operation at a time.
+
+This function will attempt to reset a PE three times before failing.

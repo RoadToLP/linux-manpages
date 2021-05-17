@@ -1,0 +1,30 @@
+.TH "usb_find_common_endpoints_reverse" 9 "usb_find_common_endpoints_reverse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_find_common_endpoints_reverse \- - look up common endpoint descriptors
+.SH SYNOPSIS
+.B "int" usb_find_common_endpoints_reverse
+.BI "(struct usb_host_interface *alt "  ","
+.BI "struct usb_endpoint_descriptor **bulk_in "  ","
+.BI "struct usb_endpoint_descriptor **bulk_out "  ","
+.BI "struct usb_endpoint_descriptor **int_in "  ","
+.BI "struct usb_endpoint_descriptor **int_out "  ");"
+.SH ARGUMENTS
+.IP "alt" 12
+alternate setting to search
+.IP "bulk_in" 12
+pointer to descriptor pointer, or NULL
+.IP "bulk_out" 12
+pointer to descriptor pointer, or NULL
+.IP "int_in" 12
+pointer to descriptor pointer, or NULL
+.IP "int_out" 12
+pointer to descriptor pointer, or NULL
+.SH "DESCRIPTION"
+Search the alternate setting's endpoint descriptors for the last bulk-in,
+bulk-out, interrupt-in and interrupt-out endpoints and return them in the
+provided pointers (unless they are NULL).
+
+If a requested endpoint is not found, the corresponding pointer is set to
+NULL.
+.SH "RETURN"
+Zero if all requested descriptors were found, or -ENXIO otherwise.

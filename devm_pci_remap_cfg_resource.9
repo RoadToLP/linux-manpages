@@ -1,0 +1,26 @@
+.TH "devm_pci_remap_cfg_resource" 9 "devm_pci_remap_cfg_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_pci_remap_cfg_resource \- check, request region and ioremap cfg resource
+.SH SYNOPSIS
+.B "void __iomem *" devm_pci_remap_cfg_resource
+.BI "(struct device *dev "  ","
+.BI "struct resource *res "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+generic device to handle the resource for
+.IP "res" 12
+configuration space resource to be handled
+.SH "DESCRIPTION"
+Checks that a resource is a valid memory region, requests the memory
+region and ioremaps with \fBpci_remap_cfgspace\fP API that ensures the
+proper PCI configuration space memory attributes are guaranteed.
+
+All operations are managed and will be undone on driver detach.
+
+Returns a pointer to the remapped memory or an \fBERR_PTR\fP encoded error code
+on failure. Usage example::
+
+res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+base = devm_pci_remap_cfg_resource(\fIpdev->dev\fP, res);
+if (IS_ERR(base))
+return PTR_ERR(base);

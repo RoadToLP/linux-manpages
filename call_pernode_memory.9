@@ -1,0 +1,22 @@
+.TH "call_pernode_memory" 9 "call_pernode_memory" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+call_pernode_memory \- use SRAT to call callback functions with node info
+.SH SYNOPSIS
+.B "void" call_pernode_memory
+.BI "(unsigned long start "  ","
+.BI "unsigned long len "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+physical start of range
+.IP "len" 12
+length of range
+.IP "arg" 12
+function to call for each range
+.SH "DESCRIPTION"
+\fBefi_memmap_walk\fP knows nothing about layout of memory across nodes. Find
+out to which node a block of memory belongs.  Ignore memory that we cannot
+identify, and split blocks that run across multiple nodes.
+
+Take this opportunity to round the start address up and the end address
+down to page boundaries.

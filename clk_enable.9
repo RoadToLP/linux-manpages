@@ -1,0 +1,18 @@
+.TH "clk_enable" 9 "clk_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_enable \- ungate a clock
+.SH SYNOPSIS
+.B "int" clk_enable
+.BI "(struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+the clk being ungated
+.SH "DESCRIPTION"
+clk_enable must not sleep, which differentiates it from clk_prepare.  In a
+simple case, clk_enable can be used instead of clk_prepare to ungate a clk
+if the operation will never sleep.  One example is a SoC-internal clk which
+is controlled via simple register writes.  In the complex case a clk ungate
+operation may require a fast and a slow part.  It is this reason that
+clk_enable and clk_prepare are not mutually exclusive.  In fact clk_prepare
+must be called before clk_enable.  Returns 0 on success, -EERROR
+otherwise.

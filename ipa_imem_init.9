@@ -1,0 +1,25 @@
+.TH "ipa_imem_init" 9 "ipa_imem_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_imem_init \- Initialize IMEM memory used by the IPA
+.SH SYNOPSIS
+.B "int" ipa_imem_init
+.BI "(struct ipa *ipa "  ","
+.BI "unsigned long addr "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.IP "addr" 12
+Physical address of the IPA region in IMEM
+.IP "size" 12
+Size (bytes) of the IPA region in IMEM
+.SH "DESCRIPTION"
+IMEM is a block of shared memory separate from system DRAM, and
+a portion of this memory is available for the IPA to use.  The
+modem accesses this memory directly, but the IPA accesses it
+via the IOMMU, using the AP's credentials.
+
+If this region exists (size > 0) we map it for read/write access
+through the IOMMU using the IPA device.
+.SH "NOTE"
+\fIaddr\fP and \fIsize\fP are not guaranteed to be page-aligned.

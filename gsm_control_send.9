@@ -1,0 +1,22 @@
+.TH "gsm_control_send" 9 "gsm_control_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_control_send \- send a control frame on DLCI 0
+.SH SYNOPSIS
+.B "struct gsm_control *" gsm_control_send
+.BI "(struct gsm_mux *gsm "  ","
+.BI "unsigned int command "  ","
+.BI "u8 *data "  ","
+.BI "int clen "  ");"
+.SH ARGUMENTS
+.IP "gsm" 12
+the GSM channel
+.IP "command" 12
+command  to send including CR bit
+.IP "data" 12
+bytes of data (must be kmalloced)
+.IP "clen" 12
+length of the block to send
+
+Queue and dispatch a control command. Only one command can be
+active at a time. In theory more can be outstanding but the matching
+gets really complicated so for now stick to one outstanding.

@@ -1,0 +1,14 @@
+.TH "cgroup_update_dfl_csses" 9 "cgroup_update_dfl_csses" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_update_dfl_csses \- update css assoc of a subtree in default hierarchy
+.SH SYNOPSIS
+.B "int" cgroup_update_dfl_csses
+.BI "(struct cgroup *cgrp "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+root of the subtree to update csses for
+.SH "DESCRIPTION"
+\fIcgrp\fP's control masks have changed and its subtree's css associations
+need to be updated accordingly.  This function looks up all css_sets
+which are attached to the subtree, creates the matching updated css_sets
+and migrates the tasks to the new ones.

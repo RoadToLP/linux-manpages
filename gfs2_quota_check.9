@@ -1,0 +1,28 @@
+.TH "gfs2_quota_check" 9 "gfs2_quota_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_quota_check \- check if allocating new blocks will exceed quota
+.SH SYNOPSIS
+.B "int" gfs2_quota_check
+.BI "(struct gfs2_inode *ip "  ","
+.BI "kuid_t uid "  ","
+.BI "kgid_t gid "  ","
+.BI "struct gfs2_alloc_parms *ap "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+The inode for which this check is being performed
+.IP "uid" 12
+The uid to check against
+.IP "gid" 12
+The gid to check against
+.IP "ap" 12
+The allocation parameters. ap->target contains the requested
+blocks. ap->min_target, if set, contains the minimum blks
+requested.
+.SH "RETURN"
+0 on success.
+min_req = ap->min_target ? ap->min_target : ap->target;
+quota must allow at least min_req blks for success and
+ap->allowed is set to the number of blocks allowed
+
+-EDQUOT otherwise, quota violation. ap->allowed is set to number
+of blocks available.

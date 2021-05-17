@@ -1,0 +1,17 @@
+.TH "skb_condense" 9 "skb_condense" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_condense \- try to get rid of fragments/frag_list if possible
+.SH SYNOPSIS
+.B "void" skb_condense
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer
+.SH "DESCRIPTION"
+Can be used to save memory before skb is added to a busy queue.
+If packet has bytes in frags and enough tail room in skb->head,
+pull all of them, so that we can free the frags right now and adjust
+truesize.
+.SH "NOTES"
+We do not reallocate skb->head thus can not fail.
+Caller must re-evaluate skb->truesize if needed.

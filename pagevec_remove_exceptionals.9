@@ -1,0 +1,14 @@
+.TH "pagevec_remove_exceptionals" 9 "pagevec_remove_exceptionals" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pagevec_remove_exceptionals \- pagevec exceptionals pruning
+.SH SYNOPSIS
+.B "void" pagevec_remove_exceptionals
+.BI "(struct pagevec *pvec "  ");"
+.SH ARGUMENTS
+.IP "pvec" 12
+The pagevec to prune
+.SH "DESCRIPTION"
+\fBfind_get_entries\fP fills both pages and XArray value entries (aka
+exceptional entries) into the pagevec.  This function prunes all
+exceptionals from \fIpvec\fP without leaving holes, so that it can be
+passed on to page-only pagevec operations.

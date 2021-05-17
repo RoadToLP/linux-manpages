@@ -1,0 +1,30 @@
+.TH "drm_gem_fb_init_with_funcs" 9 "drm_gem_fb_init_with_funcs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fb_init_with_funcs \- Helper function for implementing &drm_mode_config_funcs.fb_create callback in cases when the driver allocates a subclass of struct drm_framebuffer
+.SH SYNOPSIS
+.B "int" drm_gem_fb_init_with_funcs
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_file *file "  ","
+.BI "const struct drm_mode_fb_cmd2 *mode_cmd "  ","
+.BI "const struct drm_framebuffer_funcs *funcs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "fb" 12
+framebuffer object
+.IP "file" 12
+DRM file that holds the GEM handle(s) backing the framebuffer
+.IP "mode_cmd" 12
+Metadata from the userspace framebuffer creation request
+.IP "funcs" 12
+vtable to be used for the new framebuffer object
+.SH "DESCRIPTION"
+This function can be used to set \fIdrm_framebuffer_funcs\fP for drivers that need
+custom framebuffer callbacks. Use \fBdrm_gem_fb_create\fP if you don't need to
+change \fIdrm_framebuffer_funcs\fP. The function does buffer size validation.
+The buffer size validation is for a general case, though, so users should
+pay attention to the checks being appropriate for them or, at least,
+non-conflicting.
+.SH "RETURN"
+Zero or a negative error code.

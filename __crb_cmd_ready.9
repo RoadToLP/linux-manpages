@@ -1,0 +1,21 @@
+.TH "__crb_cmd_ready" 9 "__crb_cmd_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__crb_cmd_ready \- request tpm crb device to enter ready state
+.SH SYNOPSIS
+.B "int" __crb_cmd_ready
+.BI "(struct device *dev "  ","
+.BI "struct crb_priv *priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+crb device
+.IP "priv" 12
+crb private data
+.SH "DESCRIPTION"
+Write CRB_CTRL_REQ_CMD_READY to TPM_CRB_CTRL_REQ
+and poll till the device acknowledge it by clearing the bit.
+The device should respond within TIMEOUT_C.
+
+The function does nothing for devices with ACPI-start method
+or SMC-start method.
+.SH "RETURN"
+0 on success -ETIME on timeout;

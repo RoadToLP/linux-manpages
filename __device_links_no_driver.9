@@ -1,0 +1,17 @@
+.TH "__device_links_no_driver" 9 "__device_links_no_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__device_links_no_driver \- Update links of a device without a driver.
+.SH SYNOPSIS
+.B "void" __device_links_no_driver
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device without a drvier.
+.SH "DESCRIPTION"
+Delete all non-persistent links from this device to any suppliers.
+
+Persistent links stay around, but their status is changed to "available",
+unless they already are in the "supplier unbind in progress" state in which
+case they need not be updated.
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

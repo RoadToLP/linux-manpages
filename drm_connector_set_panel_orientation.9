@@ -1,0 +1,24 @@
+.TH "drm_connector_set_panel_orientation" 9 "drm_connector_set_panel_orientation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_set_panel_orientation \- sets the connector's panel_orientation
+.SH SYNOPSIS
+.B "int" drm_connector_set_panel_orientation
+.BI "(struct drm_connector *connector "  ","
+.BI "enum drm_panel_orientation panel_orientation "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+connector for which to set the panel-orientation property.
+.IP "panel_orientation" 12
+drm_panel_orientation value to set
+.SH "DESCRIPTION"
+This function sets the connector's panel_orientation and attaches
+a "panel orientation" property to the connector.
+
+Calling this function on a connector where the panel_orientation has
+already been set is a no-op (e.g. the orientation has been overridden with
+a kernel commandline option).
+
+It is allowed to call this function with a panel_orientation of
+DRM_MODE_PANEL_ORIENTATION_UNKNOWN, in which case it is a no-op.
+.SH "RETURN"
+Zero on success, negative errno on failure.

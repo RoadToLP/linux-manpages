@@ -1,0 +1,20 @@
+.TH "gsm_control_modem" 9 "gsm_control_modem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_control_modem \- modem status received
+.SH SYNOPSIS
+.B "void" gsm_control_modem
+.BI "(struct gsm_mux *gsm "  ","
+.BI "const u8 *data "  ","
+.BI "int clen "  ");"
+.SH ARGUMENTS
+.IP "gsm" 12
+GSM channel
+.IP "data" 12
+data following command
+.IP "clen" 12
+command length
+
+We have received a modem status control message. This is used by
+the GSM mux protocol to pass virtual modem line status and optionally
+to indicate break signals. Unpack it, convert to Linux representation
+and if need be stuff a break message down the tty.

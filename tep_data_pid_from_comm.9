@@ -1,0 +1,22 @@
+.TH "tep_data_pid_from_comm" 9 "tep_data_pid_from_comm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_data_pid_from_comm \- return the pid from a given comm
+.SH SYNOPSIS
+.B "struct tep_cmdline *" tep_data_pid_from_comm
+.BI "(struct tep_handle *tep "  ","
+.BI "const char *comm "  ","
+.BI "struct tep_cmdline *next "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+a handle to the trace event parser context
+.IP "comm" 12
+the cmdline to find the pid from
+.IP "next" 12
+the cmdline structure to find the next comm
+.SH "DESCRIPTION"
+This returns the cmdline structure that holds a pid for a given
+comm, or NULL if none found. As there may be more than one pid for
+a given comm, the result of this call can be passed back into
+a recurring call in the \fInext\fP parameter, and then it will find the
+next pid.
+Also, it does a linear search, so it may be slow.

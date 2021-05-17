@@ -1,0 +1,23 @@
+.TH "lpfc_sli4_abort_ulp_seq" 9 "lpfc_sli4_abort_ulp_seq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_abort_ulp_seq \- Abort assembled unsol sequence from ulp
+.SH SYNOPSIS
+.B "bool" lpfc_sli4_abort_ulp_seq
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct hbq_dmabuf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a vitural port
+.IP "dmabuf" 12
+pointer to a dmabuf that describes the FC sequence
+.SH "DESCRIPTION"
+This function tries to abort from the assembed sequence from upper level
+protocol, described by the information from basic abbort \fIdmabuf\fP. It
+checks to see whether such pending context exists at upper level protocol.
+If so, it shall clean up the pending context.
+
+Return
+true  -- if there is matching pending context of the sequence cleaned
+at ulp;
+false -- if there is no matching pending context of the sequence present
+at ulp.

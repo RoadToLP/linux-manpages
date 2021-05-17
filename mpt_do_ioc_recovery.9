@@ -1,0 +1,29 @@
+.TH "mpt_do_ioc_recovery" 9 "mpt_do_ioc_recovery" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_do_ioc_recovery \- Initialize or recover MPT adapter.
+.SH SYNOPSIS
+.B "int" mpt_do_ioc_recovery
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "u32 reason "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT adapter structure
+.IP "reason" 12
+Event word / reason
+.IP "sleepFlag" 12
+Use schedule if CAN_SLEEP else use udelay.
+
+This routine performs all the steps necessary to bring the IOC
+to a OPERATIONAL state.
+
+This routine also pre-fetches the LAN MAC address of a Fibre Channel
+MPT adapter.
+.SH "RETURN"
+0 for success
+-1 if failed to get board READY
+-2 if READY but IOCFacts Failed
+-3 if READY but PrimeIOCFifos Failed
+-4 if READY but IOCInit Failed
+-5 if failed to enable_device and/or request_selected_regions
+-6 if failed to upload firmware

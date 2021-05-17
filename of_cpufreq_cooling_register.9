@@ -1,0 +1,24 @@
+.TH "of_cpufreq_cooling_register" 9 "of_cpufreq_cooling_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_cpufreq_cooling_register \- function to create cpufreq cooling device.
+.SH SYNOPSIS
+.B "struct thermal_cooling_device *" of_cpufreq_cooling_register
+.BI "(struct cpufreq_policy *policy "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+cpufreq policy
+.SH "DESCRIPTION"
+This interface function registers the cpufreq cooling device with the name
+"thermal-cpufreq-x". This api can support multiple instances of cpufreq
+cooling devices. Using this API, the cpufreq cooling device will be
+linked to the device tree node provided.
+
+Using this function, the cooling device will implement the power
+extensions by using a simple cpu power model.  The cpus must have
+registered their OPPs using the OPP library.
+
+It also takes into account, if property present in policy CPU node, the
+static power consumed by the cpu.
+.SH "RETURN"
+a valid struct thermal_cooling_device pointer on success,
+and NULL on failure.

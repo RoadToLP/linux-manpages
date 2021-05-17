@@ -1,0 +1,17 @@
+.TH "lpfc_release_scsi_buf_s4" 9 "lpfc_release_scsi_buf_s4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_release_scsi_buf_s4 \- Return a scsi buffer back to hba scsi buf list.
+.SH SYNOPSIS
+.B "void" lpfc_release_scsi_buf_s4
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_io_buf *psb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "psb" 12
+The scsi buffer which is being released.
+.SH "DESCRIPTION"
+This routine releases \fIpsb\fP scsi buffer by adding it to tail of \fIhdwq\fP
+io_buf_list list. For SLI4 XRI's are tied to the scsi buffer
+and cannot be reused for at least RA_TOV amount of time if it was
+aborted.

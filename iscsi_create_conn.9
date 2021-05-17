@@ -1,0 +1,24 @@
+.TH "iscsi_create_conn" 9 "iscsi_create_conn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_create_conn \- create iscsi class connection
+.SH SYNOPSIS
+.B "struct iscsi_cls_conn *" iscsi_create_conn
+.BI "(struct iscsi_cls_session *session "  ","
+.BI "int dd_size "  ","
+.BI "uint32_t cid "  ");"
+.SH ARGUMENTS
+.IP "session" 12
+iscsi cls session
+.IP "dd_size" 12
+private driver data size
+.IP "cid" 12
+connection id
+.SH "DESCRIPTION"
+This can be called from a LLD or iscsi_transport. The connection
+is child of the session so cid must be unique for all connections
+on the session.
+
+Since we do not support MCS, cid will normally be zero. In some cases
+for software iscsi we could be trying to preallocate a connection struct
+in which case there could be two connection structs and cid would be
+non-zero.

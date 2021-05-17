@@ -1,0 +1,16 @@
+.TH "i2400m_get_device_info" 9 "i2400m_get_device_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2400m_get_device_info \- Query the device for detailed device information
+.SH SYNOPSIS
+.B "struct sk_buff *" i2400m_get_device_info
+.BI "(struct i2400m *i2400m "  ");"
+.SH ARGUMENTS
+.IP "i2400m" 12
+device descriptor
+.SH "RETURN"
+an skb whose skb->data points to a 'struct
+i2400m_tlv_detailed_device_info'. When done, \fBkfree_skb\fP it. The
+skb is *guaranteed* to contain the whole TLV data structure.
+
+On error, IS_ERR(skb) is true and ERR_PTR(skb) is the error
+code.

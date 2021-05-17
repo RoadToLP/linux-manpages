@@ -1,0 +1,23 @@
+.TH "lpfc_soft_wwpn_store" 9 "lpfc_soft_wwpn_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_soft_wwpn_store \- Set the ww port name of the adapter
+.SH SYNOPSIS
+.B "ssize_t" lpfc_soft_wwpn_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+contains the wwpn in hexadecimal.
+.IP "count" 12
+number of wwpn bytes in buf
+.SH "RETURN"
+-EACCES hba reset not enabled, adapter over temp
+-EINVAL soft wwn not enabled, count is invalid, invalid wwpn byte invalid
+-EIO error taking adapter offline or online
+value of count on success

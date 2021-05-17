@@ -1,0 +1,17 @@
+.TH "comedi_dev_put" 9 "comedi_dev_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_dev_put \- Release a use of a COMEDI device
+.SH SYNOPSIS
+.B "int" comedi_dev_put
+.BI "(struct comedi_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.SH "DESCRIPTION"
+Must be called when a user of a COMEDI device is finished with it.
+When the last user of the COMEDI device calls this function, the
+COMEDI device is destroyed.
+.SH "RETURN"
+1 if the COMEDI device is destroyed by this call or \fIdev\fP is
+NULL, otherwise return 0.  Callers must not assume the COMEDI
+device is still valid if this function returns 0.

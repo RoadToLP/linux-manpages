@@ -1,0 +1,24 @@
+.TH "blk_crypto_fallback_bio_prep" 9 "blk_crypto_fallback_bio_prep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_crypto_fallback_bio_prep \- Prepare a bio to use fallback en/decryption
+.SH SYNOPSIS
+.B "bool" blk_crypto_fallback_bio_prep
+.BI "(struct bio **bio_ptr "  ");"
+.SH ARGUMENTS
+.IP "bio_ptr" 12
+pointer to the bio to prepare
+.SH "DESCRIPTION"
+If bio is doing a WRITE operation, this splits the bio into two parts if it's
+too big (see blk_crypto_split_bio_if_needed). It then allocates a bounce bio
+for the first part, encrypts it, and update bio_ptr to point to the bounce
+bio.
+
+For a READ operation, we mark the bio for decryption by using bi_private and
+bi_end_io.
+
+In either case, this function will make the bio look like a regular bio (i.e.
+as if no encryption context was ever specified) for the purposes of the rest
+of the stack except for blk-integrity (blk-integrity and blk-crypto are not
+currently supported together).
+.SH "RETURN"
+true on success. Sets bio->bi_status and returns false on error.

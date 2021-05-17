@@ -1,0 +1,38 @@
+.TH "dwc3_gadget_start_config" 9 "dwc3_gadget_start_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc3_gadget_start_config \- configure ep resources
+.SH SYNOPSIS
+.B "int" dwc3_gadget_start_config
+.BI "(struct dwc3_ep *dep "  ");"
+.SH ARGUMENTS
+.IP "dep" 12
+endpoint that is being enabled
+.SH "DESCRIPTION"
+Issue a DWC3_DEPCMD_DEPSTARTCFG command to \fIdep\fP. After the command's
+completion, it will set Transfer Resource for all available endpoints.
+
+The assignment of transfer resources cannot perfectly follow the data book
+due to the fact that the controller driver does not have all knowledge of the
+configuration in advance. It is given this information piecemeal by the
+composite gadget framework after every SET_CONFIGURATION and
+SET_INTERFACE. Trying to follow the databook programming model in this
+scenario can cause errors. For two reasons:
+
+1) The databook says to do DWC3_DEPCMD_DEPSTARTCFG for every
+USB_REQ_SET_CONFIGURATION and USB_REQ_SET_INTERFACE (8.1.5). This is
+incorrect in the scenario of multiple interfaces.
+
+2) The databook does not mention doing more DWC3_DEPCMD_DEPXFERCFG for new
+endpoint on alt setting (8.1.6).
+
+The following simplified method is used instead:
+
+All hardware endpoints can be assigned a transfer resource and this setting
+will stay persistent until either a core reset or hibernation. So whenever we
+do a DWC3_DEPCMD_DEPSTARTCFG(0) we can go ahead and do
+DWC3_DEPCMD_DEPXFERCFG for every hardware endpoint as well. We are
+guaranteed that there are as many transfer resources as endpoints.
+
+This function is called for each endpoint when it is being enabled but is
+triggered only when called for EP0-out, which always happens first, and which
+should only happen in one of the above conditions.

@@ -1,0 +1,22 @@
+.TH "ata_wait_after_reset" 9 "ata_wait_after_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_wait_after_reset \- wait for link to become ready after reset
+.SH SYNOPSIS
+.B "int" ata_wait_after_reset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned long deadline "  ","
+.BI "int (*check_ready)(struct ata_link *link) "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link to be waited on
+.IP "deadline" 12
+deadline jiffies for the operation
+.IP "check_ready" 12
+callback to check link readiness
+
+Wait for \fIlink\fP to become ready after reset.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+0 if \fIlink\fP is ready before \fIdeadline\fP; otherwise, -errno.

@@ -1,0 +1,19 @@
+.TH "ir_raw_event_store_with_filter" 9 "ir_raw_event_store_with_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_raw_event_store_with_filter \- pass next pulse/space to decoders with some processing
+.SH SYNOPSIS
+.B "int" ir_raw_event_store_with_filter
+.BI "(struct rc_dev *dev "  ","
+.BI "struct ir_raw_event *ev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct rc_dev device descriptor
+.IP "ev" 12
+the event that has occurred
+.SH "DESCRIPTION"
+This routine (which may be called from an interrupt context) works
+in similar manner to ir_raw_event_store_edge.
+This routine is intended for devices with limited internal buffer
+It automerges samples of same type, and handles timeouts. Returns non-zero
+if the event was added, and zero if the event was ignored due to idle
+processing.

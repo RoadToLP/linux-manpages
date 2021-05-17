@@ -1,0 +1,27 @@
+.TH "config_ep_by_speed" 9 "config_ep_by_speed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+config_ep_by_speed \- configures the given endpoint according to gadget speed.
+.SH SYNOPSIS
+.B "int" config_ep_by_speed
+.BI "(struct usb_gadget *g "  ","
+.BI "struct usb_function *f "  ","
+.BI "struct usb_ep *_ep "  ");"
+.SH ARGUMENTS
+.IP "g" 12
+pointer to the gadget
+.IP "f" 12
+usb function
+.IP "_ep" 12
+the endpoint to configure
+.SH "RETURN"
+error code, 0 on success
+.SH "DESCRIPTION"
+This function chooses the right descriptors for a given
+endpoint according to gadget speed and saves it in the
+endpoint desc field. If the endpoint already has a descriptor
+assigned to it - overwrites it with currently corresponding
+descriptor. The endpoint maxpacket field is updated according
+to the chosen descriptor.
+.SH "NOTE"
+the supplied function should hold all the descriptors
+for supported speeds

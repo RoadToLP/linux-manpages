@@ -1,0 +1,23 @@
+.TH "drm_gem_fb_afbc_init" 9 "drm_gem_fb_afbc_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_fb_afbc_init \- Helper function for drivers using afbc to fill and validate all the afbc-specific struct drm_afbc_framebuffer members
+.SH SYNOPSIS
+.B "int" drm_gem_fb_afbc_init
+.BI "(struct drm_device *dev "  ","
+.BI "const struct drm_mode_fb_cmd2 *mode_cmd "  ","
+.BI "struct drm_afbc_framebuffer *afbc_fb "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "mode_cmd" 12
+Metadata from the userspace framebuffer creation request
+.IP "afbc_fb" 12
+afbc framebuffer
+.SH "DESCRIPTION"
+This function can be used by drivers which support afbc to complete
+the preparation of struct drm_afbc_framebuffer. It must be called after
+allocating the said struct and calling \fBdrm_gem_fb_init_with_funcs\fP.
+It is caller's responsibility to put afbc_fb->base.obj objects in case
+the call is unsuccessful.
+.SH "RETURN"
+Zero on success or a negative error value on failure.

@@ -1,0 +1,25 @@
+.TH "i2c_parse_fw_timings" 9 "i2c_parse_fw_timings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_parse_fw_timings \- get I2C related timing parameters from firmware
+.SH SYNOPSIS
+.B "void" i2c_parse_fw_timings
+.BI "(struct device *dev "  ","
+.BI "struct i2c_timings *t "  ","
+.BI "bool use_defaults "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device to scan for I2C timing properties
+.IP "t" 12
+the i2c_timings struct to be filled with values
+.IP "use_defaults" 12
+bool to use sane defaults derived from the I2C specification
+when properties are not found, otherwise don't update
+.SH "DESCRIPTION"
+Scan the device for the generic I2C properties describing timing parameters
+for the signal and fill the given struct with the results. If a property was
+not found and use_defaults was true, then maximum timings are assumed which
+are derived from the I2C specification. If use_defaults is not used, the
+results will be as before, so drivers can apply their own defaults before
+calling this helper. The latter is mainly intended for avoiding regressions
+of existing drivers which want to switch to this function. New drivers
+almost always should use the defaults.

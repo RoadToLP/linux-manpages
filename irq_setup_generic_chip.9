@@ -1,0 +1,25 @@
+.TH "irq_setup_generic_chip" 9 "irq_setup_generic_chip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_setup_generic_chip \- Setup a range of interrupts with a generic chip
+.SH SYNOPSIS
+.B "void" irq_setup_generic_chip
+.BI "(struct irq_chip_generic *gc "  ","
+.BI "u32 msk "  ","
+.BI "enum irq_gc_flags flags "  ","
+.BI "unsigned int clr "  ","
+.BI "unsigned int set "  ");"
+.SH ARGUMENTS
+.IP "gc" 12
+Generic irq chip holding all data
+.IP "msk" 12
+Bitmask holding the irqs to initialize relative to gc->irq_base
+.IP "flags" 12
+Flags for initialization
+.IP "clr" 12
+IRQ_* bits to clear
+.IP "set" 12
+IRQ_* bits to set
+.SH "DESCRIPTION"
+Set up max. 32 interrupts starting from gc->irq_base. Note, this
+initializes all interrupts to the primary irq_chip_type and its
+associated handler.

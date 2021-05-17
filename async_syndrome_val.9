@@ -1,0 +1,35 @@
+.TH "async_syndrome_val" 9 "async_syndrome_val" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+async_syndrome_val \- asynchronously validate a raid6 syndrome
+.SH SYNOPSIS
+.B "struct dma_async_tx_descriptor *" async_syndrome_val
+.BI "(struct page **blocks "  ","
+.BI "unsigned int *offsets "  ","
+.BI "int disks "  ","
+.BI "size_t len "  ","
+.BI "enum sum_check_flags *pqres "  ","
+.BI "struct page *spare "  ","
+.BI "unsigned int s_off "  ","
+.BI "struct async_submit_ctl *submit "  ");"
+.SH ARGUMENTS
+.IP "blocks" 12
+source blocks from idx 0..disks-3, P \fI\fP disks-2 and Q \fI\fP disks-1
+.IP "offsets" 12
+-- undescribed --
+.IP "disks" 12
+number of blocks (including missing P or Q, see below)
+.IP "len" 12
+length of operation in bytes
+.IP "pqres" 12
+on val failure SUM_CHECK_P_RESULT and/or SUM_CHECK_Q_RESULT are set
+.IP "spare" 12
+temporary result buffer for the synchronous case
+.IP "s_off" 12
+spare buffer page offset
+.IP "submit" 12
+submission / completion modifiers
+.SH "DESCRIPTION"
+The same notes from async_gen_syndrome apply to the 'blocks',
+and 'disks' parameters of this routine.  The synchronous path
+requires a temporary result buffer and submit->scribble to be
+specified.

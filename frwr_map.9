@@ -1,0 +1,30 @@
+.TH "frwr_map" 9 "frwr_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+frwr_map \- Register a memory region
+.SH SYNOPSIS
+.B "struct rpcrdma_mr_seg *" frwr_map
+.BI "(struct rpcrdma_xprt *r_xprt "  ","
+.BI "struct rpcrdma_mr_seg *seg "  ","
+.BI "int nsegs "  ","
+.BI "bool writing "  ","
+.BI "__be32 xid "  ","
+.BI "struct rpcrdma_mr *mr "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport
+.IP "seg" 12
+memory region co-ordinates
+.IP "nsegs" 12
+number of segments remaining
+.IP "writing" 12
+true when RDMA Write will be used
+.IP "xid" 12
+XID of RPC using the registered memory
+.IP "mr" 12
+MR to fill in
+.SH "DESCRIPTION"
+Prepare a REG_MR Work Request to register a memory region
+for remote access via RDMA READ or RDMA WRITE.
+
+Returns the next segment or a negative errno pointer.
+On success, \fImr\fP is filled in.

@@ -1,0 +1,16 @@
+.TH "psb_gtt_unpin" 9 "psb_gtt_unpin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+psb_gtt_unpin \- Drop a GTT pin requirement
+.SH SYNOPSIS
+.B "void" psb_gtt_unpin
+.BI "(struct gtt_range *gt "  ");"
+.SH ARGUMENTS
+.IP "gt" 12
+range to pin
+
+Undoes the effect of psb_gtt_pin. On the last drop the GEM object
+will be removed from the GTT which will also drop the page references
+and allow the VM to clean up or page stuff.
+
+Non GEM backed objects treat this as a no-op as they are always GTT
+backed objects.

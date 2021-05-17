@@ -1,0 +1,33 @@
+.TH "serdev_device_write" 9 "serdev_device_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serdev_device_write \- write data synchronously
+.SH SYNOPSIS
+.B "int" serdev_device_write
+.BI "(struct serdev_device *serdev "  ","
+.BI "const unsigned char *buf "  ","
+.BI "size_t count "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "serdev" 12
+serdev device
+.IP "buf" 12
+data to be written
+.IP "count" 12
+number of bytes to write
+.IP "timeout" 12
+timeout in jiffies, or 0 to wait indefinitely
+.SH "DESCRIPTION"
+Write data to the device synchronously by repeatedly calling
+\fBserdev_device_write\fP until the controller has accepted all data (unless
+interrupted by a timeout or a signal).
+
+Note that any accepted data has only been buffered by the controller; use
+\fBserdev_device_wait_until_sent\fP to make sure the controller write buffer
+has actually been emptied.
+
+Note that this function depends on \fBserdev_device_write_wakeup\fP being
+called in the serdev driver \fBwrite_wakeup\fP callback.
+.SH "RETURN"
+The number of bytes written (less than count if interrupted),
+-ETIMEDOUT or -ERESTARTSYS if interrupted before any bytes were written, or
+a negative errno on errors.

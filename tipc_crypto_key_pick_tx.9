@@ -1,0 +1,24 @@
+.TH "tipc_crypto_key_pick_tx" 9 "tipc_crypto_key_pick_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_key_pick_tx \- Pick one TX key for message decryption
+.SH SYNOPSIS
+.B "struct tipc_aead *" tipc_crypto_key_pick_tx
+.BI "(struct tipc_crypto *tx "  ","
+.BI "struct tipc_crypto *rx "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u8 tx_key "  ");"
+.SH ARGUMENTS
+.IP "tx" 12
+TX crypto handle
+.IP "rx" 12
+RX crypto handle (can be NULL)
+.IP "skb" 12
+the message skb which will be decrypted later
+.IP "tx_key" 12
+peer TX key id
+.SH "DESCRIPTION"
+This function looks up the existing TX keys and pick one which is suitable
+for the message decryption, that must be a cluster key and not used before
+on the same message (i.e. recursive).
+.SH "RETURN"
+the TX AEAD key handle in case of success, otherwise NULL

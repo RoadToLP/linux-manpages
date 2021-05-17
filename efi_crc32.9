@@ -1,0 +1,19 @@
+.TH "efi_crc32" 9 "efi_crc32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_crc32 \- EFI version of crc32 function
+.SH SYNOPSIS
+.B "u32" efi_crc32
+.BI "(const void *buf "  ","
+.BI "unsigned long len "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+buffer to calculate crc32 of
+.IP "len" 12
+length of buf
+.SH "DESCRIPTION"
+Returns EFI-style CRC32 value for \fIbuf\fP
+
+This function uses the little endian Ethernet polynomial
+but seeds the function with ~0, and xor's with ~0 at the end.
+Note, the EFI Specification, v1.02, has a reference to
+Dr. Dobbs Journal, May 1994 (actually it's in May 1992).

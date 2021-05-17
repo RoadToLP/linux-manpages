@@ -1,0 +1,16 @@
+.TH "mtrr_trim_uncached_memory" 9 "mtrr_trim_uncached_memory" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtrr_trim_uncached_memory \- trim RAM not covered by MTRRs
+.SH SYNOPSIS
+.B "int" mtrr_trim_uncached_memory
+.BI "(unsigned long end_pfn "  ");"
+.SH ARGUMENTS
+.IP "end_pfn" 12
+ending page frame number
+.SH "DESCRIPTION"
+Some buggy BIOSes don't setup the MTRRs properly for systems with certain
+memory configurations.  This routine checks that the highest MTRR matches
+the end of memory, to make sure the MTRRs having a write back type cover
+all of the memory the kernel is intending to use.  If not, it'll trim any
+memory off the end by adjusting end_pfn, removing it from the kernel's
+allocation pools, warning the user with an obnoxious message.

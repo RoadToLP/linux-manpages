@@ -1,0 +1,23 @@
+.TH "KUNIT_EXPECT_KASAN_FAIL" 9 "KUNIT_EXPECT_KASAN_FAIL" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+KUNIT_EXPECT_KASAN_FAIL \- check that the executed expression produces a KASAN report; causes a test failure otherwise. This relies on a KUnit resource named "kasan_data". Do not use this name for KUnit resources outside of KASAN tests.
+.SH SYNOPSIS
+.B "KUNIT_EXPECT_KASAN_FAIL
+.BI "(test "  ","
+.BI "expression "  ");"
+.SH ARGUMENTS
+.IP "test" 12
+-- undescribed --
+.IP "expression" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+For hardware tag-based KASAN, when a tag fault happens, tag checking is
+normally auto-disabled. When this happens, this test handler reenables
+tag checking. As tag checking can be only disabled or enabled per CPU, this
+handler disables migration (preemption).
+
+Since the compiler doesn't see that the expression can change the fail_data
+fields, it can reorder or optimize away the accesses to those fields.
+Use READ/\fBWRITE_ONCE\fP for the accesses and compiler barriers around the
+expression to prevent that.

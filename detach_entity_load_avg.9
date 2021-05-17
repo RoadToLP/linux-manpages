@@ -1,0 +1,15 @@
+.TH "detach_entity_load_avg" 9 "detach_entity_load_avg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+detach_entity_load_avg \- detach this entity from its cfs_rq load avg
+.SH SYNOPSIS
+.B "void" detach_entity_load_avg
+.BI "(struct cfs_rq *cfs_rq "  ","
+.BI "struct sched_entity *se "  ");"
+.SH ARGUMENTS
+.IP "cfs_rq" 12
+cfs_rq to detach from
+.IP "se" 12
+sched_entity to detach
+.SH "DESCRIPTION"
+Must call \fBupdate_cfs_rq_load_avg\fP before this, since we rely on
+cfs_rq->avg.last_update_time being current.

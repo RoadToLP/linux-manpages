@@ -1,0 +1,27 @@
+.TH "intel_pasid_setup_nested" 9 "intel_pasid_setup_nested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_pasid_setup_nested \- Set up PASID entry for nested translation. This could be used for guest shared virtual address. In this case, the first level page tables are used for GVA-GPA translation in the guest, second level page tables are used for GPA-HPA translation.
+.SH SYNOPSIS
+.B "int" intel_pasid_setup_nested
+.BI "(struct intel_iommu *iommu "  ","
+.BI "struct device *dev "  ","
+.BI "pgd_t *gpgd "  ","
+.BI "u32 pasid "  ","
+.BI "struct iommu_gpasid_bind_data_vtd *pasid_data "  ","
+.BI "struct dmar_domain *domain "  ","
+.BI "int addr_width "  ");"
+.SH ARGUMENTS
+.IP "iommu" 12
+IOMMU which the device belong to
+.IP "dev" 12
+Device to be set up for translation
+.IP "gpgd" 12
+FLPTPTR: First Level Page translation pointer in GPA
+.IP "pasid" 12
+PASID to be programmed in the device PASID table
+.IP "pasid_data" 12
+Additional PASID info from the guest bind request
+.IP "domain" 12
+Domain info for setting up second level page tables
+.IP "addr_width" 12
+Address width of the first level (guest)

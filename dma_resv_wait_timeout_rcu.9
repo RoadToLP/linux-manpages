@@ -1,0 +1,22 @@
+.TH "dma_resv_wait_timeout_rcu" 9 "dma_resv_wait_timeout_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_resv_wait_timeout_rcu \- Wait on reservation's objects shared and/or exclusive fences.
+.SH SYNOPSIS
+.B "long" dma_resv_wait_timeout_rcu
+.BI "(struct dma_resv *obj "  ","
+.BI "bool wait_all "  ","
+.BI "bool intr "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+the reservation object
+.IP "wait_all" 12
+if true, wait on all fences, else wait on just exclusive fence
+.IP "intr" 12
+if true, do interruptible wait
+.IP "timeout" 12
+timeout value in jiffies or zero to return immediately
+.SH "DESCRIPTION"
+RETURNS
+Returns -ERESTARTSYS if interrupted, 0 if the wait timed out, or
+greater than zer on success.

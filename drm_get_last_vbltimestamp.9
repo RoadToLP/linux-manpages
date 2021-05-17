@@ -1,0 +1,29 @@
+.TH "drm_get_last_vbltimestamp" 9 "drm_get_last_vbltimestamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_get_last_vbltimestamp \- retrieve raw timestamp for the most recent vblank interval
+.SH SYNOPSIS
+.B "bool" drm_get_last_vbltimestamp
+.BI "(struct drm_device *dev "  ","
+.BI "unsigned int pipe "  ","
+.BI "ktime_t *tvblank "  ","
+.BI "bool in_vblank_irq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "pipe" 12
+index of CRTC whose vblank timestamp to retrieve
+.IP "tvblank" 12
+Pointer to target time which should receive the timestamp
+.IP "in_vblank_irq" 12
+True when called from \fBdrm_crtc_handle_vblank\fP.  Some drivers
+need to apply some workarounds for gpu-specific vblank irq quirks
+if flag is set.
+.SH "DESCRIPTION"
+Fetches the system timestamp corresponding to the time of the most recent
+vblank interval on specified CRTC. May call into kms-driver to
+compute the timestamp with a high-precision GPU specific method.
+
+Returns zero if timestamp originates from uncorrected \fBdo_gettimeofday\fP
+call, i.e., it isn't very precisely locked to the true vblank.
+.SH "RETURN"
+True if timestamp is considered to be very precise, false otherwise.

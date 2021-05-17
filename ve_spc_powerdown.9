@@ -1,0 +1,17 @@
+.TH "ve_spc_powerdown" 9 "ve_spc_powerdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ve_spc_powerdown \- 
+.SH SYNOPSIS
+.B "void" ve_spc_powerdown
+.BI "(u32 cluster "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "cluster" 12
+mpidr[15:8] bitfield describing cluster affinity level
+.IP "enable" 12
+if true enables powerdown, if false disables it
+.SH "DESCRIPTION"
+
+Function to enable/disable cluster powerdown. Not protected by locking
+since it might be used in code paths where normal cacheable locks are not
+working. Locking must be provided by the caller to ensure atomicity.

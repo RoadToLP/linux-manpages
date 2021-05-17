@@ -1,0 +1,15 @@
+.TH "__ppp_decompress_proto" 9 "__ppp_decompress_proto" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ppp_decompress_proto \- Decompress protocol field, slim version.
+.SH SYNOPSIS
+.B "void" __ppp_decompress_proto
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+Socket buffer where protocol field should be decompressed. It must have
+at least 1 byte of head room and 1 byte of linear data. First byte of
+data must be a protocol field byte.
+.SH "DESCRIPTION"
+Decompress protocol field in PPP header if it's compressed, e.g. when
+Protocol-Field-Compression (PFC) was negotiated. No checks w.r.t. skb data
+length are done in this function.

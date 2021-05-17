@@ -1,0 +1,27 @@
+.TH "get_user_pages_fast" 9 "get_user_pages_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_user_pages_fast \- pin user pages in memory
+.SH SYNOPSIS
+.B "int" get_user_pages_fast
+.BI "(unsigned long start "  ","
+.BI "int nr_pages "  ","
+.BI "unsigned int gup_flags "  ","
+.BI "struct page **pages "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_pages" 12
+number of pages from start to pin
+.IP "gup_flags" 12
+flags modifying pin behaviour
+.IP "pages" 12
+array that receives pointers to the pages pinned.
+Should be at least nr_pages long.
+.SH "DESCRIPTION"
+Attempt to pin user pages in memory without taking mm->mmap_lock.
+If not successful, it will fall back to taking the lock and
+calling \fBget_user_pages\fP.
+
+Returns number of pages pinned. This may be fewer than the number requested.
+If nr_pages is 0 or negative, returns 0. If no pages were pinned, returns
+-errno.

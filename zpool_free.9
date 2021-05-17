@@ -1,0 +1,21 @@
+.TH "zpool_free" 9 "zpool_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_free \- Free previously allocated memory
+.SH SYNOPSIS
+.B "void" zpool_free
+.BI "(struct zpool *zpool "  ","
+.BI "unsigned long handle "  ");"
+.SH ARGUMENTS
+.IP "zpool" 12
+The zpool that allocated the memory.
+.IP "handle" 12
+The handle to the memory to free.
+.SH "DESCRIPTION"
+This frees previously allocated memory.  This does not guarantee
+that the pool will actually free memory, only that the memory
+in the pool will become available for use by the pool.
+
+Implementations must guarantee this to be thread-safe,
+however only when freeing different handles.  The same
+handle should only be freed once, and should not be used
+after freeing.

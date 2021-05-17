@@ -1,0 +1,45 @@
+.TH "kobject_add" 9 "kobject_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kobject_add \- The main kobject add function.
+.SH SYNOPSIS
+.B "int" kobject_add
+.BI "(struct kobject *kobj "  ","
+.BI "struct kobject *parent "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+the kobject to add
+.IP "parent" 12
+pointer to the parent of the kobject.
+.IP "fmt" 12
+format to name the kobject with.
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+The kobject name is set and added to the kobject hierarchy in this
+function.
+
+If \fIparent\fP is set, then the parent of the \fIkobj\fP will be set to it.
+If \fIparent\fP is NULL, then the parent of the \fIkobj\fP will be set to the
+kobject associated with the kset assigned to this kobject.  If no kset
+is assigned to the kobject, then the kobject will be located in the
+root of the sysfs tree.
+
+Note, no "add" uevent will be created with this call, the caller should set
+up all of the necessary sysfs files for the object and then call
+\fBkobject_uevent\fP with the UEVENT_ADD parameter to ensure that
+userspace is properly notified of this kobject's creation.
+.SH "RETURN"
+If this function returns an error, \fBkobject_put\fP must be
+called to properly clean up the memory associated with the
+object.  Under no instance should the kobject that is passed
+to this function be directly freed with a call to \fBkfree\fP,
+that can leak memory.
+
+If this function returns success, \fBkobject_put\fP must also be called
+in order to properly clean up the memory associated with the object.
+
+In short, once this function is called, \fBkobject_put\fP MUST be called
+when the use of the object is finished in order to properly free
+everything.

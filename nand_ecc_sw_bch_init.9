@@ -1,0 +1,22 @@
+.TH "nand_ecc_sw_bch_init" 9 "nand_ecc_sw_bch_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_ecc_sw_bch_init \- Initialize software BCH ECC engine
+.SH SYNOPSIS
+.B "int" nand_ecc_sw_bch_init
+.BI "(struct nand_device *nand "  ");"
+.SH ARGUMENTS
+.IP "nand" 12
+NAND device
+.SH "RETURN"
+a pointer to a new NAND BCH control structure, or NULL upon failure
+.SH "DESCRIPTION"
+Initialize NAND BCH error correction. \fInand.ecc\fP parameters 'step_size' and
+'bytes' are used to compute the following BCH parameters:
+m, the Galois field order
+t, the error correction capability
+'bytes' should be equal to the number of bytes required to store m * t
+bits, where m is such that 2^m - 1 > step_size * 8.
+.SH "EXAMPLE"
+to configure 4 bit correction per 512 bytes, you should pass
+step_size = 512 (thus, m = 13 is the smallest integer such that 2^m - 1 > 512 * 8)
+bytes = 7 (7 bytes are required to store m * t = 13 * 4 = 52 bits)

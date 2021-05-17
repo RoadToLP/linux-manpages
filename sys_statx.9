@@ -1,0 +1,24 @@
+.TH "sys_statx" 9 "sys_statx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_statx \- System call to get enhanced stats
+.SH SYNOPSIS
+.B "long" sys_statx
+.BI "(int dfd "  ","
+.BI "const char __user * filename "  ","
+.BI "unsigned flags "  ","
+.BI "unsigned int mask "  ","
+.BI "struct statx __user * buffer "  ");"
+.SH ARGUMENTS
+.IP "dfd" 12
+Base directory to pathwalk from *or* fd to stat.
+.IP "filename" 12
+File to stat or "" with AT_EMPTY_PATH
+.IP "flags" 12
+AT_* flags to control pathwalk.
+.IP "mask" 12
+Parts of statx struct actually required.
+.IP "buffer" 12
+Result buffer.
+.SH "DESCRIPTION"
+Note that \fBfstat\fP can be emulated by setting dfd to the fd of interest,
+supplying "" as the filename and setting AT_EMPTY_PATH in the flags.

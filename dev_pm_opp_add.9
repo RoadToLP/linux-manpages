@@ -1,0 +1,25 @@
+.TH "dev_pm_opp_add" 9 "dev_pm_opp_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_add \- Add an OPP table from a table definitions
+.SH SYNOPSIS
+.B "int" dev_pm_opp_add
+.BI "(struct device *dev "  ","
+.BI "unsigned long freq "  ","
+.BI "unsigned long u_volt "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which we do this operation
+.IP "freq" 12
+Frequency in Hz for this OPP
+.IP "u_volt" 12
+Voltage in uVolts for this OPP
+.SH "DESCRIPTION"
+This function adds an opp definition to the opp table and returns status.
+The opp is made available by default and it can be controlled using
+dev_pm_opp_enable/disable functions.
+.SH "RETURN"
+0            On success OR
+Duplicate OPPs (both freq and volt are same) and opp->available
+-EEXIST      Freq are same and volt are different OR
+Duplicate OPPs (both freq and volt are same) and !opp->available
+-ENOMEM      Memory allocation failure

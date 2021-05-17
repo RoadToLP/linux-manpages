@@ -1,0 +1,34 @@
+.TH "drm_connector_attach_content_protection_property" 9 "drm_connector_attach_content_protection_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_connector_attach_content_protection_property \- attach content protection property
+.SH SYNOPSIS
+.B "int" drm_connector_attach_content_protection_property
+.BI "(struct drm_connector *connector "  ","
+.BI "bool hdcp_content_type "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+connector to attach CP property on.
+.IP "hdcp_content_type" 12
+is HDCP Content Type property needed for connector
+.SH "DESCRIPTION"
+This is used to add support for content protection on select connectors.
+Content Protection is intentionally vague to allow for different underlying
+technologies, however it is most implemented by HDCP.
+
+When hdcp_content_type is true enum property called HDCP Content Type is
+created (if it is not already) and attached to the connector.
+
+This property is used for sending the protected content's stream type
+from userspace to kernel on selected connectors. Protected content provider
+will decide their type of their content and declare the same to kernel.
+
+Content type will be used during the HDCP 2.2 authentication.
+Content type will be set to \fIdrm_connector_state.hdcp_content_type\fP.
+
+The content protection will be set to \fIdrm_connector_state.content_protection\fP
+
+When kernel triggered content protection state change like DESIRED->ENABLED
+and ENABLED->DESIRED, will use \fBdrm_hdcp_update_content_protection\fP to update
+the content protection state of a connector.
+.SH "RETURN"
+Zero on success, negative errno on failure.

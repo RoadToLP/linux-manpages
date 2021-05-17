@@ -1,0 +1,22 @@
+.TH "__replace_page" 9 "__replace_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__replace_page \- replace page in vma by new page. based on replace_page in mm/ksm.c
+.SH SYNOPSIS
+.B "int" __replace_page
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "struct page *old_page "  ","
+.BI "struct page *new_page "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+vma that holds the pte pointing to page
+.IP "addr" 12
+address the old \fIpage\fP is mapped at
+.IP "old_page" 12
+the page we are replacing by new_page
+.IP "new_page" 12
+the modified page we replace page by
+.SH "DESCRIPTION"
+If \fInew_page\fP is NULL, only unmap \fIold_page\fP.
+
+Returns 0 on success, negative error code otherwise.

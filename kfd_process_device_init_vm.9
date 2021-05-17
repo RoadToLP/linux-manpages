@@ -1,0 +1,20 @@
+.TH "kfd_process_device_init_vm" 9 "kfd_process_device_init_vm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kfd_process_device_init_vm \- Initialize a VM for a process-device
+.SH SYNOPSIS
+.B "int" kfd_process_device_init_vm
+.BI "(struct kfd_process_device *pdd "  ","
+.BI "struct file *drm_file "  ");"
+.SH ARGUMENTS
+.IP "pdd" 12
+The process-device
+.IP "drm_file" 12
+Optional pointer to a DRM file descriptor
+.SH "DESCRIPTION"
+If \fIdrm_file\fP is specified, it will be used to acquire the VM from
+that file descriptor. If successful, the \fIpdd\fP takes ownership of
+the file descriptor.
+
+If \fIdrm_file\fP is NULL, a new VM is created.
+
+Returns 0 on success, -errno on failure.

@@ -1,0 +1,36 @@
+.TH "tep_register_event_handler" 9 "tep_register_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_register_event_handler \- register a way to parse an event
+.SH SYNOPSIS
+.B "int" tep_register_event_handler
+.BI "(struct tep_handle *tep "  ","
+.BI "int id "  ","
+.BI "const char *sys_name "  ","
+.BI "const char *event_name "  ","
+.BI "tep_event_handler_func func "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+a handle to the trace event parser context
+.IP "id" 12
+the id of the event to register
+.IP "sys_name" 12
+the system name the event belongs to
+.IP "event_name" 12
+the name of the event
+.IP "func" 12
+the function to call to parse the event information
+.IP "context" 12
+the data to be passed to \fIfunc\fP
+.SH "DESCRIPTION"
+This function allows a developer to override the parsing of
+a given event. If for some reason the default print format
+is not sufficient, this function will register a function
+for an event to be used to parse the data instead.
+
+If \fIid\fP is >= 0, then it is used to find the event.
+else \fIsys_name\fP and \fIevent_name\fP are used.
+.SH "RETURN"
+TEP_REGISTER_SUCCESS_OVERWRITE if an existing handler is overwritten
+TEP_REGISTER_SUCCESS if a new handler is registered successfully
+negative TEP_ERRNO_... in case of an error

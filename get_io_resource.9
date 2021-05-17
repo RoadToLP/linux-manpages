@@ -1,0 +1,16 @@
+.TH "get_io_resource" 9 "get_io_resource" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_io_resource \- find first node of given size not in ISA aliasing window.
+.SH SYNOPSIS
+.B "struct pci_resource *" get_io_resource
+.BI "(struct pci_resource **head "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+list to search
+.IP "size" 12
+size of node to find, must be a power of two.
+.SH "DESCRIPTION"
+This function sorts the resource list by size and then returns
+returns the first node of "size" length that is not in the ISA aliasing
+window.  If it finds a node larger than "size" it will split it up.

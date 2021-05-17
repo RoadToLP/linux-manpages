@@ -1,0 +1,17 @@
+.TH "pinctrl_ready_for_gpio_range" 9 "pinctrl_ready_for_gpio_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pinctrl_ready_for_gpio_range \- check if other GPIO pins of the same GPIO chip are in range
+.SH SYNOPSIS
+.B "bool" pinctrl_ready_for_gpio_range
+.BI "(unsigned gpio "  ");"
+.SH ARGUMENTS
+.IP "gpio" 12
+gpio pin to check taken from the global GPIO pin space
+.SH "DESCRIPTION"
+This function is complement of \fBpinctrl_match_gpio_range\fP. If the return
+value of \fBpinctrl_match_gpio_range\fP is NULL, this function could be used
+to check whether pinctrl device is ready or not. Maybe some GPIO pins
+of the same GPIO chip don't have back-end pinctrl interface.
+If the return value is true, it means that pinctrl device is ready & the
+certain GPIO pin doesn't have back-end pinctrl device. If the return value
+is false, it means that pinctrl device may not be ready.

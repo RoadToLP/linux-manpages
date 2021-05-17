@@ -1,0 +1,24 @@
+.TH "wake_q_add_safe" 9 "wake_q_add_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wake_q_add_safe \- safely queue a wakeup for 'later' waking.
+.SH SYNOPSIS
+.B "void" wake_q_add_safe
+.BI "(struct wake_q_head *head "  ","
+.BI "struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+the wake_q_head to add \fItask\fP to
+.IP "task" 12
+the task to queue for 'later' wakeup
+.SH "DESCRIPTION"
+Queue a task for later wakeup, most likely by the \fBwake_up_q\fP call in the
+same context, _HOWEVER_ this is not guaranteed, the wakeup can come
+instantly.
+
+This function must be used as-if it were \fBwake_up_process\fP; IOW the task
+must be ready to be woken at this location.
+
+This function is essentially a task-safe equivalent to \fBwake_q_add\fP. Callers
+that already hold reference to \fItask\fP can call the 'safe' version and trust
+wake_q to do the right thing depending whether or not the \fItask\fP is already
+queued for wakeup.

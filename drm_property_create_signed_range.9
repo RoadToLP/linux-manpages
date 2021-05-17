@@ -1,0 +1,31 @@
+.TH "drm_property_create_signed_range" 9 "drm_property_create_signed_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_property_create_signed_range \- create a new signed ranged property type
+.SH SYNOPSIS
+.B "struct drm_property *" drm_property_create_signed_range
+.BI "(struct drm_device *dev "  ","
+.BI "u32 flags "  ","
+.BI "const char *name "  ","
+.BI "int64_t min "  ","
+.BI "int64_t max "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "flags" 12
+flags specifying the property type
+.IP "name" 12
+name of the property
+.IP "min" 12
+minimum value of the property
+.IP "max" 12
+maximum value of the property
+.SH "DESCRIPTION"
+This creates a new generic drm property which can then be attached to a drm
+object with \fBdrm_object_attach_property\fP. The returned property object must
+be freed with \fBdrm_property_destroy\fP, which is done automatically when
+calling \fBdrm_mode_config_cleanup\fP.
+
+Userspace is allowed to set any signed integer value in the (min, max)
+range inclusive.
+.SH "RETURN"
+A pointer to the newly created property on success, NULL on failure.

@@ -1,0 +1,19 @@
+.TH "lpfc_els_abort_flogi" 9 "lpfc_els_abort_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_abort_flogi \- Abort all outstanding flogi iocbs
+.SH SYNOPSIS
+.B "int" lpfc_els_abort_flogi
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This routine aborts all the outstanding Fabric Login (FLOGI) IOCBs
+with a \fIphba\fP. This routine walks all the outstanding IOCBs on the txcmplq
+list and issues an abort IOCB commond on each outstanding IOCB that
+contains a active Fabric_DID ndlp. Note that this function is to issue
+the abort IOCB command on all the outstanding IOCBs, thus when this
+function returns, it does not guarantee all the IOCBs are actually aborted.
+
+Return code
+0 - Successfully issued abort iocb on all outstanding flogis (Always 0)

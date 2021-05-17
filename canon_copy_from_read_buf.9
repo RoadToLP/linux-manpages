@@ -1,0 +1,31 @@
+.TH "canon_copy_from_read_buf" 9 "canon_copy_from_read_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+canon_copy_from_read_buf \- copy read data in canonical mode
+.SH SYNOPSIS
+.B "bool" canon_copy_from_read_buf
+.BI "(struct tty_struct *tty "  ","
+.BI "unsigned char **kbp "  ","
+.BI "size_t *nr "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal device
+.IP "kbp" 12
+data
+.IP "nr" 12
+size of data
+
+Helper function for n_tty_read.  It is only called when ICANON is on;
+it copies one line of input up to and including the line-delimiting
+character into the result buffer.
+
+NB: When termios is changed from non-canonical to canonical mode and
+the read buffer contains data, \fBn_tty_set_termios\fP simulates an EOF
+push (as if C-d were input) _without_ the DISABLED_CHAR in the buffer.
+This causes data already processed as input to be immediately available
+as input although a newline has not been received.
+
+Called under the atomic_read_lock mutex
+
+\fBn_tty_read\fP/consumer path:
+caller holds non-exclusive termios_rwsem
+read_tail published

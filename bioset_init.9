@@ -1,0 +1,30 @@
+.TH "bioset_init" 9 "bioset_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bioset_init \- Initialize a bio_set
+.SH SYNOPSIS
+.B "int" bioset_init
+.BI "(struct bio_set *bs "  ","
+.BI "unsigned int pool_size "  ","
+.BI "unsigned int front_pad "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "bs" 12
+pool to initialize
+.IP "pool_size" 12
+Number of bio and bio_vecs to cache in the mempool
+.IP "front_pad" 12
+Number of bytes to allocate in front of the returned bio
+.IP "flags" 12
+Flags to modify behavior, currently BIOSET_NEED_BVECS
+and BIOSET_NEED_RESCUER
+.SH "DESCRIPTION"
+Set up a bio_set to be used with \fIbio_alloc_bioset\fP. Allows the caller
+to ask for a number of bytes to be allocated in front of the bio.
+Front pad allocation is useful for embedding the bio inside
+another structure, to avoid allocating extra data to go with the bio.
+Note that the bio must be embedded at the END of that structure always,
+or things will break badly.
+If BIOSET_NEED_BVECS is set in \fIflags\fP, a separate pool will be allocated
+for allocating iovecs.  This pool is not needed e.g. for \fBbio_clone_fast\fP.
+If BIOSET_NEED_RESCUER is set, a workqueue is created which can be used to
+dispatch queued requests when the mempool runs out of space.

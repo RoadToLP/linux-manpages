@@ -1,0 +1,18 @@
+.TH "find_alloc_undo" 9 "find_alloc_undo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_alloc_undo \- lookup (and if not present create) undo array
+.SH SYNOPSIS
+.B "struct sem_undo *" find_alloc_undo
+.BI "(struct ipc_namespace *ns "  ","
+.BI "int semid "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+namespace
+.IP "semid" 12
+semaphore array id
+.SH "DESCRIPTION"
+The function looks up (and if not present creates) the undo structure.
+The size of the undo structure depends on the size of the semaphore
+array, thus the alloc path is not that straightforward.
+Lifetime-rules: sem_undo is rcu-protected, on success, the function
+performs a \fBrcu_read_lock\fP.

@@ -1,0 +1,29 @@
+.TH "nft_pipapo_avx2_refill" 9 "nft_pipapo_avx2_refill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_avx2_refill \- Scan bitmap, select mapping table item, set bits
+.SH SYNOPSIS
+.B "int" nft_pipapo_avx2_refill
+.BI "(int offset "  ","
+.BI "unsigned long *map "  ","
+.BI "unsigned long *dst "  ","
+.BI "union nft_pipapo_map_bucket *mt "  ","
+.BI "bool last "  ");"
+.SH ARGUMENTS
+.IP "offset" 12
+Start from given bitmap (equivalent to bucket) offset, in longs
+.IP "map" 12
+Bitmap to be scanned for set bits
+.IP "dst" 12
+Destination bitmap
+.IP "mt" 12
+Mapping table containing bit set specifiers
+.IP "last" 12
+Return index of first set bit, if this is the last field
+.SH "DESCRIPTION"
+This is an alternative implementation of \fBpipapo_refill\fP suitable for usage
+with AVX2 lookup routines: we know there are four words to be scanned, at
+a given offset inside the map, for each matching iteration.
+
+This function doesn't actually use any AVX2 instruction.
+.SH "RETURN"
+first set bit index if \fIlast\fP, index of first filled word otherwise.

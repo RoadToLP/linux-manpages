@@ -1,0 +1,31 @@
+.TH "radeon_ib_schedule" 9 "radeon_ib_schedule" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_ib_schedule \- schedule an IB (Indirect Buffer) on the ring
+.SH SYNOPSIS
+.B "int" radeon_ib_schedule
+.BI "(struct radeon_device *rdev "  ","
+.BI "struct radeon_ib *ib "  ","
+.BI "struct radeon_ib *const_ib "  ","
+.BI "bool hdp_flush "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon_device pointer
+.IP "ib" 12
+IB object to schedule
+.IP "const_ib" 12
+Const IB to schedule (SI only)
+.IP "hdp_flush" 12
+Whether or not to perform an HDP cache flush
+.SH "DESCRIPTION"
+Schedule an IB on the associated ring (all asics).
+Returns 0 on success, error on failure.
+
+On SI, there are two parallel engines fed from the primary ring,
+the CE (Constant Engine) and the DE (Drawing Engine).  Since
+resource descriptors have moved to memory, the CE allows you to
+prime the caches while the DE is updating register state so that
+the resource descriptors will be already in cache when the draw is
+processed.  To accomplish this, the userspace driver submits two
+IBs, one for the CE and one for the DE.  If there is a CE IB (called
+a CONST_IB), it will be put on the ring prior to the DE IB.  Prior
+to SI there was just a DE IB.

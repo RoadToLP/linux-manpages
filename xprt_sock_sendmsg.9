@@ -1,0 +1,28 @@
+.TH "xprt_sock_sendmsg" 9 "xprt_sock_sendmsg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_sock_sendmsg \- write an xdr_buf directly to a socket
+.SH SYNOPSIS
+.B "int" xprt_sock_sendmsg
+.BI "(struct socket *sock "  ","
+.BI "struct msghdr *msg "  ","
+.BI "struct xdr_buf *xdr "  ","
+.BI "unsigned int base "  ","
+.BI "rpc_fraghdr marker "  ","
+.BI "unsigned int *sent_p "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+open socket to send on
+.IP "msg" 12
+socket message metadata
+.IP "xdr" 12
+xdr_buf containing this request
+.IP "base" 12
+starting position in the buffer
+.IP "marker" 12
+stream record marker field
+.IP "sent_p" 12
+return the total number of bytes successfully queued for sending
+.SH "DESCRIPTION"
+Return values:
+On success, returns zero and fills in \fIsent_p\fP.
+-ENOTSOCK if  \fIsock\fP is not a struct socket.

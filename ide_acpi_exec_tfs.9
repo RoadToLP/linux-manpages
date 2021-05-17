@@ -1,0 +1,17 @@
+.TH "ide_acpi_exec_tfs" 9 "ide_acpi_exec_tfs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_acpi_exec_tfs \- get then write drive taskfile settings
+.SH SYNOPSIS
+.B "int" ide_acpi_exec_tfs
+.BI "(ide_drive_t *drive "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+the drive for which the taskfile settings should be
+written.
+.SH "DESCRIPTION"
+According to the ACPI spec this should be called after _STM
+has been evaluated for the interface. Some ACPI vendors interpret
+that as a hard requirement and modify the taskfile according
+to the Identify Drive information passed down with _STM.
+So one should really make sure to call this only after _STM has
+been executed.

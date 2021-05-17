@@ -1,0 +1,22 @@
+.TH "mux_control_try_select" 9 "mux_control_try_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mux_control_try_select \- Try to select the given multiplexer state.
+.SH SYNOPSIS
+.B "int" mux_control_try_select
+.BI "(struct mux_control *mux "  ","
+.BI "unsigned int state "  ");"
+.SH ARGUMENTS
+.IP "mux" 12
+The mux-control to request a change of state from.
+.IP "state" 12
+The new requested state.
+.SH "DESCRIPTION"
+On successfully selecting the mux-control state, it will be locked until
+\fBmux_control_deselect\fP called.
+
+Therefore, make sure to call \fBmux_control_deselect\fP when the operation is
+complete and the mux-control is free for others to use, but do not call
+\fBmux_control_deselect\fP if \fBmux_control_try_select\fP fails.
+.SH "RETURN"
+0 when the mux-control state has the requested state or a negative
+errno on error. Specifically -EBUSY if the mux-control is contended.

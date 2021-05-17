@@ -1,0 +1,20 @@
+.TH "bnx2i_process_iscsi_error" 9 "bnx2i_process_iscsi_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_process_iscsi_error \- process error notification on a given connection
+.SH SYNOPSIS
+.B "void" bnx2i_process_iscsi_error
+.BI "(struct bnx2i_hba *hba "  ","
+.BI "struct iscsi_kcqe *iscsi_err "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+adapter structure pointer
+.IP "iscsi_err" 12
+iscsi error kcqe pointer
+.SH "DESCRIPTION"
+handles iscsi error notifications from the FW. Firmware based in initial
+handshake classifies iscsi protocol / TCP rfc violation into either
+warning or error indications. If indication is of "Error" type, driver
+will initiate session recovery for that connection/session. For
+"Warning" type indication, driver will put out a system log message
+(there will be only one message for each type for the life of the
+session, this is to avoid un-necessarily overloading the system)

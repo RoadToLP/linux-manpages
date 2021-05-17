@@ -1,0 +1,35 @@
+.TH "report_iommu_fault" 9 "report_iommu_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+report_iommu_fault \- report about an IOMMU fault to the IOMMU framework
+.SH SYNOPSIS
+.B "int" report_iommu_fault
+.BI "(struct iommu_domain *domain "  ","
+.BI "struct device *dev "  ","
+.BI "unsigned long iova "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+the iommu domain where the fault has happened
+.IP "dev" 12
+the device where the fault has happened
+.IP "iova" 12
+the faulting address
+.IP "flags" 12
+mmu fault flags (e.g. IOMMU_FAULT_READ/IOMMU_FAULT_WRITE/...)
+.SH "DESCRIPTION"
+This function should be called by the low-level IOMMU implementations
+whenever IOMMU faults happen, to allow high-level users, that are
+interested in such events, to know about them.
+
+This event may be useful for several possible use cases:
+- mere logging of the event
+- dynamic TLB/PTE loading
+- if restarting of the faulting device is required
+
+Returns 0 on success and an appropriate error code otherwise (if dynamic
+PTE/TLB loading will one day be supported, implementations will be able
+to tell whether it succeeded or not according to this return value).
+
+Specifically, -ENOSYS is returned if a fault handler isn't installed
+(though fault handlers can also return -ENOSYS, in case they want to
+elicit the default behavior of the IOMMU drivers).

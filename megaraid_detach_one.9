@@ -1,0 +1,15 @@
+.TH "megaraid_detach_one" 9 "megaraid_detach_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megaraid_detach_one \- release framework resources and call LLD release routine
+.SH SYNOPSIS
+.B "void" megaraid_detach_one
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+handle for our PCI configuration space
+.SH "DESCRIPTION"
+This routine is called during driver unload. We free all the allocated
+resources and call the corresponding LLD so that it can also release all
+its resources.
+
+This routine is also called from the PCI hotplug system.

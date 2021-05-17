@@ -1,0 +1,22 @@
+.TH "write_ep0_fifo" 9 "write_ep0_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_ep0_fifo \- Send a request to control endpoint (ep0 in)
+.SH SYNOPSIS
+.B "int" write_ep0_fifo
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+control endpoint
+.IP "req" 12
+request
+.SH "CONTEXT"
+interrupt handler
+.SH "DESCRIPTION"
+Sends a request (or a part of the request) to the control endpoint (ep0 in).
+If the request doesn't fit, the remaining part will be sent from irq.
+The request is considered fully written only if either :
+- last write transferred all remaining bytes, but fifo was not fully filled
+- last write was a 0 length write
+
+Returns 1 if request fully written, 0 if request only partially sent

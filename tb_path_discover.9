@@ -1,0 +1,35 @@
+.TH "tb_path_discover" 9 "tb_path_discover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_path_discover \- Discover a path
+.SH SYNOPSIS
+.B "struct tb_path *" tb_path_discover
+.BI "(struct tb_port *src "  ","
+.BI "int src_hopid "  ","
+.BI "struct tb_port *dst "  ","
+.BI "int dst_hopid "  ","
+.BI "struct tb_port **last "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+First input port of a path
+.IP "src_hopid" 12
+Starting HopID of a path (-1 if don't care)
+.IP "dst" 12
+Expected destination port of the path (NULL if don't care)
+.IP "dst_hopid" 12
+HopID to the \fIdst\fP (-1 if don't care)
+.IP "last" 12
+Last port is filled here if not NULL
+.IP "name" 12
+Name of the path
+.SH "DESCRIPTION"
+Follows a path starting from \fIsrc\fP and \fIsrc_hopid\fP to the last output
+port of the path. Allocates HopIDs for the visited ports. Call
+\fBtb_path_free\fP to release the path and allocated HopIDs when the path
+is not needed anymore.
+
+Note function discovers also incomplete paths so caller should check
+that the \fIdst\fP port is the expected one. If it is not, the path can be
+cleaned up by calling \fBtb_path_deactivate\fP before \fBtb_path_free\fP.
+.SH "RETURN"
+Discovered path on success, NULL in case of failure

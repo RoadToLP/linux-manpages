@@ -1,0 +1,19 @@
+.TH "gmap_find_shadow" 9 "gmap_find_shadow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_find_shadow \- find a specific asce in the list of shadow tables
+.SH SYNOPSIS
+.B "struct gmap *" gmap_find_shadow
+.BI "(struct gmap *parent "  ","
+.BI "unsigned long asce "  ","
+.BI "int edat_level "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+pointer to the parent gmap
+.IP "asce" 12
+ASCE for which the shadow table is created
+.IP "edat_level" 12
+edat level to be used for the shadow translation
+.SH "DESCRIPTION"
+Returns the pointer to a gmap if a shadow table with the given asce is
+already available, ERR_PTR(-EAGAIN) if another one is just being created,
+otherwise NULL

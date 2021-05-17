@@ -1,0 +1,18 @@
+.TH "fsverity_prepare_hash_state" 9 "fsverity_prepare_hash_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_prepare_hash_state \- precompute the initial hash state
+.SH SYNOPSIS
+.B "const u8 *" fsverity_prepare_hash_state
+.BI "(struct fsverity_hash_alg *alg "  ","
+.BI "const u8 *salt "  ","
+.BI "size_t salt_size "  ");"
+.SH ARGUMENTS
+.IP "alg" 12
+hash algorithm
+.IP "salt" 12
+a salt which is to be prepended to all data to be hashed
+.IP "salt_size" 12
+salt size in bytes, possibly 0
+.SH "RETURN"
+NULL if the salt is empty, otherwise the \fBkmalloc\fP'ed precomputed
+initial hash state on success or an \fBERR_PTR\fP on failure.

@@ -1,0 +1,17 @@
+.TH "ata_eh_analyze_ncq_error" 9 "ata_eh_analyze_ncq_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_analyze_ncq_error \- analyze NCQ error
+.SH SYNOPSIS
+.B "void" ata_eh_analyze_ncq_error
+.BI "(struct ata_link *link "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to analyze NCQ error for
+
+Read log page 10h, determine the offending qc and acquire
+error status TF.  For NCQ device errors, all LLDDs have to do
+is setting AC_ERR_DEV in ehi->err_mask.  This function takes
+care of the rest.
+
+LOCKING:
+Kernel thread context (may sleep).

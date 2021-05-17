@@ -1,0 +1,26 @@
+.TH "cap_capable" 9 "cap_capable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_capable \- Determine whether a task has a particular effective capability
+.SH SYNOPSIS
+.B "int" cap_capable
+.BI "(const struct cred *cred "  ","
+.BI "struct user_namespace *targ_ns "  ","
+.BI "int cap "  ","
+.BI "unsigned int opts "  ");"
+.SH ARGUMENTS
+.IP "cred" 12
+The credentials to use
+.IP "targ_ns" 12
+-- undescribed --
+.IP "cap" 12
+The capability to check for
+.IP "opts" 12
+Bitmask of options defined in include/linux/security.h
+.SH "DESCRIPTION"
+Determine whether the nominated task has the specified capability amongst
+its effective set, returning 0 if it does, -ve if it does not.
+
+NOTE WELL: \fBcap_has_capability\fP cannot be used like the kernel's \fBcapable\fP
+and \fBhas_capability\fP functions.  That is, it has the reverse semantics:
+\fBcap_has_capability\fP returns 0 when a task has a capability, but the
+kernel's \fBcapable\fP and \fBhas_capability\fP returns 1 for this case.

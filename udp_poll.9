@@ -1,0 +1,22 @@
+.TH "udp_poll" 9 "udp_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+udp_poll \- wait for a UDP event.
+.SH SYNOPSIS
+.B "__poll_t" udp_poll
+.BI "(struct file *file "  ","
+.BI "struct socket *sock "  ","
+.BI "poll_table *wait "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+- file struct
+.IP "sock" 12
+- socket
+.IP "wait" 12
+- poll table
+
+This is same as datagram poll, except for the special case of
+blocking sockets. If application is using a blocking fd
+and a packet with checksum error is in the queue;
+then it could get return from select indicating data available
+but then block when reading it. Add special case code
+to work around these arguably broken applications.

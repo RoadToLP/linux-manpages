@@ -1,0 +1,25 @@
+.TH "vio_cmo_balance" 9 "vio_cmo_balance" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vio_cmo_balance \- Balance entitlement among devices
+.SH SYNOPSIS
+.B "void" vio_cmo_balance
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work queue structure for this operation
+.SH "DESCRIPTION"
+Any system entitlement above the minimum needed for devices, or
+already allocated to devices, can be distributed to the devices.
+The list of devices is iterated through to recalculate the desired
+entitlement level and to determine how much entitlement above the
+minimum entitlement is allocated to devices.
+
+Small chunks of the available entitlement are given to devices until
+their requirements are fulfilled or there is no entitlement left to give.
+Upon completion sizes of the reserve and excess pools are calculated.
+
+The system minimum entitlement level is also recalculated here.
+Entitlement will be reserved for devices even after vio_bus_remove to
+accommodate reloading the driver.  The OF tree is walked to count the
+number of devices present and this will remove entitlement for devices
+that have actually left the system after having vio_bus_remove called.

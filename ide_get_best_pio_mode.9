@@ -1,0 +1,21 @@
+.TH "ide_get_best_pio_mode" 9 "ide_get_best_pio_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_get_best_pio_mode \- get PIO mode from drive
+.SH SYNOPSIS
+.B "u8" ide_get_best_pio_mode
+.BI "(ide_drive_t *drive "  ","
+.BI "u8 mode_wanted "  ","
+.BI "u8 max_mode "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+drive to consider
+.IP "mode_wanted" 12
+preferred mode
+.IP "max_mode" 12
+highest allowed mode
+
+This routine returns the recommended PIO settings for a given drive,
+based on the drive->id information and the ide_pio_blacklist[].
+
+Drive PIO mode is auto-selected if 255 is passed as mode_wanted.
+This is used by most chipset support modules when "auto-tuning".

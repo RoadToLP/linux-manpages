@@ -1,0 +1,24 @@
+.TH "__tipc_bind" 9 "__tipc_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__tipc_bind \- associate or disassocate TIPC name(s) with a socket
+.SH SYNOPSIS
+.B "int" __tipc_bind
+.BI "(struct socket *sock "  ","
+.BI "struct sockaddr *skaddr "  ","
+.BI "int alen "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+socket structure
+.IP "skaddr" 12
+socket address describing name(s) and desired operation
+.IP "alen" 12
+size of socket address data structure
+.SH "DESCRIPTION"
+Name and name sequence binding is indicated using a positive scope value;
+a negative scope value unbinds the specified name.  Specifying no name
+(i.e. a socket address length of 0) unbinds all names from the socket.
+.SH "RETURN"
+0 on success, errno otherwise
+.SH "NOTE"
+This routine doesn't need to take the socket lock since it doesn't
+access any non-constant socket information.

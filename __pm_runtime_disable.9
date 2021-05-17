@@ -1,0 +1,21 @@
+.TH "__pm_runtime_disable" 9 "__pm_runtime_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pm_runtime_disable \- Disable runtime PM of a device.
+.SH SYNOPSIS
+.B "void" __pm_runtime_disable
+.BI "(struct device *dev "  ","
+.BI "bool check_resume "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "check_resume" 12
+If set, check if there's a resume request for the device.
+.SH "DESCRIPTION"
+Increment power.disable_depth for the device and if it was zero previously,
+cancel all pending runtime PM requests for the device and wait for all
+operations in progress to complete.  The device can be either active or
+suspended after its runtime PM has been disabled.
+
+If \fIcheck_resume\fP is set and there's a resume request pending when
+\fB__pm_runtime_disable\fP is called and power.disable_depth is zero, the
+function will wake up the device before disabling its runtime PM.

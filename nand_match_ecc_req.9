@@ -1,0 +1,19 @@
+.TH "nand_match_ecc_req" 9 "nand_match_ecc_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_match_ecc_req \- meet the chip's requirement with least ECC bytes
+.SH SYNOPSIS
+.B "int" nand_match_ecc_req
+.BI "(struct nand_chip *chip "  ","
+.BI "const struct nand_ecc_caps *caps "  ","
+.BI "int oobavail "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+nand chip info structure
+.IP "caps" 12
+ECC engine caps info structure
+.IP "oobavail" 12
+OOB size that the ECC engine can use
+.SH "DESCRIPTION"
+If a chip's ECC requirement is provided, try to meet it with the least
+number of ECC bytes (i.e. with the largest number of OOB-free bytes).
+On success, the chosen ECC settings are set.

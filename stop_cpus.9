@@ -1,0 +1,35 @@
+.TH "stop_cpus" 9 "stop_cpus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stop_cpus \- stop multiple cpus
+.SH SYNOPSIS
+.B "int" stop_cpus
+.BI "(const struct cpumask *cpumask "  ","
+.BI "cpu_stop_fn_t fn "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "cpumask" 12
+cpus to stop
+.IP "fn" 12
+function to execute
+.IP "arg" 12
+argument to \fIfn\fP
+.SH "DESCRIPTION"
+Execute \fIfn\fP(\fIarg\fP) on online cpus in \fIcpumask\fP.  On each target cpu,
+\fIfn\fP is run in a process context with the highest priority
+preempting any task on the cpu and monopolizing it.  This function
+returns after all executions are complete.
+
+This function doesn't guarantee the cpus in \fIcpumask\fP stay online
+till \fIfn\fP completes.  If some cpus go down in the middle, execution
+on the cpu may happen partially or fully on different cpus.  \fIfn\fP
+should either be ready for that or the caller should ensure that
+the cpus stay online until this function completes.
+
+All \fBstop_cpus\fP calls are serialized making it safe for \fIfn\fP to wait
+for all cpus to start executing it.
+.SH "CONTEXT"
+Might sleep.
+.SH "RETURN"
+-ENOENT if \fIfn\fP(\fIarg\fP) was not executed at all because all cpus in
+\fIcpumask\fP were offline; otherwise, 0 if all executions of \fIfn\fP
+returned 0, any non zero return value if any returned non zero.

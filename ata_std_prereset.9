@@ -1,0 +1,23 @@
+.TH "ata_std_prereset" 9 "ata_std_prereset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_std_prereset \- prepare for reset
+.SH SYNOPSIS
+.B "int" ata_std_prereset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+ATA link to be reset
+.IP "deadline" 12
+deadline jiffies for the operation
+
+\fIlink\fP is about to be reset.  Initialize it.  Failure from
+prereset makes libata abort whole reset sequence and give up
+that port, so prereset should be best-effort.  It does its
+best to prepare for reset sequence but if things go wrong, it
+should just whine, not fail.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

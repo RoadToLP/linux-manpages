@@ -1,0 +1,22 @@
+.TH "xenbus_dev_fatal" 9 "xenbus_dev_fatal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xenbus_dev_fatal \- 
+.SH SYNOPSIS
+.B "void" xenbus_dev_fatal
+.BI "(struct xenbus_device *dev "  ","
+.BI "int err "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+xenbus device
+.IP "err" 12
+error to report
+.IP "fmt" 12
+error message format
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Equivalent to xenbus_dev_error(dev, err, fmt, args), followed by
+xenbus_switch_state(dev, XenbusStateClosing) to schedule an orderly
+closedown of this driver and its peer.

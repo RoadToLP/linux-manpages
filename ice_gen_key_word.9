@@ -1,0 +1,40 @@
+.TH "ice_gen_key_word" 9 "ice_gen_key_word" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_gen_key_word \- generate 16-bits of a key/mask word
+.SH SYNOPSIS
+.B "enum ice_status" ice_gen_key_word
+.BI "(u8 val "  ","
+.BI "u8 valid "  ","
+.BI "u8 dont_care "  ","
+.BI "u8 nvr_mtch "  ","
+.BI "u8 *key "  ","
+.BI "u8 *key_inv "  ");"
+.SH ARGUMENTS
+.IP "val" 12
+the value
+.IP "valid" 12
+valid bits mask (change only the valid bits)
+.IP "dont_care" 12
+don't care mask
+.IP "nvr_mtch" 12
+never match mask
+.IP "key" 12
+pointer to an array of where the resulting key portion
+.IP "key_inv" 12
+pointer to an array of where the resulting key invert portion
+.SH "DESCRIPTION"
+This function generates 16-bits from a 8-bit value, an 8-bit don't care mask
+and an 8-bit never match mask. The 16-bits of output are divided into 8 bits
+of key and 8 bits of key invert.
+
+'0' =    b01, always match a 0 bit
+'1' =    b10, always match a 1 bit
+'?' =    b11, don't care bit (always matches)
+'~' =    b00, never match bit
+
+Input:
+val:         b0  1  0  1  0  1
+dont_care:   b0  0  1  1  0  0
+never_mtch:  b0  0  0  0  1  1
+------------------------------
+Result:  key:        b01 10 11 11 00 00

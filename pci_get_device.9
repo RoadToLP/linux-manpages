@@ -1,0 +1,23 @@
+.TH "pci_get_device" 9 "pci_get_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_get_device \- begin or continue searching for a PCI device by vendor/device id
+.SH SYNOPSIS
+.B "struct pci_dev *" pci_get_device
+.BI "(unsigned int vendor "  ","
+.BI "unsigned int device "  ","
+.BI "struct pci_dev *from "  ");"
+.SH ARGUMENTS
+.IP "vendor" 12
+PCI vendor id to match, or PCI_ANY_ID to match all vendor ids
+.IP "device" 12
+PCI device id to match, or PCI_ANY_ID to match all device ids
+.IP "from" 12
+Previous PCI device found in search, or NULL for new search.
+.SH "DESCRIPTION"
+Iterates through the list of known PCI devices.  If a PCI device is
+found with a matching \fIvendor\fP and \fIdevice\fP, the reference count to the
+device is incremented and a pointer to its device structure is returned.
+Otherwise, NULL is returned.  A new search is initiated by passing NULL
+as the \fIfrom\fP argument.  Otherwise if \fIfrom\fP is not NULL, searches continue
+from next device on the global list.  The reference count for \fIfrom\fP is
+always decremented if it is not NULL.

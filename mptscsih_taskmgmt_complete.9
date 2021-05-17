@@ -1,0 +1,22 @@
+.TH "mptscsih_taskmgmt_complete" 9 "mptscsih_taskmgmt_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptscsih_taskmgmt_complete \- Registered with Fusion MPT base driver
+.SH SYNOPSIS
+.B "int" mptscsih_taskmgmt_complete
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "MPT_FRAME_HDR *mf "  ","
+.BI "MPT_FRAME_HDR *mr "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "mf" 12
+Pointer to SCSI task mgmt request frame
+.IP "mr" 12
+Pointer to SCSI task mgmt reply frame
+
+This routine is called from mptbase.c::\fBmpt_interrupt\fP at the completion
+of any SCSI task management request.
+This routine is registered with the MPT (base) driver at driver
+load/init time via the \fBmpt_register\fP API call.
+
+Returns 1 indicating alloc'd request frame ptr should be freed.

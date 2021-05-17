@@ -1,0 +1,34 @@
+.TH "hvcs_get_partner_info" 9 "hvcs_get_partner_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hvcs_get_partner_info \- Get all of the partner info for a vty-server adapter
+.SH SYNOPSIS
+.B "int" hvcs_get_partner_info
+.BI "(uint32_t unit_address "  ","
+.BI "struct list_head *head "  ","
+.BI "unsigned long *pi_buff "  ");"
+.SH ARGUMENTS
+.IP "unit_address" 12
+The unit_address of the vty-server adapter for which this
+function is fetching partner info.
+.IP "head" 12
+An initialized list_head pointer to an empty list to use to return the
+list of partner info fetched from the hypervisor to the caller.
+.IP "pi_buff" 12
+A page sized buffer pre-allocated prior to calling this function
+that is to be used to be used by firmware as an iterator to keep track
+of the partner info retrieval.
+.SH "DESCRIPTION"
+This function returns non-zero on success, or if there is no partner info.
+
+The pi_buff is pre-allocated prior to calling this function because this
+function may be called with a spin_lock held and kmalloc of a page is not
+recommended as GFP_ATOMIC.
+
+The first long of this buffer is used to store a partner unit address.  The
+second long is used to store a partner partition ID and starting at
+pi_buff[2] is the 79 character Converged Location Code (diff size than the
+unsigned longs, hence the casting mumbo jumbo you see later).
+
+Invocation of this function should always be followed by an invocation of
+\fBhvcs_free_partner_info\fP using a pointer to the SAME list head instance
+that was passed as a parameter to this function.

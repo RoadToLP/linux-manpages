@@ -1,0 +1,30 @@
+.TH "rproc_handle_carveout" 9 "rproc_handle_carveout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_handle_carveout \- handle phys contig memory allocation requests
+.SH SYNOPSIS
+.B "int" rproc_handle_carveout
+.BI "(struct rproc *rproc "  ","
+.BI "struct fw_rsc_carveout *rsc "  ","
+.BI "int offset "  ","
+.BI "int avail "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+rproc handle
+.IP "rsc" 12
+the resource entry
+.IP "offset" 12
+offset of the resource entry
+.IP "avail" 12
+size of available data (for image validation)
+.SH "DESCRIPTION"
+This function will handle firmware requests for allocation of physically
+contiguous memory regions.
+
+These request entries should come first in the firmware's resource table,
+as other firmware entries might request placing other data objects inside
+these memory regions (e.g. data/code segments, trace resource entries, ...).
+
+Allocating memory this way helps utilizing the reserved physical memory
+(e.g. CMA) more efficiently, and also minimizes the number of TLB entries
+needed to map it (in case \fIrproc\fP is using an IOMMU). Reducing the TLB
+pressure is important; it may have a substantial impact on performance.

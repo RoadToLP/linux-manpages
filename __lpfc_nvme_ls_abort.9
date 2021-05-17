@@ -1,0 +1,21 @@
+.TH "__lpfc_nvme_ls_abort" 9 "__lpfc_nvme_ls_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_nvme_ls_abort \- Generic service routine to abort a prior NVME LS request
+.SH SYNOPSIS
+.B "int" __lpfc_nvme_ls_abort
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "struct nvmefc_ls_req *pnvme_lsreq "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+The local port that issued the LS
+.IP "ndlp" 12
+The remote port the LS was sent to
+.IP "pnvme_lsreq" 12
+Pointer to LS request structure from the transport
+.SH "DESCRIPTION"
+The driver validates the ndlp, looks for the LS, and aborts the
+LS if found.
+.SH "RETURN"
+0 : if LS found and aborted
+non-zero: various error conditions in form -Exxx

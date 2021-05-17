@@ -1,0 +1,25 @@
+.TH "lock_4_inodes" 9 "lock_4_inodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lock_4_inodes \- a wrapper for locking three UBIFS inodes.
+.SH SYNOPSIS
+.B "void" lock_4_inodes
+.BI "(struct inode *inode1 "  ","
+.BI "struct inode *inode2 "  ","
+.BI "struct inode *inode3 "  ","
+.BI "struct inode *inode4 "  ");"
+.SH ARGUMENTS
+.IP "inode1" 12
+first inode
+.IP "inode2" 12
+second inode
+.IP "inode3" 12
+third inode
+.IP "inode4" 12
+fouth inode
+.SH "DESCRIPTION"
+This function is used for '\fBubifs_rename\fP' and \fIinode1\fP may be the same as
+\fIinode2\fP whereas \fIinode3\fP and \fIinode4\fP may be NULL.
+
+We do not implement any tricks to guarantee strict lock ordering, because
+VFS has already done it for us on the \fIi_mutex\fP. So this is just a simple
+wrapper function.

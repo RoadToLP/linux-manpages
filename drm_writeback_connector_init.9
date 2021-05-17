@@ -1,0 +1,36 @@
+.TH "drm_writeback_connector_init" 9 "drm_writeback_connector_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_writeback_connector_init \- Initialize a writeback connector and its properties
+.SH SYNOPSIS
+.B "int" drm_writeback_connector_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_writeback_connector *wb_connector "  ","
+.BI "const struct drm_connector_funcs *con_funcs "  ","
+.BI "const struct drm_encoder_helper_funcs *enc_helper_funcs "  ","
+.BI "const u32 *formats "  ","
+.BI "int n_formats "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "wb_connector" 12
+Writeback connector to initialize
+.IP "con_funcs" 12
+Connector funcs vtable
+.IP "enc_helper_funcs" 12
+Encoder helper funcs vtable to be used by the internal encoder
+.IP "formats" 12
+Array of supported pixel formats for the writeback engine
+.IP "n_formats" 12
+Length of the formats array
+.SH "DESCRIPTION"
+This function creates the writeback-connector-specific properties if they
+have not been already created, initializes the connector as
+type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
+values. It will also create an internal encoder associated with the
+drm_writeback_connector and set it to use the \fIenc_helper_funcs\fP vtable for
+the encoder helper.
+
+Drivers should always use this function instead of \fBdrm_connector_init\fP to
+set up writeback connectors.
+.SH "RETURN"
+0 on success, or a negative error code

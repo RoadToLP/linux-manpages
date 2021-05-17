@@ -1,0 +1,27 @@
+.TH "befs_btree_seekleaf" 9 "befs_btree_seekleaf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_btree_seekleaf \- Find the first leafnode in the btree
+.SH SYNOPSIS
+.B "int" befs_btree_seekleaf
+.BI "(struct super_block *sb "  ","
+.BI "const befs_data_stream *ds "  ","
+.BI "befs_btree_super *bt_super "  ","
+.BI "struct befs_btree_node *this_node "  ","
+.BI "befs_off_t * node_off "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "ds" 12
+Datastream containing btree
+.IP "bt_super" 12
+Pointer to the superblock of the btree
+.IP "this_node" 12
+Buffer to return the leafnode in
+.IP "node_off" 12
+Pointer to offset of current node within datastream. Modified
+by the function.
+.SH "DESCRIPTION"
+Helper function for btree traverse. Moves the current position to the
+start of the first leaf node.
+
+Also checks for an empty tree. If there are no keys, returns BEFS_BT_EMPTY.

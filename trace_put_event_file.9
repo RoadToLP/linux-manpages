@@ -1,0 +1,14 @@
+.TH "trace_put_event_file" 9 "trace_put_event_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_put_event_file \- Release a file from trace_get_event_file()
+.SH SYNOPSIS
+.B "void" trace_put_event_file
+.BI "(struct trace_event_file *file "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace event file
+.SH "DESCRIPTION"
+If a file was retrieved using \fBtrace_get_event_file\fP, this should
+be called when it's no longer needed.  It will cancel the previous
+\fBtrace_array_get\fP called by that function, and decrement the
+event's module refcount.

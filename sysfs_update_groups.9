@@ -1,0 +1,18 @@
+.TH "sysfs_update_groups" 9 "sysfs_update_groups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_update_groups \- given a directory kobject, create a bunch of attribute groups
+.SH SYNOPSIS
+.B "int" sysfs_update_groups
+.BI "(struct kobject *kobj "  ","
+.BI "const struct attribute_group **groups "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+The kobject to update the group on
+.IP "groups" 12
+The attribute groups to update, NULL terminated
+.SH "DESCRIPTION"
+This function update a bunch of attribute groups.  If an error occurs when
+updating a group, all previously updated groups will be removed together
+with already existing (not updated) attributes.
+
+Returns 0 on success or error code from sysfs_update_group on failure.

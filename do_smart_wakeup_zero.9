@@ -1,0 +1,22 @@
+.TH "do_smart_wakeup_zero" 9 "do_smart_wakeup_zero" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_smart_wakeup_zero \- wakeup all wait for zero tasks
+.SH SYNOPSIS
+.B "int" do_smart_wakeup_zero
+.BI "(struct sem_array *sma "  ","
+.BI "struct sembuf *sops "  ","
+.BI "int nsops "  ","
+.BI "struct wake_q_head *wake_q "  ");"
+.SH ARGUMENTS
+.IP "sma" 12
+semaphore array
+.IP "sops" 12
+operations that were performed
+.IP "nsops" 12
+number of operations
+.IP "wake_q" 12
+lockless wake-queue head
+.SH "DESCRIPTION"
+Checks all required queue for wait-for-zero operations, based
+on the actual changes that were performed on the semaphore array.
+The function returns 1 if at least one operation was completed successfully.

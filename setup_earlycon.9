@@ -1,0 +1,23 @@
+.TH "setup_earlycon" 9 "setup_earlycon" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setup_earlycon \- match and register earlycon console
+.SH SYNOPSIS
+.B "int" setup_earlycon
+.BI "(char *buf "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+earlycon param string
+
+Registers the earlycon console matching the earlycon specified
+in the param string \fIbuf\fP. Acceptable param strings are of the form
+<name>,io|mmio|mmio32|mmio32be,<addr>,<options>
+<name>,0x<addr>,<options>
+<name>,<options>
+<name>
+
+Only for the third form does the earlycon \fBsetup\fP method receive the
+<options> string in the 'options' parameter; all other forms set
+the parameter to NULL.
+
+Returns 0 if an attempt to register the earlycon was made,
+otherwise negative error code

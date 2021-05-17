@@ -1,0 +1,16 @@
+.TH "i40e_ptp_write" 9 "i40e_ptp_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_write \- Write the PHC time to the device
+.SH SYNOPSIS
+.B "void" i40e_ptp_write
+.BI "(struct i40e_pf *pf "  ","
+.BI "const struct timespec64 *ts "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.IP "ts" 12
+timespec structure that holds the new time value
+.SH "DESCRIPTION"
+This function writes the PRTTSYN_TIME registers with the user value. Since
+we receive a timespec from the stack, we must convert that timespec into
+nanoseconds before programming the registers.

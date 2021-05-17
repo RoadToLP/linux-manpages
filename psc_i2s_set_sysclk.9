@@ -1,0 +1,26 @@
+.TH "psc_i2s_set_sysclk" 9 "psc_i2s_set_sysclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+psc_i2s_set_sysclk \- set the clock frequency and direction
+.SH SYNOPSIS
+.B "int" psc_i2s_set_sysclk
+.BI "(struct snd_soc_dai *cpu_dai "  ","
+.BI "int clk_id "  ","
+.BI "unsigned int freq "  ","
+.BI "int dir "  ");"
+.SH ARGUMENTS
+.IP "cpu_dai" 12
+-- undescribed --
+.IP "clk_id" 12
+reserved, should be zero
+.IP "freq" 12
+the frequency of the given clock ID, currently ignored
+.IP "dir" 12
+SND_SOC_CLOCK_IN (clock slave) or SND_SOC_CLOCK_OUT (clock master)
+.SH "DESCRIPTION"
+
+This function is called by the machine driver to tell us what the clock
+frequency and direction are.
+
+Currently, we only support operating as a clock slave (SND_SOC_CLOCK_IN),
+and we don't care about the frequency.  Return an error if the direction
+is not SND_SOC_CLOCK_IN.

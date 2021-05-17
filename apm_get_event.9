@@ -1,0 +1,23 @@
+.TH "apm_get_event" 9 "apm_get_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apm_get_event \- get an APM event from the BIOS
+.SH SYNOPSIS
+.B "int" apm_get_event
+.BI "(apm_event_t *event "  ","
+.BI "apm_eventinfo_t *info "  ");"
+.SH ARGUMENTS
+.IP "event" 12
+pointer to the event
+.IP "info" 12
+point to the event information
+
+The APM BIOS provides a polled information for event
+reporting. The BIOS expects to be polled at least every second
+when events are pending. When a message is found the caller should
+poll until no more messages are present.  However, this causes
+problems on some laptops where a suspend event notification is
+not cleared until it is acknowledged.
+
+Additional information is returned in the info pointer, providing
+that APM 1.2 is in use. If no messges are pending the value 0x80
+is returned (No power management events pending).

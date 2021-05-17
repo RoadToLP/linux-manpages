@@ -1,0 +1,17 @@
+.TH "nfs_direct_IO" 9 "nfs_direct_IO" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_direct_IO \- NFS address space operation for direct I/O
+.SH SYNOPSIS
+.B "ssize_t" nfs_direct_IO
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+target I/O control block
+.IP "iter" 12
+I/O buffer
+.SH "DESCRIPTION"
+The presence of this routine in the address space ops vector means
+the NFS client supports direct I/O. However, for most direct IO, we
+shunt off direct read and write requests before the VFS gets them,
+so this method is only ever called for swap.

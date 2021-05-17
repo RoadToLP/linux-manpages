@@ -1,0 +1,23 @@
+.TH "devm_power_supply_register" 9 "devm_power_supply_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_power_supply_register \- Register managed power supply
+.SH SYNOPSIS
+.B "struct power_supply *" devm_power_supply_register
+.BI "(struct device *parent "  ","
+.BI "const struct power_supply_desc *desc "  ","
+.BI "const struct power_supply_config *cfg "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+Device to be a parent of power supply's device, usually
+the device which probe function calls this
+.IP "desc" 12
+Description of power supply, must be valid through whole
+lifetime of this power supply
+.IP "cfg" 12
+Run-time specific configuration accessed during registering,
+may be NULL
+.SH "RETURN"
+A pointer to newly allocated power_supply on success
+or ERR_PTR otherwise.
+The returned power_supply pointer will be automatically unregistered
+on driver detach.

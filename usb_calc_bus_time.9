@@ -1,0 +1,23 @@
+.TH "usb_calc_bus_time" 9 "usb_calc_bus_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_calc_bus_time \- approximate periodic transaction time in nanoseconds
+.SH SYNOPSIS
+.B "long" usb_calc_bus_time
+.BI "(int speed "  ","
+.BI "int is_input "  ","
+.BI "int isoc "  ","
+.BI "int bytecount "  ");"
+.SH ARGUMENTS
+.IP "speed" 12
+from dev->speed; USB_SPEED_{LOW,FULL,HIGH}
+.IP "is_input" 12
+true iff the transaction sends data to the host
+.IP "isoc" 12
+true for isochronous transactions, false for interrupt ones
+.IP "bytecount" 12
+how many bytes in the transaction.
+.SH "RETURN"
+Approximate bus time in nanoseconds for a periodic transaction.
+.SH "NOTE"
+See USB 2.0 spec section 5.11.3; only periodic transfers need to be
+scheduled in software, this function is only used for such scheduling.

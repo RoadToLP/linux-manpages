@@ -1,0 +1,18 @@
+.TH "nfsd_dispatch" 9 "nfsd_dispatch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfsd_dispatch \- Process an NFS or NFSACL Request
+.SH SYNOPSIS
+.B "int" nfsd_dispatch
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "__be32 *statp "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+incoming request
+.IP "statp" 12
+pointer to location of accept_stat field in RPC Reply buffer
+.SH "DESCRIPTION"
+This RPC dispatcher integrates the NFS server's duplicate reply cache.
+
+Return values:
+0: Processing complete; do not send a Reply
+1: Processing complete; send Reply in rqstp->rq_res

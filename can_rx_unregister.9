@@ -1,0 +1,26 @@
+.TH "can_rx_unregister" 9 "can_rx_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+can_rx_unregister \- unsubscribe CAN frames from a specific interface
+.SH SYNOPSIS
+.B "void" can_rx_unregister
+.BI "(struct net *net "  ","
+.BI "struct net_device *dev "  ","
+.BI "canid_t can_id "  ","
+.BI "canid_t mask "  ","
+.BI "void (*func)(struct sk_buff *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "dev" 12
+pointer to netdevice (NULL => unsubscribe from 'all' CAN devices list)
+.IP "can_id" 12
+CAN identifier
+.IP "mask" 12
+CAN mask
+.IP "func" 12
+callback function on filter match
+.IP "data" 12
+returned parameter for callback function
+.SH "DESCRIPTION"
+Removes subscription entry depending on given (subscription) values.

@@ -1,0 +1,19 @@
+.TH "drmm_kmalloc" 9 "drmm_kmalloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drmm_kmalloc \- &drm_device managed kmalloc()
+.SH SYNOPSIS
+.B "void *" drmm_kmalloc
+.BI "(struct drm_device *dev "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "size" 12
+size of the memory allocation
+.IP "gfp" 12
+GFP allocation flags
+.SH "DESCRIPTION"
+This is a \fIdrm_device\fP managed version of \fBkmalloc\fP. The allocated memory is
+automatically freed on the final \fBdrm_dev_put\fP. Memory can also be freed
+before the final \fBdrm_dev_put\fP by calling \fBdrmm_kfree\fP.

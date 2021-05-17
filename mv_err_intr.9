@@ -1,0 +1,16 @@
+.TH "mv_err_intr" 9 "mv_err_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_err_intr \- Handle error interrupts on the port
+.SH SYNOPSIS
+.B "void" mv_err_intr
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA channel to manipulate
+
+Most cases require a full reset of the chip's state machine,
+which also performs a COMRESET.
+Also, if the port disabled DMA, update our cached copy to match.
+
+LOCKING:
+Inherited from caller.

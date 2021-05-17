@@ -1,0 +1,22 @@
+.TH "iudma_write" 9 "iudma_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iudma_write \- Queue a single IUDMA transaction.
+.SH SYNOPSIS
+.B "void" iudma_write
+.BI "(struct bcm63xx_udc *udc "  ","
+.BI "struct iudma_ch *iudma "  ","
+.BI "struct bcm63xx_req *breq "  ");"
+.SH ARGUMENTS
+.IP "udc" 12
+Reference to the device controller.
+.IP "iudma" 12
+IUDMA channel to use.
+.IP "breq" 12
+Request containing the transaction data.
+.SH "DESCRIPTION"
+For RX IUDMA, this will queue a single buffer descriptor, as RX IUDMA
+does not honor SOP/EOP so the handling of multiple buffers is ambiguous.
+So \fBiudma_write\fP may be called several times to fulfill a single
+usb_request.
+
+For TX IUDMA, this can queue multiple buffer descriptors if needed.

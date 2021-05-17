@@ -1,0 +1,19 @@
+.TH "ring_buffer_wait" 9 "ring_buffer_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_wait \- wait for input to the ring buffer
+.SH SYNOPSIS
+.B "int" ring_buffer_wait
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ","
+.BI "int full "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+buffer to wait on
+.IP "cpu" 12
+the cpu buffer to wait on
+.IP "full" 12
+wait until the percentage of pages are available, if \fIcpu\fP != RING_BUFFER_ALL_CPUS
+.SH "DESCRIPTION"
+If \fIcpu\fP == RING_BUFFER_ALL_CPUS then the task will wake up as soon
+as data is added to any of the \fIbuffer\fP's cpu buffers. Otherwise
+it will wait for data to be added to a specific cpu buffer.

@@ -1,0 +1,21 @@
+.TH "bdx_tx_map_skb" 9 "bdx_tx_map_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_tx_map_skb \- creates and stores dma mappings for skb's data blocks
+.SH SYNOPSIS
+.B "void" bdx_tx_map_skb
+.BI "(struct bdx_priv *priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct txd_desc *txdd "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+NIC private structure
+.IP "skb" 12
+socket buffer to map
+.IP "txdd" 12
+TX descriptor to use
+.SH "DESCRIPTION"
+It makes dma mappings for skb's data blocks and writes them to PBL of
+new tx descriptor. It also stores them in the tx db, so they could be
+unmaped after data was sent. It is reponsibility of a caller to make
+sure that there is enough space in the tx db. Last element holds pointer
+to skb itself and marked with zero length

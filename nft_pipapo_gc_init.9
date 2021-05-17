@@ -1,0 +1,14 @@
+.TH "nft_pipapo_gc_init" 9 "nft_pipapo_gc_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_gc_init \- Initialise garbage collection
+.SH SYNOPSIS
+.B "void" nft_pipapo_gc_init
+.BI "(const struct nft_set *set "  ");"
+.SH ARGUMENTS
+.IP "set" 12
+nftables API set representation
+.SH "DESCRIPTION"
+Instead of actually setting up a periodic work for garbage collection, as
+this operation requires a swap of matching data with the working copy, we'll
+do that opportunistically with other commit operations if the interval is
+elapsed, so we just need to set the current jiffies timestamp here.

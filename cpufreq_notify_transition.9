@@ -1,0 +1,19 @@
+.TH "cpufreq_notify_transition" 9 "cpufreq_notify_transition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_notify_transition \- Notify frequency transition and adjust jiffies.
+.SH SYNOPSIS
+.B "void" cpufreq_notify_transition
+.BI "(struct cpufreq_policy *policy "  ","
+.BI "struct cpufreq_freqs *freqs "  ","
+.BI "unsigned int state "  ");"
+.SH ARGUMENTS
+.IP "policy" 12
+cpufreq policy to enable fast frequency switching for.
+.IP "freqs" 12
+contain details of the frequency update.
+.IP "state" 12
+set to CPUFREQ_PRECHANGE or CPUFREQ_POSTCHANGE.
+.SH "DESCRIPTION"
+This function calls the transition notifiers and \fBadjust_jiffies\fP.
+
+It is called twice on all CPU frequency changes that have external effects.

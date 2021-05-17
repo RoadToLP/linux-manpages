@@ -1,0 +1,29 @@
+.TH "ntfs_write_block" 9 "ntfs_write_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_write_block \- write a @page to the backing store
+.SH SYNOPSIS
+.B "int" ntfs_write_block
+.BI "(struct page *page "  ","
+.BI "struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page cache page to write out
+.IP "wbc" 12
+writeback control structure
+.SH "DESCRIPTION"
+This function is for writing pages belonging to non-resident, non-mst
+protected attributes to their backing store.
+
+For a page with buffers, map and write the dirty buffers asynchronously
+under page writeback. For a page without buffers, create buffers for the
+page, then proceed as above.
+
+If a page doesn't have buffers the page dirty state is definitive. If a page
+does have buffers, the page dirty state is just a hint, and the buffer dirty
+state is definitive. (A hint which has rules: dirty buffers against a clean
+page is illegal. Other combinations are legal and need to be handled. In
+particular a dirty page containing clean buffers for example.)
+
+Return 0 on success and -errno on error.
+
+Based on \fBntfs_read_block\fP and \fB__block_write_full_page\fP.

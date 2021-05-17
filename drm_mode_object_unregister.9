@@ -1,0 +1,18 @@
+.TH "drm_mode_object_unregister" 9 "drm_mode_object_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_object_unregister \- free a modeset identifer
+.SH SYNOPSIS
+.B "void" drm_mode_object_unregister
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_mode_object *object "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "object" 12
+object to free
+.SH "DESCRIPTION"
+Free \fIid\fP from \fIdev\fP's unique identifier pool.
+This function can be called multiple times, and guards against
+multiple removals.
+These modeset identifiers are _not_ reference counted. Hence don't use this
+for reference counted modeset objects like framebuffers.

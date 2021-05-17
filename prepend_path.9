@@ -1,0 +1,28 @@
+.TH "prepend_path" 9 "prepend_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepend_path \- Prepend path string to a buffer
+.SH SYNOPSIS
+.B "int" prepend_path
+.BI "(const struct path *path "  ","
+.BI "const struct path *root "  ","
+.BI "char **buffer "  ","
+.BI "int *buflen "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+the dentry/vfsmount to report
+.IP "root" 12
+root vfsmnt/dentry
+.IP "buffer" 12
+pointer to the end of the buffer
+.IP "buflen" 12
+pointer to buffer length
+.SH "DESCRIPTION"
+The function will first try to write out the pathname without taking any
+lock other than the RCU read lock to make sure that dentries won't go away.
+It only checks the sequence number of the global rename_lock as any change
+in the dentry's d_seq will be preceded by changes in the rename_lock
+sequence number. If the sequence number had been changed, it will restart
+the whole pathname back-tracing sequence again by taking the rename_lock.
+In this case, there is no need to take the RCU read lock as the recursive
+parent pointer references will keep the dentry chain alive as long as no
+rename operation is performed.

@@ -1,0 +1,39 @@
+.TH "vsnprintf" 9 "vsnprintf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vsnprintf \- Format a string and place it in a buffer
+.SH SYNOPSIS
+.B "int" vsnprintf
+.BI "(char *buf "  ","
+.BI "size_t size "  ","
+.BI "const char *fmt "  ","
+.BI "va_list args "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+The buffer to place the result into
+.IP "size" 12
+The size of the buffer, including the trailing null space
+.IP "fmt" 12
+The format string to use
+.IP "args" 12
+Arguments for the format string
+.SH "DESCRIPTION"
+This function generally follows C99 vsnprintf, but has some
+extensions and a few limitations:
+
+- ``n`` is unsupported
+- ``p*`` is handled by \fBpointer\fP
+
+See \fBpointer\fP or Documentation/core-api/printk-formats.rst for more
+extensive description.
+
+**Please update the documentation in both places when making changes**
+
+The return value is the number of characters which would
+be generated for the given input, excluding the trailing
+'\0', as per ISO C99. If you want to have the exact
+number of characters written into \fIbuf\fP as return value
+(not including the trailing '\0'), use \fBvscnprintf\fP. If the
+return is greater than or equal to \fIsize\fP, the resulting
+string is truncated.
+
+If you're not already dealing with a va_list consider using \fBsnprintf\fP.

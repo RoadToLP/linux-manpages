@@ -1,0 +1,27 @@
+.TH "do_smart_update" 9 "do_smart_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_smart_update \- optimized update_queue
+.SH SYNOPSIS
+.B "void" do_smart_update
+.BI "(struct sem_array *sma "  ","
+.BI "struct sembuf *sops "  ","
+.BI "int nsops "  ","
+.BI "int otime "  ","
+.BI "struct wake_q_head *wake_q "  ");"
+.SH ARGUMENTS
+.IP "sma" 12
+semaphore array
+.IP "sops" 12
+operations that were performed
+.IP "nsops" 12
+number of operations
+.IP "otime" 12
+force setting otime
+.IP "wake_q" 12
+lockless wake-queue head
+.SH "DESCRIPTION"
+\fBdo_smart_update\fP does the required calls to update_queue and wakeup_zero,
+based on the actual changes that were performed on the semaphore array.
+Note that the function does not do the actual wake-up: the caller is
+responsible for calling \fBwake_up_q\fP.
+It is safe to perform this call after dropping all locks.

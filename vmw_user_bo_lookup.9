@@ -1,0 +1,25 @@
+.TH "vmw_user_bo_lookup" 9 "vmw_user_bo_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_user_bo_lookup \- Look up a vmw user buffer object from a handle.
+.SH SYNOPSIS
+.B "int" vmw_user_bo_lookup
+.BI "(struct ttm_object_file *tfile "  ","
+.BI "uint32_t handle "  ","
+.BI "struct vmw_buffer_object **out "  ","
+.BI "struct ttm_base_object **p_base "  ");"
+.SH ARGUMENTS
+.IP "tfile" 12
+The TTM object file the handle is registered with.
+.IP "handle" 12
+The user buffer object handle
+.IP "out" 12
+Pointer to a where a pointer to the embedded
+struct vmw_buffer_object should be placed.
+.IP "p_base" 12
+Pointer to where a pointer to the TTM base object should be
+placed, or NULL if no such pointer is required.
+.SH "RETURN"
+Zero on success, Negative error code on error.
+.SH "DESCRIPTION"
+Both the output base object pointer and the vmw buffer object pointer
+will be refcounted.

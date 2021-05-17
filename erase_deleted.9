@@ -1,0 +1,14 @@
+.TH "erase_deleted" 9 "erase_deleted" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+erase_deleted \- erase the orphans marked for deletion.
+.SH SYNOPSIS
+.B "void" erase_deleted
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+During commit, the orphans being committed cannot be deleted, so they are
+marked for deletion and deleted by this function. Also, the recovery
+adds killed orphans to the deletion list, and therefore they are deleted
+here too.

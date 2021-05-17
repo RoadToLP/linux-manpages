@@ -1,0 +1,24 @@
+.TH "xdr_stream_subsegment" 9 "xdr_stream_subsegment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_stream_subsegment \- set @subbuf to a portion of @xdr
+.SH SYNOPSIS
+.B "bool" xdr_stream_subsegment
+.BI "(struct xdr_stream *xdr "  ","
+.BI "struct xdr_buf *subbuf "  ","
+.BI "unsigned int nbytes "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+an xdr_stream set up for decoding
+.IP "subbuf" 12
+the result buffer
+.IP "nbytes" 12
+length of \fIxdr\fP to extract, in bytes
+.SH "DESCRIPTION"
+Sets up \fIsubbuf\fP to represent a portion of \fIxdr\fP. The portion
+starts at the current offset in \fIxdr\fP, and extends for a length
+of \fInbytes\fP. If this is successful, \fIxdr\fP is advanced to the next
+position following that portion.
+
+Return values:
+true: \fIsubbuf\fP has been initialized, and \fIxdr\fP has been advanced.
+false: a bounds error has occurred

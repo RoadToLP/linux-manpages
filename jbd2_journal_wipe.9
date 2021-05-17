@@ -1,0 +1,19 @@
+.TH "jbd2_journal_wipe" 9 "jbd2_journal_wipe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_wipe \- Wipe journal contents
+.SH SYNOPSIS
+.B "int" jbd2_journal_wipe
+.BI "(journal_t *journal "  ","
+.BI "int write "  ");"
+.SH ARGUMENTS
+.IP "journal" 12
+Journal to act on.
+.IP "write" 12
+flag (see below)
+.SH "DESCRIPTION"
+Wipe out all of the contents of a journal, safely.  This will produce
+a warning if the journal contains any valid recovery information.
+Must be called between journal_init_*() and \fBjbd2_journal_load\fP.
+
+If 'write' is non-zero, then we wipe out the journal on disk; otherwise
+we merely suppress recovery.

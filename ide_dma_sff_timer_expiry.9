@@ -1,0 +1,18 @@
+.TH "ide_dma_sff_timer_expiry" 9 "ide_dma_sff_timer_expiry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_dma_sff_timer_expiry \- handle a DMA timeout
+.SH SYNOPSIS
+.B "int" ide_dma_sff_timer_expiry
+.BI "(ide_drive_t *drive "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+Drive that timed out
+
+An IDE DMA transfer timed out. In the event of an error we ask
+the driver to resolve the problem, if a DMA transfer is still
+in progress we continue to wait (arguably we need to add a
+secondary 'I don't care what the drive thinks' timeout here)
+Finally if we have an interrupt we let it complete the I/O.
+But only one time - we clear expiry and if it's still not
+completed after WAIT_CMD, we error and retry in PIO.
+This can occur if an interrupt is lost or due to hang or bugs.

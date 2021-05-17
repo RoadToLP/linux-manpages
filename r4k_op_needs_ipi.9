@@ -1,0 +1,19 @@
+.TH "r4k_op_needs_ipi" 9 "r4k_op_needs_ipi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r4k_op_needs_ipi \- Decide if a cache op needs to be done on every core.
+.SH SYNOPSIS
+.B "bool" r4k_op_needs_ipi
+.BI "(unsigned int type "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+Type of cache operations (R4K_HIT or R4K_INDEX).
+.SH "DESCRIPTION"
+Decides whether a cache op needs to be performed on every core in the system.
+This may change depending on the \fItype\fP of cache operation, as well as the set
+of online CPUs, so preemption should be disabled by the caller to prevent CPU
+hotplug from changing the result.
+.SH "RETURN"
+1 if the cache operation \fItype\fP should be done on every core in
+the system.
+0 if the cache operation \fItype\fP is globalized and only needs to
+be performed on a simple CPU.

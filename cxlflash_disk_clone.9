@@ -1,0 +1,19 @@
+.TH "cxlflash_disk_clone" 9 "cxlflash_disk_clone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_disk_clone \- clone a context by making snapshot of another
+.SH SYNOPSIS
+.B "int" cxlflash_disk_clone
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct dk_cxlflash_clone *clone "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN owning virtual LUN.
+.IP "clone" 12
+Clone ioctl data structure.
+.SH "DESCRIPTION"
+This routine effectively performs cxlflash_disk_open operation for each
+in-use virtual resource in the source context. Note that the destination
+context must be in pristine state and cannot have any resource handles
+open at the time of the clone.
+.SH "RETURN"
+0 on success, -errno on failure

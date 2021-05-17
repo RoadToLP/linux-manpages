@@ -1,0 +1,29 @@
+.TH "qib_setup_7220_setextled" 9 "qib_setup_7220_setextled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_setup_7220_setextled \- set the state of the two external LEDs
+.SH SYNOPSIS
+.B "void" qib_setup_7220_setextled
+.BI "(struct qib_pportdata *ppd "  ","
+.BI "u32 on "  ");"
+.SH ARGUMENTS
+.IP "ppd" 12
+the qlogic_ib device
+.IP "on" 12
+whether the link is up or not
+.SH "DESCRIPTION"
+The exact combo of LEDs if on is true is determined by looking
+at the ibcstatus.
+
+These LEDs indicate the physical and logical state of IB link.
+For this chip (at least with recommended board pinouts), LED1
+is Yellow (logical state) and LED2 is Green (physical state),
+.SH "NOTE"
+We try to match the Mellanox HCA LED behavior as best
+we can.  Green indicates physical link state is OK (something is
+plugged in, and we can train).
+Amber indicates the link is logically up (ACTIVE).
+Mellanox further blinks the amber LED to indicate data packet
+activity, but we have no hardware support for that, so it would
+require waking up every 10-20 msecs and checking the counters
+on the chip, and then turning the LED off if appropriate.  That's
+visible overhead, so not something we will do.

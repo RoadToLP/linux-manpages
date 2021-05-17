@@ -1,0 +1,17 @@
+.TH "pio_kernel_linkup" 9 "pio_kernel_linkup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pio_kernel_linkup \- Re-enable send contexts after linkup event
+.SH SYNOPSIS
+.B "void" pio_kernel_linkup
+.BI "(struct hfi1_devdata *dd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+valid devive data
+.SH "DESCRIPTION"
+When the link goes down, the freeze path is taken.  However, a link down
+event is different from a freeze because if the send context is re-enabled
+whowever is sending data will start sending data again, which will hang
+any QP that is sending data.
+
+The freeze path now looks at the type of event that occurs and takes this
+path for link down event.

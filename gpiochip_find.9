@@ -1,0 +1,18 @@
+.TH "gpiochip_find" 9 "gpiochip_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_find \- iterator for locating a specific gpio_chip
+.SH SYNOPSIS
+.B "struct gpio_chip *" gpiochip_find
+.BI "(void *data "  ","
+.BI "int (*match)(struct gpio_chip *gc, void *data) "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+data to pass to match function
+.IP "match" 12
+Callback function to check gpio_chip
+.SH "DESCRIPTION"
+Similar to bus_find_device.  It returns a reference to a gpio_chip as
+determined by a user supplied \fImatch\fP callback.  The callback should return
+0 if the device doesn't match and non-zero if it does.  If the callback is
+non-zero, this function will return to the caller and not iterate over any
+more gpio_chips.

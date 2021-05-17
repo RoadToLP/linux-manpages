@@ -1,0 +1,22 @@
+.TH "krealloc" 9 "krealloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+krealloc \- reallocate memory. The contents will remain unchanged.
+.SH SYNOPSIS
+.B "void *" krealloc
+.BI "(const void *p "  ","
+.BI "size_t new_size "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+object to reallocate memory for.
+.IP "new_size" 12
+how many bytes of memory are required.
+.IP "flags" 12
+the type of memory to allocate.
+.SH "DESCRIPTION"
+The contents of the object pointed to are preserved up to the
+lesser of the new and old sizes (__GFP_ZERO flag is effectively ignored).
+If \fIp\fP is NULL, \fBkrealloc\fP behaves exactly like \fBkmalloc\fP.  If \fInew_size\fP
+is 0 and \fIp\fP is not a NULL pointer, the object pointed to is freed.
+.SH "RETURN"
+pointer to the allocated memory or NULL in case of error

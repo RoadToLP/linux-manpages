@@ -1,0 +1,24 @@
+.TH "ubi_io_write_vid_hdr" 9 "ubi_io_write_vid_hdr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_write_vid_hdr \- write a volume identifier header.
+.SH SYNOPSIS
+.B "int" ubi_io_write_vid_hdr
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "struct ubi_vid_io_buf *vidb "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+the physical eraseblock number to write to
+.IP "vidb" 12
+the volume identifier buffer to write
+.SH "DESCRIPTION"
+This function writes the volume identifier header described by \fIvid_hdr\fP to
+physical eraseblock \fIpnum\fP. This function automatically fills the
+\fIvidb->hdr->magic\fP and the \fIvidb->hdr->version\fP fields, as well as calculates
+header CRC checksum and stores it at vidb->hdr->hdr_crc.
+
+This function returns zero in case of success and a negative error code in
+case of failure. If -EIO is returned, the physical eraseblock probably went
+bad.

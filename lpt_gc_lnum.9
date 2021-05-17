@@ -1,0 +1,19 @@
+.TH "lpt_gc_lnum" 9 "lpt_gc_lnum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpt_gc_lnum \- garbage collect a LPT LEB.
+.SH SYNOPSIS
+.B "int" lpt_gc_lnum
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number to garbage collect
+.SH "DESCRIPTION"
+LPT garbage collection is used only for the "big" LPT model
+(c->big_lpt == 1).  Garbage collection simply involves marking all the nodes
+in the LEB being garbage-collected as dirty.  The dirty nodes are written
+next commit, after which the LEB is free to be reused.
+
+This function returns 0 on success and a negative error code on failure.

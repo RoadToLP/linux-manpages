@@ -1,0 +1,16 @@
+.TH "usb4_switch_setup" 9 "usb4_switch_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_switch_setup \- Additional setup for USB4 device
+.SH SYNOPSIS
+.B "int" usb4_switch_setup
+.BI "(struct tb_switch *sw "  ");"
+.SH ARGUMENTS
+.IP "sw" 12
+USB4 router to setup
+.SH "DESCRIPTION"
+USB4 routers need additional settings in order to enable all the
+tunneling. This function enables USB and PCIe tunneling if it can be
+enabled (e.g the parent switch also supports them). If USB tunneling
+is not available for some reason (like that there is Thunderbolt 3
+switch upstream) then the internal xHCI controller is enabled
+instead.

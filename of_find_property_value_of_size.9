@@ -1,0 +1,26 @@
+.TH "of_find_property_value_of_size" 9 "of_find_property_value_of_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_find_property_value_of_size \- 
+.SH SYNOPSIS
+.B "void *" of_find_property_value_of_size
+.BI "(const struct device_node *np "  ","
+.BI "const char *propname "  ","
+.BI "u32 min "  ","
+.BI "u32 max "  ","
+.BI "size_t *len "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node from which the property value is to be read.
+.IP "propname" 12
+name of the property to be searched.
+.IP "min" 12
+minimum allowed length of property value
+.IP "max" 12
+maximum allowed length of property value (0 means unlimited)
+.IP "len" 12
+if !=NULL, actual length is written to here
+.SH "DESCRIPTION"
+Search for a property in a device node and valid the requested size.
+Returns the property value on success, -EINVAL if the property does not
+exist, -ENODATA if property does not have a value, and -EOVERFLOW if the
+property data is too small or too large.

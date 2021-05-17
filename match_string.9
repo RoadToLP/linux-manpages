@@ -1,0 +1,25 @@
+.TH "match_string" 9 "match_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+match_string \- matches given string in an array
+.SH SYNOPSIS
+.B "int" match_string
+.BI "(const char * const *array "  ","
+.BI "size_t n "  ","
+.BI "const char *string "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+array of strings
+.IP "n" 12
+number of strings in the array or -1 for NULL terminated arrays
+.IP "string" 12
+string to match with
+.SH "DESCRIPTION"
+This routine will look for a string in an array of strings up to the
+n-th element in the array or until the first NULL element.
+
+Historically the value of -1 for \fIn\fP, was used to search in arrays that
+are NULL terminated. However, the function does not make a distinction
+when finishing the search: either \fIn\fP elements have been compared OR
+the first NULL element was found.
+.SH "RETURN"
+index of a \fIstring\fP in the \fIarray\fP if matches, or -EINVAL otherwise.

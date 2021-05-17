@@ -1,0 +1,34 @@
+.TH "devm_of_pci_get_host_bridge_resources" 9 "devm_of_pci_get_host_bridge_resources" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_of_pci_get_host_bridge_resources \- Resource-managed parsing of PCI host bridge resources from DT
+.SH SYNOPSIS
+.B "int" devm_of_pci_get_host_bridge_resources
+.BI "(struct device *dev "  ","
+.BI "unsigned char busno "  ","
+.BI "unsigned char bus_max "  ","
+.BI "struct list_head *resources "  ","
+.BI "struct list_head *ib_resources "  ","
+.BI "resource_size_t *io_base "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+host bridge device
+.IP "busno" 12
+bus number associated with the bridge root bus
+.IP "bus_max" 12
+maximum number of buses for this bridge
+.IP "resources" 12
+list where the range of resources will be added after DT parsing
+.IP "ib_resources" 12
+list where the range of inbound resources (with addresses
+from 'dma-ranges') will be added after DT parsing
+.IP "io_base" 12
+pointer to a variable that will contain on return the physical
+address for the start of the I/O range. Can be NULL if the caller doesn't
+expect I/O ranges to be present in the device tree.
+.SH "DESCRIPTION"
+This function will parse the "ranges" property of a PCI host bridge device
+node and setup the resource mapping based on its content. It is expected
+that the property conforms with the Power ePAPR document.
+
+It returns zero if the range parsing has been successful or a standard error
+value if it failed.

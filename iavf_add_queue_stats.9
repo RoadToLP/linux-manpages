@@ -1,0 +1,21 @@
+.TH "iavf_add_queue_stats" 9 "iavf_add_queue_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_add_queue_stats \- copy queue statistics into supplied buffer
+.SH SYNOPSIS
+.B "void" iavf_add_queue_stats
+.BI "(u64 **data "  ","
+.BI "struct iavf_ring *ring "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+ethtool stats buffer
+.IP "ring" 12
+the ring to copy
+.SH "DESCRIPTION"
+Queue statistics must be copied while protected by
+u64_stats_fetch_begin_irq, so we can't directly use iavf_add_ethtool_stats.
+Assumes that queue stats are defined in iavf_gstrings_queue_stats. If the
+ring pointer is null, zero out the queue stat values and update the data
+pointer. Otherwise safely copy the stats from the ring into the supplied
+buffer and update the data pointer when finished.
+
+This function expects to be called while under \fBrcu_read_lock\fP.

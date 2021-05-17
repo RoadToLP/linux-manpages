@@ -1,0 +1,17 @@
+.TH "invalidate_fastmap" 9 "invalidate_fastmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+invalidate_fastmap \- destroys a fastmap.
+.SH SYNOPSIS
+.B "int" invalidate_fastmap
+.BI "(struct ubi_device *ubi "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device object
+.SH "DESCRIPTION"
+This function ensures that upon next UBI attach a full scan
+is issued. We need this if UBI is about to write a new fastmap
+but is unable to do so. In this case we have two options:
+a) Make sure that the current fastmap will not be usued upon
+attach time and contine or b) fall back to RO mode to have the
+current fastmap in a valid state.
+Returns 0 on success, < 0 indicates an internal error.

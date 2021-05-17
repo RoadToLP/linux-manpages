@@ -1,0 +1,30 @@
+.TH "setattr_prepare" 9 "setattr_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+setattr_prepare \- check if attribute changes to a dentry are allowed
+.SH SYNOPSIS
+.B "int" setattr_prepare
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct dentry *dentry "  ","
+.BI "struct iattr *attr "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "dentry" 12
+dentry to check
+.IP "attr" 12
+attributes to change
+.SH "DESCRIPTION"
+Check if we are allowed to change the attributes contained in \fIattr\fP
+in the given dentry.  This includes the normal unix access permission
+checks, as well as checks for rlimits and others. The function also clears
+SGID bit from mode if user is not allowed to set it. Also file capabilities
+and IMA extended attributes are cleared if ATTR_KILL_PRIV is set.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before checking
+permissions. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.
+
+Should be called as the first thing in ->setattr implementations,
+possibly after taking additional locks.

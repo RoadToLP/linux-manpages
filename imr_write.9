@@ -1,0 +1,21 @@
+.TH "imr_write" 9 "imr_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+imr_write \- write an IMR at a given index.
+.SH SYNOPSIS
+.B "int" imr_write
+.BI "(struct imr_device *idev "  ","
+.BI "u32 imr_id "  ","
+.BI "struct imr_regs *imr "  ");"
+.SH ARGUMENTS
+.IP "idev" 12
+pointer to imr_device structure.
+.IP "imr_id" 12
+IMR entry to write.
+.IP "imr" 12
+IMR structure representing address and access masks.
+.SH "DESCRIPTION"
+
+Requires caller to hold imr mutex.
+Note lock bits need to be written independently of address bits.
+.SH "RETURN"
+0 on success or error code passed from mbi_iosf on failure.

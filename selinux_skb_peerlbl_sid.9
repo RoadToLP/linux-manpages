@@ -1,0 +1,22 @@
+.TH "selinux_skb_peerlbl_sid" 9 "selinux_skb_peerlbl_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+selinux_skb_peerlbl_sid \- Determine the peer label of a packet
+.SH SYNOPSIS
+.B "int" selinux_skb_peerlbl_sid
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 family "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "family" 12
+protocol family
+.IP "sid" 12
+the packet's peer label SID
+.SH "DESCRIPTION"
+Check the various different forms of network peer labeling and determine
+the peer label/SID for the packet; most of the magic actually occurs in
+the security server function \fBsecurity_net_peersid_cmp\fP.  The function
+returns zero if the value in \fIsid\fP is valid (although it may be SECSID_NULL)
+or -EACCES if \fIsid\fP is invalid due to inconsistencies with the different
+peer labels.

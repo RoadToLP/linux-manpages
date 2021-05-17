@@ -1,0 +1,21 @@
+.TH "ata_down_xfermask_limit" 9 "ata_down_xfermask_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_down_xfermask_limit \- adjust dev xfer masks downward
+.SH SYNOPSIS
+.B "int" ata_down_xfermask_limit
+.BI "(struct ata_device *dev "  ","
+.BI "unsigned int sel "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to adjust xfer masks
+.IP "sel" 12
+ATA_DNXFER_* selector
+
+Adjust xfer masks of \fIdev\fP downward.  Note that this function
+does not apply the change.  Invoking \fBata_set_mode\fP afterwards
+will apply the limit.
+
+LOCKING:
+Inherited from caller.
+.SH "RETURN"
+0 on success, negative errno on failure

@@ -1,0 +1,36 @@
+.TH "tracing_map_sort_entries" 9 "tracing_map_sort_entries" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_sort_entries \- Sort the current set of tracing_map_elts in a map
+.SH SYNOPSIS
+.B "int" tracing_map_sort_entries
+.BI "(struct tracing_map *map "  ","
+.BI "struct tracing_map_sort_key *sort_keys "  ","
+.BI "unsigned int n_sort_keys "  ","
+.BI "struct tracing_map_sort_entry ***sort_entries "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+The tracing_map
+.IP "sort_keys" 12
+-- undescribed --
+.IP "n_sort_keys" 12
+-- undescribed --
+.IP "sort_entries" 12
+outval: pointer to allocated and sorted array of entries
+.SH "DESCRIPTION"
+\fBtracing_map_sort_entries\fP sorts the current set of entries in the
+map and returns the list of tracing_map_sort_entries containing
+them to the client in the sort_entries param.  The client can
+access the struct tracing_map_elt element of interest directly as
+the 'elt' field of a returned struct tracing_map_sort_entry object.
+
+The sort_key has only two fields: idx and descending.  'idx' refers
+to the index of the field added via \fBtracing_map_add_sum_field\fP or
+\fBtracing_map_add_key_field\fP when the tracing_map was initialized.
+'descending' is a flag that if set reverses the sort order, which
+by default is ascending.
+
+The client should not hold on to the returned array but should use
+it and call \fBtracing_map_destroy_sort_entries\fP when done.
+.SH "RETURN"
+the number of sort_entries in the struct tracing_map_sort_entry
+array, negative on error

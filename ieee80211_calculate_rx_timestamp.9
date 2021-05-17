@@ -1,0 +1,22 @@
+.TH "ieee80211_calculate_rx_timestamp" 9 "ieee80211_calculate_rx_timestamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ieee80211_calculate_rx_timestamp \- calculate timestamp in frame
+.SH SYNOPSIS
+.B "u64" ieee80211_calculate_rx_timestamp
+.BI "(struct ieee80211_local *local "  ","
+.BI "struct ieee80211_rx_status *status "  ","
+.BI "unsigned int mpdu_len "  ","
+.BI "unsigned int mpdu_offset "  ");"
+.SH ARGUMENTS
+.IP "local" 12
+mac80211 hw info struct
+.IP "status" 12
+RX status
+.IP "mpdu_len" 12
+total MPDU length (including FCS)
+.IP "mpdu_offset" 12
+offset into MPDU to calculate timestamp at
+.SH "DESCRIPTION"
+This function calculates the RX timestamp at the given MPDU offset, taking
+into account what the RX timestamp was. An offset of 0 will just normalize
+the timestamp to TSF at beginning of MPDU reception.

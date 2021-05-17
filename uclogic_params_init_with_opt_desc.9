@@ -1,0 +1,29 @@
+.TH "uclogic_params_init_with_opt_desc" 9 "uclogic_params_init_with_opt_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uclogic_params_init_with_opt_desc \- initialize tablet interface parameters with an optional replacement report descriptor. Only modify report descriptor, if the original report descriptor matches the expected size.
+.SH SYNOPSIS
+.B "int" uclogic_params_init_with_opt_desc
+.BI "(struct uclogic_params *params "  ","
+.BI "struct hid_device *hdev "  ","
+.BI "unsigned int orig_desc_size "  ","
+.BI "__u8 *desc_ptr "  ","
+.BI "unsigned int desc_size "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+Parameters to initialize (to be cleaned with
+\fBuclogic_params_cleanup\fP). Not modified in case of
+error. Cannot be NULL.
+.IP "hdev" 12
+The HID device of the tablet interface create the
+parameters for. Cannot be NULL.
+.IP "orig_desc_size" 12
+Expected size of the original report descriptor to
+be replaced.
+.IP "desc_ptr" 12
+Pointer to the replacement report descriptor.
+Can be NULL, if desc_size is zero.
+.IP "desc_size" 12
+Size of the replacement report descriptor.
+.SH "RETURN"
+Zero, if successful. -EINVAL if an invalid argument was passed.
+-ENOMEM, if failed to allocate memory.

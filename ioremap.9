@@ -1,0 +1,28 @@
+.TH "ioremap" 9 "ioremap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ioremap \- map bus memory into CPU space
+.SH SYNOPSIS
+.B "void __iomem *" ioremap
+.BI "(resource_size_t phys_addr "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "phys_addr" 12
+bus address of the memory
+.IP "size" 12
+size of the resource to map
+.SH "DESCRIPTION"
+ioremap performs a platform specific sequence of operations to
+make bus memory CPU accessible via the readb/readw/readl/writeb/
+writew/writel functions and the other mmio helpers. The returned
+address is not guaranteed to be usable directly as a virtual
+address.
+
+This version of ioremap ensures that the memory is marked uncachable
+on the CPU as well as honouring existing caching rules from things like
+the PCI bus. Note that there are other caches and buffers on many
+busses. In particular driver authors should read up on PCI writes
+
+It's useful if some control registers are in such an area and
+write combining or read caching is not desirable:
+
+Must be freed with iounmap.

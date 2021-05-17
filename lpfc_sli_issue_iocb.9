@@ -1,0 +1,24 @@
+.TH "lpfc_sli_issue_iocb" 9 "lpfc_sli_issue_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_issue_iocb \- Wrapper function for __lpfc_sli_issue_iocb
+.SH SYNOPSIS
+.B "int" lpfc_sli_issue_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t ring_number "  ","
+.BI "struct lpfc_iocbq *piocb "  ","
+.BI "uint32_t flag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "ring_number" 12
+Ring number
+.IP "piocb" 12
+Pointer to command iocb.
+.IP "flag" 12
+Flag indicating if this command can be put into txq.
+.SH "DESCRIPTION"
+lpfc_sli_issue_iocb is a wrapper around __lpfc_sli_issue_iocb
+function. This function gets the hbalock and calls
+__lpfc_sli_issue_iocb function and will return the error returned
+by __lpfc_sli_issue_iocb function. This wrapper is used by
+functions which do not hold hbalock.

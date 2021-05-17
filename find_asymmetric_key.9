@@ -1,0 +1,22 @@
+.TH "find_asymmetric_key" 9 "find_asymmetric_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_asymmetric_key \- Find a key by ID.
+.SH SYNOPSIS
+.B "struct key *" find_asymmetric_key
+.BI "(struct key *keyring "  ","
+.BI "const struct asymmetric_key_id *id_0 "  ","
+.BI "const struct asymmetric_key_id *id_1 "  ","
+.BI "bool partial "  ");"
+.SH ARGUMENTS
+.IP "keyring" 12
+The keys to search.
+.IP "id_0" 12
+The first ID to look for or NULL.
+.IP "id_1" 12
+The second ID to look for or NULL.
+.IP "partial" 12
+Use partial match if true, exact if false.
+.SH "DESCRIPTION"
+Find a key in the given keyring by identifier.  The preferred identifier is
+the id_0 and the fallback identifier is the id_1.  If both are given, the
+lookup is by the former, but the latter must also match.

@@ -1,0 +1,19 @@
+.TH "filemap_fdatawait_keep_errors" 9 "filemap_fdatawait_keep_errors" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_fdatawait_keep_errors \- wait for writeback without clearing errors
+.SH SYNOPSIS
+.B "int" filemap_fdatawait_keep_errors
+.BI "(struct address_space *mapping "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space structure to wait for
+.SH "DESCRIPTION"
+Walk the list of under-writeback pages of the given address space
+and wait for all of them.  Unlike \fBfilemap_fdatawait\fP, this function
+does not clear error status of the address space.
+
+Use this function if callers don't handle errors themselves.  Expected
+call sites are system-wide / filesystem-wide data flushers: e.g. sync(2),
+fsfreeze(8)
+.SH "RETURN"
+error status of the address space.

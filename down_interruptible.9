@@ -1,0 +1,14 @@
+.TH "down_interruptible" 9 "down_interruptible" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+down_interruptible \- acquire the semaphore unless interrupted
+.SH SYNOPSIS
+.B "int" down_interruptible
+.BI "(struct semaphore *sem "  ");"
+.SH ARGUMENTS
+.IP "sem" 12
+the semaphore to be acquired
+.SH "DESCRIPTION"
+Attempts to acquire the semaphore.  If no more tasks are allowed to
+acquire the semaphore, calling this function will put the task to sleep.
+If the sleep is interrupted by a signal, this function will return -EINTR.
+If the semaphore is successfully acquired, this function returns 0.

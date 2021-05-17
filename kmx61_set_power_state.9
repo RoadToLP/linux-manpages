@@ -1,0 +1,20 @@
+.TH "kmx61_set_power_state" 9 "kmx61_set_power_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmx61_set_power_state \- set power state for kmx61 @device
+.SH SYNOPSIS
+.B "int" kmx61_set_power_state
+.BI "(struct kmx61_data *data "  ","
+.BI "bool on "  ","
+.BI "u8 device "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+kmx61 device private pointer
+.IP "on" 12
+power state to be set for \fIdevice\fP
+.IP "device" 12
+bitmask indicating device for which \fIon\fP state needs to be set
+.SH "DESCRIPTION"
+Notice that when ACC power state needs to be set to ON and MAG is in
+OPERATION then we know that kmx61_runtime_resume was already called
+so we must set ACC OPERATION mode here. The same happens when MAG power
+state needs to be set to ON and ACC is in OPERATION.

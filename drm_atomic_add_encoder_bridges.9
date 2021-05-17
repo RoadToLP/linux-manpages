@@ -1,0 +1,22 @@
+.TH "drm_atomic_add_encoder_bridges" 9 "drm_atomic_add_encoder_bridges" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_add_encoder_bridges \- add bridges attached to an encoder
+.SH SYNOPSIS
+.B "int" drm_atomic_add_encoder_bridges
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_encoder *encoder "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.IP "encoder" 12
+DRM encoder
+.SH "DESCRIPTION"
+This function adds all bridges attached to \fIencoder\fP. This is needed to add
+bridge states to \fIstate\fP and make them available when
+\fIdrm_bridge_funcs\fP.\fBatomic_check\fP, \fIdrm_bridge_funcs\fP.\fBatomic_pre_enable\fP,
+\fIdrm_bridge_funcs\fP.\fBatomic_enable\fP,
+\fIdrm_bridge_funcs\fP.\fBatomic_disable_post_disable\fP are called.
+.SH "RETURN"
+0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+then the w/w mutex code has detected a deadlock and the entire atomic
+sequence must be restarted. All other errors are fatal.

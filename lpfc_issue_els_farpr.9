@@ -1,0 +1,31 @@
+.TH "lpfc_issue_els_farpr" 9 "lpfc_issue_els_farpr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_els_farpr \- Issue a farp to an node on a vport
+.SH SYNOPSIS
+.B "int" lpfc_issue_els_farpr
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint32_t nportid "  ","
+.BI "uint8_t retry "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "nportid" 12
+N_Port identifier to the remote node.
+.IP "retry" 12
+number of retries to the command IOCB.
+.SH "DESCRIPTION"
+This routine issues a Fibre Channel Address Resolution Response
+(FARPR) to a node on a vport. The remote node N_Port identifier (\fInportid\fP)
+is passed into the function. It first search the \fIvport\fP node list to find
+the matching ndlp. If no such ndlp is found, a new ndlp shall be created
+for this (FARPR) purpose. An IOCB is allocated, payload prepared, and the
+\fBlpfc_sli_issue_iocb\fP routine is invoked to send the FARPR ELS command.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the PARPR ELS command.
+
+Return code
+0 - Successfully issued farpr command
+1 - Failed to issue farpr command

@@ -1,0 +1,33 @@
+.TH "get_seg_base_limit" 9 "get_seg_base_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_seg_base_limit \- obtain base address and limit of a segment
+.SH SYNOPSIS
+.B "int" get_seg_base_limit
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int regoff "  ","
+.BI "unsigned long *base "  ","
+.BI "unsigned long *limit "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction. Must be valid.
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "regoff" 12
+Operand offset, in pt_regs, used to resolve segment descriptor
+.IP "base" 12
+Obtained segment base
+.IP "limit" 12
+Obtained segment limit
+.SH "DESCRIPTION"
+Obtain the base address and limit of the segment associated with the operand
+\fIregoff\fP and, if any or allowed, override prefixes in \fIinsn\fP. This function is
+different from \fBinsn_get_seg_base\fP as the latter does not resolve the segment
+associated with the instruction operand. If a limit is not needed (e.g.,
+when running in long mode), \fIlimit\fP can be NULL.
+
+0 on success. \fIbase\fP and \fIlimit\fP will contain the base address and of the
+resolved segment, respectively.
+
+-EINVAL on error.
+.SH "RETURN"

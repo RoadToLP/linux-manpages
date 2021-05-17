@@ -1,0 +1,16 @@
+.TH "cifs_readdata_to_iov" 9 "cifs_readdata_to_iov" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cifs_readdata_to_iov \- copy data from pages in response to an iovec
+.SH SYNOPSIS
+.B "int" cifs_readdata_to_iov
+.BI "(struct cifs_readdata *rdata "  ","
+.BI "struct iov_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "rdata" 12
+the readdata response with list of pages holding data
+.IP "iter" 12
+destination for our data
+.SH "DESCRIPTION"
+This function copies data from a list of pages in a readdata response into
+an array of iovecs. It will first calculate where the data should go
+based on the info in the readdata and then copy the data into that spot.

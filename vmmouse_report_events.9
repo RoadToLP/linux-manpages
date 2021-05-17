@@ -1,0 +1,16 @@
+.TH "vmmouse_report_events" 9 "vmmouse_report_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmmouse_report_events \- process events on the vmmouse communications channel
+.SH SYNOPSIS
+.B "psmouse_ret_t" vmmouse_report_events
+.BI "(struct psmouse *psmouse "  ");"
+.SH ARGUMENTS
+.IP "psmouse" 12
+Pointer to the psmouse struct
+.SH "DESCRIPTION"
+This function pulls events from the vmmouse communications channel and
+reports them on the correct (absolute or relative) input device. When the
+communications channel is drained, or if we've processed more than 255
+psmouse commands, the function returns PSMOUSE_FULL_PACKET. If there is a
+host- or synchronization error, the function returns PSMOUSE_BAD_DATA in
+the hope that the caller will reset the communications channel.

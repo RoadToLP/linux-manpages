@@ -1,0 +1,21 @@
+.TH "ice_get_rc_coalesce" 9 "ice_get_rc_coalesce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_get_rc_coalesce \- get ITR values for specific ring container
+.SH SYNOPSIS
+.B "int" ice_get_rc_coalesce
+.BI "(struct ethtool_coalesce *ec "  ","
+.BI "enum ice_container_type c_type "  ","
+.BI "struct ice_ring_container *rc "  ");"
+.SH ARGUMENTS
+.IP "ec" 12
+ethtool structure to fill with driver's coalesce settings
+.IP "c_type" 12
+container type, Rx or Tx
+.IP "rc" 12
+ring container that the ITR values will come from
+.SH "DESCRIPTION"
+Query the device for ice_ring_container specific ITR values. This is
+done per ice_ring_container because each q_vector can have 1 or more rings
+and all of said ring(s) will have the same ITR values.
+
+Returns 0 on success, negative otherwise.

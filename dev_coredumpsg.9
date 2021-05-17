@@ -1,0 +1,23 @@
+.TH "dev_coredumpsg" 9 "dev_coredumpsg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_coredumpsg \- create device coredump that uses scatterlist as data parameter
+.SH SYNOPSIS
+.B "void" dev_coredumpsg
+.BI "(struct device *dev "  ","
+.BI "struct scatterlist *table "  ","
+.BI "size_t datalen "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the struct device for the crashed device
+.IP "table" 12
+the dump data
+.IP "datalen" 12
+length of the data
+.IP "gfp" 12
+allocation flags
+.SH "DESCRIPTION"
+Creates a new device coredump for the given device. If a previous one hasn't
+been read yet, the new coredump is discarded. The data lifetime is determined
+by the device coredump framework and when it is no longer needed
+it will free the data.

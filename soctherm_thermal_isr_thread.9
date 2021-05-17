@@ -1,0 +1,24 @@
+.TH "soctherm_thermal_isr_thread" 9 "soctherm_thermal_isr_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+soctherm_thermal_isr_thread \- Handles a thermal interrupt request
+.SH SYNOPSIS
+.B "irqreturn_t" soctherm_thermal_isr_thread
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The interrupt number being requested; not used
+.IP "dev_id" 12
+Opaque pointer to tegra_soctherm;
+.SH "DESCRIPTION"
+Clears the interrupt status register if there are expected
+interrupt bits set.
+The interrupt(s) are then handled by updating the corresponding
+thermal zones.
+
+An error is logged if any unexpected interrupt bits are set.
+
+Disabled interrupts are re-enabled.
+.SH "RETURN"
+IRQ_HANDLED. Interrupt was handled and no further processing
+is needed.

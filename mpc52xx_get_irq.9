@@ -1,0 +1,34 @@
+.TH "mpc52xx_get_irq" 9 "mpc52xx_get_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpc52xx_get_irq \- Get pending interrupt number hook function
+.SH SYNOPSIS
+.B "unsigned int" mpc52xx_get_irq
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Called by the interrupt handler to determine what IRQ handler needs to be
+executed.
+
+Status of pending interrupts is determined by reading the encoded status
+register.  The encoded status register has three fields; one for each of the
+types of interrupts defined by the controller - 'critical', 'main' and
+'peripheral'.  This function reads the status register and returns the IRQ
+number associated with the highest priority pending interrupt.  'Critical'
+interrupts have the highest priority, followed by 'main' interrupts, and
+then 'peripheral'.
+
+The mpc5200 interrupt controller can be configured to boost the priority
+of individual 'peripheral' interrupts.  If this is the case then a special
+value will appear in either the crit or main fields indicating a high
+or medium priority peripheral irq has occurred.
+
+This function checks each of the 3 irq request fields and returns the
+first pending interrupt that it finds.
+
+This function also identifies a 4th type of interrupt; 'bestcomm'.  Each
+bestcomm DMA task can raise the bestcomm peripheral interrupt.  When this
+occurs at task-specific IRQ# is decoded so that each task can have its
+own IRQ handler.

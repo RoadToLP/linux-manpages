@@ -1,0 +1,26 @@
+.TH "mpt_host_page_access_control" 9 "mpt_host_page_access_control" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_host_page_access_control \- control the IOC's Host Page Buffer access
+.SH SYNOPSIS
+.B "int" mpt_host_page_access_control
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "u8 access_control_value "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT adapter structure
+.IP "access_control_value" 12
+define bits below
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+.SH "DESCRIPTION"
+Provides mechanism for the host driver to control the IOC's
+Host Page Buffer access.
+
+Access Control Value - bits[15:12]
+0h Reserved
+1h Enable Access { MPI_DB_HPBAC_ENABLE_ACCESS }
+2h Disable Access { MPI_DB_HPBAC_DISABLE_ACCESS }
+3h Free Buffer { MPI_DB_HPBAC_FREE_BUFFER }
+
+Returns 0 for success, non-zero for failure.

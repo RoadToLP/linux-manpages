@@ -1,0 +1,23 @@
+.TH "fsverity_hash_buffer" 9 "fsverity_hash_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_hash_buffer \- hash some data
+.SH SYNOPSIS
+.B "int" fsverity_hash_buffer
+.BI "(struct fsverity_hash_alg *alg "  ","
+.BI "const void *data "  ","
+.BI "size_t size "  ","
+.BI "u8 *out "  ");"
+.SH ARGUMENTS
+.IP "alg" 12
+the hash algorithm to use
+.IP "data" 12
+the data to hash
+.IP "size" 12
+size of data to hash, in bytes
+.IP "out" 12
+output digest, size 'alg->digest_size' bytes
+.SH "DESCRIPTION"
+Hash some data which is located in physically contiguous memory (i.e. memory
+allocated by \fBkmalloc\fP, not by \fBvmalloc\fP).  No salt is used.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,42 @@
+.TH "rdma_rw_ctx_signature_init" 9 "rdma_rw_ctx_signature_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_rw_ctx_signature_init \- initialize a RW context with signature offload
+.SH SYNOPSIS
+.B "int" rdma_rw_ctx_signature_init
+.BI "(struct rdma_rw_ctx *ctx "  ","
+.BI "struct ib_qp *qp "  ","
+.BI "u8 port_num "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "u32 sg_cnt "  ","
+.BI "struct scatterlist *prot_sg "  ","
+.BI "u32 prot_sg_cnt "  ","
+.BI "struct ib_sig_attrs *sig_attrs "  ","
+.BI "u64 remote_addr "  ","
+.BI "u32 rkey "  ","
+.BI "enum dma_data_direction dir "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+context to initialize
+.IP "qp" 12
+queue pair to operate on
+.IP "port_num" 12
+port num to which the connection is bound
+.IP "sg" 12
+scatterlist to READ/WRITE from/to
+.IP "sg_cnt" 12
+number of entries in \fIsg\fP
+.IP "prot_sg" 12
+scatterlist to READ/WRITE protection information from/to
+.IP "prot_sg_cnt" 12
+number of entries in \fIprot_sg\fP
+.IP "sig_attrs" 12
+signature offloading algorithms
+.IP "remote_addr" 12
+remote address to read/write (relative to \fIrkey\fP)
+.IP "rkey" 12
+remote key to operate on
+.IP "dir" 12
+DMA_TO_DEVICE for RDMA WRITE, DMA_FROM_DEVICE for RDMA READ
+.SH "DESCRIPTION"
+Returns the number of WQEs that will be needed on the workqueue if
+successful, or a negative error code.

@@ -1,0 +1,21 @@
+.TH "ioasid_register_allocator" 9 "ioasid_register_allocator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ioasid_register_allocator \- register a custom allocator
+.SH SYNOPSIS
+.B "int" ioasid_register_allocator
+.BI "(struct ioasid_allocator_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+the custom allocator ops to be registered
+.SH "DESCRIPTION"
+Custom allocators take precedence over the default xarray based allocator.
+Private data associated with the IOASID allocated by the custom allocators
+are managed by IOASID framework similar to data stored in xa by default
+allocator.
+
+There can be multiple allocators registered but only one is active. In case
+of runtime removal of a custom allocator, the next one is activated based
+on the registration ordering.
+
+Multiple allocators can share the same \fBalloc\fP function, in this case the
+IOASID space is shared.

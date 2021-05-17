@@ -1,0 +1,17 @@
+.TH "srcu_init_notifier_head" 9 "srcu_init_notifier_head" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srcu_init_notifier_head \- Initialize an SRCU notifier head
+.SH SYNOPSIS
+.B "void" srcu_init_notifier_head
+.BI "(struct srcu_notifier_head *nh "  ");"
+.SH ARGUMENTS
+.IP "nh" 12
+Pointer to head of the srcu notifier chain
+
+Unlike other sorts of notifier heads, SRCU notifier heads require
+dynamic initialization.  Be sure to call this routine before
+calling any of the other SRCU notifier routines for this head.
+
+If an SRCU notifier head is deallocated, it must first be cleaned
+up by calling \fBsrcu_cleanup_notifier_head\fP.  Otherwise the head's
+per-cpu data (used by the SRCU mechanism) will leak.

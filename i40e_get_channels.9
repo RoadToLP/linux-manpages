@@ -1,0 +1,17 @@
+.TH "i40e_get_channels" 9 "i40e_get_channels" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_get_channels \- Get the current channels enabled and max supported etc.
+.SH SYNOPSIS
+.B "void" i40e_get_channels
+.BI "(struct net_device *dev "  ","
+.BI "struct ethtool_channels *ch "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network interface device structure
+.IP "ch" 12
+ethtool channels structure
+.SH "DESCRIPTION"
+We don't support separate tx and rx queues as channels. The other count
+represents how many queues are being used for control. max_combined counts
+how many queue pairs we can support. They may not be mapped 1 to 1 with
+q_vectors since we support a lot more queue pairs than q_vectors.

@@ -1,0 +1,16 @@
+.TH "hdm_write_completion" 9 "hdm_write_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hdm_write_completion \- completion function for submitted Tx URBs
+.SH SYNOPSIS
+.B "void" hdm_write_completion
+.BI "(struct urb *urb "  ");"
+.SH ARGUMENTS
+.IP "urb" 12
+the URB that has been completed
+.SH "DESCRIPTION"
+This checks the status of the completed URB. In case the URB has been
+unlinked before, it is immediately freed. On any other error the MBO
+transfer flag is set. On success it frees allocated resources and calls
+the completion function.
+.SH "CONTEXT"
+interrupt!

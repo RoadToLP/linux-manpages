@@ -1,0 +1,36 @@
+.TH "nx842_pseries_compress" 9 "nx842_pseries_compress" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nx842_pseries_compress \- Compress data using the 842 algorithm
+.SH SYNOPSIS
+.B "int" nx842_pseries_compress
+.BI "(const unsigned char *in "  ","
+.BI "unsigned int inlen "  ","
+.BI "unsigned char *out "  ","
+.BI "unsigned int *outlen "  ","
+.BI "void *wmem "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+Pointer to input buffer
+.IP "inlen" 12
+Length of input buffer
+.IP "out" 12
+Pointer to output buffer
+.IP "outlen" 12
+Length of output buffer
+.IP "wmem" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Compression provide by the NX842 coprocessor on IBM Power systems.
+The input buffer is compressed and the result is stored in the
+provided output buffer.
+
+Upon return from this function \fIoutlen\fP contains the length of the
+compressed data.  If there is an error then \fIoutlen\fP will be 0 and an
+error will be specified by the return code from this function.
+.SH "RETURN"
+0          Success, output of length \fIoutlen\fP stored in the buffer at \fIout\fP
+-ENOMEM    Unable to allocate internal buffers
+-ENOSPC    Output buffer is to small
+-EIO       Internal error
+-ENODEV    Hardware unavailable

@@ -1,0 +1,20 @@
+.TH "fc_fcp_rec_resp" 9 "fc_fcp_rec_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_rec_resp \- Handler for REC ELS responses
+.SH SYNOPSIS
+.B "void" fc_fcp_rec_resp
+.BI "(struct fc_seq *seq "  ","
+.BI "struct fc_frame *fp "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "seq" 12
+The sequence the response is on
+.IP "fp" 12
+The response frame
+.IP "arg" 12
+The FCP packet the response is on
+.SH "DESCRIPTION"
+If the response is a reject then the scsi layer will handle
+the timeout. If the response is a LS_ACC then if the I/O was not completed
+set the timeout and return. If the I/O was completed then complete the
+exchange and tell the SCSI layer.

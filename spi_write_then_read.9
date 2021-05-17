@@ -1,0 +1,34 @@
+.TH "spi_write_then_read" 9 "spi_write_then_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_write_then_read \- SPI synchronous write followed by read
+.SH SYNOPSIS
+.B "int" spi_write_then_read
+.BI "(struct spi_device *spi "  ","
+.BI "const void *txbuf "  ","
+.BI "unsigned n_tx "  ","
+.BI "void *rxbuf "  ","
+.BI "unsigned n_rx "  ");"
+.SH ARGUMENTS
+.IP "spi" 12
+device with which data will be exchanged
+.IP "txbuf" 12
+data to be written (need not be dma-safe)
+.IP "n_tx" 12
+size of txbuf, in bytes
+.IP "rxbuf" 12
+buffer into which data will be read (need not be dma-safe)
+.IP "n_rx" 12
+size of rxbuf, in bytes
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+This performs a half duplex MicroWire style transaction with the
+device, sending txbuf and then reading rxbuf.  The return value
+is zero for success, else a negative errno status code.
+This call may only be used from a context that may sleep.
+
+Parameters to this routine are always copied using a small buffer.
+Performance-sensitive or bulk transfer code should instead use
+spi_{async,sync}() calls with dma-safe buffers.
+.SH "RETURN"
+zero on success, else a negative error code.

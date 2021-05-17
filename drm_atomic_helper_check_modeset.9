@@ -1,0 +1,50 @@
+.TH "drm_atomic_helper_check_modeset" 9 "drm_atomic_helper_check_modeset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_check_modeset \- validate state object for modeset changes
+.SH SYNOPSIS
+.B "int" drm_atomic_helper_check_modeset
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "state" 12
+the driver state object
+.SH "DESCRIPTION"
+Check the state object to see if the requested state is physically possible.
+This does all the CRTC and connector related computations for an atomic
+update and adds any additional connectors needed for full modesets. It calls
+the various per-object callbacks in the follow order:
+
+1. \fIdrm_connector_helper_funcs.atomic_best_encoder\fP for determining the new encoder.
+2. \fIdrm_connector_helper_funcs.atomic_check\fP to validate the connector state.
+3. If it's determined a modeset is needed then all connectors on the affected
+CRTC are added and \fIdrm_connector_helper_funcs.atomic_check\fP is run on them.
+4. \fIdrm_encoder_helper_funcs.mode_valid\fP, \fIdrm_bridge_funcs.mode_valid\fP and
+\fIdrm_crtc_helper_funcs.mode_valid\fP are called on the affected components.
+5. \fIdrm_bridge_funcs.mode_fixup\fP is called on all encoder bridges.
+6. \fIdrm_encoder_helper_funcs.atomic_check\fP is called to validate any encoder state.
+This function is only called when the encoder will be part of a configured CRTC,
+it must not be used for implementing connector property validation.
+If this function is NULL, \fIdrm_atomic_encoder_helper_funcs.mode_fixup\fP is called
+instead.
+7. \fIdrm_crtc_helper_funcs.mode_fixup\fP is called last, to fix up the mode with CRTC constraints.
+
+\fIdrm_crtc_state.mode_changed\fP is set when the input mode is changed.
+\fIdrm_crtc_state.connectors_changed\fP is set when a connector is added or
+removed from the CRTC.  \fIdrm_crtc_state.active_changed\fP is set when
+\fIdrm_crtc_state.active\fP changes, which is used for DPMS.
+\fIdrm_crtc_state.no_vblank\fP is set from the result of \fBdrm_dev_has_vblank\fP.
+See also: \fBdrm_atomic_crtc_needs_modeset\fP
+
+IMPORTANT:
+
+Drivers which set \fIdrm_crtc_state.mode_changed\fP (e.g. in their
+\fIdrm_plane_helper_funcs.atomic_check\fP hooks if a plane update can't be done
+without a full modeset) _must_ call this function afterwards after that
+change. It is permitted to call this function multiple times for the same
+update, e.g. when the \fIdrm_crtc_helper_funcs.atomic_check\fP functions depend
+upon the adjusted dotclock for fifo space allocation and watermark
+computation.
+.SH "RETURN"
+Zero for success or -errno

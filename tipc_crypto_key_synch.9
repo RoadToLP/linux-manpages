@@ -1,0 +1,22 @@
+.TH "tipc_crypto_key_synch" 9 "tipc_crypto_key_synch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_key_synch \- Synch own key data according to peer key status
+.SH SYNOPSIS
+.B "void" tipc_crypto_key_synch
+.BI "(struct tipc_crypto *rx "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "rx" 12
+RX crypto handle
+.IP "skb" 12
+TIPCv2 message buffer (incl. the ehdr from peer)
+.SH "DESCRIPTION"
+This function updates the peer node related data as the peer RX active key
+has changed, so the number of TX keys' users on this node are increased and
+decreased correspondingly.
+
+It also considers if peer has no key, then we need to make own master key
+(if any) taking over i.e. starting grace period and also trigger key
+distributing process.
+
+The "per-peer" sndnxt is also reset when the peer key has switched.

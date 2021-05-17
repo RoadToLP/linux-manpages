@@ -1,0 +1,18 @@
+.TH "__lpfc_sli_release_iocbq_s3" 9 "__lpfc_sli_release_iocbq_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli_release_iocbq_s3 \- Release iocb to the iocb pool
+.SH SYNOPSIS
+.B "void" __lpfc_sli_release_iocbq_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *iocbq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "iocbq" 12
+Pointer to driver iocb object.
+.SH "DESCRIPTION"
+This function is called to release the driver iocb object to the
+iocb pool. The iotag in the iocb object does not change for each
+use of the iocb object. This function clears all other fields of
+the iocb object when it is freed. The hbalock is asserted held in
+the code path calling this routine.

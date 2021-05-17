@@ -1,0 +1,25 @@
+.TH "ice_aq_start_stop_dcbx" 9 "ice_aq_start_stop_dcbx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_start_stop_dcbx \- Start/Stop DCBX service in FW
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_start_stop_dcbx
+.BI "(struct ice_hw *hw "  ","
+.BI "bool start_dcbx_agent "  ","
+.BI "bool *dcbx_agent_status "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "start_dcbx_agent" 12
+True if DCBX Agent needs to be started
+False if DCBX Agent needs to be stopped
+.IP "dcbx_agent_status" 12
+FW indicates back the DCBX agent status
+True if DCBX Agent is active
+False if DCBX Agent is stopped
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Start/Stop the embedded dcbx Agent. In case that this wrapper function
+returns ICE_SUCCESS, caller will need to check if FW returns back the same
+value as stated in dcbx_agent_status, and react accordingly. (0x0A09)

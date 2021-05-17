@@ -1,0 +1,21 @@
+.TH "blk_mq_pci_map_queues" 9 "blk_mq_pci_map_queues" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_pci_map_queues \- provide a default queue mapping for PCI device
+.SH SYNOPSIS
+.B "int" blk_mq_pci_map_queues
+.BI "(struct blk_mq_queue_map *qmap "  ","
+.BI "struct pci_dev *pdev "  ","
+.BI "int offset "  ");"
+.SH ARGUMENTS
+.IP "qmap" 12
+CPU to hardware queue map.
+.IP "pdev" 12
+PCI device associated with \fIset\fP.
+.IP "offset" 12
+Offset to use for the pci irq vector
+.SH "DESCRIPTION"
+This function assumes the PCI device \fIpdev\fP has at least as many available
+interrupt vectors as \fIset\fP has queues.  It will then query the vector
+corresponding to each queue for it's affinity mask and built queue mapping
+that maps a queue to the CPUs that have irq affinity for the corresponding
+vector.

@@ -1,0 +1,25 @@
+.TH "lpfc_sli_ringpostbuf_get" 9 "lpfc_sli_ringpostbuf_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_ringpostbuf_get \- search buffers for unsolicited CT and ELS events
+.SH SYNOPSIS
+.B "struct lpfc_dmabuf *" lpfc_sli_ringpostbuf_get
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "dma_addr_t phys "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "phys" 12
+DMA address of the buffer.
+.SH "DESCRIPTION"
+This function searches the buffer list using the dma_address
+of unsolicited event to find the driver's lpfc_dmabuf object
+corresponding to the dma_address. The function returns the
+lpfc_dmabuf object if a buffer is found else it returns NULL.
+This function is called by the ct and els unsolicited event
+handlers to get the buffer associated with the unsolicited
+event.
+
+This function is called with no lock held.

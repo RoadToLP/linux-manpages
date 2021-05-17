@@ -1,0 +1,13 @@
+.TH "btrfs_discard_calc_delay" 9 "btrfs_discard_calc_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_calc_delay \- recalculate the base delay
+.SH SYNOPSIS
+.B "void" btrfs_discard_calc_delay
+.BI "(struct btrfs_discard_ctl *discard_ctl "  ");"
+.SH ARGUMENTS
+.IP "discard_ctl" 12
+discard control
+.SH "DESCRIPTION"
+Recalculate the base delay which is based off the total number of
+discardable_extents.  Clamp this between the lower_limit (iops_limit or 1ms)
+and the upper_limit (BTRFS_DISCARD_MAX_DELAY_MSEC).

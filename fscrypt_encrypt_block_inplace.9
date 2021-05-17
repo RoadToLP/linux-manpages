@@ -1,0 +1,32 @@
+.TH "fscrypt_encrypt_block_inplace" 9 "fscrypt_encrypt_block_inplace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_encrypt_block_inplace \- Encrypt a filesystem block in-place
+.SH SYNOPSIS
+.B "int" fscrypt_encrypt_block_inplace
+.BI "(const struct inode *inode "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offs "  ","
+.BI "u64 lblk_num "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode to which this block belongs
+.IP "page" 12
+The page containing the block to encrypt
+.IP "len" 12
+Size of block to encrypt.  Doesn't need to be a multiple of the
+fs block size, but must be a multiple of FS_CRYPTO_BLOCK_SIZE.
+.IP "offs" 12
+Byte offset within \fIpage\fP at which the block to encrypt begins
+.IP "lblk_num" 12
+Filesystem logical block number of the block, i.e. the 0-based
+number of the block within the file
+.IP "gfp_flags" 12
+Memory allocation flags
+.SH "DESCRIPTION"
+Encrypt a possibly-compressed filesystem block that is located in an
+arbitrary page, not necessarily in the original pagecache page.  The \fIinode\fP
+and \fIlblk_num\fP must be specified, as they can't be determined from \fIpage\fP.
+.SH "RETURN"
+0 on success; -errno on failure

@@ -1,0 +1,22 @@
+.TH "bnx2i_set_sq_info" 9 "bnx2i_set_sq_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_set_sq_info \- update send queue (SQ) size parameter
+.SH SYNOPSIS
+.B "ssize_t" bnx2i_set_sq_info
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer
+.IP "attr" 12
+device attribute (unused)
+.IP "buf" 12
+buffer to return current SQ size parameter
+.IP "count" 12
+parameter buffer size
+.SH "DESCRIPTION"
+Interface for user to change shared queue size allocated for each conn
+Must be within SQ limits and a power of 2. For the latter this is needed
+because of how libiscsi preallocates tasks.

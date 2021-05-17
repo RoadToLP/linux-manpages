@@ -1,0 +1,43 @@
+.TH "overlay_fixup_one_phandle" 9 "overlay_fixup_one_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+overlay_fixup_one_phandle \- Set an overlay phandle to the base one
+.SH SYNOPSIS
+.B "int" overlay_fixup_one_phandle
+.BI "(void *fdt "  ","
+.BI "void *fdto "  ","
+.BI "int symbols_off "  ","
+.BI "const char *path "  ","
+.BI "uint32_t path_len "  ","
+.BI "const char *name "  ","
+.BI "uint32_t name_len "  ","
+.BI "int poffset "  ","
+.BI "const char *label "  ");"
+.SH ARGUMENTS
+.IP "fdt" 12
+Base Device Tree blob
+.IP "fdto" 12
+Device tree overlay blob
+.IP "symbols_off" 12
+Node offset of the symbols node in the base device tree
+.IP "path" 12
+Path to a node holding a phandle in the overlay
+.IP "path_len" 12
+number of path characters to consider
+.IP "name" 12
+Name of the property holding the phandle reference in the overlay
+.IP "name_len" 12
+number of name characters to consider
+.IP "poffset" 12
+Offset within the overlay property where the phandle is stored
+.IP "label" 12
+Label of the node referenced by the phandle
+.SH "DESCRIPTION"
+\fBoverlay_fixup_one_phandle\fP resolves an overlay phandle pointing to
+a node in the base device tree.
+
+This is part of the device tree overlay application process, when
+you want all the phandles in the overlay to point to the actual
+base dt nodes.
+.SH "RETURN"
+0 on success
+Negative error code on failure

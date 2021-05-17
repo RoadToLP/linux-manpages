@@ -1,0 +1,26 @@
+.TH "prepend_name" 9 "prepend_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepend_name \- prepend a pathname in front of current buffer pointer
+.SH SYNOPSIS
+.B "int" prepend_name
+.BI "(char **buffer "  ","
+.BI "int *buflen "  ","
+.BI "const struct qstr *name "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+buffer pointer
+.IP "buflen" 12
+allocated length of the buffer
+.IP "name" 12
+name string and length qstr structure
+.SH "DESCRIPTION"
+With RCU path tracing, it may race with \fBd_move\fP. Use \fBREAD_ONCE\fP to
+make sure that either the old or the new name pointer and length are
+fetched. However, there may be mismatch between length and pointer.
+The length cannot be trusted, we need to copy it byte-by-byte until
+the length is reached or a null byte is found. It also prepends "/" at
+the beginning of the name. The sequence number check at the caller will
+retry it again when a \fBd_move\fP does happen. So any garbage in the buffer
+due to mismatched pointer and length will be discarded.
+
+Load acquire is needed to make sure that we see that terminating NUL.

@@ -1,0 +1,20 @@
+.TH "drm_mm_reserve_node" 9 "drm_mm_reserve_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mm_reserve_node \- insert an pre-initialized node
+.SH SYNOPSIS
+.B "int" drm_mm_reserve_node
+.BI "(struct drm_mm *mm "  ","
+.BI "struct drm_mm_node *node "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+drm_mm allocator to insert \fInode\fP into
+.IP "node" 12
+drm_mm_node to insert
+.SH "DESCRIPTION"
+This functions inserts an already set-up \fIdrm_mm_node\fP into the allocator,
+meaning that start, size and color must be set by the caller. All other
+fields must be cleared to 0. This is useful to initialize the allocator with
+preallocated objects which must be set-up before the range allocator can be
+set-up, e.g. when taking over a firmware framebuffer.
+.SH "RETURN"
+0 on success, -ENOSPC if there's no hole where \fInode\fP is.

@@ -1,0 +1,27 @@
+.TH "swap_cluster_readahead" 9 "swap_cluster_readahead" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swap_cluster_readahead \- swap in pages in hope we need them soon
+.SH SYNOPSIS
+.B "struct page *" swap_cluster_readahead
+.BI "(swp_entry_t entry "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+swap entry of this memory
+.IP "gfp_mask" 12
+memory allocation flags
+.IP "vmf" 12
+fault information
+.SH "DESCRIPTION"
+Returns the struct page for entry and addr, after queueing swapin.
+
+Primitive swap readahead code. We simply read an aligned block of
+(1 << page_cluster) entries in the swap area. This method is chosen
+because it doesn't cost us any seek time.  We also make sure to queue
+the 'original' request together with the readahead ones...
+
+This has been extended to use the NUMA policies from the mm triggering
+the readahead.
+
+Caller must hold read mmap_lock if vmf->vma is not NULL.

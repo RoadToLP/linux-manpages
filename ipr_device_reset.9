@@ -1,0 +1,21 @@
+.TH "ipr_device_reset" 9 "ipr_device_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipr_device_reset \- Reset the device
+.SH SYNOPSIS
+.B "int" ipr_device_reset
+.BI "(struct ipr_ioa_cfg *ioa_cfg "  ","
+.BI "struct ipr_resource_entry *res "  ");"
+.SH ARGUMENTS
+.IP "ioa_cfg" 12
+ioa config struct
+.IP "res" 12
+resource entry struct
+.SH "DESCRIPTION"
+This function issues a device reset to the affected device.
+If the device is a SCSI device, a LUN reset will be sent
+to the device first. If that does not work, a target reset
+will be sent. If the device is a SATA device, a PHY reset will
+be sent.
+
+Return value:
+0 on success / non-zero on failure

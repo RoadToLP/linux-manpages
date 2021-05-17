@@ -1,0 +1,16 @@
+.TH "get_task_mm" 9 "get_task_mm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_task_mm \- acquire a reference to the task's mm
+.SH SYNOPSIS
+.B "struct mm_struct *" get_task_mm
+.BI "(struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+Returns NULL if the task has no mm.  Checks PF_KTHREAD (meaning
+this kernel workthread has transiently adopted a user mm with use_mm,
+to do its AIO) is not set and if so returns a reference to it, after
+bumping up the use count.  User must release the mm via \fBmmput\fP
+after use.  Typically used by /proc and ptrace.

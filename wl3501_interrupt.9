@@ -1,0 +1,19 @@
+.TH "wl3501_interrupt" 9 "wl3501_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wl3501_interrupt \- Hardware interrupt from card.
+.SH SYNOPSIS
+.B "irqreturn_t" wl3501_interrupt
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number
+.IP "dev_id" 12
+net_device
+.SH "DESCRIPTION"
+We must acknowledge the interrupt as soon as possible, and block the
+interrupt from the same card immediately to prevent re-entry.
+
+Before accessing the Control_Status_Block, we must lock SUTRO first.
+On the other hand, to prevent SUTRO from malfunctioning, we must
+unlock the SUTRO as soon as possible.

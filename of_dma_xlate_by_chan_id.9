@@ -1,0 +1,20 @@
+.TH "of_dma_xlate_by_chan_id" 9 "of_dma_xlate_by_chan_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_dma_xlate_by_chan_id \- Translate dt property to DMA channel by channel id
+.SH SYNOPSIS
+.B "struct dma_chan *" of_dma_xlate_by_chan_id
+.BI "(struct of_phandle_args *dma_spec "  ","
+.BI "struct of_dma *ofdma "  ");"
+.SH ARGUMENTS
+.IP "dma_spec" 12
+pointer to DMA specifier as found in the device tree
+.IP "ofdma" 12
+pointer to DMA controller data
+.SH "DESCRIPTION"
+This function can be used as the of xlate callback for DMA driver which wants
+to match the channel based on the channel id. When using this xlate function
+the #dma-cells propety of the DMA controller dt node needs to be set to 1.
+The data parameter of of_dma_controller_register must be a pointer to the
+dma_device struct the function should match upon.
+
+Returns pointer to appropriate dma channel on success or NULL on error.

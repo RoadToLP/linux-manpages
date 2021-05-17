@@ -1,0 +1,20 @@
+.TH "blkg_lookup_create" 9 "blkg_lookup_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkg_lookup_create \- lookup blkg, try to create one if not there
+.SH SYNOPSIS
+.B "struct blkcg_gq *" blkg_lookup_create
+.BI "(struct blkcg *blkcg "  ","
+.BI "struct request_queue *q "  ");"
+.SH ARGUMENTS
+.IP "blkcg" 12
+blkcg of interest
+.IP "q" 12
+request_queue of interest
+.SH "DESCRIPTION"
+Lookup blkg for the \fIblkcg\fP - \fIq\fP pair.  If it doesn't exist, try to
+create one.  blkg creation is performed recursively from blkcg_root such
+that all non-root blkg's have access to the parent blkg.  This function
+should be called under RCU read lock and takes \fIq->queue_lock\fP.
+
+Returns the blkg or the closest blkg if \fBblkg_create\fP fails as it walks
+down from root.

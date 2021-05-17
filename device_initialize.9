@@ -1,0 +1,25 @@
+.TH "device_initialize" 9 "device_initialize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_initialize \- init device structure.
+.SH SYNOPSIS
+.B "void" device_initialize
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+This prepares the device for use by other layers by initializing
+its fields.
+It is the first half of \fBdevice_register\fP, if called by
+that function, though it can also be called separately, so one
+may use \fIdev\fP's fields. In particular, \fBget_device\fP/\fBput_device\fP
+may be used for reference counting of \fIdev\fP after calling this
+function.
+
+All fields in \fIdev\fP must be initialized by the caller to 0, except
+for those explicitly set to some other value.  The simplest
+approach is to use \fBkzalloc\fP to allocate the structure containing
+\fIdev\fP.
+.SH "NOTE"
+Use \fBput_device\fP to give up your reference instead of freeing
+\fIdev\fP directly once you have called this function.

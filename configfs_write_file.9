@@ -1,0 +1,27 @@
+.TH "configfs_write_file" 9 "configfs_write_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+configfs_write_file \- write an attribute.
+.SH SYNOPSIS
+.B "ssize_t" configfs_write_file
+.BI "(struct file *file "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "buf" 12
+data to write
+.IP "count" 12
+number of bytes
+.IP "ppos" 12
+starting offset
+
+Similar to \fBconfigfs_read_file\fP, though working in the opposite direction.
+We allocate and fill the data from the user in \fBfill_write_buffer\fP,
+then push it to the config_item in \fBflush_write_buffer\fP.
+There is no easy way for us to know if userspace is only doing a partial
+write, so we don't support them. We expect the entire buffer to come
+on the first write.
+Hint: if you're writing a value, first read the file, modify only
+the value you're changing, then write entire buffer back.

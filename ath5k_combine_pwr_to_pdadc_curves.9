@@ -1,0 +1,23 @@
+.TH "ath5k_combine_pwr_to_pdadc_curves" 9 "ath5k_combine_pwr_to_pdadc_curves" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_combine_pwr_to_pdadc_curves \- Combine the various PDADC curves
+.SH SYNOPSIS
+.B "void" ath5k_combine_pwr_to_pdadc_curves
+.BI "(struct ath5k_hw *ah "  ","
+.BI "s16 *pwr_min "  ","
+.BI "s16 *pwr_max "  ","
+.BI "u8 pdcurves "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "pwr_min" 12
+Minimum power (x min)
+.IP "pwr_max" 12
+Maximum power (x max)
+.IP "pdcurves" 12
+Number of available curves
+.SH "DESCRIPTION"
+Combine the various pd curves and create the final Power to PDADC table
+We can have up to 4 pd curves, we need to do a similar process
+as we do for RF5112. This time we don't have an edge_flag but we
+set the gain boundaries on a separate register.

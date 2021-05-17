@@ -1,0 +1,21 @@
+.TH "console_lock_spinning_disable_and_check" 9 "console_lock_spinning_disable_and_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+console_lock_spinning_disable_and_check \- mark end of code where another thread was able to busy wait and check if there is a waiter
+.SH SYNOPSIS
+.B "int" console_lock_spinning_disable_and_check
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is called at the end of the section where spinning is allowed.
+It has two functions. First, it is a signal that it is no longer
+safe to start busy waiting for the lock. Second, it checks if
+there is a busy waiter and passes the lock rights to her.
+
+Important: Callers lose the lock if there was a busy waiter.
+They must not touch items synchronized by console_lock
+in this case.
+.SH "RETURN"
+1 if the lock rights were passed, 0 otherwise.

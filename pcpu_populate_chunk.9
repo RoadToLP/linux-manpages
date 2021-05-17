@@ -1,0 +1,23 @@
+.TH "pcpu_populate_chunk" 9 "pcpu_populate_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_populate_chunk \- populate and map an area of a pcpu_chunk
+.SH SYNOPSIS
+.B "int" pcpu_populate_chunk
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "page_start" 12
+the start page
+.IP "page_end" 12
+the end page
+.IP "gfp" 12
+allocation flags passed to the underlying memory allocator
+.SH "DESCRIPTION"
+For each cpu, populate and map pages [\fIpage_start\fP,\fIpage_end\fP) into
+\fIchunk\fP.
+.SH "CONTEXT"
+pcpu_alloc_mutex, does GFP_KERNEL allocation.

@@ -1,0 +1,32 @@
+.TH "avc_has_perm" 9 "avc_has_perm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+avc_has_perm \- Check permissions and perform any appropriate auditing.
+.SH SYNOPSIS
+.B "int" avc_has_perm
+.BI "(struct selinux_state *state "  ","
+.BI "u32 ssid "  ","
+.BI "u32 tsid "  ","
+.BI "u16 tclass "  ","
+.BI "u32 requested "  ","
+.BI "struct common_audit_data *auditdata "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "ssid" 12
+source security identifier
+.IP "tsid" 12
+target security identifier
+.IP "tclass" 12
+target security class
+.IP "requested" 12
+requested permissions, interpreted based on \fItclass\fP
+.IP "auditdata" 12
+auxiliary audit data
+.SH "DESCRIPTION"
+Check the AVC to determine whether the \fIrequested\fP permissions are granted
+for the SID pair (\fIssid\fP, \fItsid\fP), interpreting the permissions
+based on \fItclass\fP, and call the security server on a cache miss to obtain
+a new decision and add it to the cache.  Audit the granting or denial of
+permissions in accordance with the policy.  Return 0 if all \fIrequested\fP
+permissions are granted, -EACCES if any permissions are denied, or
+another -errno upon other errors.

@@ -1,0 +1,21 @@
+.TH "copy_kernel_to_dynamic_supervisor" 9 "copy_kernel_to_dynamic_supervisor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+copy_kernel_to_dynamic_supervisor \- Restore dynamic supervisor states from an xsave area
+.SH SYNOPSIS
+.B "void" copy_kernel_to_dynamic_supervisor
+.BI "(struct xregs_state *xstate "  ","
+.BI "u64 mask "  ");"
+.SH ARGUMENTS
+.IP "xstate" 12
+A pointer to an xsave area
+.IP "mask" 12
+Represent the dynamic supervisor features restored from the xsave area
+.SH "DESCRIPTION"
+Only the dynamic supervisor states sets in the mask are restored from the
+xsave area (See the comment in XFEATURE_MASK_DYNAMIC for the details of
+dynamic supervisor feature). Besides the dynamic supervisor states, the
+legacy region and XSAVE header are also restored from the xsave area. The
+supervisor features in the XFEATURE_MASK_SUPERVISOR_SUPPORTED and
+XFEATURE_MASK_SUPERVISOR_UNSUPPORTED are not restored.
+
+The xsave area must be 64-bytes aligned.

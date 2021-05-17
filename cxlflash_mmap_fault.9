@@ -1,0 +1,20 @@
+.TH "cxlflash_mmap_fault" 9 "cxlflash_mmap_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_mmap_fault \- mmap fault handler for adapter file descriptor
+.SH SYNOPSIS
+.B "vm_fault_t" cxlflash_mmap_fault
+.BI "(struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+VM fault associated with current fault.
+.SH "DESCRIPTION"
+To support error notification via MMIO, faults are 'caught' by this routine
+that was inserted before passing back the adapter file descriptor on attach.
+When a fault occurs, this routine evaluates if error recovery is active and
+if so, installs the error page to 'notify' the user about the error state.
+During normal operation, the fault is simply handled by the original fault
+handler that was installed by CXL services as part of initializing the
+adapter file descriptor. The VMA's page protection bits are toggled to
+indicate cached/not-cached depending on the memory backing the fault.
+.SH "RETURN"
+0 on success, VM_FAULT_SIGBUS on failure

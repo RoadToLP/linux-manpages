@@ -1,0 +1,22 @@
+.TH "lpfc_nvme_create_localport" 9 "lpfc_nvme_create_localport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_create_localport \- Create/Bind an nvme localport instance. @vport - the lpfc_vport instance requesting a localport.
+.SH SYNOPSIS
+.B "int" lpfc_nvme_create_localport
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This routine is invoked to create an nvme localport instance to bind
+to the nvme_fc_transport.  It is called once during driver load
+like lpfc_create_shost after all other services are initialized.
+It requires a vport, vpi, and wwns at call time.  Other localport
+parameters are modified as the driver's FCID and the Fabric WWN
+are established.
+
+Return codes
+0 - successful
+-ENOMEM - no heap memory available
+other values - from nvme registration upcall

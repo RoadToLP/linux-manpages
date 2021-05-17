@@ -1,0 +1,18 @@
+.TH "svc_normal_to_secure_shm_thread" 9 "svc_normal_to_secure_shm_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_normal_to_secure_shm_thread \- the function to run in the kthread
+.SH SYNOPSIS
+.B "int" svc_normal_to_secure_shm_thread
+.BI "(void *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+data pointer for kthread function
+.SH "DESCRIPTION"
+Service layer driver creates stratix10_svc_smc_hvc_shm kthread on CPU
+node 0, its function stratix10_svc_secure_shm_thread is used to query the
+physical address of memory block reserved by secure monitor software at
+secure world.
+
+\fBsvc_normal_to_secure_shm_thread\fP calls \fBdo_exit\fP directly since it is a
+standlone thread for which no one will call \fBkthread_stop\fP or return when
+'\fBkthread_should_stop\fP' is true.

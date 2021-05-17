@@ -1,0 +1,26 @@
+.TH "nau8825_sema_acquire" 9 "nau8825_sema_acquire" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nau8825_sema_acquire \- acquire the semaphore of nau88l25
+.SH SYNOPSIS
+.B "int" nau8825_sema_acquire
+.BI "(struct nau8825 *nau8825 "  ","
+.BI "long timeout "  ");"
+.SH ARGUMENTS
+.IP "nau8825" 12
+component to register the codec private data with
+.IP "timeout" 12
+how long in jiffies to wait before failure or zero to wait
+until release
+.SH "DESCRIPTION"
+Attempts to acquire the semaphore with number of jiffies. If no more
+tasks are allowed to acquire the semaphore, calling this function will
+put the task to sleep. If the semaphore is not released within the
+specified number of jiffies, this function returns.
+If the semaphore is not released within the specified number of jiffies,
+this function returns -ETIME. If the sleep is interrupted by a signal,
+this function will return -EINTR. It returns 0 if the semaphore was
+acquired successfully.
+
+Acquires the semaphore without jiffies. Try to acquire the semaphore
+atomically. Returns 0 if the semaphore has been acquired successfully
+or 1 if it cannot be acquired.

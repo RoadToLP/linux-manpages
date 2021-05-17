@@ -1,0 +1,26 @@
+.TH "lpfc_wqe_bpl2sgl" 9 "lpfc_wqe_bpl2sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_wqe_bpl2sgl \- Convert the bpl/bde to a sgl.
+.SH SYNOPSIS
+.B "uint16_t" lpfc_wqe_bpl2sgl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *pwqeq "  ","
+.BI "struct lpfc_sglq *sglq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pwqeq" 12
+Pointer to command WQE.
+.IP "sglq" 12
+Pointer to the scatter gather queue object.
+.SH "DESCRIPTION"
+This routine converts the bpl or bde that is in the WQE
+to a sgl list for the sli4 hardware. The physical address
+of the bpl/bde is converted back to a virtual address.
+If the WQE contains a BPL then the list of BDE's is
+converted to sli4_sge's. If the WQE contains a single
+BDE then it is converted to a single sli_sge.
+The WQE is still in cpu endianness so the contents of
+the bpl can be used without byte swapping.
+
+Returns valid XRI = Success, NO_XRI = Failure.

@@ -1,0 +1,23 @@
+.TH "rpi_firmware_property_list" 9 "rpi_firmware_property_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpi_firmware_property_list \- Submit firmware property list
+.SH SYNOPSIS
+.B "int" rpi_firmware_property_list
+.BI "(struct rpi_firmware *fw "  ","
+.BI "void *data "  ","
+.BI "size_t tag_size "  ");"
+.SH ARGUMENTS
+.IP "fw" 12
+Pointer to firmware structure from \fBrpi_firmware_get\fP.
+.IP "data" 12
+Buffer holding tags.
+.IP "tag_size" 12
+Size of tags buffer.
+.SH "DESCRIPTION"
+Submits a set of concatenated tags to the VPU firmware through the
+mailbox property interface.
+
+The buffer header and the ending tag are added by this function and
+don't need to be supplied, just the actual tags for your operation.
+See struct rpi_firmware_property_tag_header for the per-tag
+structure.

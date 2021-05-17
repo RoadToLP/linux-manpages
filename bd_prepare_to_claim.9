@@ -1,0 +1,18 @@
+.TH "bd_prepare_to_claim" 9 "bd_prepare_to_claim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bd_prepare_to_claim \- claim a block device
+.SH SYNOPSIS
+.B "int" bd_prepare_to_claim
+.BI "(struct block_device *bdev "  ","
+.BI "void *holder "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+block device of interest
+.IP "holder" 12
+holder trying to claim \fIbdev\fP
+.SH "DESCRIPTION"
+Claim \fIbdev\fP.  This function fails if \fIbdev\fP is already claimed by another
+holder and waits if another claiming is in progress. return, the caller
+has ownership of bd_claiming and bd_holder[s].
+.SH "RETURN"
+0 if \fIbdev\fP can be claimed, -EBUSY otherwise.

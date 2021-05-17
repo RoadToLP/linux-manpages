@@ -1,0 +1,30 @@
+.TH "atmel_lcdfb_check_var" 9 "atmel_lcdfb_check_var" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atmel_lcdfb_check_var \- Validates a var passed in.
+.SH SYNOPSIS
+.B "int" atmel_lcdfb_check_var
+.BI "(struct fb_var_screeninfo *var "  ","
+.BI "struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "var" 12
+frame buffer variable screen structure
+.IP "info" 12
+frame buffer structure that represents a single frame buffer
+
+Checks to see if the hardware supports the state requested by
+var passed in. This function does not alter the hardware
+state!!!  This means the data stored in struct fb_info and
+struct atmel_lcdfb_info do not change. This includes the var
+inside of struct fb_info.  Do NOT change these. This function
+can be called on its own if we intent to only test a mode and
+not actually set it. The stuff in modedb.c is a example of
+this. If the var passed in is slightly off by what the
+hardware can support then we alter the var PASSED in to what
+we can do. If the hardware doesn't support mode change a
+-EINVAL will be returned by the upper layers. You don't need
+to implement this function then. If you hardware doesn't
+support changing the resolution then this function is not
+needed. In this case the driver would just provide a var that
+represents the static state the screen is in.
+
+Returns negative errno on error, or zero on success.

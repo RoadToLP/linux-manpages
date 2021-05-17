@@ -1,0 +1,21 @@
+.TH "__scsi_queue_insert" 9 "__scsi_queue_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__scsi_queue_insert \- private queue insertion
+.SH SYNOPSIS
+.B "void" __scsi_queue_insert
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "int reason "  ","
+.BI "bool unbusy "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+The SCSI command being requeued
+.IP "reason" 12
+The reason for the requeue
+.IP "unbusy" 12
+Whether the queue should be unbusied
+.SH "DESCRIPTION"
+This is a private queue insertion.  The public interface
+\fBscsi_queue_insert\fP always assumes the queue should be unbusied
+because it's always called before the completion.  This function is
+for a requeue after completion, which should only occur in this
+file.

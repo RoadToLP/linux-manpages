@@ -1,0 +1,55 @@
+.TH "map_mft_record" 9 "map_mft_record" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+map_mft_record \- map, pin and lock an mft record
+.SH SYNOPSIS
+.B "MFT_RECORD *" map_mft_record
+.BI "(ntfs_inode *ni "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode whose MFT record to map
+.SH "DESCRIPTION"
+First, take the mrec_lock mutex.  We might now be sleeping, while waiting
+for the mutex if it was already locked by someone else.
+
+The page of the record is mapped using \fBmap_mft_record_page\fP before being
+returned to the caller.
+
+This in turn uses \fBntfs_map_page\fP to get the page containing the wanted mft
+record (it in turn calls \fBread_cache_page\fP which reads it in from disk if
+necessary, increments the use count on the page so that it cannot disappear
+under us and returns a reference to the page cache page).
+
+If \fBread_cache_page\fP invokes \fBntfs_readpage\fP to load the page from disk, it
+sets PG_locked and clears PG_uptodate on the page. Once I/O has completed
+and the post-read mst fixups on each mft record in the page have been
+performed, the page gets PG_uptodate set and PG_locked cleared (this is done
+in our asynchronous I/O completion handler \fBend_buffer_read_mft_async\fP).
+\fBntfs_map_page\fP waits for PG_locked to become clear and checks if
+PG_uptodate is set and returns an error code if not. This provides
+sufficient protection against races when reading/using the page.
+
+However there is the write mapping to think about. Doing the above described
+checking here will be fine, because when initiating the write we will set
+PG_locked and clear PG_uptodate making sure nobody is touching the page
+contents. Doing the locking this way means that the commit to disk code in
+the page cache code paths is automatically sufficiently locked with us as
+we will not touch a page that has been locked or is not uptodate. The only
+locking problem then is them locking the page while we are accessing it.
+
+So that code will end up having to own the mrec_lock of all mft
+records/inodes present in the page before I/O can proceed. In that case we
+wouldn't need to bother with PG_locked and PG_uptodate as nobody will be
+accessing anything without owning the mrec_lock mutex.  But we do need to
+use them because of the \fBread_cache_page\fP invocation and the code becomes so
+much simpler this way that it is well worth it.
+
+The mft record is now ours and we return a pointer to it. You need to check
+the returned pointer with \fBIS_ERR\fP and if that is true, \fBPTR_ERR\fP will return
+the error code.
+.SH "NOTE"
+Caller is responsible for setting the mft record dirty before calling
+\fBunmap_mft_record\fP. This is obviously only necessary if the caller really
+modified the mft record...
+Q: Do we want to recycle one of the VFS inode state bits instead?
+A: No, the inode ones mean we want to change the mft record, not we want to
+write it out.

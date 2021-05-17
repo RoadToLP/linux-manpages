@@ -1,0 +1,25 @@
+.TH "blk_release_queue" 9 "blk_release_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_release_queue \- releases all allocated resources of the request_queue
+.SH SYNOPSIS
+.B "void" blk_release_queue
+.BI "(struct kobject *kobj "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+pointer to a kobject, whose container is a request_queue
+.SH "DESCRIPTION"
+This function releases all allocated resources of the request queue.
+
+The struct request_queue refcount is incremented with \fBblk_get_queue\fP and
+decremented with \fBblk_put_queue\fP. Once the refcount reaches 0 this function
+is called.
+
+For drivers that have a request_queue on a gendisk and added with
+\fB__device_add_disk\fP the refcount to request_queue will reach 0 with
+the last \fBput_disk\fP called by the driver. For drivers which don't use
+\fB__device_add_disk\fP this happens with \fBblk_cleanup_queue\fP.
+
+Drivers exist which depend on the release of the request_queue to be
+synchronous, it should not be deferred.
+.SH "CONTEXT"
+can sleep

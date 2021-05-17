@@ -1,0 +1,20 @@
+.TH "mpt_do_upload" 9 "mpt_do_upload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_do_upload \- Construct and Send FWUpload request to MPT adapter port.
+.SH SYNOPSIS
+.B "int" mpt_do_upload
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+
+Returns 0 for success, >0 for handshake failure
+<0 for fw upload failure.
+
+Remark: If bound IOC and a successful FWUpload was performed
+on the bound IOC, the second image is discarded
+and memory is free'd. Both channels must upload to prevent
+IOC from running in degraded mode.

@@ -1,0 +1,19 @@
+.TH "find_named_trigger" 9 "find_named_trigger" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_named_trigger \- Find the common named trigger associated with @name
+.SH SYNOPSIS
+.B "struct event_trigger_data *" find_named_trigger
+.BI "(const char *name "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the set of named triggers to find the common data for
+.SH "DESCRIPTION"
+Named triggers are sets of triggers that share a common set of
+trigger data.  The first named trigger registered with a given name
+owns the common trigger data that the others subsequently
+registered with the same name will reference.  This function
+returns the common trigger data associated with that first
+registered instance.
+.SH "RETURN"
+the common trigger data for the given named trigger on
+success, NULL otherwise.

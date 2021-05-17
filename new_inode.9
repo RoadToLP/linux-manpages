@@ -1,0 +1,16 @@
+.TH "new_inode" 9 "new_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+new_inode \- obtain an inode
+.SH SYNOPSIS
+.B "struct inode *" new_inode
+.BI "(struct super_block *sb "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+
+Allocates a new inode for given superblock. The default gfp_mask
+for allocations related to inode->i_mapping is GFP_HIGHUSER_MOVABLE.
+If HIGHMEM pages are unsuitable or it is known that pages allocated
+for the page cache are not reclaimable or migratable,
+\fBmapping_set_gfp_mask\fP must be called with suitable flags on the
+newly created inode's mapping

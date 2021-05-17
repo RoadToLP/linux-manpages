@@ -1,0 +1,13 @@
+.TH "rgrp_go_sync" 9 "rgrp_go_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rgrp_go_sync \- sync out the metadata for this glock
+.SH SYNOPSIS
+.B "int" rgrp_go_sync
+.BI "(struct gfs2_glock *gl "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+the glock
+.SH "DESCRIPTION"
+Called when demoting or unlocking an EX glock.  We must flush
+to disk all dirty buffers/pages relating to this glock, and must not
+return to caller to demote/unlock the glock until I/O is complete.

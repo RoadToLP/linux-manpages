@@ -1,0 +1,22 @@
+.TH "qrtr_tx_flow_failed" 9 "qrtr_tx_flow_failed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qrtr_tx_flow_failed \- flag that tx of confirm_rx flagged messages failed
+.SH SYNOPSIS
+.B "void" qrtr_tx_flow_failed
+.BI "(struct qrtr_node *node "  ","
+.BI "int dest_node "  ","
+.BI "int dest_port "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+qrtr_node that the packet is to be send to
+.IP "dest_node" 12
+node id of the destination
+.IP "dest_port" 12
+port number of the destination
+.SH "DESCRIPTION"
+Signal that the transmission of a message with confirm_rx flag failed. The
+flow's "pending" counter will keep incrementing towards QRTR_TX_FLOW_HIGH,
+at which point transmission would stall forever waiting for the resume TX
+message associated with the dropped confirm_rx message.
+Work around this by marking the flow as having a failed transmission and
+cause the next transmission attempt to be sent with the confirm_rx.

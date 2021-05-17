@@ -1,0 +1,22 @@
+.TH "rps_may_expire_flow" 9 "rps_may_expire_flow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rps_may_expire_flow \- check whether an RFS hardware filter may be removed
+.SH SYNOPSIS
+.B "bool" rps_may_expire_flow
+.BI "(struct net_device *dev "  ","
+.BI "u16 rxq_index "  ","
+.BI "u32 flow_id "  ","
+.BI "u16 filter_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device on which the filter was set
+.IP "rxq_index" 12
+RX queue index
+.IP "flow_id" 12
+Flow ID passed to \fBndo_rx_flow_steer\fP
+.IP "filter_id" 12
+Filter ID returned by \fBndo_rx_flow_steer\fP
+.SH "DESCRIPTION"
+Drivers that implement \fBndo_rx_flow_steer\fP should periodically call
+this function for each installed filter and remove the filters for
+which it returns true.

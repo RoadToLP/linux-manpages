@@ -1,0 +1,17 @@
+.TH "evm_inode_post_removexattr" 9 "evm_inode_post_removexattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evm_inode_post_removexattr \- update 'security.evm' after removing the xattr
+.SH SYNOPSIS
+.B "void" evm_inode_post_removexattr
+.BI "(struct dentry *dentry "  ","
+.BI "const char *xattr_name "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+pointer to the affected dentry
+.IP "xattr_name" 12
+pointer to the affected extended attribute name
+.SH "DESCRIPTION"
+Update the HMAC stored in 'security.evm' to reflect removal of the xattr.
+
+No need to take the i_mutex lock here, as this function is called from
+\fBvfs_removexattr\fP which takes the i_mutex.

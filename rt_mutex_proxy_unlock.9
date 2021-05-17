@@ -1,0 +1,16 @@
+.TH "rt_mutex_proxy_unlock" 9 "rt_mutex_proxy_unlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rt_mutex_proxy_unlock \- release a lock on behalf of owner
+.SH SYNOPSIS
+.B "void" rt_mutex_proxy_unlock
+.BI "(struct rt_mutex *lock "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex to be locked
+.SH "DESCRIPTION"
+No locking. Caller has to do serializing itself
+
+Special API call for PI-futex support. This merrily cleans up the rtmutex
+(debugging) state. Concurrent operations on this rt_mutex are not
+possible because it belongs to the pi_state which is about to be freed
+and it is not longer visible to other tasks.

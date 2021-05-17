@@ -1,0 +1,22 @@
+.TH "ntfs_get_parent" 9 "ntfs_get_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_get_parent \- find the dentry of the parent of a given directory dentry
+.SH SYNOPSIS
+.B "struct dentry *" ntfs_get_parent
+.BI "(struct dentry *child_dent "  ");"
+.SH ARGUMENTS
+.IP "child_dent" 12
+dentry of the directory whose parent directory to find
+.SH "DESCRIPTION"
+Find the dentry for the parent directory of the directory specified by the
+dentry \fIchild_dent\fP.  This function is called from
+fs/exportfs/expfs.c::\fBfind_exported_dentry\fP which in turn is called from the
+default ->\fBdecode_fh\fP which is \fBexport_decode_fh\fP in the same file.
+
+The code is based on the ext3 ->\fBget_parent\fP implementation found in
+fs/ext3/namei.c::\fBext3_get_parent\fP.
+
+Return the dentry of the parent directory on success or the error code on
+error (\fBIS_ERR\fP is true).
+.SH "NOTE"
+\fBntfs_get_parent\fP is called with \fId_inode\fP(child_dent)->i_mutex down.

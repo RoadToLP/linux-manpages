@@ -1,0 +1,29 @@
+.TH "request_firmware" 9 "request_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_firmware \- send firmware request and wait for it
+.SH SYNOPSIS
+.B "int" request_firmware
+.BI "(const struct firmware **firmware_p "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ");"
+.SH ARGUMENTS
+.IP "firmware_p" 12
+pointer to firmware image
+.IP "name" 12
+name of firmware file
+.IP "device" 12
+device for which firmware is being loaded
+
+\fIfirmware_p\fP will be used to return a firmware image by the name
+of \fIname\fP for device \fIdevice\fP.
+
+Should be called from user context where sleeping is allowed.
+
+\fIname\fP will be used as $FIRMWARE in the uevent environment and
+should be distinctive enough not to be confused with any other
+firmware image for this or any other device.
+
+Caller must hold the reference count of \fIdevice\fP.
+
+The function can be called safely inside device's suspend and
+resume callback.

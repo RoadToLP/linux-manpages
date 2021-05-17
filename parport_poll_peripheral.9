@@ -1,0 +1,34 @@
+.TH "parport_poll_peripheral" 9 "parport_poll_peripheral" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parport_poll_peripheral \- poll status lines
+.SH SYNOPSIS
+.B "int" parport_poll_peripheral
+.BI "(struct parport *port "  ","
+.BI "unsigned char mask "  ","
+.BI "unsigned char result "  ","
+.BI "int usec "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+port to watch
+.IP "mask" 12
+status lines to watch
+.IP "result" 12
+desired values of chosen status lines
+.IP "usec" 12
+timeout
+
+This function busy-waits until the masked status lines have
+the desired values, or until the timeout period elapses.  The
+\fImask\fP and \fIresult\fP parameters are bitmasks, with the bits
+defined by the constants in parport.h: PARPORT_STATUS_BUSY,
+and so on.
+
+This function does not call \fBschedule\fP; instead it busy-waits
+using \fBudelay\fP.  It currently has a resolution of 5usec.
+
+If the status lines take on the desired values before the
+timeout period elapses, \fBparport_poll_peripheral\fP returns zero
+immediately.  A return value greater than zero indicates
+a timeout.  An error code (less than zero) indicates an error,
+most likely a signal that arrived, and the caller should
+finish what it is doing as soon as possible.

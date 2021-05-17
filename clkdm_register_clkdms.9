@@ -1,0 +1,15 @@
+.TH "clkdm_register_clkdms" 9 "clkdm_register_clkdms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_register_clkdms \- register SoC clockdomains
+.SH SYNOPSIS
+.B "int" clkdm_register_clkdms
+.BI "(struct clockdomain **cs "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+pointer to an array of struct clockdomain to register
+.SH "DESCRIPTION"
+Register the clockdomains available on a particular OMAP SoC.  Must
+be called after \fBclkdm_register_platform_funcs\fP.  May be called
+multiple times.  Returns -EACCES if called before
+\fBclkdm_register_platform_funcs\fP; -EINVAL if the argument \fIcs\fP is
+null; or 0 upon success.

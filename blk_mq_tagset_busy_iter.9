@@ -1,0 +1,19 @@
+.TH "blk_mq_tagset_busy_iter" 9 "blk_mq_tagset_busy_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_tagset_busy_iter \- iterate over all started requests in a tag set
+.SH SYNOPSIS
+.B "void" blk_mq_tagset_busy_iter
+.BI "(struct blk_mq_tag_set *tagset "  ","
+.BI "busy_tag_iter_fn *fn "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "tagset" 12
+Tag set to iterate over.
+.IP "fn" 12
+Pointer to the function that will be called for each started
+request. \fIfn\fP will be called as follows: \fIfn\fP(rq, \fIpriv\fP,
+reserved) where rq is a pointer to a request. 'reserved'
+indicates whether or not \fIrq\fP is a reserved request. Return
+true to continue iterating tags, false to stop.
+.IP "priv" 12
+Will be passed as second argument to \fIfn\fP.

@@ -1,0 +1,20 @@
+.TH "wear_leveling_worker" 9 "wear_leveling_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wear_leveling_worker \- wear-leveling worker function.
+.SH SYNOPSIS
+.B "int" wear_leveling_worker
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_work *wrk "  ","
+.BI "int shutdown "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "wrk" 12
+the work object
+.IP "shutdown" 12
+non-zero if the worker has to free memory and exit
+because the WL-subsystem is shutting down
+.SH "DESCRIPTION"
+This function copies a more worn out physical eraseblock to a less worn out
+one. Returns zero in case of success and a negative error code in case of
+failure.

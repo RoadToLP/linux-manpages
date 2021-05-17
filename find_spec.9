@@ -1,0 +1,24 @@
+.TH "find_spec" 9 "find_spec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_spec \- find HW specification info by name
+.SH SYNOPSIS
+.B "const struct uniphier_aio_spec *" find_spec
+.BI "(struct uniphier_aio *aio "  ","
+.BI "const char *name "  ","
+.BI "int direction "  ");"
+.SH ARGUMENTS
+.IP "aio" 12
+the AIO device pointer
+.IP "name" 12
+name of device
+.IP "direction" 12
+the direction of substream, SNDRV_PCM_STREAM_*
+.SH "DESCRIPTION"
+Find hardware specification information from list by device name. This
+information is used for telling the difference of SoCs to driver.
+
+Specification list is array of 'struct uniphier_aio_spec' which is defined
+in each drivers (see: aio-i2s.c).
+.SH "RETURN"
+The pointer of hardware specification of AIO if successful,
+otherwise NULL on error.

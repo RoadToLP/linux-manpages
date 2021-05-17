@@ -1,0 +1,22 @@
+.TH "pseudo_lock_cstates_constrain" 9 "pseudo_lock_cstates_constrain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseudo_lock_cstates_constrain \- Restrict cores from entering C6
+.SH SYNOPSIS
+.B "int" pseudo_lock_cstates_constrain
+.BI "(struct pseudo_lock_region *plr "  ");"
+.SH ARGUMENTS
+.IP "plr" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+To prevent the cache from being affected by power management entering
+C6 has to be avoided. This is accomplished by requesting a latency
+requirement lower than lowest C6 exit latency of all supported
+platforms as found in the cpuidle state tables in the intel_idle driver.
+At this time it is possible to do so with a single latency requirement
+for all supported platforms.
+
+Since Goldmont is supported, which is affected by X86_BUG_MONITOR,
+the ACPI latencies need to be considered while keeping in mind that C2
+may be set to map to deeper sleep states. In this case the latency
+requirement needs to prevent entering C2 also.

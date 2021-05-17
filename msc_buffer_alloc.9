@@ -1,0 +1,26 @@
+.TH "msc_buffer_alloc" 9 "msc_buffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+msc_buffer_alloc \- allocate a buffer for MSC
+.SH SYNOPSIS
+.B "int" msc_buffer_alloc
+.BI "(struct msc *msc "  ","
+.BI "unsigned long *nr_pages "  ","
+.BI "unsigned int nr_wins "  ");"
+.SH ARGUMENTS
+.IP "msc" 12
+MSC device
+.IP "nr_pages" 12
+-- undescribed --
+.IP "nr_wins" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Allocate a storage buffer for MSC, depending on the msc::mode, it will be
+either done via \fBmsc_buffer_contig_alloc\fP for SINGLE operation mode or
+\fBmsc_buffer_win_alloc\fP for multiblock operation. The latter allocates one
+window per invocation, so in multiblock mode this can be called multiple
+times for the same MSC to allocate multiple windows.
+
+This modifies msc::win_list and msc::base, which requires msc::buf_mutex
+to serialize, so the caller is expected to hold it.
+.SH "RETURN"
+0 on success, -errno otherwise.

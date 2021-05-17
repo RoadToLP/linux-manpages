@@ -1,0 +1,25 @@
+.TH "anon_inode_getfd" 9 "anon_inode_getfd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+anon_inode_getfd \- creates a new file instance by hooking it up to an anonymous inode and a dentry that describe the "class" of the file
+.SH SYNOPSIS
+.B "int" anon_inode_getfd
+.BI "(const char *name "  ","
+.BI "const struct file_operations *fops "  ","
+.BI "void *priv "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+[in]    name of the "class" of the new file
+.IP "fops" 12
+[in]    file operations for the new file
+.IP "priv" 12
+[in]    private data for the new file (will be file's private_data)
+.IP "flags" 12
+[in]    flags
+.SH "DESCRIPTION"
+Creates a new file by hooking it on a single inode. This is
+useful for files that do not need to have a full-fledged inode in
+order to operate correctly.  All the files created with
+\fBanon_inode_getfd\fP will use the same singleton inode, reducing
+memory use and avoiding code duplication for the file/inode/dentry
+setup.  Returns a newly created file descriptor or an error code.

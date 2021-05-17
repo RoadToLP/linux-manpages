@@ -1,0 +1,22 @@
+.TH "lpfc_mbx_cmpl_fcf_scan_read_fcf_rec" 9 "lpfc_mbx_cmpl_fcf_scan_read_fcf_rec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mbx_cmpl_fcf_scan_read_fcf_rec \- fcf scan read_fcf mbox cmpl handler.
+.SH SYNOPSIS
+.B "void" lpfc_mbx_cmpl_fcf_scan_read_fcf_rec
+.BI "(struct lpfc_hba *phba "  ","
+.BI "LPFC_MBOXQ_t *mboxq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "mboxq" 12
+pointer to mailbox object.
+.SH "DESCRIPTION"
+This function iterates through all the fcf records available in
+HBA and chooses the optimal FCF record for discovery. After finding
+the FCF for discovery it registers the FCF record and kicks start
+discovery.
+If FCF_IN_USE flag is set in currently used FCF, the routine tries to
+use an FCF record which matches fabric name and mac address of the
+currently used FCF record.
+If the driver supports only one FCF, it will try to use the FCF record
+used by BOOT_BIOS.

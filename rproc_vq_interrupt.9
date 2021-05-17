@@ -1,0 +1,19 @@
+.TH "rproc_vq_interrupt" 9 "rproc_vq_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_vq_interrupt \- tell remoteproc that a virtqueue is interrupted
+.SH SYNOPSIS
+.B "irqreturn_t" rproc_vq_interrupt
+.BI "(struct rproc *rproc "  ","
+.BI "int notifyid "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+handle to the remote processor
+.IP "notifyid" 12
+index of the signalled virtqueue (unique per this \fIrproc\fP)
+.SH "DESCRIPTION"
+This function should be called by the platform-specific rproc driver,
+when the remote processor signals that a specific virtqueue has pending
+messages available.
+
+Returns IRQ_NONE if no message was found in the \fInotifyid\fP virtqueue,
+and otherwise returns IRQ_HANDLED.

@@ -1,0 +1,20 @@
+.TH "fsverity_file_open" 9 "fsverity_file_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_file_open \- prepare to open a verity file
+.SH SYNOPSIS
+.B "int" fsverity_file_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode being opened
+.IP "filp" 12
+the struct file being set up
+.SH "DESCRIPTION"
+When opening a verity file, deny the open if it is for writing.  Otherwise,
+set up the inode's ->i_verity_info if not already done.
+
+When combined with fscrypt, this must be called after \fBfscrypt_file_open\fP.
+Otherwise, we won't have the key set up to decrypt the verity metadata.
+.SH "RETURN"
+0 on success, -errno on failure

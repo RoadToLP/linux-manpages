@@ -1,0 +1,17 @@
+.TH "mips_cdmm_cpu_online" 9 "mips_cdmm_cpu_online" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mips_cdmm_cpu_online \- Callback for CPUHP ONLINE: Bring up the CDMM bus.
+.SH SYNOPSIS
+.B "int" mips_cdmm_cpu_online
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+unsigned int CPU number.
+.SH "DESCRIPTION"
+This work_on_cpu callback function is executed on a given CPU to discover
+CDMM devices on that CPU, or to call the CDMM driver cpu_up callback for all
+devices already discovered on that CPU.
+
+It is used as work_on_cpu callback function during
+initialisation. When CPUs are brought online the function is
+invoked directly on the hotplugged CPU.

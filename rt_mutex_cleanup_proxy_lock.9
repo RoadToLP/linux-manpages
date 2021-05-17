@@ -1,0 +1,26 @@
+.TH "rt_mutex_cleanup_proxy_lock" 9 "rt_mutex_cleanup_proxy_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rt_mutex_cleanup_proxy_lock \- Cleanup failed lock acquisition
+.SH SYNOPSIS
+.B "bool" rt_mutex_cleanup_proxy_lock
+.BI "(struct rt_mutex *lock "  ","
+.BI "struct rt_mutex_waiter *waiter "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex we were woken on
+.IP "waiter" 12
+the pre-initialized rt_mutex_waiter
+.SH "DESCRIPTION"
+Attempt to clean up after a failed \fB__rt_mutex_start_proxy_lock\fP or
+\fBrt_mutex_wait_proxy_lock\fP.
+
+Unless we acquired the lock; we're still enqueued on the wait-list and can
+in fact still be granted ownership until we're removed. Therefore we can
+find we are in fact the owner and must disregard the
+\fBrt_mutex_wait_proxy_lock\fP failure.
+
+Special API call for PI-futex support
+.SH "RETURN"
+true  - did the cleanup, we done.
+false - we acquired the lock after \fBrt_mutex_wait_proxy_lock\fP returned,
+caller should disregards its return value.

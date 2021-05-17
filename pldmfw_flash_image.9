@@ -1,0 +1,21 @@
+.TH "pldmfw_flash_image" 9 "pldmfw_flash_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pldmfw_flash_image \- Write a PLDM-formatted firmware image to the device
+.SH SYNOPSIS
+.B "int" pldmfw_flash_image
+.BI "(struct pldmfw *context "  ","
+.BI "const struct firmware *fw "  ");"
+.SH ARGUMENTS
+.IP "context" 12
+ops and data for firmware update
+.IP "fw" 12
+firmware object pointing to the relevant firmware file to program
+.SH "DESCRIPTION"
+Parse the data for a given firmware file, verifying that it is a valid PLDM
+formatted image that matches this device.
+
+Extract the device record Package Data and Component Tables and send them
+to the device firmware. Extract and write the flash data for each of the
+components indicated in the firmware file.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

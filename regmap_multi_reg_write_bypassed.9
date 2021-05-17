@@ -1,0 +1,25 @@
+.TH "regmap_multi_reg_write_bypassed" 9 "regmap_multi_reg_write_bypassed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_multi_reg_write_bypassed \- Write multiple registers to the device but not the cache
+.SH SYNOPSIS
+.B "int" regmap_multi_reg_write_bypassed
+.BI "(struct regmap *map "  ","
+.BI "const struct reg_sequence *regs "  ","
+.BI "int num_regs "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to write to
+.IP "regs" 12
+Array of structures containing register,value to be written
+.IP "num_regs" 12
+Number of registers to write
+.SH "DESCRIPTION"
+Write multiple registers to the device but not the cache where the set
+of register are supplied in any order.
+
+This function is intended to be used for writing a large block of data
+atomically to the device in single transfer for those I2C client devices
+that implement this alternative block write mode.
+
+A value of zero will be returned on success, a negative errno will
+be returned in error cases.

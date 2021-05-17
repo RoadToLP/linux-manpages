@@ -1,0 +1,34 @@
+.TH "vfs_get_super" 9 "vfs_get_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_get_super \- Get a superblock with a search key set in s_fs_info.
+.SH SYNOPSIS
+.B "int" vfs_get_super
+.BI "(struct fs_context *fc "  ","
+.BI "enum vfs_get_super_keying keying "  ","
+.BI "int (*fill_super)(struct super_block *sb, struct fs_context *fc) "  ");"
+.SH ARGUMENTS
+.IP "fc" 12
+The filesystem context holding the parameters
+.IP "keying" 12
+How to distinguish superblocks
+.IP "fill_super" 12
+Helper to initialise a new superblock
+.SH "DESCRIPTION"
+Search for a superblock and create a new one if not found.  The search
+criterion is controlled by \fIkeying\fP.  If the search fails, a new superblock
+is created and \fI\fP\fBfill_super\fP is called to initialise it.
+
+\fIkeying\fP can take one of a number of values:
+
+(1) vfs_get_single_super - Only one superblock of this type may exist on the
+system.  This is typically used for special system filesystems.
+
+(2) vfs_get_keyed_super - Multiple superblocks may exist, but they must have
+distinct keys (where the key is in s_fs_info).  Searching for the same
+key again will turn up the superblock for that key.
+
+(3) vfs_get_independent_super - Multiple superblocks may exist and are
+unkeyed.  Each call will get a new superblock.
+
+A permissions check is made by \fBsget_fc\fP unless we're getting a superblock
+for a kernel-internal mount or a submount.

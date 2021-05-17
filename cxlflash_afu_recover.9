@@ -1,0 +1,37 @@
+.TH "cxlflash_afu_recover" 9 "cxlflash_afu_recover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_afu_recover \- initiates AFU recovery
+.SH SYNOPSIS
+.B "int" cxlflash_afu_recover
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct dk_cxlflash_recover_afu *recover "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "recover" 12
+Recover ioctl data structure.
+.SH "DESCRIPTION"
+Only a single recovery is allowed at a time to avoid exhausting CXL
+resources (leading to recovery failure) in the event that we're up
+against the maximum number of contexts limit. For similar reasons,
+a context recovery is retried if there are multiple recoveries taking
+place at the same time and the failure was due to CXL services being
+unable to keep up.
+
+As this routine is called on ioctl context, it holds the ioctl r/w
+semaphore that is used to drain ioctls in recovery scenarios. The
+implementation to achieve the pacing described above (a local mutex)
+requires that the ioctl r/w semaphore be dropped and reacquired to
+avoid a 3-way deadlock when multiple process recoveries operate in
+parallel.
+
+Because a user can detect an error condition before the kernel, it is
+quite possible for this routine to act as the kernel's EEH detection
+source (MMIO read of mbox_r). Because of this, there is a window of
+time where an EEH might have been detected but not yet 'serviced'
+(callback invoked, causing the device to enter reset state). To avoid
+looping in this routine during that window, a 1 second sleep is in place
+between the time the MMIO failure is detected and the time a wait on the
+reset wait queue is attempted via \fBcheck_state\fP.
+.SH "RETURN"
+0 on success, -errno on failure

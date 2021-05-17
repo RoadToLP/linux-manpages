@@ -1,0 +1,19 @@
+.TH "ds1685_rtc_read_alarm" 9 "ds1685_rtc_read_alarm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ds1685_rtc_read_alarm \- reads the alarm registers.
+.SH SYNOPSIS
+.B "int" ds1685_rtc_read_alarm
+.BI "(struct device *dev "  ","
+.BI "struct rtc_wkalrm *alrm "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to device structure.
+.IP "alrm" 12
+pointer to rtc_wkalrm structure.
+.SH "DESCRIPTION"
+There are three primary alarm registers: seconds, minutes, and hours.
+A fourth alarm register for the month date is also available in bank1 for
+kickstart/wakeup features.  The DS1685/DS1687 manual states that a
+"don't care" value ranging from 0xc0 to 0xff may be written into one or
+more of the three alarm bytes to act as a wildcard value.  The fourth
+byte doesn't support a "don't care" value.

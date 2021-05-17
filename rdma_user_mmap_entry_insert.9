@@ -1,0 +1,25 @@
+.TH "rdma_user_mmap_entry_insert" 9 "rdma_user_mmap_entry_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_entry_insert \- Insert an entry to the mmap_xa.
+.SH SYNOPSIS
+.B "int" rdma_user_mmap_entry_insert
+.BI "(struct ib_ucontext *ucontext "  ","
+.BI "struct rdma_user_mmap_entry *entry "  ","
+.BI "size_t length "  ");"
+.SH ARGUMENTS
+.IP "ucontext" 12
+associated user context.
+.IP "entry" 12
+the entry to insert into the mmap_xa
+.IP "length" 12
+length of the address that will be mmapped
+.SH "DESCRIPTION"
+This function should be called by drivers that use the rdma_user_mmap
+interface for handling user mmapped addresses. The database is handled in
+the core and helper functions are provided to insert entries into the
+database and extract entries when the user calls mmap with the given offset.
+The function allocates a unique page offset that should be provided to user,
+the user will use the offset to retrieve information such as address to
+be mapped and how.
+.SH "RETURN"
+0 on success and -ENOMEM on failure

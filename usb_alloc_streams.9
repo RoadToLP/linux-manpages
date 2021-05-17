@@ -1,0 +1,28 @@
+.TH "usb_alloc_streams" 9 "usb_alloc_streams" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_alloc_streams \- allocate bulk endpoint stream IDs.
+.SH SYNOPSIS
+.B "int" usb_alloc_streams
+.BI "(struct usb_interface *interface "  ","
+.BI "struct usb_host_endpoint **eps "  ","
+.BI "unsigned int num_eps "  ","
+.BI "unsigned int num_streams "  ","
+.BI "gfp_t mem_flags "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+alternate setting that includes all endpoints.
+.IP "eps" 12
+array of endpoints that need streams.
+.IP "num_eps" 12
+number of endpoints in the array.
+.IP "num_streams" 12
+number of streams to allocate.
+.IP "mem_flags" 12
+flags hcd should use to allocate memory.
+.SH "DESCRIPTION"
+Sets up a group of bulk endpoints to have \fInum_streams\fP stream IDs available.
+Drivers may queue multiple transfers to different stream IDs, which may
+complete in a different order than they were queued.
+.SH "RETURN"
+On success, the number of allocated streams. On failure, a negative
+error code.

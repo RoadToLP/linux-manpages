@@ -1,0 +1,23 @@
+.TH "cxlflash_probe" 9 "cxlflash_probe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_probe \- PCI entry point to add host
+.SH SYNOPSIS
+.B "int" cxlflash_probe
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *dev_id "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device associated with the host.
+.IP "dev_id" 12
+PCI device id associated with device.
+.SH "DESCRIPTION"
+The device will initially start out in a 'probing' state and
+transition to the 'normal' state at the end of a successful
+probe. Should an EEH event occur during probe, the notification
+thread (\fBerror_detected\fP) will wait until the probe handler
+is nearly complete. At that time, the device will be moved to
+a 'probed' state and the EEH thread woken up to drive the slot
+reset and recovery (device moves to 'normal' state). Meanwhile,
+the probe will be allowed to exit successfully.
+.SH "RETURN"
+0 on success, -errno on failure

@@ -1,0 +1,23 @@
+.TH "fixup_owner" 9 "fixup_owner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fixup_owner \- Post lock pi_state and corner case management
+.SH SYNOPSIS
+.B "int" fixup_owner
+.BI "(u32 __user *uaddr "  ","
+.BI "struct futex_q *q "  ","
+.BI "int locked "  ");"
+.SH ARGUMENTS
+.IP "uaddr" 12
+user address of the futex
+.IP "q" 12
+futex_q (contains pi_state and access to the rt_mutex)
+.IP "locked" 12
+if the attempt to take the rt_mutex succeeded (1) or not (0)
+.SH "DESCRIPTION"
+After attempting to lock an rt_mutex, this function is called to cleanup
+the pi_state owner as well as handle race conditions that may allow us to
+acquire the lock. Must be called with the hb lock held.
+.SH "RETURN"
+-  1 - success, lock taken;
+-  0 - success, lock not taken;
+- <0 - on error (-EFAULT)

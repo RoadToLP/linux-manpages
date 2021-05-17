@@ -1,0 +1,18 @@
+.TH "dev_get_by_name" 9 "dev_get_by_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_get_by_name \- find a device by its name
+.SH SYNOPSIS
+.B "struct net_device *" dev_get_by_name
+.BI "(struct net *net "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "name" 12
+name to find
+
+Find an interface by name. This can be called from any
+context and does its own locking. The returned handle has
+the usage count incremented and the caller must use \fBdev_put\fP to
+release it when it is no longer needed. NULL is returned if no
+matching device is found.

@@ -1,0 +1,20 @@
+.TH "omap3_set_i2c_timings" 9 "omap3_set_i2c_timings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3_set_i2c_timings \- sets i2c sleep timings for a channel
+.SH SYNOPSIS
+.B "void" omap3_set_i2c_timings
+.BI "(struct voltagedomain *voltdm "  ");"
+.SH ARGUMENTS
+.IP "voltdm" 12
+channel to configure
+.SH "DESCRIPTION"
+Calculates and sets up voltage controller to use I2C based
+voltage scaling for sleep modes. This can be used for either off mode
+or retention. Off mode has additionally an option to use sys_off_mode
+pad, which uses a global signal to program the whole power IC to
+off-mode.
+
+Note that pmic is not controlling the voltage scaling during
+retention signaled over I2C4, so we can keep voltsetup2 as 0.
+And the oscillator is not shut off over I2C4, so no need to
+set clksetup.

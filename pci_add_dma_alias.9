@@ -1,0 +1,29 @@
+.TH "pci_add_dma_alias" 9 "pci_add_dma_alias" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_add_dma_alias \- Add a DMA devfn alias for a device
+.SH SYNOPSIS
+.B "void" pci_add_dma_alias
+.BI "(struct pci_dev *dev "  ","
+.BI "u8 devfn_from "  ","
+.BI "unsigned nr_devfns "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the PCI device for which alias is added
+.IP "devfn_from" 12
+alias slot and function
+.IP "nr_devfns" 12
+number of subsequent devfns to alias
+.SH "DESCRIPTION"
+This helper encodes an 8-bit devfn as a bit number in dma_alias_mask
+which is used to program permissible bus-devfn source addresses for DMA
+requests in an IOMMU.  These aliases factor into IOMMU group creation
+and are useful for devices generating DMA requests beyond or different
+from their logical bus-devfn.  Examples include device quirks where the
+device simply uses the wrong devfn, as well as non-transparent bridges
+where the alias may be a proxy for devices in another domain.
+
+IOMMU group creation is performed during device discovery or addition,
+prior to any potential DMA mapping and therefore prior to driver probing
+(especially for userspace assigned devices where IOMMU group definition
+cannot be left as a userspace activity).  DMA aliases should therefore
+be configured via quirks, such as the PCI fixup header quirk.

@@ -1,0 +1,24 @@
+.TH "vmw_create_bo_proxy" 9 "vmw_create_bo_proxy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_create_bo_proxy \- create a proxy surface for the buffer object
+.SH SYNOPSIS
+.B "int" vmw_create_bo_proxy
+.BI "(struct drm_device *dev "  ","
+.BI "const struct drm_mode_fb_cmd2 *mode_cmd "  ","
+.BI "struct vmw_buffer_object *bo_mob "  ","
+.BI "struct vmw_surface **srf_out "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "mode_cmd" 12
+parameters for the new surface
+.IP "bo_mob" 12
+MOB backing the buffer object
+.IP "srf_out" 12
+newly created surface
+.SH "DESCRIPTION"
+When the content FB is a buffer object, we create a surface as a proxy to the
+same buffer.  This way we can do a surface copy rather than a surface DMA.
+This is a more efficient approach
+.SH "RETURN"
+0 on success, error code otherwise

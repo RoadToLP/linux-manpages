@@ -1,0 +1,15 @@
+.TH "update_cond_flag" 9 "update_cond_flag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_cond_flag \- Set or reset the TRIGGER_COND bit
+.SH SYNOPSIS
+.B "void" update_cond_flag
+.BI "(struct trace_event_file *file "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The trace_event_file associated with the event
+.SH "DESCRIPTION"
+If an event has triggers and any of those triggers has a filter or
+a post_trigger, trigger invocation needs to be deferred until after
+the current event has logged its data, and the event should have
+its TRIGGER_COND bit set, otherwise the TRIGGER_COND bit should be
+cleared.

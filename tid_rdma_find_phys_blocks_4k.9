@@ -1,0 +1,25 @@
+.TH "tid_rdma_find_phys_blocks_4k" 9 "tid_rdma_find_phys_blocks_4k" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tid_rdma_find_phys_blocks_4k \- get groups base on mr info
+.SH SYNOPSIS
+.B "u32" tid_rdma_find_phys_blocks_4k
+.BI "(struct tid_rdma_flow *flow "  ","
+.BI "struct page **pages "  ","
+.BI "u32 npages "  ","
+.BI "struct tid_rdma_pageset *list "  ");"
+.SH ARGUMENTS
+.IP "flow" 12
+overall info for a TID RDMA segment
+.IP "pages" 12
+pointer to an array of page structs
+.IP "npages" 12
+number of pages
+.IP "list" 12
+page set array to return
+.SH "DESCRIPTION"
+This routine returns the number of groups associated with
+the current sge information.  This implementation is based
+on the expected receive \fBfind_phys_blocks\fP adjusted to
+use the MR information vs. the pfn.
+.SH "RETURN"
+the number of RcvArray entries

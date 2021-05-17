@@ -1,0 +1,40 @@
+.TH "fixup_user_fault" 9 "fixup_user_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fixup_user_fault \- manually resolve a user page fault
+.SH SYNOPSIS
+.B "int" fixup_user_fault
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long address "  ","
+.BI "unsigned int fault_flags "  ","
+.BI "bool *unlocked "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+mm_struct of target mm
+.IP "address" 12
+user address
+.IP "fault_flags" 12
+flags to pass down to \fBhandle_mm_fault\fP
+.IP "unlocked" 12
+did we unlock the mmap_lock while retrying, maybe NULL if caller
+does not allow retry. If NULL, the caller must guarantee
+that fault_flags does not contain FAULT_FLAG_ALLOW_RETRY.
+.SH "DESCRIPTION"
+This is meant to be called in the specific scenario where for locking reasons
+we try to access user memory in atomic context (within a \fBpagefault_disable\fP
+section), this returns -EFAULT, and we want to resolve the user fault before
+trying again.
+
+Typically this is meant to be used by the futex code.
+
+The main difference with \fBget_user_pages\fP is that this function will
+unconditionally call \fBhandle_mm_fault\fP which will in turn perform all the
+necessary SW fixup of the dirty and young bits in the PTE, while
+\fBget_user_pages\fP only guarantees to update these in the struct page.
+
+This is important for some architectures where those bits also gate the
+access permission to the page because they are maintained in software.  On
+such architectures, \fBgup\fP will not be enough to make a subsequent access
+succeed.
+
+This function will not return with an unlocked mmap_lock. So it has not the
+same semantics wrt the \fImm->mmap_lock\fP as does \fBfilemap_fault\fP.

@@ -1,0 +1,23 @@
+.TH "posix_lock_file" 9 "posix_lock_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+posix_lock_file \- Apply a POSIX-style lock to a file
+.SH SYNOPSIS
+.B "int" posix_lock_file
+.BI "(struct file *filp "  ","
+.BI "struct file_lock *fl "  ","
+.BI "struct file_lock *conflock "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+The file to apply the lock to
+.IP "fl" 12
+The lock to be applied
+.IP "conflock" 12
+Place to return a copy of the conflicting lock, if found.
+.SH "DESCRIPTION"
+Add a POSIX style lock to a file.
+We merge adjacent & overlapping locks whenever possible.
+POSIX locks are sorted by owner task, then by starting address
+
+Note that if called with an FL_EXISTS argument, the caller may determine
+whether or not a lock was successfully freed by testing the return
+value for -ENOENT.

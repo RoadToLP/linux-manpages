@@ -1,0 +1,34 @@
+.TH "ata_pci_sff_init_one" 9 "ata_pci_sff_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_pci_sff_init_one \- Initialize/register PIO-only PCI IDE controller
+.SH SYNOPSIS
+.B "int" ata_pci_sff_init_one
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct ata_port_info * const *ppi "  ","
+.BI "struct scsi_host_template *sht "  ","
+.BI "void *host_priv "  ","
+.BI "int hflag "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Controller to be initialized
+.IP "ppi" 12
+array of port_info, must be enough for two ports
+.IP "sht" 12
+scsi_host_template to use when registering the host
+.IP "host_priv" 12
+host private_data
+.IP "hflag" 12
+host flags
+
+This is a helper function which can be called from a driver's
+\fBxxx_init_one\fP probe function if the hardware uses traditional
+IDE taskfile registers and is PIO only.
+
+ASSUMPTION:
+Nobody makes a single channel controller that appears solely as
+the secondary legacy port on PCI.
+
+LOCKING:
+Inherited from PCI layer (may sleep).
+.SH "RETURN"
+Zero on success, negative on errno-based value on error.

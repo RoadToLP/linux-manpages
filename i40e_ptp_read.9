@@ -1,0 +1,19 @@
+.TH "i40e_ptp_read" 9 "i40e_ptp_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_read \- Read the PHC time from the device
+.SH SYNOPSIS
+.B "void" i40e_ptp_read
+.BI "(struct i40e_pf *pf "  ","
+.BI "struct timespec64 *ts "  ","
+.BI "struct ptp_system_timestamp *sts "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.IP "ts" 12
+timespec structure to hold the current time value
+.IP "sts" 12
+structure to hold the system time before and after reading the PHC
+.SH "DESCRIPTION"
+This function reads the PRTTSYN_TIME registers and stores them in a
+timespec. However, since the registers are 64 bits of nanoseconds, we must
+convert the result to a timespec before we can return.

@@ -1,0 +1,26 @@
+.TH "mmu_notifier_register" 9 "mmu_notifier_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mmu_notifier_register \- Register a notifier on a mm
+.SH SYNOPSIS
+.B "int" mmu_notifier_register
+.BI "(struct mmu_notifier *subscription "  ","
+.BI "struct mm_struct *mm "  ");"
+.SH ARGUMENTS
+.IP "subscription" 12
+The notifier to attach
+.IP "mm" 12
+The mm to attach the notifier to
+.SH "DESCRIPTION"
+Must not hold mmap_lock nor any other VM related lock when calling
+this registration function. Must also ensure mm_users can't go down
+to zero while this runs to avoid races with mmu_notifier_release,
+so mm has to be current->mm or the mm should be pinned safely such
+as with \fBget_task_mm\fP. If the mm is not current->mm, the mm_users
+pin should be released by calling mmput after mmu_notifier_register
+returns.
+
+\fBmmu_notifier_unregister\fP or \fBmmu_notifier_put\fP must be always called to
+unregister the notifier.
+
+While the caller has a mmu_notifier get the subscription->mm pointer will remain
+valid, and can be converted to an active mm pointer via \fBmmget_not_zero\fP.

@@ -1,0 +1,25 @@
+.TH "ucb1x00_io_write" 9 "ucb1x00_io_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ucb1x00_io_write \- set or clear IO outputs
+.SH SYNOPSIS
+.B "void" ucb1x00_io_write
+.BI "(struct ucb1x00 *ucb "  ","
+.BI "unsigned int set "  ","
+.BI "unsigned int clear "  ");"
+.SH ARGUMENTS
+.IP "ucb" 12
+UCB1x00 structure describing chip
+.IP "set" 12
+bitfield of IO pins to set to logic '1'
+.IP "clear" 12
+bitfield of IO pins to set to logic '0'
+
+Set the IO output state of the specified IO pins.  The value
+is retained if the pins are subsequently configured as inputs.
+The \fIclear\fP bitfield has priority over the \fIset\fP bitfield -
+outputs will be cleared.
+
+ucb1x00_enable must have been called to enable the comms
+before using this function.
+
+This function takes a spinlock, disabling interrupts.

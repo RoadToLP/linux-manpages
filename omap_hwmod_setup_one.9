@@ -1,0 +1,16 @@
+.TH "omap_hwmod_setup_one" 9 "omap_hwmod_setup_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_setup_one \- set up a single hwmod
+.SH SYNOPSIS
+.B "int" omap_hwmod_setup_one
+.BI "(const char *oh_name "  ");"
+.SH ARGUMENTS
+.IP "oh_name" 12
+const char * name of the already-registered hwmod to set up
+.SH "DESCRIPTION"
+Initialize and set up a single hwmod.  Intended to be used for a
+small number of early devices, such as the timer IP blocks used for
+the scheduler clock.  Must be called after \fBomap2_clk_init\fP.
+Resolves the struct clk names to struct clk pointers for each
+registered omap_hwmod.  Also calls \fB_setup\fP on each hwmod.  Returns
+-EINVAL upon error or 0 upon success.

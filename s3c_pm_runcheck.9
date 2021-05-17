@@ -1,0 +1,17 @@
+.TH "s3c_pm_runcheck" 9 "s3c_pm_runcheck" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c_pm_runcheck \- helper to check a resource on restore.
+.SH SYNOPSIS
+.B "u32 *" s3c_pm_runcheck
+.BI "(struct resource *res "  ","
+.BI "u32 *val "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+The resource to check
+.IP "val" 12
+Pointer to list of CRC32 values to check.
+.SH "DESCRIPTION"
+Called from the \fBs3c_pm_check_restore\fP via \fBs3c_pm_run_sysram\fP, this
+function runs the given memory resource checking it against the stored
+CRC to ensure that memory is restored. The function tries to skip as
+many of the areas used during the suspend process.

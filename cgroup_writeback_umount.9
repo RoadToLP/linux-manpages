@@ -1,0 +1,17 @@
+.TH "cgroup_writeback_umount" 9 "cgroup_writeback_umount" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_writeback_umount \- flush inode wb switches for umount
+.SH SYNOPSIS
+.B "void" cgroup_writeback_umount
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function is called when a super_block is about to be destroyed and
+flushes in-flight inode wb switches.  An inode wb switch goes through
+RCU and then workqueue, so the two need to be flushed in order to ensure
+that all previously scheduled switches are finished.  As wb switches are
+rare occurrences and \fBsynchronize_rcu\fP can take a while, perform
+flushing iff wb switches are in flight.

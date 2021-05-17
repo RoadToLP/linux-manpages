@@ -1,0 +1,16 @@
+.TH "timer_reduce" 9 "timer_reduce" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+timer_reduce \- Modify a timer's timeout if it would reduce the timeout
+.SH SYNOPSIS
+.B "int" timer_reduce
+.BI "(struct timer_list *timer "  ","
+.BI "unsigned long expires "  ");"
+.SH ARGUMENTS
+.IP "timer" 12
+The timer to be modified
+.IP "expires" 12
+New timeout in jiffies
+.SH "DESCRIPTION"
+\fBtimer_reduce\fP is very similar to \fBmod_timer\fP, except that it will only
+modify a running timer if that would reduce the expiration time (it will
+start a timer that isn't running).

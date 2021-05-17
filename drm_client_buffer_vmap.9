@@ -1,0 +1,26 @@
+.TH "drm_client_buffer_vmap" 9 "drm_client_buffer_vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_client_buffer_vmap \- Map DRM client buffer into address space
+.SH SYNOPSIS
+.B "int" drm_client_buffer_vmap
+.BI "(struct drm_client_buffer *buffer "  ","
+.BI "struct dma_buf_map *map_copy "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+DRM client buffer
+.IP "map_copy" 12
+Returns the mapped memory's address
+.SH "DESCRIPTION"
+This function maps a client buffer into kernel address space. If the
+buffer is already mapped, it returns the existing mapping's address.
+
+Client buffer mappings are not ref'counted. Each call to
+\fBdrm_client_buffer_vmap\fP should be followed by a call to
+\fBdrm_client_buffer_vunmap\fP; or the client buffer should be mapped
+throughout its lifetime.
+
+The returned address is a copy of the internal value. In contrast to
+other vmap interfaces, you don't need it for the client's vunmap
+function. So you can modify it at will during blit and draw operations.
+.SH "RETURN"
+0 on success, or a negative errno code otherwise.

@@ -1,0 +1,20 @@
+.TH "reset_control_rearm" 9 "reset_control_rearm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reset_control_rearm \- allow shared reset line to be re-triggered"
+.SH SYNOPSIS
+.B "int" reset_control_rearm
+.BI "(struct reset_control *rstc "  ");"
+.SH ARGUMENTS
+.IP "rstc" 12
+reset controller
+.SH "DESCRIPTION"
+On a shared reset line the actual reset pulse is only triggered once for the
+lifetime of the reset_control instance, except if this call is used.
+
+Calls to this function must be balanced with calls to reset_control_reset,
+a warning is thrown in case triggered_count ever dips below 0.
+
+Consumers must not use reset_control_(de)assert on shared reset lines when
+reset_control_reset or reset_control_rearm have been used.
+
+If rstc is NULL the function will just return 0.

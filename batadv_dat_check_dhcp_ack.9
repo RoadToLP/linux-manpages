@@ -1,0 +1,29 @@
+.TH "batadv_dat_check_dhcp_ack" 9 "batadv_dat_check_dhcp_ack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_dat_check_dhcp_ack \- examine packet for valid DHCP message
+.SH SYNOPSIS
+.B "bool" batadv_dat_check_dhcp_ack
+.BI "(struct sk_buff *skb "  ","
+.BI "__be16 proto "  ","
+.BI "__be32 *ip_src "  ","
+.BI "u8 *chaddr "  ","
+.BI "__be32 *yiaddr "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet to check
+.IP "proto" 12
+ethernet protocol hint (behind a potential vlan)
+.IP "ip_src" 12
+a buffer to store the IPv4 source address in
+.IP "chaddr" 12
+a buffer to store the DHCP Client Hardware Address in
+.IP "yiaddr" 12
+a buffer to store the DHCP Your IP Address in
+.SH "DESCRIPTION"
+Checks whether the given skb is a valid DHCPACK. And if so, stores the
+IPv4 server source address (ip_src), client MAC address (chaddr) and client
+IPv4 address (yiaddr) in the provided buffers.
+
+Caller needs to ensure that the skb network header is set correctly.
+.SH "RETURN"
+True if the skb is a valid DHCPACK. False otherwise.

@@ -1,0 +1,32 @@
+.TH "fman_port_cfg_buf_prefix_content" 9 "fman_port_cfg_buf_prefix_content" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fman_port_cfg_buf_prefix_content \- 
+.SH SYNOPSIS
+.B "int" fman_port_cfg_buf_prefix_content
+.BI "(struct fman_port *port "  ","
+.BI "struct fman_buffer_prefix_content * buffer_prefix_content "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+A pointer to a FM Port module.
+.IP "buffer_prefix_content" 12
+A structure of parameters describing
+the structure of the buffer.
+Out parameter:
+Start margin - offset of data from
+start of external buffer.
+Defines the structure, size and content of the application buffer.
+The prefix, in Tx ports, if 'pass_prs_result', the application should set
+a value to their offsets in the prefix of the FM will save the first
+'priv_data_size', than, depending on 'pass_prs_result' and
+'pass_time_stamp', copy parse result and timeStamp, and the packet itself
+(in this order), to the application buffer, and to offset.
+Calling this routine changes the buffer margins definitions in the internal
+driver data base from its default configuration:
+Data size:  [DEFAULT_PORT_BUFFER_PREFIX_CONTENT_PRIV_DATA_SIZE]
+Pass Parser result: [DEFAULT_PORT_BUFFER_PREFIX_CONTENT_PASS_PRS_RESULT].
+Pass timestamp: [DEFAULT_PORT_BUFFER_PREFIX_CONTENT_PASS_TIME_STAMP].
+May be used for all ports
+.SH "DESCRIPTION"
+Allowed only following \fBfman_port_config\fP and before \fBfman_port_init\fP.
+.SH "RETURN"
+0 on success; Error code otherwise.

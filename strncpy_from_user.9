@@ -1,0 +1,27 @@
+.TH "strncpy_from_user" 9 "strncpy_from_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strncpy_from_user \- - Copy a NUL terminated string from userspace.
+.SH SYNOPSIS
+.B "long" strncpy_from_user
+.BI "(char *dst "  ","
+.BI "const char __user *src "  ","
+.BI "long count "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+Destination address, in kernel space.  This buffer must be at
+least \fIcount\fP bytes long.
+.IP "src" 12
+Source address, in user space.
+.IP "count" 12
+Maximum number of bytes to copy, including the trailing NUL.
+.SH "DESCRIPTION"
+Copies a NUL-terminated string from userspace to kernel space.
+
+On success, returns the length of the string (not including the trailing
+NUL).
+
+If access to userspace fails, returns -EFAULT (some data may have been
+copied).
+
+If \fIcount\fP is smaller than the length of the string, copies \fIcount\fP bytes
+and returns \fIcount\fP.

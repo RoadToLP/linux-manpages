@@ -1,0 +1,25 @@
+.TH "arch_timer_select_ppi" 9 "arch_timer_select_ppi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+arch_timer_select_ppi \- Select suitable PPI for the current system.
+.SH SYNOPSIS
+.B "enum arch_timer_ppi_nr" arch_timer_select_ppi
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+If HYP mode is available, we know that the physical timer
+has been configured to be accessible from PL1. Use it, so
+that a guest can use the virtual timer instead.
+
+On ARMv8.1 with VH extensions, the kernel runs in HYP. VHE
+accesses to CNTP_*_EL1 registers are silently redirected to
+their CNTHP_*_EL2 counterparts, and use a different PPI
+number.
+
+If no interrupt provided for virtual timer, we'll have to
+stick to the physical timer. It'd better be accessible...
+For arm64 we never use the secure interrupt.
+.SH "RETURN"
+a suitable PPI type for the current system.

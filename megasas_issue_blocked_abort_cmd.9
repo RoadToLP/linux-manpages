@@ -1,0 +1,20 @@
+.TH "megasas_issue_blocked_abort_cmd" 9 "megasas_issue_blocked_abort_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+megasas_issue_blocked_abort_cmd \- Aborts previously issued cmd
+.SH SYNOPSIS
+.B "int" megasas_issue_blocked_abort_cmd
+.BI "(struct megasas_instance *instance "  ","
+.BI "struct megasas_cmd *cmd_to_abort "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+Adapter soft state
+.IP "cmd_to_abort" 12
+Previously issued cmd to be aborted
+.IP "timeout" 12
+Timeout in seconds
+.SH "DESCRIPTION"
+MFI firmware can abort previously issued AEN comamnd (automatic event
+notification). The \fBmegasas_issue_blocked_abort_cmd\fP issues such abort
+cmd and waits for return status.
+Max wait time is MEGASAS_INTERNAL_CMD_WAIT_TIME secs

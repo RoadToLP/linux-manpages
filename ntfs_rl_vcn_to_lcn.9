@@ -1,0 +1,31 @@
+.TH "ntfs_rl_vcn_to_lcn" 9 "ntfs_rl_vcn_to_lcn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_rl_vcn_to_lcn \- convert a vcn into a lcn given a runlist
+.SH SYNOPSIS
+.B "LCN" ntfs_rl_vcn_to_lcn
+.BI "(const runlist_element *rl "  ","
+.BI "const VCN vcn "  ");"
+.SH ARGUMENTS
+.IP "rl" 12
+runlist to use for conversion
+.IP "vcn" 12
+vcn to convert
+.SH "DESCRIPTION"
+Convert the virtual cluster number \fIvcn\fP of an attribute into a logical
+cluster number (lcn) of a device using the runlist \fIrl\fP to map vcns to their
+corresponding lcns.
+
+It is up to the caller to serialize access to the runlist \fIrl\fP.
+
+Since lcns must be >= 0, we use negative return codes with special meaning:
+
+Return code          Meaning / Description
+==================================================
+LCN_HOLE            Hole / not allocated on disk.
+LCN_RL_NOT_MAPPED   This is part of the runlist which has not been
+inserted into the runlist yet.
+LCN_ENOENT          There is no such vcn in the attribute.
+
+Locking: - The caller must have locked the runlist (for reading or writing).
+- This function does not touch the lock, nor does it modify the
+runlist.

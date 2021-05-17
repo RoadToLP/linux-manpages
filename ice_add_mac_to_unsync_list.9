@@ -1,0 +1,17 @@
+.TH "ice_add_mac_to_unsync_list" 9 "ice_add_mac_to_unsync_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_mac_to_unsync_list \- creates list of MAC addresses to be unsynced
+.SH SYNOPSIS
+.B "int" ice_add_mac_to_unsync_list
+.BI "(struct net_device *netdev "  ","
+.BI "const u8 *addr "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the net device on which the unsync is happening
+.IP "addr" 12
+MAC address to unsync
+.SH "DESCRIPTION"
+This is a callback function which is called by the in kernel device unsync
+functions (like __dev_uc_unsync, __dev_mc_unsync, etc). This function only
+populates the tmp_unsync_list, which is later used by ice_remove_mac to
+delete the MAC filters from the hardware.

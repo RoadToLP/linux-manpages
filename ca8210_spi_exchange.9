@@ -1,0 +1,24 @@
+.TH "ca8210_spi_exchange" 9 "ca8210_spi_exchange" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ca8210_spi_exchange \- Exchange API/SAP commands with the radio
+.SH SYNOPSIS
+.B "int" ca8210_spi_exchange
+.BI "(const u8 *buf "  ","
+.BI "size_t len "  ","
+.BI "u8 *response "  ","
+.BI "void *device_ref "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+Octet array of command being sent downstream
+.IP "len" 12
+length of buf
+.IP "response" 12
+buffer for storing synchronous response
+.IP "device_ref" 12
+spi_device pointer for ca8210
+.SH "DESCRIPTION"
+Effectively calls ca8210_spi_transfer to write buf[] to the spi, then for
+synchronous commands waits for the corresponding response to be read from
+the spi before returning. The response is written to the response parameter.
+.SH "RETURN"
+0 or linux error code

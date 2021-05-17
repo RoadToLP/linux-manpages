@@ -1,0 +1,20 @@
+.TH "tracing_snapshot_cond" 9 "tracing_snapshot_cond" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_snapshot_cond \- conditionally take a snapshot of the current buffer.
+.SH SYNOPSIS
+.B "void" tracing_snapshot_cond
+.BI "(struct trace_array *tr "  ","
+.BI "void *cond_data "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+The tracing instance to snapshot
+.IP "cond_data" 12
+The data to be tested conditionally, and possibly saved
+.SH "DESCRIPTION"
+This is the same as \fBtracing_snapshot\fP except that the snapshot is
+conditional - the snapshot will only happen if the
+cond_snapshot.\fBupdate\fP implementation receiving the cond_data
+returns true, which means that the trace array's cond_snapshot
+\fBupdate\fP operation used the cond_data to determine whether the
+snapshot should be taken, and if it was, presumably saved it along
+with the snapshot.

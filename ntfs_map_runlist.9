@@ -1,0 +1,22 @@
+.TH "ntfs_map_runlist" 9 "ntfs_map_runlist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_map_runlist \- map (a part of) a runlist of an ntfs inode
+.SH SYNOPSIS
+.B "int" ntfs_map_runlist
+.BI "(ntfs_inode *ni "  ","
+.BI "VCN vcn "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode for which to map (part of) a runlist
+.IP "vcn" 12
+map runlist part containing this vcn
+.SH "DESCRIPTION"
+Map the part of a runlist containing the \fIvcn\fP of the ntfs inode \fIni\fP.
+
+Return 0 on success and -errno on error.  There is one special error code
+which is not an error as such.  This is -ENOENT.  It means that \fIvcn\fP is out
+of bounds of the runlist.
+
+Locking: - The runlist must be unlocked on entry and is unlocked on return.
+- This function takes the runlist lock for writing and may modify
+the runlist.

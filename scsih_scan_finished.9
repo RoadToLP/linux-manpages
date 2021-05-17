@@ -1,0 +1,16 @@
+.TH "scsih_scan_finished" 9 "scsih_scan_finished" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsih_scan_finished \- scsi lld callback for .scan_finished
+.SH SYNOPSIS
+.B "int" scsih_scan_finished
+.BI "(struct Scsi_Host *shost "  ","
+.BI "unsigned long time "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+SCSI host pointer
+.IP "time" 12
+elapsed time of the scan in jiffies
+.SH "DESCRIPTION"
+This function will be called periodicallyn until it returns 1 with the
+scsi_host and the elapsed time of the scan in jiffies. In our implemention,
+we wait for firmware discovery to complete, then return 1.

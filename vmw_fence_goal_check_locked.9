@@ -1,0 +1,18 @@
+.TH "vmw_fence_goal_check_locked" 9 "vmw_fence_goal_check_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_fence_goal_check_locked \- Replace the device fence goal seqno if needed.
+.SH SYNOPSIS
+.B "bool" vmw_fence_goal_check_locked
+.BI "(struct vmw_fence_obj *fence "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+Pointer to a struct vmw_fence_obj the seqno of which should be
+considered as a device fence goal.
+.SH "DESCRIPTION"
+This function should be called with the fence manager lock held.
+It is typically called when an action has been attached to a fence to
+check whether the seqno of that fence should be used for a fence
+goal interrupt. This is typically needed if the current fence goal is
+invalid, or has a higher seqno than that of the current fence object.
+
+returns true if the device goal seqno was updated. False otherwise.

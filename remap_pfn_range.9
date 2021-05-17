@@ -1,0 +1,25 @@
+.TH "remap_pfn_range" 9 "remap_pfn_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+remap_pfn_range \- remap kernel memory to userspace
+.SH SYNOPSIS
+.B "int" remap_pfn_range
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "unsigned long pfn "  ","
+.BI "unsigned long size "  ","
+.BI "pgprot_t prot "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target page aligned user address to start at
+.IP "pfn" 12
+page frame number of kernel physical memory address
+.IP "size" 12
+size of mapping area
+.IP "prot" 12
+page protection flags for this mapping
+.SH "NOTE"
+this is only safe if the mm semaphore is held when called.
+.SH "RETURN"
+0 on success, negative error code otherwise.

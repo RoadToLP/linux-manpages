@@ -1,0 +1,21 @@
+.TH "handle_aead_req" 9 "handle_aead_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_aead_req \- Submit a SPU request message for the next chunk of the current AEAD request.
+.SH SYNOPSIS
+.B "int" handle_aead_req
+.BI "(struct iproc_reqctx_s *rctx "  ");"
+.SH ARGUMENTS
+.IP "rctx" 12
+Crypto request context
+.SH "DESCRIPTION"
+Unlike other operation types, we assume the length of the request fits in
+a single SPU request message. \fBaead_enqueue\fP makes sure this is true.
+Comments for other op types regarding threads applies here as well.
+
+Unlike incremental hash ops, where the spu returns the entire hash for
+truncated algs like sha-224, the SPU returns just the truncated hash in
+response to aead requests. So digestsize is always ctx->digestsize here.
+.SH "RETURN"
+-EINPROGRESS: crypto request has been accepted and result will be
+returned asynchronously
+Any other value indicates an error

@@ -1,0 +1,32 @@
+.TH "find_inode_rcu" 9 "find_inode_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_inode_rcu \- find an inode in the inode cache
+.SH SYNOPSIS
+.B "struct inode *" find_inode_rcu
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long hashval "  ","
+.BI "int (*test)(struct inode *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Super block of file system to search
+.IP "hashval" 12
+Key to hash
+.IP "test" 12
+Function to test match on an inode
+.IP "data" 12
+Data for test function
+.SH "DESCRIPTION"
+Search for the inode specified by \fIhashval\fP and \fIdata\fP in the inode cache,
+where the helper function \fItest\fP will return 0 if the inode does not match
+and 1 if it does.  The \fItest\fP function must be responsible for taking the
+i_lock spin_lock and checking i_state for an inode being freed or being
+initialized.
+
+If successful, this will return the inode for which the \fItest\fP function
+returned 1 and NULL otherwise.
+
+The \fItest\fP function is not permitted to take a ref on any inode presented.
+It is also not permitted to sleep.
+
+The caller must hold the RCU read lock.

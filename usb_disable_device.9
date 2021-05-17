@@ -1,0 +1,17 @@
+.TH "usb_disable_device" 9 "usb_disable_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_disable_device \- Disable all the endpoints for a USB device
+.SH SYNOPSIS
+.B "void" usb_disable_device
+.BI "(struct usb_device *dev "  ","
+.BI "int skip_ep0 "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose endpoints are being disabled
+.IP "skip_ep0" 12
+0 to disable endpoint 0, 1 to skip it.
+.SH "DESCRIPTION"
+Disables all the device's endpoints, potentially including endpoint 0.
+Deallocates hcd/hardware state for the endpoints (nuking all or most
+pending urbs) and usbcore state for the interfaces, so that usbcore
+must \fBusb_set_configuration\fP before any interfaces could be used.

@@ -1,0 +1,28 @@
+.TH "strscpy_pad" 9 "strscpy_pad" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+strscpy_pad \- Copy a C-string into a sized buffer
+.SH SYNOPSIS
+.B "ssize_t" strscpy_pad
+.BI "(char *dest "  ","
+.BI "const char *src "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+Where to copy the string to
+.IP "src" 12
+Where to copy the string from
+.IP "count" 12
+Size of destination buffer
+.SH "DESCRIPTION"
+Copy the string, or as much of it as fits, into the dest buffer.  The
+behavior is undefined if the string buffers overlap.  The destination
+buffer is always NUL terminated, unless it's zero-sized.
+
+If the source string is shorter than the destination buffer, zeros
+the tail of the destination buffer.
+
+For full explanation of why you may want to consider using the
+'strscpy' functions please see the function docstring for \fBstrscpy\fP.
+.SH "RETURN"
+* The number of characters copied (not including the trailing NUL)
+* -E2BIG if count is 0 or \fIsrc\fP was truncated.

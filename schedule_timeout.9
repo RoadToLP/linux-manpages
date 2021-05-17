@@ -1,0 +1,36 @@
+.TH "schedule_timeout" 9 "schedule_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+schedule_timeout \- sleep until timeout
+.SH SYNOPSIS
+.B "signed long" schedule_timeout
+.BI "(signed long timeout "  ");"
+.SH ARGUMENTS
+.IP "timeout" 12
+timeout value in jiffies
+.SH "DESCRIPTION"
+Make the current task sleep until \fItimeout\fP jiffies have elapsed.
+The function behavior depends on the current task state
+(see also \fBset_current_state\fP description):
+
+TASK_RUNNING - the scheduler is called, but the task does not sleep
+at all. That happens because \fBsched_submit_work\fP does nothing for
+tasks in TASK_RUNNING state.
+
+TASK_UNINTERRUPTIBLE - at least \fItimeout\fP jiffies are guaranteed to
+pass before the routine returns unless the current task is explicitly
+woken up, (e.g. by \fBwake_up_process\fP).
+
+TASK_INTERRUPTIBLE - the routine may return early if a signal is
+delivered to the current task or the current task is explicitly woken
+up.
+
+The current task state is guaranteed to be TASK_RUNNING when this
+routine returns.
+
+Specifying a \fItimeout\fP value of MAX_SCHEDULE_TIMEOUT will schedule
+the CPU away without a bound on the timeout. In this case the return
+value will be MAX_SCHEDULE_TIMEOUT.
+
+Returns 0 when the timer has expired otherwise the remaining time in
+jiffies will be returned. In all cases the return value is guaranteed
+to be non-negative.

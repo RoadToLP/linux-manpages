@@ -1,0 +1,22 @@
+.TH "handle_responses" 9 "handle_responses" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_responses \- decide what to do with new responses in NAPI mode
+.SH SYNOPSIS
+.B "int" handle_responses
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_rspq *q "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the response queue
+
+This is used by the NAPI interrupt handlers to decide what to do with
+new SGE responses.  If there are no new responses it returns -1.  If
+there are new responses and they are pure (i.e., non-data carrying)
+it handles them straight in hard interrupt context as they are very
+cheap and don't deliver any packets.  Finally, if there are any data
+signaling responses it schedules the NAPI handler.  Returns 1 if it
+schedules NAPI, 0 if all new responses were pure.
+
+The caller must ascertain NAPI is not already running.

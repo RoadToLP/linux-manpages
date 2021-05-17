@@ -1,0 +1,22 @@
+.TH "__platform_register_drivers" 9 "__platform_register_drivers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__platform_register_drivers \- register an array of platform drivers
+.SH SYNOPSIS
+.B "int" __platform_register_drivers
+.BI "(struct platform_driver * const *drivers "  ","
+.BI "unsigned int count "  ","
+.BI "struct module *owner "  ");"
+.SH ARGUMENTS
+.IP "drivers" 12
+an array of drivers to register
+.IP "count" 12
+the number of drivers to register
+.IP "owner" 12
+module owning the drivers
+.SH "DESCRIPTION"
+Registers platform drivers specified by an array. On failure to register a
+driver, all previously registered drivers will be unregistered. Callers of
+this API should use \fBplatform_unregister_drivers\fP to unregister drivers in
+the reverse order.
+.SH "RETURN"
+0 on success or a negative error code on failure.

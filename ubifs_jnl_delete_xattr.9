@@ -1,0 +1,23 @@
+.TH "ubifs_jnl_delete_xattr" 9 "ubifs_jnl_delete_xattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_delete_xattr \- delete an extended attribute.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_delete_xattr
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *host "  ","
+.BI "const struct inode *inode "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "host" 12
+host inode
+.IP "inode" 12
+extended attribute inode
+.IP "nm" 12
+extended attribute entry name
+.SH "DESCRIPTION"
+This function delete an extended attribute which is very similar to
+un-linking regular files - it writes a deletion xentry, a deletion inode and
+updates the target inode. Returns zero in case of success and a negative
+error code in case of failure.

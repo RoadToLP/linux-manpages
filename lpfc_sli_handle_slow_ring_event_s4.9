@@ -1,0 +1,21 @@
+.TH "lpfc_sli_handle_slow_ring_event_s4" 9 "lpfc_sli_handle_slow_ring_event_s4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_handle_slow_ring_event_s4 \- Handle SLI4 slow-path els events
+.SH SYNOPSIS
+.B "void" lpfc_sli_handle_slow_ring_event_s4
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "uint32_t mask "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "mask" 12
+Host attention register mask for this ring.
+.SH "DESCRIPTION"
+This function is called from the worker thread when there is a pending
+ELS response iocb on the driver internal slow-path response iocb worker
+queue. The caller does not hold any lock. The function will remove each
+response iocb from the response worker queue and calls the handle
+response iocb routine (lpfc_sli_sp_handle_rspiocb) to process it.

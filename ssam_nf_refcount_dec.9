@@ -1,0 +1,24 @@
+.TH "ssam_nf_refcount_dec" 9 "ssam_nf_refcount_dec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_nf_refcount_dec \- Decrement reference-/activation-count of the given event.
+.SH SYNOPSIS
+.B "struct ssam_nf_refcount_entry *" ssam_nf_refcount_dec
+.BI "(struct ssam_nf *nf "  ","
+.BI "struct ssam_event_registry reg "  ","
+.BI "struct ssam_event_id id "  ");"
+.SH ARGUMENTS
+.IP "nf" 12
+The notifier system reference.
+.IP "reg" 12
+The registry used to enable/disable the event.
+.IP "id" 12
+The event ID.
+.SH "DESCRIPTION"
+Decrements the reference-/activation-count of the specified event,
+returning its entry. If the returned entry has a refcount of zero, the
+caller is responsible for freeing it using \fBkfree\fP.
+.SH "NOTE"
+``nf->lock`` must be held when calling this function.
+.SH "RETURN"
+Returns the refcount entry on success or NULL if the entry has not
+been found.

@@ -1,0 +1,17 @@
+.TH "sta_info_free" 9 "sta_info_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sta_info_free \- free STA
+.SH SYNOPSIS
+.B "void" sta_info_free
+.BI "(struct ieee80211_local *local "  ","
+.BI "struct sta_info *sta "  ");"
+.SH ARGUMENTS
+.IP "local" 12
+pointer to the global information
+.IP "sta" 12
+STA info to free
+.SH "DESCRIPTION"
+This function must undo everything done by \fBsta_info_alloc\fP
+that may happen before \fBsta_info_insert\fP. It may only be
+called when \fBsta_info_insert\fP has not been attempted (and
+if that fails, the station is freed anyway.)

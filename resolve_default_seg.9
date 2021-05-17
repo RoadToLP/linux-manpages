@@ -1,0 +1,25 @@
+.TH "resolve_default_seg" 9 "resolve_default_seg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+resolve_default_seg \- resolve default segment register index for an operand
+.SH SYNOPSIS
+.B "int" resolve_default_seg
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ","
+.BI "int off "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction with opcode and address size. Must be valid.
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "off" 12
+Operand offset, in pt_regs, for which resolution is needed
+.SH "DESCRIPTION"
+Resolve the default segment register index associated with the instruction
+operand register indicated by \fIoff\fP. Such index is resolved based on defaults
+described in the Intel Software Development Manual.
+
+If in protected mode, a constant identifying the segment register to use,
+among CS, SS, ES or DS. If in long mode, INAT_SEG_REG_IGNORE.
+
+-EINVAL in case of error.
+.SH "RETURN"

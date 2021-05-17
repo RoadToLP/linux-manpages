@@ -1,0 +1,21 @@
+.TH "t4_sge_eth_txq_egress_update" 9 "t4_sge_eth_txq_egress_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_sge_eth_txq_egress_update \- handle Ethernet TX Queue update
+.SH SYNOPSIS
+.B "int" t4_sge_eth_txq_egress_update
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_eth_txq *eq "  ","
+.BI "int maxreclaim "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "eq" 12
+the Ethernet TX Queue
+.IP "maxreclaim" 12
+the maximum number of TX Descriptors to reclaim or -1
+
+We're typically called here to update the state of an Ethernet TX
+Queue with respect to the hardware's progress in consuming the TX
+Work Requests that we've put on that Egress Queue.  This happens
+when we get Egress Queue Update messages and also prophylactically
+in regular timer-based Ethernet TX Queue maintenance.

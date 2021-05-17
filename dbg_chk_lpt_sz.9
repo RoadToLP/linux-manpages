@@ -1,0 +1,23 @@
+.TH "dbg_chk_lpt_sz" 9 "dbg_chk_lpt_sz" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dbg_chk_lpt_sz \- check LPT does not write more than LPT size.
+.SH SYNOPSIS
+.B "int" dbg_chk_lpt_sz
+.BI "(struct ubifs_info *c "  ","
+.BI "int action "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "action" 12
+what to do
+.IP "len" 12
+length written
+.SH "DESCRIPTION"
+This function returns 0 on success and a negative error code on failure.
+The \fIaction\fP argument may be one of:
+o 0 - LPT debugging checking starts, initialize debugging variables;
+o 1 - wrote an LPT node, increase LPT size by \fIlen\fP bytes;
+o 2 - switched to a different LEB and wasted \fIlen\fP bytes;
+o 3 - check that we've written the right number of bytes.
+o 4 - wasted \fIlen\fP bytes;

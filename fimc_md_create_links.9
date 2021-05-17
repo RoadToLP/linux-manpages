@@ -1,0 +1,18 @@
+.TH "fimc_md_create_links" 9 "fimc_md_create_links" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fimc_md_create_links \- create default links between registered entities
+.SH SYNOPSIS
+.B "int" fimc_md_create_links
+.BI "(struct fimc_md *fmd "  ");"
+.SH ARGUMENTS
+.IP "fmd" 12
+fimc media device
+.SH "DESCRIPTION"
+Parallel interface sensor entities are connected directly to FIMC capture
+entities. The sensors using MIPI CSIS bus are connected through immutable
+link with CSI receiver entity specified by mux_id. Any registered CSIS
+entity has a link to each registered FIMC capture entity. Enabled links
+are created by default between each subsequent registered sensor and
+subsequent FIMC capture entity. The number of default active links is
+determined by the number of available sensors or FIMC entities,
+whichever is less.

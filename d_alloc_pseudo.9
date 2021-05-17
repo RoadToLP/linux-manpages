@@ -1,0 +1,22 @@
+.TH "d_alloc_pseudo" 9 "d_alloc_pseudo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+d_alloc_pseudo \- allocate a dentry (for lookup-less filesystems)
+.SH SYNOPSIS
+.B "struct dentry *" d_alloc_pseudo
+.BI "(struct super_block *sb "  ","
+.BI "const struct qstr *name "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+the superblock
+.IP "name" 12
+qstr of the name
+.SH "DESCRIPTION"
+For a filesystem that just pins its dentries in memory and never
+performs lookups at all, return an unhashed IS_ROOT dentry.
+This is used for pipes, sockets et.al. - the stuff that should
+never be anyone's children or parents.  Unlike all other
+dentries, these will not have RCU delay between dropping the
+last reference and freeing them.
+
+The only user is \fBalloc_file_pseudo\fP and that's what should
+be considered a public interface.  Don't use directly.

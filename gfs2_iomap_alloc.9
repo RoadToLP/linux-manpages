@@ -1,0 +1,37 @@
+.TH "gfs2_iomap_alloc" 9 "gfs2_iomap_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_iomap_alloc \- Build a metadata tree of the requested height
+.SH SYNOPSIS
+.B "int" gfs2_iomap_alloc
+.BI "(struct inode *inode "  ","
+.BI "struct iomap *iomap "  ","
+.BI "struct metapath *mp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The GFS2 inode
+.IP "iomap" 12
+The iomap structure
+.IP "mp" 12
+The metapath, with proper height information calculated
+.SH "DESCRIPTION"
+In this routine we may have to alloc:
+i) Indirect blocks to grow the metadata tree height
+ii) Indirect blocks to fill in lower part of the metadata tree
+iii) Data blocks
+
+This function is called after gfs2_iomap_get, which works out the
+total number of blocks which we need via gfs2_alloc_size.
+
+We then do the actual allocation asking for an extent at a time (if
+enough contiguous free blocks are available, there will only be one
+allocation request per call) and uses the state machine to initialise
+the blocks in order.
+
+Right now, this function will allocate at most one indirect block
+worth of data -- with a default block size of 4K, that's slightly
+less than 2M.  If this limitation is ever removed to allow huge
+allocations, we would probably still want to limit the iomap size we
+return to avoid stalling other tasks during huge writes; the next
+iomap iteration would then find the blocks already allocated.
+.SH "RETURN"
+errno on error

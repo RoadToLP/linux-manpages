@@ -1,0 +1,32 @@
+.TH "xenbus_watch_pathfmt" 9 "xenbus_watch_pathfmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xenbus_watch_pathfmt \- register a watch on a sprintf-formatted path
+.SH SYNOPSIS
+.B "int" xenbus_watch_pathfmt
+.BI "(struct xenbus_device *dev "  ","
+.BI "struct xenbus_watch *watch "  ","
+.BI "bool (*will_handle)(struct xenbus_watch *, const char *, const char *) "  ","
+.BI "void (*callback)(struct xenbus_watch *, const char *, const char *) "  ","
+.BI "const char *pathfmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+xenbus device
+.IP "watch" 12
+watch to register
+.IP "will_handle" 12
+-- undescribed --
+.IP "callback" 12
+callback to register
+.IP "pathfmt" 12
+format of path to watch
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Register a watch on the given \fIpath\fP, using the given xenbus_watch
+structure for storage, and the given \fIcallback\fP function as the callback.
+Return 0 on success, or -errno on error.  On success, the watched path
+(\fIpath\fP/\fIpath2\fP) will be saved as \fIwatch->node\fP, and becomes the caller's to
+\fBkfree\fP.  On error, watch->node will be NULL, so the caller has nothing to
+free, the device will switch to XenbusStateClosing, and the error will be
+saved in the store.

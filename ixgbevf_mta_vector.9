@@ -1,0 +1,19 @@
+.TH "ixgbevf_mta_vector" 9 "ixgbevf_mta_vector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbevf_mta_vector \- Determines bit-vector in multicast table to set
+.SH SYNOPSIS
+.B "s32" ixgbevf_mta_vector
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "u8 *mc_addr "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mc_addr" 12
+the multicast address
+
+Extracts the 12 bits, from a multicast address, to determine which
+bit-vector to set in the multicast table. The hardware uses 12 bits, from
+incoming Rx multicast addresses, to determine the bit-vector to check in
+the MTA. Which of the 4 combination, of 12-bits, the hardware uses is set
+by the MO field of the MCSTCTRL. The MO field is set during initialization
+to mc_filter_type.

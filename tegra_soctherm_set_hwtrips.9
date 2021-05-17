@@ -1,0 +1,33 @@
+.TH "tegra_soctherm_set_hwtrips" 9 "tegra_soctherm_set_hwtrips" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tegra_soctherm_set_hwtrips \- set HW trip point from DT data
+.SH SYNOPSIS
+.B "int" tegra_soctherm_set_hwtrips
+.BI "(struct device *dev "  ","
+.BI "const struct tegra_tsensor_group *sg "  ","
+.BI "struct thermal_zone_device *tz "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device * of the SOC_THERM instance
+.IP "sg" 12
+pointer to the sensor group to set the thermtrip temperature for
+.IP "tz" 12
+struct thermal_zone_device *
+.SH "DESCRIPTION"
+Configure the SOC_THERM HW trip points, setting "THERMTRIP"
+"THROTTLE" trip points , using "thermtrips", "critical" or "hot"
+type trip_temp
+from thermal zone.
+After they have been configured, THERMTRIP or THROTTLE will take
+action when the configured SoC thermal sensor group reaches a
+certain temperature.
+.SH "RETURN"
+0 upon success, or a negative error code on failure.
+"Success" does not mean that trips was enabled; it could also
+mean that no node was found in DT.
+THERMTRIP has been enabled successfully when a message similar to
+this one appears on the serial console:
+"thermtrip: will shut down when sensor group XXX reaches YYYYYY mC"
+THROTTLE has been enabled successfully when a message similar to
+this one appears on the serial console:
+""throttrip: will throttle when sensor group XXX reaches YYYYYY mC"

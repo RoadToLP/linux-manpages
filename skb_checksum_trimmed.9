@@ -1,0 +1,24 @@
+.TH "skb_checksum_trimmed" 9 "skb_checksum_trimmed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_checksum_trimmed \- validate checksum of an skb
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_checksum_trimmed
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int transport_len "  ","
+.BI "__sum16(*skb_chkf)(struct sk_buff *skb) "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to check
+.IP "transport_len" 12
+the data length beyond the network header
+.IP "skb_chkf" 12
+checksum function to use
+.SH "DESCRIPTION"
+Applies the given checksum function skb_chkf to the provided skb.
+Returns a checked and maybe trimmed skb. Returns NULL on error.
+
+If the skb has data beyond the given transport length, then a
+trimmed & cloned skb is checked and returned.
+
+Caller needs to set the skb transport header and free any returned skb if it
+differs from the provided skb.

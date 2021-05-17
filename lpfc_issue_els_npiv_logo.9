@@ -1,0 +1,23 @@
+.TH "lpfc_issue_els_npiv_logo" 9 "lpfc_issue_els_npiv_logo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_els_npiv_logo \- Issue a logo off a vport
+.SH SYNOPSIS
+.B "int" lpfc_issue_els_npiv_logo
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine issues a LOGO ELS command to an \fIndlp\fP off a \fIvport\fP.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the LOGO ELS command.
+
+Return codes
+0 - Successfully issued logo off the \fIvport\fP
+1 - Failed to issue logo off the \fIvport\fP

@@ -1,0 +1,17 @@
+.TH "driver_deferred_probe_check_state" 9 "driver_deferred_probe_check_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+driver_deferred_probe_check_state \- Check deferred probe state
+.SH SYNOPSIS
+.B "int" driver_deferred_probe_check_state
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to check
+.SH "RETURN"
+-ENODEV if initcalls have completed and modules are disabled.
+-ETIMEDOUT if the deferred probe timeout was set and has expired
+and modules are enabled.
+-EPROBE_DEFER in other cases.
+.SH "DESCRIPTION"
+Drivers or subsystems can opt-in to calling this function instead of directly
+returning -EPROBE_DEFER.

@@ -1,0 +1,35 @@
+.TH "move_extent_per_page" 9 "move_extent_per_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+move_extent_per_page \- Move extent data per page
+.SH SYNOPSIS
+.B "int" move_extent_per_page
+.BI "(struct file *o_filp "  ","
+.BI "struct inode *donor_inode "  ","
+.BI "pgoff_t orig_page_offset "  ","
+.BI "pgoff_t donor_page_offset "  ","
+.BI "int data_offset_in_page "  ","
+.BI "int block_len_in_page "  ","
+.BI "int unwritten "  ","
+.BI "int *err "  ");"
+.SH ARGUMENTS
+.IP "o_filp" 12
+file structure of original file
+.IP "donor_inode" 12
+donor inode
+.IP "orig_page_offset" 12
+page index on original file
+.IP "donor_page_offset" 12
+page index on donor file
+.IP "data_offset_in_page" 12
+block index where data swapping starts
+.IP "block_len_in_page" 12
+the number of blocks to be swapped
+.IP "unwritten" 12
+orig extent is unwritten or not
+.IP "err" 12
+pointer to save return value
+.SH "DESCRIPTION"
+Save the data in original inode blocks and replace original inode extents
+with donor inode extents by calling \fBext4_swap_extents\fP.
+Finally, write out the saved data in new original inode blocks. Return
+replaced block count.

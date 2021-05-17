@@ -1,0 +1,41 @@
+.TH "ice_aq_req_res" 9 "ice_aq_req_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_req_res \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_req_res
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_aq_res_ids res "  ","
+.BI "enum ice_aq_res_access_type access "  ","
+.BI "u8 sdp_number "  ","
+.BI "u32 *timeout "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW struct
+.IP "res" 12
+resource ID
+.IP "access" 12
+access type
+.IP "sdp_number" 12
+resource number
+.IP "timeout" 12
+the maximum time in ms that the driver may hold the resource
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Requests common resource using the admin queue commands (0x0008).
+When attempting to acquire the Global Config Lock, the driver can
+learn of three states:
+1) ICE_SUCCESS -        acquired lock, and can perform download package
+2) ICE_ERR_AQ_ERROR -   did not get lock, driver should fail to load
+3) ICE_ERR_AQ_NO_WORK - did not get lock, but another driver has
+successfully downloaded the package; the driver does
+not have to download the package and can continue
+loading
+
+Note that if the caller is in an acquire lock, perform action, release lock
+phase of operation, it is possible that the FW may detect a timeout and issue
+a CORER. In this case, the driver will receive a CORER interrupt and will
+have to determine its cause. The calling thread that is handling this flow
+will likely get an error propagated back to it indicating the Download
+Package, Update Package or the Release Resource AQ commands timed out.

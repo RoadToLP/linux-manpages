@@ -1,0 +1,22 @@
+.TH "ni_get_valid_routes" 9 "ni_get_valid_routes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ni_get_valid_routes \- Implements INSN_DEVICE_CONFIG_GET_ROUTES.
+.SH SYNOPSIS
+.B "unsigned int" ni_get_valid_routes
+.BI "(const struct ni_route_tables *tables "  ","
+.BI "unsigned int n_pairs "  ","
+.BI "unsigned int *pair_data "  ");"
+.SH ARGUMENTS
+.IP "tables" 12
+pointer to relevant set of routing tables.
+.IP "n_pairs" 12
+Number of pairs for which memory is allocated by the user.  If
+the user specifies '0', only the number of available pairs is
+returned.
+.IP "pair_data" 12
+Pointer to memory allocated to return pairs back to user.  Each
+even, odd indexed member of this array will hold source,
+destination of a route pair respectively.
+.SH "RETURN"
+the number of valid routes if n_pairs == 0; otherwise, the number of
+valid routes copied.

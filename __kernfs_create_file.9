@@ -1,0 +1,38 @@
+.TH "__kernfs_create_file" 9 "__kernfs_create_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__kernfs_create_file \- kernfs internal function to create a file
+.SH SYNOPSIS
+.B "struct kernfs_node *" __kernfs_create_file
+.BI "(struct kernfs_node *parent "  ","
+.BI "const char *name "  ","
+.BI "umode_t mode "  ","
+.BI "kuid_t uid "  ","
+.BI "kgid_t gid "  ","
+.BI "loff_t size "  ","
+.BI "const struct kernfs_ops *ops "  ","
+.BI "void *priv "  ","
+.BI "const void *ns "  ","
+.BI "struct lock_class_key *key "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+directory to create the file in
+.IP "name" 12
+name of the file
+.IP "mode" 12
+mode of the file
+.IP "uid" 12
+uid of the file
+.IP "gid" 12
+gid of the file
+.IP "size" 12
+size of the file
+.IP "ops" 12
+kernfs operations for the file
+.IP "priv" 12
+private data for the file
+.IP "ns" 12
+optional namespace tag of the file
+.IP "key" 12
+lockdep key for the file's active_ref, NULL to disable lockdep
+.SH "DESCRIPTION"
+Returns the created node on success, \fBERR_PTR\fP value on error.

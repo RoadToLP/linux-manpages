@@ -1,0 +1,16 @@
+.TH "efivar_entry_delete" 9 "efivar_entry_delete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efivar_entry_delete \- delete variable and remove entry from list
+.SH SYNOPSIS
+.B "int" efivar_entry_delete
+.BI "(struct efivar_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+entry containing variable to delete
+.SH "DESCRIPTION"
+Delete the variable from the firmware and remove \fIentry\fP from the
+variable list. It is the caller's responsibility to free \fIentry\fP
+once we return.
+
+Returns 0 on success, -EINTR if we can't grab the semaphore,
+converted EFI status code if \fBset_variable\fP fails.

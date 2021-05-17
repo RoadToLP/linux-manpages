@@ -1,0 +1,17 @@
+.TH "ap_cancel_message" 9 "ap_cancel_message" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ap_cancel_message \- Cancel a crypto request.
+.SH SYNOPSIS
+.B "void" ap_cancel_message
+.BI "(struct ap_queue *aq "  ","
+.BI "struct ap_message *ap_msg "  ");"
+.SH ARGUMENTS
+.IP "aq" 12
+The AP device that has the message queued
+.IP "ap_msg" 12
+The message that is to be removed
+.SH "DESCRIPTION"
+Cancel a crypto request. This is done by removing the request
+from the device pending or request queue. Note that the
+request stays on the AP queue. When it finishes the message
+reply will be discarded because the psmid can't be found.

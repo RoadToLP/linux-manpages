@@ -1,0 +1,23 @@
+.TH "blk_mq_queue_tag_busy_iter" 9 "blk_mq_queue_tag_busy_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_queue_tag_busy_iter \- iterate over all requests with a driver tag
+.SH SYNOPSIS
+.B "void" blk_mq_queue_tag_busy_iter
+.BI "(struct request_queue *q "  ","
+.BI "busy_iter_fn *fn "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+Request queue to examine.
+.IP "fn" 12
+Pointer to the function that will be called for each request
+on \fIq\fP. \fIfn\fP will be called as follows: \fIfn\fP(hctx, rq, \fIpriv\fP,
+reserved) where rq is a pointer to a request and hctx points
+to the hardware queue associated with the request. 'reserved'
+indicates whether or not \fIrq\fP is a reserved request.
+.IP "priv" 12
+Will be passed as third argument to \fIfn\fP.
+.SH "NOTE"
+if \fIq->tag_set\fP is shared with other request queues then \fIfn\fP will be
+called for all requests on all queues that share that tag set and not only
+for requests associated with \fIq\fP.

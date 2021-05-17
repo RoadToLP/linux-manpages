@@ -1,0 +1,23 @@
+.TH "skb_panic" 9 "skb_panic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_panic \- private function for out-of-line support
+.SH SYNOPSIS
+.B "void" skb_panic
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int sz "  ","
+.BI "void *addr "  ","
+.BI "const char msg[] "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer
+.IP "sz" 12
+size
+.IP "addr" 12
+address
+.IP "msg" 12
+skb_over_panic or skb_under_panic
+
+Out-of-line support for \fBskb_put\fP and \fBskb_push\fP.
+Called via the wrapper \fBskb_over_panic\fP or \fBskb_under_panic\fP.
+Keep out of line to prevent kernel bloat.
+__builtin_return_address is not used because it is not always reliable.

@@ -1,0 +1,42 @@
+.TH "wbc_detach_inode" 9 "wbc_detach_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wbc_detach_inode \- disassociate wbc from inode and perform foreign detection
+.SH SYNOPSIS
+.B "void" wbc_detach_inode
+.BI "(struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "wbc" 12
+writeback_control of the just finished writeback
+.SH "DESCRIPTION"
+To be called after a writeback attempt of an inode finishes and undoes
+\fBwbc_attach_and_unlock_inode\fP.  Can be called under any context.
+
+As concurrent write sharing of an inode is expected to be very rare and
+memcg only tracks page ownership on first-use basis severely confining
+the usefulness of such sharing, cgroup writeback tracks ownership
+per-inode.  While the support for concurrent write sharing of an inode
+is deemed unnecessary, an inode being written to by different cgroups at
+different points in time is a lot more common, and, more importantly,
+charging only by first-use can too readily lead to grossly incorrect
+behaviors (single foreign page can lead to gigabytes of writeback to be
+incorrectly attributed).
+
+To resolve this issue, cgroup writeback detects the majority dirtier of
+an inode and transfers the ownership to it.  To avoid unnnecessary
+oscillation, the detection mechanism keeps track of history and gives
+out the switch verdict only if the foreign usage pattern is stable over
+a certain amount of time and/or writeback attempts.
+
+On each writeback attempt, \fIwbc\fP tries to detect the majority writer
+using Boyer-Moore majority vote algorithm.  In addition to the byte
+count from the majority voting, it also counts the bytes written for the
+current wb and the last round's winner wb (max of last round's current
+wb, the winner from two rounds ago, and the last round's majority
+candidate).  Keeping track of the historical winner helps the algorithm
+to semi-reliably detect the most active writer even when it's not the
+absolute majority.
+
+Once the winner of the round is determined, whether the winner is
+foreign or not and how much IO time the round consumed is recorded in
+inode->i_wb_frn_history.  If the amount of recorded foreign IO time is
+over a certain threshold, the switch verdict is given.

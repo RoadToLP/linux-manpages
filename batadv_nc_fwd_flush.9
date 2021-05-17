@@ -1,0 +1,22 @@
+.TH "batadv_nc_fwd_flush" 9 "batadv_nc_fwd_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_nc_fwd_flush \- Checks the timestamp of the given nc packet.
+.SH SYNOPSIS
+.B "bool" batadv_nc_fwd_flush
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_nc_path *nc_path "  ","
+.BI "struct batadv_nc_packet *nc_packet "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "nc_path" 12
+the nc path the packet belongs to
+.IP "nc_packet" 12
+the nc packet to be checked
+.SH "DESCRIPTION"
+Checks whether the given nc packet has hit its forward timeout. If so, the
+packet is no longer delayed, immediately sent and the entry deleted from the
+queue. Has to be called with the appropriate locks.
+.SH "RETURN"
+false as soon as the entry in the fifo queue has not been timed out
+yet and true otherwise.

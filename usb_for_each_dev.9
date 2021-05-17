@@ -1,0 +1,16 @@
+.TH "usb_for_each_dev" 9 "usb_for_each_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_for_each_dev \- iterate over all USB devices in the system
+.SH SYNOPSIS
+.B "int" usb_for_each_dev
+.BI "(void *data "  ","
+.BI "int (*fn)(struct usb_device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+data pointer that will be handed to the callback function
+.IP "fn" 12
+callback function to be called for each USB device
+.SH "DESCRIPTION"
+Iterate over all USB devices and call \fIfn\fP for each, passing it \fIdata\fP. If it
+returns anything other than 0, we break the iteration prematurely and return
+that value.

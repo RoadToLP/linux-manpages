@@ -1,0 +1,26 @@
+.TH "print_rsvd_warning" 9 "print_rsvd_warning" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+print_rsvd_warning \- warn about not having enough reserved PEBs.
+.SH SYNOPSIS
+.B "void" print_rsvd_warning
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "ai" 12
+UBI attach info object
+.SH "DESCRIPTION"
+This is a helper function for '\fBubi_eba_init\fP' which is called when UBI
+cannot reserve enough PEBs for bad block handling. This function makes a
+decision whether we have to print a warning or not. The algorithm is as
+follows:
+o if this is a new UBI image, then just print the warning
+o if this is an UBI image which has already been used for some time, print
+a warning only if we can reserve less than 10% of the expected amount of
+the reserved PEB.
+
+The idea is that when UBI is used, PEBs become bad, and the reserved pool
+of PEBs becomes smaller, which is normal and we do not want to scare users
+with a warning every time they attach the MTD device. This was an issue
+reported by real users.

@@ -1,0 +1,25 @@
+.TH "enclosure_find" 9 "enclosure_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+enclosure_find \- find an enclosure given a parent device
+.SH SYNOPSIS
+.B "struct enclosure_device *" enclosure_find
+.BI "(struct device *dev "  ","
+.BI "struct enclosure_device *start "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the parent to match against
+.IP "start" 12
+Optional enclosure device to start from (NULL if none)
+.SH "DESCRIPTION"
+Looks through the list of registered enclosures to find all those
+with \fIdev\fP as a parent.  Returns NULL if no enclosure is
+found. \fIstart\fP can be used as a starting point to obtain multiple
+enclosures per parent (should begin with NULL and then be set to
+each returned enclosure device). Obtains a reference to the
+enclosure class device which must be released with \fBdevice_put\fP.
+If \fIstart\fP is not NULL, a reference must be taken on it which is
+released before returning (this allows a loop through all
+enclosures to exit with only the reference on the enclosure of
+interest held).  Note that the \fIdev\fP may correspond to the actual
+device housing the enclosure, in which case no iteration via \fIstart\fP
+is required.

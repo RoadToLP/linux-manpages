@@ -1,0 +1,31 @@
+.TH "kcore_copy" 9 "kcore_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kcore_copy \- copy kallsyms, modules and kcore from one directory to another.
+.SH SYNOPSIS
+.B "int" kcore_copy
+.BI "(const char *from_dir "  ","
+.BI "const char *to_dir "  ");"
+.SH ARGUMENTS
+.IP "from_dir" 12
+from directory
+.IP "to_dir" 12
+to directory
+.SH "DESCRIPTION"
+This function copies kallsyms, modules and kcore files from one directory to
+another.  kallsyms and modules are copied entirely.  Only code segments are
+copied from kcore.  It is assumed that two segments suffice: one for the
+kernel proper and one for all the modules.  The code segments are determined
+from kallsyms and modules files.  The kernel map starts at _stext or the
+lowest function symbol, and ends at _etext or the highest function symbol.
+The module map starts at the lowest module address and ends at the highest
+module symbol.  Start addresses are rounded down to the nearest page.  End
+addresses are rounded up to the nearest page.  An extra page is added to the
+highest kernel symbol and highest module symbol to, hopefully, encompass that
+symbol too.  Because it contains only code sections, the resulting kcore is
+unusual.  One significant peculiarity is that the mapping (start -> pgoff)
+is not the same for the kernel map and the modules map.  That happens because
+the data is copied adjacently whereas the original kcore has gaps.  Finally,
+kallsyms and modules files are compared with their copies to check that
+modules have not been loaded or unloaded while the copies were taking place.
+.SH "RETURN"
+0 on success, -1 on failure.

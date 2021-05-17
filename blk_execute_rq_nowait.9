@@ -1,0 +1,23 @@
+.TH "blk_execute_rq_nowait" 9 "blk_execute_rq_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_execute_rq_nowait \- insert a request to I/O scheduler for execution
+.SH SYNOPSIS
+.B "void" blk_execute_rq_nowait
+.BI "(struct gendisk *bd_disk "  ","
+.BI "struct request *rq "  ","
+.BI "int at_head "  ","
+.BI "rq_end_io_fn *done "  ");"
+.SH ARGUMENTS
+.IP "bd_disk" 12
+matching gendisk
+.IP "rq" 12
+request to insert
+.IP "at_head" 12
+insert request at head or tail of queue
+.IP "done" 12
+I/O completion handler
+.SH "DESCRIPTION"
+Insert a fully prepared request at the back of the I/O scheduler queue
+for execution.  Don't wait for completion.
+.SH "NOTE"
+This function will invoke \fIdone\fP directly if the queue is dead.

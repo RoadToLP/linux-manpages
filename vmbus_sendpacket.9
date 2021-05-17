@@ -1,0 +1,30 @@
+.TH "vmbus_sendpacket" 9 "vmbus_sendpacket" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmbus_sendpacket \- Send the specified buffer on the given channel
+.SH SYNOPSIS
+.B "int" vmbus_sendpacket
+.BI "(struct vmbus_channel *channel "  ","
+.BI "void *buffer "  ","
+.BI "u32 bufferlen "  ","
+.BI "u64 requestid "  ","
+.BI "enum vmbus_packet_type type "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "channel" 12
+Pointer to vmbus_channel structure
+.IP "buffer" 12
+Pointer to the buffer you want to send the data from.
+.IP "bufferlen" 12
+Maximum size of what the buffer holds.
+.IP "requestid" 12
+Identifier of the request
+.IP "type" 12
+Type of packet that is being sent e.g. negotiate, time
+packet etc.
+.IP "flags" 12
+0 or VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED
+.SH "DESCRIPTION"
+Sends data in \fIbuffer\fP directly to Hyper-V via the vmbus.
+This will send the data unparsed to Hyper-V.
+
+Mainly used by Hyper-V drivers.

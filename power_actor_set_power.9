@@ -1,0 +1,21 @@
+.TH "power_actor_set_power" 9 "power_actor_set_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+power_actor_set_power \- limit the maximum power a cooling device consumes
+.SH SYNOPSIS
+.B "int" power_actor_set_power
+.BI "(struct thermal_cooling_device *cdev "  ","
+.BI "struct thermal_instance *instance "  ","
+.BI "u32 power "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+pointer to \fIthermal_cooling_device\fP
+.IP "instance" 12
+thermal instance to update
+.IP "power" 12
+the power in milliwatts
+.SH "DESCRIPTION"
+Set the cooling device to consume at most \fIpower\fP milliwatts. The limit is
+expected to be a cap at the maximum power consumption.
+.SH "RETURN"
+0 on success, -EINVAL if the cooling device does not
+implement the power actor API or -E* for other failures.

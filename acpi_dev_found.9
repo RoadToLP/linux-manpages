@@ -1,0 +1,18 @@
+.TH "acpi_dev_found" 9 "acpi_dev_found" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_found \- Detect presence of a given ACPI device in the namespace.
+.SH SYNOPSIS
+.B "bool" acpi_dev_found
+.BI "(const char *hid "  ");"
+.SH ARGUMENTS
+.IP "hid" 12
+Hardware ID of the device.
+.SH "DESCRIPTION"
+Return true if the device was present at the moment of invocation.
+Note that if the device is pluggable, it may since have disappeared.
+
+For this function to work, \fBacpi_bus_scan\fP must have been executed
+which happens in the \fBsubsys_initcall\fP subsection. Hence, do not
+call from a \fBsubsys_initcall\fP or earlier (use \fBacpi_get_devices\fP
+instead). Calling from \fBmodule_init\fP is fine (which is synonymous
+with \fBdevice_initcall\fP).

@@ -1,0 +1,27 @@
+.TH "snd_device_new" 9 "snd_device_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_device_new \- create an ALSA device component
+.SH SYNOPSIS
+.B "int" snd_device_new
+.BI "(struct snd_card *card "  ","
+.BI "enum snd_device_type type "  ","
+.BI "void *device_data "  ","
+.BI "const struct snd_device_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "type" 12
+the device type, SNDRV_DEV_XXX
+.IP "device_data" 12
+the data pointer of this device
+.IP "ops" 12
+the operator table
+.SH "DESCRIPTION"
+Creates a new device component for the given data pointer.
+The device will be assigned to the card and managed together
+by the card.
+
+The data pointer plays a role as the identifier, too, so the
+pointer address must be unique and unchanged.
+.SH "RETURN"
+Zero if successful, or a negative error code on failure.

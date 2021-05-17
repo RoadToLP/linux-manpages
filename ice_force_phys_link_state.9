@@ -1,0 +1,19 @@
+.TH "ice_force_phys_link_state" 9 "ice_force_phys_link_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_force_phys_link_state \- Force the physical link state
+.SH SYNOPSIS
+.B "int" ice_force_phys_link_state
+.BI "(struct ice_vsi *vsi "  ","
+.BI "bool link_up "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+VSI to force the physical link state to up/down
+.IP "link_up" 12
+true/false indicates to set the physical link to up/down
+.SH "DESCRIPTION"
+Force the physical link state by getting the current PHY capabilities from
+hardware and setting the PHY config based on the determined capabilities. If
+link changes a link event will be triggered because both the Enable Automatic
+Link Update and LESM Enable bits are set when setting the PHY capabilities.
+
+Returns 0 on success, negative on failure

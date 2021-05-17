@@ -1,0 +1,29 @@
+.TH "tcw_add_tidaw" 9 "tcw_add_tidaw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcw_add_tidaw \- add a tidaw to a tcw
+.SH SYNOPSIS
+.B "struct tidaw *" tcw_add_tidaw
+.BI "(struct tcw *tcw "  ","
+.BI "int num_tidaws "  ","
+.BI "u8 flags "  ","
+.BI "void *addr "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "tcw" 12
+the tcw address
+.IP "num_tidaws" 12
+the current number of tidaws
+.IP "flags" 12
+flags for the new tidaw
+.IP "addr" 12
+address value for the new tidaw
+.IP "count" 12
+count value for the new tidaw
+.SH "DESCRIPTION"
+Add a new tidaw to the input/output data tidaw-list of the specified tcw
+(depending on the value of the r-flag and w-flag) and return a pointer to
+the new tidaw.
+.SH "NOTE"
+the tidaw-list is assumed to be contiguous with no ttics. The caller
+must ensure that there is enough space for the new tidaw. The last-tidaw
+flag for the last tidaw in the list will be set by tcw_finalize.

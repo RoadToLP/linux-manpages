@@ -1,0 +1,44 @@
+.TH "divvy_up_power" 9 "divvy_up_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+divvy_up_power \- divvy the allocated power between the actors
+.SH SYNOPSIS
+.B "void" divvy_up_power
+.BI "(u32 *req_power "  ","
+.BI "u32 *max_power "  ","
+.BI "int num_actors "  ","
+.BI "u32 total_req_power "  ","
+.BI "u32 power_range "  ","
+.BI "u32 *granted_power "  ","
+.BI "u32 *extra_actor_power "  ");"
+.SH ARGUMENTS
+.IP "req_power" 12
+each actor's requested power
+.IP "max_power" 12
+each actor's maximum available power
+.IP "num_actors" 12
+size of the \fIreq_power\fP, \fImax_power\fP and \fIgranted_power\fP's array
+.IP "total_req_power" 12
+sum of \fIreq_power\fP
+.IP "power_range" 12
+total allocated power
+.IP "granted_power" 12
+output array: each actor's granted power
+.IP "extra_actor_power" 12
+an appropriately sized array to be used in the
+function as temporary storage of the extra power given
+to the actors
+.SH "DESCRIPTION"
+This function divides the total allocated power (\fIpower_range\fP)
+fairly between the actors.  It first tries to give each actor a
+share of the \fIpower_range\fP according to how much power it requested
+compared to the rest of the actors.  For example, if only one actor
+requests power, then it receives all the \fIpower_range\fP.  If
+three actors each requests 1mW, each receives a third of the
+\fIpower_range\fP.
+
+If any actor received more than their maximum power, then that
+surplus is re-divvied among the actors based on how far they are
+from their respective maximums.
+
+Granted power for each actor is written to \fIgranted_power\fP, which
+should've been allocated by the calling function.

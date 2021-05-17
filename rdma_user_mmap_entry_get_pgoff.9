@@ -1,0 +1,21 @@
+.TH "rdma_user_mmap_entry_get_pgoff" 9 "rdma_user_mmap_entry_get_pgoff" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_entry_get_pgoff \- Get an entry from the mmap_xa
+.SH SYNOPSIS
+.B "struct rdma_user_mmap_entry *" rdma_user_mmap_entry_get_pgoff
+.BI "(struct ib_ucontext *ucontext "  ","
+.BI "unsigned long pgoff "  ");"
+.SH ARGUMENTS
+.IP "ucontext" 12
+associated user context
+.IP "pgoff" 12
+The mmap offset >> PAGE_SHIFT
+.SH "DESCRIPTION"
+This function is called when a user tries to mmap with an offset (returned
+by \fBrdma_user_mmap_get_offset\fP) it initially received from the driver. The
+rdma_user_mmap_entry was created by the function
+\fBrdma_user_mmap_entry_insert\fP.  This function increases the refcnt of the
+entry so that it won't be deleted from the xarray in the meantime.
+
+Return an reference to an entry if exists or NULL if there is no
+match. \fBrdma_user_mmap_entry_put\fP must be called to put the reference.

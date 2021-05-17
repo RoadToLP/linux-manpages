@@ -1,0 +1,34 @@
+.TH "__fw_devlink_link_to_suppliers" 9 "__fw_devlink_link_to_suppliers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__fw_devlink_link_to_suppliers \- Create device links to suppliers of a device @dev - The consumer device that needs to be linked to its suppliers @fwnode - Root of the fwnode tree that is used to create device links
+.SH SYNOPSIS
+.B "void" __fw_devlink_link_to_suppliers
+.BI "(struct device *dev "  ","
+.BI "struct fwnode_handle *fwnode "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+-- undescribed --
+.IP "fwnode" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function looks at all the supplier fwnodes of fwnode tree rooted at
+\fIfwnode\fP and creates device links between \fIdev\fP (consumer) and all the
+supplier devices of the entire fwnode tree at \fIfwnode\fP.
+
+The function creates normal (non-SYNC_STATE_ONLY) device links between \fIdev\fP
+and the real suppliers of \fIdev\fP. Once these device links are created, the
+fwnode links are deleted. When such device links are successfully created,
+this function is called recursively on those supplier devices. This is
+needed to detect and break some invalid cycles in fwnode links.  See
+\fBfw_devlink_create_devlink\fP for more details.
+
+In addition, it also looks at all the suppliers of the entire fwnode tree
+because some of the child devices of \fIdev\fP that have not been added yet
+(because \fIdev\fP hasn't probed) might already have their suppliers added to
+driver core. So, this function creates SYNC_STATE_ONLY device links between
+\fIdev\fP (consumer) and these suppliers to make sure they don't execute their
+\fBsync_state\fP callbacks before these child devices have a chance to create
+their device links. The fwnode links that correspond to the child devices
+aren't delete because they are needed later to create the device links
+between the real consumer and supplier devices.

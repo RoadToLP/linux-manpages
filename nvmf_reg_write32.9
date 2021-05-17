@@ -1,0 +1,29 @@
+.TH "nvmf_reg_write32" 9 "nvmf_reg_write32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmf_reg_write32 \- NVMe Fabrics "Property Write" API function.
+.SH SYNOPSIS
+.B "int" nvmf_reg_write32
+.BI "(struct nvme_ctrl *ctrl "  ","
+.BI "u32 off "  ","
+.BI "u32 val "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+Host NVMe controller instance maintaining the admin
+queue used to submit the property read command to
+the allocated NVMe controller resource on the target system.
+.IP "off" 12
+Starting offset value of the targeted property
+register (see the fabrics section of the NVMe standard).
+.IP "val" 12
+Input parameter that contains the value to be
+written to the property.
+.SH "DESCRIPTION"
+Used by the NVMe host system to write a 32-bit capsule property value
+to an NVMe controller on the target system.
+
+("Capsule property" is an "PCIe register concept" applied to the
+NVMe fabrics space.)
+.SH "RETURN"
+0: successful write
+> 0: NVMe error status code
+< 0: Linux errno error code

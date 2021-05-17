@@ -1,0 +1,31 @@
+.TH "lpfc_issue_fabric_iocb" 9 "lpfc_issue_fabric_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_fabric_iocb \- Issue a fabric iocb command
+.SH SYNOPSIS
+.B "int" lpfc_issue_fabric_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *iocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "iocb" 12
+pointer to lpfc command iocb data structure.
+.SH "DESCRIPTION"
+This routine is used as the top-level API for issuing a fabric iocb command
+such as FLOGI and FDISC. To accommodate certain switch fabric, this driver
+function makes sure that only one fabric bound iocb will be outstanding at
+any given time. As such, this function will first check to see whether there
+is already an outstanding fabric iocb on the wire. If so, it will put the
+newly issued iocb onto the driver internal fabric iocb list, waiting to be
+issued later. Otherwise, it will issue the iocb on the wire and update the
+fabric iocb count it indicate that there is one fabric iocb on the wire.
+
+Note, this implementation has a potential sending out fabric IOCBs out of
+order. The problem is caused by the construction of the "ready" boolen does
+not include the condition that the internal fabric IOCB list is empty. As
+such, it is possible a fabric IOCB issued by this routine might be "jump"
+ahead of the fabric IOCBs in the internal list.
+
+Return code
+IOCB_SUCCESS - either fabric iocb put on the list or issued successfully
+IOCB_ERROR - failed to issue fabric iocb

@@ -1,0 +1,23 @@
+.TH "snd_soc_new_ac97_component" 9 "snd_soc_new_ac97_component" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_soc_new_ac97_component \- initailise AC97 device
+.SH SYNOPSIS
+.B "struct snd_ac97 *" snd_soc_new_ac97_component
+.BI "(struct snd_soc_component *component "  ","
+.BI "unsigned int id "  ","
+.BI "unsigned int id_mask "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+audio component
+.IP "id" 12
+The expected device ID
+.IP "id_mask" 12
+Mask that is applied to the device ID before comparing with \fIid\fP
+.SH "DESCRIPTION"
+Initialises AC97 component resources for use by ad-hoc devices only.
+
+If \fIid\fP is not 0 this function will reset the device, then read the ID from
+the device and check if it matches the expected ID. If it doesn't match an
+error will be returned and device will not be registered.
+.SH "RETURN"
+A \fBPTR_ERR\fP on failure or a valid snd_ac97 struct on success.

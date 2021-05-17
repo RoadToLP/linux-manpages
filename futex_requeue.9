@@ -1,0 +1,34 @@
+.TH "futex_requeue" 9 "futex_requeue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+futex_requeue \- Requeue waiters from uaddr1 to uaddr2
+.SH SYNOPSIS
+.B "int" futex_requeue
+.BI "(u32 __user *uaddr1 "  ","
+.BI "unsigned int flags "  ","
+.BI "u32 __user *uaddr2 "  ","
+.BI "int nr_wake "  ","
+.BI "int nr_requeue "  ","
+.BI "u32 *cmpval "  ","
+.BI "int requeue_pi "  ");"
+.SH ARGUMENTS
+.IP "uaddr1" 12
+source futex user address
+.IP "flags" 12
+futex flags (FLAGS_SHARED, etc.)
+.IP "uaddr2" 12
+target futex user address
+.IP "nr_wake" 12
+number of waiters to wake (must be 1 for requeue_pi)
+.IP "nr_requeue" 12
+number of waiters to requeue (0-INT_MAX)
+.IP "cmpval" 12
+\fIuaddr1\fP expected value (or NULL)
+.IP "requeue_pi" 12
+if we are attempting to requeue from a non-pi futex to a
+pi futex (pi to pi requeue is not supported)
+.SH "DESCRIPTION"
+Requeue waiters on uaddr1 to uaddr2. In the requeue_pi case, try to acquire
+uaddr2 atomically on behalf of the top waiter.
+.SH "RETURN"
+- >=0 - on success, the number of tasks requeued or woken;
+-  <0 - on error

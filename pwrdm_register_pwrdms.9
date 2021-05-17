@@ -1,0 +1,15 @@
+.TH "pwrdm_register_pwrdms" 9 "pwrdm_register_pwrdms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_register_pwrdms \- register SoC powerdomains
+.SH SYNOPSIS
+.B "int" pwrdm_register_pwrdms
+.BI "(struct powerdomain **ps "  ");"
+.SH ARGUMENTS
+.IP "ps" 12
+pointer to an array of struct powerdomain to register
+.SH "DESCRIPTION"
+Register the powerdomains available on a particular OMAP SoC.  Must
+be called after \fBpwrdm_register_platform_funcs\fP.  May be called
+multiple times.  Returns -EACCES if called before
+\fBpwrdm_register_platform_funcs\fP; -EINVAL if the argument \fIps\fP is
+null; or 0 upon success.

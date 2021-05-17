@@ -1,0 +1,23 @@
+.TH "nfs_async_rename" 9 "nfs_async_rename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_async_rename \- perform an asynchronous rename operation
+.SH SYNOPSIS
+.B "struct rpc_task *" nfs_async_rename
+.BI "(struct inode *old_dir "  ","
+.BI "struct inode *new_dir "  ","
+.BI "struct dentry *old_dentry "  ","
+.BI "struct dentry *new_dentry "  ","
+.BI "void (*complete)(struct rpc_task *, struct nfs_renamedata *) "  ");"
+.SH ARGUMENTS
+.IP "old_dir" 12
+directory that currently holds the dentry to be renamed
+.IP "new_dir" 12
+target directory for the rename
+.IP "old_dentry" 12
+original dentry to be renamed
+.IP "new_dentry" 12
+dentry to which the old_dentry should be renamed
+.IP "complete" 12
+Function to run on successful completion
+.SH "DESCRIPTION"
+It's expected that valid references to the dentries and inodes are held

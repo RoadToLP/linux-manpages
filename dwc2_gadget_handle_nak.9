@@ -1,0 +1,19 @@
+.TH "dwc2_gadget_handle_nak" 9 "dwc2_gadget_handle_nak" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_gadget_handle_nak \- handle NAK interrupt
+.SH SYNOPSIS
+.B "void" dwc2_gadget_handle_nak
+.BI "(struct dwc2_hsotg_ep *hs_ep "  ");"
+.SH ARGUMENTS
+.IP "hs_ep" 12
+The endpoint on which interrupt is asserted.
+.SH "DESCRIPTION"
+This is starting point for ISOC-IN transfer, synchronization done with
+first IN token received from host while corresponding EP is disabled.
+
+Device does not know when first one token will arrive from host. On first
+token arrival HW generates 2 interrupts: 'in token received while FIFO empty'
+and 'NAK'. NAK interrupt for ISOC-IN means that token has arrived and ZLP was
+sent in response to that as there was no data in FIFO. SW is basing on this
+interrupt to obtain frame in which token has come and then based on the
+interval calculates next frame for transfer.

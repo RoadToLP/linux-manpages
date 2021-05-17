@@ -1,0 +1,20 @@
+.TH "tty_dev_name_to_number" 9 "tty_dev_name_to_number" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_dev_name_to_number \- return dev_t for device name
+.SH SYNOPSIS
+.B "int" tty_dev_name_to_number
+.BI "(const char *name "  ","
+.BI "dev_t *number "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+user space name of device under /dev
+.IP "number" 12
+pointer to dev_t that this function will populate
+
+This function converts device names like ttyS0 or ttyUSB1 into dev_t
+like (4, 64) or (188, 1). If no corresponding driver is registered then
+the function returns -ENODEV.
+
+Locking: this acquires tty_mutex to protect the tty_drivers list from
+being modified while we are traversing it, and makes sure to
+release it before exiting.

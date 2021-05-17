@@ -1,0 +1,19 @@
+.TH "write_fifo" 9 "write_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_fifo \- transfer packets from usb request into an IN endpoint
+.SH SYNOPSIS
+.B "int" write_fifo
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+pxa physical endpoint
+.IP "req" 12
+pxa usb request
+.SH "DESCRIPTION"
+Write to an IN endpoint fifo, as many packets as possible.
+irqs will use this to write the rest later.
+caller guarantees at least one packet buffer is ready (or a zlp).
+Doesn't complete the request, that's the caller's job
+
+Returns 1 if request fully transferred, 0 if partial transfer

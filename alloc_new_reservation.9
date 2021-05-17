@@ -1,0 +1,47 @@
+.TH "alloc_new_reservation" 9 "alloc_new_reservation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_new_reservation \- -allocate a new reservation window
+.SH SYNOPSIS
+.B "int" alloc_new_reservation
+.BI "(struct ext2_reserve_window_node *my_rsv "  ","
+.BI "ext2_grpblk_t grp_goal "  ","
+.BI "struct super_block *sb "  ","
+.BI "unsigned int group "  ","
+.BI "struct buffer_head *bitmap_bh "  ");"
+.SH ARGUMENTS
+.IP "my_rsv" 12
+the reservation
+.IP "grp_goal" 12
+The goal (group-relative).  It is where the search for a
+free reservable space should start from.
+if we have a goal(goal >0 ), then start from there,
+no goal(goal = -1), we start from the first block
+of the group.
+.IP "sb" 12
+the super block
+.IP "group" 12
+the group we are trying to allocate in
+.IP "bitmap_bh" 12
+the block group block bitmap
+.SH "DESCRIPTION"
+
+To make a new reservation, we search part of the filesystem
+reservation list (the list that inside the group). We try to
+allocate a new reservation window near the allocation goal,
+or the beginning of the group, if there is no goal.
+
+We first find a reservable space after the goal, then from
+there, we check the bitmap for the first free block after
+it. If there is no free block until the end of group, then the
+whole group is full, we failed. Otherwise, check if the free
+block is inside the expected reservable space, if so, we
+succeed.
+If the first free block is outside the reservable space, then
+start from the first free block, we search for next available
+space, and go on.
+
+on succeed, a new reservation will be found and inserted into the list
+It contains at least one free block, and it does not overlap with other
+reservation windows.
+
+failed: we failed to find a reservation window in this group

@@ -1,0 +1,30 @@
+.TH "nilfs_ioctl_delete_checkpoint" 9 "nilfs_ioctl_delete_checkpoint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_delete_checkpoint \- remove checkpoint
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_delete_checkpoint
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_delete_checkpoint\fP function removes
+checkpoint from NILFS2 file system. This ioctl is used in rmcp
+utility.
+
+Return Value: On success, 0 is returned and a checkpoint is
+removed. On error, one of the following negative error codes
+is returned.
+
+-EPERM - Operation not permitted.
+
+-EFAULT - Failure during checkpoint removing.

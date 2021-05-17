@@ -1,0 +1,18 @@
+.TH "subsys_virtual_register" 9 "subsys_virtual_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+subsys_virtual_register \- register a subsystem at /sys/devices/virtual/
+.SH SYNOPSIS
+.B "int" subsys_virtual_register
+.BI "(struct bus_type *subsys "  ","
+.BI "const struct attribute_group **groups "  ");"
+.SH ARGUMENTS
+.IP "subsys" 12
+virtual subsystem
+.IP "groups" 12
+default attributes for the root device
+.SH "DESCRIPTION"
+All 'virtual' subsystems have a /sys/devices/system/<name> root device
+with the name of the subystem.  The root device can carry subsystem-wide
+attributes.  All registered devices are below this single root device.
+There's no restriction on device naming.  This is for kernel software
+constructs which need sysfs interface.

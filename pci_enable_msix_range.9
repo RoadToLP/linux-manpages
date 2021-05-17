@@ -1,0 +1,26 @@
+.TH "pci_enable_msix_range" 9 "pci_enable_msix_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_enable_msix_range \- configure device's MSI-X capability structure
+.SH SYNOPSIS
+.B "int" pci_enable_msix_range
+.BI "(struct pci_dev *dev "  ","
+.BI "struct msix_entry *entries "  ","
+.BI "int minvec "  ","
+.BI "int maxvec "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to the pci_dev data structure of MSI-X device function
+.IP "entries" 12
+pointer to an array of MSI-X entries
+.IP "minvec" 12
+minimum number of MSI-X IRQs requested
+.IP "maxvec" 12
+maximum number of MSI-X IRQs requested
+.SH "DESCRIPTION"
+Setup the MSI-X capability structure of device function with a maximum
+possible number of interrupts in the range between \fIminvec\fP and \fImaxvec\fP
+upon its software driver call to request for MSI-X mode enabled on its
+hardware device function. It returns a negative errno if an error occurs.
+If it succeeds, it returns the actual number of interrupts allocated and
+indicates the successful configuration of MSI-X capability structure
+with new allocated MSI-X interrupts.

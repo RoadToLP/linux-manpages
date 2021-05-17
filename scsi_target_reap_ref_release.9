@@ -1,0 +1,14 @@
+.TH "scsi_target_reap_ref_release" 9 "scsi_target_reap_ref_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_target_reap_ref_release \- remove target from visibility
+.SH SYNOPSIS
+.B "void" scsi_target_reap_ref_release
+.BI "(struct kref *kref "  ");"
+.SH ARGUMENTS
+.IP "kref" 12
+the reap_ref in the target being released
+.SH "DESCRIPTION"
+Called on last put of reap_ref, which is the indication that no device
+under this target is visible anymore, so render the target invisible in
+sysfs.  Note: we have to be in user context here because the target reaps
+should be done in places where the scsi device visibility is being removed.

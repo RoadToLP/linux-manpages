@@ -1,0 +1,17 @@
+.TH "is_last_bud" 9 "is_last_bud" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_last_bud \- check if the bud is the last in the journal head.
+.SH SYNOPSIS
+.B "int" is_last_bud
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_bud *bud "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "bud" 12
+bud description object
+.SH "DESCRIPTION"
+This function checks if bud \fIbud\fP is the last bud in its journal head. This
+information is then used by '\fBreplay_bud\fP' to decide whether the bud can
+have corruptions or not. Indeed, only last buds can be corrupted by power
+cuts. Returns 1 if this is the last bud, and 0 if not.

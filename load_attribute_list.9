@@ -1,0 +1,29 @@
+.TH "load_attribute_list" 9 "load_attribute_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+load_attribute_list \- load an attribute list into memory
+.SH SYNOPSIS
+.B "int" load_attribute_list
+.BI "(ntfs_volume *vol "  ","
+.BI "runlist *runlist "  ","
+.BI "u8 *al_start "  ","
+.BI "const s64 size "  ","
+.BI "const s64 initialized_size "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume from which to read
+.IP "runlist" 12
+runlist of the attribute list
+.IP "al_start" 12
+destination buffer
+.IP "size" 12
+size of the destination buffer in bytes
+.IP "initialized_size" 12
+initialized size of the attribute list
+.SH "DESCRIPTION"
+Walk the runlist \fIrunlist\fP and load all clusters from it copying them into
+the linear buffer \fIal\fP. The maximum number of bytes copied to \fIal\fP is \fIsize\fP
+bytes. Note, \fIsize\fP does not need to be a multiple of the cluster size. If
+\fIinitialized_size\fP is less than \fIsize\fP, the region in \fIal\fP between
+\fIinitialized_size\fP and \fIsize\fP will be zeroed and not read from disk.
+
+Return 0 on success or -errno on error.

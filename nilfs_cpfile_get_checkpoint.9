@@ -1,0 +1,38 @@
+.TH "nilfs_cpfile_get_checkpoint" 9 "nilfs_cpfile_get_checkpoint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_cpfile_get_checkpoint \- get a checkpoint
+.SH SYNOPSIS
+.B "int" nilfs_cpfile_get_checkpoint
+.BI "(struct inode *cpfile "  ","
+.BI "__u64 cno "  ","
+.BI "int create "  ","
+.BI "struct nilfs_checkpoint **cpp "  ","
+.BI "struct buffer_head **bhp "  ");"
+.SH ARGUMENTS
+.IP "cpfile" 12
+inode of checkpoint file
+.IP "cno" 12
+checkpoint number
+.IP "create" 12
+create flag
+.IP "cpp" 12
+pointer to a checkpoint
+.IP "bhp" 12
+pointer to a buffer head
+.SH "DESCRIPTION"
+\fBnilfs_cpfile_get_checkpoint\fP acquires the checkpoint
+specified by \fIcno\fP. A new checkpoint will be created if \fIcno\fP is the current
+checkpoint number and \fIcreate\fP is nonzero.
+
+Return Value: On success, 0 is returned, and the checkpoint and the
+buffer head of the buffer on which the checkpoint is located are stored in
+the place pointed by \fIcpp\fP and \fIbhp\fP, respectively. On error, one of the
+following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOENT - No such checkpoint.
+
+-EINVAL - invalid checkpoint.

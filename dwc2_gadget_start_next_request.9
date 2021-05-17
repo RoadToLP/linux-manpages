@@ -1,0 +1,13 @@
+.TH "dwc2_gadget_start_next_request" 9 "dwc2_gadget_start_next_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_gadget_start_next_request \- Starts next request from ep queue
+.SH SYNOPSIS
+.B "void" dwc2_gadget_start_next_request
+.BI "(struct dwc2_hsotg_ep *hs_ep "  ");"
+.SH ARGUMENTS
+.IP "hs_ep" 12
+Endpoint structure
+.SH "DESCRIPTION"
+If queue is empty and EP is ISOC-OUT - unmasks OUTTKNEPDIS which is masked
+in its handler. Hence we need to unmask it here to be able to do
+resynchronization.

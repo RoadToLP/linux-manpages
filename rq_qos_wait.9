@@ -1,0 +1,27 @@
+.TH "rq_qos_wait" 9 "rq_qos_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rq_qos_wait \- throttle on a rqw if we need to
+.SH SYNOPSIS
+.B "void" rq_qos_wait
+.BI "(struct rq_wait *rqw "  ","
+.BI "void *private_data "  ","
+.BI "acquire_inflight_cb_t *acquire_inflight_cb "  ","
+.BI "cleanup_cb_t *cleanup_cb "  ");"
+.SH ARGUMENTS
+.IP "rqw" 12
+rqw to throttle on
+.IP "private_data" 12
+caller provided specific data
+.IP "acquire_inflight_cb" 12
+inc the rqw->inflight counter if we can
+.IP "cleanup_cb" 12
+the callback to cleanup in case we race with a waker
+.SH "DESCRIPTION"
+This provides a uniform place for the rq_qos users to do their throttling.
+Since you can end up with a lot of things sleeping at once, this manages the
+waking up based on the resources available.  The acquire_inflight_cb should
+inc the rqw->inflight if we have the ability to do so, or return false if not
+and then we will sleep until the room becomes available.
+
+cleanup_cb is in case that we race with a waker and need to cleanup the
+inflight count accordingly.

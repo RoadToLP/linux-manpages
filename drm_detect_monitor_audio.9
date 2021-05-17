@@ -1,0 +1,17 @@
+.TH "drm_detect_monitor_audio" 9 "drm_detect_monitor_audio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_detect_monitor_audio \- check monitor audio capability
+.SH SYNOPSIS
+.B "bool" drm_detect_monitor_audio
+.BI "(struct edid *edid "  ");"
+.SH ARGUMENTS
+.IP "edid" 12
+EDID block to scan
+.SH "DESCRIPTION"
+Monitor should have CEA extension block.
+If monitor has 'basic audio', but no CEA audio blocks, it's 'basic
+audio' only. If there is any audio extension block and supported
+audio format, assume at least 'basic audio' support, even if 'basic
+audio' is not defined in EDID.
+.SH "RETURN"
+True if the monitor supports audio, false otherwise.

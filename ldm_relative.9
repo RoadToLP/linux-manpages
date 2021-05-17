@@ -1,0 +1,25 @@
+.TH "ldm_relative" 9 "ldm_relative" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_relative \- Calculate the next relative offset
+.SH SYNOPSIS
+.B "int" ldm_relative
+.BI "(const u8 *buffer "  ","
+.BI "int buflen "  ","
+.BI "int base "  ","
+.BI "int offset "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+Block of data being worked on
+.IP "buflen" 12
+Size of the block of data
+.IP "base" 12
+Size of the previous fixed width fields
+.IP "offset" 12
+Cumulative size of the previous variable-width fields
+.SH "DESCRIPTION"
+Because many of the VBLK fields are variable-width, it's necessary
+to calculate each offset based on the previous one and the length
+of the field it pointed to.
+.SH "RETURN"
+-1 Error, the calculated offset exceeded the size of the buffer
+n OK, a range-checked offset into buffer

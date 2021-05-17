@@ -1,0 +1,26 @@
+.TH "sata_down_spd_limit" 9 "sata_down_spd_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_down_spd_limit \- adjust SATA spd limit downward
+.SH SYNOPSIS
+.B "int" sata_down_spd_limit
+.BI "(struct ata_link *link "  ","
+.BI "u32 spd_limit "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+Link to adjust SATA spd limit for
+.IP "spd_limit" 12
+Additional limit
+
+Adjust SATA spd limit of \fIlink\fP downward.  Note that this
+function only adjusts the limit.  The change must be applied
+using \fBsata_set_spd\fP.
+
+If \fIspd_limit\fP is non-zero, the speed is limited to equal to or
+lower than \fIspd_limit\fP if such speed is supported.  If
+\fIspd_limit\fP is slower than any supported speed, only the lowest
+supported speed is allowed.
+
+LOCKING:
+Inherited from caller.
+.SH "RETURN"
+0 on success, negative errno on failure

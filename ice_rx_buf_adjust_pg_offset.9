@@ -1,0 +1,17 @@
+.TH "ice_rx_buf_adjust_pg_offset" 9 "ice_rx_buf_adjust_pg_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_rx_buf_adjust_pg_offset \- Prepare Rx buffer for reuse
+.SH SYNOPSIS
+.B "void" ice_rx_buf_adjust_pg_offset
+.BI "(struct ice_rx_buf *rx_buf "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "rx_buf" 12
+Rx buffer to adjust
+.IP "size" 12
+Size of adjustment
+.SH "DESCRIPTION"
+Update the offset within page so that Rx buf will be ready to be reused.
+For systems with PAGE_SIZE < 8192 this function will flip the page offset
+so the second half of page assigned to Rx buffer will be used, otherwise
+the offset is moved by "size" bytes

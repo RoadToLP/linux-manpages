@@ -1,0 +1,20 @@
+.TH "fixup_leb" 9 "fixup_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fixup_leb \- fixup/unmap an LEB containing free space.
+.SH SYNOPSIS
+.B "int" fixup_leb
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+the LEB number to fix up
+.IP "len" 12
+number of used bytes in LEB (starting at offset 0)
+.SH "DESCRIPTION"
+This function reads the contents of the given LEB number \fIlnum\fP, then fixes
+it up, so that empty min. I/O units in the end of LEB are actually erased on
+flash (rather than being just all-0xff real data). If the LEB is completely
+empty, it is simply unmapped.

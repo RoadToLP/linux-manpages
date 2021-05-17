@@ -1,0 +1,22 @@
+.TH "hub_set_piomode" 9 "hub_set_piomode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hub_set_piomode \- set pio mode for a given hub
+.SH SYNOPSIS
+.B "void" hub_set_piomode
+.BI "(nasid_t nasid "  ");"
+.SH ARGUMENTS
+.IP "nasid" 12
+physical node ID for the hub in question
+.SH "DESCRIPTION"
+Put the hub into either "PIO conveyor belt" mode or "fire-and-forget" mode.
+To do this, we have to make absolutely sure that no PIOs are in progress
+so we turn off access to all widgets for the duration of the function.
+
+XXX - This code should really check what kind of widget we're talking
+to.  Bridges can only handle three requests, but XG will do more.
+How many can crossbow handle to widget 0?  We're assuming 1.
+
+XXX - There is a bug in the crossbow that link reset PIOs do not
+return write responses.  The easiest solution to this problem is to
+leave widget 0 (xbow) in fire-and-forget mode at all times.  This
+only affects pio's to xbow registers, which should be rare.

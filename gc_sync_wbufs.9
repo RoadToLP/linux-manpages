@@ -1,0 +1,18 @@
+.TH "gc_sync_wbufs" 9 "gc_sync_wbufs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gc_sync_wbufs \- sync write-buffers for GC.
+.SH SYNOPSIS
+.B "int" gc_sync_wbufs
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+We must guarantee that obsoleting nodes are on flash. Unfortunately they may
+be in a write-buffer instead. That is, a node could be written to a
+write-buffer, obsoleting another node in a LEB that is GC'd. If that LEB is
+erased before the write-buffer is sync'd and then there is an unclean
+unmount, then an existing node is lost. To avoid this, we sync all
+write-buffers.
+
+This function returns 0 on success or a negative error code on failure.

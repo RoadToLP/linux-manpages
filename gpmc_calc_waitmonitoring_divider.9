@@ -1,0 +1,18 @@
+.TH "gpmc_calc_waitmonitoring_divider" 9 "gpmc_calc_waitmonitoring_divider" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpmc_calc_waitmonitoring_divider \- calculate proper GPMCFCLKDIVIDER based on WAITMONITORINGTIME WAITMONITORINGTIME will be _at least_ as long as desired, i.e. read --> don't sample bus too early write --> data is longer on bus
+.SH SYNOPSIS
+.B "int" gpmc_calc_waitmonitoring_divider
+.BI "(unsigned int wait_monitoring "  ");"
+.SH ARGUMENTS
+.IP "wait_monitoring" 12
+WAITMONITORINGTIME in ns.
+.SH "DESCRIPTION"
+
+Formula:
+gpmc_clk_div + 1 = ceil(ceil(waitmonitoringtime_ns / gpmc_fclk_ns)
+/ waitmonitoring_ticks)
+WAITMONITORINGTIME resulting in 0 or 1 tick with div = 1 are caught by
+div <= 0 check.
+.SH "RETURN"
+-1 on failure to scale, else proper divider > 0.

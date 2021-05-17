@@ -1,0 +1,37 @@
+.TH "ssam_irq_setup" 9 "ssam_irq_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_irq_setup \- Set up SAM EC wakeup-GPIO interrupt.
+.SH SYNOPSIS
+.B "int" ssam_irq_setup
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller for which the IRQ should be set up.
+.SH "DESCRIPTION"
+Set up an IRQ for the wakeup-GPIO pin of the SAM EC. This IRQ can be used
+to wake the device from a low power state.
+
+Note that this IRQ can only be triggered while the EC is in the display-off
+state. In this state, events are not sent to the host in the usual way.
+Instead the wakeup-GPIO gets pulled to "high" as long as there are pending
+events and these events need to be released one-by-one via the GPIO
+callback request, either until there are no events left and the GPIO is
+reset, or all at once by transitioning the EC out of the display-off state,
+which will also clear the GPIO.
+
+Not all events, however, should trigger a full system wakeup. Instead the
+driver should, if necessary, inspect and forward each event to the
+corresponding subsystem, which in turn should decide if the system needs to
+be woken up. This logic has not been implemented yet, thus wakeup by this
+IRQ should be disabled by default to avoid spurious wake-ups, caused, for
+example, by the remaining battery percentage changing. Refer to comments in
+this function and comments in the corresponding IRQ handler for more
+details on how this should be implemented.
+
+See also \fBssam_ctrl_notif_display_off\fP and \fBssam_ctrl_notif_display_off\fP
+for functions to transition the EC into and out of the display-off state as
+well as more details on it.
+
+The IRQ is disabled by default and has to be enabled before it can wake up
+the device from suspend via \fBssam_irq_arm_for_wakeup\fP. On teardown, the IRQ
+should be freed via \fBssam_irq_free\fP.

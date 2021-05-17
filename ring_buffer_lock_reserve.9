@@ -1,0 +1,22 @@
+.TH "ring_buffer_lock_reserve" 9 "ring_buffer_lock_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_lock_reserve \- reserve a part of the buffer
+.SH SYNOPSIS
+.B "struct ring_buffer_event *" ring_buffer_lock_reserve
+.BI "(struct trace_buffer *buffer "  ","
+.BI "unsigned long length "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+the ring buffer to reserve from
+.IP "length" 12
+the length of the data to reserve (excluding event header)
+.SH "DESCRIPTION"
+Returns a reserved event on the ring buffer to copy directly to.
+The user of this interface will need to get the body to write into
+and can use the \fBring_buffer_event_data\fP interface.
+
+The length is the length of the data needed, not the event length
+which also includes the event header.
+
+Must be paired with ring_buffer_unlock_commit, unless NULL is returned.
+If NULL is returned, then nothing has been allocated or locked.

@@ -1,0 +1,22 @@
+.TH "pci_vc_enable" 9 "pci_vc_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_vc_enable \- Enable virtual channel
+.SH SYNOPSIS
+.B "void" pci_vc_enable
+.BI "(struct pci_dev *dev "  ","
+.BI "int pos "  ","
+.BI "int res "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "pos" 12
+starting position of VC capability (VC/VC9/MFVC)
+.IP "res" 12
+VC res number, ie. VCn (0-7)
+.SH "DESCRIPTION"
+A VC is enabled by setting the enable bit in matching resource control
+registers on both sides of a link.  We therefore need to find the opposite
+end of the link.  To keep this simple we enable from the downstream device.
+RC devices do not have an upstream device, nor does it seem that VC9 do
+(spec is unclear).  Once we find the upstream device, match the VC ID to
+get the correct resource, disable and enable on both ends.

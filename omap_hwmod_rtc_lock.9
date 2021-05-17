@@ -1,0 +1,14 @@
+.TH "omap_hwmod_rtc_lock" 9 "omap_hwmod_rtc_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_rtc_lock \- Lock the Kicker mechanism.
+.SH SYNOPSIS
+.B "void" omap_hwmod_rtc_lock
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+RTC IP have kicker feature. This prevents spurious writes to its registers.
+Once the RTC registers are written, KICK mechanism needs to be locked,
+in order to prevent any spurious writes. This function locks back the RTC
+registers once hwmod completes its write into sysconfig register.

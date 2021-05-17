@@ -1,0 +1,18 @@
+.TH "gen_pool_for_each_chunk" 9 "gen_pool_for_each_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen_pool_for_each_chunk \- call func for every chunk of generic memory pool
+.SH SYNOPSIS
+.B "void" gen_pool_for_each_chunk
+.BI "(struct gen_pool *pool "  ","
+.BI "void (*func)(struct gen_pool *pool, struct gen_pool_chunk *chunk, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+the generic memory pool
+.IP "func" 12
+func to call
+.IP "data" 12
+additional data used by \fIfunc\fP
+.SH "DESCRIPTION"
+Call \fIfunc\fP for every chunk of generic memory pool.  The \fIfunc\fP is
+called with rcu_read_lock held.

@@ -1,0 +1,17 @@
+.TH "i915_capture_error_state" 9 "i915_capture_error_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_capture_error_state \- capture an error record for later analysis
+.SH SYNOPSIS
+.B "void" i915_capture_error_state
+.BI "(struct intel_gt *gt "  ","
+.BI "intel_engine_mask_t engine_mask "  ");"
+.SH ARGUMENTS
+.IP "gt" 12
+intel_gt which originated the hang
+.IP "engine_mask" 12
+hung engines
+.SH "DESCRIPTION"
+Should be called when an error is detected (either a hang or an error
+interrupt) to capture error state from the time of the error.  Fills
+out a structure which becomes available in debugfs for user level tools
+to pick up.

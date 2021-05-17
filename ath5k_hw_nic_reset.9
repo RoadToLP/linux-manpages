@@ -1,0 +1,18 @@
+.TH "ath5k_hw_nic_reset" 9 "ath5k_hw_nic_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_nic_reset \- Reset the various chipset units
+.SH SYNOPSIS
+.B "int" ath5k_hw_nic_reset
+.BI "(struct ath5k_hw *ah "  ","
+.BI "u32 val "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "val" 12
+Mask to indicate what units to reset
+.SH "DESCRIPTION"
+To reset the various chipset units we need to write
+the mask to AR5K_RESET_CTL and poll the register until
+all flags are cleared.
+
+Returns 0 if we are O.K. or -EAGAIN (from athk5_hw_register_timeout)

@@ -1,0 +1,29 @@
+.TH "aa_path_link" 9 "aa_path_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_path_link \- Handle hard link permission check
+.SH SYNOPSIS
+.B "int" aa_path_link
+.BI "(struct aa_label *label "  ","
+.BI "struct dentry *old_dentry "  ","
+.BI "const struct path *new_dir "  ","
+.BI "struct dentry *new_dentry "  ");"
+.SH ARGUMENTS
+.IP "label" 12
+the label being enforced  (NOT NULL)
+.IP "old_dentry" 12
+the target dentry  (NOT NULL)
+.IP "new_dir" 12
+directory the new link will be created in  (NOT NULL)
+.IP "new_dentry" 12
+the link being created  (NOT NULL)
+.SH "DESCRIPTION"
+Handle the permission test for a link & target pair.  Permission
+is encoded as a pair where the link permission is determined
+first, and if allowed, the target is tested.  The target test
+is done from the point of the link match (not start of DFA)
+making the target permission dependent on the link permission match.
+
+The subset test if required forces that permissions granted
+on link are a subset of the permission granted to target.
+.SH "RETURN"
+0 if allowed else error

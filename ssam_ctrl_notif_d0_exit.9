@@ -1,0 +1,23 @@
+.TH "ssam_ctrl_notif_d0_exit" 9 "ssam_ctrl_notif_d0_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_ctrl_notif_d0_exit \- Notify EC that the driver/device exits the D0 power state.
+.SH SYNOPSIS
+.B "int" ssam_ctrl_notif_d0_exit
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller
+.SH "DESCRIPTION"
+Notifies the EC that the driver prepares to exit the D0 power state in
+favor of a lower-power state. Exact effects of this function related to the
+EC are currently unknown.
+
+This function will only send the D0-exit notification command if D0-state
+notifications are supported by the EC. Only newer Surface generations
+support these notifications.
+
+Use \fBssam_ctrl_notif_d0_entry\fP to reverse the effects of this function.
+.SH "RETURN"
+Returns zero on success or if no request has been executed, the
+status of the executed SAM request if that request failed, or -EPROTO if
+an unexpected response has been received.

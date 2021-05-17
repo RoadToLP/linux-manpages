@@ -1,0 +1,22 @@
+.TH "batadv_gw_out_of_range" 9 "batadv_gw_out_of_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_gw_out_of_range \- check if the dhcp request destination is the best gateway
+.SH SYNOPSIS
+.B "bool" batadv_gw_out_of_range
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+the outgoing packet
+.SH "DESCRIPTION"
+Check if the skb is a DHCP request and if it is sent to the current best GW
+server. Due to topology changes it may be the case that the GW server
+previously selected is not the best one anymore.
+
+This call might reallocate skb data.
+Must be invoked only when the DHCP packet is going TO a DHCP SERVER.
+.SH "RETURN"
+true if the packet destination is unicast and it is not the best gw,
+false otherwise.

@@ -1,0 +1,20 @@
+.TH "hwspin_lock_request" 9 "hwspin_lock_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hwspin_lock_request \- request an hwspinlock
+.SH SYNOPSIS
+.B "struct hwspinlock *" hwspin_lock_request
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This function should be called by users of the hwspinlock device,
+in order to dynamically assign them an unused hwspinlock.
+Usually the user of this lock will then have to communicate the lock's id
+to the remote core before it can be used for synchronization (to get the
+id of a given hwlock, use \fBhwspin_lock_get_id\fP).
+
+Should be called from a process context (might sleep)
+
+Returns the address of the assigned hwspinlock, or NULL on error

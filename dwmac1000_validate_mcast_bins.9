@@ -1,0 +1,20 @@
+.TH "dwmac1000_validate_mcast_bins" 9 "dwmac1000_validate_mcast_bins" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwmac1000_validate_mcast_bins \- validates the number of Multicast filter bins
+.SH SYNOPSIS
+.B "int" dwmac1000_validate_mcast_bins
+.BI "(struct device *dev "  ","
+.BI "int mcast_bins "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device of the platform device
+.IP "mcast_bins" 12
+Multicast filtering bins
+.SH "DESCRIPTION"
+this function validates the number of Multicast filtering bins specified
+by the configuration through the device tree. The Synopsys GMAC supports
+64 bins, 128 bins, or 256 bins. "bins" refer to the division of CRC
+number space. 64 bins correspond to 6 bits of the CRC, 128 corresponds
+to 7 bits, and 256 refers to 8 bits of the CRC. Any other setting is
+invalid and will cause the filtering algorithm to use Multicast
+promiscuous mode.

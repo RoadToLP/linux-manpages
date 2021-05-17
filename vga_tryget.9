@@ -1,0 +1,21 @@
+.TH "vga_tryget" 9 "vga_tryget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_tryget \- try to acquire & lock legacy VGA resources
+.SH SYNOPSIS
+.B "int" vga_tryget
+.BI "(struct pci_dev *pdev "  ","
+.BI "unsigned int rsrc "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pci devivce of VGA card or NULL for system default
+.IP "rsrc" 12
+bit mask of resources to acquire and lock
+.SH "DESCRIPTION"
+This function performs the same operation as \fBvga_get\fP, but will return an
+error (-EBUSY) instead of blocking if the resources are already locked by
+another card. It can be called in any context
+
+On success, release the VGA resource again with \fBvga_put\fP.
+
+0 on success, negative error code on failure.
+.SH "RETURN"

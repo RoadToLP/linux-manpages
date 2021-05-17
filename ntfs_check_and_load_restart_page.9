@@ -1,0 +1,40 @@
+.TH "ntfs_check_and_load_restart_page" 9 "ntfs_check_and_load_restart_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_check_and_load_restart_page \- check the restart page for consistency
+.SH SYNOPSIS
+.B "int" ntfs_check_and_load_restart_page
+.BI "(struct inode *vi "  ","
+.BI "RESTART_PAGE_HEADER *rp "  ","
+.BI "s64 pos "  ","
+.BI "RESTART_PAGE_HEADER **wrp "  ","
+.BI "LSN *lsn "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+$LogFile inode to which the restart page belongs
+.IP "rp" 12
+restart page to check
+.IP "pos" 12
+position in \fIvi\fP at which the restart page resides
+.IP "wrp" 12
+[OUT] copy of the multi sector transfer deprotected restart page
+.IP "lsn" 12
+[OUT] set to the current logfile lsn on success
+.SH "DESCRIPTION"
+Check the restart page \fIrp\fP for consistency and return 0 if it is consistent
+and -errno otherwise.  The restart page may have been modified by chkdsk in
+which case its magic is CHKD instead of RSTR.
+
+This function only needs NTFS_BLOCK_SIZE bytes in \fIrp\fP, i.e. it does not
+require the full restart page.
+
+If \fIwrp\fP is not NULL, on success, *\fIwrp\fP will point to a buffer containing a
+copy of the complete multi sector transfer deprotected page.  On failure,
+*\fIwrp\fP is undefined.
+
+Simillarly, if \fIlsn\fP is not NULL, on success *\fIlsn\fP will be set to the current
+logfile lsn according to this restart page.  On failure, *\fIlsn\fP is undefined.
+
+The following error codes are defined:
+-EINVAL - The restart page is inconsistent.
+-ENOMEM - Not enough memory to load the restart page.
+-EIO    - Failed to reading from $LogFile.

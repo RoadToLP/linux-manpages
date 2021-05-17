@@ -1,0 +1,17 @@
+.TH "omap2_clkops_enable_clkdm" 9 "omap2_clkops_enable_clkdm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2_clkops_enable_clkdm \- increment usecount on clkdm of @hw
+.SH SYNOPSIS
+.B "int" omap2_clkops_enable_clkdm
+.BI "(struct clk_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+struct clk_hw * of the clock being enabled
+.SH "DESCRIPTION"
+Increment the usecount of the clockdomain of the clock pointed to
+by \fIhw\fP; if the usecount is 1, the clockdomain will be "enabled."
+Only needed for clocks that don't use \fBomap2_dflt_clk_enable\fP as
+their enable function pointer.  Passes along the return value of
+\fBclkdm_clk_enable\fP, -EINVAL if \fIhw\fP is not associated with a
+clockdomain, or 0 if clock framework-based clockdomain control is
+not implemented.

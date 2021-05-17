@@ -1,0 +1,22 @@
+.TH "lpfc_mem_alloc" 9 "lpfc_mem_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mem_alloc \- create and allocate all PCI and memory pools
+.SH SYNOPSIS
+.B "int" lpfc_mem_alloc
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int align "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA to allocate pools for
+.IP "align" 12
+alignment requirement for blocks; must be a power of two
+.SH "DESCRIPTION"
+Creates and allocates PCI pools lpfc_mbuf_pool,
+lpfc_hrb_pool.  Creates and allocates kmalloc-backed mempools
+for LPFC_MBOXQ_t and lpfc_nodelist.  Also allocates the VPI bitmask.
+.SH "NOTES"
+Not interrupt-safe.  Must be called with no locks held.  If any
+allocation fails, frees all successfully allocated memory before returning.
+.SH "RETURN"
+0 on success
+-ENOMEM on failure (if any memory allocations fail)

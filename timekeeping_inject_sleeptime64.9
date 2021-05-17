@@ -1,0 +1,16 @@
+.TH "timekeeping_inject_sleeptime64" 9 "timekeeping_inject_sleeptime64" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+timekeeping_inject_sleeptime64 \- Adds suspend interval to timeekeeping values
+.SH SYNOPSIS
+.B "void" timekeeping_inject_sleeptime64
+.BI "(const struct timespec64 *delta "  ");"
+.SH ARGUMENTS
+.IP "delta" 12
+pointer to a timespec64 delta value
+.SH "DESCRIPTION"
+This hook is for architectures that cannot support read_persistent_clock64
+because their RTC/persistent clock is only accessible when irqs are enabled.
+and also don't have an effective nonstop clocksource.
+
+This function should only be called by \fBrtc_resume\fP, and allows
+a suspend offset to be injected into the timekeeping values.

@@ -1,0 +1,21 @@
+.TH "xemaclite_send" 9 "xemaclite_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xemaclite_send \- Transmit a frame
+.SH SYNOPSIS
+.B "netdev_tx_t" xemaclite_send
+.BI "(struct sk_buff *orig_skb "  ","
+.BI "struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "orig_skb" 12
+Pointer to the socket buffer to be transmitted
+.IP "dev" 12
+Pointer to the network device
+.SH "DESCRIPTION"
+This function checks if the Tx buffer of the Emaclite device is free to send
+data. If so, it fills the Tx buffer with data from socket buffer data,
+updates the stats and frees the socket buffer. The Tx completion is signaled
+by an interrupt. If the Tx buffer isn't free, then the socket buffer is
+deferred and the Tx queue is stopped so that the deferred socket buffer can
+be transmitted when the Emaclite device is free to transmit data.
+.SH "RETURN"
+NETDEV_TX_OK, always.

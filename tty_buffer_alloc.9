@@ -1,0 +1,18 @@
+.TH "tty_buffer_alloc" 9 "tty_buffer_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_buffer_alloc \- allocate a tty buffer
+.SH SYNOPSIS
+.B "struct tty_buffer *" tty_buffer_alloc
+.BI "(struct tty_port *port "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+tty port
+.IP "size" 12
+desired size (characters)
+
+Allocate a new tty buffer to hold the desired number of characters.
+We round our buffers off in 256 character chunks to get better
+allocation behaviour.
+Return NULL if out of memory or the allocation would exceed the
+per device queue

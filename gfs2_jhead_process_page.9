@@ -1,0 +1,30 @@
+.TH "gfs2_jhead_process_page" 9 "gfs2_jhead_process_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_jhead_process_page \- Search/cleanup a page
+.SH SYNOPSIS
+.B "void" gfs2_jhead_process_page
+.BI "(struct gfs2_jdesc *jd "  ","
+.BI "unsigned long index "  ","
+.BI "struct gfs2_log_header_host *head "  ","
+.BI "bool *done "  ");"
+.SH ARGUMENTS
+.IP "jd" 12
+The journal descriptor
+.IP "index" 12
+Index of the page to look into
+.IP "head" 12
+-- undescribed --
+.IP "done" 12
+If set, perform only cleanup, else search and set if found.
+.SH "DESCRIPTION"
+Find the page with 'index' in the journal's mapping. Search the page for
+the journal head if requested (cleanup == false). Release refs on the
+page so the page cache can reclaim it (\fBput_page\fP twice). We grabbed a
+reference on this page two times, first when we did a \fBfind_or_create_page\fP
+to obtain the page to add it to the bio and second when we do a
+\fBfind_get_page\fP here to get the page to wait on while I/O on it is being
+completed.
+This function is also used to free up a page we might've grabbed but not
+used. Maybe we added it to a bio, but not submitted it for I/O. Or we
+submitted the I/O, but we already found the jhead so we only need to drop
+our references to the page.

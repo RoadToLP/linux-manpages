@@ -1,0 +1,32 @@
+.TH "vme_master_rmw" 9 "vme_master_rmw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_master_rmw \- Perform read-modify-write cycle.
+.SH SYNOPSIS
+.B "unsigned int" vme_master_rmw
+.BI "(struct vme_resource *resource "  ","
+.BI "unsigned int mask "  ","
+.BI "unsigned int compare "  ","
+.BI "unsigned int swap "  ","
+.BI "loff_t offset "  ");"
+.SH ARGUMENTS
+.IP "resource" 12
+Pointer to VME master resource.
+.IP "mask" 12
+Bits to be compared and swapped in operation.
+.IP "compare" 12
+Bits to be compared with data read from offset.
+.IP "swap" 12
+Bits to be swapped in data read from offset.
+.IP "offset" 12
+Offset into VME master window at which to perform operation.
+.SH "DESCRIPTION"
+Perform read-modify-write cycle on provided location:
+- Location on VME bus is read.
+- Bits selected by mask are compared with compare.
+- Where a selected bit matches that in compare and are selected in swap,
+the bit is swapped.
+- Result written back to location on VME bus.
+.SH "RETURN"
+Bytes written on success, -EINVAL if resource is not a VME master
+resource or RMW operation is not supported. Hardware specific
+errors may also be returned.

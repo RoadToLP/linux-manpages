@@ -1,0 +1,23 @@
+.TH "qcom_labibb_sc_isr" 9 "qcom_labibb_sc_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_labibb_sc_isr \- Interrupt routine for Short Circuit Protection
+.SH SYNOPSIS
+.B "irqreturn_t" qcom_labibb_sc_isr
+.BI "(int irq "  ","
+.BI "void *chip "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number
+.IP "chip" 12
+Main driver structure
+.SH "DESCRIPTION"
+Short Circuit Protection (SCP) will signal to the client driver
+that a regulation-out event has happened and then will schedule
+a recovery worker.
+
+The LAB and IBB regulators will be automatically disabled by the
+Portable Batch System (PBS) and they will be enabled again by
+the worker function if the hardware stops signaling the short
+circuit event.
+.SH "RETURN"
+IRQ_HANDLED for success or IRQ_NONE for failure.

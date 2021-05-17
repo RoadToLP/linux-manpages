@@ -1,0 +1,15 @@
+.TH "pnv_eeh_next_error" 9 "pnv_eeh_next_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pnv_eeh_next_error \- Retrieve next EEH error to handle
+.SH SYNOPSIS
+.B "int" pnv_eeh_next_error
+.BI "(struct eeh_pe **pe "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+Affected PE
+.SH "DESCRIPTION"
+The function is expected to be called by EEH core while it gets
+special EEH event (without binding PE). The function calls to
+OPAL APIs for next error to handle. The informational error is
+handled internally by platform. However, the dead IOC, dead PHB,
+fenced PHB and frozen PE should be handled by EEH core eventually.

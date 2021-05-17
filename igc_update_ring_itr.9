@@ -1,0 +1,20 @@
+.TH "igc_update_ring_itr" 9 "igc_update_ring_itr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igc_update_ring_itr \- update the dynamic ITR value based on packet size
+.SH SYNOPSIS
+.B "void" igc_update_ring_itr
+.BI "(struct igc_q_vector *q_vector "  ");"
+.SH ARGUMENTS
+.IP "q_vector" 12
+pointer to q_vector
+.SH "DESCRIPTION"
+Stores a new ITR value based on strictly on packet size.  This
+algorithm is less sophisticated than that used in igc_update_itr,
+due to the difficulty of synchronizing statistics across multiple
+receive rings.  The divisors and thresholds used by this function
+were determined based on theoretical maximum wire speed and testing
+data, in order to minimize response time while increasing bulk
+throughput.
+.SH "NOTE"
+This function is called only when operating in a multiqueue
+receive environment.

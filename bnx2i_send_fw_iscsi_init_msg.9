@@ -1,0 +1,16 @@
+.TH "bnx2i_send_fw_iscsi_init_msg" 9 "bnx2i_send_fw_iscsi_init_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_send_fw_iscsi_init_msg \- initiates initial handshake with iscsi f/w
+.SH SYNOPSIS
+.B "int" bnx2i_send_fw_iscsi_init_msg
+.BI "(struct bnx2i_hba *hba "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+adapter structure pointer
+.SH "DESCRIPTION"
+Send down iscsi_init KWQEs which initiates the initial handshake with the f/w
+This results in iSCSi support validation and on-chip context manager
+initialization.  Firmware completes this handshake with a CQE carrying
+the result of iscsi support validation. Parameter carried by
+iscsi init request determines the number of offloaded connection and
+tolerance level for iscsi protocol violation this hba/chip can support

@@ -1,0 +1,29 @@
+.TH "process_vm_rw_single_vec" 9 "process_vm_rw_single_vec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_vm_rw_single_vec \- read/write pages from task specified
+.SH SYNOPSIS
+.B "int" process_vm_rw_single_vec
+.BI "(unsigned long addr "  ","
+.BI "unsigned long len "  ","
+.BI "struct iov_iter *iter "  ","
+.BI "struct page **process_pages "  ","
+.BI "struct mm_struct *mm "  ","
+.BI "struct task_struct *task "  ","
+.BI "int vm_write "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+start memory address of target process
+.IP "len" 12
+size of area to copy to/from
+.IP "iter" 12
+where to copy to/from locally
+.IP "process_pages" 12
+struct pages area that can store at least
+nr_pages_to_copy struct page pointers
+.IP "mm" 12
+mm for task
+.IP "task" 12
+task to read/write from
+.IP "vm_write" 12
+0 means copy from, 1 means copy to
+Returns 0 on success or on failure error code

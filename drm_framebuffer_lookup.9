@@ -1,0 +1,19 @@
+.TH "drm_framebuffer_lookup" 9 "drm_framebuffer_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_framebuffer_lookup \- look up a drm framebuffer and grab a reference
+.SH SYNOPSIS
+.B "struct drm_framebuffer *" drm_framebuffer_lookup
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "uint32_t id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "file_priv" 12
+drm file to check for lease against.
+.IP "id" 12
+id of the fb object
+.SH "DESCRIPTION"
+If successful, this grabs an additional reference to the framebuffer -
+callers need to make sure to eventually unreference the returned framebuffer
+again, using \fBdrm_framebuffer_put\fP.

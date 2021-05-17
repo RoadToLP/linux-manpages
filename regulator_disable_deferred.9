@@ -1,0 +1,19 @@
+.TH "regulator_disable_deferred" 9 "regulator_disable_deferred" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_disable_deferred \- disable regulator output with delay
+.SH SYNOPSIS
+.B "int" regulator_disable_deferred
+.BI "(struct regulator *regulator "  ","
+.BI "int ms "  ");"
+.SH ARGUMENTS
+.IP "regulator" 12
+regulator source
+.IP "ms" 12
+milliseconds until the regulator is disabled
+.SH "DESCRIPTION"
+Execute \fBregulator_disable\fP on the regulator after a delay.  This
+is intended for use with devices that require some time to quiesce.
+.SH "NOTE"
+this will only disable the regulator output if no other consumer
+devices have it enabled, the regulator device supports disabling and
+machine constraints permit this operation.

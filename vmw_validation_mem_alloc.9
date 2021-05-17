@@ -1,0 +1,21 @@
+.TH "vmw_validation_mem_alloc" 9 "vmw_validation_mem_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_validation_mem_alloc \- Allocate kernel memory from the validation context based allocator
+.SH SYNOPSIS
+.B "void *" vmw_validation_mem_alloc
+.BI "(struct vmw_validation_context *ctx "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+The validation context
+.IP "size" 12
+The number of bytes to allocated.
+.SH "DESCRIPTION"
+The memory allocated may not exceed PAGE_SIZE, and the returned
+address is aligned to sizeof(long). All memory allocated this way is
+reclaimed after validation when calling any of the exported functions:
+\fBvmw_validation_unref_lists\fP
+\fBvmw_validation_revert\fP
+\fBvmw_validation_done\fP
+.SH "RETURN"
+Pointer to the allocated memory on success. NULL on failure.

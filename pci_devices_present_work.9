@@ -1,0 +1,28 @@
+.TH "pci_devices_present_work" 9 "pci_devices_present_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_devices_present_work \- Handle new list of child devices
+.SH SYNOPSIS
+.B "void" pci_devices_present_work
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+Work struct embedded in struct hv_dr_work
+.SH "DESCRIPTION"
+"Bus Relations" is the Windows term for "children of this
+bus."  The terminology is preserved here for people trying to
+debug the interaction between Hyper-V and Linux.  This
+function is called when the parent partition reports a list
+of functions that should be observed under this PCI Express
+port (bus).
+
+This function updates the list, and must tolerate being
+called multiple times with the same information.  The typical
+number of child devices is one, with very atypical cases
+involving three or four, so the algorithms used here can be
+simple and inefficient.
+
+It must also treat the omission of a previously observed device as
+notification that the device no longer exists.
+
+Note that this function is serialized with \fBhv_eject_device_work\fP,
+because both are pushed to the ordered workqueue hbus->wq.

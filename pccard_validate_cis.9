@@ -1,0 +1,20 @@
+.TH "pccard_validate_cis" 9 "pccard_validate_cis" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pccard_validate_cis \- check whether card has a sensible CIS
+.SH SYNOPSIS
+.B "int" pccard_validate_cis
+.BI "(struct pcmcia_socket *s "  ","
+.BI "unsigned int *info "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the struct pcmcia_socket we are to check
+.IP "info" 12
+returns the number of tuples in the (valid) CIS, or 0
+.SH "DESCRIPTION"
+This tries to determine if a card has a sensible CIS.  In \fIinfo\fP, it
+returns the number of tuples in the CIS, or 0 if the CIS looks bad. The
+checks include making sure several critical tuples are present and
+valid; seeing if the total number of tuples is reasonable; and
+looking for tuples that use reserved codes.
+
+The function returns 0 on success.

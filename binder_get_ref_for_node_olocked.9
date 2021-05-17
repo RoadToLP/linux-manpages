@@ -1,0 +1,27 @@
+.TH "binder_get_ref_for_node_olocked" 9 "binder_get_ref_for_node_olocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_get_ref_for_node_olocked \- get the ref associated with given node
+.SH SYNOPSIS
+.B "struct binder_ref *" binder_get_ref_for_node_olocked
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_node *node "  ","
+.BI "struct binder_ref *new_ref "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+binder_proc that owns the ref
+.IP "node" 12
+binder_node of target
+.IP "new_ref" 12
+newly allocated binder_ref to be initialized or NULL
+.SH "DESCRIPTION"
+Look up the ref for the given node and return it if it exists
+
+If it doesn't exist and the caller provides a newly allocated
+ref, initialize the fields of the newly allocated ref and insert
+into the given proc rb_trees and node refs list.
+.SH "RETURN"
+the ref for node. It is possible that another thread
+allocated/initialized the ref first in which case the
+returned ref would be different than the passed-in
+new_ref. new_ref must be kfree'd by the caller in
+this case.

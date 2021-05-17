@@ -1,0 +1,22 @@
+.TH "smu_dpm_set_power_gate" 9 "smu_dpm_set_power_gate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smu_dpm_set_power_gate \- power gate/ungate the specific IP block
+.SH SYNOPSIS
+.B "int" smu_dpm_set_power_gate
+.BI "(struct smu_context *smu "  ","
+.BI "uint32_t block_type "  ","
+.BI "bool gate "  ");"
+.SH ARGUMENTS
+.IP "smu" 12
+smu_context pointer
+.IP "block_type" 12
+the IP block to power gate/ungate
+.IP "gate" 12
+to power gate if true, ungate otherwise
+.SH "DESCRIPTION"
+This API uses no smu->mutex lock protection due to:
+1. It is either called by other IP block(gfx/sdma/vcn/uvd/vce).
+This is guarded to be race condition free by the caller.
+2. Or get called on user setting request of power_dpm_force_performance_level.
+Under this case, the smu->mutex lock protection is already enforced on
+the parent API smu_force_performance_level of the call path.

@@ -1,0 +1,23 @@
+.TH "scsi_try_to_abort_cmd" 9 "scsi_try_to_abort_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_try_to_abort_cmd \- Ask host to abort a SCSI command
+.SH SYNOPSIS
+.B "int" scsi_try_to_abort_cmd
+.BI "(struct scsi_host_template *hostt "  ","
+.BI "struct scsi_cmnd *scmd "  ");"
+.SH ARGUMENTS
+.IP "hostt" 12
+SCSI driver host template
+.IP "scmd" 12
+SCSI cmd used to send a target reset
+.SH "DESCRIPTION"
+Return value:
+SUCCESS, FAILED, or FAST_IO_FAIL
+.SH "NOTES"
+SUCCESS does not necessarily indicate that the command
+has been aborted; it only indicates that the LLDDs
+has cleared all references to that command.
+LLDDs should return FAILED only if an abort was required
+but could not be executed. LLDDs should return FAST_IO_FAIL
+if the device is temporarily unavailable (eg due to a
+link down on FibreChannel)

@@ -1,0 +1,26 @@
+.TH "of_link_property" 9 "of_link_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_link_property \- Create device links to suppliers listed in a property
+.SH SYNOPSIS
+.B "int" of_link_property
+.BI "(struct device_node *con_np "  ","
+.BI "const char *prop_name "  ");"
+.SH ARGUMENTS
+.IP "con_np" 12
+The consumer device tree node which contains the property
+.IP "prop_name" 12
+Name of property to be parsed
+.SH "DESCRIPTION"
+This function checks if the property \fIprop_name\fP that is present in the
+\fIcon_np\fP device tree node is one of the known common device tree bindings
+that list phandles to suppliers. If \fIprop_name\fP isn't one, this function
+doesn't do anything.
+
+If \fIprop_name\fP is one, this function attempts to create fwnode links from the
+consumer device tree node \fIcon_np\fP to all the suppliers device tree nodes
+listed in \fIprop_name\fP.
+
+Any failed attempt to create a fwnode link will NOT result in an immediate
+return.  \fBof_link_property\fP must create links to all the available supplier
+device tree nodes even when attempts to create a link to one or more
+suppliers fail.

@@ -1,0 +1,19 @@
+.TH "intel_hpd_init" 9 "intel_hpd_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_hpd_init \- initializes and enables hpd support
+.SH SYNOPSIS
+.B "void" intel_hpd_init
+.BI "(struct drm_i915_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.SH "DESCRIPTION"
+This function enables the hotplug support. It requires that interrupts have
+already been enabled with \fBintel_irq_init_hw\fP. From this point on hotplug and
+poll request can run concurrently to other code, so locking rules must be
+obeyed.
+
+This is a separate step from interrupt enabling to simplify the locking rules
+in the driver load and resume code.
+
+Also see: \fBintel_hpd_poll_enable\fP and \fBintel_hpd_poll_disable\fP.

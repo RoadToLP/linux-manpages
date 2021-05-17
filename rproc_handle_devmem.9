@@ -1,0 +1,37 @@
+.TH "rproc_handle_devmem" 9 "rproc_handle_devmem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_handle_devmem \- handle devmem resource entry
+.SH SYNOPSIS
+.B "int" rproc_handle_devmem
+.BI "(struct rproc *rproc "  ","
+.BI "struct fw_rsc_devmem *rsc "  ","
+.BI "int offset "  ","
+.BI "int avail "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+remote processor handle
+.IP "rsc" 12
+the devmem resource entry
+.IP "offset" 12
+offset of the resource entry
+.IP "avail" 12
+size of available data (for sanity checking the image)
+.SH "DESCRIPTION"
+Remote processors commonly need to access certain on-chip peripherals.
+
+Some of these remote processors access memory via an iommu device,
+and might require us to configure their iommu before they can access
+the on-chip peripherals they need.
+
+This resource entry is a request to map such a peripheral device.
+
+These devmem entries will contain the physical address of the device in
+the 'pa' member. If a specific device address is expected, then 'da' will
+contain it (currently this is the only use case supported). 'len' will
+contain the size of the physical region we need to map.
+
+Currently we just "trust" those devmem entries to contain valid physical
+addresses, but this is going to change: we want the implementations to
+tell us ranges of physical addresses the firmware is allowed to request,
+and not allow firmwares to request access to physical addresses that
+are outside those ranges.

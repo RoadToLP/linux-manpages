@@ -1,0 +1,26 @@
+.TH "finish_open" 9 "finish_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+finish_open \- finish opening a file
+.SH SYNOPSIS
+.B "int" finish_open
+.BI "(struct file *file "  ","
+.BI "struct dentry *dentry "  ","
+.BI "int (*open)(struct inode *, struct file *) "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "dentry" 12
+pointer to dentry
+.IP "open" 12
+open callback
+.SH "DESCRIPTION"
+This can be used to finish opening a file passed to i_op->\fBatomic_open\fP.
+
+If the open callback is set to NULL, then the standard f_op->\fBopen\fP
+filesystem callback is substituted.
+
+NB: the dentry reference is _not_ consumed.  If, for example, the dentry is
+the return value of \fBd_splice_alias\fP, then the caller needs to perform \fBdput\fP
+on it after \fBfinish_open\fP.
+
+Returns zero on success or -errno if the open failed.

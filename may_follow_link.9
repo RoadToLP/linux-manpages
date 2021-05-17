@@ -1,0 +1,23 @@
+.TH "may_follow_link" 9 "may_follow_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+may_follow_link \- Check symlink following for unsafe situations
+.SH SYNOPSIS
+.B "int" may_follow_link
+.BI "(struct nameidata *nd "  ","
+.BI "const struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "nd" 12
+nameidata pathwalk data
+.IP "inode" 12
+-- undescribed --
+.SH "DESCRIPTION"
+In the case of the sysctl_protected_symlinks sysctl being enabled,
+CAP_DAC_OVERRIDE needs to be specifically ignored if the symlink is
+in a sticky world-writable directory. This is to protect privileged
+processes from failing races against path names that may change out
+from under them by way of other users creating malicious symlinks.
+It will permit symlinks to be followed only when outside a sticky
+world-writable directory, or when the uid of the symlink and follower
+match, or when the directory owner matches the symlink's owner.
+
+Returns 0 if following the symlink is allowed, -ve on error.

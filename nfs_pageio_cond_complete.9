@@ -1,0 +1,18 @@
+.TH "nfs_pageio_cond_complete" 9 "nfs_pageio_cond_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_pageio_cond_complete \- Conditional I/O completion
+.SH SYNOPSIS
+.B "void" nfs_pageio_cond_complete
+.BI "(struct nfs_pageio_descriptor *desc "  ","
+.BI "pgoff_t index "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+pointer to io descriptor
+.IP "index" 12
+page index
+.SH "DESCRIPTION"
+It is important to ensure that processes don't try to take locks
+on non-contiguous ranges of pages as that might deadlock. This
+function should be called before attempting to wait on a locked
+nfs_page. It will complete the I/O if the page index 'index'
+is not contiguous with the existing list of pages in 'desc'.

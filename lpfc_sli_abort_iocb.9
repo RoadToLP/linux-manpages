@@ -1,0 +1,33 @@
+.TH "lpfc_sli_abort_iocb" 9 "lpfc_sli_abort_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_abort_iocb \- issue abort for all commands on a host/target/LUN
+.SH SYNOPSIS
+.B "int" lpfc_sli_abort_iocb
+.BI "(struct lpfc_vport *vport "  ","
+.BI "u16 tgt_id "  ","
+.BI "u64 lun_id "  ","
+.BI "lpfc_ctx_cmd abort_cmd "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to virtual port.
+.IP "tgt_id" 12
+SCSI ID of the target.
+.IP "lun_id" 12
+LUN ID of the scsi device.
+.IP "abort_cmd" 12
+LPFC_CTX_LUN/LPFC_CTX_TGT/LPFC_CTX_HOST.
+.SH "DESCRIPTION"
+This function sends an abort command for every SCSI command
+associated with the given virtual port pending on the ring
+filtered by lpfc_sli_validate_fcp_iocb function.
+When abort_cmd == LPFC_CTX_LUN, the function sends abort only to the
+FCP iocbs associated with lun specified by tgt_id and lun_id
+parameters
+When abort_cmd == LPFC_CTX_TGT, the function sends abort only to the
+FCP iocbs associated with SCSI target specified by tgt_id parameter.
+When abort_cmd == LPFC_CTX_HOST, the function sends abort to all
+FCP iocbs associated with virtual port.
+The pring used for SLI3 is sli3_ring[LPFC_FCP_RING], for SLI4
+lpfc_sli4_calc_ring is used.
+This function returns number of iocbs it failed to abort.
+This function is called with no locks held.

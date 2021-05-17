@@ -1,0 +1,17 @@
+.TH "cxlflash_stop_term_user_contexts" 9 "cxlflash_stop_term_user_contexts" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_stop_term_user_contexts \- stops/terminates known user contexts
+.SH SYNOPSIS
+.B "void" cxlflash_stop_term_user_contexts
+.BI "(struct cxlflash_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.SH "DESCRIPTION"
+When the host needs to go down, all users must be quiesced and their
+memory freed. This is accomplished by putting the contexts in error
+state which will notify the user and let them 'drive' the tear down.
+Meanwhile, this routine camps until all user contexts have been removed.
+
+Note that the main loop in this routine will always execute at least once
+to flush the reset_waitq.

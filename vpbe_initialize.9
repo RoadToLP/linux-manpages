@@ -1,0 +1,19 @@
+.TH "vpbe_initialize" 9 "vpbe_initialize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vpbe_initialize \- Initialize the vpbe display controller
+.SH SYNOPSIS
+.B "int" vpbe_initialize
+.BI "(struct device *dev "  ","
+.BI "struct vpbe_device *vpbe_dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Master and slave device ptr
+.IP "vpbe_dev" 12
+vpbe device ptr
+.SH "DESCRIPTION"
+Master frame buffer device drivers calls this to initialize vpbe
+display controller. This will then registers v4l2 device and the sub
+devices and sets a current encoder sub device for display. v4l2 display
+device driver is the master and frame buffer display device driver is
+the slave. Frame buffer display driver checks the initialized during
+probe and exit if not initialized. Returns status.

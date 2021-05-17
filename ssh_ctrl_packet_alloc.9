@@ -1,0 +1,24 @@
+.TH "ssh_ctrl_packet_alloc" 9 "ssh_ctrl_packet_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ctrl_packet_alloc \- Allocate packet from control packet cache.
+.SH SYNOPSIS
+.B "int" ssh_ctrl_packet_alloc
+.BI "(struct ssh_packet **packet "  ","
+.BI "struct ssam_span *buffer "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "packet" 12
+Where the pointer to the newly allocated packet should be stored.
+.IP "buffer" 12
+The buffer corresponding to this packet.
+.IP "flags" 12
+Flags used for allocation.
+.SH "DESCRIPTION"
+Allocates a packet and corresponding transport buffer from the control
+packet cache. Sets the packet's buffer reference to the allocated buffer.
+The packet must be freed via \fBssh_ctrl_packet_free\fP, which will also free
+the corresponding buffer. The corresponding buffer must not be freed
+separately. Intended to be used with ssh_ptl_ctrl_packet_ops as packet
+operations.
+.SH "RETURN"
+Returns zero on success, -ENOMEM if the allocation failed.

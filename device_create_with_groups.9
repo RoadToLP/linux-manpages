@@ -1,0 +1,45 @@
+.TH "device_create_with_groups" 9 "device_create_with_groups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_create_with_groups \- creates a device and registers it with sysfs
+.SH SYNOPSIS
+.B "struct device *" device_create_with_groups
+.BI "(struct class *class "  ","
+.BI "struct device *parent "  ","
+.BI "dev_t devt "  ","
+.BI "void *drvdata "  ","
+.BI "const struct attribute_group **groups "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "class" 12
+pointer to the struct class that this device should be registered to
+.IP "parent" 12
+pointer to the parent struct device of this new device, if any
+.IP "devt" 12
+the dev_t for the char device to be added
+.IP "drvdata" 12
+the data to be added to the device for callbacks
+.IP "groups" 12
+NULL-terminated list of attribute groups to be created
+.IP "fmt" 12
+string for the device's name
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+This function can be used by char device classes.  A struct device
+will be created in sysfs, registered to the specified class.
+Additional attributes specified in the groups parameter will also
+be created automatically.
+
+A "dev" file will be created, showing the dev_t for the device, if
+the dev_t is not 0,0.
+If a pointer to a parent struct device is passed in, the newly created
+struct device will be a child of that device in sysfs.
+The pointer to the struct device will be returned from the call.
+Any further sysfs files that might be required can be created using this
+pointer.
+
+Returns \fIstruct device\fP pointer on success, or \fBERR_PTR\fP on error.
+.SH "NOTE"
+the struct class passed to this function must have previously
+been created with a call to \fBclass_create\fP.

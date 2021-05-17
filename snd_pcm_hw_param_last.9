@@ -1,0 +1,23 @@
+.TH "snd_pcm_hw_param_last" 9 "snd_pcm_hw_param_last" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_pcm_hw_param_last \- refine config space and return maximum value
+.SH SYNOPSIS
+.B "int" snd_pcm_hw_param_last
+.BI "(struct snd_pcm_substream *pcm "  ","
+.BI "struct snd_pcm_hw_params *params "  ","
+.BI "snd_pcm_hw_param_t var "  ","
+.BI "int *dir "  ");"
+.SH ARGUMENTS
+.IP "pcm" 12
+PCM instance
+.IP "params" 12
+the hw_params instance
+.IP "var" 12
+parameter to retrieve
+.IP "dir" 12
+pointer to the direction (-1,0,1) or NULL
+.SH "DESCRIPTION"
+Inside configuration space defined by \fIparams\fP remove from \fIvar\fP all
+values < maximum. Reduce configuration space accordingly.
+.SH "RETURN"
+The maximum, or a negative error code on failure.

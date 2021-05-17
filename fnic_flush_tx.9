@@ -1,0 +1,15 @@
+.TH "fnic_flush_tx" 9 "fnic_flush_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fnic_flush_tx \- send queued frames.
+.SH SYNOPSIS
+.B "void" fnic_flush_tx
+.BI "(struct fnic *fnic "  ");"
+.SH ARGUMENTS
+.IP "fnic" 12
+fnic device
+.SH "DESCRIPTION"
+Send frames that were waiting to go out in FC or Ethernet mode.
+Whenever changing modes we purge queued frames, so these frames should
+be queued for the stable mode that we're in, either FC or Ethernet.
+
+Called without fnic_lock held.

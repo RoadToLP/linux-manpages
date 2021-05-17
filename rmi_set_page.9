@@ -1,0 +1,21 @@
+.TH "rmi_set_page" 9 "rmi_set_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rmi_set_page \- Set RMI page
+.SH SYNOPSIS
+.B "int" rmi_set_page
+.BI "(struct hid_device *hdev "  ","
+.BI "u8 page "  ");"
+.SH ARGUMENTS
+.IP "hdev" 12
+The pointer to the hid_device struct
+.IP "page" 12
+The new page address.
+.SH "DESCRIPTION"
+RMI devices have 16-bit addressing, but some of the physical
+implementations (like SMBus) only have 8-bit addressing. So RMI implements
+a page address at 0xff of every page so we can reliable page addresses
+every 256 registers.
+
+The page_mutex lock must be held when this function is entered.
+
+Returns zero on success, non-zero on failure.

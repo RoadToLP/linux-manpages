@@ -1,0 +1,24 @@
+.TH "mpol_misplaced" 9 "mpol_misplaced" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpol_misplaced \- check whether current page node is valid in policy
+.SH SYNOPSIS
+.B "int" mpol_misplaced
+.BI "(struct page *page "  ","
+.BI "struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+page to be checked
+.IP "vma" 12
+vm area where page mapped
+.IP "addr" 12
+virtual address where page mapped
+.SH "DESCRIPTION"
+Lookup current policy node id for vma,addr and "compare to" page's
+node id.
+
+Policy determination "mimics" \fBalloc_page_vma\fP.
+Called from fault path where we know the vma and faulting address.
+.SH "RETURN"
+-1      - not misplaced, page is in the right node
+node    - node id where the page should be

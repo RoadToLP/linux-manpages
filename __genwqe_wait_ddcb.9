@@ -1,0 +1,24 @@
+.TH "__genwqe_wait_ddcb" 9 "__genwqe_wait_ddcb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__genwqe_wait_ddcb \- Waits until DDCB is completed
+.SH SYNOPSIS
+.B "int" __genwqe_wait_ddcb
+.BI "(struct genwqe_dev *cd "  ","
+.BI "struct ddcb_requ *req "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+pointer to genwqe device descriptor
+.IP "req" 12
+pointer to requsted DDCB parameters
+.SH "DESCRIPTION"
+The Service Layer will update the RETC in DDCB when processing is
+pending or done.
+
+When an error is returned the called needs to ensure that
+\fBpurge_ddcb\fP is being called to get the \fIreq\fP removed from the
+queue.
+.SH "RETURN"
+> 0 remaining jiffies, DDCB completed
+-ETIMEDOUT when timeout
+-ERESTARTSYS when ^C
+-EINVAL when unknown error condition

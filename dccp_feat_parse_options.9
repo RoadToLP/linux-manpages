@@ -1,0 +1,29 @@
+.TH "dccp_feat_parse_options" 9 "dccp_feat_parse_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_feat_parse_options \- Process Feature-Negotiation Options
+.SH SYNOPSIS
+.B "int" dccp_feat_parse_options
+.BI "(struct sock *sk "  ","
+.BI "struct dccp_request_sock *dreq "  ","
+.BI "u8 mandatory "  ","
+.BI "u8 opt "  ","
+.BI "u8 feat "  ","
+.BI "u8 *val "  ","
+.BI "u8 len "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+for general use and used by the client during connection setup
+.IP "dreq" 12
+used by the server during connection setup
+.IP "mandatory" 12
+whether \fIopt\fP was preceded by a Mandatory option
+.IP "opt" 12
+DCCPO_CHANGE_L | DCCPO_CHANGE_R | DCCPO_CONFIRM_L | DCCPO_CONFIRM_R
+.IP "feat" 12
+one of dccp_feature_numbers
+.IP "val" 12
+value contents of \fIopt\fP
+.IP "len" 12
+length of \fIval\fP in bytes
+.SH "DESCRIPTION"
+Returns 0 on success, a Reset code for ending the connection otherwise.

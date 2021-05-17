@@ -1,0 +1,24 @@
+.TH "clean_record_pte" 9 "clean_record_pte" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clean_record_pte \- Clean a pte and record its address space offset in a bitmap
+.SH SYNOPSIS
+.B "int" clean_record_pte
+.BI "(pte_t *pte "  ","
+.BI "unsigned long addr "  ","
+.BI "unsigned long end "  ","
+.BI "struct mm_walk *walk "  ");"
+.SH ARGUMENTS
+.IP "pte" 12
+Pointer to the pte
+.IP "addr" 12
+The start of virtual address to be clean
+.IP "end" 12
+The end of virtual address to be clean
+.IP "walk" 12
+pagetable walk callback argument
+.SH "DESCRIPTION"
+The function cleans a pte and records the range in
+virtual address space of touched ptes for efficient TLB flushes.
+It also records dirty ptes in a bitmap representing page offsets
+in the address_space, as well as the first and last of the bits
+touched.

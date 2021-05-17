@@ -1,0 +1,26 @@
+.TH "usb4_usb3_port_allocate_bandwidth" 9 "usb4_usb3_port_allocate_bandwidth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb4_usb3_port_allocate_bandwidth \- Allocate bandwidth for USB3
+.SH SYNOPSIS
+.B "int" usb4_usb3_port_allocate_bandwidth
+.BI "(struct tb_port *port "  ","
+.BI "int *upstream_bw "  ","
+.BI "int *downstream_bw "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+USB3 adapter port
+.IP "upstream_bw" 12
+New upstream bandwidth
+.IP "downstream_bw" 12
+New downstream bandwidth
+.SH "DESCRIPTION"
+This can be used to set how much bandwidth is allocated for the USB3
+tunneled isochronous traffic. \fIupstream_bw\fP and \fIdownstream_bw\fP are the
+new values programmed to the USB3 adapter allocation registers. If
+the values are lower than what is currently consumed the allocation
+is set to what is currently consumed instead (consumed bandwidth
+cannot be taken away by CM). The actual new values are returned in
+\fIupstream_bw\fP and \fIdownstream_bw\fP.
+
+Returns 0 in case of success and negative errno if there was a
+failure.

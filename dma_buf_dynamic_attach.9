@@ -1,0 +1,32 @@
+.TH "dma_buf_dynamic_attach" 9 "dma_buf_dynamic_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_buf_dynamic_attach \- Add the device to dma_buf's attachments list
+.SH SYNOPSIS
+.B "struct dma_buf_attachment *" dma_buf_dynamic_attach
+.BI "(struct dma_buf *dmabuf "  ","
+.BI "struct device *dev "  ","
+.BI "const struct dma_buf_attach_ops *importer_ops "  ","
+.BI "void *importer_priv "  ");"
+.SH ARGUMENTS
+.IP "dmabuf" 12
+[in]    buffer to attach device to.
+.IP "dev" 12
+[in]    device to be attached.
+.IP "importer_ops" 12
+[in]    importer operations for the attachment
+.IP "importer_priv" 12
+[in]    importer private pointer for the attachment
+.SH "DESCRIPTION"
+Returns struct dma_buf_attachment pointer for this attachment. Attachments
+must be cleaned up by calling \fBdma_buf_detach\fP.
+
+Optionally this calls \fIdma_buf_ops.attach\fP to allow device-specific attach
+functionality.
+
+A pointer to newly created \fIdma_buf_attachment\fP on success, or a negative
+error code wrapped into a pointer on failure.
+
+Note that this can fail if the backing storage of \fIdmabuf\fP is in a place not
+accessible to \fIdev\fP, and cannot be moved to a more suitable place. This is
+indicated with the error code -EBUSY.
+.SH "RETURN"

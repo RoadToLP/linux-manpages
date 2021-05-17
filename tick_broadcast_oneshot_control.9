@@ -1,0 +1,16 @@
+.TH "tick_broadcast_oneshot_control" 9 "tick_broadcast_oneshot_control" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tick_broadcast_oneshot_control \- Enter/exit broadcast oneshot mode
+.SH SYNOPSIS
+.B "int" tick_broadcast_oneshot_control
+.BI "(enum tick_broadcast_state state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+The target state (enter/exit)
+.SH "DESCRIPTION"
+The system enters/leaves a state, where affected devices might stop
+Returns 0 on success, -EBUSY if the cpu is used to broadcast wakeups.
+
+Called with interrupts disabled, so clockevents_lock is not
+required here because the local clock event device cannot go away
+under us.

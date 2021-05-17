@@ -1,0 +1,24 @@
+.TH "sof_ipc_probe_dma_info" 9 "sof_ipc_probe_dma_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sof_ipc_probe_dma_info \- retrieve list of active injection dmas
+.SH SYNOPSIS
+.B "int" sof_ipc_probe_dma_info
+.BI "(struct snd_sof_dev *sdev "  ","
+.BI "struct sof_probe_dma **dma "  ","
+.BI "size_t *num_dma "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SOF sound device
+.IP "dma" 12
+Returned list of active dmas
+.IP "num_dma" 12
+Returned count of active dmas
+.SH "DESCRIPTION"
+Host sends DMA_INFO request to obtain list of injection dmas it
+can use to transfer data over with.
+
+Note that list contains only injection dmas as there is only one
+extractor (dma) and it is always assigned on probing init.
+DSP knows exactly where data from extraction probes is going to,
+which is not the case for injection where multiple streams
+could be engaged.

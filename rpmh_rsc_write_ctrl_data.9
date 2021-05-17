@@ -1,0 +1,20 @@
+.TH "rpmh_rsc_write_ctrl_data" 9 "rpmh_rsc_write_ctrl_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmh_rsc_write_ctrl_data \- Write request to controller but don't trigger.
+.SH SYNOPSIS
+.B "int" rpmh_rsc_write_ctrl_data
+.BI "(struct rsc_drv *drv "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "msg" 12
+The data to be written to the controller.
+.SH "DESCRIPTION"
+This should only be called for for sleep/wake state, never active-only
+state.
+
+The caller must ensure that no other RPMH actions are happening and the
+controller is idle when this function is called since it runs lockless.
+.SH "RETURN"
+0 if no error; else -error.

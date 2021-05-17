@@ -1,0 +1,20 @@
+.TH "replace_page_cache_page" 9 "replace_page_cache_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+replace_page_cache_page \- replace a pagecache page with a new one
+.SH SYNOPSIS
+.B "void" replace_page_cache_page
+.BI "(struct page *old "  ","
+.BI "struct page *new "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+page to be replaced
+.IP "new" 12
+page to replace with
+.SH "DESCRIPTION"
+This function replaces a page in the pagecache with a new one.  On
+success it acquires the pagecache reference for the new page and
+drops it for the old page.  Both the old and new pages must be
+locked.  This function does not add the new page to the LRU, the
+caller must do that.
+
+The remove + add is atomic.  This function cannot fail.

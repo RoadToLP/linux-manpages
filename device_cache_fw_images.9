@@ -1,0 +1,17 @@
+.TH "device_cache_fw_images" 9 "device_cache_fw_images" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_cache_fw_images \- cache devices' firmware
+.SH SYNOPSIS
+.B "void" device_cache_fw_images
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+If one device called request_firmware or its nowait version
+successfully before, the firmware names are recored into the
+device's devres link list, so device_cache_fw_images can call
+\fBcache_firmware\fP to cache these firmwares for the device,
+then the device driver can load its firmwares easily at
+time when system is not ready to complete loading firmware.

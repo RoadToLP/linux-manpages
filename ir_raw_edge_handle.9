@@ -1,0 +1,15 @@
+.TH "ir_raw_edge_handle" 9 "ir_raw_edge_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ir_raw_edge_handle \- Handle ir_raw_event_store_edge() processing
+.SH SYNOPSIS
+.B "void" ir_raw_edge_handle
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+timer_list
+.SH "DESCRIPTION"
+This callback is armed by \fBir_raw_event_store_edge\fP. It does two things:
+first of all, rather than calling \fBir_raw_event_handle\fP for each
+edge and waking up the rc thread, 15 ms after the first edge
+\fBir_raw_event_handle\fP is called. Secondly, generate a timeout event
+no more IR is received after the rc_dev timeout.

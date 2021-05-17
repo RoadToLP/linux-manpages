@@ -1,0 +1,18 @@
+.TH "vmw_dx_shader_cotable_list_scrub" 9 "vmw_dx_shader_cotable_list_scrub" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_dx_shader_cotable_list_scrub \- The cotable unbind_func callback for DX shaders.
+.SH SYNOPSIS
+.B "void" vmw_dx_shader_cotable_list_scrub
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct list_head *list "  ","
+.BI "bool readback "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to device private structure.
+.IP "list" 12
+The list of cotable resources.
+.IP "readback" 12
+Whether the call was part of a readback unbind.
+.SH "DESCRIPTION"
+Scrubs all shader MOBs so that any subsequent shader unbind or shader
+destroy operation won't need to swap in the context.

@@ -1,0 +1,23 @@
+.TH "i3c_master_add_i3c_dev_locked" 9 "i3c_master_add_i3c_dev_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_master_add_i3c_dev_locked \- add an I3C slave to the bus
+.SH SYNOPSIS
+.B "int" i3c_master_add_i3c_dev_locked
+.BI "(struct i3c_master_controller *master "  ","
+.BI "u8 addr "  ");"
+.SH ARGUMENTS
+.IP "master" 12
+master used to send frames on the bus
+.IP "addr" 12
+I3C slave dynamic address assigned to the device
+.SH "DESCRIPTION"
+This function is instantiating an I3C device object and adding it to the
+I3C device list. All device information are automatically retrieved using
+standard CCC commands.
+
+The I3C device object is returned in case the master wants to attach
+private data to it using \fBi3c_dev_set_master_data\fP.
+
+This function must be called with the bus lock held in write mode.
+.SH "RETURN"
+a 0 in case of success, an negative error code otherwise.

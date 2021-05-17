@@ -1,0 +1,15 @@
+.TH "device_links_no_driver" 9 "device_links_no_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_links_no_driver \- Update links after failing driver probe.
+.SH SYNOPSIS
+.B "void" device_links_no_driver
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device whose driver has just failed to probe.
+.SH "DESCRIPTION"
+Clean up leftover links to consumers for \fIdev\fP and invoke
+\fB__device_links_no_driver\fP to update links to suppliers for it as
+appropriate.
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

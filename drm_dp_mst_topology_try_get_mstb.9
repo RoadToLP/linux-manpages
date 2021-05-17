@@ -1,0 +1,25 @@
+.TH "drm_dp_mst_topology_try_get_mstb" 9 "drm_dp_mst_topology_try_get_mstb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_topology_try_get_mstb \- Increment the topology refcount of a branch device unless it's zero
+.SH SYNOPSIS
+.B "int" drm_dp_mst_topology_try_get_mstb
+.BI "(struct drm_dp_mst_branch *mstb "  ");"
+.SH ARGUMENTS
+.IP "mstb" 12
+\fIstruct drm_dp_mst_branch\fP to increment the topology refcount of
+.SH "DESCRIPTION"
+Attempts to grab a topology reference to \fImstb\fP, if it hasn't yet been
+removed from the topology (e.g. \fIdrm_dp_mst_branch.topology_kref\fP has
+reached 0). Holding a topology reference implies that a malloc reference
+will be held to \fImstb\fP as long as the user holds the topology reference.
+
+Care should be taken to ensure that the user has at least one malloc
+reference to \fImstb\fP. If you already have a topology reference to \fImstb\fP, you
+should use \fBdrm_dp_mst_topology_get_mstb\fP instead.
+
+See also:
+\fBdrm_dp_mst_topology_get_mstb\fP
+\fBdrm_dp_mst_topology_put_mstb\fP
+.SH "RETURN"
+* 1: A topology reference was grabbed successfully
+* 0: \fIport\fP is no longer in the topology, no reference was grabbed

@@ -1,0 +1,20 @@
+.TH "rvt_init_qp" 9 "rvt_init_qp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_init_qp \- initialize the QP state to the reset state
+.SH SYNOPSIS
+.B "void" rvt_init_qp
+.BI "(struct rvt_dev_info *rdi "  ","
+.BI "struct rvt_qp *qp "  ","
+.BI "enum ib_qp_type type "  ");"
+.SH ARGUMENTS
+.IP "rdi" 12
+rvt dev struct
+.IP "qp" 12
+the QP to init or reinit
+.IP "type" 12
+the QP type
+.SH "DESCRIPTION"
+This function is called from both \fBrvt_create_qp\fP and
+\fBrvt_reset_qp\fP.   The difference is that the reset
+patch the necessary locks to protect against concurent
+access.

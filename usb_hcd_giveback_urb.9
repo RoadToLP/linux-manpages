@@ -1,0 +1,30 @@
+.TH "usb_hcd_giveback_urb" 9 "usb_hcd_giveback_urb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_giveback_urb \- return URB from HCD to device driver
+.SH SYNOPSIS
+.B "void" usb_hcd_giveback_urb
+.BI "(struct usb_hcd *hcd "  ","
+.BI "struct urb *urb "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+host controller returning the URB
+.IP "urb" 12
+urb being returned to the USB device driver.
+.IP "status" 12
+completion status code for the URB.
+.SH "CONTEXT"
+atomic. The completion callback is invoked in caller's context.
+For HCDs with HCD_BH flag set, the completion callback is invoked in tasklet
+context (except for URBs submitted to the root hub which always complete in
+caller's context).
+.SH "DESCRIPTION"
+This hands the URB from HCD to its USB device driver, using its
+completion function.  The HCD has freed all per-urb resources
+(and is done using urb->hcpriv).  It also released all HCD locks;
+the device driver won't cause problems if it frees, modifies,
+or resubmits this URB.
+
+If \fIurb\fP was unlinked, the value of \fIstatus\fP will be overridden by
+\fIurb->unlinked\fP.  Erroneous short transfers are detected in case
+the HCD hasn't checked for them.

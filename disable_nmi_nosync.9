@@ -1,0 +1,15 @@
+.TH "disable_nmi_nosync" 9 "disable_nmi_nosync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disable_nmi_nosync \- disable an nmi without waiting
+.SH SYNOPSIS
+.B "void" disable_nmi_nosync
+.BI "(unsigned int irq "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt to disable
+
+Disable the selected interrupt line. Disables and enables are
+nested.
+The interrupt to disable must have been requested through request_nmi.
+Unlike \fBdisable_nmi\fP, this function does not ensure existing
+instances of the IRQ handler have completed before returning.

@@ -1,0 +1,21 @@
+.TH "devm_kstrdup_const" 9 "devm_kstrdup_const" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_kstrdup_const \- resource managed conditional string duplication
+.SH SYNOPSIS
+.B "const char *" devm_kstrdup_const
+.BI "(struct device *dev "  ","
+.BI "const char *s "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for which to duplicate the string
+.IP "s" 12
+the string to duplicate
+.IP "gfp" 12
+the GFP mask used in the \fBkmalloc\fP call when allocating memory
+.SH "DESCRIPTION"
+Strings allocated by devm_kstrdup_const will be automatically freed when
+the associated device is detached.
+.SH "RETURN"
+Source string if it is in .rodata section otherwise it falls back to
+devm_kstrdup.

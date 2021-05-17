@@ -1,0 +1,27 @@
+.TH "ntfs_attr_record_resize" 9 "ntfs_attr_record_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_record_resize \- resize an attribute record
+.SH SYNOPSIS
+.B "int" ntfs_attr_record_resize
+.BI "(MFT_RECORD *m "  ","
+.BI "ATTR_RECORD *a "  ","
+.BI "u32 new_size "  ");"
+.SH ARGUMENTS
+.IP "m" 12
+mft record containing attribute record
+.IP "a" 12
+attribute record to resize
+.IP "new_size" 12
+new size in bytes to which to resize the attribute record \fIa\fP
+.SH "DESCRIPTION"
+Resize the attribute record \fIa\fP, i.e. the resident part of the attribute, in
+the mft record \fIm\fP to \fInew_size\fP bytes.
+
+Return 0 on success and -errno on error.  The following error codes are
+defined:
+-ENOSPC - Not enough space in the mft record \fIm\fP to perform the resize.
+
+Warning: If you make a record smaller without having copied all the data you
+are interested in the data may be overwritten.
+.SH "NOTE"
+On error, no modifications have been performed whatsoever.

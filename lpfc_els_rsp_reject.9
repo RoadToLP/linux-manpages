@@ -1,0 +1,35 @@
+.TH "lpfc_els_rsp_reject" 9 "lpfc_els_rsp_reject" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rsp_reject \- Propare and issue a rjt response iocb command
+.SH SYNOPSIS
+.B "int" lpfc_els_rsp_reject
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint32_t rejectError "  ","
+.BI "struct lpfc_iocbq *oldiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "LPFC_MBOXQ_t *mbox "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a virtual N_Port data structure.
+.IP "rejectError" 12
+reject response to issue
+.IP "oldiocb" 12
+pointer to the original lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "mbox" 12
+pointer to the driver internal queue element for mailbox command.
+.SH "DESCRIPTION"
+This routine prepares and issue an Reject (RJT) response IOCB
+command. If a \fImbox\fP pointer is passed in, it will be put into the
+context_un.mbox field of the IOCB for the completion callback function
+to issue to the HBA later.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the reject response ELS IOCB command.
+
+Return code
+0 - Successfully issued reject response
+1 - Failed to issue reject response

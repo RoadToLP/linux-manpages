@@ -1,0 +1,22 @@
+.TH "irq_get_irqchip_state" 9 "irq_get_irqchip_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_get_irqchip_state \- returns the irqchip state of a interrupt.
+.SH SYNOPSIS
+.B "int" irq_get_irqchip_state
+.BI "(unsigned int irq "  ","
+.BI "enum irqchip_irq_state which "  ","
+.BI "bool *state "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line that is forwarded to a VM
+.IP "which" 12
+One of IRQCHIP_STATE_* the caller wants to know about
+.IP "state" 12
+a pointer to a boolean where the state is to be storeed
+
+This call snapshots the internal irqchip state of an
+interrupt, returning into \fIstate\fP the bit corresponding to
+stage \fIwhich\fP
+
+This function should be called with preemption disabled if the
+interrupt controller has per-cpu registers.

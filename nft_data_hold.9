@@ -1,0 +1,17 @@
+.TH "nft_data_hold" 9 "nft_data_hold" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_data_hold \- hold a nft_data item
+.SH SYNOPSIS
+.B "void" nft_data_hold
+.BI "(const struct nft_data *data "  ","
+.BI "enum nft_data_types type "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+struct nft_data to release
+.IP "type" 12
+type of data
+
+Hold a nft_data item. NFT_DATA_VALUE types can be silently discarded,
+NFT_DATA_VERDICT bumps the reference to chains in case of NFT_JUMP and
+NFT_GOTO verdicts. This function must be called on active data objects
+from the second phase of the commit protocol.

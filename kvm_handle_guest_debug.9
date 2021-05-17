@@ -1,0 +1,15 @@
+.TH "kvm_handle_guest_debug" 9 "kvm_handle_guest_debug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_handle_guest_debug \- handle a debug exception instruction
+.SH SYNOPSIS
+.B "int" kvm_handle_guest_debug
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+the vcpu pointer
+.SH "DESCRIPTION"
+We route all debug exceptions through the same handler. If both the
+guest and host are using the same debug facilities it will be up to
+userspace to re-inject the correct exception for guest delivery.
+.SH "RETURN"
+0 (while setting vcpu->run->exit_reason), -1 for error

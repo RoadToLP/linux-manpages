@@ -1,0 +1,30 @@
+.TH "debugfs_rename" 9 "debugfs_rename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+debugfs_rename \- rename a file/directory in the debugfs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" debugfs_rename
+.BI "(struct dentry *old_dir "  ","
+.BI "struct dentry *old_dentry "  ","
+.BI "struct dentry *new_dir "  ","
+.BI "const char *new_name "  ");"
+.SH ARGUMENTS
+.IP "old_dir" 12
+a pointer to the parent dentry for the renamed object. This
+should be a directory dentry.
+.IP "old_dentry" 12
+dentry of an object to be renamed.
+.IP "new_dir" 12
+a pointer to the parent dentry where the object should be
+moved. This should be a directory dentry.
+.IP "new_name" 12
+a pointer to a string containing the target name.
+.SH "DESCRIPTION"
+This function renames a file/directory in debugfs.  The target must not
+exist for rename to succeed.
+
+This function will return a pointer to old_dentry (which is updated to
+reflect renaming) if it succeeds. If an error occurs, NULL will be
+returned.
+
+If debugfs is not enabled in the kernel, the value -ENODEV will be
+returned.

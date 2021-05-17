@@ -1,0 +1,24 @@
+.TH "rdtgroup_kn_mode_restrict" 9 "rdtgroup_kn_mode_restrict" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_kn_mode_restrict \- Restrict user access to named resctrl file
+.SH SYNOPSIS
+.B "int" rdtgroup_kn_mode_restrict
+.BI "(struct rdtgroup *r "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+The resource group with which the file is associated.
+.IP "name" 12
+Name of the file
+.SH "DESCRIPTION"
+The permissions of named resctrl file, directory, or link are modified
+to not allow read, write, or execute by any user.
+
+WARNING: This function is intended to communicate to the user that the
+resctrl file has been locked down - that it is not relevant to the
+particular state the system finds itself in. It should not be relied
+on to protect from user access because after the file's permissions
+are restricted the user can still change the permissions using chmod
+from the command line.
+.SH "RETURN"
+0 on success, <0 on failure.

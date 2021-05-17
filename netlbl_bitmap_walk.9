@@ -1,0 +1,22 @@
+.TH "netlbl_bitmap_walk" 9 "netlbl_bitmap_walk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_bitmap_walk \- Walk a bitmap looking for a bit
+.SH SYNOPSIS
+.B "int" netlbl_bitmap_walk
+.BI "(const unsigned char *bitmap "  ","
+.BI "u32 bitmap_len "  ","
+.BI "u32 offset "  ","
+.BI "u8 state "  ");"
+.SH ARGUMENTS
+.IP "bitmap" 12
+the bitmap
+.IP "bitmap_len" 12
+length in bits
+.IP "offset" 12
+starting offset
+.IP "state" 12
+if non-zero, look for a set (1) bit else look for a cleared (0) bit
+.SH "DESCRIPTION"
+Starting at \fIoffset\fP, walk the bitmap from left to right until either the
+desired bit is found or we reach the end.  Return the bit offset, -1 if
+not found, or -2 if error.

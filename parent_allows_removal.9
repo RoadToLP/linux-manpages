@@ -1,0 +1,18 @@
+.TH "parent_allows_removal" 9 "parent_allows_removal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parent_allows_removal \- verify if it's ok to remove an exception
+.SH SYNOPSIS
+.B "bool" parent_allows_removal
+.BI "(struct dev_cgroup *childcg "  ","
+.BI "struct dev_exception_item *ex "  ");"
+.SH ARGUMENTS
+.IP "childcg" 12
+child cgroup from where the exception will be removed
+.IP "ex" 12
+exception being removed
+.SH "DESCRIPTION"
+When removing an exception in cgroups with default ALLOW policy, it must
+be checked if removing it will give the child cgroup more access than the
+parent.
+.SH "RETURN"
+true if it's ok to remove exception, false otherwise

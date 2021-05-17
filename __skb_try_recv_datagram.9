@@ -1,0 +1,50 @@
+.TH "__skb_try_recv_datagram" 9 "__skb_try_recv_datagram" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_try_recv_datagram \- Receive a datagram skbuff
+.SH SYNOPSIS
+.B "struct sk_buff *" __skb_try_recv_datagram
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff_head *queue "  ","
+.BI "unsigned int flags "  ","
+.BI "int *off "  ","
+.BI "int *err "  ","
+.BI "struct sk_buff **last "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.IP "queue" 12
+socket queue from which to receive
+.IP "flags" 12
+MSG\_ flags
+.IP "off" 12
+an offset in bytes to peek skb from. Returns an offset
+within an skb where data actually starts
+.IP "err" 12
+error code returned
+.IP "last" 12
+set to last peeked message to inform the wait function
+what to look for when peeking
+
+Get a datagram skbuff, understands the peeking, nonblocking wakeups
+and possible races. This replaces identical code in packet, raw and
+udp, as well as the IPX AX.25 and Appletalk. It also finally fixes
+the long standing peek and read race for datagram sockets. If you
+alter this routine remember it must be re-entrant.
+
+This function will lock the socket if a skb is returned, so
+the caller needs to unlock the socket in that case (usually by
+calling skb_free_datagram). Returns NULL with \fIerr\fP set to
+-EAGAIN if no data was available or to some other value if an
+error was detected.
+
+* It does not lock socket since today. This function is
+* free of race conditions. This measure should/can improve
+* significantly datagram socket latencies at high loads,
+* when data copying to user space takes lots of time.
+* (BTW I've just killed the last \fBcli\fP in IP/IPv6/core/netlink/packet
+*  8) Great win.)
+*                                           --ANK (980729)
+
+The order of the tests when we find no data waiting are specified
+quite explicitly by POSIX 1003.1g, don't change them without having
+the standard around please.

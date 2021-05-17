@@ -1,0 +1,25 @@
+.TH "brcmf_sdiod_sglist_rw" 9 "brcmf_sdiod_sglist_rw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+brcmf_sdiod_sglist_rw \- SDIO interface function for block data access
+.SH SYNOPSIS
+.B "int" brcmf_sdiod_sglist_rw
+.BI "(struct brcmf_sdio_dev *sdiodev "  ","
+.BI "struct sdio_func *func "  ","
+.BI "bool write "  ","
+.BI "u32 addr "  ","
+.BI "struct sk_buff_head *pktlist "  ");"
+.SH ARGUMENTS
+.IP "sdiodev" 12
+brcmfmac sdio device
+.IP "func" 12
+SDIO function
+.IP "write" 12
+direction flag
+.IP "addr" 12
+dongle memory address as source/destination
+.IP "pktlist" 12
+skb buffer head pointer
+.SH "DESCRIPTION"
+This function takes the respbonsibility as the interface function to MMC
+stack for block data access. It assumes that the skb passed down by the
+caller has already been padded and aligned.

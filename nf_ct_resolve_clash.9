@@ -1,0 +1,41 @@
+.TH "nf_ct_resolve_clash" 9 "nf_ct_resolve_clash" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nf_ct_resolve_clash \- attempt to handle clash without packet drop
+.SH SYNOPSIS
+.B "__cold noinline int" nf_ct_resolve_clash
+.BI "(struct sk_buff *skb "  ","
+.BI "struct nf_conntrack_tuple_hash *h "  ","
+.BI "u32 reply_hash "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+skb that causes the clash
+.IP "h" 12
+tuplehash of the clashing entry already in table
+.IP "reply_hash" 12
+hash slot for reply direction
+.SH "DESCRIPTION"
+A conntrack entry can be inserted to the connection tracking table
+if there is no existing entry with an identical tuple.
+
+If there is one, \fIskb\fP (and the assocated, unconfirmed conntrack) has
+to be dropped.  In case \fIskb\fP is retransmitted, next conntrack lookup
+will find the already-existing entry.
+
+The major problem with such packet drop is the extra delay added by
+the packet loss -- it will take some time for a retransmit to occur
+(or the sender to time out when waiting for a reply).
+
+This function attempts to handle the situation without packet drop.
+
+If \fIskb\fP has no NAT transformation or if the colliding entries are
+exactly the same, only the to-be-confirmed conntrack entry is discarded
+and \fIskb\fP is associated with the conntrack entry already in the table.
+
+Failing that, the new, unconfirmed conntrack is still added to the table
+provided that the collision only occurs in the ORIGINAL direction.
+The new entry will be added only in the non-clashing REPLY direction,
+so packets in the ORIGINAL direction will continue to match the existing
+entry.  The new entry will also have a fixed timeout so it expires --
+due to the collision, it will only see reply traffic.
+
+Returns NF_DROP if the clash could not be resolved.

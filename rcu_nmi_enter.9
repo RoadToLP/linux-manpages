@@ -1,0 +1,19 @@
+.TH "rcu_nmi_enter" 9 "rcu_nmi_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_nmi_enter \- inform RCU of entry to NMI context
+.SH SYNOPSIS
+.B "noinstr void" rcu_nmi_enter
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+If the CPU was idle from RCU's viewpoint, update rdp->dynticks and
+rdp->dynticks_nmi_nesting to let the RCU grace-period handling know
+that the CPU is active.  This implementation permits nested NMIs, as
+long as the nesting level does not overflow an int.  (You will probably
+run out of stack space first.)
+
+If you add or remove a call to \fBrcu_nmi_enter\fP, be sure to test
+with CONFIG_RCU_EQS_DEBUG=y.

@@ -1,0 +1,24 @@
+.TH "doc_write_oob" 9 "doc_write_oob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_write_oob \- Write out of band bytes to flash
+.SH SYNOPSIS
+.B "int" doc_write_oob
+.BI "(struct mtd_info *mtd "  ","
+.BI "loff_t ofs "  ","
+.BI "struct mtd_oob_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+the device
+.IP "ofs" 12
+the offset from first block and first page, in bytes, aligned on page
+size
+.IP "ops" 12
+the mtd oob structure
+.SH "DESCRIPTION"
+Either write OOB data into a temporary buffer, for the subsequent write
+page. The provided OOB should be 16 bytes long. If a data buffer is provided
+as well, issue the page write.
+Or provide data without OOB, and then a all zeroed OOB will be used (ECC will
+still be filled in if asked for).
+
+Returns 0 is successful, EINVAL if length is not 14 bytes

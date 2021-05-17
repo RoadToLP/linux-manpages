@@ -1,0 +1,35 @@
+.TH "drm_crtc_init" 9 "drm_crtc_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_init \- Legacy CRTC initialization function
+.SH SYNOPSIS
+.B "int" drm_crtc_init
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_crtc *crtc "  ","
+.BI "const struct drm_crtc_funcs *funcs "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "crtc" 12
+CRTC object to init
+.IP "funcs" 12
+callbacks for the new CRTC
+.SH "DESCRIPTION"
+Initialize a CRTC object with a default helper-provided primary plane and no
+cursor plane.
+
+Note that we make some assumptions about hardware limitations that may not be
+true for all hardware:
+
+1. Primary plane cannot be repositioned.
+2. Primary plane cannot be scaled.
+3. Primary plane must cover the entire CRTC.
+4. Subpixel positioning is not supported.
+5. The primary plane must always be on if the CRTC is enabled.
+
+This is purely a backwards compatibility helper for old drivers. Drivers
+should instead implement their own primary plane. Atomic drivers must do so.
+Drivers with the above hardware restriction can look into using \fIstruct
+drm_simple_display_pipe\fP, which encapsulates the above limitations into a nice
+interface.
+.SH "RETURN"
+Zero on success, error code on failure.

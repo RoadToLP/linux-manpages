@@ -1,0 +1,20 @@
+.TH "lpfc_prep_seq" 9 "lpfc_prep_seq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_prep_seq \- Prep sequence for ULP processing
+.SH SYNOPSIS
+.B "struct lpfc_iocbq *" lpfc_prep_seq
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct hbq_dmabuf *seq_dmabuf "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to the vport on which this sequence was received
+.IP "seq_dmabuf" 12
+pointer to a dmabuf that describes the FC sequence
+.SH "DESCRIPTION"
+This function takes a sequence, described by a list of frames, and creates
+a list of iocbq structures to describe the sequence. This iocbq list will be
+used to issue to the generic unsolicited sequence handler. This routine
+returns a pointer to the first iocbq in the list. If the function is unable
+to allocate an iocbq then it throw out the received frames that were not
+able to be described and return a pointer to the first iocbq. If unable to
+allocate any iocbqs (including the first) this function will return NULL.

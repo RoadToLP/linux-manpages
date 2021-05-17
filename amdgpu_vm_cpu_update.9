@@ -1,0 +1,29 @@
+.TH "amdgpu_vm_cpu_update" 9 "amdgpu_vm_cpu_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_cpu_update \- helper to update page tables via CPU
+.SH SYNOPSIS
+.B "int" amdgpu_vm_cpu_update
+.BI "(struct amdgpu_vm_update_params *p "  ","
+.BI "struct amdgpu_bo *bo "  ","
+.BI "uint64_t pe "  ","
+.BI "uint64_t addr "  ","
+.BI "unsigned count "  ","
+.BI "uint32_t incr "  ","
+.BI "uint64_t flags "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+see amdgpu_vm_update_params definition
+.IP "bo" 12
+PD/PT to update
+.IP "pe" 12
+byte offset of the PDE/PTE, relative to start of PDB/PTB
+.IP "addr" 12
+dst addr to write into pe
+.IP "count" 12
+number of page entries to update
+.IP "incr" 12
+increase next addr by incr bytes
+.IP "flags" 12
+hw access flags
+.SH "DESCRIPTION"
+Write count number of PT/PD entries directly.

@@ -1,0 +1,35 @@
+.TH "i915_gem_shrink" 9 "i915_gem_shrink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_shrink \- Shrink buffer object caches
+.SH SYNOPSIS
+.B "unsigned long" i915_gem_shrink
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "unsigned long target "  ","
+.BI "unsigned long *nr_scanned "  ","
+.BI "unsigned int shrink "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device
+.IP "target" 12
+amount of memory to make available, in pages
+.IP "nr_scanned" 12
+optional output for number of pages scanned (incremental)
+.IP "shrink" 12
+control flags for selecting cache types
+.SH "DESCRIPTION"
+This function is the main interface to the shrinker. It will try to release
+up to \fItarget\fP pages of main memory backing storage from buffer objects.
+Selection of the specific caches can be done with \fIflags\fP. This is e.g. useful
+when purgeable objects should be removed from caches preferentially.
+
+Note that it's not guaranteed that released amount is actually available as
+free system memory - the pages might still be in-used to due to other reasons
+(like cpu mmaps) or the mm core has reused them before we could grab them.
+Therefore code that needs to explicitly shrink buffer objects caches (e.g. to
+avoid deadlocks in memory reclaim) must fall back to \fBi915_gem_shrink_all\fP.
+
+Also note that any kind of pinning (both per-vma address space pins and
+backing storage pins at the buffer object level) result in the shrinker code
+having to skip the object.
+.SH "RETURN"
+The number of pages of backing storage actually released.

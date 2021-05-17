@@ -1,0 +1,19 @@
+.TH "dwc2_hsotg_ep_sethalt" 9 "dwc2_hsotg_ep_sethalt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_ep_sethalt \- set halt on a given endpoint
+.SH SYNOPSIS
+.B "int" dwc2_hsotg_ep_sethalt
+.BI "(struct usb_ep *ep "  ","
+.BI "int value "  ","
+.BI "bool now "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+The endpoint to set halt.
+.IP "value" 12
+Set or unset the halt.
+.IP "now" 12
+If true, stall the endpoint now. Otherwise return -EAGAIN if
+the endpoint is busy processing requests.
+.SH "DESCRIPTION"
+We need to stall the endpoint immediately if request comes from set_feature
+protocol command handler.

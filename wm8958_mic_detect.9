@@ -1,0 +1,34 @@
+.TH "wm8958_mic_detect" 9 "wm8958_mic_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8958_mic_detect \- Enable microphone detection via the WM8958 IRQ
+.SH SYNOPSIS
+.B "int" wm8958_mic_detect
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_soc_jack *jack "  ","
+.BI "wm1811_micdet_cb det_cb "  ","
+.BI "void *det_cb_data "  ","
+.BI "wm1811_mic_id_cb id_cb "  ","
+.BI "void *id_cb_data "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+WM8958 component
+.IP "jack" 12
+jack to report detection events on
+.IP "det_cb" 12
+detection callback
+.IP "det_cb_data" 12
+data for detection callback
+.IP "id_cb" 12
+mic id callback
+.IP "id_cb_data" 12
+data for mic id callback
+.SH "DESCRIPTION"
+Enable microphone detection functionality for the WM8958.  By
+default simple detection which supports the detection of up to 6
+buttons plus video and microphone functionality is supported.
+
+The WM8958 has an advanced jack detection facility which is able to
+support complex accessory detection, especially when used in
+conjunction with external circuitry.  In order to provide maximum
+flexiblity a callback is provided which allows a completely custom
+detection algorithm.

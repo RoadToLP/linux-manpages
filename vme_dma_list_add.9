@@ -1,0 +1,28 @@
+.TH "vme_dma_list_add" 9 "vme_dma_list_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vme_dma_list_add \- Add enty to a VME DMA list.
+.SH SYNOPSIS
+.B "int" vme_dma_list_add
+.BI "(struct vme_dma_list *list "  ","
+.BI "struct vme_dma_attr *src "  ","
+.BI "struct vme_dma_attr *dest "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+Pointer to VME list.
+.IP "src" 12
+Pointer to DMA list attribute to use as source.
+.IP "dest" 12
+Pointer to DMA list attribute to use as destination.
+.IP "count" 12
+Number of bytes to transfer.
+.SH "DESCRIPTION"
+Add an entry to the provided VME DMA list. Entry requires pointers to source
+and destination DMA attributes and a count.
+
+Please note, the attributes supported as source and destinations for
+transfers are hardware dependent.
+.SH "RETURN"
+Zero on success, -EINVAL if operation is not supported on this
+device or if the link list has already been submitted for execution.
+Hardware specific errors also possible.

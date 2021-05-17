@@ -1,0 +1,20 @@
+.TH "acpi_parse_spcr" 9 "acpi_parse_spcr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_parse_spcr \- parse ACPI SPCR table and add preferred console
+.SH SYNOPSIS
+.B "int" acpi_parse_spcr
+.BI "(bool enable_earlycon "  ","
+.BI "bool enable_console "  ");"
+.SH ARGUMENTS
+.IP "enable_earlycon" 12
+set up earlycon for the console specified by the table
+.IP "enable_console" 12
+setup the console specified by the table.
+.SH "DESCRIPTION"
+For the architectures with support for ACPI, CONFIG_ACPI_SPCR_TABLE may be
+defined to parse ACPI SPCR table.  As a result of the parsing preferred
+console is registered and if \fIenable_earlycon\fP is true, earlycon is set up.
+If \fIenable_console\fP is true the system console is also configured.
+
+When CONFIG_ACPI_SPCR_TABLE is defined, this function should be called
+from arch initialization code as soon as the DT/ACPI decision is made.

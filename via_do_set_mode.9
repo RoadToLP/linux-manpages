@@ -1,0 +1,27 @@
+.TH "via_do_set_mode" 9 "via_do_set_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+via_do_set_mode \- set transfer mode data
+.SH SYNOPSIS
+.B "void" via_do_set_mode
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "int mode "  ","
+.BI "int set_ast "  ","
+.BI "int udma_type "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA interface
+.IP "adev" 12
+ATA device
+.IP "mode" 12
+ATA mode being programmed
+.IP "set_ast" 12
+Set to program address setup
+.IP "udma_type" 12
+UDMA mode/format of registers
+
+Program the VIA registers for DMA and PIO modes. Uses the ata timing
+support in order to compute modes.
+
+FIXME: Hotplug will require we serialize multiple mode changes
+on the two channels.

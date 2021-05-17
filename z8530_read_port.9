@@ -1,0 +1,20 @@
+.TH "z8530_read_port" 9 "z8530_read_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_read_port \- Architecture specific interface function
+.SH SYNOPSIS
+.B "int" z8530_read_port
+.BI "(unsigned long p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+port to read
+
+Provided port access methods. The Comtrol SV11 requires no delays
+between accesses and uses PC I/O. Some drivers may need a 5uS delay
+
+In the longer term this should become an architecture specific
+section so that this can become a generic driver interface for all
+platforms. For now we only handle PC I/O ports with or without the
+dread 5uS sanity delay.
+
+The caller must hold sufficient locks to avoid violating the horrible
+5uS delay rule.

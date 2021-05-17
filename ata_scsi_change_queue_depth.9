@@ -1,0 +1,21 @@
+.TH "ata_scsi_change_queue_depth" 9 "ata_scsi_change_queue_depth" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_change_queue_depth \- SCSI callback for queue depth config
+.SH SYNOPSIS
+.B "int" ata_scsi_change_queue_depth
+.BI "(struct scsi_device *sdev "  ","
+.BI "int queue_depth "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device to configure queue depth for
+.IP "queue_depth" 12
+new queue depth
+
+This is libata standard hostt->change_queue_depth callback.
+SCSI will call into this callback when user tries to set queue
+depth via sysfs.
+
+LOCKING:
+SCSI layer (we don't care)
+.SH "RETURN"
+Newly configured queue depth.

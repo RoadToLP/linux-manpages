@@ -1,0 +1,18 @@
+.TH "scmi_get_active_handler" 9 "scmi_get_active_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_get_active_handler \- Helper to get active handlers only
+.SH SYNOPSIS
+.B "struct scmi_event_handler *" scmi_get_active_handler
+.BI "(struct scmi_notify_instance *ni "  ","
+.BI "u32 evt_key "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+A reference to the notification instance to use
+.IP "evt_key" 12
+The event key to use
+.SH "DESCRIPTION"
+Search for the desired handler matching the key only in the per-protocol
+table of registered handlers: this is called only from the dispatching path
+so want to be as quick as possible and do not care about pending.
+.SH "RETURN"
+A properly refcounted active handler

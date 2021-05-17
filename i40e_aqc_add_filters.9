@@ -1,0 +1,25 @@
+.TH "i40e_aqc_add_filters" 9 "i40e_aqc_add_filters" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_aqc_add_filters \- Request firmware to add a set of filters
+.SH SYNOPSIS
+.B "void" i40e_aqc_add_filters
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "const char *vsi_name "  ","
+.BI "struct i40e_aqc_add_macvlan_element_data *list "  ","
+.BI "struct i40e_new_mac_filter *add_head "  ","
+.BI "int num_add "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+ptr to the VSI
+.IP "vsi_name" 12
+name to display in messages
+.IP "list" 12
+the list of filters to send to firmware
+.IP "add_head" 12
+Position in the add hlist
+.IP "num_add" 12
+the number of filters to add
+.SH "DESCRIPTION"
+Send a request to firmware via AdminQ to add a chunk of filters. Will set
+__I40E_VSI_OVERFLOW_PROMISC bit in vsi->state if the firmware has run out of
+space for more filters.

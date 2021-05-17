@@ -1,0 +1,20 @@
+.TH "dwc2_uframe_schedule_split" 9 "dwc2_uframe_schedule_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_uframe_schedule_split \- Schedule a QH for a periodic split xfer.
+.SH SYNOPSIS
+.B "int" dwc2_uframe_schedule_split
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller.
+.IP "qh" 12
+QH for the periodic transfer.
+.SH "DESCRIPTION"
+
+This is the most complicated thing in USB.  We have to find matching time
+in both the global high speed schedule for the port and the low speed
+schedule for the TT associated with the given device.
+
+Being here means that the host must be running in high speed mode and the
+device is in low or full speed mode (and behind a hub).

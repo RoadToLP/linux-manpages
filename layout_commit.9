@@ -1,0 +1,22 @@
+.TH "layout_commit" 9 "layout_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+layout_commit \- determine positions of index nodes to commit.
+.SH SYNOPSIS
+.B "int" layout_commit
+.BI "(struct ubifs_info *c "  ","
+.BI "int no_space "  ","
+.BI "int cnt "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "no_space" 12
+indicates that insufficient empty LEBs were allocated
+.IP "cnt" 12
+number of znodes to commit
+.SH "DESCRIPTION"
+Calculate and update the positions of index nodes to commit.  If there were
+an insufficient number of empty LEBs allocated, then index nodes are placed
+into the gaps created by obsolete index nodes in non-empty index LEBs.  For
+this purpose, an obsolete index node is one that was not in the index as at
+the end of the last commit.  To write "in-the-gaps" requires that those index
+LEBs are updated atomically in-place.

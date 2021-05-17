@@ -1,0 +1,27 @@
+.TH "drm_rect_calc_hscale" 9 "drm_rect_calc_hscale" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_rect_calc_hscale \- calculate the horizontal scaling factor
+.SH SYNOPSIS
+.B "int" drm_rect_calc_hscale
+.BI "(const struct drm_rect *src "  ","
+.BI "const struct drm_rect *dst "  ","
+.BI "int min_hscale "  ","
+.BI "int max_hscale "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+source window rectangle
+.IP "dst" 12
+destination window rectangle
+.IP "min_hscale" 12
+minimum allowed horizontal scaling factor
+.IP "max_hscale" 12
+maximum allowed horizontal scaling factor
+.SH "DESCRIPTION"
+Calculate the horizontal scaling factor as
+(\fIsrc\fP width) / (\fIdst\fP width).
+
+If the scale is below 1 << 16, round down. If the scale is above
+1 << 16, round up. This will calculate the scale with the most
+pessimistic limit calculation.
+.SH "RETURN"
+The horizontal scaling factor, or errno of out of limits.

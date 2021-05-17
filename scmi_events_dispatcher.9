@@ -1,0 +1,30 @@
+.TH "scmi_events_dispatcher" 9 "scmi_events_dispatcher" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_events_dispatcher \- Common worker logic for all work items.
+.SH SYNOPSIS
+.B "void" scmi_events_dispatcher
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+The work item to use, which is associated to a dedicated events_queue
+.SH "DESCRIPTION"
+Logic:
+1. dequeue one pending RX notification (queued in SCMI RX ISR context)
+2. generate a custom event report from the received event message
+3. lookup for any registered ALL_SRC_IDs handler:
+- > call the related notification chain passing in the report
+4. lookup for any registered specific SRC_ID handler:
+- > call the related notification chain passing in the report
+
+Note that:
+* a dedicated per-protocol kfifo queue is used: in this way an anomalous
+flood of events cannot saturate other protocols' queues.
+* each per-protocol queue is associated to a distinct work_item, which
+means, in turn, that:
++ all protocols can process their dedicated queues concurrently
+(since notify_wq:max_active != 1)
++ anyway at most one worker instance is allowed to run on the same queue
+concurrently: this ensures that we can have only one concurrent
+reader/writer on the associated kfifo, so that we can use it lock-less
+.SH "CONTEXT"
+Process context.

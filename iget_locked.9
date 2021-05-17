@@ -1,0 +1,20 @@
+.TH "iget_locked" 9 "iget_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iget_locked \- obtain an inode from a mounted file system
+.SH SYNOPSIS
+.B "struct inode *" iget_locked
+.BI "(struct super_block *sb "  ","
+.BI "unsigned long ino "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of file system
+.IP "ino" 12
+inode number to get
+.SH "DESCRIPTION"
+Search for the inode specified by \fIino\fP in the inode cache and if present
+return it with an increased reference count. This is for file systems
+where the inode number is sufficient for unique identification of an inode.
+
+If the inode is not in cache, allocate a new inode and return it locked,
+hashed, and with the I_NEW flag set.  The file system gets to fill it in
+before unlocking it via \fBunlock_new_inode\fP.

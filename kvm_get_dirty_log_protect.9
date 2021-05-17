@@ -1,0 +1,26 @@
+.TH "kvm_get_dirty_log_protect" 9 "kvm_get_dirty_log_protect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_get_dirty_log_protect \- get a snapshot of dirty pages and reenable dirty page tracking for the corresponding pages.
+.SH SYNOPSIS
+.B "int" kvm_get_dirty_log_protect
+.BI "(struct kvm *kvm "  ","
+.BI "struct kvm_dirty_log *log "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+pointer to kvm instance
+.IP "log" 12
+slot id and address to which we copy the log
+.SH "DESCRIPTION"
+We need to keep it in mind that VCPU threads can write to the bitmap
+concurrently. So, to avoid losing track of dirty pages we keep the
+following order:
+
+1. Take a snapshot of the bit and clear it if needed.
+2. Write protect the corresponding page.
+3. Copy the snapshot to the userspace.
+4. Upon return caller flushes TLB's if needed.
+
+Between 2 and 4, the guest may write to the page using the remaining TLB
+entry.  This is not a problem because the page is reported dirty using
+the snapshot taken before and step 4 ensures that writes done after
+exiting to userspace will be logged for the next call.

@@ -1,0 +1,27 @@
+.TH "vxge_hw_device_begin_irq" 9 "vxge_hw_device_begin_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxge_hw_device_begin_irq \- Begin IRQ processing.
+.SH SYNOPSIS
+.B "enum vxge_hw_status" vxge_hw_device_begin_irq
+.BI "(struct __vxge_hw_device *hldev "  ","
+.BI "u32 skip_alarms "  ","
+.BI "u64 *reason "  ");"
+.SH ARGUMENTS
+.IP "hldev" 12
+HW device handle.
+.IP "skip_alarms" 12
+Do not clear the alarms
+.IP "reason" 12
+"Reason" for the interrupt, the value of Titan's
+general_int_status register.
+.SH "DESCRIPTION"
+The function performs two actions, It first checks whether (shared IRQ) the
+interrupt was raised by the device. Next, it masks the device interrupts.
+.SH "NOTE"
+\fBvxge_hw_device_begin_irq\fP does not flush MMIO writes through the
+bridge. Therefore, two back-to-back interrupts are potentially possible.
+.SH "RETURN"
+0, if the interrupt is not "ours" (note that in this case the
+device remain enabled).
+Otherwise, \fBvxge_hw_device_begin_irq\fP returns 64bit general adapter
+status.

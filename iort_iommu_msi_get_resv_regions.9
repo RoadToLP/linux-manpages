@@ -1,0 +1,18 @@
+.TH "iort_iommu_msi_get_resv_regions" 9 "iort_iommu_msi_get_resv_regions" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iort_iommu_msi_get_resv_regions \- Reserved region driver helper
+.SH SYNOPSIS
+.B "int" iort_iommu_msi_get_resv_regions
+.BI "(struct device *dev "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device from \fBiommu_get_resv_regions\fP
+.IP "head" 12
+Reserved region list from \fBiommu_get_resv_regions\fP
+.SH "RETURN"
+Number of msi reserved regions on success (0 if platform
+doesn't require the reservation or no associated msi regions),
+appropriate error value otherwise. The ITS interrupt translation
+spaces (ITS_base + SZ_64K, SZ_64K) associated with the device
+are the msi reserved regions.

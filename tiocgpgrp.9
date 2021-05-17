@@ -1,0 +1,20 @@
+.TH "tiocgpgrp" 9 "tiocgpgrp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tiocgpgrp \- get process group
+.SH SYNOPSIS
+.B "int" tiocgpgrp
+.BI "(struct tty_struct *tty "  ","
+.BI "struct tty_struct *real_tty "  ","
+.BI "pid_t __user *p "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty passed by user
+.IP "real_tty" 12
+tty side of the tty passed by the user if a pty else the tty
+.IP "p" 12
+returned pid
+
+Obtain the process group of the tty. If there is no process group
+return an error.
+
+Locking: none. Reference to current->signal->tty is safe.

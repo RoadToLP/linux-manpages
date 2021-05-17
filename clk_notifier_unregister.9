@@ -1,0 +1,18 @@
+.TH "clk_notifier_unregister" 9 "clk_notifier_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_notifier_unregister \- remove a clk rate change notifier
+.SH SYNOPSIS
+.B "int" clk_notifier_unregister
+.BI "(struct clk *clk "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk *
+.IP "nb" 12
+struct notifier_block * with callback info
+.SH "DESCRIPTION"
+Request no further notification for changes to 'clk' and frees memory
+allocated in clk_notifier_register.
+
+Returns -EINVAL if called with null arguments; otherwise, passes
+along the return value of \fBsrcu_notifier_chain_unregister\fP.

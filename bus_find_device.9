@@ -1,0 +1,26 @@
+.TH "bus_find_device" 9 "bus_find_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bus_find_device \- device iterator for locating a particular device.
+.SH SYNOPSIS
+.B "struct device *" bus_find_device
+.BI "(struct bus_type *bus "  ","
+.BI "struct device *start "  ","
+.BI "const void *data "  ","
+.BI "int (*match)(struct device *dev, const void *data) "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+bus type
+.IP "start" 12
+Device to begin with
+.IP "data" 12
+Data to pass to match function
+.IP "match" 12
+Callback function to check device
+.SH "DESCRIPTION"
+This is similar to the \fBbus_for_each_dev\fP function above, but it
+returns a reference to a device that is 'found' for later use, as
+determined by the \fImatch\fP callback.
+
+The callback should return 0 if the device doesn't match and non-zero
+if it does.  If the callback returns non-zero, this function will
+return to the caller and not iterate over any more devices.

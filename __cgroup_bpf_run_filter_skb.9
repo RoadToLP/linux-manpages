@@ -1,0 +1,32 @@
+.TH "__cgroup_bpf_run_filter_skb" 9 "__cgroup_bpf_run_filter_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_run_filter_skb \- Run a program for packet filtering
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_run_filter_skb
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "enum bpf_attach_type type "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+The socket sending or receiving traffic
+.IP "skb" 12
+The skb that is being sent or received
+.IP "type" 12
+The type of program to be exectuted
+.SH "DESCRIPTION"
+If no socket is passed, or the socket is not of type INET or INET6,
+this function does nothing and returns 0.
+
+The program type passed in via \fItype\fP must be suitable for network
+filtering. No further check is performed to assert that.
+
+For egress packets, this function can return:
+NET_XMIT_SUCCESS    (0)    - continue with packet output
+NET_XMIT_DROP       (1)    - drop packet and notify TCP to call cwr
+NET_XMIT_CN         (2)    - continue with packet output and notify TCP
+to call cwr
+-EPERM                     - drop packet
+
+For ingress packets, this function will return -EPERM if any
+attached program was found and if it returned != 1 during execution.
+Otherwise 0 is returned.

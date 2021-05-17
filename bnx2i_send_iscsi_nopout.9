@@ -1,0 +1,25 @@
+.TH "bnx2i_send_iscsi_nopout" 9 "bnx2i_send_iscsi_nopout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2i_send_iscsi_nopout \- post iSCSI NOPOUT request WQE to hardware
+.SH SYNOPSIS
+.B "int" bnx2i_send_iscsi_nopout
+.BI "(struct bnx2i_conn *bnx2i_conn "  ","
+.BI "struct iscsi_task *task "  ","
+.BI "char *datap "  ","
+.BI "int data_len "  ","
+.BI "int unsol "  ");"
+.SH ARGUMENTS
+.IP "bnx2i_conn" 12
+iscsi connection
+.IP "task" 12
+transport layer's command structure pointer which is
+requesting a WQE to sent to chip for further processing
+.IP "datap" 12
+payload buffer pointer
+.IP "data_len" 12
+payload data length
+.IP "unsol" 12
+indicated whether nopout pdu is unsolicited pdu or
+in response to target's NOPIN w/ TTT != FFFFFFFF
+.SH "DESCRIPTION"
+prepare and post a nopout request WQE to CNIC firmware

@@ -1,0 +1,29 @@
+.TH "rdma_find_gid_by_filter" 9 "rdma_find_gid_by_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_find_gid_by_filter \- Returns the GID table attribute where a specified GID value occurs
+.SH SYNOPSIS
+.B "const struct ib_gid_attr *" rdma_find_gid_by_filter
+.BI "(struct ib_device *ib_dev "  ","
+.BI "const union ib_gid *gid "  ","
+.BI "u8 port "  ","
+.BI "bool (*filter)(const union ib_gid *gid, const struct ib_gid_attr *, void *) "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "ib_dev" 12
+The device to query.
+.IP "gid" 12
+The GID value to search for.
+.IP "port" 12
+The port number of the device where the GID value could be
+searched.
+.IP "filter" 12
+The filter function is executed on any matching GID in the table.
+If the filter function returns true, the corresponding index is returned,
+otherwise, we continue searching the GID table. It's guaranteed that
+while filter is executed, ndev field is valid and the structure won't
+change. filter is executed in an atomic context. filter must not be NULL.
+.IP "context" 12
+Private data to pass into the call-back.
+.SH "DESCRIPTION"
+\fBrdma_find_gid_by_filter\fP searches for the specified GID value
+of which the filter function returns true in the port's GID table.

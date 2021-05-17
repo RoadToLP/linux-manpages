@@ -1,0 +1,19 @@
+.TH "sleeping_thread_to_gdb_regs" 9 "sleeping_thread_to_gdb_regs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sleeping_thread_to_gdb_regs \- Convert ptrace regs to GDB regs
+.SH SYNOPSIS
+.B "void" sleeping_thread_to_gdb_regs
+.BI "(unsigned long *gdb_regs "  ","
+.BI "struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "gdb_regs" 12
+A pointer to hold the registers in the order GDB wants.
+.IP "p" 12
+The \fIstruct task_struct\fP of the desired process.
+
+Convert the register values of the sleeping process in \fIp\fP to
+the format that GDB expects.
+This function is called when kgdb does not have access to the
+\fIstruct pt_regs\fP and therefore it should fill the gdb registers
+\fIgdb_regs\fP with what has been saved in \fIstruct thread_struct\fP
+thread field during switch_to.

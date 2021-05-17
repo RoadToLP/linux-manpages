@@ -1,0 +1,25 @@
+.TH "genwqe_health_thread" 9 "genwqe_health_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_health_thread \- Health checking thread
+.SH SYNOPSIS
+.B "int" genwqe_health_thread
+.BI "(void *data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+GenWQE device information
+.SH "DESCRIPTION"
+This thread is only started for the PF of the card.
+
+This thread monitors the health of the card. A critical situation
+is when we read registers which contain -1 (IO_ILLEGAL_VALUE). In
+this case we need to be recovered from outside. Writing to
+registers will very likely not work either.
+
+This thread must only exit if \fBkthread_should_stop\fP becomes true.
+
+Condition for the health-thread to trigger:
+a) when a \fBkthread_stop\fP request comes in or
+b) a critical GFIR occured
+
+Informational GFIRs are checked and potentially printed in
+GENWQE_HEALTH_CHECK_INTERVAL seconds.

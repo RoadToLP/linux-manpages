@@ -1,0 +1,26 @@
+.TH "binder_proc_transaction" 9 "binder_proc_transaction" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_proc_transaction \- sends a transaction to a process and wakes it up
+.SH SYNOPSIS
+.B "bool" binder_proc_transaction
+.BI "(struct binder_transaction *t "  ","
+.BI "struct binder_proc *proc "  ","
+.BI "struct binder_thread *thread "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+transaction to send
+.IP "proc" 12
+process to send the transaction to
+.IP "thread" 12
+thread in \fIproc\fP to send the transaction to (may be NULL)
+.SH "DESCRIPTION"
+This function queues a transaction to the specified process. It will try
+to find a thread in the target process to handle the transaction and
+wake it up. If no thread is found, the work is queued to the proc
+waitqueue.
+
+If the \fIthread\fP parameter is not NULL, the transaction is always queued
+to the waitlist of that specific thread.
+.SH "RETURN"
+true if the transactions was successfully queued
+false if the target process or thread is dead

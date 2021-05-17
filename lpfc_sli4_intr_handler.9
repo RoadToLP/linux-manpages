@@ -1,0 +1,24 @@
+.TH "lpfc_sli4_intr_handler" 9 "lpfc_sli4_intr_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_intr_handler \- Device-level interrupt handler for SLI-4 device
+.SH SYNOPSIS
+.B "irqreturn_t" lpfc_sli4_intr_handler
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number.
+.IP "dev_id" 12
+The device context pointer.
+.SH "DESCRIPTION"
+This function is the device-level interrupt handler to device with SLI-4
+interface spec, called from the PCI layer when either MSI or Pin-IRQ
+interrupt mode is enabled and there is an event in the HBA which requires
+driver attention. This function invokes the slow-path interrupt attention
+handling function and fast-path interrupt attention handling function in
+turn to process the relevant HBA attention events. This function is called
+without any lock held. It gets the hbalock to access and update SLI data
+structures.
+
+This function returns IRQ_HANDLED when interrupt is handled, else it
+returns IRQ_NONE.

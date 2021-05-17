@@ -1,0 +1,23 @@
+.TH "drm_dp_dual_mode_set_tmds_output" 9 "drm_dp_dual_mode_set_tmds_output" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_dual_mode_set_tmds_output \- Enable/disable TMDS output buffers in the DP dual mode adaptor
+.SH SYNOPSIS
+.B "int" drm_dp_dual_mode_set_tmds_output
+.BI "(enum drm_dp_dual_mode_type type "  ","
+.BI "struct i2c_adapter *adapter "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+DP dual mode adaptor type
+.IP "adapter" 12
+I2C adapter for the DDC bus
+.IP "enable" 12
+enable (as opposed to disable) the TMDS output buffers
+.SH "DESCRIPTION"
+Set the state of the TMDS output buffers in the adaptor. For
+type2 this is set via the DP_DUAL_MODE_TMDS_OEN register. As
+some type 1 adaptors have problems with registers (see comments
+in \fBdrm_dp_dual_mode_detect\fP) we avoid touching the register,
+making this function a no-op on type 1 adaptors.
+.SH "RETURN"
+0 on success, negative error code on failure

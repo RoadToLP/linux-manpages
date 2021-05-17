@@ -1,0 +1,33 @@
+.TH "__mark_inode_dirty" 9 "__mark_inode_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__mark_inode_dirty \- internal function to mark an inode dirty
+.SH SYNOPSIS
+.B "void" __mark_inode_dirty
+.BI "(struct inode *inode "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to mark
+.IP "flags" 12
+what kind of dirty, e.g. I_DIRTY_SYNC.  This can be a combination of
+multiple I_DIRTY_* flags, except that I_DIRTY_TIME can't be combined
+with I_DIRTY_PAGES.
+.SH "DESCRIPTION"
+Mark an inode as dirty.  We notify the filesystem, then update the inode's
+dirty flags.  Then, if needed we add the inode to the appropriate dirty list.
+
+Most callers should use \fBmark_inode_dirty\fP or \fBmark_inode_dirty_sync\fP
+instead of calling this directly.
+
+CAREFUL!  We only add the inode to the dirty list if it is hashed or if it
+refers to a blockdev.  Unhashed inodes will never be added to the dirty list
+even if they are later hashed, as they will have been marked dirty already.
+
+In short, ensure you hash any inodes _before_ you start marking them dirty.
+
+Note that for blockdevs, inode->dirtied_when represents the dirtying time of
+the block-special inode (/dev/hda1) itself.  And the ->dirtied_when field of
+the kernel-internal blockdev inode represents the dirtying time of the
+blockdev's pages.  This is why for I_DIRTY_PAGES we always use
+page->mapping->host, so the page-dirtying time is recorded in the internal
+blockdev inode.

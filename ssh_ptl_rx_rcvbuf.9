@@ -1,0 +1,22 @@
+.TH "ssh_ptl_rx_rcvbuf" 9 "ssh_ptl_rx_rcvbuf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_ptl_rx_rcvbuf \- Push data from lower-layer transport to the packet layer.
+.SH SYNOPSIS
+.B "int" ssh_ptl_rx_rcvbuf
+.BI "(struct ssh_ptl *ptl "  ","
+.BI "const u8 *buf "  ","
+.BI "size_t n "  ");"
+.SH ARGUMENTS
+.IP "ptl" 12
+The packet transport layer.
+.IP "buf" 12
+Pointer to the data to push to the layer.
+.IP "n" 12
+Size of the data to push to the layer, in bytes.
+.SH "DESCRIPTION"
+Pushes data from a lower-layer transport to the receiver fifo buffer of the
+packet layer and notifies the receiver thread. Calls to this function are
+ignored once the packet layer has been shut down.
+.SH "RETURN"
+Returns the number of bytes transferred (positive or zero) on
+success. Returns -ESHUTDOWN if the packet layer has been shut down.

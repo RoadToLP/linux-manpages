@@ -1,0 +1,20 @@
+.TH "ice_flash_component" 9 "ice_flash_component" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_flash_component \- Flash a component of the NVM
+.SH SYNOPSIS
+.B "int" ice_flash_component
+.BI "(struct pldmfw *context "  ","
+.BI "struct pldmfw_component *component "  ");"
+.SH ARGUMENTS
+.IP "context" 12
+PLDM fw update structure
+.IP "component" 12
+the component table to program
+.SH "DESCRIPTION"
+Program the flash contents for a given component. First, determine the
+module id. Then, erase the secondary bank for this module. Finally, write
+the contents of the component to the NVM.
+
+Note this function assumes the caller has acquired the NVM resource.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

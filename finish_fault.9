@@ -1,0 +1,19 @@
+.TH "finish_fault" 9 "finish_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+finish_fault \- finish page fault once we have prepared the page to fault
+.SH SYNOPSIS
+.B "vm_fault_t" finish_fault
+.BI "(struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+structure describing the fault
+.SH "DESCRIPTION"
+This function handles all that is needed to finish a page fault once the
+page to fault in is prepared. It handles locking of PTEs, inserts PTE for
+given page, adds reverse page mapping, handles memcg charges and LRU
+addition.
+
+The function expects the page to be locked and on success it consumes a
+reference of a page being mapped (for the PTE which maps it).
+.SH "RETURN"
+0 on success, VM_FAULT_ code in case of error.

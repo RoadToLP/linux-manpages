@@ -1,0 +1,38 @@
+.TH "vmf_insert_mixed_prot" 9 "vmf_insert_mixed_prot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmf_insert_mixed_prot \- insert single pfn into user vma with specified pgprot
+.SH SYNOPSIS
+.B "vm_fault_t" vmf_insert_mixed_prot
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "pfn_t pfn "  ","
+.BI "pgprot_t pgprot "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "addr" 12
+target user address of this page
+.IP "pfn" 12
+source kernel pfn
+.IP "pgprot" 12
+pgprot flags for the inserted page
+.SH "DESCRIPTION"
+This is exactly like \fBvmf_insert_mixed\fP, except that it allows drivers
+to override pgprot on a per-page basis.
+
+Typically this function should be used by drivers to set caching- and
+encryption bits different than those of \fIvma->vm_page_prot\fP, because
+the caching- or encryption mode may not be known at \fBmmap\fP time.
+This is ok as long as \fIvma->vm_page_prot\fP is not used by the core vm
+to set caching and encryption bits for those vmas (except for COW pages).
+This is ensured by core vm only modifying these page table entries using
+functions that don't touch caching- or encryption bits, using \fBpte_modify\fP
+if needed. (See for example \fBmprotect\fP).
+Also when new page-table entries are created, this is only done using the
+\fBfault\fP callback, and never using the value of vma->vm_page_prot,
+except for page-table entries that point to anonymous pages as the result
+of COW.
+.SH "CONTEXT"
+Process context.  May allocate using GFP_KERNEL.
+.SH "RETURN"
+vm_fault_t value.

@@ -1,0 +1,18 @@
+.TH "ubifs_fixup_free_space" 9 "ubifs_fixup_free_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_fixup_free_space \- find & fix all LEBs with free space.
+.SH SYNOPSIS
+.B "int" ubifs_fixup_free_space
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function fixes up LEBs containing free space on first mount, if the
+appropriate flag was set when the FS was created. Each LEB with one or more
+empty min. I/O unit (i.e. free-space-count > 0) is re-written, to make sure
+the free space is actually erased. E.g., this is necessary for some NAND
+chips, since the free space may have been programmed like real "0xff" data
+(generating a non-0xff ECC), causing future writes to the not-really-erased
+NAND pages to behave badly. After the space is fixed up, the superblock flag
+is cleared, so that this is skipped for all future mounts.

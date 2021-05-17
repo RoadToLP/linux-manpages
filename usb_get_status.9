@@ -1,0 +1,37 @@
+.TH "usb_get_status" 9 "usb_get_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_status \- issues a GET_STATUS call
+.SH SYNOPSIS
+.B "int" usb_get_status
+.BI "(struct usb_device *dev "  ","
+.BI "int recip "  ","
+.BI "int type "  ","
+.BI "int target "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose status is being checked
+.IP "recip" 12
+USB_RECIP_*; for device, interface, or endpoint
+.IP "type" 12
+USB_STATUS_TYPE_*; for standard or PTM status types
+.IP "target" 12
+zero (for device), else interface or endpoint number
+.IP "data" 12
+pointer to two bytes of bitmap data
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+Returns device, interface, or endpoint status.  Normally only of
+interest to see if the device is self powered, or has enabled the
+remote wakeup facility; or whether a bulk or interrupt endpoint
+is halted ("stalled").
+
+Bits in these status bitmaps are set using the SET_FEATURE request,
+and cleared using the CLEAR_FEATURE request.  The \fBusb_clear_halt\fP
+function should be used to clear halt ("stall") status.
+
+This call is synchronous, and may not be used in an interrupt context.
+
+Returns 0 and the status value in *\fIdata\fP (in host byte order) on success,
+or else the status code from the underlying \fBusb_control_msg\fP call.

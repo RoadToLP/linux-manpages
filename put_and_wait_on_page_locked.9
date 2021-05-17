@@ -1,0 +1,20 @@
+.TH "put_and_wait_on_page_locked" 9 "put_and_wait_on_page_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+put_and_wait_on_page_locked \- Drop a reference and wait for it to be unlocked
+.SH SYNOPSIS
+.B "int" put_and_wait_on_page_locked
+.BI "(struct page *page "  ","
+.BI "int state "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+The page to wait for.
+.IP "state" 12
+The sleep state (TASK_KILLABLE, TASK_UNINTERRUPTIBLE, etc).
+.SH "DESCRIPTION"
+The caller should hold a reference on \fIpage\fP.  They expect the page to
+become unlocked relatively soon, but do not wish to hold up migration
+(for example) by holding the reference while waiting for the page to
+come unlocked.  After this function returns, the caller should not
+dereference \fIpage\fP.
+.SH "RETURN"
+0 if the page was unlocked or -EINTR if interrupted by a signal.

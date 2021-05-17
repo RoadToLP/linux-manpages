@@ -1,0 +1,15 @@
+.TH "ipa_smp2p_notify" 9 "ipa_smp2p_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_smp2p_notify \- use SMP2P to tell modem about IPA clock state
+.SH SYNOPSIS
+.B "void" ipa_smp2p_notify
+.BI "(struct ipa_smp2p *smp2p "  ");"
+.SH ARGUMENTS
+.IP "smp2p" 12
+SMP2P information
+.SH "DESCRIPTION"
+This is called either when the modem has requested it (by triggering
+the modem clock query IPA interrupt) or whenever the AP is shutting down
+(via a panic notifier).  It sets the two SMP2P state bits--one saying
+whether the IPA clock is running, and the other indicating the first bit
+is valid.

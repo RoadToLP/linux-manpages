@@ -1,0 +1,16 @@
+.TH "mv_check_atapi_dma" 9 "mv_check_atapi_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mv_check_atapi_dma \- Filter ATAPI cmds which are unsuitable for DMA.
+.SH SYNOPSIS
+.B "int" mv_check_atapi_dma
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+queued command to check for chipset/DMA compatibility.
+
+The bmdma engines cannot handle speculative data sizes
+(bytecount under/over flow).  So only allow DMA for
+data transfer commands with known data sizes.
+
+LOCKING:
+Inherited from caller.

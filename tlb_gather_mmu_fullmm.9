@@ -1,0 +1,18 @@
+.TH "tlb_gather_mmu_fullmm" 9 "tlb_gather_mmu_fullmm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tlb_gather_mmu_fullmm \- initialize an mmu_gather structure for page-table tear-down
+.SH SYNOPSIS
+.B "void" tlb_gather_mmu_fullmm
+.BI "(struct mmu_gather *tlb "  ","
+.BI "struct mm_struct *mm "  ");"
+.SH ARGUMENTS
+.IP "tlb" 12
+the mmu_gather structure to initialize
+.IP "mm" 12
+the mm_struct of the target address space
+.SH "DESCRIPTION"
+In this case, \fImm\fP is without users and we're going to destroy the
+full address space (exit/execve).
+
+Called to initialize an (on-stack) mmu_gather structure for page-table
+tear-down from \fImm\fP.

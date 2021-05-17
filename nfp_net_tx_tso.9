@@ -1,0 +1,24 @@
+.TH "nfp_net_tx_tso" 9 "nfp_net_tx_tso" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_net_tx_tso \- Set up Tx descriptor for LSO
+.SH SYNOPSIS
+.B "void" nfp_net_tx_tso
+.BI "(struct nfp_net_r_vector *r_vec "  ","
+.BI "struct nfp_net_tx_buf *txbuf "  ","
+.BI "struct nfp_net_tx_desc *txd "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u32 md_bytes "  ");"
+.SH ARGUMENTS
+.IP "r_vec" 12
+per-ring structure
+.IP "txbuf" 12
+Pointer to driver soft TX descriptor
+.IP "txd" 12
+Pointer to HW TX descriptor
+.IP "skb" 12
+Pointer to SKB
+.IP "md_bytes" 12
+Prepend length
+.SH "DESCRIPTION"
+Set up Tx descriptor for LSO, do nothing for non-LSO skbs.
+Return error on packet header greater than maximum supported LSO header size.

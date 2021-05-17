@@ -1,0 +1,22 @@
+.TH "pkcs7_supply_detached_data" 9 "pkcs7_supply_detached_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pkcs7_supply_detached_data \- Supply the data needed to verify a PKCS#7 message
+.SH SYNOPSIS
+.B "int" pkcs7_supply_detached_data
+.BI "(struct pkcs7_message *pkcs7 "  ","
+.BI "const void *data "  ","
+.BI "size_t datalen "  ");"
+.SH ARGUMENTS
+.IP "pkcs7" 12
+The PKCS#7 message
+.IP "data" 12
+The data to be verified
+.IP "datalen" 12
+The amount of data
+.SH "DESCRIPTION"
+Supply the detached data needed to verify a PKCS#7 message.  Note that no
+attempt to retain/pin the data is made.  That is left to the caller.  The
+data will not be modified by \fBpkcs7_verify\fP and will not be freed when the
+PKCS#7 message is freed.
+
+Returns -EINVAL if data is already supplied in the message, 0 otherwise.

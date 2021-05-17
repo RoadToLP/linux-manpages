@@ -1,0 +1,21 @@
+.TH "xattr_full_name" 9 "xattr_full_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xattr_full_name \- Compute full attribute name from suffix
+.SH SYNOPSIS
+.B "const char *" xattr_full_name
+.BI "(const struct xattr_handler *handler "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "handler" 12
+handler of the xattr_handler operation
+.IP "name" 12
+name passed to the xattr_handler operation
+.SH "DESCRIPTION"
+The get and set xattr handler operations are called with the remainder of
+the attribute name after skipping the handler's prefix: for example, "foo"
+is passed to the get operation of a handler with prefix "user." to get
+attribute "user.foo".  The full name is still "there" in the name though.
+.SH "NOTE"
+the list xattr handler operation when called from the vfs is passed a
+NULL name; some file systems use this operation internally, with varying
+semantics.

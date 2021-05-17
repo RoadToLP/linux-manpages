@@ -1,0 +1,29 @@
+.TH "lnc_add" 9 "lnc_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lnc_add \- add a leaf node to the leaf node cache.
+.SH SYNOPSIS
+.B "int" lnc_add
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_zbranch *zbr "  ","
+.BI "const void *node "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "zbr" 12
+zbranch of leaf node
+.IP "node" 12
+leaf node
+.SH "DESCRIPTION"
+Leaf nodes are non-index nodes directory entry nodes or data nodes. The
+purpose of the leaf node cache is to save re-reading the same leaf node over
+and over again. Most things are cached by VFS, however the file system must
+cache directory entries for readdir and for resolving hash collisions. The
+present implementation of the leaf node cache is extremely simple, and
+allows for error returns that are not used but that may be needed if a more
+complex implementation is created.
+
+Note, this function does not add the \fInode\fP object to LNC directly, but
+allocates a copy of the object and adds the copy to LNC. The reason for this
+is that \fInode\fP has been allocated outside of the TNC subsystem and will be
+used with \fIc->tnc_mutex\fP unlock upon return from the TNC subsystem. But LNC
+may be changed at any time, e.g. freed by the shrinker.

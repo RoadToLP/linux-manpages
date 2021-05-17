@@ -1,0 +1,25 @@
+.TH "update_queue" 9 "update_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_queue \- look for tasks that can be completed.
+.SH SYNOPSIS
+.B "int" update_queue
+.BI "(struct sem_array *sma "  ","
+.BI "int semnum "  ","
+.BI "struct wake_q_head *wake_q "  ");"
+.SH ARGUMENTS
+.IP "sma" 12
+semaphore array.
+.IP "semnum" 12
+semaphore that was modified.
+.IP "wake_q" 12
+lockless wake-queue head.
+.SH "DESCRIPTION"
+update_queue must be called after a semaphore in a semaphore array
+was modified. If multiple semaphores were modified, update_queue must
+be called with semnum = -1, as well as with the number of each modified
+semaphore.
+The tasks that must be woken up are added to \fIwake_q\fP. The return code
+is stored in q->pid.
+The function internally checks if const operations can now succeed.
+
+The function return 1 if at least one semop was completed successfully.

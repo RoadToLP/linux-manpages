@@ -1,0 +1,31 @@
+.TH "shrink_slab" 9 "shrink_slab" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+shrink_slab \- shrink slab caches
+.SH SYNOPSIS
+.B "unsigned long" shrink_slab
+.BI "(gfp_t gfp_mask "  ","
+.BI "int nid "  ","
+.BI "struct mem_cgroup *memcg "  ","
+.BI "int priority "  ");"
+.SH ARGUMENTS
+.IP "gfp_mask" 12
+allocation context
+.IP "nid" 12
+node whose slab caches to target
+.IP "memcg" 12
+memory cgroup whose slab caches to target
+.IP "priority" 12
+the reclaim priority
+.SH "DESCRIPTION"
+Call the shrink functions to age shrinkable caches.
+
+\fInid\fP is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+unaware shrinkers will receive a node id of 0 instead.
+
+\fImemcg\fP specifies the memory cgroup to target. Unaware shrinkers
+are called only if it is the root cgroup.
+
+\fIpriority\fP is sc->priority, we take the number of objects and >> by priority
+in order to get the scan target.
+
+Returns the number of reclaimed slab objects.

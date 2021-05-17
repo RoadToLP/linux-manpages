@@ -1,0 +1,21 @@
+.TH "dev_pm_opp_of_add_table" 9 "dev_pm_opp_of_add_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_of_add_table \- Initialize opp table from device tree
+.SH SYNOPSIS
+.B "int" dev_pm_opp_of_add_table
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device pointer used to lookup OPP table.
+.SH "DESCRIPTION"
+Register the initial OPP table with the OPP library for given device.
+.SH "RETURN"
+0            On success OR
+Duplicate OPPs (both freq and volt are same) and opp->available
+-EEXIST      Freq are same and volt are different OR
+Duplicate OPPs (both freq and volt are same) and !opp->available
+-ENOMEM      Memory allocation failure
+-ENODEV      when 'operating-points' property is not found or is invalid data
+in device node.
+-ENODATA     when empty 'operating-points' property is found
+-EINVAL      when invalid entries are found in opp-v2 table

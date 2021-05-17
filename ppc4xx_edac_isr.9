@@ -1,0 +1,20 @@
+.TH "ppc4xx_edac_isr" 9 "ppc4xx_edac_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ppc4xx_edac_isr \- SEC (CE) and DED (UE) interrupt service routine
+.SH SYNOPSIS
+.B "irqreturn_t" ppc4xx_edac_isr
+.BI "(int irq "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The virtual interrupt number being serviced.
+.IP "dev_id" 12
+A pointer to the EDAC memory controller instance
+associated with the interrupt being handled.
+.SH "DESCRIPTION"
+This routine implements the interrupt handler for both correctable
+(CE) and uncorrectable (UE) ECC errors for the ibm,sdram-4xx-ddr2
+controller. It simply calls through to the same routine used during
+polling to check, report and clear the ECC status.
+
+Unconditionally returns IRQ_HANDLED.

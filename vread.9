@@ -1,0 +1,33 @@
+.TH "vread" 9 "vread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vread \- read vmalloc area in a safe way.
+.SH SYNOPSIS
+.B "long" vread
+.BI "(char *buf "  ","
+.BI "char *addr "  ","
+.BI "unsigned long count "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+buffer for reading data
+.IP "addr" 12
+vm address.
+.IP "count" 12
+number of bytes to be read.
+.SH "DESCRIPTION"
+This function checks that addr is a valid vmalloc'ed area, and
+copy data from that area to a given buffer. If the given memory range
+of [addr...addr+count) includes some valid address, data is copied to
+proper area of \fIbuf\fP. If there are memory holes, they'll be zero-filled.
+IOREMAP area is treated as memory hole and no copy is done.
+
+If [addr...addr+count) doesn't includes any intersects with alive
+vm_struct area, returns 0. \fIbuf\fP should be kernel's buffer.
+.SH "NOTE"
+In usual ops, \fBvread\fP is never necessary because the caller
+should know \fBvmalloc\fP area is valid and can use \fBmemcpy\fP.
+This is for routines which have to access vmalloc area without
+any information, as /dev/kmem.
+.SH "RETURN"
+number of bytes for which addr and buf should be increased
+(same number as \fIcount\fP) or 0 if [addr...addr+count) doesn't
+include any intersection with valid vmalloc area

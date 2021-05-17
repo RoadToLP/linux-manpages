@@ -1,0 +1,25 @@
+.TH "ib_umem_odp_get" 9 "ib_umem_odp_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_umem_odp_get \- Create a umem_odp for a userspace va
+.SH SYNOPSIS
+.B "struct ib_umem_odp *" ib_umem_odp_get
+.BI "(struct ib_device *device "  ","
+.BI "unsigned long addr "  ","
+.BI "size_t size "  ","
+.BI "int access "  ","
+.BI "const struct mmu_interval_notifier_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+IB device struct to get UMEM
+.IP "addr" 12
+userspace virtual address to start at
+.IP "size" 12
+length of region to pin
+.IP "access" 12
+IB_ACCESS_xxx flags for memory being pinned
+.IP "ops" 12
+MMU interval ops, currently only \fIinvalidate\fP
+.SH "DESCRIPTION"
+The driver should use when the access flags indicate ODP memory. It avoids
+pinning, instead, stores the mm for future page fault handling in
+conjunction with MMU notifiers.

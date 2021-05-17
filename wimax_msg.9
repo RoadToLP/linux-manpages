@@ -1,0 +1,30 @@
+.TH "wimax_msg" 9 "wimax_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_msg \- Send a message to user space
+.SH SYNOPSIS
+.B "int" wimax_msg
+.BI "(struct wimax_dev *wimax_dev "  ","
+.BI "const char *pipe_name "  ","
+.BI "const void *buf "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor (properly referenced)
+.IP "pipe_name" 12
+"named pipe" the message will be sent to
+.IP "buf" 12
+pointer to the message to send.
+.IP "size" 12
+size of the buffer pointed to by \fIbuf\fP (in bytes).
+.IP "gfp_flags" 12
+flags for memory allocation.
+.SH "RETURN"
+0 if ok, negative errno code on error.
+.SH "DESCRIPTION"
+
+Sends a free-form message to user space on the device \fIwimax_dev\fP.
+
+Once the \fIskb\fP is given to this function, who will own it and will
+release it when done (unless it returns error).
+.SH "NOTES"

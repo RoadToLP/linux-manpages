@@ -1,0 +1,26 @@
+.TH "device_find_child" 9 "device_find_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_find_child \- device iterator for locating a particular device.
+.SH SYNOPSIS
+.B "struct device *" device_find_child
+.BI "(struct device *parent "  ","
+.BI "void *data "  ","
+.BI "int (*match)(struct device *dev, void *data) "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+parent struct device
+.IP "data" 12
+Data to pass to match function
+.IP "match" 12
+Callback function to check device
+.SH "DESCRIPTION"
+This is similar to the \fBdevice_for_each_child\fP function above, but it
+returns a reference to a device that is 'found' for later use, as
+determined by the \fImatch\fP callback.
+
+The callback should return 0 if the device doesn't match and non-zero
+if it does.  If the callback returns non-zero and a reference to the
+current device can be obtained, this function will return to the caller
+and not iterate over any more devices.
+.SH "NOTE"
+you will need to drop the reference with \fBput_device\fP after use.

@@ -1,0 +1,25 @@
+.TH "lpfc_sli4_fcf_pri_list_add" 9 "lpfc_sli4_fcf_pri_list_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_fcf_pri_list_add \- 
+.SH SYNOPSIS
+.B "int" lpfc_sli4_fcf_pri_list_add
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint16_t fcf_index "  ","
+.BI "struct fcf_record *new_fcf_record "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "fcf_index" 12
+the index of the fcf record to add
+.IP "new_fcf_record" 12
+pointer to a new FCF record.
+This routine checks the priority of the fcf_index to be added.
+If it is a lower priority than the current head of the fcf_pri list
+then it is added to the list in the right order.
+If it is the same priority as the current head of the list then it
+is added to the head of the list and its bit in the rr_bmask is set.
+If the fcf_index to be added is of a higher priority than the current
+head of the list then the rr_bmask is cleared, its bit is set in the
+rr_bmask and it is added to the head of the list.
+.SH "RETURN"
+0=success 1=failure

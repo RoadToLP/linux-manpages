@@ -1,0 +1,18 @@
+.TH "__lpfc_sli_get_els_sglq" 9 "__lpfc_sli_get_els_sglq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_sli_get_els_sglq \- Allocates an iocb object from sgl pool
+.SH SYNOPSIS
+.B "struct lpfc_sglq *" __lpfc_sli_get_els_sglq
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *piocbq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "piocbq" 12
+Pointer to the iocbq.
+.SH "DESCRIPTION"
+The driver calls this function with either the nvme ls ring lock
+or the fc els ring lock held depending on the iocb usage.  This function
+gets a new driver sglq object from the sglq list. If the list is not empty
+then it is successful, it returns pointer to the newly allocated sglq
+object else it returns NULL.

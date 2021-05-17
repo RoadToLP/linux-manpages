@@ -1,0 +1,18 @@
+.TH "fcoe_ctlr_select" 9 "fcoe_ctlr_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_select \- Select the best FCF (if possible)
+.SH SYNOPSIS
+.B "struct fcoe_fcf *" fcoe_ctlr_select
+.BI "(struct fcoe_ctlr *fip "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller
+.SH "DESCRIPTION"
+Returns the selected FCF, or NULL if none are usable.
+
+If there are conflicting advertisements, no FCF can be chosen.
+
+If there is already a selected FCF, this will choose a better one or
+an equivalent one that hasn't already been sent a FLOGI.
+
+Called with lock held.

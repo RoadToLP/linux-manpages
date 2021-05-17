@@ -1,0 +1,17 @@
+.TH "comedi_legacy_detach" 9 "comedi_legacy_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_legacy_detach \- A generic (*detach) function for legacy drivers
+.SH SYNOPSIS
+.B "void" comedi_legacy_detach
+.BI "(struct comedi_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.SH "DESCRIPTION"
+This is a simple, generic 'detach' handler for legacy COMEDI devices that
+just use a single I/O port region and possibly an IRQ and that don't need
+any special clean-up for their private device or subdevice storage.  It
+can also be called by a driver-specific 'detach' handler.
+
+If \fIdev->irq\fP is non-zero, the IRQ will be freed.  If \fIdev->iobase\fP and
+\fIdev->iolen\fP are both non-zero, the I/O port region will be released.

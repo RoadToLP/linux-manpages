@@ -1,0 +1,32 @@
+.TH "ixgbe_ptp_set_timestamp_mode" 9 "ixgbe_ptp_set_timestamp_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_ptp_set_timestamp_mode \- setup the hardware for the requested mode
+.SH SYNOPSIS
+.B "int" ixgbe_ptp_set_timestamp_mode
+.BI "(struct ixgbe_adapter *adapter "  ","
+.BI "struct hwtstamp_config *config "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the private ixgbe adapter structure
+.IP "config" 12
+the hwtstamp configuration requested
+.SH "DESCRIPTION"
+Outgoing time stamping can be enabled and disabled. Play nice and
+disable it when requested, although it shouldn't cause any overhead
+when no packet needs it. At most one packet in the queue may be
+marked for time stamping, otherwise it would be impossible to tell
+for sure to which packet the hardware time stamp belongs.
+
+Incoming time stamping has to be configured via the hardware
+filters. Not all combinations are supported, in particular event
+type has to be specified. Matching the kind of event packet is
+not supported, with the exception of "all V2 events regardless of
+level 2 or 4".
+
+Since hardware always timestamps Path delay packets when timestamping V2
+packets, regardless of the type specified in the register, only use V2
+Event mode. This more accurately tells the user what the hardware is going
+to do anyways.
+.SH "NOTE"
+this may modify the hwtstamp configuration towards a more general
+mode, if required to support the specifically requested mode.

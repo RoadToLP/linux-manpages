@@ -1,0 +1,16 @@
+.TH "mbox_chan_received_data" 9 "mbox_chan_received_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mbox_chan_received_data \- A way for controller driver to push data received from remote to the upper layer.
+.SH SYNOPSIS
+.B "void" mbox_chan_received_data
+.BI "(struct mbox_chan *chan "  ","
+.BI "void *mssg "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Pointer to the mailbox channel on which RX happened.
+.IP "mssg" 12
+Client specific message typecasted as void *
+.SH "DESCRIPTION"
+After startup and before shutdown any data received on the chan
+is passed on to the API via atomic \fBmbox_chan_received_data\fP.
+The controller should ACK the RX only after this call returns.

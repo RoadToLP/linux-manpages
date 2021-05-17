@@ -1,0 +1,15 @@
+.TH "btrfs_discard_purge_list" 9 "btrfs_discard_purge_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_purge_list \- purge discard lists
+.SH SYNOPSIS
+.B "void" btrfs_discard_purge_list
+.BI "(struct btrfs_discard_ctl *discard_ctl "  ");"
+.SH ARGUMENTS
+.IP "discard_ctl" 12
+discard control
+.SH "DESCRIPTION"
+If we are disabling async discard, we may have intercepted block groups that
+are completely free and ready for the unused_bgs path.  As discarding will
+now happen in transaction commit or not at all, we can safely mark the
+corresponding block groups as unused and they will be sent on their merry
+way to the unused_bgs list.

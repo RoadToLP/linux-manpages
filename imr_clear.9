@@ -1,0 +1,19 @@
+.TH "imr_clear" 9 "imr_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+imr_clear \- delete an Isolated Memory Region by index
+.SH SYNOPSIS
+.B "int" imr_clear
+.BI "(int reg "  ");"
+.SH ARGUMENTS
+.IP "reg" 12
+imr index to remove.
+.SH "DESCRIPTION"
+
+This function allows you to delete an IMR by an address range specified
+by the index of the IMR. Useful for initial sanitization of the IMR
+address map.
+imr_ge(base, size); delete IMR from base to base+size.
+.SH "RETURN"
+-EINVAL on invalid range or out or range id
+-ENODEV if reg is valid but no IMR exists or is locked
+0 on success.

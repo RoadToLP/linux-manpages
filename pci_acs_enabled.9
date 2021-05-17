@@ -1,0 +1,23 @@
+.TH "pci_acs_enabled" 9 "pci_acs_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_acs_enabled \- test ACS against required flags for a given device
+.SH SYNOPSIS
+.B "bool" pci_acs_enabled
+.BI "(struct pci_dev *pdev "  ","
+.BI "u16 acs_flags "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+device to test
+.IP "acs_flags" 12
+required PCI ACS flags
+.SH "DESCRIPTION"
+Return true if the device supports the provided flags.  Automatically
+filters out flags that are not implemented on multifunction devices.
+
+Note that this interface checks the effective ACS capabilities of the
+device rather than the actual capabilities.  For instance, most single
+function endpoints are not required to support ACS because they have no
+opportunity for peer-to-peer access.  We therefore return 'true'
+regardless of whether the device exposes an ACS capability.  This makes
+it much easier for callers of this function to ignore the actual type
+or topology of the device when testing ACS support.

@@ -1,0 +1,22 @@
+.TH "acpi_dev_get_first_match_dev" 9 "acpi_dev_get_first_match_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_get_first_match_dev \- Return the first match of ACPI device
+.SH SYNOPSIS
+.B "struct acpi_device *" acpi_dev_get_first_match_dev
+.BI "(const char *hid "  ","
+.BI "const char *uid "  ","
+.BI "s64 hrv "  ");"
+.SH ARGUMENTS
+.IP "hid" 12
+Hardware ID of the device.
+.IP "uid" 12
+Unique ID of the device, pass NULL to not check _UID
+.IP "hrv" 12
+Hardware Revision of the device, pass -1 to not check _HRV
+.SH "DESCRIPTION"
+Return the first match of ACPI device if a matching device was present
+at the moment of invocation, or NULL otherwise.
+
+The caller is responsible to call \fBput_device\fP on the returned device.
+
+See additional information in \fBacpi_dev_present\fP as well.

@@ -1,0 +1,21 @@
+.TH "ib_cm_listen" 9 "ib_cm_listen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_cm_listen \- Initiates listening on the specified service ID for connection and service ID resolution requests.
+.SH SYNOPSIS
+.B "int" ib_cm_listen
+.BI "(struct ib_cm_id *cm_id "  ","
+.BI "__be64 service_id "  ","
+.BI "__be64 service_mask "  ");"
+.SH ARGUMENTS
+.IP "cm_id" 12
+Connection identifier associated with the listen request.
+.IP "service_id" 12
+Service identifier matched against incoming connection
+and service ID resolution requests.  The service ID should be specified
+network-byte order.  If set to IB_CM_ASSIGN_SERVICE_ID, the CM will
+assign a service ID to the caller.
+.IP "service_mask" 12
+Mask applied to service ID used to listen across a
+range of service IDs.  If set to 0, the service ID is matched
+exactly.  This parameter is ignored if service_id is set to
+IB_CM_ASSIGN_SERVICE_ID.

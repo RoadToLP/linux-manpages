@@ -1,0 +1,31 @@
+.TH "cnstr_shdsc_chachapoly" 9 "cnstr_shdsc_chachapoly" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cnstr_shdsc_chachapoly \- Chacha20 + Poly1305 generic AEAD (rfc7539) and IPsec ESP (rfc7634, a.k.a. rfc7539esp) shared descriptor (non-protocol).
+.SH SYNOPSIS
+.B "void" cnstr_shdsc_chachapoly
+.BI "(u32 * const desc "  ","
+.BI "struct alginfo *cdata "  ","
+.BI "struct alginfo *adata "  ","
+.BI "unsigned int ivsize "  ","
+.BI "unsigned int icvsize "  ","
+.BI "const bool encap "  ","
+.BI "const bool is_qi "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+pointer to buffer used for descriptor construction
+.IP "cdata" 12
+pointer to block cipher transform definitions
+Valid algorithm values - OP_ALG_ALGSEL_CHACHA20 ANDed with
+OP_ALG_AAI_AEAD.
+.IP "adata" 12
+pointer to authentication transform definitions
+Valid algorithm values - OP_ALG_ALGSEL_POLY1305 ANDed with
+OP_ALG_AAI_AEAD.
+.IP "ivsize" 12
+initialization vector size
+.IP "icvsize" 12
+integrity check value (ICV) size (truncated or full)
+.IP "encap" 12
+true if encapsulation, false if decapsulation
+.IP "is_qi" 12
+true when called from caam/qi

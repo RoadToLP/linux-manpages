@@ -1,0 +1,15 @@
+.TH "fm10k_mbx_verify_remote_crc" 9 "fm10k_mbx_verify_remote_crc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_verify_remote_crc \- Verify the CRC is correct for current data
+.SH SYNOPSIS
+.B "s32" fm10k_mbx_verify_remote_crc
+.BI "(struct fm10k_mbx_info *mbx "  ");"
+.SH ARGUMENTS
+.IP "mbx" 12
+pointer to mailbox
+
+This function will take all data that has been provided from the remote
+end and generate a CRC for it.  This is stored in mbx->remote.  The
+CRC for the header is then computed and if the result is non-zero this
+is an error and we signal an error dropping all data and resetting the
+connection.

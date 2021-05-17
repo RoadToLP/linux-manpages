@@ -1,0 +1,23 @@
+.TH "vmw_query_bo_switch_commit" 9 "vmw_query_bo_switch_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_query_bo_switch_commit \- Finalize switching pinned query buffer
+.SH SYNOPSIS
+.B "void" vmw_query_bo_switch_commit
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_sw_context *sw_context "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+The device private structure.
+.IP "sw_context" 12
+The software context used for this command submission batch.
+.SH "DESCRIPTION"
+This function will check if we're switching query buffers, and will then,
+issue a dummy occlusion query wait used as a query barrier. When the fence
+object following that query wait has signaled, we are sure that all preceding
+queries have finished, and the old query buffer can be unpinned. However,
+since both the new query buffer and the old one are fenced with that fence,
+we can do an asynchronus unpin now, and be sure that the old query buffer
+won't be moved until the fence has signaled.
+
+As mentioned above, both the new - and old query buffers need to be fenced
+using a sequence emitted *after* calling this function.

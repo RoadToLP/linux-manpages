@@ -1,0 +1,16 @@
+.TH "dev_pm_clear_wake_irq" 9 "dev_pm_clear_wake_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_clear_wake_irq \- Detach a device IO interrupt wake IRQ
+.SH SYNOPSIS
+.B "void" dev_pm_clear_wake_irq
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device entry
+.SH "DESCRIPTION"
+Detach a device wake IRQ and free resources.
+
+Note that it's OK for drivers to call this without calling
+\fBdev_pm_set_wake_irq\fP as all the driver instances may not have
+a wake IRQ configured. This avoid adding wake IRQ specific
+checks into the drivers.

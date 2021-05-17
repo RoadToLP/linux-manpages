@@ -1,0 +1,19 @@
+.TH "kvm_arm_setup_debug" 9 "kvm_arm_setup_debug" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_arm_setup_debug \- set up debug related stuff
+.SH SYNOPSIS
+.B "void" kvm_arm_setup_debug
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+the vcpu pointer
+.SH "DESCRIPTION"
+This is called before each entry into the hypervisor to setup any
+debug related registers.
+
+Additionally, KVM only traps guest accesses to the debug registers if
+the guest is not actively using them (see the KVM_ARM64_DEBUG_DIRTY
+flag on vcpu->arch.flags).  Since the guest must not interfere
+with the hardware state when debugging the guest, we must ensure that
+trapping is enabled whenever we are debugging the guest using the
+debug registers.

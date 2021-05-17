@@ -1,0 +1,17 @@
+.TH "usb_get_dev" 9 "usb_get_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_dev \- increments the reference count of the usb device structure
+.SH SYNOPSIS
+.B "struct usb_device *" usb_get_dev
+.BI "(struct usb_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device being referenced
+.SH "DESCRIPTION"
+Each live reference to a device should be refcounted.
+
+Drivers for USB interfaces should normally record such references in
+their \fBprobe\fP methods, when they bind to an interface, and release
+them by calling \fBusb_put_dev\fP, in their \fBdisconnect\fP methods.
+.SH "RETURN"
+A pointer to the device with the incremented reference counter.

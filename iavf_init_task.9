@@ -1,0 +1,17 @@
+.TH "iavf_init_task" 9 "iavf_init_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_init_task \- worker thread to perform delayed initialization
+.SH SYNOPSIS
+.B "void" iavf_init_task
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+pointer to work_struct containing our data
+.SH "DESCRIPTION"
+This task completes the work that was begun in probe. Due to the nature
+of VF-PF communications, we may need to wait tens of milliseconds to get
+responses back from the PF. Rather than busy-wait in probe and bog down the
+whole system, we'll do it in a task so we can sleep.
+This task only runs during driver init. Once we've established
+communications with the PF driver and set up our netdev, the watchdog
+takes over.

@@ -1,0 +1,24 @@
+.TH "rx_offload" 9 "rx_offload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rx_offload \- process a received offload packet
+.SH SYNOPSIS
+.B "int" rx_offload
+.BI "(struct t3cdev *tdev "  ","
+.BI "struct sge_rspq *rq "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct sk_buff *rx_gather[] "  ","
+.BI "unsigned int gather_idx "  ");"
+.SH ARGUMENTS
+.IP "tdev" 12
+the offload device receiving the packet
+.IP "rq" 12
+the response queue that received the packet
+.IP "skb" 12
+the packet
+.IP "rx_gather" 12
+a gather list of packets if we are building a bundle
+.IP "gather_idx" 12
+index of the next available slot in the bundle
+
+Process an ingress offload pakcet and add it to the offload ingress
+queue.  Returns the index of the next available slot in the bundle.

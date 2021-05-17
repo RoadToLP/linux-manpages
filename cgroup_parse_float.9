@@ -1,0 +1,23 @@
+.TH "cgroup_parse_float" 9 "cgroup_parse_float" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_parse_float \- parse a floating number
+.SH SYNOPSIS
+.B "int" cgroup_parse_float
+.BI "(const char *input "  ","
+.BI "unsigned dec_shift "  ","
+.BI "s64 *v "  ");"
+.SH ARGUMENTS
+.IP "input" 12
+input string
+.IP "dec_shift" 12
+number of decimal digits to shift
+.IP "v" 12
+output
+.SH "DESCRIPTION"
+Parse a decimal floating point number in \fIinput\fP and store the result in
+\fIv\fP with decimal point right shifted \fIdec_shift\fP times.  For example, if
+\fIinput\fP is "12.3456" and \fIdec_shift\fP is 3, *\fIv\fP will be set to 12345.
+Returns 0 on success, -errno otherwise.
+
+There's nothing cgroup specific about this function except that it's
+currently the only user.

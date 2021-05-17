@@ -1,0 +1,18 @@
+.TH "cache_setup_acpi" 9 "cache_setup_acpi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cache_setup_acpi \- Override CPU cache topology with data from the PPTT
+.SH SYNOPSIS
+.B "int" cache_setup_acpi
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+Kernel logical CPU number
+.SH "DESCRIPTION"
+Updates the global cache info provided by \fBcpu_get_cacheinfo\fP
+when there are valid properties in the acpi_pptt_cache nodes. A
+successful parse may not result in any updates if none of the
+cache levels have any valid flags set.  Further, a unique value is
+associated with each known CPU cache entry. This unique value
+can be used to determine whether caches are shared between CPUs.
+.SH "RETURN"
+-ENOENT on failure to find table, or 0 on success

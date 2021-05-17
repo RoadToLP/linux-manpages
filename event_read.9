@@ -1,0 +1,27 @@
+.TH "event_read" 9 "event_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_read \- Callback for passing event data to userspace via read().
+.SH SYNOPSIS
+.B "ssize_t" event_read
+.BI "(struct file *filp "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *pos "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+The file we are reading from.
+.IP "buf" 12
+Pointer to userspace buffer to fill with one event.
+.IP "count" 12
+Number of bytes requested. Must be at least EC_ACPI_MAX_EVENT_SIZE.
+.IP "pos" 12
+File position pointer, irrelevant since we don't support seeking.
+.SH "DESCRIPTION"
+Removes the first event from the queue, places it in the passed buffer.
+
+If there are no events in the the queue, then one of two things happens,
+depending on if the file was opened in nonblocking mode: If in nonblocking
+mode, then return -EAGAIN to say there's no data. If in blocking mode, then
+block until an event is available.
+.SH "RETURN"
+Number of bytes placed in buffer, negative error code on failure.

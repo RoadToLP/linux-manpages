@@ -1,0 +1,22 @@
+.TH "test__parse_no_sample_id_all" 9 "test__parse_no_sample_id_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+test__parse_no_sample_id_all \- test parsing with no sample_id_all bit set.
+.SH SYNOPSIS
+.B "int" test__parse_no_sample_id_all
+.BI "(int subtest __maybe_unused "  ","
+.BI "int subtest __maybe_unused "  ");"
+.SH ARGUMENTS
+.IP "__maybe_unused" 12
+-- undescribed --
+.IP "__maybe_unused" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function tests parsing data produced on kernel's that do not support the
+sample_id_all bit.  Without the sample_id_all bit, non-sample events (such as
+mmap events) do not have an id sample appended, and consequently logic
+designed to determine the id will not work.  That case happens when there is
+more than one selected event, so this test processes three events: 2
+attributes representing the selected events and one mmap event.
+.SH "RETURN"
+0 on success, -1 if the test fails.

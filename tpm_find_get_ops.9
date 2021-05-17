@@ -1,0 +1,19 @@
+.TH "tpm_find_get_ops" 9 "tpm_find_get_ops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tpm_find_get_ops \- find and reserve a TPM chip
+.SH SYNOPSIS
+.B "struct tpm_chip *" tpm_find_get_ops
+.BI "(struct tpm_chip *chip "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+a \fIstruct tpm_chip\fP instance, NULL for the default chip
+.SH "DESCRIPTION"
+Finds a TPM chip and reserves its class device and operations. The chip must
+be released with \fBtpm_put_ops\fP after use.
+This function is for internal use only. It supports existing TPM callers
+by accepting NULL, but those callers should be converted to pass in a chip
+directly.
+.SH "RETURN"
+A reserved \fIstruct tpm_chip\fP instance.
+NULL if a chip is not found.
+NULL if the chip is not available.

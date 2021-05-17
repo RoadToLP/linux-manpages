@@ -1,0 +1,25 @@
+.TH "iio_format_value" 9 "iio_format_value" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_format_value \- Formats a IIO value into its string representation
+.SH SYNOPSIS
+.B "ssize_t" iio_format_value
+.BI "(char *buf "  ","
+.BI "unsigned int type "  ","
+.BI "int size "  ","
+.BI "int *vals "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+The buffer to which the formatted value gets written
+which is assumed to be big enough (i.e. PAGE_SIZE).
+.IP "type" 12
+One of the IIO_VAL_* constants. This decides how the val
+and val2 parameters are formatted.
+.IP "size" 12
+Number of IIO value entries contained in vals
+.IP "vals" 12
+Pointer to the values, exact meaning depends on the
+type parameter.
+.SH "RETURN"
+0 by default, a negative number on failure or the
+total number of characters written for a type that belongs
+to the IIO_VAL_* constant.

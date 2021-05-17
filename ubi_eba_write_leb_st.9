@@ -1,0 +1,37 @@
+.TH "ubi_eba_write_leb_st" 9 "ubi_eba_write_leb_st" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_eba_write_leb_st \- write data to static volume.
+.SH SYNOPSIS
+.B "int" ubi_eba_write_leb_st
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_volume *vol "  ","
+.BI "int lnum "  ","
+.BI "const void *buf "  ","
+.BI "int len "  ","
+.BI "int used_ebs "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "vol" 12
+volume description object
+.IP "lnum" 12
+logical eraseblock number
+.IP "buf" 12
+data to write
+.IP "len" 12
+how many bytes to write
+.IP "used_ebs" 12
+how many logical eraseblocks will this volume contain
+.SH "DESCRIPTION"
+This function writes data to logical eraseblock \fIlnum\fP of static volume
+\fIvol\fP. The \fIused_ebs\fP argument should contain total number of logical
+eraseblock in this static volume.
+
+When writing to the last logical eraseblock, the \fIlen\fP argument doesn't have
+to be aligned to the minimal I/O unit size. Instead, it has to be equivalent
+to the real data size, although the \fIbuf\fP buffer has to contain the
+alignment. In all other cases, \fIlen\fP has to be aligned.
+
+It is prohibited to write more than once to logical eraseblocks of static
+volumes. This function returns zero in case of success and a negative error
+code in case of failure.

@@ -1,0 +1,19 @@
+.TH "_base_writeq" 9 "_base_writeq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_base_writeq \- 64 bit write to MMIO
+.SH SYNOPSIS
+.B "void" _base_writeq
+.BI "(__u64 b "  ","
+.BI "volatile void __iomem *addr "  ","
+.BI "spinlock_t *writeq_lock "  ");"
+.SH ARGUMENTS
+.IP "b" 12
+data payload
+.IP "addr" 12
+address in MMIO space
+.IP "writeq_lock" 12
+spin lock
+.SH "DESCRIPTION"
+Glue for handling an atomic 64 bit word to MMIO. This special handling takes
+care of 32 bit environment where its not quarenteed to send the entire word
+in one transfer.

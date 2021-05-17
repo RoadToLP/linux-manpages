@@ -1,0 +1,23 @@
+.TH "__sg_free_table" 9 "__sg_free_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__sg_free_table \- Free a previously mapped sg table
+.SH SYNOPSIS
+.B "void" __sg_free_table
+.BI "(struct sg_table *table "  ","
+.BI "unsigned int max_ents "  ","
+.BI "unsigned int nents_first_chunk "  ","
+.BI "sg_free_fn *free_fn "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+The sg table header to use
+.IP "max_ents" 12
+The maximum number of entries per single scatterlist
+.IP "nents_first_chunk" 12
+Number of entries int the (preallocated) first
+scatterlist chunk, 0 means no such preallocated first chunk
+.IP "free_fn" 12
+Free function
+.SH "DESCRIPTION"
+Free an sg table previously allocated and setup with
+\fB__sg_alloc_table\fP.  The \fImax_ents\fP value must be identical to
+that previously used with \fB__sg_alloc_table\fP.

@@ -1,0 +1,30 @@
+.TH "vic_register" 9 "vic_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vic_register \- Register a VIC.
+.SH SYNOPSIS
+.B "void" vic_register
+.BI "(void __iomem *base "  ","
+.BI "unsigned int parent_irq "  ","
+.BI "unsigned int irq "  ","
+.BI "u32 valid_sources "  ","
+.BI "u32 resume_sources "  ","
+.BI "struct device_node *node "  ");"
+.SH ARGUMENTS
+.IP "base" 12
+The base address of the VIC.
+.IP "parent_irq" 12
+The parent IRQ if cascaded, else 0.
+.IP "irq" 12
+The base IRQ for the VIC.
+.IP "valid_sources" 12
+bitmask of valid interrupts
+.IP "resume_sources" 12
+bitmask of interrupts allowed for resume sources.
+.IP "node" 12
+The device tree node associated with the VIC.
+.SH "DESCRIPTION"
+Register the VIC with the system device tree so that it can be notified
+of suspend and resume requests and ensure that the correct actions are
+taken to re-instate the settings on resume.
+
+This also configures the IRQ domain for the VIC.

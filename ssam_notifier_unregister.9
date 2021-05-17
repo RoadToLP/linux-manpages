@@ -1,0 +1,21 @@
+.TH "ssam_notifier_unregister" 9 "ssam_notifier_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_notifier_unregister \- Unregister an event notifier.
+.SH SYNOPSIS
+.B "int" ssam_notifier_unregister
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "struct ssam_event_notifier *n "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller the notifier has been registered on.
+.IP "n" 12
+The event notifier to unregister.
+.SH "DESCRIPTION"
+Unregister an event notifier and decrement the usage counter of the
+associated SAM event. If the usage counter reaches zero, the event will be
+disabled.
+.SH "RETURN"
+Returns zero on success, -ENOENT if the given notifier block has
+not been registered on the controller. If the given notifier block was the
+last one associated with its specific event, returns the status of the
+event-disable EC-command.

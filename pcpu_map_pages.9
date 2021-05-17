@@ -1,0 +1,25 @@
+.TH "pcpu_map_pages" 9 "pcpu_map_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_map_pages \- map pages into a pcpu_chunk
+.SH SYNOPSIS
+.B "int" pcpu_map_pages
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "struct page **pages "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "pages" 12
+pages array containing pages to be mapped
+.IP "page_start" 12
+page index of the first page to map
+.IP "page_end" 12
+page index of the last page to map + 1
+.SH "DESCRIPTION"
+For each cpu, map pages [\fIpage_start\fP,\fIpage_end\fP) into \fIchunk\fP.  The
+caller is responsible for calling \fBpcpu_post_map_flush\fP after all
+mappings are complete.
+
+This function is responsible for setting up whatever is necessary for
+reverse lookup (addr -> chunk).

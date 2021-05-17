@@ -1,0 +1,19 @@
+.TH "firmware_request_cache" 9 "firmware_request_cache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+firmware_request_cache \- cache firmware for suspend so resume can use it
+.SH SYNOPSIS
+.B "int" firmware_request_cache
+.BI "(struct device *device "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+device for which firmware should be cached for
+.IP "name" 12
+name of firmware file
+.SH "DESCRIPTION"
+There are some devices with an optimization that enables the device to not
+require loading firmware on system reboot. This optimization may still
+require the firmware present on resume from suspend. This routine can be
+used to ensure the firmware is present on resume from suspend in these
+situations. This helper is not compatible with drivers which use
+\fBrequest_firmware_into_buf\fP or \fBrequest_firmware_nowait\fP with no uevent set.

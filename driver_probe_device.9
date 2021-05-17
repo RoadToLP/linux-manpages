@@ -1,0 +1,20 @@
+.TH "driver_probe_device" 9 "driver_probe_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+driver_probe_device \- attempt to bind device & driver together
+.SH SYNOPSIS
+.B "int" driver_probe_device
+.BI "(struct device_driver *drv "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+driver to bind a device to
+.IP "dev" 12
+device to try to bind to the driver
+.SH "DESCRIPTION"
+This function returns -ENODEV if the device is not registered,
+1 if the device is bound successfully and 0 otherwise.
+
+This function must be called with \fIdev\fP lock held.  When called for a
+USB interface, \fIdev->parent\fP lock must be held as well.
+
+If the device has a parent, runtime-resume the parent before driver probing.

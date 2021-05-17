@@ -1,0 +1,18 @@
+.TH "omap_enable_hwecc_bch" 9 "omap_enable_hwecc_bch" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_enable_hwecc_bch \- Program GPMC to perform BCH ECC calculation
+.SH SYNOPSIS
+.B "void __maybe_unused" omap_enable_hwecc_bch
+.BI "(struct nand_chip *chip "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "mode" 12
+Read/Write mode
+.SH "DESCRIPTION"
+When using BCH with SW correction (i.e. no ELM), sector size is set
+to 512 bytes and we use BCH_WRAPMODE_6 wrapping mode
+for both reading and writing with:
+eccsize0 = 0  (no additional protected byte in spare area)
+eccsize1 = 32 (skip 32 nibbles = 16 bytes per sector in spare area)

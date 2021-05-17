@@ -1,0 +1,16 @@
+.TH "component_unbind_all" 9 "component_unbind_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+component_unbind_all \- unbind all components of an aggregate driver
+.SH SYNOPSIS
+.B "void" component_unbind_all
+.BI "(struct device *master_dev "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "master_dev" 12
+device with the aggregate driver
+.IP "data" 12
+opaque pointer, passed to all components
+.SH "DESCRIPTION"
+Unbinds all components of the aggregate \fIdev\fP by passing \fIdata\fP to their
+\fIcomponent_ops.unbind\fP functions. Should be called from
+\fIcomponent_master_ops.unbind\fP.

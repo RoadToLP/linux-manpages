@@ -1,0 +1,16 @@
+.TH "drm_crtc_accurate_vblank_count" 9 "drm_crtc_accurate_vblank_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_accurate_vblank_count \- retrieve the master vblank counter
+.SH SYNOPSIS
+.B "u64" drm_crtc_accurate_vblank_count
+.BI "(struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+which counter to retrieve
+.SH "DESCRIPTION"
+This function is similar to \fBdrm_crtc_vblank_count\fP but this function
+interpolates to handle a race with vblank interrupts using the high precision
+timestamping support.
+
+This is mostly useful for hardware that can obtain the scanout position, but
+doesn't have a hardware frame counter.

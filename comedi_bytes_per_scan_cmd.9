@@ -1,0 +1,23 @@
+.TH "comedi_bytes_per_scan_cmd" 9 "comedi_bytes_per_scan_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_bytes_per_scan_cmd \- Get length of asynchronous command "scan" in bytes
+.SH SYNOPSIS
+.B "unsigned int" comedi_bytes_per_scan_cmd
+.BI "(struct comedi_subdevice *s "  ","
+.BI "struct comedi_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+COMEDI subdevice.
+.IP "cmd" 12
+COMEDI command.
+.SH "DESCRIPTION"
+Determines the overall scan length according to the subdevice type and the
+number of channels in the scan for the specified command.
+
+For digital input, output or input/output subdevices, samples for
+multiple channels are assumed to be packed into one or more unsigned
+short or unsigned int values according to the subdevice's SDF_LSAMPL
+flag.  For other types of subdevice, samples are assumed to occupy a
+whole unsigned short or unsigned int according to the SDF_LSAMPL flag.
+
+Returns the overall scan length in bytes.

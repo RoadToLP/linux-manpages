@@ -1,0 +1,20 @@
+.TH "ath5k_hw_write_rate_duration" 9 "ath5k_hw_write_rate_duration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_write_rate_duration \- Fill rate code to duration table
+.SH SYNOPSIS
+.B "void" ath5k_hw_write_rate_duration
+.BI "(struct ath5k_hw *ah "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.SH "DESCRIPTION"
+Write the rate code to duration table upon hw reset. This is a helper for
+\fBath5k_hw_pcu_init\fP. It seems all this is doing is setting an ACK timeout on
+the hardware, based on current mode, for each rate. The rates which are
+capable of short preamble (802.11b rates 2Mbps, 5.5Mbps, and 11Mbps) have
+different rate code so we write their value twice (one for long preamble
+and one for short).
+.SH "NOTE"
+Band doesn't matter here, if we set the values for OFDM it works
+on both a and g modes. So all we have to do is set values for all g rates
+that include all OFDM and CCK rates.

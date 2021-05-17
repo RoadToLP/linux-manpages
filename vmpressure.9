@@ -1,0 +1,34 @@
+.TH "vmpressure" 9 "vmpressure" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmpressure \- Account memory pressure through scanned/reclaimed ratio
+.SH SYNOPSIS
+.B "void" vmpressure
+.BI "(gfp_t gfp "  ","
+.BI "struct mem_cgroup *memcg "  ","
+.BI "bool tree "  ","
+.BI "unsigned long scanned "  ","
+.BI "unsigned long reclaimed "  ");"
+.SH ARGUMENTS
+.IP "gfp" 12
+reclaimer's gfp mask
+.IP "memcg" 12
+cgroup memory controller handle
+.IP "tree" 12
+legacy subtree mode
+.IP "scanned" 12
+number of pages scanned
+.IP "reclaimed" 12
+number of pages reclaimed
+.SH "DESCRIPTION"
+This function should be called from the vmscan reclaim path to account
+"instantaneous" memory pressure (scanned/reclaimed ratio). The raw
+pressure index is then further refined and averaged over time.
+
+If \fItree\fP is set, vmpressure is in traditional userspace reporting
+mode: \fImemcg\fP is considered the pressure root and userspace is
+notified of the entire subtree's reclaim efficiency.
+
+If \fItree\fP is not set, reclaim efficiency is recorded for \fImemcg\fP, and
+only in-kernel users are notified.
+
+This function does not return any value.

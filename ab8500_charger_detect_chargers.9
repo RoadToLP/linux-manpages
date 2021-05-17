@@ -1,0 +1,24 @@
+.TH "ab8500_charger_detect_chargers" 9 "ab8500_charger_detect_chargers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ab8500_charger_detect_chargers \- Detect the connected chargers
+.SH SYNOPSIS
+.B "int" ab8500_charger_detect_chargers
+.BI "(struct ab8500_charger *di "  ","
+.BI "bool probe "  ");"
+.SH ARGUMENTS
+.IP "di" 12
+pointer to the ab8500_charger structure
+.IP "probe" 12
+if probe, don't delay and wait for HW
+.SH "DESCRIPTION"
+Returns the type of charger connected.
+For USB it will not mean we can actually charge from it
+but that there is a USB cable connected that we have to
+identify. This is used during startup when we don't get
+interrupts of the charger detection
+
+Returns an integer value, that means,
+NO_PW_CONN  no power supply is connected
+AC_PW_CONN  if the AC power supply is connected
+USB_PW_CONN  if the USB power supply is connected
+AC_PW_CONN + USB_PW_CONN if USB and AC power supplies are both connected

@@ -1,0 +1,19 @@
+.TH "spider_net_release_tx_chain" 9 "spider_net_release_tx_chain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spider_net_release_tx_chain \- processes sent tx descriptors
+.SH SYNOPSIS
+.B "int" spider_net_release_tx_chain
+.BI "(struct spider_net_card *card "  ","
+.BI "int brutal "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+adapter structure
+.IP "brutal" 12
+if set, don't care about whether descriptor seems to be in use
+.SH "DESCRIPTION"
+returns 0 if the tx ring is empty, otherwise 1.
+
+spider_net_release_tx_chain releases the tx descriptors that spider has
+finished with (if non-brutal) or simply release tx descriptors (if brutal).
+If some other context is calling this function, we return 1 so that we're
+scheduled again (if we were scheduled) and will not lose initiative.

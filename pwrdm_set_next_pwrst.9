@@ -1,0 +1,18 @@
+.TH "pwrdm_set_next_pwrst" 9 "pwrdm_set_next_pwrst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_set_next_pwrst \- set next powerdomain power state
+.SH SYNOPSIS
+.B "int" pwrdm_set_next_pwrst
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 pwrst "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to set
+.IP "pwrst" 12
+one of the PWRDM_POWER_* macros
+.SH "DESCRIPTION"
+Set the powerdomain \fIpwrdm\fP's next power state to \fIpwrst\fP.  The powerdomain
+may not enter this state immediately if the preconditions for this state
+have not been satisfied.  Returns -EINVAL if the powerdomain pointer is
+null or if the power state is invalid for the powerdomin, or returns 0
+upon success.

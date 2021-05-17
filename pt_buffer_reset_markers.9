@@ -1,0 +1,20 @@
+.TH "pt_buffer_reset_markers" 9 "pt_buffer_reset_markers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pt_buffer_reset_markers \- place interrupt and stop bits in the buffer
+.SH SYNOPSIS
+.B "int" pt_buffer_reset_markers
+.BI "(struct pt_buffer *buf "  ","
+.BI "struct perf_output_handle *handle "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+PT buffer.
+.IP "handle" 12
+Current output handle.
+.SH "DESCRIPTION"
+Place INT and STOP marks to prevent overwriting old data that the consumer
+hasn't yet collected and waking up the consumer after a certain fraction of
+the buffer has filled up. Only needed and sensible for non-snapshot counters.
+
+This obviously relies on buf::head to figure out buffer markers, so it has
+to be called after \fBpt_buffer_reset_offsets\fP and before the hardware tracing
+is enabled.

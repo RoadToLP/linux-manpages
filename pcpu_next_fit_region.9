@@ -1,0 +1,27 @@
+.TH "pcpu_next_fit_region" 9 "pcpu_next_fit_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_next_fit_region \- finds fit areas for a given allocation request
+.SH SYNOPSIS
+.B "void" pcpu_next_fit_region
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int alloc_bits "  ","
+.BI "int align "  ","
+.BI "int *bit_off "  ","
+.BI "int *bits "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "alloc_bits" 12
+size of allocation
+.IP "align" 12
+alignment of area (max PAGE_SIZE)
+.IP "bit_off" 12
+chunk offset
+.IP "bits" 12
+size of free area
+.SH "DESCRIPTION"
+Finds the next free region that is viable for use with a given size and
+alignment.  This only returns if there is a valid area to be used for this
+allocation.  block->first_free is returned if the allocation request fits
+within the block to see if the request can be fulfilled prior to the contig
+hint.

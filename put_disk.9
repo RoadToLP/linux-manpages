@@ -1,0 +1,15 @@
+.TH "put_disk" 9 "put_disk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+put_disk \- decrements the gendisk refcount
+.SH SYNOPSIS
+.B "void" put_disk
+.BI "(struct gendisk *disk "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+the struct gendisk to decrement the refcount for
+.SH "DESCRIPTION"
+This decrements the refcount for the struct gendisk. When this reaches 0
+we'll have \fBdisk_release\fP called.
+.SH "CONTEXT"
+Any context, but the last reference must not be dropped from
+atomic context.

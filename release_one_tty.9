@@ -1,0 +1,20 @@
+.TH "release_one_tty" 9 "release_one_tty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+release_one_tty \- release tty structure memory
+.SH SYNOPSIS
+.B "void" release_one_tty
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work of tty we are obliterating
+
+Releases memory associated with a tty structure, and clears out the
+driver table slots. This function is called when a device is no longer
+in use. It also gets called when setup of a device fails.
+
+Locking:
+takes the file list lock internally when working on the list
+of ttys that the driver keeps.
+
+This method gets called from a work queue so that the driver private
+cleanup ops can sleep (needed for USB at least)

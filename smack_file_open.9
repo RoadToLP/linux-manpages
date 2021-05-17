@@ -1,0 +1,16 @@
+.TH "smack_file_open" 9 "smack_file_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smack_file_open \- Smack dentry open processing
+.SH SYNOPSIS
+.B "int" smack_file_open
+.BI "(struct file *file "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+the object
+.SH "DESCRIPTION"
+Set the security blob in the file structure.
+Allow the open only if the task has read access. There are
+many read operations (e.g. fstat) that you can do with an
+fd even if you have the file open write-only.
+
+Returns 0 if current has access, error code otherwise

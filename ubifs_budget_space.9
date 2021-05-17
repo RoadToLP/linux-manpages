@@ -1,0 +1,20 @@
+.TH "ubifs_budget_space" 9 "ubifs_budget_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_budget_space \- ensure there is enough space to complete an operation.
+.SH SYNOPSIS
+.B "int" ubifs_budget_space
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_budget_req *req "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "req" 12
+budget request
+.SH "DESCRIPTION"
+This function allocates budget for an operation. It uses pessimistic
+approximation of how much flash space the operation needs. The goal of this
+function is to make sure UBIFS always has flash space to flush all dirty
+pages, dirty inodes, and dirty znodes (liability). This function may force
+commit, garbage-collection or write-back. Returns zero in case of success,
+-ENOSPC if there is no free space and other negative error codes in case of
+failures.

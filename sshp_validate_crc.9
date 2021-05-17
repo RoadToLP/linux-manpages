@@ -1,0 +1,20 @@
+.TH "sshp_validate_crc" 9 "sshp_validate_crc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sshp_validate_crc \- Validate a CRC in raw message data.
+.SH SYNOPSIS
+.B "bool" sshp_validate_crc
+.BI "(const struct ssam_span *src "  ","
+.BI "const u8 *crc "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+The span of data over which the CRC should be computed.
+.IP "crc" 12
+The pointer to the expected u16 CRC value.
+.SH "DESCRIPTION"
+Computes the CRC of the provided data span (\fIsrc\fP), compares it to the CRC
+stored at the given address (\fIcrc\fP), and returns the result of this
+comparison, i.e. true if equal. This function is intended to run on raw
+input/message data.
+.SH "RETURN"
+Returns true if the computed CRC matches the stored CRC, false
+otherwise.

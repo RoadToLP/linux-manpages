@@ -1,0 +1,26 @@
+.TH "ata_dev_get_GTF" 9 "ata_dev_get_GTF" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_dev_get_GTF \- get the drive bootup default taskfile settings
+.SH SYNOPSIS
+.B "int" ata_dev_get_GTF
+.BI "(struct ata_device *dev "  ","
+.BI "struct ata_acpi_gtf **gtf "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target ATA device
+.IP "gtf" 12
+output parameter for buffer containing _GTF taskfile arrays
+.SH "DESCRIPTION"
+This applies to both PATA and SATA drives.
+
+The _GTF method has no input parameters.
+It returns a variable number of register set values (registers
+hex 1F1..1F7, taskfiles).
+The <variable number> is not known in advance, so have ACPI-CA
+allocate the buffer as needed and return it, then free it later.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+Number of taskfiles on success, 0 if _GTF doesn't exist.  -EINVAL
+if _GTF is invalid.

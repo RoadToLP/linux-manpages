@@ -1,0 +1,16 @@
+.TH "pm_stay_awake" 9 "pm_stay_awake" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm_stay_awake \- Notify the PM core that a wakeup event is being processed.
+.SH SYNOPSIS
+.B "void" pm_stay_awake
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device the wakeup event is related to.
+.SH "DESCRIPTION"
+Notify the PM core of a wakeup event (signaled by \fIdev\fP) by calling
+__pm_stay_awake for the \fIdev\fP's wakeup source object.
+
+Call this function after detecting of a wakeup event if \fBpm_relax\fP is going
+to be called directly after processing the event (and possibly passing it to
+user space for further processing).

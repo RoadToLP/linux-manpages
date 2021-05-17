@@ -1,0 +1,19 @@
+.TH "bpf_prog_array_delete_safe_at" 9 "bpf_prog_array_delete_safe_at" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bpf_prog_array_delete_safe_at \- Replaces the program at the given index into the program array with a dummy no-op program.
+.SH SYNOPSIS
+.B "int" bpf_prog_array_delete_safe_at
+.BI "(struct bpf_prog_array *array "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "array" 12
+a bpf_prog_array
+.IP "index" 12
+the index of the program to replace
+.SH "DESCRIPTION"
+Skips over dummy programs, by not counting them, when calculating
+the position of the program to replace.
+.SH "RETURN"
+* 0          - Success
+* -EINVAL    - Invalid index value. Must be a non-negative integer.
+* -ENOENT    - Index out of range

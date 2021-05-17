@@ -1,0 +1,21 @@
+.TH "errseq_set" 9 "errseq_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+errseq_set \- set a errseq_t for later reporting
+.SH SYNOPSIS
+.B "errseq_t" errseq_set
+.BI "(errseq_t *eseq "  ","
+.BI "int err "  ");"
+.SH ARGUMENTS
+.IP "eseq" 12
+errseq_t field that should be set
+.IP "err" 12
+error to set (must be between -1 and -MAX_ERRNO)
+.SH "DESCRIPTION"
+This function sets the error in \fIeseq\fP, and increments the sequence counter
+if the last sequence was sampled at some point in the past.
+
+Any error set will always overwrite an existing error.
+.SH "RETURN"
+The previous value, primarily for debugging purposes. The
+return value should not be used as a previously sampled value in later
+calls as it will not have the SEEN flag set.

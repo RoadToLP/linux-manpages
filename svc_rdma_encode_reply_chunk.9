@@ -1,0 +1,21 @@
+.TH "svc_rdma_encode_reply_chunk" 9 "svc_rdma_encode_reply_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_encode_reply_chunk \- Encode RPC Reply's Reply chunk
+.SH SYNOPSIS
+.B "ssize_t" svc_rdma_encode_reply_chunk
+.BI "(struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "struct svc_rdma_send_ctxt *sctxt "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "rctxt" 12
+Reply context with information about the RPC Call
+.IP "sctxt" 12
+Send context for the RPC Reply
+.IP "length" 12
+size in bytes of the payload in the Reply chunk
+.SH "DESCRIPTION"
+Return values:
+On success, returns length in bytes of the Reply XDR buffer
+that was consumed by the Reply's Reply chunk
+-EMSGSIZE on XDR buffer overflow
+-E2BIG if the RPC message is larger than the Reply chunk

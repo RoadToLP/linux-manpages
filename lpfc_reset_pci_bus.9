@@ -1,0 +1,22 @@
+.TH "lpfc_reset_pci_bus" 9 "lpfc_reset_pci_bus" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_reset_pci_bus \- resets PCI bridge controller's secondary bus of an HBA
+.SH SYNOPSIS
+.B "int" lpfc_reset_pci_bus
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+lpfc_hba pointer.
+.SH "DESCRIPTION"
+Issues a PCI secondary bus reset for the phba->pcidev.
+.SH "NOTES"
+First walks the bus_list to ensure only PCI devices with Emulex
+vendor id, device ids that support hot reset, only one occurrence
+of function 0, and all ports on the bus are in offline mode to ensure the
+hot reset only affects one valid HBA.
+.SH "RETURN"
+-ENOTSUPP, cfg_enable_hba_reset must be of value 2
+-ENODEV,   NULL ptr to pcidev
+-EBADSLT,  detected invalid device
+-EBUSY,    port is not in offline state
+0,    successful

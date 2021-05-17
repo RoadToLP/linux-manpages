@@ -1,0 +1,26 @@
+.TH "drm_vma_node_allow" 9 "drm_vma_node_allow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vma_node_allow \- Add open-file to list of allowed users
+.SH SYNOPSIS
+.B "int" drm_vma_node_allow
+.BI "(struct drm_vma_offset_node *node "  ","
+.BI "struct drm_file *tag "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+Node to modify
+.IP "tag" 12
+Tag of file to remove
+.SH "DESCRIPTION"
+Add \fItag\fP to the list of allowed open-files for this node. If \fItag\fP is
+already on this list, the ref-count is incremented.
+
+The list of allowed-users is preserved across \fBdrm_vma_offset_add\fP and
+\fBdrm_vma_offset_remove\fP calls. You may even call it if the node is currently
+not added to any offset-manager.
+
+You must remove all open-files the same number of times as you added them
+before destroying the node. Otherwise, you will leak memory.
+
+This is locked against concurrent access internally.
+.SH "RETURN"
+0 on success, negative error code on internal failure (out-of-mem)

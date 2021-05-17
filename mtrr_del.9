@@ -1,0 +1,23 @@
+.TH "mtrr_del" 9 "mtrr_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mtrr_del \- delete a memory type region
+.SH SYNOPSIS
+.B "int" mtrr_del
+.BI "(int reg "  ","
+.BI "unsigned long base "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "reg" 12
+Register returned by mtrr_add
+.IP "base" 12
+Physical base address
+.IP "size" 12
+Size of region
+.SH "DESCRIPTION"
+If register is supplied then base and size are ignored. This is
+how drivers should call it.
+
+Releases an MTRR region. If the usage count drops to zero the
+register is freed and the region returns to default state.
+On success the register is returned, on failure a negative error
+code.

@@ -1,0 +1,24 @@
+.TH "list_next_or_null_rr_rcu" 9 "list_next_or_null_rr_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+list_next_or_null_rr_rcu \- get next list element in round-robin fashion.
+.SH SYNOPSIS
+.B "list_next_or_null_rr_rcu
+.BI "(head "  ","
+.BI "ptr "  ","
+.BI "type "  ","
+.BI "memb "  ");"
+.SH ARGUMENTS
+.IP "head" 12
+the head for the list.
+.IP "ptr" 12
+the list head to take the next element from.
+.IP "type" 12
+the type of the struct this is embedded in.
+.IP "memb" 12
+the name of the list_head within the struct.
+.SH "DESCRIPTION"
+Next element returned in round-robin fashion, i.e. head will be skipped,
+but if list is observed as empty, NULL will be returned.
+
+This primitive may safely run concurrently with the _rcu list-mutation
+primitives such as \fBlist_add_rcu\fP as long as it's guarded by \fBrcu_read_lock\fP.

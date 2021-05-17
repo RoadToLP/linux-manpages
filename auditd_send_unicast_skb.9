@@ -1,0 +1,15 @@
+.TH "auditd_send_unicast_skb" 9 "auditd_send_unicast_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+auditd_send_unicast_skb \- Send a record via unicast to auditd
+.SH SYNOPSIS
+.B "int" auditd_send_unicast_skb
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+audit record
+.SH "DESCRIPTION"
+Send a skb to the audit daemon, returns positive/zero values on success and
+negative values on failure; in all cases the skb will be consumed by this
+function.  If the send results in -ECONNREFUSED the connection with auditd
+will be reset.  This function may sleep so callers should not hold any locks
+where this would cause a problem.

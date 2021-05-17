@@ -1,0 +1,33 @@
+.TH "irq_timings_next_event" 9 "irq_timings_next_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_timings_next_event \- Return when the next event is supposed to arrive
+.SH SYNOPSIS
+.B "u64" irq_timings_next_event
+.BI "(u64 now "  ");"
+.SH ARGUMENTS
+.IP "now" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+During the last busy cycle, the number of interrupts is incremented
+and stored in the irq_timings structure. This information is
+necessary to:
+
+- know if the index in the table wrapped up:
+
+If more than the array size interrupts happened during the
+last busy/idle cycle, the index wrapped up and we have to
+begin with the next element in the array which is the last one
+in the sequence, otherwise it is a the index 0.
+
+- have an indication of the interrupts activity on this CPU
+(eg. irq/sec)
+
+The values are 'consumed' after inserting in the statistical model,
+thus the count is reinitialized.
+
+The array of values **must** be browsed in the time direction, the
+timestamp must increase between an element and the next one.
+
+Returns a nanosec time based estimation of the earliest interrupt,
+U64_MAX otherwise.

@@ -1,0 +1,15 @@
+.TH "batadv_hardif_cnt" 9 "batadv_hardif_cnt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_hardif_cnt \- get number of interfaces enslaved to soft interface
+.SH SYNOPSIS
+.B "size_t" batadv_hardif_cnt
+.BI "(const struct net_device *soft_iface "  ");"
+.SH ARGUMENTS
+.IP "soft_iface" 12
+soft interface to check
+.SH "DESCRIPTION"
+This function is only using RCU for locking - the result can therefore be
+off when another function is modifying the list at the same time. The
+caller can use the rtnl_lock to make sure that the count is accurate.
+.SH "RETURN"
+number of connected/enslaved hard interfaces

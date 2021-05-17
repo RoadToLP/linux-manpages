@@ -1,0 +1,20 @@
+.TH "queue_qp_for_tid_wait" 9 "queue_qp_for_tid_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queue_qp_for_tid_wait \- suspend QP on tid space
+.SH SYNOPSIS
+.B "void" queue_qp_for_tid_wait
+.BI "(struct hfi1_ctxtdata *rcd "  ","
+.BI "struct tid_queue *queue "  ","
+.BI "struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the receive context
+.IP "queue" 12
+the queue to operate on
+.IP "qp" 12
+the qp
+.SH "DESCRIPTION"
+The qp is inserted at the tail of the rcd
+wait queue and the HFI1_S_WAIT_TID_SPACE s_flag is set.
+
+Must hold the qp s_lock and the exp_lock.

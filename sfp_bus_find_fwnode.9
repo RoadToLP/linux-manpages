@@ -1,0 +1,22 @@
+.TH "sfp_bus_find_fwnode" 9 "sfp_bus_find_fwnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sfp_bus_find_fwnode \- parse and locate the SFP bus from fwnode
+.SH SYNOPSIS
+.B "struct sfp_bus *" sfp_bus_find_fwnode
+.BI "(struct fwnode_handle *fwnode "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+firmware node for the parent device (MAC or PHY)
+.SH "DESCRIPTION"
+Parse the parent device's firmware node for a SFP bus, and locate
+the sfp_bus structure, incrementing its reference count.  This must
+be put via \fBsfp_bus_put\fP when done.
+.SH "RETURN"
+- on success, a pointer to the sfp_bus structure,
+- NULL if no SFP is specified,
+- on failure, an error pointer value:
+
+- corresponding to the errors detailed for
+\fBfwnode_property_get_reference_args\fP.
+- -ENOMEM if we failed to allocate the bus.
+- an error from the upstream's \fBconnect_phy\fP method.

@@ -1,0 +1,42 @@
+.TH "lpfc_bg_setup_bpl" 9 "lpfc_bg_setup_bpl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bg_setup_bpl \- Setup BlockGuard BPL with no protection data
+.SH SYNOPSIS
+.B "int" lpfc_bg_setup_bpl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct scsi_cmnd *sc "  ","
+.BI "struct ulp_bde64 *bpl "  ","
+.BI "int datasegcnt "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "sc" 12
+pointer to scsi command we're working on
+.IP "bpl" 12
+pointer to buffer list for protection groups
+.IP "datasegcnt" 12
+number of segments of data that have been dma mapped
+.SH "DESCRIPTION"
+This function sets up BPL buffer list for protection groups of
+type LPFC_PG_TYPE_NO_DIF
+
+This is usually used when the HBA is instructed to generate
+DIFs and insert them into data stream (or strip DIF from
+incoming data stream)
+
+The buffer list consists of just one protection group described
+below:
++-------------------------+
+start of prot group  -->     |          PDE_5          |
++-------------------------+
+|          PDE_6          |
++-------------------------+
+|         Data BDE        |
++-------------------------+
+|more Data BDE's ... (opt)|
++-------------------------+
+
+
+Returns the number of BDEs added to the BPL.
+.SH "NOTE"
+Data s/g buffers have been dma mapped

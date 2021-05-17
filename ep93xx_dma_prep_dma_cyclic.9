@@ -1,0 +1,32 @@
+.TH "ep93xx_dma_prep_dma_cyclic" 9 "ep93xx_dma_prep_dma_cyclic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ep93xx_dma_prep_dma_cyclic \- prepare a cyclic DMA operation
+.SH SYNOPSIS
+.B "struct dma_async_tx_descriptor *" ep93xx_dma_prep_dma_cyclic
+.BI "(struct dma_chan *chan "  ","
+.BI "dma_addr_t dma_addr "  ","
+.BI "size_t buf_len "  ","
+.BI "size_t period_len "  ","
+.BI "enum dma_transfer_direction dir "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+channel
+.IP "dma_addr" 12
+DMA mapped address of the buffer
+.IP "buf_len" 12
+length of the buffer (in bytes)
+.IP "period_len" 12
+length of a single period
+.IP "dir" 12
+direction of the operation
+.IP "flags" 12
+tx descriptor status flags
+.SH "DESCRIPTION"
+Prepares a descriptor for cyclic DMA operation. This means that once the
+descriptor is submitted, we will be submitting in a \fIperiod_len\fP sized
+buffers and calling callback once the period has been elapsed. Transfer
+terminates only when client calls \fBdmaengine_terminate_all\fP for this
+channel.
+
+Returns a valid DMA descriptor or NULL in case of failure.

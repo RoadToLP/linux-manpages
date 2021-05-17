@@ -1,0 +1,25 @@
+.TH "ice_arfs_update_flow_rules" 9 "ice_arfs_update_flow_rules" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_arfs_update_flow_rules \- add/delete aRFS rules in HW
+.SH SYNOPSIS
+.B "void" ice_arfs_update_flow_rules
+.BI "(struct ice_vsi *vsi "  ","
+.BI "u16 idx "  ","
+.BI "struct hlist_head *add_list "  ","
+.BI "struct hlist_head *del_list "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the VSI to be forwarded to
+.IP "idx" 12
+index into the table of aRFS filter lists. Obtained from skb->hash
+.IP "add_list" 12
+list to populate with filters to be added to Flow Director
+.IP "del_list" 12
+list to populate with filters to be deleted from Flow Director
+.SH "DESCRIPTION"
+Iterate over the hlist at the index given in the aRFS hash table and
+determine if there are any aRFS entries that need to be either added or
+deleted in the HW. If the aRFS entry is marked as ICE_ARFS_INACTIVE the
+filter needs to be added to HW, else if it's marked as ICE_ARFS_ACTIVE and
+the flow has expired delete the filter from HW. The caller of this function
+is expected to add/delete rules on the add_list/del_list respectively.

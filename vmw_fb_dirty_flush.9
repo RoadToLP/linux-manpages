@@ -1,0 +1,15 @@
+.TH "vmw_fb_dirty_flush" 9 "vmw_fb_dirty_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_fb_dirty_flush \- flush dirty regions to the kms framebuffer
+.SH SYNOPSIS
+.B "void" vmw_fb_dirty_flush
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+The struct work_struct associated with this task.
+.SH "DESCRIPTION"
+This function flushes the dirty regions of the vmalloc framebuffer to the
+kms framebuffer, and if the kms framebuffer is visible, also updated the
+corresponding displays. Note that this function runs even if the kms
+framebuffer is not bound to a crtc and thus not visible, but it's turned
+off during hibernation using the par->dirty.active bool.

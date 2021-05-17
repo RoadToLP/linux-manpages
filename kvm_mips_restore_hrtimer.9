@@ -1,0 +1,33 @@
+.TH "kvm_mips_restore_hrtimer" 9 "kvm_mips_restore_hrtimer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_restore_hrtimer \- Restore hrtimer after a gap, updating expiry.
+.SH SYNOPSIS
+.B "int" kvm_mips_restore_hrtimer
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "ktime_t before "  ","
+.BI "u32 count "  ","
+.BI "int min_drift "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "before" 12
+Time before Count was saved, lower bound of drift calculation.
+.IP "count" 12
+CP0_Count at point of restore.
+.IP "min_drift" 12
+Minimum amount of drift permitted before correction.
+Must be <= 0.
+.SH "DESCRIPTION"
+Restores the timer from a particular \fIcount\fP, accounting for drift. This can
+be used in conjunction with \fBkvm_mips_freeze_timer\fP when a hardware timer is
+to be used for a period of time, but the exact ktime corresponding to the
+final Count that must be restored is not known.
+
+It is gauranteed that a timer interrupt immediately after restore will be
+handled, but not if CP0_Compare is exactly at \fIcount\fP. That case should
+already be handled when the hardware timer state is saved.
+
+Assumes !kvm_mips_count_disabled(\fIvcpu\fP) (guest CP0_Count timer is not
+stopped).
+.SH "RETURN"
+Amount of correction to count_bias due to drift.

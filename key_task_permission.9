@@ -1,0 +1,23 @@
+.TH "key_task_permission" 9 "key_task_permission" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_task_permission \- Check a key can be used
+.SH SYNOPSIS
+.B "int" key_task_permission
+.BI "(const key_ref_t key_ref "  ","
+.BI "const struct cred *cred "  ","
+.BI "enum key_need_perm need_perm "  ");"
+.SH ARGUMENTS
+.IP "key_ref" 12
+The key to check.
+.IP "cred" 12
+The credentials to use.
+.IP "need_perm" 12
+The permission required.
+.SH "DESCRIPTION"
+Check to see whether permission is granted to use a key in the desired way,
+but permit the security modules to override.
+
+The caller must hold either a ref on cred or must hold the RCU readlock.
+
+Returns 0 if successful, -EACCES if access is denied based on the
+permissions bits or the LSM check.

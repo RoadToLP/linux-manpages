@@ -1,0 +1,18 @@
+.TH "blk_ksm_intersect_modes" 9 "blk_ksm_intersect_modes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_ksm_intersect_modes \- restrict supported modes by child device
+.SH SYNOPSIS
+.B "void" blk_ksm_intersect_modes
+.BI "(struct blk_keyslot_manager *parent "  ","
+.BI "const struct blk_keyslot_manager *child "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+The keyslot manager for parent device
+.IP "child" 12
+The keyslot manager for child device, or NULL
+.SH "DESCRIPTION"
+Clear any crypto mode support bits in \fIparent\fP that aren't set in \fIchild\fP.
+If \fIchild\fP is NULL, then all parent bits are cleared.
+
+Only use this when setting up the keyslot manager for a layered device,
+before it's been exposed yet.

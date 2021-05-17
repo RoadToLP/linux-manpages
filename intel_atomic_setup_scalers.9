@@ -1,0 +1,25 @@
+.TH "intel_atomic_setup_scalers" 9 "intel_atomic_setup_scalers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_atomic_setup_scalers \- setup scalers for crtc per staged requests
+.SH SYNOPSIS
+.B "int" intel_atomic_setup_scalers
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "struct intel_crtc *intel_crtc "  ","
+.BI "struct intel_crtc_state *crtc_state "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device
+.IP "intel_crtc" 12
+intel crtc
+.IP "crtc_state" 12
+incoming crtc_state to validate and setup scalers
+.SH "DESCRIPTION"
+This function sets up scalers based on staged scaling requests for
+a \fIcrtc\fP and its planes. It is called from crtc level check path. If request
+is a supportable request, it attaches scalers to requested planes and crtc.
+
+This function takes into account the current scaler(s) in use by any planes
+not being part of this atomic state
+.SH "RETURN"
+0 - scalers were setup succesfully
+error code - otherwise

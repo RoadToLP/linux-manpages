@@ -1,0 +1,22 @@
+.TH "tty_open_by_driver" 9 "tty_open_by_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_open_by_driver \- open a tty device
+.SH SYNOPSIS
+.B "struct tty_struct *" tty_open_by_driver
+.BI "(dev_t device "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+dev_t of device to open
+.IP "filp" 12
+file pointer to tty
+
+Performs the driver lookup, checks for a reopen, or otherwise
+performs the first-time tty initialization.
+
+Returns the locked initialized or re-opened \fItty_struct\fP
+
+Claims the global tty_mutex to serialize:
+- concurrent first-time tty initialization
+- concurrent tty driver removal w/ lookup
+- concurrent tty removal from driver table

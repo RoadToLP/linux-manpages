@@ -1,0 +1,22 @@
+.TH "ec_install_handlers" 9 "ec_install_handlers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ec_install_handlers \- Install service callbacks and register query methods.
+.SH SYNOPSIS
+.B "int" ec_install_handlers
+.BI "(struct acpi_ec *ec "  ","
+.BI "struct acpi_device *device "  ");"
+.SH ARGUMENTS
+.IP "ec" 12
+Target EC.
+.IP "device" 12
+ACPI device object corresponding to \fIec\fP.
+.SH "DESCRIPTION"
+Install a handler for the EC address space type unless it has been installed
+already.  If \fIdevice\fP is not NULL, also look for EC query methods in the
+namespace and register them, and install an event (either GPE or GPIO IRQ)
+handler for the EC, if possible.
+.SH "RETURN"
+-ENODEV if the address space handler cannot be installed, which means
+"unable to handle transactions",
+-EPROBE_DEFER if GPIO IRQ acquisition needs to be deferred,
+or 0 (success) otherwise.

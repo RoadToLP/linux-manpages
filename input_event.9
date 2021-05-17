@@ -1,0 +1,28 @@
+.TH "input_event" 9 "input_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_event \- report new input event
+.SH SYNOPSIS
+.B "void" input_event
+.BI "(struct input_dev *dev "  ","
+.BI "unsigned int type "  ","
+.BI "unsigned int code "  ","
+.BI "int value "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that generated the event
+.IP "type" 12
+type of the event
+.IP "code" 12
+event code
+.IP "value" 12
+value of the event
+.SH "DESCRIPTION"
+This function should be used by drivers implementing various input
+devices to report input events. See also \fBinput_inject_event\fP.
+.SH "NOTE"
+\fBinput_event\fP may be safely used right after input device was
+allocated with \fBinput_allocate_device\fP, even before it is registered
+with \fBinput_register_device\fP, but the event will not reach any of the
+input handlers. Such early invocation of \fBinput_event\fP may be used
+to 'seed' initial state of a switch or initial position of absolute
+axis, etc.

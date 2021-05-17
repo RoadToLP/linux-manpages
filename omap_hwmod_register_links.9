@@ -1,0 +1,16 @@
+.TH "omap_hwmod_register_links" 9 "omap_hwmod_register_links" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_register_links \- register an array of hwmod links
+.SH SYNOPSIS
+.B "int" omap_hwmod_register_links
+.BI "(struct omap_hwmod_ocp_if **ois "  ");"
+.SH ARGUMENTS
+.IP "ois" 12
+pointer to an array of omap_hwmod_ocp_if to register
+.SH "DESCRIPTION"
+Intended to be called early in boot before the clock framework is
+initialized.  If \fIois\fP is not null, will register all omap_hwmods
+listed in \fIois\fP that are valid for this chip.  Returns -EINVAL if
+\fBomap_hwmod_init\fP hasn't been called before calling this function,
+-ENOMEM if the link memory area can't be allocated, or 0 upon
+success.

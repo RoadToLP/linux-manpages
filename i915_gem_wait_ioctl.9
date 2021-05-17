@@ -1,0 +1,33 @@
+.TH "i915_gem_wait_ioctl" 9 "i915_gem_wait_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_wait_ioctl \- implements DRM_IOCTL_I915_GEM_WAIT
+.SH SYNOPSIS
+.B "int" i915_gem_wait_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device pointer
+.IP "data" 12
+ioctl data blob
+.IP "file" 12
+drm file pointer
+.SH "DESCRIPTION"
+Returns 0 if successful, else an error is returned with the remaining time in
+the timeout parameter.
+-ETIME: object is still busy after timeout
+-ERESTARTSYS: signal interrupted the wait
+-ENONENT: object doesn't exist
+Also possible, but rare:
+-EAGAIN: incomplete, restart syscall
+-ENOMEM: damn
+-ENODEV: Internal IRQ fail
+-E?: The add request failed
+
+The wait ioctl with a timeout of 0 reimplements the busy ioctl. With any
+non-zero timeout parameter the wait ioctl will wait for the given number of
+nanoseconds on an object becoming unbusy. Since the wait itself does so
+without holding struct_mutex the object may become re-busied before this
+function completes. A similar but shorter * race condition exists in the busy
+ioctl

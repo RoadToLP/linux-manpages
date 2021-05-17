@@ -1,0 +1,20 @@
+.TH "lpfc_queuecommand" 9 "lpfc_queuecommand" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_queuecommand \- scsi_host_template queuecommand entry point
+.SH SYNOPSIS
+.B "int" lpfc_queuecommand
+.BI "(struct Scsi_Host *shost "  ","
+.BI "struct scsi_cmnd *cmnd "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+kernel scsi host pointer.
+.IP "cmnd" 12
+Pointer to scsi_cmnd data structure.
+.SH "DESCRIPTION"
+Driver registers this routine to scsi midlayer to submit a \fIcmd\fP to process.
+This routine prepares an IOCB from scsi command and provides to firmware.
+The \fIdone\fP callback is invoked after driver finished processing the command.
+
+Return value :
+0 - Success
+SCSI_MLQUEUE_HOST_BUSY - Block all devices served by this host temporarily.

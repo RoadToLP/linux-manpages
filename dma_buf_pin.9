@@ -1,0 +1,18 @@
+.TH "dma_buf_pin" 9 "dma_buf_pin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_buf_pin \- Lock down the DMA-buf
+.SH SYNOPSIS
+.B "int" dma_buf_pin
+.BI "(struct dma_buf_attachment *attach "  ");"
+.SH ARGUMENTS
+.IP "attach" 12
+[in]    attachment which should be pinned
+.SH "DESCRIPTION"
+Only dynamic importers (who set up \fIattach\fP with \fBdma_buf_dynamic_attach\fP) may
+call this, and only for limited use cases like scanout and not for temporary
+pin operations. It is not permitted to allow userspace to pin arbitrary
+amounts of buffers through this interface.
+
+Buffers must be unpinned by calling \fBdma_buf_unpin\fP.
+.SH "RETURN"
+0 on success, negative error code on failure.

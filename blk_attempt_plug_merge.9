@@ -1,0 +1,33 @@
+.TH "blk_attempt_plug_merge" 9 "blk_attempt_plug_merge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_attempt_plug_merge \- try to merge with %current's plugged list
+.SH SYNOPSIS
+.B "bool" blk_attempt_plug_merge
+.BI "(struct request_queue *q "  ","
+.BI "struct bio *bio "  ","
+.BI "unsigned int nr_segs "  ","
+.BI "struct request **same_queue_rq "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+request_queue new bio is being queued at
+.IP "bio" 12
+new bio being queued
+.IP "nr_segs" 12
+number of segments in \fIbio\fP
+.IP "same_queue_rq" 12
+pointer to \fIstruct request\fP that gets filled in when
+another request associated with \fIq\fP is found on the plug list
+(optional, may be NULL)
+.SH "DESCRIPTION"
+Determine whether \fIbio\fP being queued on \fIq\fP can be merged with a request
+on current's plugged list.  Returns true if merge was successful,
+otherwise false.
+
+Plugging coalesces IOs from the same issuer for the same purpose without
+going through \fIq->queue_lock\fP.  As such it's more of an issuing mechanism
+than scheduling, and the request, while may have elvpriv data, is not
+added on the elevator at this point.  In addition, we don't have
+reliable access to the elevator outside queue lock.  Only check basic
+merging parameters without querying the elevator.
+
+Caller must ensure !blk_queue_nomerges(q) beforehand.

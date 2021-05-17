@@ -1,0 +1,19 @@
+.TH "gisa_set_iam" 9 "gisa_set_iam" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gisa_set_iam \- change the GISA interruption alert mask
+.SH SYNOPSIS
+.B "int" gisa_set_iam
+.BI "(struct kvm_s390_gisa *gisa "  ","
+.BI "u8 iam "  ");"
+.SH ARGUMENTS
+.IP "gisa" 12
+gisa to operate on
+.IP "iam" 12
+new IAM value to use
+.SH "DESCRIPTION"
+Change the IAM atomically with the next alert address and the IPM
+of the GISA if the GISA is not part of the GIB alert list. All three
+fields are located in the first long word of the GISA.
+.SH "RETURN"
+0 on success
+-EBUSY in case the gisa is part of the alert list

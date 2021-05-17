@@ -1,0 +1,16 @@
+.TH "_enable_sysc" 9 "_enable_sysc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_enable_sysc \- try to bring a module out of idle via OCP_SYSCONFIG
+.SH SYNOPSIS
+.B "void" _enable_sysc
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Ensure that the OCP_SYSCONFIG register for the IP block represented
+by \fIoh\fP is set to indicate to the PRCM that the IP block is active.
+Usually this means placing the module into smart-idle mode and
+smart-standby, but if there is a bug in the automatic idle handling
+for the IP block, it may need to be placed into the force-idle or
+no-idle variants of these modes.  No return value.

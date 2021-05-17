@@ -1,0 +1,16 @@
+.TH "zfcp_qdio_siosl" 9 "zfcp_qdio_siosl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_qdio_siosl \- Trigger logging in FCP channel
+.SH SYNOPSIS
+.B "void" zfcp_qdio_siosl
+.BI "(struct zfcp_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+The zfcp_adapter where to trigger logging
+.SH "DESCRIPTION"
+Call the cio siosl function to trigger hardware logging.  This
+wrapper function sets a flag to ensure hardware logging is only
+triggered once before going through qdio shutdown.
+
+The triggers are always run from qdio tasklet context, so no
+additional synchronization is necessary.

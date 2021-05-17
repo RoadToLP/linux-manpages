@@ -1,0 +1,26 @@
+.TH "snd_dma_alloc_pages_fallback" 9 "snd_dma_alloc_pages_fallback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_dma_alloc_pages_fallback \- allocate the buffer area according to the given type with fallback
+.SH SYNOPSIS
+.B "int" snd_dma_alloc_pages_fallback
+.BI "(int type "  ","
+.BI "struct device *device "  ","
+.BI "size_t size "  ","
+.BI "struct snd_dma_buffer *dmab "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+the DMA buffer type
+.IP "device" 12
+the device pointer
+.IP "size" 12
+the buffer size to allocate
+.IP "dmab" 12
+buffer allocation record to store the allocated data
+.SH "DESCRIPTION"
+Calls the memory-allocator function for the corresponding
+buffer type.  When no space is left, this function reduces the size and
+tries to allocate again.  The size actually allocated is stored in
+res_size argument.
+.SH "RETURN"
+Zero if the buffer with the given size is allocated successfully,
+otherwise a negative value on error.

@@ -1,0 +1,42 @@
+.TH "key_create_or_update" 9 "key_create_or_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_create_or_update \- Update or create and instantiate a key.
+.SH SYNOPSIS
+.B "key_ref_t" key_create_or_update
+.BI "(key_ref_t keyring_ref "  ","
+.BI "const char *type "  ","
+.BI "const char *description "  ","
+.BI "const void *payload "  ","
+.BI "size_t plen "  ","
+.BI "key_perm_t perm "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "keyring_ref" 12
+A pointer to the destination keyring with possession flag.
+.IP "type" 12
+The type of key.
+.IP "description" 12
+The searchable description for the key.
+.IP "payload" 12
+The data to use to instantiate or update the key.
+.IP "plen" 12
+The length of \fIpayload\fP.
+.IP "perm" 12
+The permissions mask for a new key.
+.IP "flags" 12
+The quota flags for a new key.
+.SH "DESCRIPTION"
+Search the destination keyring for a key of the same description and if one
+is found, update it, otherwise create and instantiate a new one and create a
+link to it from that keyring.
+
+If perm is KEY_PERM_UNDEF then an appropriate key permissions mask will be
+concocted.
+
+Returns a pointer to the new key if successful, -ENODEV if the key type
+wasn't available, -ENOTDIR if the keyring wasn't a keyring, -EACCES if the
+caller isn't permitted to modify the keyring or the LSM did not permit
+creation of the key.
+
+On success, the possession flag from the keyring ref will be tacked on to
+the key ref before it is returned.

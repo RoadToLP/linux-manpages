@@ -1,0 +1,17 @@
+.TH "ata_sff_irq_status" 9 "ata_sff_irq_status" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_sff_irq_status \- Check if the device is busy
+.SH SYNOPSIS
+.B "u8" ata_sff_irq_status
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+port where the device is
+
+Determine if the port is currently busy. Uses altstatus
+if available in order to avoid clearing shared IRQ status
+when finding an IRQ source. Non ctl capable devices don't
+share interrupt lines fortunately for us.
+
+LOCKING:
+Inherited from caller.

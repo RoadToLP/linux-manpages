@@ -1,0 +1,24 @@
+.TH "comedi_request_region" 9 "comedi_request_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_request_region \- Request an I/O region for a legacy driver
+.SH SYNOPSIS
+.B "int" comedi_request_region
+.BI "(struct comedi_device *dev "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long len "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+COMEDI device.
+.IP "start" 12
+Base address of the I/O region.
+.IP "len" 12
+Length of the I/O region.
+.SH "DESCRIPTION"
+Requests the specified I/O port region which must start at a non-zero
+address.
+
+On success, \fIdev->iobase\fP is set to the base address of the region and
+\fIdev->iolen\fP is set to its length.
+
+Returns 0 on success, -EINVAL if \fIstart\fP is 0, or -EIO if the request
+fails.

@@ -1,0 +1,34 @@
+.TH "rxrpc_kernel_recv_data" 9 "rxrpc_kernel_recv_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rxrpc_kernel_recv_data \- Allow a kernel service to receive data/info
+.SH SYNOPSIS
+.B "int" rxrpc_kernel_recv_data
+.BI "(struct socket *sock "  ","
+.BI "struct rxrpc_call *call "  ","
+.BI "struct iov_iter *iter "  ","
+.BI "bool want_more "  ","
+.BI "u32 *_abort "  ","
+.BI "u16 *_service "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+The socket that the call exists on
+.IP "call" 12
+The call to send data through
+.IP "iter" 12
+The buffer to receive into
+.IP "want_more" 12
+True if more data is expected to be read
+.IP "_abort" 12
+Where the abort code is stored if -ECONNABORTED is returned
+.IP "_service" 12
+Where to store the actual service ID (may be upgraded)
+.SH "DESCRIPTION"
+Allow a kernel service to receive data and pick up information about the
+state of a call.  Returns 0 if got what was asked for and there's more
+available, 1 if we got what was asked for and we're at the end of the data
+and -EAGAIN if we need more data.
+
+Note that we may return -EAGAIN to drain empty packets at the end of the
+data, even if we've already copied over the requested data.
+
+*_abort should also be initialised to 0.

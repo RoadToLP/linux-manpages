@@ -1,0 +1,23 @@
+.TH "cpumask_next_wrap" 9 "cpumask_next_wrap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpumask_next_wrap \- helper to implement for_each_cpu_wrap
+.SH SYNOPSIS
+.B "int" cpumask_next_wrap
+.BI "(int n "  ","
+.BI "const struct cpumask *mask "  ","
+.BI "int start "  ","
+.BI "bool wrap "  ");"
+.SH ARGUMENTS
+.IP "n" 12
+the cpu prior to the place to search
+.IP "mask" 12
+the cpumask pointer
+.IP "start" 12
+the start point of the iteration
+.IP "wrap" 12
+assume \fIn\fP crossing \fIstart\fP terminates the iteration
+.SH "DESCRIPTION"
+Returns >= nr_cpu_ids on completion
+.SH "NOTE"
+the \fIwrap\fP argument is required for the start condition when
+we cannot assume \fIstart\fP is set in \fImask\fP.

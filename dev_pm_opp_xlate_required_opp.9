@@ -1,0 +1,23 @@
+.TH "dev_pm_opp_xlate_required_opp" 9 "dev_pm_opp_xlate_required_opp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_xlate_required_opp \- Find required OPP for @src_table OPP.
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" dev_pm_opp_xlate_required_opp
+.BI "(struct opp_table *src_table "  ","
+.BI "struct opp_table *dst_table "  ","
+.BI "struct dev_pm_opp *src_opp "  ");"
+.SH ARGUMENTS
+.IP "src_table" 12
+OPP table which has \fIdst_table\fP as one of its required OPP table.
+.IP "dst_table" 12
+Required OPP table of the \fIsrc_table\fP.
+.IP "src_opp" 12
+OPP from the \fIsrc_table\fP.
+.SH "DESCRIPTION"
+This function returns the OPP (present in \fIdst_table\fP) pointed out by the
+"required-opps" property of the \fIsrc_opp\fP (present in \fIsrc_table\fP).
+
+The callers are required to call \fBdev_pm_opp_put\fP for the returned OPP after
+use.
+.SH "RETURN"
+pointer to 'struct dev_pm_opp' on success and errorno otherwise.

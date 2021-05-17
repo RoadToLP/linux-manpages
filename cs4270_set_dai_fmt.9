@@ -1,0 +1,20 @@
+.TH "cs4270_set_dai_fmt" 9 "cs4270_set_dai_fmt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cs4270_set_dai_fmt \- configure the codec for the selected audio format
+.SH SYNOPSIS
+.B "int" cs4270_set_dai_fmt
+.BI "(struct snd_soc_dai *codec_dai "  ","
+.BI "unsigned int format "  ");"
+.SH ARGUMENTS
+.IP "codec_dai" 12
+the codec DAI
+.IP "format" 12
+a SND_SOC_DAIFMT_x value indicating the data format
+.SH "DESCRIPTION"
+This function takes a bitmask of SND_SOC_DAIFMT_x bits and programs the
+codec accordingly.
+
+Currently, this function only supports SND_SOC_DAIFMT_I2S and
+SND_SOC_DAIFMT_LEFT_J.  The CS4270 codec also supports right-justified
+data for playback only, but ASoC currently does not support different
+formats for playback vs. record.

@@ -1,0 +1,22 @@
+.TH "devlink_remote_reload_actions_performed" 9 "devlink_remote_reload_actions_performed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devlink_remote_reload_actions_performed \- Update devlink on reload actions performed which are not a direct result of devlink reload call.
+.SH SYNOPSIS
+.B "void" devlink_remote_reload_actions_performed
+.BI "(struct devlink *devlink "  ","
+.BI "enum devlink_reload_limit limit "  ","
+.BI "u32 actions_performed "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink
+.IP "limit" 12
+reload limit
+.IP "actions_performed" 12
+bitmask of actions performed
+.SH "DESCRIPTION"
+
+This should be called by a driver after performing reload actions in case it was not
+a result of devlink reload call. For example fw_activate was performed as a result
+of devlink reload triggered fw_activate on another host.
+The motivation for this function is to keep data on reload actions performed on this
+function whether it was done due to direct devlink reload call or not.

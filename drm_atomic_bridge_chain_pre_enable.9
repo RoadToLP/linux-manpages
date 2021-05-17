@@ -1,0 +1,19 @@
+.TH "drm_atomic_bridge_chain_pre_enable" 9 "drm_atomic_bridge_chain_pre_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_bridge_chain_pre_enable \- prepares for enabling all bridges in the encoder chain
+.SH SYNOPSIS
+.B "void" drm_atomic_bridge_chain_pre_enable
+.BI "(struct drm_bridge *bridge "  ","
+.BI "struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "old_state" 12
+old atomic state
+.SH "DESCRIPTION"
+Calls \fIdrm_bridge_funcs.atomic_pre_enable\fP (falls back on
+\fIdrm_bridge_funcs.pre_enable\fP) op for all the bridges in the encoder chain,
+starting from the last bridge to the first. These are called before calling
+\fIdrm_encoder_helper_funcs.atomic_enable\fP
+.SH "NOTE"
+the bridge passed should be the one closest to the encoder

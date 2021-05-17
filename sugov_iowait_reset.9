@@ -1,0 +1,20 @@
+.TH "sugov_iowait_reset" 9 "sugov_iowait_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sugov_iowait_reset \- Reset the IO boost status of a CPU.
+.SH SYNOPSIS
+.B "bool" sugov_iowait_reset
+.BI "(struct sugov_cpu *sg_cpu "  ","
+.BI "u64 time "  ","
+.BI "bool set_iowait_boost "  ");"
+.SH ARGUMENTS
+.IP "sg_cpu" 12
+the sugov data for the CPU to boost
+.IP "time" 12
+the update time from the caller
+.IP "set_iowait_boost" 12
+true if an IO boost has been requested
+.SH "DESCRIPTION"
+The IO wait boost of a task is disabled after a tick since the last update
+of a CPU. If a new IO wait boost is requested after more then a tick, then
+we enable the boost starting from IOWAIT_BOOST_MIN, which improves energy
+efficiency by ignoring sporadic wakeups from IO.

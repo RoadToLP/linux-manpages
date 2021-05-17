@@ -1,0 +1,14 @@
+.TH "__pm_runtime_barrier" 9 "__pm_runtime_barrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__pm_runtime_barrier \- Cancel pending requests and wait for completions.
+.SH SYNOPSIS
+.B "void" __pm_runtime_barrier
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.SH "DESCRIPTION"
+Flush all pending requests for the device from pm_wq and wait for all
+runtime PM operations involving the device in progress to complete.
+
+Should be called under dev->power.lock with interrupts disabled.

@@ -1,0 +1,20 @@
+.TH "ssam_controller_init" 9 "ssam_controller_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_controller_init \- Initialize SSAM controller.
+.SH SYNOPSIS
+.B "int" ssam_controller_init
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "struct serdev_device *serdev "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller to initialize.
+.IP "serdev" 12
+The serial device representing the underlying data transport.
+.SH "DESCRIPTION"
+Initializes the given controller. Does neither start receiver nor
+transmitter threads. After this call, the controller has to be hooked up to
+the serdev core separately via \fIstruct serdev_device_ops\fP, relaying calls to
+\fBssam_controller_receive_buf\fP and \fBssam_controller_write_wakeup\fP. Once the
+controller has been hooked up, transmitter and receiver threads may be
+started via \fBssam_controller_start\fP. These setup steps need to be completed
+before controller can be used for requests.

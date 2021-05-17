@@ -1,0 +1,24 @@
+.TH "__skb_flow_get_ports" 9 "__skb_flow_get_ports" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__skb_flow_get_ports \- extract the upper layer ports and return them
+.SH SYNOPSIS
+.B "__be32" __skb_flow_get_ports
+.BI "(const struct sk_buff *skb "  ","
+.BI "int thoff "  ","
+.BI "u8 ip_proto "  ","
+.BI "void *data "  ","
+.BI "int hlen "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+sk_buff to extract the ports from
+.IP "thoff" 12
+transport header offset
+.IP "ip_proto" 12
+protocol for which to get port offset
+.IP "data" 12
+raw buffer pointer to the packet, if NULL use skb->data
+.IP "hlen" 12
+packet header length, if \fIdata\fP is NULL use skb_headlen(skb)
+.SH "DESCRIPTION"
+The function will try to retrieve the ports at offset thoff + poff where poff
+is the protocol port offset returned from proto_ports_offset

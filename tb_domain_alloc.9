@@ -1,0 +1,21 @@
+.TH "tb_domain_alloc" 9 "tb_domain_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_domain_alloc \- Allocate a domain
+.SH SYNOPSIS
+.B "struct tb *" tb_domain_alloc
+.BI "(struct tb_nhi *nhi "  ","
+.BI "size_t privsize "  ");"
+.SH ARGUMENTS
+.IP "nhi" 12
+Pointer to the host controller
+.IP "privsize" 12
+Size of the connection manager private data
+.SH "DESCRIPTION"
+Allocates and initializes a new Thunderbolt domain. Connection
+managers are expected to call this and then fill in \fIcm_ops\fP
+accordingly.
+
+Call \fBtb_domain_put\fP to release the domain before it has been added
+to the system.
+.SH "RETURN"
+allocated domain structure on NULL in case of error

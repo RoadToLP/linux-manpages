@@ -1,0 +1,25 @@
+.TH "ubifs_wbuf_write_nolock" 9 "ubifs_wbuf_write_nolock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_wbuf_write_nolock \- write data to flash via write-buffer.
+.SH SYNOPSIS
+.B "int" ubifs_wbuf_write_nolock
+.BI "(struct ubifs_wbuf *wbuf "  ","
+.BI "void *buf "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "wbuf" 12
+write-buffer
+.IP "buf" 12
+node to write
+.IP "len" 12
+node length
+.SH "DESCRIPTION"
+This function writes data to flash via write-buffer \fIwbuf\fP. This means that
+the last piece of the node won't reach the flash media immediately if it
+does not take whole max. write unit (\fIc->max_write_size\fP). Instead, the node
+will sit in RAM until the write-buffer is synchronized (e.g., by timer, or
+because more data are appended to the write-buffer).
+
+This function returns zero in case of success and a negative error code in
+case of failure. If the node cannot be written because there is no more
+space in this logical eraseblock, -ENOSPC is returned.

@@ -1,0 +1,18 @@
+.TH "mem_cgroup_css_reset" 9 "mem_cgroup_css_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_css_reset \- reset the states of a mem_cgroup
+.SH SYNOPSIS
+.B "void" mem_cgroup_css_reset
+.BI "(struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "css" 12
+the target css
+.SH "DESCRIPTION"
+Reset the states of the mem_cgroup associated with \fIcss\fP.  This is
+invoked when the userland requests disabling on the default hierarchy
+but the memcg is pinned through dependency.  The memcg should stop
+applying policies and should revert to the vanilla state as it may be
+made visible again.
+
+The current implementation only resets the essential configurations.
+This needs to be expanded to cover all the visible parts.

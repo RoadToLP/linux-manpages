@@ -1,0 +1,27 @@
+.TH "ubifs_dirty_idx_node" 9 "ubifs_dirty_idx_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_dirty_idx_node \- dirty an index node.
+.SH SYNOPSIS
+.B "int" ubifs_dirty_idx_node
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int level "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+index node key
+.IP "level" 12
+index node level
+.IP "lnum" 12
+index node LEB number
+.IP "offs" 12
+index node offset
+.SH "DESCRIPTION"
+This function loads and dirties an index node so that it can be garbage
+collected. The \fIkey\fP argument has to be the key of the first child. This
+function relies on the fact that 0:0 is never a valid LEB number and offset
+for a main-area node. Returns 0 on success and a negative error code on
+failure.

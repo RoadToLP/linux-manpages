@@ -1,0 +1,37 @@
+.TH "t3_sge_init_flcntxt" 9 "t3_sge_init_flcntxt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t3_sge_init_flcntxt \- initialize an SGE free-buffer list context
+.SH SYNOPSIS
+.B "int" t3_sge_init_flcntxt
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int id "  ","
+.BI "int gts_enable "  ","
+.BI "u64 base_addr "  ","
+.BI "unsigned int size "  ","
+.BI "unsigned int bsize "  ","
+.BI "unsigned int cong_thres "  ","
+.BI "int gen "  ","
+.BI "unsigned int cidx "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter to configure
+.IP "id" 12
+the context id
+.IP "gts_enable" 12
+whether to enable GTS for the context
+.IP "base_addr" 12
+base address of queue
+.IP "size" 12
+number of queue entries
+.IP "bsize" 12
+size of each buffer for this queue
+.IP "cong_thres" 12
+threshold to signal congestion to upstream producers
+.IP "gen" 12
+initial generation value for the context
+.IP "cidx" 12
+consumer pointer
+
+Initialize an SGE free list context and make it ready for use.  The
+caller is responsible for ensuring only one context operation occurs
+at a time.

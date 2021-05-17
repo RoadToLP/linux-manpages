@@ -1,0 +1,33 @@
+.TH "inode_insert5" 9 "inode_insert5" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_insert5 \- obtain an inode from a mounted file system
+.SH SYNOPSIS
+.B "struct inode *" inode_insert5
+.BI "(struct inode *inode "  ","
+.BI "unsigned long hashval "  ","
+.BI "int (*test)(struct inode *, void *) "  ","
+.BI "int (*set)(struct inode *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pre-allocated inode to use for insert to cache
+.IP "hashval" 12
+hash value (usually inode number) to get
+.IP "test" 12
+callback used for comparisons between inodes
+.IP "set" 12
+callback used to initialize a new struct inode
+.IP "data" 12
+opaque data pointer to pass to \fItest\fP and \fIset\fP
+.SH "DESCRIPTION"
+Search for the inode specified by \fIhashval\fP and \fIdata\fP in the inode cache,
+and if present it is return it with an increased reference count. This is
+a variant of \fBiget5_locked\fP for callers that don't want to fail on memory
+allocation of inode.
+
+If the inode is not in cache, insert the pre-allocated inode to cache and
+return it locked, hashed, and with the I_NEW flag set. The file system gets
+to fill it in before unlocking it via \fBunlock_new_inode\fP.
+
+Note both \fItest\fP and \fIset\fP are called with the inode_hash_lock held, so can't
+sleep.

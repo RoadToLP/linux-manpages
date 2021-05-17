@@ -1,0 +1,25 @@
+.TH "device_create_managed_software_node" 9 "device_create_managed_software_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_create_managed_software_node \- Create a software node for a device
+.SH SYNOPSIS
+.B "int" device_create_managed_software_node
+.BI "(struct device *dev "  ","
+.BI "const struct property_entry *properties "  ","
+.BI "const struct software_node *parent "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device the software node is assigned to.
+.IP "properties" 12
+Device properties for the software node.
+.IP "parent" 12
+Parent of the software node.
+.SH "DESCRIPTION"
+Creates a software node as a managed resource for \fIdev\fP, which means the
+lifetime of the newly created software node is tied to the lifetime of \fIdev\fP.
+Software nodes created with this function should not be reused or shared
+because of that. The function takes a deep copy of \fIproperties\fP for the
+software node.
+
+Since the new software node is assigned directly to \fIdev\fP, and since it should
+not be shared, it is not returned to the caller. The function returns 0 on
+success, and errno in case of an error.

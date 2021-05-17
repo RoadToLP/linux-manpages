@@ -1,0 +1,18 @@
+.TH "gfs2_log_try_reserve" 9 "gfs2_log_try_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_log_try_reserve \- Try to make a log reservation
+.SH SYNOPSIS
+.B "bool" gfs2_log_try_reserve
+.BI "(struct gfs2_sbd *sdp "  ","
+.BI "struct gfs2_trans *tr "  ","
+.BI "unsigned int *extra_revokes "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.IP "tr" 12
+The transaction
+.IP "extra_revokes" 12
+The number of additional revokes reserved (output)
+.SH "DESCRIPTION"
+This is similar to gfs2_log_reserve, but sdp->sd_log_flush_lock must be
+held for correct revoke accounting.

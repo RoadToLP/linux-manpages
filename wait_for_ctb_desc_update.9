@@ -1,0 +1,24 @@
+.TH "wait_for_ctb_desc_update" 9 "wait_for_ctb_desc_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_ctb_desc_update \- Wait for the CT buffer descriptor update.
+.SH SYNOPSIS
+.B "int" wait_for_ctb_desc_update
+.BI "(struct guc_ct_buffer_desc *desc "  ","
+.BI "u32 fence "  ","
+.BI "u32 *status "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+buffer descriptor
+.IP "fence" 12
+response fence
+.IP "status" 12
+placeholder for status
+.SH "DESCRIPTION"
+Guc will update CT buffer descriptor with new fence and status
+after processing the command identified by the fence. Wait for
+specified fence and then read from the descriptor status of the
+command.
+.SH "RETURN"
+*    0 response received (status is valid)
+*    -ETIMEDOUT no response within hardcoded timeout
+*    -EPROTO no response, CT buffer is in error

@@ -1,0 +1,20 @@
+.TH "ixgbe_read_reg" 9 "ixgbe_read_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_read_reg \- Read from device register
+.SH SYNOPSIS
+.B "u32" ixgbe_read_reg
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "u32 reg "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+hw specific details
+.IP "reg" 12
+offset of register to read
+.SH "RETURN"
+value read or IXGBE_FAILED_READ_REG if removed
+.SH "DESCRIPTION"
+This function is used to read device registers. It checks for device
+removal by confirming any read that returns all ones by checking the
+status register value for all ones. This function avoids reading from
+the hardware if a removal was previously detected in which case it
+returns IXGBE_FAILED_READ_REG (all ones).

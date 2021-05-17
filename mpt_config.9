@@ -1,0 +1,19 @@
+.TH "mpt_config" 9 "mpt_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mpt_config \- Generic function to issue config message
+.SH SYNOPSIS
+.B "int" mpt_config
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "CONFIGPARMS *pCfg "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to an adapter structure
+.IP "pCfg" 12
+Pointer to a configuration structure. Struct contains
+action, page address, direction, physical address
+and pointer to a configuration page header
+Page header is updated.
+
+Returns 0 for success
+-EAGAIN if no msg frames currently available
+-EFAULT for non-successful reply or no reply (timeout)

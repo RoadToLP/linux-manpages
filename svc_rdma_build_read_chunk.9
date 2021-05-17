@@ -1,0 +1,18 @@
+.TH "svc_rdma_build_read_chunk" 9 "svc_rdma_build_read_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_build_read_chunk \- Build RDMA Read WQEs to pull one RDMA chunk
+.SH SYNOPSIS
+.B "int" svc_rdma_build_read_chunk
+.BI "(struct svc_rdma_read_info *info "  ","
+.BI "const struct svc_rdma_chunk *chunk "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for ongoing I/O
+.IP "chunk" 12
+Read chunk to pull
+.SH "DESCRIPTION"
+Return values:
+0: the Read WR chain was constructed successfully
+-EINVAL: there were not enough resources to finish
+-ENOMEM: allocating a local resources failed
+-EIO: a DMA mapping error occurred

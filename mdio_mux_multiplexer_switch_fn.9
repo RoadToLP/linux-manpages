@@ -1,0 +1,20 @@
+.TH "mdio_mux_multiplexer_switch_fn" 9 "mdio_mux_multiplexer_switch_fn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mdio_mux_multiplexer_switch_fn \- This function is called by the mdio-mux layer when it thinks the mdio bus multiplexer needs to switch.
+.SH SYNOPSIS
+.B "int" mdio_mux_multiplexer_switch_fn
+.BI "(int current_child "  ","
+.BI "int desired_child "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "current_child" 12
+current value of the mux register.
+.IP "desired_child" 12
+value of the 'reg' property of the target child MDIO node.
+.IP "data" 12
+Private data used by this switch_fn passed to mdio_mux_init function
+via mdio_mux_init(.., .., .., .., data, ..).
+.SH "DESCRIPTION"
+The first time this function is called, current_child == -1.
+If current_child == desired_child, then the mux is already set to the
+correct bus.

@@ -1,0 +1,15 @@
+.TH "netdev_change_features" 9 "netdev_change_features" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netdev_change_features \- recalculate device features
+.SH SYNOPSIS
+.B "void" netdev_change_features
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device to check
+
+Recalculate dev->features set and send notifications even
+if they have not changed. Should be called instead of
+\fBnetdev_update_features\fP if also dev->vlan_features might
+have changed to allow the changes to be propagated to stacked
+VLAN devices.

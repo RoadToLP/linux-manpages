@@ -1,0 +1,39 @@
+.TH "ktime_get_mono_fast_ns" 9 "ktime_get_mono_fast_ns" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ktime_get_mono_fast_ns \- Fast NMI safe access to clock monotonic
+.SH SYNOPSIS
+.B "u64" ktime_get_mono_fast_ns
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This timestamp is not guaranteed to be monotonic across an update.
+The timestamp is calculated by:
+
+now = base_mono + clock_delta * slope
+
+So if the update lowers the slope, readers who are forced to the
+not yet updated second array are still using the old steeper slope.
+
+tmono
+^
+|    o  n
+|   o n
+|  u
+| o
+|o
+|12345678---> reader order
+
+o = old slope
+u = update
+n = new slope
+
+So reader 6 will observe time going backwards versus reader 5.
+
+While other CPUs are likely to be able to observe that, the only way
+for a CPU local observation is when an NMI hits in the middle of
+the update. Timestamps taken from that NMI context might be ahead
+of the following timestamps. Callers need to be aware of that and
+deal with it.

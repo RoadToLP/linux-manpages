@@ -1,0 +1,22 @@
+.TH "drm_compat_ioctl" 9 "drm_compat_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_compat_ioctl \- 32bit IOCTL compatibility handler for DRM drivers
+.SH SYNOPSIS
+.B "long" drm_compat_ioctl
+.BI "(struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file this ioctl is called on
+.IP "cmd" 12
+ioctl cmd number
+.IP "arg" 12
+user argument
+.SH "DESCRIPTION"
+Compatibility handler for 32 bit userspace running on 64 kernels. All actual
+IOCTL handling is forwarded to \fBdrm_ioctl\fP, while marshalling structures as
+appropriate. Note that this only handles DRM core IOCTLs, if the driver has
+botched IOCTL itself, it must handle those by wrapping this function.
+.SH "RETURN"
+Zero on success, negative error code on failure.

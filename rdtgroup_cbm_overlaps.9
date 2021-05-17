@@ -1,0 +1,33 @@
+.TH "rdtgroup_cbm_overlaps" 9 "rdtgroup_cbm_overlaps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdtgroup_cbm_overlaps \- Does CBM overlap with other use of hardware
+.SH SYNOPSIS
+.B "bool" rdtgroup_cbm_overlaps
+.BI "(struct rdt_resource *r "  ","
+.BI "struct rdt_domain *d "  ","
+.BI "unsigned long cbm "  ","
+.BI "int closid "  ","
+.BI "bool exclusive "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+Resource to which domain instance \fId\fP belongs.
+.IP "d" 12
+The domain instance for which \fIclosid\fP is being tested.
+.IP "cbm" 12
+Capacity bitmask being tested.
+.IP "closid" 12
+Intended closid for \fIcbm\fP.
+.IP "exclusive" 12
+Only check if overlaps with exclusive resource groups
+.SH "DESCRIPTION"
+Resources that can be allocated using a CBM can use the CBM to control
+the overlap of these allocations. \fBrdtgroup_cmb_overlaps\fP is the test
+for overlap. Overlap test is not limited to the specific resource for
+which the CBM is intended though - when dealing with CDP resources that
+share the underlying hardware the overlap check should be performed on
+the CDP resource sharing the hardware also.
+
+Refer to description of \fB__rdtgroup_cbm_overlaps\fP for the details of the
+overlap test.
+.SH "RETURN"
+true if CBM overlap detected, false if there is no overlap

@@ -1,0 +1,22 @@
+.TH "drmm_vram_helper_init" 9 "drmm_vram_helper_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drmm_vram_helper_init \- Initializes a device's instance of &struct drm_vram_mm
+.SH SYNOPSIS
+.B "int" drmm_vram_helper_init
+.BI "(struct drm_device *dev "  ","
+.BI "uint64_t vram_base "  ","
+.BI "size_t vram_size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the DRM device
+.IP "vram_base" 12
+the base address of the video memory
+.IP "vram_size" 12
+the size of the video memory in bytes
+.SH "DESCRIPTION"
+Creates a new instance of \fIstruct drm_vram_mm\fP and stores it in
+struct \fIdrm_device.vram_mm\fP. The instance is auto-managed and cleaned
+up as part of device cleanup. Calling this function multiple times
+will generate an error message.
+.SH "RETURN"
+0 on success, or a negative errno code otherwise.

@@ -1,0 +1,28 @@
+.TH "rcu_sync_func" 9 "rcu_sync_func" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_sync_func \- Callback function managing reader access to fastpath
+.SH SYNOPSIS
+.B "void" rcu_sync_func
+.BI "(struct rcu_head *rhp "  ");"
+.SH ARGUMENTS
+.IP "rhp" 12
+Pointer to rcu_head in rcu_sync structure to use for synchronization
+.SH "DESCRIPTION"
+This function is passed to \fBcall_rcu\fP function by \fBrcu_sync_enter\fP and
+\fBrcu_sync_exit\fP, so that it is invoked after a grace period following the
+that invocation of enter/exit.
+
+If it is called by \fBrcu_sync_enter\fP it signals that all the readers were
+switched onto slow path.
+
+If it is called by \fBrcu_sync_exit\fP it takes action based on events that
+have taken place in the meantime, so that closely spaced \fBrcu_sync_enter\fP
+and \fBrcu_sync_exit\fP pairs need not wait for a grace period.
+
+If another \fBrcu_sync_enter\fP is invoked before the grace period
+ended, reset state to allow the next \fBrcu_sync_exit\fP to let the
+readers back onto their fastpaths (after a grace period).  If both
+another \fBrcu_sync_enter\fP and its matching \fBrcu_sync_exit\fP are invoked
+before the grace period ended, re-invoke \fBcall_rcu\fP on behalf of that
+\fBrcu_sync_exit\fP.  Otherwise, set all state back to idle so that readers
+can again use their fastpaths.

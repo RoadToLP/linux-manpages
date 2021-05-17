@@ -1,0 +1,26 @@
+.TH "cxlflash_afu_sync" 9 "cxlflash_afu_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_afu_sync \- builds and sends an AFU sync command
+.SH SYNOPSIS
+.B "int" cxlflash_afu_sync
+.BI "(struct afu *afu "  ","
+.BI "ctx_hndl_t ctx "  ","
+.BI "res_hndl_t res "  ","
+.BI "u8 mode "  ");"
+.SH ARGUMENTS
+.IP "afu" 12
+AFU associated with the host.
+.IP "ctx" 12
+Identifies context requesting sync.
+.IP "res" 12
+Identifies resource requesting sync.
+.IP "mode" 12
+Type of sync to issue (lightweight, heavyweight, global).
+.SH "DESCRIPTION"
+AFU sync operations are only necessary and allowed when the device is
+operating normally. When not operating normally, sync requests can occur as
+part of cleaning up resources associated with an adapter prior to removal.
+In this scenario, these requests are simply ignored (safe due to the AFU
+going away).
+.SH "RETURN"
+0 on success, -errno on failure

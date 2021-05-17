@@ -1,0 +1,29 @@
+.TH "gserial_connect" 9 "gserial_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gserial_connect \- notify TTY I/O glue that USB link is active
+.SH SYNOPSIS
+.B "int" gserial_connect
+.BI "(struct gserial *gser "  ","
+.BI "u8 port_num "  ");"
+.SH ARGUMENTS
+.IP "gser" 12
+the function, set up with endpoints and descriptors
+.IP "port_num" 12
+which port is active
+.SH "CONTEXT"
+any (usually from irq)
+.SH "DESCRIPTION"
+This is called activate endpoints and let the TTY layer know that
+the connection is active ... not unlike "carrier detect".  It won't
+necessarily start I/O queues; unless the TTY is held open by any
+task, there would be no point.  However, the endpoints will be
+activated so the USB host can perform I/O, subject to basic USB
+hardware flow control.
+
+Caller needs to have set up the endpoints and USB function in \fIdev\fP
+before calling this, as well as the appropriate (speed-specific)
+endpoint descriptors, and also have allocate \fIport_num\fP by calling
+\fI\fP\fBgserial_alloc_line\fP.
+
+Returns negative errno or zero.
+On success, ep->driver_data will be overwritten.

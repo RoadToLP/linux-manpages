@@ -1,0 +1,22 @@
+.TH "fsl_asrc_config_pair" 9 "fsl_asrc_config_pair" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_asrc_config_pair \- Configure the assigned ASRC pair
+.SH SYNOPSIS
+.B "int" fsl_asrc_config_pair
+.BI "(struct fsl_asrc_pair *pair "  ","
+.BI "bool use_ideal_rate "  ");"
+.SH ARGUMENTS
+.IP "pair" 12
+pointer to pair
+.IP "use_ideal_rate" 12
+boolean configuration
+.SH "DESCRIPTION"
+It configures those ASRC registers according to a configuration instance
+of struct asrc_config which includes in/output sample rate, width, channel
+and clock settings.
+.SH "NOTE"
+The ideal ratio configuration can work with a flexible clock rate setting.
+Using IDEAL_RATIO_RATE gives a faster converting speed but overloads ASRC.
+For a regular audio playback, the clock rate should not be slower than an
+clock rate aligning with the output sample rate; For a use case requiring
+faster conversion, set use_ideal_rate to have the faster speed.

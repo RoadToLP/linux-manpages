@@ -1,0 +1,22 @@
+.TH "omap_elm_correct_data" 9 "omap_elm_correct_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_elm_correct_data \- corrects page data area in case error reported
+.SH SYNOPSIS
+.B "int" omap_elm_correct_data
+.BI "(struct nand_chip *chip "  ","
+.BI "u_char *data "  ","
+.BI "u_char *read_ecc "  ","
+.BI "u_char *calc_ecc "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip object
+.IP "data" 12
+page data
+.IP "read_ecc" 12
+ecc read from nand flash
+.IP "calc_ecc" 12
+ecc read from HW ECC registers
+.SH "DESCRIPTION"
+Calculated ecc vector reported as zero in case of non-error pages.
+In case of non-zero ecc vector, first filter out erased-pages, and
+then process data via ELM to detect bit-flips.

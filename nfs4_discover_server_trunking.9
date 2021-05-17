@@ -1,0 +1,19 @@
+.TH "nfs4_discover_server_trunking" 9 "nfs4_discover_server_trunking" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_discover_server_trunking \- Detect server IP address trunking
+.SH SYNOPSIS
+.B "int" nfs4_discover_server_trunking
+.BI "(struct nfs_client *clp "  ","
+.BI "struct nfs_client **result "  ");"
+.SH ARGUMENTS
+.IP "clp" 12
+nfs_client under test
+.IP "result" 12
+OUT: found nfs_client, or clp
+.SH "DESCRIPTION"
+Returns zero or a negative errno.  If zero is returned,
+an nfs_client pointer is planted in "result".
+.SH "NOTE"
+since we are invoked in process context, and
+not from inside the state manager, we cannot use
+\fBnfs4_handle_reclaim_lease_error\fP.

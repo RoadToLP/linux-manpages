@@ -1,0 +1,32 @@
+.TH "tomoyo_path_matches_pattern" 9 "tomoyo_path_matches_pattern" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_path_matches_pattern \- Check whether the given filename matches the given pattern.
+.SH SYNOPSIS
+.B "bool" tomoyo_path_matches_pattern
+.BI "(const struct tomoyo_path_info *filename "  ","
+.BI "const struct tomoyo_path_info *pattern "  ");"
+.SH ARGUMENTS
+.IP "filename" 12
+The filename to check.
+.IP "pattern" 12
+The pattern to compare.
+.SH "DESCRIPTION"
+Returns true if matches, false otherwise.
+
+The following patterns are available.
+\\     \ itself.
+\ooo   Octal representation of a byte.
+\*     Zero or more repetitions of characters other than '/'.
+\\fI\fP     Zero or more repetitions of characters other than '/' or '.'.
+\?     1 byte character other than '/'.
+\$     One or more repetitions of decimal digits.
+\+     1 decimal digit.
+\X     One or more repetitions of hexadecimal digits.
+\x     1 hexadecimal digit.
+\A     One or more repetitions of alphabet characters.
+\a     1 alphabet character.
+
+\-     Subtraction operator.
+
+/\{dir\}/   '/' + 'One or more repetitions of dir/' (e.g. /dir/ /dir/dir/
+/dir/dir/dir/ ).

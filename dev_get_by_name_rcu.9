@@ -1,0 +1,18 @@
+.TH "dev_get_by_name_rcu" 9 "dev_get_by_name_rcu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_get_by_name_rcu \- find a device by its name
+.SH SYNOPSIS
+.B "struct net_device *" dev_get_by_name_rcu
+.BI "(struct net *net "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the applicable net namespace
+.IP "name" 12
+name to find
+.SH "DESCRIPTION"
+Find an interface by name.
+If the name is found a pointer to the device is returned.
+If the name is not found then NULL is returned.
+The reference counters are not incremented so the caller must be
+careful with locks. The caller must hold RCU lock.

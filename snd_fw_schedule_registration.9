@@ -1,0 +1,19 @@
+.TH "snd_fw_schedule_registration" 9 "snd_fw_schedule_registration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_fw_schedule_registration \- schedule work for sound card registration
+.SH SYNOPSIS
+.B "void" snd_fw_schedule_registration
+.BI "(struct fw_unit *unit "  ","
+.BI "struct delayed_work *dwork "  ");"
+.SH ARGUMENTS
+.IP "unit" 12
+an instance for unit on IEEE 1394 bus
+.IP "dwork" 12
+delayed work with callback function
+.SH "DESCRIPTION"
+This function is not designed for general purposes. When new unit is
+connected to IEEE 1394 bus, the bus is under bus-reset state because of
+topological change. In this state, units tend to fail both of asynchronous
+and isochronous communication. To avoid this problem, this function is used
+to postpone sound card registration after the state. The callers must
+set up instance of delayed work in advance.

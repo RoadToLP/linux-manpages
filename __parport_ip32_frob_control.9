@@ -1,0 +1,19 @@
+.TH "__parport_ip32_frob_control" 9 "__parport_ip32_frob_control" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__parport_ip32_frob_control \- change bits from the DCR register
+.SH SYNOPSIS
+.B "void" __parport_ip32_frob_control
+.BI "(struct parport *p "  ","
+.BI "unsigned int mask "  ","
+.BI "unsigned int val "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+pointer to \fIstruct parport\fP
+.IP "mask" 12
+bit mask of bits to change
+.IP "val" 12
+new value for changed bits
+.SH "DESCRIPTION"
+This is equivalent to read from the DCR, mask out the bits in \fImask\fP,
+exclusive-or with the bits in \fIval\fP, and write the result to the DCR.
+Actually, the cached contents of the DCR is used.

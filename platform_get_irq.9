@@ -1,0 +1,24 @@
+.TH "platform_get_irq" 9 "platform_get_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+platform_get_irq \- get an IRQ for a device
+.SH SYNOPSIS
+.B "int" platform_get_irq
+.BI "(struct platform_device *dev "  ","
+.BI "unsigned int num "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+platform device
+.IP "num" 12
+IRQ number index
+.SH "DESCRIPTION"
+Gets an IRQ for a platform device and prints an error message if finding the
+IRQ fails. Device drivers should check the return value for errors so as to
+not pass a negative integer value to the \fBrequest_irq\fP APIs.
+
+For example::
+
+int irq = platform_get_irq(pdev, 0);
+if (irq < 0)
+return irq;
+.SH "RETURN"
+non-zero IRQ number on success, negative error number on failure.

@@ -1,0 +1,18 @@
+.TH "ide_dma_unmap_sg" 9 "ide_dma_unmap_sg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ide_dma_unmap_sg \- clean up DMA mapping
+.SH SYNOPSIS
+.B "void" ide_dma_unmap_sg
+.BI "(ide_drive_t *drive "  ","
+.BI "struct ide_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "drive" 12
+The drive to unmap
+
+Teardown mappings after DMA has completed. This must be called
+after the completion of each use of ide_build_dmatable and before
+the next use of ide_build_dmatable. Failure to do so will cause
+an oops as only one mapping can be live for each target at a given
+time.
+.IP "cmd" 12
+-- undescribed --

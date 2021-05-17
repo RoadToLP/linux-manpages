@@ -1,0 +1,19 @@
+.TH "__igc_close" 9 "__igc_close" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__igc_close \- Disables a network interface
+.SH SYNOPSIS
+.B "int" __igc_close
+.BI "(struct net_device *netdev "  ","
+.BI "bool suspending "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+network interface device structure
+.IP "suspending" 12
+boolean indicating the device is suspending
+.SH "DESCRIPTION"
+Returns 0, this is not allowed to fail
+
+The close entry point is called when an interface is de-activated
+by the OS.  The hardware is still under the driver's control, but
+needs to be disabled.  A global MAC reset is issued to stop the
+hardware, and all transmit and receive resources are freed.

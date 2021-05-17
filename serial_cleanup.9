@@ -1,0 +1,14 @@
+.TH "serial_cleanup" 9 "serial_cleanup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serial_cleanup \- free resources post close/hangup
+.SH SYNOPSIS
+.B "void" serial_cleanup
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty to clean up
+.SH "DESCRIPTION"
+Do the resource freeing and refcount dropping for the port.
+Avoid freeing the console.
+
+Called asynchronously after the last tty kref is dropped.

@@ -1,0 +1,25 @@
+.TH "hynix_get_majority" 9 "hynix_get_majority" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hynix_get_majority \- get the value that is occurring the most in a given set of values
+.SH SYNOPSIS
+.B "int" hynix_get_majority
+.BI "(const u8 *in "  ","
+.BI "int repeat "  ","
+.BI "u8 *out "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+the array of values to test
+.IP "repeat" 12
+the size of the in array
+.IP "out" 12
+pointer used to store the output value
+.SH "DESCRIPTION"
+This function implements the 'majority check' logic that is supposed to
+overcome the unreliability of MLC NANDs when reading the OTP area storing
+the read-retry parameters.
+
+It's based on a pretty simple assumption: if we repeat the same value
+several times and then take the one that is occurring the most, we should
+find the correct value.
+Let's hope this dummy algorithm prevents us from losing the read-retry
+parameters.

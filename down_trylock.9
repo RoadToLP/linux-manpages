@@ -1,0 +1,18 @@
+.TH "down_trylock" 9 "down_trylock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+down_trylock \- try to acquire the semaphore, without waiting
+.SH SYNOPSIS
+.B "int" down_trylock
+.BI "(struct semaphore *sem "  ");"
+.SH ARGUMENTS
+.IP "sem" 12
+the semaphore to be acquired
+.SH "DESCRIPTION"
+Try to acquire the semaphore atomically.  Returns 0 if the semaphore has
+been acquired successfully or 1 if it cannot be acquired.
+
+Unlike mutex_trylock, this function can be used from interrupt context,
+and the semaphore can be released by any task or interrupt.
+.SH "NOTE"
+This return value is inverted from both spin_trylock and
+mutex_trylock!  Be careful about this when converting code.

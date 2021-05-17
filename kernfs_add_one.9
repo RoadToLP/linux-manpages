@@ -1,0 +1,16 @@
+.TH "kernfs_add_one" 9 "kernfs_add_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernfs_add_one \- add kernfs_node to parent without warning
+.SH SYNOPSIS
+.B "int" kernfs_add_one
+.BI "(struct kernfs_node *kn "  ");"
+.SH ARGUMENTS
+.IP "kn" 12
+kernfs_node to be added
+
+The caller must already have initialized \fIkn->parent\fP.  This
+function increments nlink of the parent's inode if \fIkn\fP is a
+directory and link into the children list of the parent.
+.SH "RETURN"
+0 on success, -EEXIST if entry with the given name already
+exists.

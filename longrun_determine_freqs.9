@@ -1,0 +1,17 @@
+.TH "longrun_determine_freqs" 9 "longrun_determine_freqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+longrun_determine_freqs \- determines the lowest and highest possible core frequency
+.SH SYNOPSIS
+.B "int" longrun_determine_freqs
+.BI "(unsigned int *low_freq "  ","
+.BI "unsigned int *high_freq "  ");"
+.SH ARGUMENTS
+.IP "low_freq" 12
+an int to put the lowest frequency into
+.IP "high_freq" 12
+an int to put the highest frequency into
+.SH "DESCRIPTION"
+Determines the lowest and highest possible core frequencies on this CPU.
+This is necessary to calculate the performance percentage according to
+TMTA rules:
+performance_pctg = (target_freq - low_freq)/(high_freq - low_freq)

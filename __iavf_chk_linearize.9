@@ -1,0 +1,18 @@
+.TH "__iavf_chk_linearize" 9 "__iavf_chk_linearize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__iavf_chk_linearize \- Check if there are more than 8 buffers per packet
+.SH SYNOPSIS
+.B "bool" __iavf_chk_linearize
+.BI "(struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+send buffer
+.SH "NOTE"
+Our HW can't DMA more than 8 buffers to build a packet on the wire
+and so we need to figure out the cases where we need to linearize the skb.
+.SH "DESCRIPTION"
+For TSO we need to count the TSO header and segment payload separately.
+As such we need to check cases where we have 7 fragments or more as we
+can potentially require 9 DMA transactions, 1 for the TSO header, 1 for
+the segment payload in the first descriptor, and another 7 for the
+fragments.

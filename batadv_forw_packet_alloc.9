@@ -1,0 +1,27 @@
+.TH "batadv_forw_packet_alloc" 9 "batadv_forw_packet_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_forw_packet_alloc \- allocate a forwarding packet
+.SH SYNOPSIS
+.B "struct batadv_forw_packet *" batadv_forw_packet_alloc
+.BI "(struct batadv_hard_iface *if_incoming "  ","
+.BI "struct batadv_hard_iface *if_outgoing "  ","
+.BI "atomic_t *queue_left "  ","
+.BI "struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "if_incoming" 12
+The (optional) if_incoming to be grabbed
+.IP "if_outgoing" 12
+The (optional) if_outgoing to be grabbed
+.IP "queue_left" 12
+The (optional) queue counter to decrease
+.IP "bat_priv" 12
+The bat_priv for the mesh of this forw_packet
+.IP "skb" 12
+The raw packet this forwarding packet shall contain
+.SH "DESCRIPTION"
+Allocates a forwarding packet and tries to get a reference to the
+(optional) if_incoming, if_outgoing and queue_left. If queue_left
+is NULL then bat_priv is optional, too.
+.SH "RETURN"
+An allocated forwarding packet on success, NULL otherwise.

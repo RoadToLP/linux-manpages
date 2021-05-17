@@ -1,0 +1,32 @@
+.TH "fwnode_get_mac_address" 9 "fwnode_get_mac_address" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_get_mac_address \- Get the MAC from the firmware node
+.SH SYNOPSIS
+.B "void *" fwnode_get_mac_address
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "char *addr "  ","
+.BI "int alen "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+Pointer to the firmware node
+.IP "addr" 12
+Address of buffer to store the MAC in
+.IP "alen" 12
+Length of the buffer pointed to by addr, should be ETH_ALEN
+.SH "DESCRIPTION"
+Search the firmware node for the best MAC address to use.  'mac-address' is
+checked first, because that is supposed to contain to "most recent" MAC
+address. If that isn't set, then 'local-mac-address' is checked next,
+because that is the default address.  If that isn't set, then the obsolete
+'address' is checked, just in case we're using an old device tree.
+
+Note that the 'address' property is supposed to contain a virtual address of
+the register set, but some DTS files have redefined that property to be the
+MAC address.
+
+All-zero MAC addresses are rejected, because those could be properties that
+exist in the firmware tables, but were not updated by the firmware.  For
+example, the DTS could define 'mac-address' and 'local-mac-address', with
+zero MAC addresses.  Some older U-Boots only initialized 'local-mac-address'.
+In this case, the real MAC is in 'local-mac-address', and 'mac-address'
+exists but is all zeros.

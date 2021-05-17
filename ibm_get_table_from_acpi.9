@@ -1,0 +1,19 @@
+.TH "ibm_get_table_from_acpi" 9 "ibm_get_table_from_acpi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibm_get_table_from_acpi \- reads the APLS buffer from ACPI
+.SH SYNOPSIS
+.B "int" ibm_get_table_from_acpi
+.BI "(char **bufp "  ");"
+.SH ARGUMENTS
+.IP "bufp" 12
+address to pointer to allocate for the table
+.SH "DESCRIPTION"
+This method reads the APLS buffer in from ACPI and
+stores the "stripped" table into a single buffer
+it allocates and passes the address back in bufp.
+
+If NULL is passed in as buffer, this method only calculates
+the size of the table and returns that without filling
+in the buffer.
+
+Returns < 0 on error or the size of the table on success.

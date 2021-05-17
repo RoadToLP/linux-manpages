@@ -1,0 +1,35 @@
+.TH "komeda_component_get_state_and_set_user" 9 "komeda_component_get_state_and_set_user" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+komeda_component_get_state_and_set_user \- 
+.SH SYNOPSIS
+.B "struct komeda_component_state *" komeda_component_get_state_and_set_user
+.BI "(struct komeda_component *c "  ","
+.BI "struct drm_atomic_state *state "  ","
+.BI "void *user "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+component to get state and set user
+.IP "state" 12
+global atomic state
+.IP "user" 12
+direct user, the binding user
+.IP "crtc" 12
+the CRTC user, the big boss :)
+.SH "DESCRIPTION"
+This function accepts two users:
+-   The direct user: can be plane/crtc/wb_connector depends on component
+-   The big boss (CRTC)
+CRTC is the big boss (the final user), because all component resources
+eventually will be assigned to CRTC, like the layer will be binding to
+kms_plane, but kms plane will be binding to a CRTC eventually.
+
+The big boss (CRTC) is for pipeline assignment, since \fIkomeda_component\fP isn't
+independent and can be assigned to CRTC freely, but belongs to a specific
+pipeline, only pipeline can be shared between crtc, and pipeline as a whole
+(include all the internal components) assigned to a specific CRTC.
+
+So when set a user to komeda_component, need first to check the status of
+component->pipeline to see if the pipeline is available on this specific
+CRTC. if the pipeline is busy (assigned to another CRTC), even the required
+component is free, the component still cannot be assigned to the direct user.

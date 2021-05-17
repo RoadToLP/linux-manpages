@@ -1,0 +1,24 @@
+.TH "ssh_packet_init" 9 "ssh_packet_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_packet_init \- Initialize SSH packet.
+.SH SYNOPSIS
+.B "void" ssh_packet_init
+.BI "(struct ssh_packet *packet "  ","
+.BI "unsigned long type "  ","
+.BI "u8 priority "  ","
+.BI "const struct ssh_packet_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "packet" 12
+The packet to initialize.
+.IP "type" 12
+Type-flags of the packet.
+.IP "priority" 12
+Priority of the packet. See \fBSSH_PACKET_PRIORITY\fP for details.
+.IP "ops" 12
+Packet operations.
+.SH "DESCRIPTION"
+Initializes the given SSH packet. Sets the transmission buffer pointer to
+NULL and the transmission buffer length to zero. For data-type packets,
+this buffer has to be set separately via \fBssh_packet_set_data\fP before
+submission, and must contain a valid SSH message, i.e. frame with optional
+payload of any type.

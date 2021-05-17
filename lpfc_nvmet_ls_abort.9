@@ -1,0 +1,19 @@
+.TH "lpfc_nvmet_ls_abort" 9 "lpfc_nvmet_ls_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvmet_ls_abort \- Abort a prior NVME LS request
+.SH SYNOPSIS
+.B "void" lpfc_nvmet_ls_abort
+.BI "(struct nvmet_fc_target_port *targetport "  ","
+.BI "void *hosthandle "  ","
+.BI "struct nvmefc_ls_req *pnvme_lsreq "  ");"
+.SH ARGUMENTS
+.IP "targetport" 12
+Transport targetport, that LS was issued from.
+.IP "hosthandle" 12
+hosthandle set by the driver in a prior ls_rqst_rcv.
+Driver sets this value to the ndlp pointer.
+.IP "pnvme_lsreq" 12
+the transport nvme_ls_req structure for LS to be aborted
+.SH "DESCRIPTION"
+Driver registers this routine to abort an NVME LS request that is
+in progress (from the transports perspective).

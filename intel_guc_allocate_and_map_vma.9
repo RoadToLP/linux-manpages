@@ -1,0 +1,23 @@
+.TH "intel_guc_allocate_and_map_vma" 9 "intel_guc_allocate_and_map_vma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_guc_allocate_and_map_vma \- Allocate and map VMA for GuC usage
+.SH SYNOPSIS
+.B "int" intel_guc_allocate_and_map_vma
+.BI "(struct intel_guc *guc "  ","
+.BI "u32 size "  ","
+.BI "struct i915_vma **out_vma "  ","
+.BI "void **out_vaddr "  ");"
+.SH ARGUMENTS
+.IP "guc" 12
+the guc
+.IP "size" 12
+size of area to allocate (both virtual space and memory)
+.IP "out_vma" 12
+return variable for the allocated vma pointer
+.IP "out_vaddr" 12
+return variable for the obj mapping
+.SH "DESCRIPTION"
+This wrapper calls \fBintel_guc_allocate_vma\fP and then maps the allocated
+object with I915_MAP_WB.
+.SH "RETURN"
+0 if successful, a negative errno code otherwise.

@@ -1,0 +1,14 @@
+.TH "mnt_want_write_file" 9 "mnt_want_write_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mnt_want_write_file \- get write access to a file's mount
+.SH SYNOPSIS
+.B "int" mnt_want_write_file
+.BI "(struct file *file "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+the file who's mount on which to take a write
+.SH "DESCRIPTION"
+This is like mnt_want_write, but if the file is already open for writing it
+skips incrementing mnt_writers (since the open file already has a reference)
+and instead only does the freeze protection and the check for emergency r/o
+remounts.  This must be paired with mnt_drop_write_file.

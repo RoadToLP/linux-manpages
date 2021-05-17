@@ -1,0 +1,25 @@
+.TH "lpfc_els_unsol_buffer" 9 "lpfc_els_unsol_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_unsol_buffer \- Process an unsolicited event data buffer
+.SH SYNOPSIS
+.B "void" lpfc_els_unsol_buffer
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *elsiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "pring" 12
+pointer to a SLI ring.
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "elsiocb" 12
+pointer to lpfc els command iocb data structure.
+.SH "DESCRIPTION"
+This routine is used for processing the IOCB associated with a unsolicited
+event. It first determines whether there is an existing ndlp that matches
+the DID from the unsolicited IOCB. If not, it will create a new one with
+the DID from the unsolicited IOCB. The ELS command from the unsolicited
+IOCB is then used to invoke the proper routine and to set up proper state
+of the discovery state machine.

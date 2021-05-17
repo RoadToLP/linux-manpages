@@ -1,0 +1,23 @@
+.TH "nilfs_sufile_resize" 9 "nilfs_sufile_resize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_sufile_resize \- resize segment array
+.SH SYNOPSIS
+.B "int" nilfs_sufile_resize
+.BI "(struct inode *sufile "  ","
+.BI "__u64 newnsegs "  ");"
+.SH ARGUMENTS
+.IP "sufile" 12
+inode of segment usage file
+.IP "newnsegs" 12
+new number of segments
+.SH "DESCRIPTION"
+Return Value: On success, 0 is returned.  On error, one of the
+following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOSPC - Enough free space is not left for shrinking
+
+-EBUSY - Dirty or active segments exist in the region to be truncated

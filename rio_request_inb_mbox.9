@@ -1,0 +1,24 @@
+.TH "rio_request_inb_mbox" 9 "rio_request_inb_mbox" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_request_inb_mbox \- request inbound mailbox service
+.SH SYNOPSIS
+.B "int" rio_request_inb_mbox
+.BI "(struct rio_mport *mport "  ","
+.BI "void *dev_id "  ","
+.BI "int mbox "  ","
+.BI "int entries "  ","
+.BI "void (*minb) (struct rio_mport * mport, void *dev_id, int mbox, int slot) "  ");"
+.SH ARGUMENTS
+.IP "mport" 12
+RIO master port from which to allocate the mailbox resource
+.IP "dev_id" 12
+Device specific pointer to pass on event
+.IP "mbox" 12
+Mailbox number to claim
+.IP "entries" 12
+Number of entries in inbound mailbox queue
+.IP "minb" 12
+Callback to execute when inbound message is received
+.SH "DESCRIPTION"
+Requests ownership of an inbound mailbox resource and binds
+a callback function to the resource. Returns 0 on success.

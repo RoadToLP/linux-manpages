@@ -1,0 +1,20 @@
+.TH "ldm_get_vnum" 9 "ldm_get_vnum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_get_vnum \- Convert a variable-width, big endian number, into cpu order
+.SH SYNOPSIS
+.B "u64" ldm_get_vnum
+.BI "(const u8 *block "  ");"
+.SH ARGUMENTS
+.IP "block" 12
+Pointer to the variable-width number to convert
+.SH "DESCRIPTION"
+Large numbers in the LDM Database are often stored in a packed format.  Each
+number is prefixed by a one byte width marker.  All numbers in the database
+are stored in big-endian byte order.  This function reads one of these
+numbers and returns the result
+
+N.B.  This function DOES NOT perform any range checking, though the most
+it will read is eight bytes.
+.SH "RETURN"
+n A number
+0 Zero, or an error occurred

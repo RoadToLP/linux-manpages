@@ -1,0 +1,20 @@
+.TH "bdx_rx_init" 9 "bdx_rx_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_rx_init \- initialize RX all related HW and SW resources
+.SH SYNOPSIS
+.B "int" bdx_rx_init
+.BI "(struct bdx_priv *priv "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+NIC private structure
+.SH "DESCRIPTION"
+Returns 0 on success, negative value on failure
+
+It creates rxf and rxd fifos, update relevant HW registers, preallocate
+skb for rx. It assumes that Rx is desabled in HW
+funcs are grouped for better cache usage
+
+RxD fifo is smaller than RxF fifo by design. Upon high load, RxD will be
+filled and packets will be dropped by nic without getting into host or
+cousing interrupt. Anyway, in that condition, host has no chance to process
+all packets, but dropping in nic is cheaper, since it takes 0 cpu cycles

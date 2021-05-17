@@ -1,0 +1,19 @@
+.TH "__rpmh_write" 9 "__rpmh_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__rpmh_write \- Cache and send the RPMH request
+.SH SYNOPSIS
+.B "int" __rpmh_write
+.BI "(const struct device *dev "  ","
+.BI "enum rpmh_state state "  ","
+.BI "struct rpmh_request *rpm_msg "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device making the request
+.IP "state" 12
+Active/Sleep request type
+.IP "rpm_msg" 12
+The data that needs to be sent (cmds).
+.SH "DESCRIPTION"
+Cache the RPMH request and send if the state is ACTIVE_ONLY.
+SLEEP/WAKE_ONLY requests are not sent to the controller at
+this time. Use \fBrpmh_flush\fP to send them to the controller.

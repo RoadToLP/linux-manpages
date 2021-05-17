@@ -1,0 +1,21 @@
+.TH "batadv_interface_kill_vid" 9 "batadv_interface_kill_vid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_interface_kill_vid \- ndo_kill_vid API implementation
+.SH SYNOPSIS
+.B "int" batadv_interface_kill_vid
+.BI "(struct net_device *dev "  ","
+.BI "__be16 proto "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the netdev of the mesh interface
+.IP "proto" 12
+protocol of the vlan id
+.IP "vid" 12
+identifier of the deleted vlan
+.SH "DESCRIPTION"
+Destroy all the internal structures used to handle the vlan identified by vid
+on top of the mesh interface
+.SH "RETURN"
+0 on success, -EINVAL if the specified prototype is not ETH_P_8021Q
+or -ENOENT if the specified vlan id wasn't registered.

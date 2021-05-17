@@ -1,0 +1,19 @@
+.TH "ata_scsi_slave_destroy" 9 "ata_scsi_slave_destroy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_scsi_slave_destroy \- SCSI device is about to be destroyed
+.SH SYNOPSIS
+.B "void" ata_scsi_slave_destroy
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device to be destroyed
+
+\fIsdev\fP is about to be destroyed for hot/warm unplugging.  If
+this unplugging was initiated by libata as indicated by NULL
+dev->sdev, this function doesn't have to do anything.
+Otherwise, SCSI layer initiated warm-unplug is in progress.
+Clear dev->sdev, schedule the device for ATA detach and invoke
+EH.
+
+LOCKING:
+Defined by SCSI layer.  We don't really care.

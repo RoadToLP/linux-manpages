@@ -1,0 +1,28 @@
+.TH "ntfs_index_iget" 9 "ntfs_index_iget" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_index_iget \- obtain a struct inode corresponding to an index
+.SH SYNOPSIS
+.B "struct inode *" ntfs_index_iget
+.BI "(struct inode *base_vi "  ","
+.BI "ntfschar *name "  ","
+.BI "u32 name_len "  ");"
+.SH ARGUMENTS
+.IP "base_vi" 12
+vfs base inode containing the index related attributes
+.IP "name" 12
+Unicode name of the index
+.IP "name_len" 12
+length of \fIname\fP in Unicode characters
+.SH "DESCRIPTION"
+Obtain the (fake) struct inode corresponding to the index specified by \fIname\fP
+and \fIname_len\fP, which is present in the base mft record specified by the vfs
+inode \fIbase_vi\fP.
+
+If the index inode is in the cache, it is just returned with an increased
+reference count.  Otherwise, a new struct inode is allocated and
+initialized, and finally \fBntfs_read_locked_index_inode\fP is called to read
+the index related attributes and fill in the inode structure.
+
+Return the struct inode of the index inode on success. Check the return
+value with \fBIS_ERR\fP and if true, the function failed and the error code is
+obtained from \fBPTR_ERR\fP.

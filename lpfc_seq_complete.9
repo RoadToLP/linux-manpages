@@ -1,0 +1,17 @@
+.TH "lpfc_seq_complete" 9 "lpfc_seq_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_seq_complete \- Indicates if a sequence is complete
+.SH SYNOPSIS
+.B "int" lpfc_seq_complete
+.BI "(struct hbq_dmabuf *dmabuf "  ");"
+.SH ARGUMENTS
+.IP "dmabuf" 12
+pointer to a dmabuf that describes the FC sequence
+.SH "DESCRIPTION"
+This function checks the sequence, starting with the frame described by
+\fIdmabuf\fP, to see if all the frames associated with this sequence are present.
+the frames associated with this sequence are linked to the \fIdmabuf\fP using the
+dbuf list. This function looks for two major things. 1) That the first frame
+has a sequence count of zero. 2) There is a frame with last frame of sequence
+set. 3) That there are no holes in the sequence count. The function will
+return 1 when the sequence is complete, otherwise it will return 0.

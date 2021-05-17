@@ -1,0 +1,41 @@
+.TH "ntfs_runlists_merge" 9 "ntfs_runlists_merge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_runlists_merge \- merge two runlists into one
+.SH SYNOPSIS
+.B "runlist_element *" ntfs_runlists_merge
+.BI "(runlist_element *drl "  ","
+.BI "runlist_element *srl "  ");"
+.SH ARGUMENTS
+.IP "drl" 12
+original runlist to be worked on
+.IP "srl" 12
+new runlist to be merged into \fIdrl\fP
+.SH "DESCRIPTION"
+First we sanity check the two runlists \fIsrl\fP and \fIdrl\fP to make sure that they
+are sensible and can be merged. The runlist \fIsrl\fP must be either after the
+runlist \fIdrl\fP or completely within a hole (or unmapped region) in \fIdrl\fP.
+
+It is up to the caller to serialize access to the runlists \fIdrl\fP and \fIsrl\fP.
+
+Merging of runlists is necessary in two cases:
+1. When attribute lists are used and a further extent is being mapped.
+2. When new clusters are allocated to fill a hole or extend a file.
+
+There are four possible ways \fIsrl\fP can be merged. It can:
+- be inserted at the beginning of a hole,
+- split the hole in two and be inserted between the two fragments,
+- be appended at the end of a hole, or it can
+- replace the whole hole.
+It can also be appended to the end of the runlist, which is just a variant
+of the insert case.
+
+On success, return a pointer to the new, combined, runlist. Note, both
+runlists \fIdrl\fP and \fIsrl\fP are deallocated before returning so you cannot use
+the pointers for anything any more. (Strictly speaking the returned runlist
+may be the same as \fIdst\fP but this is irrelevant.)
+
+On error, return -errno. Both runlists are left unmodified. The following
+error codes are defined:
+-ENOMEM - Not enough memory to allocate runlist array.
+-EINVAL - Invalid parameters were passed in.
+-ERANGE - The runlists overlap and cannot be merged.

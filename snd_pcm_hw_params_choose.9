@@ -1,0 +1,19 @@
+.TH "snd_pcm_hw_params_choose" 9 "snd_pcm_hw_params_choose" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_pcm_hw_params_choose \- choose a configuration defined by @params
+.SH SYNOPSIS
+.B "int" snd_pcm_hw_params_choose
+.BI "(struct snd_pcm_substream *pcm "  ","
+.BI "struct snd_pcm_hw_params *params "  ");"
+.SH ARGUMENTS
+.IP "pcm" 12
+PCM instance
+.IP "params" 12
+the hw_params instance
+.SH "DESCRIPTION"
+Choose one configuration from configuration space defined by \fIparams\fP.
+The configuration chosen is that obtained fixing in this order:
+first access, first format, first subformat, min channels,
+min rate, min period time, max buffer size, min tick time
+.SH "RETURN"
+Zero if successful, or a negative error code on failure.

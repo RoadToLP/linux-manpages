@@ -1,0 +1,15 @@
+.TH "btrfs_discard_punt_unused_bgs_list" 9 "btrfs_discard_punt_unused_bgs_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+btrfs_discard_punt_unused_bgs_list \- punt unused_bgs list to discard lists
+.SH SYNOPSIS
+.B "void" btrfs_discard_punt_unused_bgs_list
+.BI "(struct btrfs_fs_info *fs_info "  ");"
+.SH ARGUMENTS
+.IP "fs_info" 12
+fs_info of interest
+.SH "DESCRIPTION"
+The unused_bgs list needs to be punted to the discard lists because the
+order of operations is changed.  In the normal sychronous discard path, the
+block groups are trimmed via a single large trim in transaction commit.  This
+is ultimately what we are trying to avoid with asynchronous discard.  Thus,
+it must be done before going down the unused_bgs path.

@@ -1,0 +1,21 @@
+.TH "register_sound_dsp" 9 "register_sound_dsp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_sound_dsp \- register a DSP device
+.SH SYNOPSIS
+.B "int" register_sound_dsp
+.BI "(const struct file_operations *fops "  ","
+.BI "int dev "  ");"
+.SH ARGUMENTS
+.IP "fops" 12
+File operations for the driver
+.IP "dev" 12
+Unit number to allocate
+
+Allocate a DSP device. Unit is the number of the DSP requested.
+Pass -1 to request the next free DSP unit.
+
+This function allocates both the audio and dsp device entries together
+and will always allocate them as a matching pair - eg dsp3/audio3
+.SH "RETURN"
+On success, the allocated number is returned. On failure,
+a negative error code is returned.

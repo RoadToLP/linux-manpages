@@ -1,0 +1,27 @@
+.TH "ttm_bo_vm_reserve" 9 "ttm_bo_vm_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ttm_bo_vm_reserve \- Reserve a buffer object in a retryable vm callback
+.SH SYNOPSIS
+.B "vm_fault_t" ttm_bo_vm_reserve
+.BI "(struct ttm_buffer_object *bo "  ","
+.BI "struct vm_fault *vmf "  ");"
+.SH ARGUMENTS
+.IP "bo" 12
+The buffer object
+.IP "vmf" 12
+The fault structure handed to the callback
+.SH "DESCRIPTION"
+vm callbacks like \fBfault\fP and *\fB_mkwrite\fP allow for the mm_sem to be dropped
+during long waits, and after the wait the callback will be restarted. This
+is to allow other threads using the same virtual memory space concurrent
+access to \fBmap\fP, \fBunmap\fP completely unrelated buffer objects. TTM buffer
+object reservations sometimes wait for GPU and should therefore be
+considered long waits. This function reserves the buffer object interruptibly
+taking this into account. Starvation is avoided by the vm system not
+allowing too many repeated restarts.
+This function is intended to be used in customized \fBfault\fP and \fB_mkwrite\fP
+handlers.
+.SH "RETURN"
+0 on success and the bo was reserved.
+VM_FAULT_RETRY if blocking wait.
+VM_FAULT_NOPAGE if blocking wait and retrying was not allowed.

@@ -1,0 +1,16 @@
+.TH "binder_get_txn_from_and_acq_inner" 9 "binder_get_txn_from_and_acq_inner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_get_txn_from_and_acq_inner \- get t->from and acquire inner lock
+.SH SYNOPSIS
+.B "struct binder_thread *" binder_get_txn_from_and_acq_inner
+.BI "(struct binder_transaction *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+binder transaction for t->from
+.SH "DESCRIPTION"
+Same as \fBbinder_get_txn_from\fP except it also acquires the proc->inner_lock
+to guarantee that the thread cannot be released while operating on it.
+The caller must call \fBbinder_inner_proc_unlock\fP to release the inner lock
+as well as call \fBbinder_dec_thread_txn\fP to release the reference.
+.SH "RETURN"
+the value of t->from

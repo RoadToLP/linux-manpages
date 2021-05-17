@@ -1,0 +1,33 @@
+.TH "bd_link_disk_holder" 9 "bd_link_disk_holder" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bd_link_disk_holder \- create symlinks between holding disk and slave bdev
+.SH SYNOPSIS
+.B "int" bd_link_disk_holder
+.BI "(struct block_device *bdev "  ","
+.BI "struct gendisk *disk "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+the claimed slave bdev
+.IP "disk" 12
+the holding disk
+.SH "DESCRIPTION"
+DON'T USE THIS UNLESS YOU'RE ALREADY USING IT.
+
+This functions creates the following sysfs symlinks.
+
+- from "slaves" directory of the holder \fIdisk\fP to the claimed \fIbdev\fP
+- from "holders" directory of the \fIbdev\fP to the holder \fIdisk\fP
+
+For example, if /dev/dm-0 maps to /dev/sda and disk for dm-0 is
+passed to \fBbd_link_disk_holder\fP, then:
+
+/sys/block/dm-0/slaves/sda --> /sys/block/sda
+/sys/block/sda/holders/dm-0 --> /sys/block/dm-0
+
+The caller must have claimed \fIbdev\fP before calling this function and
+ensure that both \fIbdev\fP and \fIdisk\fP are valid during the creation and
+lifetime of these symlinks.
+.SH "CONTEXT"
+Might sleep.
+.SH "RETURN"
+0 on success, -errno on failure.

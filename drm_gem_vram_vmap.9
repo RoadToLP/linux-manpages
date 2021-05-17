@@ -1,0 +1,21 @@
+.TH "drm_gem_vram_vmap" 9 "drm_gem_vram_vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_vram_vmap \- Pins and maps a GEM VRAM object into kernel address space
+.SH SYNOPSIS
+.B "int" drm_gem_vram_vmap
+.BI "(struct drm_gem_vram_object *gbo "  ","
+.BI "struct dma_buf_map *map "  ");"
+.SH ARGUMENTS
+.IP "gbo" 12
+The GEM VRAM object to map
+.IP "map" 12
+Returns the kernel virtual address of the VRAM GEM object's backing
+store.
+.SH "DESCRIPTION"
+The vmap function pins a GEM VRAM object to its current location, either
+system or video memory, and maps its buffer into kernel address space.
+As pinned object cannot be relocated, you should avoid pinning objects
+permanently. Call \fBdrm_gem_vram_vunmap\fP with the returned address to
+unmap and unpin the GEM VRAM object.
+.SH "RETURN"
+0 on success, or a negative error code otherwise.

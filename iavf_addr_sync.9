@@ -1,0 +1,15 @@
+.TH "iavf_addr_sync" 9 "iavf_addr_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iavf_addr_sync \- Callback for dev_(mc|uc)_sync to add address
+.SH SYNOPSIS
+.B "int" iavf_addr_sync
+.BI "(struct net_device *netdev "  ","
+.BI "const u8 *addr "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+the netdevice
+.IP "addr" 12
+address to add
+.SH "DESCRIPTION"
+Called by __dev_(mc|uc)_sync when an address needs to be added. We call
+__dev_(uc|mc)_sync from .set_rx_mode and guarantee to hold the hash lock.

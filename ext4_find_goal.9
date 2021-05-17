@@ -1,0 +1,20 @@
+.TH "ext4_find_goal" 9 "ext4_find_goal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext4_find_goal \- find a preferred place for allocation.
+.SH SYNOPSIS
+.B "ext4_fsblk_t" ext4_find_goal
+.BI "(struct inode *inode "  ","
+.BI "ext4_lblk_t block "  ","
+.BI "Indirect *partial "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+owner
+.IP "block" 12
+block we want
+.IP "partial" 12
+pointer to the last triple within a chain
+
+Normally this function find the preferred place for block allocation,
+returns it.
+Because this is only used for non-extent files, we limit the block nr
+to 32 bits.

@@ -1,0 +1,22 @@
+.TH "skb_copy_ubufs" 9 "skb_copy_ubufs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_copy_ubufs \- copy userspace skb frags buffers to kernel
+.SH SYNOPSIS
+.B "int" skb_copy_ubufs
+.BI "(struct sk_buff *skb "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the skb to modify
+.IP "gfp_mask" 12
+allocation priority
+
+This must be called on skb with SKBFL_ZEROCOPY_ENABLE.
+It will copy all frags into kernel and drop the reference
+to userspace pages.
+
+If this function is called from an interrupt \fBgfp_mask\fP must be
+GFP_ATOMIC.
+
+Returns 0 on success or a negative error code on failure
+to allocate kernel memory to copy to.

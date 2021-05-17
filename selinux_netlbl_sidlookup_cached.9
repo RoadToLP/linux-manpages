@@ -1,0 +1,22 @@
+.TH "selinux_netlbl_sidlookup_cached" 9 "selinux_netlbl_sidlookup_cached" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+selinux_netlbl_sidlookup_cached \- Cache a SID lookup
+.SH SYNOPSIS
+.B "int" selinux_netlbl_sidlookup_cached
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 family "  ","
+.BI "struct netlbl_lsm_secattr *secattr "  ","
+.BI "u32 *sid "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "family" 12
+-- undescribed --
+.IP "secattr" 12
+the NetLabel security attributes
+.IP "sid" 12
+the SID
+.SH "DESCRIPTION"
+Query the SELinux security server to lookup the correct SID for the given
+security attributes.  If the query is successful, cache the result to speed
+up future lookups.  Returns zero on success, negative values on failure.

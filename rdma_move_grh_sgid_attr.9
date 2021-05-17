@@ -1,0 +1,28 @@
+.TH "rdma_move_grh_sgid_attr" 9 "rdma_move_grh_sgid_attr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_move_grh_sgid_attr \- Sets the sgid attribute of GRH, taking ownership of the reference
+.SH SYNOPSIS
+.B "void" rdma_move_grh_sgid_attr
+.BI "(struct rdma_ah_attr *attr "  ","
+.BI "union ib_gid *dgid "  ","
+.BI "u32 flow_label "  ","
+.BI "u8 hop_limit "  ","
+.BI "u8 traffic_class "  ","
+.BI "const struct ib_gid_attr *sgid_attr "  ");"
+.SH ARGUMENTS
+.IP "attr" 12
+Pointer to AH attribute structure
+.IP "dgid" 12
+Destination GID
+.IP "flow_label" 12
+Flow label
+.IP "hop_limit" 12
+Hop limit
+.IP "traffic_class" 12
+traffic class
+.IP "sgid_attr" 12
+Pointer to SGID attribute
+.SH "DESCRIPTION"
+This takes ownership of the sgid_attr reference. The caller must ensure
+\fBrdma_destroy_ah_attr\fP is called before destroying the rdma_ah_attr after
+calling this function.

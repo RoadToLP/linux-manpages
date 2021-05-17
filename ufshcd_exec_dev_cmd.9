@@ -1,0 +1,18 @@
+.TH "ufshcd_exec_dev_cmd" 9 "ufshcd_exec_dev_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_exec_dev_cmd \- API for sending device management requests
+.SH SYNOPSIS
+.B "int" ufshcd_exec_dev_cmd
+.BI "(struct ufs_hba *hba "  ","
+.BI "enum dev_cmd_type cmd_type "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+UFS hba
+.IP "cmd_type" 12
+specifies the type (NOP, Query...)
+.IP "timeout" 12
+time in seconds
+.SH "NOTE"
+Since there is only one available tag for device management commands,
+it is expected you hold the hba->dev_cmd.lock mutex.

@@ -1,0 +1,22 @@
+.TH "ice_sched_assoc_vsi_to_agg" 9 "ice_sched_assoc_vsi_to_agg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sched_assoc_vsi_to_agg \- associate/move VSI to new/default aggregator
+.SH SYNOPSIS
+.B "enum ice_status" ice_sched_assoc_vsi_to_agg
+.BI "(struct ice_port_info *pi "  ","
+.BI "u32 agg_id "  ","
+.BI "u16 vsi_handle "  ","
+.BI "unsigned long *tc_bitmap "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+port information structure
+.IP "agg_id" 12
+aggregator ID
+.IP "vsi_handle" 12
+software VSI handle
+.IP "tc_bitmap" 12
+TC bitmap of enabled TC(s)
+.SH "DESCRIPTION"
+This function moves VSI to a new or default aggregator node. If VSI is
+already associated to the aggregator node then no operation is performed on
+the tree. This function needs to be called with scheduler lock held.

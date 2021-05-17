@@ -1,0 +1,13 @@
+.TH "xprt_rdma_connect_worker" 9 "xprt_rdma_connect_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_rdma_connect_worker \- establish connection in the background
+.SH SYNOPSIS
+.B "void" xprt_rdma_connect_worker
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+worker thread context
+.SH "DESCRIPTION"
+Requester holds the xprt's send lock to prevent activity on this
+transport while a fresh connection is being established. RPC tasks
+sleep on the xprt's pending queue waiting for connect to complete.

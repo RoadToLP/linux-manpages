@@ -1,0 +1,29 @@
+.TH "tipc_nametbl_translate" 9 "tipc_nametbl_translate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_nametbl_translate \- perform service instance to socket translation
+.SH SYNOPSIS
+.B "u32" tipc_nametbl_translate
+.BI "(struct net *net "  ","
+.BI "u32 type "  ","
+.BI "u32 instance "  ","
+.BI "u32 *dnode "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+network namespace
+.IP "type" 12
+message type
+.IP "instance" 12
+message instance
+.IP "dnode" 12
+the search domain used during translation
+.SH "DESCRIPTION"
+On exit:
+- if translation is deferred to another node, leave 'dnode' unchanged and
+return 0
+- if translation is attempted and succeeds, set 'dnode' to the publishing
+node and return the published (non-zero) port number
+- if translation is attempted and fails, set 'dnode' to 0 and return 0
+
+Note that for legacy users (node configured with Z.C.N address format) the
+'closest-first' lookup algorithm must be maintained, i.e., if dnode is 0
+we must look in the local binding list first

@@ -1,0 +1,14 @@
+.TH "mesh_path_send_to_gates" 9 "mesh_path_send_to_gates" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_path_send_to_gates \- sends pending frames to all known mesh gates
+.SH SYNOPSIS
+.B "int" mesh_path_send_to_gates
+.BI "(struct mesh_path *mpath "  ");"
+.SH ARGUMENTS
+.IP "mpath" 12
+mesh path whose queue will be emptied
+.SH "DESCRIPTION"
+If there is only one gate, the frames are transferred from the failed mpath
+queue to that gate's queue.  If there are more than one gates, the frames
+are copied from each gate to the next.  After frames are copied, the
+mpath queues are emptied onto the transmission queue.

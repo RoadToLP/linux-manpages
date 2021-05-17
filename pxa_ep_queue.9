@@ -1,0 +1,21 @@
+.TH "pxa_ep_queue" 9 "pxa_ep_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pxa_ep_queue \- Queue a request into an IN endpoint
+.SH SYNOPSIS
+.B "int" pxa_ep_queue
+.BI "(struct usb_ep *_ep "  ","
+.BI "struct usb_request *_req "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "_ep" 12
+usb endpoint
+.IP "_req" 12
+usb request
+.IP "gfp_flags" 12
+flags
+.SH "CONTEXT"
+thread context or from the interrupt handler in the
+special case of ep0 setup :
+(irq->handle_ep0_ctrl_req->gadget_setup->pxa_ep_queue)
+.SH "DESCRIPTION"
+Returns 0 if succedeed, error otherwise

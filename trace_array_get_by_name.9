@@ -1,0 +1,20 @@
+.TH "trace_array_get_by_name" 9 "trace_array_get_by_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+trace_array_get_by_name \- Create/Lookup a trace array, given its name.
+.SH SYNOPSIS
+.B "struct trace_array *" trace_array_get_by_name
+.BI "(const char *name "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+The name of the trace array to be looked up/created.
+.SH "DESCRIPTION"
+Returns pointer to trace array with given name.
+NULL, if it cannot be created.
+.SH "NOTE"
+This function increments the reference counter associated with the
+trace array returned. This makes sure it cannot be freed while in use.
+Use \fBtrace_array_put\fP once the trace array is no longer needed.
+If the trace_array is to be freed, \fBtrace_array_destroy\fP needs to
+be called after the \fBtrace_array_put\fP, or simply let user space delete
+it from the tracefs instances directory. But until the
+\fBtrace_array_put\fP is called, user space can not delete it.

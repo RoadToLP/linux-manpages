@@ -1,0 +1,30 @@
+.TH "parse_prop_cells" 9 "parse_prop_cells" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_prop_cells \- Property parsing function for suppliers
+.SH SYNOPSIS
+.B "struct device_node *" parse_prop_cells
+.BI "(struct device_node *np "  ","
+.BI "const char *prop_name "  ","
+.BI "int index "  ","
+.BI "const char *list_name "  ","
+.BI "const char *cells_name "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+Pointer to device tree node containing a list
+.IP "prop_name" 12
+Name of property to be parsed. Expected to hold phandle values
+.IP "index" 12
+For properties holding a list of phandles, this is the index
+into the list.
+.IP "list_name" 12
+Property name that is known to contain list of phandle(s) to
+supplier(s)
+.IP "cells_name" 12
+property name that specifies phandles' arguments count
+.SH "DESCRIPTION"
+This is a helper function to parse properties that have a known fixed name
+and are a list of phandles and phandle arguments.
+.SH "RETURN"
+- phandle node pointer with refcount incremented. Caller must \fBof_node_put\fP
+on it when done.
+- NULL if no phandle found at index

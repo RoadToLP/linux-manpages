@@ -1,0 +1,36 @@
+.TH "smk_write_rules_list" 9 "smk_write_rules_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_write_rules_list \- write() for any /smack rule file
+.SH SYNOPSIS
+.B "ssize_t" smk_write_rules_list
+.BI "(struct file *file "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ","
+.BI "struct list_head *rule_list "  ","
+.BI "struct mutex *rule_lock "  ","
+.BI "int format "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer, not actually used
+.IP "buf" 12
+where to get the data from
+.IP "count" 12
+bytes sent
+.IP "ppos" 12
+where to start - must be 0
+.IP "rule_list" 12
+the list of rules to write to
+.IP "rule_lock" 12
+lock for the rule list
+.IP "format" 12
+/smack/load or /smack/load2 or /smack/change-rule format.
+.SH "DESCRIPTION"
+Get one smack access rule from above.
+The format for SMK_LONG_FMT is:
+"subject<whitespace>object<whitespace>access[<whitespace>...]"
+The format for SMK_FIXED24_FMT is exactly:
+"subject                 object                  rwxat"
+The format for SMK_CHANGE_FMT is:
+"subject<whitespace>object<whitespace>
+acc_enable<whitespace>acc_disable[<whitespace>...]"

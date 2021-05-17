@@ -1,0 +1,35 @@
+.TH "_config_request" 9 "_config_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_config_request \- main routine for sending config page requests
+.SH SYNOPSIS
+.B "int" _config_request
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "Mpi2ConfigRequest_t *mpi_request "  ","
+.BI "Mpi2ConfigReply_t *mpi_reply "  ","
+.BI "int timeout "  ","
+.BI "void *config_page "  ","
+.BI "u16 config_page_sz "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "mpi_request" 12
+request message frame
+.IP "mpi_reply" 12
+reply mf payload returned from firmware
+.IP "timeout" 12
+timeout in seconds
+.IP "config_page" 12
+contents of the config page
+.IP "config_page_sz" 12
+size of config page
+.SH "CONTEXT"
+sleep
+.SH "DESCRIPTION"
+A generic API for config page requests to firmware.
+
+The ioc->config_cmds.status flag should be MPT3_CMD_NOT_USED before calling
+this API.
+
+The callback index is set inside `ioc->config_cb_idx.
+.SH "RETURN"
+0 for success, non-zero for failure.

@@ -1,0 +1,25 @@
+.TH "usb_add_config" 9 "usb_add_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_add_config \- add a configuration to a device.
+.SH SYNOPSIS
+.B "int" usb_add_config
+.BI "(struct usb_composite_dev *cdev "  ","
+.BI "struct usb_configuration *config "  ","
+.BI "int (*bind)(struct usb_configuration *) "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+wraps the USB gadget
+.IP "config" 12
+the configuration, with bConfigurationValue assigned
+.IP "bind" 12
+the configuration's bind function
+.SH "CONTEXT"
+single threaded during gadget setup
+.SH "DESCRIPTION"
+One of the main tasks of a composite \fI\fP\fBbind\fP routine is to
+add each of the configurations it supports, using this routine.
+
+This function returns the value of the configuration's \fI\fP\fBbind\fP, which
+is zero for success else a negative errno value.  Binding configurations
+assigns global resources including string IDs, and per-configuration
+resources such as interface IDs and endpoints.

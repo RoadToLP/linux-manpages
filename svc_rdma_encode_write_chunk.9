@@ -1,0 +1,21 @@
+.TH "svc_rdma_encode_write_chunk" 9 "svc_rdma_encode_write_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_encode_write_chunk \- Encode one Write chunk
+.SH SYNOPSIS
+.B "ssize_t" svc_rdma_encode_write_chunk
+.BI "(struct svc_rdma_send_ctxt *sctxt "  ","
+.BI "const struct svc_rdma_chunk *chunk "  ");"
+.SH ARGUMENTS
+.IP "sctxt" 12
+Send context for the RPC Reply
+.IP "chunk" 12
+Write chunk to push
+.SH "DESCRIPTION"
+Copy a Write chunk from the Call transport header to the
+Reply transport header. Update each segment's length field
+to reflect the number of bytes written in that segment.
+
+Return values:
+On success, returns length in bytes of the Reply XDR buffer
+that was consumed by the Write chunk
+-EMSGSIZE on XDR buffer overflow

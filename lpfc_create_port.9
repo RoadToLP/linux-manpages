@@ -1,0 +1,25 @@
+.TH "lpfc_create_port" 9 "lpfc_create_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_create_port \- Create an FC port
+.SH SYNOPSIS
+.B "struct lpfc_vport *" lpfc_create_port
+.BI "(struct lpfc_hba *phba "  ","
+.BI "int instance "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "instance" 12
+a unique integer ID to this FC port.
+.IP "dev" 12
+pointer to the device data structure.
+.SH "DESCRIPTION"
+This routine creates a FC port for the upper layer protocol. The FC port
+can be created on top of either a physical port or a virtual port provided
+by the HBA. This routine also allocates a SCSI host data structure (shost)
+and associates the FC port created before adding the shost into the SCSI
+layer.
+
+Return codes
+\fIvport\fP - pointer to the virtual N_Port data structure.
+NULL - port create failed.

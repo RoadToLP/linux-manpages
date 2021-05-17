@@ -1,0 +1,70 @@
+.TH "epf_ntb_configure_msi" 9 "epf_ntb_configure_msi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_configure_msi \- Map OB address space to MSI address
+.SH SYNOPSIS
+.B "int" epf_ntb_configure_msi
+.BI "(struct epf_ntb *ntb "  ","
+.BI "enum pci_epc_interface_type type "  ","
+.BI "u16 db_count "  ");"
+.SH ARGUMENTS
+.IP "ntb" 12
+NTB device that facilitates communication between HOST1 and HOST2
+.IP "type" 12
+PRIMARY interface or SECONDARY interface
+.IP "db_count" 12
+Number of doorbell interrupts to map
+.SH "DESCRIPTION"
++-----------------+    +----->+----------------+-----------+-----------------+
+|       BAR0      |    |      |   Doorbell 1   +---+------->   MSI ADDRESS   |
++-----------------+    |      +----------------+   |       +-----------------+
+|       BAR1      |    |      |   Doorbell 2   +---+       |                 |
++-----------------+----+      +----------------+   |       |                 |
+|       BAR2      |           |   Doorbell 3   +---+       |                 |
++-----------------+----+      +----------------+   |       |                 |
+|       BAR3      |    |      |   Doorbell 4   +---+       |                 |
++-----------------+    |      |----------------+           |                 |
+|       BAR4      |    |      |                |           |                 |
++-----------------+    |      |      MW1       |           |                 |
+|       BAR5      |    |      |                |           |                 |
++-----------------+    +----->-----------------+           |                 |
+EP CONTROLLER 1             |                |           |                 |
+|                |           |                 |
++----------------+           +-----------------+
+(A)       EP CONTROLLER 2             |                 |
+(OB SPACE)                |                 |
+|      MW1        |
+|                 |
+|                 |
+(B)     +-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+PCI Address Space
+(Managed by HOST2)
+
+
+This function performs stage (B) in the above diagram (see Doorbell 1,
+Doorbell 2, Doorbell 3, Doorbell 4) i.e map OB address space corresponding to
+doorbell to MSI address in PCI address space.
+
+This operation requires 3 parameters
+1) Address reserved for doorbell in the outbound address space
+2) MSI-X address in the PCIe Address space
+3) Number of MSI-X interrupts that has to be configured
+
+The address in the outbound address space (for the Doorbell) is stored in
+epf_bar corresponding to BAR_DB_MW1 of epf_ntb_epc that is connected to
+HOST1. This is populated in \fBepf_ntb_alloc_peer_mem\fP in this driver along
+with address for MW1.
+
+\fBpci_epc_map_msi_irq\fP takes the MSI address from MSI capability register
+and maps the OB address (obtained in \fBepf_ntb_alloc_peer_mem\fP) to the MSI
+address.
+
+\fBepf_ntb_configure_msi\fP also stores the MSI data to raise each interrupt
+in db_data of the peer's control region. This helps the peer to raise
+doorbell of the other host by writing db_data to the BAR corresponding to
+BAR_DB_MW1.

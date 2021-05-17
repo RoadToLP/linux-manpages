@@ -1,0 +1,21 @@
+.TH "aa_unpack" 9 "aa_unpack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_unpack \- unpack packed binary profile(s) data loaded from user space
+.SH SYNOPSIS
+.B "int" aa_unpack
+.BI "(struct aa_loaddata *udata "  ","
+.BI "struct list_head *lh "  ","
+.BI "const char **ns "  ");"
+.SH ARGUMENTS
+.IP "udata" 12
+user data copied to kmem  (NOT NULL)
+.IP "lh" 12
+list to place unpacked profiles in a aa_repl_ws
+.IP "ns" 12
+Returns namespace profile is in if specified else NULL (NOT NULL)
+.SH "DESCRIPTION"
+Unpack user data and return refcounted allocated profile(s) stored in
+\fIlh\fP in order of discovery, with the list chain stored in base.list
+or error
+.SH "RETURN"
+profile(s) on \fIlh\fP else error pointer if fails to unpack

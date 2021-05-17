@@ -1,0 +1,28 @@
+.TH "netlbl_cfg_unlbl_static_del" 9 "netlbl_cfg_unlbl_static_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_cfg_unlbl_static_del \- Removes an existing static label
+.SH SYNOPSIS
+.B "int" netlbl_cfg_unlbl_static_del
+.BI "(struct net *net "  ","
+.BI "const char *dev_name "  ","
+.BI "const void *addr "  ","
+.BI "const void *mask "  ","
+.BI "u16 family "  ","
+.BI "struct netlbl_audit *audit_info "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+network namespace
+.IP "dev_name" 12
+interface name
+.IP "addr" 12
+IP address in network byte order (struct in[6]_addr)
+.IP "mask" 12
+address mask in network byte order (struct in[6]_addr)
+.IP "family" 12
+address family
+.IP "audit_info" 12
+NetLabel audit information
+.SH "DESCRIPTION"
+Removes an existing NetLabel static label used when protocol provided labels
+are not present on incoming traffic.  If \fIdev_name\fP is NULL then the default
+interface will be used.  Returns zero on success, negative values on failure.

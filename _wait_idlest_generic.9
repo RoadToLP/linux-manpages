@@ -1,0 +1,27 @@
+.TH "_wait_idlest_generic" 9 "_wait_idlest_generic" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_wait_idlest_generic \- wait for a module to leave the idle state
+.SH SYNOPSIS
+.B "int" _wait_idlest_generic
+.BI "(struct clk_hw_omap *clk "  ","
+.BI "struct clk_omap_reg *reg "  ","
+.BI "u32 mask "  ","
+.BI "u8 idlest "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+module clock to wait for (needed for register offsets)
+.IP "reg" 12
+virtual address of module IDLEST register
+.IP "mask" 12
+value to mask against to determine if the module is active
+.IP "idlest" 12
+idle state indicator (0 or 1) for the clock
+.IP "name" 12
+name of the clock (for printk)
+.SH "DESCRIPTION"
+Wait for a module to leave idle, where its idle-status register is
+not inside the CM module.  Returns 1 if the module left idle
+promptly, or 0 if the module did not leave idle before the timeout
+elapsed.  XXX Deprecated - should be moved into drivers for the
+individual IP block that the IDLEST register exists in.

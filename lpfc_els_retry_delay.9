@@ -1,0 +1,19 @@
+.TH "lpfc_els_retry_delay" 9 "lpfc_els_retry_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_retry_delay \- Timer function with a ndlp delayed function timer
+.SH SYNOPSIS
+.B "void" lpfc_els_retry_delay
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+pointer to the timer function associated data (ndlp).
+.SH "DESCRIPTION"
+This routine is invoked by the ndlp delayed-function timer to check
+whether there is any pending ELS retry event(s) with the node. If not, it
+simply returns. Otherwise, if there is at least one ELS delayed event, it
+adds the delayed events to the HBA work list and invokes the
+\fBlpfc_worker_wake_up\fP routine to wake up worker thread to process the
+event. Note that \fBlpfc_nlp_get\fP is called before posting the event to
+the work list to hold reference count of ndlp so that it guarantees the
+reference to ndlp will still be available when the worker thread gets
+to the event associated with the ndlp.

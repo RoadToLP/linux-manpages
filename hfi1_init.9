@@ -1,0 +1,22 @@
+.TH "hfi1_init" 9 "hfi1_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfi1_init \- do the actual initialization sequence on the chip
+.SH SYNOPSIS
+.B "int" hfi1_init
+.BI "(struct hfi1_devdata *dd "  ","
+.BI "int reinit "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the hfi1_ib device
+.IP "reinit" 12
+re-initializing, so don't allocate new memory
+.SH "DESCRIPTION"
+Do the actual initialization sequence on the chip.  This is done
+both from the init routine called from the PCI infrastructure, and
+when we reset the chip, or detect that it was reset internally,
+or it's administratively re-enabled.
+
+Memory allocation here and in called routines is only done in
+the first case (reinit == 0).  We have to be careful, because even
+without memory allocation, we need to re-write all the chip registers
+TIDs, etc. after the reset or enable has completed.

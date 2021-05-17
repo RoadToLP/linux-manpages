@@ -1,0 +1,16 @@
+.TH "do_reset" 9 "do_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_reset \- issue a reset command
+.SH SYNOPSIS
+.B "void" do_reset
+.BI "(struct Scsi_Host *instance "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+adapter to reset
+.SH "DESCRIPTION"
+Issue a reset sequence to the NCR5380 and try and get the bus
+back into sane shape.
+
+This clears the reset interrupt flag because there may be no handler for
+it. When the driver is initialized, the \fBNCR5380_intr\fP handler has not yet
+been installed. And when in EH we may have released the ST DMA interrupt.

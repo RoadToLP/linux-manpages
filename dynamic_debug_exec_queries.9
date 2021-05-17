@@ -1,0 +1,17 @@
+.TH "dynamic_debug_exec_queries" 9 "dynamic_debug_exec_queries" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dynamic_debug_exec_queries \- select and change dynamic-debug prints
+.SH SYNOPSIS
+.B "int" dynamic_debug_exec_queries
+.BI "(const char *query "  ","
+.BI "const char *modname "  ");"
+.SH ARGUMENTS
+.IP "query" 12
+query-string described in admin-guide/dynamic-debug-howto
+.IP "modname" 12
+string containing module name, usually \fImodule.mod_name\fP
+.SH "DESCRIPTION"
+This uses the >/proc/dynamic_debug/control reader, allowing module
+authors to modify their dynamic-debug callsites. The modname is
+canonically struct module.mod_name, but can also be null or a
+module-wildcard, for example: "drm*".

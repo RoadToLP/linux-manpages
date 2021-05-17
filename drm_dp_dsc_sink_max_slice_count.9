@@ -1,0 +1,21 @@
+.TH "drm_dp_dsc_sink_max_slice_count" 9 "drm_dp_dsc_sink_max_slice_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_dsc_sink_max_slice_count \- Get the max slice count supported by the DSC sink.
+.SH SYNOPSIS
+.B "u8" drm_dp_dsc_sink_max_slice_count
+.BI "(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE] "  ","
+.BI "bool is_edp "  ");"
+.SH ARGUMENTS
+.IP "dsc_dpcd" 12
+DSC capabilities from DPCD
+.IP "is_edp" 12
+true if its eDP, false for DP
+.SH "DESCRIPTION"
+Read the slice capabilities DPCD register from DSC sink to get
+the maximum slice count supported. This is used to populate
+the DSC parameters in the \fIstruct drm_dsc_config\fP by the driver.
+Driver creates an infoframe using these parameters to populate
+\fIstruct drm_dsc_pps_infoframe\fP. These are sent to the sink using DSC
+infoframe using the helper function \fBdrm_dsc_pps_infoframe_pack\fP
+.SH "RETURN"
+Maximum slice count supported by DSC sink or 0 its invalid

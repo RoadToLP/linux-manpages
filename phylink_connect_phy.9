@@ -1,0 +1,22 @@
+.TH "phylink_connect_phy" 9 "phylink_connect_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phylink_connect_phy \- connect a PHY to the phylink instance
+.SH SYNOPSIS
+.B "int" phylink_connect_phy
+.BI "(struct phylink *pl "  ","
+.BI "struct phy_device *phy "  ");"
+.SH ARGUMENTS
+.IP "pl" 12
+a pointer to a \fIstruct phylink\fP returned from \fBphylink_create\fP
+.IP "phy" 12
+a pointer to a \fIstruct phy_device\fP.
+.SH "DESCRIPTION"
+Connect \fIphy\fP to the phylink instance specified by \fIpl\fP by calling
+\fBphy_attach_direct\fP. Configure the \fIphy\fP according to the MAC driver's
+capabilities, start the PHYLIB state machine and enable any interrupts
+that the PHY supports.
+
+This updates the phylink's ethtool supported and advertising link mode
+masks.
+
+Returns 0 on success or a negative errno.

@@ -1,0 +1,25 @@
+.TH "drm_send_event_timestamp_locked" 9 "drm_send_event_timestamp_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_send_event_timestamp_locked \- send DRM event to file descriptor
+.SH SYNOPSIS
+.B "void" drm_send_event_timestamp_locked
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_pending_event *e "  ","
+.BI "ktime_t timestamp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "e" 12
+DRM event to deliver
+.IP "timestamp" 12
+timestamp to set for the fence event in kernel's CLOCK_MONOTONIC
+time domain
+.SH "DESCRIPTION"
+This function sends the event \fIe\fP, initialized with \fBdrm_event_reserve_init\fP,
+to its associated userspace DRM file. Callers must already hold
+\fIdrm_device.event_lock\fP.
+
+Note that the core will take care of unlinking and disarming events when the
+corresponding DRM file is closed. Drivers need not worry about whether the
+DRM file for this event still exists and can call this function upon
+completion of the asynchronous work unconditionally.

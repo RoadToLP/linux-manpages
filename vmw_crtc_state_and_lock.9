@@ -1,0 +1,19 @@
+.TH "vmw_crtc_state_and_lock" 9 "vmw_crtc_state_and_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_crtc_state_and_lock \- Return new or current crtc state with locked crtc mutex
+.SH SYNOPSIS
+.B "struct drm_crtc_state *" vmw_crtc_state_and_lock
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+The atomic state pointer containing the new atomic state
+.IP "crtc" 12
+The crtc
+.SH "DESCRIPTION"
+This function returns the new crtc state if it's part of the state update.
+Otherwise returns the current crtc state. It also makes sure that the
+crtc mutex is locked.
+.SH "RETURN"
+A valid crtc state pointer or NULL. It may also return a
+pointer error, in particular -EDEADLK if locking needs to be rerun.

@@ -1,0 +1,20 @@
+.TH "drm_dp_mst_is_virtual_dpcd" 9 "drm_dp_mst_is_virtual_dpcd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_dp_mst_is_virtual_dpcd \- Is the given port a virtual DP Peer Device
+.SH SYNOPSIS
+.B "bool" drm_dp_mst_is_virtual_dpcd
+.BI "(struct drm_dp_mst_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+The port to check
+.SH "DESCRIPTION"
+A single physical MST hub object can be represented in the topology
+by multiple branches, with virtual ports between those branches.
+
+As of DP1.4, An MST hub with internal (virtual) ports must expose
+certain DPCD registers over those ports. See sections 2.6.1.1.1
+and 2.6.1.1.2 of Display Port specification v1.4 for details.
+
+May acquire mgr->lock
+.SH "RETURN"
+true if the port is a virtual DP peer device, false otherwise

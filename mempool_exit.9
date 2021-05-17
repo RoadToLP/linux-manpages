@@ -1,0 +1,16 @@
+.TH "mempool_exit" 9 "mempool_exit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mempool_exit \- exit a mempool initialized with mempool_init()
+.SH SYNOPSIS
+.B "void" mempool_exit
+.BI "(mempool_t *pool "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pointer to the memory pool which was initialized with
+\fBmempool_init\fP.
+.SH "DESCRIPTION"
+Free all reserved elements in \fIpool\fP and \fIpool\fP itself.  This function
+only sleeps if the \fBfree_fn\fP function sleeps.
+
+May be called on a zeroed but uninitialized mempool (i.e. allocated with
+\fBkzalloc\fP).

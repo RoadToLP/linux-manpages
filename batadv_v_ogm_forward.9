@@ -1,0 +1,27 @@
+.TH "batadv_v_ogm_forward" 9 "batadv_v_ogm_forward" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_v_ogm_forward \- check conditions and forward an OGM to the given outgoing interface
+.SH SYNOPSIS
+.B "void" batadv_v_ogm_forward
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "const struct batadv_ogm2_packet *ogm_received "  ","
+.BI "struct batadv_orig_node *orig_node "  ","
+.BI "struct batadv_neigh_node *neigh_node "  ","
+.BI "struct batadv_hard_iface *if_incoming "  ","
+.BI "struct batadv_hard_iface *if_outgoing "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "ogm_received" 12
+previously received OGM to be forwarded
+.IP "orig_node" 12
+the originator which has been updated
+.IP "neigh_node" 12
+the neigh_node through with the OGM has been received
+.IP "if_incoming" 12
+the interface on which this OGM was received on
+.IP "if_outgoing" 12
+the interface to which the OGM has to be forwarded to
+.SH "DESCRIPTION"
+Forward an OGM to an interface after having altered the throughput metric and
+the TTL value contained in it. The original OGM isn't modified.

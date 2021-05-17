@@ -1,0 +1,22 @@
+.TH "ath5k_hw_set_bssid_mask" 9 "ath5k_hw_set_bssid_mask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_set_bssid_mask \- Filter out bssids we listen
+.SH SYNOPSIS
+.B "void" ath5k_hw_set_bssid_mask
+.BI "(struct ath5k_hw *ah "  ","
+.BI "const u8 *mask "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "mask" 12
+The BSSID mask to set (array of octets)
+.SH "DESCRIPTION"
+BSSID masking is a method used by AR5212 and newer hardware to inform PCU
+which bits of the interface's MAC address should be looked at when trying
+to decide which packets to ACK. In station mode and AP mode with a single
+BSS every bit matters since we lock to only one BSS. In AP mode with
+multiple BSSes (virtual interfaces) not every bit matters because hw must
+accept frames for all BSSes and so we tweak some bits of our mac address
+in order to have multiple BSSes.
+
+For more information check out ../hw.c of the common ath module.

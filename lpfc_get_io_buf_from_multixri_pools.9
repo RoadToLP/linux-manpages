@@ -1,0 +1,33 @@
+.TH "lpfc_get_io_buf_from_multixri_pools" 9 "lpfc_get_io_buf_from_multixri_pools" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_get_io_buf_from_multixri_pools \- Get one free IO bufs
+.SH SYNOPSIS
+.B "struct lpfc_io_buf *" lpfc_get_io_buf_from_multixri_pools
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "int hwqid "  ","
+.BI "int expedite "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "ndlp" 12
+pointer to lpfc nodelist data structure.
+.IP "hwqid" 12
+belong to which HWQ
+.IP "expedite" 12
+1 means this request is urgent.
+.SH "DESCRIPTION"
+This routine will do the following actions and then return a pointer to
+one free IO buf.
+
+1. If private free xri count is empty, move some XRIs from public to
+private pool.
+2. Get one XRI from private free xri pool.
+3. If we fail to get one from pvt_pool and this is an expedite request,
+get one free xri from expedite pool.
+.SH "NOTE"
+ndlp is only used on SCSI side for RRQ testing.
+The caller should pass NULL for ndlp on NVME side.
+.SH "RETURN"
+pointer to one free IO buf - if private pool is not empty
+NULL - if private pool is empty

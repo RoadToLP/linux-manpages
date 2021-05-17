@@ -1,0 +1,21 @@
+.TH "pcpu_pre_unmap_flush" 9 "pcpu_pre_unmap_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_pre_unmap_flush \- flush cache prior to unmapping
+.SH SYNOPSIS
+.B "void" pcpu_pre_unmap_flush
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int page_start "  ","
+.BI "int page_end "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk the regions to be flushed belongs to
+.IP "page_start" 12
+page index of the first page to be flushed
+.IP "page_end" 12
+page index of the last page to be flushed + 1
+.SH "DESCRIPTION"
+Pages in [\fIpage_start\fP,\fIpage_end\fP) of \fIchunk\fP are about to be
+unmapped.  Flush cache.  As each flushing trial can be very
+expensive, issue flush on the whole region at once rather than
+doing it for each cpu.  This could be an overkill but is more
+scalable.

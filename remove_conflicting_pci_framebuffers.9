@@ -1,0 +1,18 @@
+.TH "remove_conflicting_pci_framebuffers" 9 "remove_conflicting_pci_framebuffers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+remove_conflicting_pci_framebuffers \- remove firmware-configured framebuffers for PCI devices
+.SH SYNOPSIS
+.B "int" remove_conflicting_pci_framebuffers
+.BI "(struct pci_dev *pdev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device
+.IP "name" 12
+requesting driver name
+.SH "DESCRIPTION"
+This function removes framebuffer devices (eg. initialized by firmware)
+using memory range configured for any of \fIpdev\fP's memory bars.
+
+The function assumes that PCI device with shadowed ROM drives a primary
+display and so kicks out vga16fb.

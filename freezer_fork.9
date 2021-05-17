@@ -1,0 +1,15 @@
+.TH "freezer_fork" 9 "freezer_fork" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freezer_fork \- cgroup post fork callback
+.SH SYNOPSIS
+.B "void" freezer_fork
+.BI "(struct task_struct *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+a task which has just been forked
+.SH "DESCRIPTION"
+\fItask\fP has just been created and should conform to the current state of
+the cgroup_freezer it belongs to.  This function may race against
+\fBfreezer_attach\fP.  Losing to \fBfreezer_attach\fP means that we don't have
+to do anything as \fBfreezer_attach\fP will put \fItask\fP into the appropriate
+state.

@@ -1,0 +1,24 @@
+.TH "scsi_add_lun" 9 "scsi_add_lun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_add_lun \- allocate and fully initialze a scsi_device
+.SH SYNOPSIS
+.B "int" scsi_add_lun
+.BI "(struct scsi_device *sdev "  ","
+.BI "unsigned char *inq_result "  ","
+.BI "blist_flags_t *bflags "  ","
+.BI "int async "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+holds information to be stored in the new scsi_device
+.IP "inq_result" 12
+holds the result of a previous INQUIRY to the LUN
+.IP "bflags" 12
+black/white list flag
+.IP "async" 12
+1 if this device is being scanned asynchronously
+.SH "DESCRIPTION"
+Initialize the scsi_device \fIsdev\fP.  Optionally set fields based
+on values in *\fIbflags\fP.
+.SH "RETURN"
+SCSI_SCAN_NO_RESPONSE: could not allocate or setup a scsi_device
+SCSI_SCAN_LUN_PRESENT: a new scsi_device was allocated and initialized

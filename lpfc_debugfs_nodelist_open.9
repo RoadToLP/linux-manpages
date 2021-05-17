@@ -1,0 +1,20 @@
+.TH "lpfc_debugfs_nodelist_open" 9 "lpfc_debugfs_nodelist_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_debugfs_nodelist_open \- Open the nodelist debugfs file
+.SH SYNOPSIS
+.B "int" lpfc_debugfs_nodelist_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode pointer that contains a vport pointer.
+.IP "file" 12
+The file pointer to attach the log output.
+.SH "DESCRIPTION"
+This routine is the entry point for the debugfs open file operation. It gets
+the vport from the i_private field in \fIinode\fP, allocates the necessary buffer
+for the log, fills the buffer from the in-memory log for this vport, and then
+returns a pointer to that log in the private_data field in \fIfile\fP.
+.SH "RETURN"
+This function returns zero if successful. On error it will return a negative
+error value.

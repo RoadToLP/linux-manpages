@@ -1,0 +1,24 @@
+.TH "evm_inode_post_setxattr" 9 "evm_inode_post_setxattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+evm_inode_post_setxattr \- update 'security.evm' to reflect the changes
+.SH SYNOPSIS
+.B "void" evm_inode_post_setxattr
+.BI "(struct dentry *dentry "  ","
+.BI "const char *xattr_name "  ","
+.BI "const void *xattr_value "  ","
+.BI "size_t xattr_value_len "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+pointer to the affected dentry
+.IP "xattr_name" 12
+pointer to the affected extended attribute name
+.IP "xattr_value" 12
+pointer to the new extended attribute value
+.IP "xattr_value_len" 12
+pointer to the new extended attribute value length
+.SH "DESCRIPTION"
+Update the HMAC stored in 'security.evm' to reflect the change.
+
+No need to take the i_mutex lock here, as this function is called from
+\fB__vfs_setxattr_noperm\fP.  The caller of which has taken the inode's
+i_mutex lock.

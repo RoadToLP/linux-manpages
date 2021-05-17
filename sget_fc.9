@@ -1,0 +1,27 @@
+.TH "sget_fc" 9 "sget_fc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sget_fc \- Find or create a superblock
+.SH SYNOPSIS
+.B "struct super_block *" sget_fc
+.BI "(struct fs_context *fc "  ","
+.BI "int (*test)(struct super_block *, struct fs_context *) "  ","
+.BI "int (*set)(struct super_block *, struct fs_context *) "  ");"
+.SH ARGUMENTS
+.IP "fc" 12
+Filesystem context.
+.IP "test" 12
+Comparison callback
+.IP "set" 12
+Setup callback
+.SH "DESCRIPTION"
+Find or create a superblock using the parameters stored in the filesystem
+context and the two callback functions.
+
+If an extant superblock is matched, then that will be returned with an
+elevated reference count that the caller must transfer or discard.
+
+If no match is made, a new superblock will be allocated and basic
+initialisation will be performed (s_type, s_fs_info and s_id will be set and
+the \fBset\fP callback will be invoked), the superblock will be published and it
+will be returned in a partially constructed state with SB_BORN and SB_ACTIVE
+as yet unset.

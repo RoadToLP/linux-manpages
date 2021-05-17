@@ -1,0 +1,19 @@
+.TH "omap_device_assert_hardreset" 9 "omap_device_assert_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_device_assert_hardreset \- set a device's hardreset line
+.SH SYNOPSIS
+.B "int" omap_device_assert_hardreset
+.BI "(struct platform_device *pdev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+struct platform_device * to reset
+.IP "name" 12
+const char * name of the reset line
+.SH "DESCRIPTION"
+Set the hardreset line identified by \fIname\fP on the IP blocks
+associated with the hwmods backing the platform_device \fIpdev\fP.  All
+of the hwmods associated with \fIpdev\fP must have the same hardreset
+line linked to them for this to work.  Passes along the return value
+of \fBomap_hwmod_assert_hardreset\fP in the event of any failure, or
+returns 0 upon success.

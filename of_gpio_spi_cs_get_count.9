@@ -1,0 +1,19 @@
+.TH "of_gpio_spi_cs_get_count" 9 "of_gpio_spi_cs_get_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_gpio_spi_cs_get_count \- special GPIO counting for SPI
+.SH SYNOPSIS
+.B "int" of_gpio_spi_cs_get_count
+.BI "(struct device *dev "  ","
+.BI "const char *con_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Consuming device
+.IP "con_id" 12
+Function within the GPIO consumer
+.SH "DESCRIPTION"
+Some elder GPIO controllers need special quirks. Currently we handle
+the Freescale and PPC GPIO controller with bindings that doesn't use the
+established "cs-gpios" for chip selects but instead rely on
+"gpios" for the chip select lines. If we detect this, we redirect
+the counting of "cs-gpios" to count "gpios" transparent to the
+driver.

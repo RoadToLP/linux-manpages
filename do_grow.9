@@ -1,0 +1,26 @@
+.TH "do_grow" 9 "do_grow" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_grow \- Touch and update inode size
+.SH SYNOPSIS
+.B "int" do_grow
+.BI "(struct inode *inode "  ","
+.BI "u64 size "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode
+.IP "size" 12
+The new size
+.SH "DESCRIPTION"
+This function updates the timestamps on the inode and
+may also increase the size of the inode. This function
+must not be called with \fIsize\fP any smaller than the current
+inode size.
+
+Although it is not strictly required to unstuff files here,
+earlier versions of GFS2 have a bug in the stuffed file reading
+code which will result in a buffer overrun if the size is larger
+than the max stuffed file size. In order to prevent this from
+occurring, such files are unstuffed, but in other cases we can
+just update the inode size directly.
+.SH "RETURN"
+0 on success, or -ve on error

@@ -1,0 +1,24 @@
+.TH "nfs4_test_session_trunk" 9 "nfs4_test_session_trunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_test_session_trunk \- 
+.SH SYNOPSIS
+.B "void" nfs4_test_session_trunk
+.BI "(struct rpc_clnt *clnt "  ","
+.BI "struct rpc_xprt *xprt "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "clnt" 12
+struct rpc_clnt to get new transport
+.IP "xprt" 12
+the rpc_xprt to test
+.IP "data" 12
+call data for _nfs4_proc_exchange_id.
+.SH "DESCRIPTION"
+
+This is an \fBadd_xprt_test\fP test function called from
+rpc_clnt_setup_test_and_add_xprt.
+
+The rpc_xprt_switch is referrenced by rpc_clnt_setup_test_and_add_xprt
+and is dereferrenced in nfs4_exchange_id_release
+
+Upon success, add the new transport to the rpc_clnt

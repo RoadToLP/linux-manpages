@@ -1,0 +1,22 @@
+.TH "aa_label_merge" 9 "aa_label_merge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_label_merge \- attempt to insert new merged label of @a and @b
+.SH SYNOPSIS
+.B "struct aa_label *" aa_label_merge
+.BI "(struct aa_label *a "  ","
+.BI "struct aa_label *b "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "a" 12
+label to merge with \fIb\fP  (NOT NULL)
+.IP "b" 12
+label to merge with \fIa\fP  (NOT NULL)
+.IP "gfp" 12
+memory allocation type
+.SH "DESCRIPTION"
+Requires: caller to hold valid refs on \fIa\fP and \fIb\fP
+labels be fully constructed with a valid ns
+.SH "RETURN"
+ref counted new label if successful in inserting merge of a & b
+else ref counted equivalent label that is already in the set.
+else NULL if could not create label (-ENOMEM)

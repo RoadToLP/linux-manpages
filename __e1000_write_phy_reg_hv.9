@@ -1,0 +1,24 @@
+.TH "__e1000_write_phy_reg_hv" 9 "__e1000_write_phy_reg_hv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__e1000_write_phy_reg_hv \- Write HV PHY register
+.SH SYNOPSIS
+.B "s32" __e1000_write_phy_reg_hv
+.BI "(struct e1000_hw *hw "  ","
+.BI "u32 offset "  ","
+.BI "u16 data "  ","
+.BI "bool locked "  ","
+.BI "bool page_set "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "offset" 12
+register offset to write to
+.IP "data" 12
+data to write at register offset
+.IP "locked" 12
+semaphore has already been acquired or not
+.IP "page_set" 12
+BM_WUC_PAGE already set and access enabled
+
+Acquires semaphore, if necessary, then writes the data to PHY register
+at the offset.  Release any acquired semaphores before exiting.

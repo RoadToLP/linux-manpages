@@ -1,0 +1,29 @@
+.TH "spider_net_init_firmware" 9 "spider_net_init_firmware" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spider_net_init_firmware \- reads in firmware parts
+.SH SYNOPSIS
+.B "int" spider_net_init_firmware
+.BI "(struct spider_net_card *card "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+card structure
+.SH "DESCRIPTION"
+Returns 0 on success, <0 on failure
+
+spider_net_init_firmware opens the sequencer firmware and does some basic
+checks. This function opens and releases the firmware structure. A call
+to download the firmware is performed before the release.
+
+Firmware format
+===============
+spider_fw.bin is expected to be a file containing 6*1024*4 bytes, 4k being
+the program for each sequencer. Use the command
+tail -q -n +2 Seq_code1_0x088.txt Seq_code2_0x090.txt               *         Seq_code3_0x098.txt Seq_code4_0x0A0.txt Seq_code5_0x0A8.txt    *         Seq_code6_0x0B0.txt | xxd -r -p -c4 > spider_fw.bin
+
+to generate spider_fw.bin, if you have sequencer programs with something
+like the following contents for each sequencer:
+<ONE LINE COMMENT>
+<FIRST 4-BYTES-WORD FOR SEQUENCER>
+<SECOND 4-BYTES-WORD FOR SEQUENCER>
+\&...
+<1024th 4-BYTES-WORD FOR SEQUENCER>

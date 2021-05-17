@@ -1,0 +1,33 @@
+.TH "qmi_encode_struct_elem" 9 "qmi_encode_struct_elem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qmi_encode_struct_elem \- Encodes elements of struct data type
+.SH SYNOPSIS
+.B "int" qmi_encode_struct_elem
+.BI "(struct qmi_elem_info *ei_array "  ","
+.BI "void *buf_dst "  ","
+.BI "const void *buf_src "  ","
+.BI "u32 elem_len "  ","
+.BI "u32 out_buf_len "  ","
+.BI "int enc_level "  ");"
+.SH ARGUMENTS
+.IP "ei_array" 12
+Struct info array descibing the struct element.
+.IP "buf_dst" 12
+Buffer to store the encoded information.
+.IP "buf_src" 12
+Buffer containing the elements to be encoded.
+.IP "elem_len" 12
+Number of elements, in the buf_src, to be encoded.
+.IP "out_buf_len" 12
+Available space in the encode buffer.
+.IP "enc_level" 12
+Depth of the nested structure from the main structure.
+.SH "DESCRIPTION"
+This function encodes the "elem_len" number of struct elements, each of
+size "ei_array->elem_size" bytes from the source buffer "buf_src" and
+stores the encoded information in the destination buffer "buf_dst". The
+elements are of struct data type which includes any C structure. This
+function returns the number of bytes of encoded information.
+.SH "RETURN"
+The number of bytes of encoded information on success or negative
+errno on error.

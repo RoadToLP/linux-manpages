@@ -1,0 +1,20 @@
+.TH "get_next_ddcb" 9 "get_next_ddcb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_next_ddcb \- Get next available DDCB
+.SH SYNOPSIS
+.B "struct ddcb *" get_next_ddcb
+.BI "(struct genwqe_dev *cd "  ","
+.BI "struct ddcb_queue *queue "  ","
+.BI "int *num "  ");"
+.SH ARGUMENTS
+.IP "cd" 12
+pointer to genwqe device descriptor
+.IP "queue" 12
+DDCB queue
+.IP "num" 12
+internal DDCB number
+.SH "DESCRIPTION"
+DDCB's content is completely cleared but presets for PRE and
+SEQNUM. This function must only be called when ddcb_lock is held.
+.SH "RETURN"
+NULL if no empty DDCB available otherwise ptr to next DDCB.

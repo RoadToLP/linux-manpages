@@ -1,0 +1,60 @@
+.TH "target_submit_cmd_map_sgls" 9 "target_submit_cmd_map_sgls" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+target_submit_cmd_map_sgls \- lookup unpacked lun and submit uninitialized se_cmd + use pre-allocated SGL memory.
+.SH SYNOPSIS
+.B "int" target_submit_cmd_map_sgls
+.BI "(struct se_cmd *se_cmd "  ","
+.BI "struct se_session *se_sess "  ","
+.BI "unsigned char *cdb "  ","
+.BI "unsigned char *sense "  ","
+.BI "u64 unpacked_lun "  ","
+.BI "u32 data_length "  ","
+.BI "int task_attr "  ","
+.BI "int data_dir "  ","
+.BI "int flags "  ","
+.BI "struct scatterlist *sgl "  ","
+.BI "u32 sgl_count "  ","
+.BI "struct scatterlist *sgl_bidi "  ","
+.BI "u32 sgl_bidi_count "  ","
+.BI "struct scatterlist *sgl_prot "  ","
+.BI "u32 sgl_prot_count "  ");"
+.SH ARGUMENTS
+.IP "se_cmd" 12
+command descriptor to submit
+.IP "se_sess" 12
+associated se_sess for endpoint
+.IP "cdb" 12
+pointer to SCSI CDB
+.IP "sense" 12
+pointer to SCSI sense buffer
+.IP "unpacked_lun" 12
+unpacked LUN to reference for struct se_lun
+.IP "data_length" 12
+fabric expected data transfer length
+.IP "task_attr" 12
+SAM task attribute
+.IP "data_dir" 12
+DMA data direction
+.IP "flags" 12
+flags for command submission from target_sc_flags_tables
+.IP "sgl" 12
+struct scatterlist memory for unidirectional mapping
+.IP "sgl_count" 12
+scatterlist count for unidirectional mapping
+.IP "sgl_bidi" 12
+struct scatterlist memory for bidirectional READ mapping
+.IP "sgl_bidi_count" 12
+scatterlist count for bidirectional READ mapping
+.IP "sgl_prot" 12
+struct scatterlist memory protection information
+.IP "sgl_prot_count" 12
+scatterlist count for protection information
+.SH "DESCRIPTION"
+Task tags are supported if the caller has set \fIse_cmd->tag\fP.
+
+Returns non zero to signal active I/O shutdown failure.  All other
+setup exceptions will be returned as a SCSI CHECK_CONDITION response,
+but still return zero here.
+
+This may only be called from process context, and also currently
+assumes internal allocation of fabric payload buffer by target-core.

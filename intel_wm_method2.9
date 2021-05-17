@@ -1,0 +1,41 @@
+.TH "intel_wm_method2" 9 "intel_wm_method2" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_wm_method2 \- Method 2 / "large buffer" watermark formula
+.SH SYNOPSIS
+.B "unsigned int" intel_wm_method2
+.BI "(unsigned int pixel_rate "  ","
+.BI "unsigned int htotal "  ","
+.BI "unsigned int width "  ","
+.BI "unsigned int cpp "  ","
+.BI "unsigned int latency "  ");"
+.SH ARGUMENTS
+.IP "pixel_rate" 12
+Pipe pixel rate in kHz
+.IP "htotal" 12
+Pipe horizontal total
+.IP "width" 12
+Plane width in pixels
+.IP "cpp" 12
+Plane bytes per pixel
+.IP "latency" 12
+Memory wakeup latency in 0.1us units
+.SH "DESCRIPTION"
+Compute the watermark using the method 2 or "large buffer"
+formula. The caller may additonally add extra cachelines
+to account for TLB misses and clock crossings.
+
+This method is concerned with the long term drain rate
+of the FIFO, ie. it does account for blanking periods
+which effectively reduce the average drain rate across
+a longer period. The name "large" refers to the fact the
+FIFO is relatively large compared to the amount of data
+fetched.
+
+The FIFO level vs. time graph might look something like:
+
+|\___       |\___
+|    \___   |    \___
+|        \  |         * __ --__--__--__--__--__--__ (- plane active, _ blanking)
+-> time
+.SH "RETURN"
+The watermark in bytes

@@ -1,0 +1,15 @@
+.TH "lpfc_dev_loss_tmo_handler" 9 "lpfc_dev_loss_tmo_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_dev_loss_tmo_handler \- Remote node devloss timeout handler
+.SH SYNOPSIS
+.B "int" lpfc_dev_loss_tmo_handler
+.BI "(struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "ndlp" 12
+Pointer to remote node object.
+.SH "DESCRIPTION"
+This function is called from the worker thread when devloss timeout timer
+expires. For SLI4 host, this routine shall return 1 when at lease one
+remote node, including this \fIndlp\fP, is still in use of FCF; otherwise, this
+routine shall return 0 when there is no remote node is still in use of FCF
+when devloss timeout happened to this \fIndlp\fP.

@@ -1,0 +1,19 @@
+.TH "iscsi_iser_check_protection" 9 "iscsi_iser_check_protection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_iser_check_protection \- check protection information status of task.
+.SH SYNOPSIS
+.B "u8" iscsi_iser_check_protection
+.BI "(struct iscsi_task *task "  ","
+.BI "sector_t *sector "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+iscsi task
+.IP "sector" 12
+error sector if exsists (output)
+.SH "RETURN"
+zero if no data-integrity errors have occured
+0x1: data-integrity error occured in the guard-block
+0x2: data-integrity error occured in the reference tag
+0x3: data-integrity error occured in the application tag
+
+In addition the error sector is marked.

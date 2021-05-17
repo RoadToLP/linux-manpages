@@ -1,0 +1,20 @@
+.TH "dev_mc_sync_multiple" 9 "dev_mc_sync_multiple" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_mc_sync_multiple \- Synchronize device's multicast list to another device, but allow for multiple calls to sync to multiple devices.
+.SH SYNOPSIS
+.B "int" dev_mc_sync_multiple
+.BI "(struct net_device *to "  ","
+.BI "struct net_device *from "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+destination device
+.IP "from" 12
+source device
+
+Add newly added addresses to the destination device and release
+addresses that have no users left. The source device must be
+locked by netif_addr_lock_bh.
+
+This function is intended to be called from the ndo_set_rx_mode
+function of layered software devices.  It allows for a single
+source device to be synced to multiple destination devices.

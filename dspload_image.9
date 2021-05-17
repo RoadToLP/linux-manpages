@@ -1,0 +1,32 @@
+.TH "dspload_image" 9 "dspload_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dspload_image \- Download DSP from a DSP Image Fast Load structure.
+.SH SYNOPSIS
+.B "int" dspload_image
+.BI "(struct hda_codec *codec "  ","
+.BI "const struct dsp_image_seg *fls "  ","
+.BI "bool ovly "  ","
+.BI "unsigned int reloc "  ","
+.BI "bool autostart "  ","
+.BI "int router_chans "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "fls" 12
+pointer to a fast load image
+.IP "ovly" 12
+TRUE if overlay format is required
+.IP "reloc" 12
+Relocation address for loading single-segment overlays, or 0 for
+no relocation
+.IP "autostart" 12
+TRUE if DSP starts after loading; ignored if ovly is TRUE
+.IP "router_chans" 12
+number of audio router channels to be allocated (0 means use
+internal defaults; max is 32)
+.SH "DESCRIPTION"
+Download DSP from a DSP Image Fast Load structure. This structure is a
+linear, non-constant sized element array of structures, each of which
+contain the count of the data to be loaded, the data itself, and the
+corresponding starting chip address of the starting data location.
+Returns zero or a negative error code.

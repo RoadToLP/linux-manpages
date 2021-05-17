@@ -1,0 +1,17 @@
+.TH "clk_disable" 9 "clk_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_disable \- gate a clock
+.SH SYNOPSIS
+.B "void" clk_disable
+.BI "(struct clk *clk "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+the clk being gated
+.SH "DESCRIPTION"
+clk_disable must not sleep, which differentiates it from clk_unprepare.  In
+a simple case, clk_disable can be used instead of clk_unprepare to gate a
+clk if the operation is fast and will never sleep.  One example is a
+SoC-internal clk which is controlled via simple register writes.  In the
+complex case a clk gate operation may require a fast and a slow part.  It is
+this reason that clk_unprepare and clk_disable are not mutually exclusive.
+In fact clk_disable must be called before clk_unprepare.

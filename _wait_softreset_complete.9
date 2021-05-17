@@ -1,0 +1,15 @@
+.TH "_wait_softreset_complete" 9 "_wait_softreset_complete" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_wait_softreset_complete \- wait for an OCP softreset to complete
+.SH SYNOPSIS
+.B "int" _wait_softreset_complete
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod * to wait on
+.SH "DESCRIPTION"
+Wait until the IP block represented by \fIoh\fP reports that its OCP
+softreset is complete.  This can be triggered by software (see
+\fB_ocp_softreset\fP) or by hardware upon returning from off-mode (one
+example is HSMMC).  Waits for up to MAX_MODULE_SOFTRESET_WAIT
+microseconds.  Returns the number of microseconds waited.

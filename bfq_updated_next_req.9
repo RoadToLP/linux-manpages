@@ -1,0 +1,18 @@
+.TH "bfq_updated_next_req" 9 "bfq_updated_next_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_updated_next_req \- update the queue after a new next_rq selection.
+.SH SYNOPSIS
+.B "void" bfq_updated_next_req
+.BI "(struct bfq_data *bfqd "  ","
+.BI "struct bfq_queue *bfqq "  ");"
+.SH ARGUMENTS
+.IP "bfqd" 12
+the device data the queue belongs to.
+.IP "bfqq" 12
+the queue to update.
+.SH "DESCRIPTION"
+If the first request of a queue changes we make sure that the queue
+has enough budget to serve at least its first request (if the
+request has grown).  We do this because if the queue has not enough
+budget for its first request, it has to go through two dispatch
+rounds to actually get it dispatched.

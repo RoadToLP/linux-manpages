@@ -1,0 +1,40 @@
+.TH "l3_handle_target" 9 "l3_handle_target" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+l3_handle_target \- Handle Target specific parse and reporting
+.SH SYNOPSIS
+.B "int" l3_handle_target
+.BI "(struct omap_l3 *l3 "  ","
+.BI "void __iomem *base "  ","
+.BI "struct l3_flagmux_data *flag_mux "  ","
+.BI "int err_src "  ");"
+.SH ARGUMENTS
+.IP "l3" 12
+pointer to l3 struct
+.IP "base" 12
+base address of clkdm
+.IP "flag_mux" 12
+flagmux corresponding to the event
+.IP "err_src" 12
+error source index of the slave (target)
+.SH "DESCRIPTION"
+This does the second part of the error interrupt handling:
+3) Parse in the slave information
+4) Print the logged information.
+5) Add dump stack to provide kernel trace.
+6) Clear the source if known.
+
+This handles two types of errors:
+1) Custom errors in L3 :
+Target like DMM/FW/EMIF generates SRESP=ERR error
+2) Standard L3 error:
+- Unsupported CMD.
+L3 tries to access target while it is idle
+- OCP disconnect.
+- Address hole error:
+If DSS/ISS/FDIF/USBHOSTFS access a target where they
+do not have connectivity, the error is logged in
+their default target which is DMM2.
+
+On High Secure devices, firewall errors are possible and those
+can be trapped as well. But the trapping is implemented as part
+secure software and hence need not be implemented here.

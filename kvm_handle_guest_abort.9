@@ -1,0 +1,16 @@
+.TH "kvm_handle_guest_abort" 9 "kvm_handle_guest_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_handle_guest_abort \- handles all 2nd stage aborts
+.SH SYNOPSIS
+.B "int" kvm_handle_guest_abort
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+the VCPU pointer
+.SH "DESCRIPTION"
+Any abort that gets to the host is almost guaranteed to be caused by a
+missing second stage translation table entry, which can mean that either the
+guest simply needs more memory and we must allocate an appropriate page or it
+can mean that the guest tried to access I/O memory, which is emulated by user
+space. The distinction is based on the IPA causing the fault and whether this
+memory region has been registered as standard RAM by user space.

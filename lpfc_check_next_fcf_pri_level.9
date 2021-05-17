@@ -1,0 +1,18 @@
+.TH "lpfc_check_next_fcf_pri_level" 9 "lpfc_check_next_fcf_pri_level" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_check_next_fcf_pri_level \- 
+.SH SYNOPSIS
+.B "int" lpfc_check_next_fcf_pri_level
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to the lpfc_hba struct for this port.
+This routine is called from the lpfc_sli4_fcf_rr_next_index_get
+routine when the rr_bmask is empty. The FCF indecies are put into the
+rr_bmask based on their priority level. Starting from the highest priority
+to the lowest. The most likely FCF candidate will be in the highest
+priority group. When this routine is called it searches the fcf_pri list for
+next lowest priority group and repopulates the rr_bmask with only those
+fcf_indexes.
+.SH "RETURN"
+1=success 0=failure

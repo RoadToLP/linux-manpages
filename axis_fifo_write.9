@@ -1,0 +1,27 @@
+.TH "axis_fifo_write" 9 "axis_fifo_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+axis_fifo_write \- Write buffer to AXIS-FIFO character device. @f Open file. @buf User space buffer to write to the device. @len User space buffer length. @off Buffer offset.
+.SH SYNOPSIS
+.B "ssize_t" axis_fifo_write
+.BI "(struct file *f "  ","
+.BI "const char __user *buf "  ","
+.BI "size_t len "  ","
+.BI "loff_t *off "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+-- undescribed --
+.IP "buf" 12
+-- undescribed --
+.IP "len" 12
+-- undescribed --
+.IP "off" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+As defined by the device's documentation, we need to write to the device's
+data buffer then to the device's packet length register atomically. Also,
+we need to lock before checking if the device has available space to avoid
+any concurrency issue.
+
+Returns the number of bytes written to the device or negative error code
+on failure.

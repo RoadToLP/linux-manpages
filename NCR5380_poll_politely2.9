@@ -1,0 +1,37 @@
+.TH "NCR5380_poll_politely2" 9 "NCR5380_poll_politely2" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+NCR5380_poll_politely2 \- wait for two chip register values
+.SH SYNOPSIS
+.B "int" NCR5380_poll_politely2
+.BI "(struct NCR5380_hostdata *hostdata "  ","
+.BI "unsigned int reg1 "  ","
+.BI "u8 bit1 "  ","
+.BI "u8 val1 "  ","
+.BI "unsigned int reg2 "  ","
+.BI "u8 bit2 "  ","
+.BI "u8 val2 "  ","
+.BI "unsigned long wait "  ");"
+.SH ARGUMENTS
+.IP "hostdata" 12
+host private data
+.IP "reg1" 12
+5380 register to poll
+.IP "bit1" 12
+Bitmask to check
+.IP "val1" 12
+Expected value
+.IP "reg2" 12
+Second 5380 register to poll
+.IP "bit2" 12
+Second bitmask to check
+.IP "val2" 12
+Second expected value
+.IP "wait" 12
+Time-out in jiffies, 0 if sleeping is not allowed
+.SH "DESCRIPTION"
+Polls the chip in a reasonably efficient manner waiting for an
+event to occur. After a short quick poll we begin to yield the CPU
+(if possible). In irq contexts the time-out is arbitrarily limited.
+Callers may hold locks as long as they are held in irq mode.
+
+Returns 0 if either or both event(s) occurred otherwise -ETIMEDOUT.

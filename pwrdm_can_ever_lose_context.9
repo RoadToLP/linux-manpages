@@ -1,0 +1,17 @@
+.TH "pwrdm_can_ever_lose_context" 9 "pwrdm_can_ever_lose_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_can_ever_lose_context \- can this powerdomain ever lose context?
+.SH SYNOPSIS
+.B "bool" pwrdm_can_ever_lose_context
+.BI "(struct powerdomain *pwrdm "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain *
+.SH "DESCRIPTION"
+Given a struct powerdomain * \fIpwrdm\fP, returns 1 if the powerdomain
+can lose either memory or logic context or if \fIpwrdm\fP is invalid, or
+returns 0 otherwise.  This function is not concerned with how the
+powerdomain registers are programmed (i.e., to go off or not); it's
+concerned with whether it's ever possible for this powerdomain to
+go off while some other part of the chip is active.  This function
+assumes that every powerdomain can go to either ON or INACTIVE.

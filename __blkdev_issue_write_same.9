@@ -1,0 +1,26 @@
+.TH "__blkdev_issue_write_same" 9 "__blkdev_issue_write_same" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__blkdev_issue_write_same \- generate number of bios with same page
+.SH SYNOPSIS
+.B "int" __blkdev_issue_write_same
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t sector "  ","
+.BI "sector_t nr_sects "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "struct page *page "  ","
+.BI "struct bio **biop "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+target blockdev
+.IP "sector" 12
+start sector
+.IP "nr_sects" 12
+number of sectors to write
+.IP "gfp_mask" 12
+memory allocation flags (for bio_alloc)
+.IP "page" 12
+page containing data to write
+.IP "biop" 12
+pointer to anchor bio
+.SH "DESCRIPTION"
+Generate and issue number of bios(REQ_OP_WRITE_SAME) with same page.

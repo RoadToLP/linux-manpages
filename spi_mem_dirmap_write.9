@@ -1,0 +1,27 @@
+.TH "spi_mem_dirmap_write" 9 "spi_mem_dirmap_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_mem_dirmap_write \- Write data through a direct mapping
+.SH SYNOPSIS
+.B "ssize_t" spi_mem_dirmap_write
+.BI "(struct spi_mem_dirmap_desc *desc "  ","
+.BI "u64 offs "  ","
+.BI "size_t len "  ","
+.BI "const void *buf "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+direct mapping descriptor
+.IP "offs" 12
+offset to start writing from. Note that this is not an absolute
+offset, but the offset within the direct mapping which already has
+its own offset
+.IP "len" 12
+length in bytes
+.IP "buf" 12
+source buffer. This buffer must be DMA-able
+.SH "DESCRIPTION"
+This function writes data to a memory device using a direct mapping
+previously instantiated with \fBspi_mem_dirmap_create\fP.
+.SH "RETURN"
+the amount of data written to the memory device or a negative error
+code. Note that the returned size might be smaller than \fIlen\fP, and the caller
+is responsible for calling \fBspi_mem_dirmap_write\fP again when that happens.

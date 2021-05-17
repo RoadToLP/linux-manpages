@@ -1,0 +1,16 @@
+.TH "of_get_next_parent" 9 "of_get_next_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_get_next_parent \- Iterate to a node's parent
+.SH SYNOPSIS
+.B "struct device_node *" of_get_next_parent
+.BI "(struct device_node *node "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+Node to get parent of
+
+This is like \fBof_get_parent\fP except that it drops the
+refcount on the passed node, making it suitable for iterating
+through a node's parents.
+
+Returns a node pointer with refcount incremented, use
+\fBof_node_put\fP on it when done.

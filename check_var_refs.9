@@ -1,0 +1,17 @@
+.TH "check_var_refs" 9 "check_var_refs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_var_refs \- Check if there is a reference to any of trigger's variables
+.SH SYNOPSIS
+.B "bool" check_var_refs
+.BI "(struct hist_trigger_data *hist_data "  ");"
+.SH ARGUMENTS
+.IP "hist_data" 12
+The hist trigger
+.SH "DESCRIPTION"
+A trigger can define one or more variables.  If any one of them is
+currently referenced by any other trigger, this function will
+determine that.
+Typically used to determine whether or not a trigger can be removed
+- if there are any references to a trigger's variables, it cannot.
+.SH "RETURN"
+True if there is a reference to any of trigger's variables

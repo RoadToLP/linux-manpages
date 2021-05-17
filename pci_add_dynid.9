@@ -1,0 +1,38 @@
+.TH "pci_add_dynid" 9 "pci_add_dynid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_add_dynid \- add a new PCI device ID to this driver and re-probe devices
+.SH SYNOPSIS
+.B "int" pci_add_dynid
+.BI "(struct pci_driver *drv "  ","
+.BI "unsigned int vendor "  ","
+.BI "unsigned int device "  ","
+.BI "unsigned int subvendor "  ","
+.BI "unsigned int subdevice "  ","
+.BI "unsigned int class "  ","
+.BI "unsigned int class_mask "  ","
+.BI "unsigned long driver_data "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+target pci driver
+.IP "vendor" 12
+PCI vendor ID
+.IP "device" 12
+PCI device ID
+.IP "subvendor" 12
+PCI subvendor ID
+.IP "subdevice" 12
+PCI subdevice ID
+.IP "class" 12
+PCI class
+.IP "class_mask" 12
+PCI class mask
+.IP "driver_data" 12
+private driver data
+.SH "DESCRIPTION"
+Adds a new dynamic pci device ID to this driver and causes the
+driver to probe for all devices again.  \fIdrv\fP must have been
+registered prior to calling this function.
+.SH "CONTEXT"
+Does GFP_KERNEL allocation.
+.SH "RETURN"
+0 on success, -errno on failure.

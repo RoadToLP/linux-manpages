@@ -1,0 +1,15 @@
+.TH "usb_composite_setup_continue" 9 "usb_composite_setup_continue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_composite_setup_continue \- Continue with the control transfer
+.SH SYNOPSIS
+.B "void" usb_composite_setup_continue
+.BI "(struct usb_composite_dev *cdev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+the composite device who's control transfer was kept waiting
+.SH "DESCRIPTION"
+This function must be called by the USB function driver to continue
+with the control transfer's data/status stage in case it had requested to
+delay the data/status stages. A USB function's setup handler (e.g. \fBset_alt\fP)
+can request the composite framework to delay the setup request's data/status
+stages by returning USB_GADGET_DELAYED_STATUS.

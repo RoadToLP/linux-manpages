@@ -1,0 +1,22 @@
+.TH "nd_region_acquire_lane" 9 "nd_region_acquire_lane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nd_region_acquire_lane \- allocate and lock a lane
+.SH SYNOPSIS
+.B "unsigned int" nd_region_acquire_lane
+.BI "(struct nd_region *nd_region "  ");"
+.SH ARGUMENTS
+.IP "nd_region" 12
+region id and number of lanes possible
+.SH "DESCRIPTION"
+A lane correlates to a BLK-data-window and/or a log slot in the BTT.
+We optimize for the common case where there are 256 lanes, one
+per-cpu.  For larger systems we need to lock to share lanes.  For now
+this implementation assumes the cost of maintaining an allocator for
+free lanes is on the order of the lock hold time, so it implements a
+static lane = cpu % num_lanes mapping.
+
+In the case of a BTT instance on top of a BLK namespace a lane may be
+acquired recursively.  We lock on the first instance.
+
+In the case of a BTT instance on top of PMEM, we only acquire a lane
+for the BTT metadata updates.

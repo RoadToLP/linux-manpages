@@ -1,0 +1,28 @@
+.TH "try_grab_page" 9 "try_grab_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_grab_page \- elevate a page's refcount by a flag-dependent amount
+.SH SYNOPSIS
+.B "bool" try_grab_page
+.BI "(struct page *page "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+pointer to page to be grabbed
+.IP "flags" 12
+gup flags: these are the FOLL_* flag values.
+.SH "DESCRIPTION"
+
+This might not do anything at all, depending on the flags argument.
+
+"grab" names in this file mean, "look at flags to decide whether to use
+FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
+
+Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at the same
+time. Cases:
+
+FOLL_GET: page's refcount will be incremented by 1.
+FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
+.SH "RETURN"
+true for success, or if no action was required (if neither FOLL_PIN
+nor FOLL_GET was set, nothing is done). False for failure: FOLL_GET or
+FOLL_PIN was set, but the page could not be grabbed.

@@ -1,0 +1,23 @@
+.TH "wimax_report_rfkill_sw" 9 "wimax_report_rfkill_sw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_report_rfkill_sw \- Reports changes in the software RF switch
+.SH SYNOPSIS
+.B "void" wimax_report_rfkill_sw
+.BI "(struct wimax_dev *wimax_dev "  ","
+.BI "enum wimax_rf_state state "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor
+.IP "state" 12
+New state of the RF kill switch. WIMAX_RF_ON radio on,
+WIMAX_RF_OFF radio off.
+.SH "DESCRIPTION"
+Reports changes in the software RF switch state to the WiMAX stack.
+
+The main use is during initialization, so the driver can query the
+device for its current software radio kill switch state and feed it
+to the system.
+
+On the side, the device does not change the software state by
+itself. In practice, this can happen, as the device might decide to
+switch (in software) the radio off for different reasons.

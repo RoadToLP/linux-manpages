@@ -1,0 +1,43 @@
+.TH "walk_page_mapping" 9 "walk_page_mapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+walk_page_mapping \- walk all memory areas mapped into a struct address_space.
+.SH SYNOPSIS
+.B "int" walk_page_mapping
+.BI "(struct address_space *mapping "  ","
+.BI "pgoff_t first_index "  ","
+.BI "pgoff_t nr "  ","
+.BI "const struct mm_walk_ops *ops "  ","
+.BI "void *private "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+Pointer to the struct address_space
+.IP "first_index" 12
+First page offset in the address_space
+.IP "nr" 12
+Number of incremental page offsets to cover
+.IP "ops" 12
+operation to call during the walk
+.IP "private" 12
+private data for callbacks' usage
+.SH "DESCRIPTION"
+This function walks all memory areas mapped into a struct address_space.
+The walk is limited to only the given page-size index range, but if
+the index boundaries cross a huge page-table entry, that entry will be
+included.
+
+Also see \fBwalk_page_range\fP for additional information.
+
+Locking:
+This function can't require that the struct mm_struct::mmap_lock is held,
+since \fImapping\fP may be mapped by multiple processes. Instead
+\fImapping->i_mmap_rwsem\fP must be held. This might have implications in the
+callbacks, and it's up tho the caller to ensure that the
+struct mm_struct::mmap_lock is not needed.
+
+Also this means that a caller can't rely on the struct
+vm_area_struct::vm_flags to be constant across a call,
+except for immutable flags. Callers requiring this shouldn't use
+this function.
+.SH "RETURN"
+0 on success, negative error code on failure, positive number on
+caller defined premature termination.

@@ -1,0 +1,15 @@
+.TH "lpfc_sli_chipset_init" 9 "lpfc_sli_chipset_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_chipset_init \- Wait for the restart of the HBA after a restart
+.SH SYNOPSIS
+.B "int" lpfc_sli_chipset_init
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is called after a HBA restart to wait for successful
+restart of the HBA. Successful restart of the HBA is indicated by
+HS_FFRDY and HS_MBRDY bits. If the HBA fails to restart even after 15
+iteration, the function will restart the HBA again. The function returns
+zero if HBA successfully restarted else returns negative error code.

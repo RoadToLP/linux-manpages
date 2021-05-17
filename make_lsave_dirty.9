@@ -1,0 +1,23 @@
+.TH "make_lsave_dirty" 9 "make_lsave_dirty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_lsave_dirty \- make lsave node dirty.
+.SH SYNOPSIS
+.B "int" make_lsave_dirty
+.BI "(struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number where lsave was written
+.IP "offs" 12
+offset where lsave was written
+.SH "DESCRIPTION"
+This function is used by LPT garbage collection.  LPT garbage collection is
+used only for the "big" LPT model (c->big_lpt == 1).  Garbage collection
+simply involves marking all the nodes in the LEB being garbage-collected as
+dirty.  The dirty nodes are written next commit, after which the LEB is free
+to be reused.
+
+This function returns 0 on success and a negative error code on failure.

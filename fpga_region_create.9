@@ -1,0 +1,21 @@
+.TH "fpga_region_create" 9 "fpga_region_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fpga_region_create \- alloc and init a struct fpga_region
+.SH SYNOPSIS
+.B "struct fpga_region *" fpga_region_create
+.BI "(struct device *dev "  ","
+.BI "struct fpga_manager *mgr "  ","
+.BI "int (*get_bridges)(struct fpga_region *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device parent
+.IP "mgr" 12
+manager that programs this region
+.IP "get_bridges" 12
+optional function to get bridges to a list
+.SH "DESCRIPTION"
+The caller of this function is responsible for freeing the resulting region
+struct with \fBfpga_region_free\fP.  Using \fBdevm_fpga_region_create\fP instead is
+recommended.
+.SH "RETURN"
+struct fpga_region or NULL

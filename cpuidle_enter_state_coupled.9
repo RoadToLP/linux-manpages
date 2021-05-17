@@ -1,0 +1,28 @@
+.TH "cpuidle_enter_state_coupled" 9 "cpuidle_enter_state_coupled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuidle_enter_state_coupled \- attempt to enter a state with coupled cpus
+.SH SYNOPSIS
+.B "int" cpuidle_enter_state_coupled
+.BI "(struct cpuidle_device *dev "  ","
+.BI "struct cpuidle_driver *drv "  ","
+.BI "int next_state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct cpuidle_device for the current cpu
+.IP "drv" 12
+struct cpuidle_driver for the platform
+.IP "next_state" 12
+index of the requested state in drv->states
+.SH "DESCRIPTION"
+Coordinate with coupled cpus to enter the target state.  This is a two
+stage process.  In the first stage, the cpus are operating independently,
+and may call into cpuidle_enter_state_coupled at completely different times.
+To save as much power as possible, the first cpus to call this function will
+go to an intermediate state (the cpuidle_device's safe state), and wait for
+all the other cpus to call this function.  Once all coupled cpus are idle,
+the second stage will start.  Each coupled cpu will spin until all cpus have
+guaranteed that they will call the target_state.
+
+This function must be called with interrupts disabled.  It may enable
+interrupts while preparing for idle, and it will always return with
+interrupts enabled.

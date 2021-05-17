@@ -1,0 +1,14 @@
+.TH "vmw_request_device_late" 9 "vmw_request_device_late" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_request_device_late \- Perform late device setup
+.SH SYNOPSIS
+.B "int" vmw_request_device_late
+.BI "(struct vmw_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to device private.
+.SH "DESCRIPTION"
+This function performs setup of otables and enables large command
+buffer submission. These tasks are split out to a separate function
+because it reverts vmw_release_device_early and is intended to be used
+by an error path in the hibernation code.

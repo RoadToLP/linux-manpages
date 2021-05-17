@@ -1,0 +1,17 @@
+.TH "inode_still_linked" 9 "inode_still_linked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_still_linked \- check whether inode in question will be re-linked.
+.SH SYNOPSIS
+.B "bool" inode_still_linked
+.BI "(struct ubifs_info *c "  ","
+.BI "struct replay_entry *rino "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "rino" 12
+replay entry to test
+.SH "DESCRIPTION"
+O_TMPFILE files can be re-linked, this means link count goes from 0 to 1.
+This case needs special care, otherwise all references to the inode will
+be removed upon the first replay entry of an inode with link count 0
+is found.

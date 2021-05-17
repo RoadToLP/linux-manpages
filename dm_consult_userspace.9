@@ -1,0 +1,36 @@
+.TH "dm_consult_userspace" 9 "dm_consult_userspace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dm_consult_userspace \- 
+.SH SYNOPSIS
+.B "int" dm_consult_userspace
+.BI "(const char *uuid "  ","
+.BI "uint64_t luid "  ","
+.BI "int request_type "  ","
+.BI "char *data "  ","
+.BI "size_t data_size "  ","
+.BI "char *rdata "  ","
+.BI "size_t *rdata_size "  ");"
+.SH ARGUMENTS
+.IP "uuid" 12
+log's universal unique identifier (must be DM_UUID_LEN in size)
+.IP "luid" 12
+log's local unique identifier
+.IP "request_type" 12
+found in include/linux/dm-log-userspace.h
+.IP "data" 12
+data to tx to the server
+.IP "data_size" 12
+size of data in bytes
+.IP "rdata" 12
+place to put return data from server
+.IP "rdata_size" 12
+value-result (amount of space given/amount of space used)
+.SH "DESCRIPTION"
+rdata_size is undefined on failure.
+
+Memory used to communicate with userspace is zero'ed
+before populating to ensure that no unwanted bits leak
+from kernel space to user-space.  All userspace log communications
+between kernel and user space go through this function.
+.SH "RETURN"
+0 on success, -EXXX on failure

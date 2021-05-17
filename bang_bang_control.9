@@ -1,0 +1,33 @@
+.TH "bang_bang_control" 9 "bang_bang_control" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bang_bang_control \- controls devices associated with the given zone
+.SH SYNOPSIS
+.B "int" bang_bang_control
+.BI "(struct thermal_zone_device *tz "  ","
+.BI "int trip "  ");"
+.SH ARGUMENTS
+.IP "tz" 12
+thermal_zone_device
+.IP "trip" 12
+the trip point
+.SH "DESCRIPTION"
+Regulation Logic: a two point regulation, deliver cooling state depending
+on the previous state shown in this diagram:
+
+Fan:   OFF    ON
+
+|
+|
+trip_temp:    +---->+
+|     |        ^
+|     |        |
+|     |   Temperature
+(trip_temp - hyst):    +<----+
+|
+|
+|
+
+* If the fan is not running and temperature exceeds trip_temp, the fan
+gets turned on.
+* In case the fan is running, temperature must fall below
+(trip_temp - hyst) so that the fan gets turned off again.

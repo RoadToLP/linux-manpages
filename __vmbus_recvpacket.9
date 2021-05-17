@@ -1,0 +1,29 @@
+.TH "__vmbus_recvpacket" 9 "__vmbus_recvpacket" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__vmbus_recvpacket \- Retrieve the user packet on the specified channel
+.SH SYNOPSIS
+.B "int" __vmbus_recvpacket
+.BI "(struct vmbus_channel *channel "  ","
+.BI "void *buffer "  ","
+.BI "u32 bufferlen "  ","
+.BI "u32 *buffer_actual_len "  ","
+.BI "u64 *requestid "  ","
+.BI "bool raw "  ");"
+.SH ARGUMENTS
+.IP "channel" 12
+Pointer to vmbus_channel structure
+.IP "buffer" 12
+Pointer to the buffer you want to receive the data into.
+.IP "bufferlen" 12
+Maximum size of what the buffer can hold.
+.IP "buffer_actual_len" 12
+The actual size of the data after it was received.
+.IP "requestid" 12
+Identifier of the request
+.IP "raw" 12
+true means keep the vmpacket_descriptor header in the received data.
+.SH "DESCRIPTION"
+Receives directly from the hyper-v vmbus and puts the data it received
+into Buffer. This will receive the data unparsed from hyper-v.
+
+Mainly used by Hyper-V drivers.

@@ -1,0 +1,25 @@
+.TH "sta350_set_dai_sysclk" 9 "sta350_set_dai_sysclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sta350_set_dai_sysclk \- configure MCLK
+.SH SYNOPSIS
+.B "int" sta350_set_dai_sysclk
+.BI "(struct snd_soc_dai *codec_dai "  ","
+.BI "int clk_id "  ","
+.BI "unsigned int freq "  ","
+.BI "int dir "  ");"
+.SH ARGUMENTS
+.IP "codec_dai" 12
+the codec DAI
+.IP "clk_id" 12
+the clock ID (ignored)
+.IP "freq" 12
+the MCLK input frequency
+.IP "dir" 12
+the clock direction (ignored)
+.SH "DESCRIPTION"
+The value of MCLK is used to determine which sample rates are supported
+by the STA350, based on the mcs_ratio_table.
+
+This function must be called by the machine driver's 'startup' function,
+otherwise the list of supported sample rates will not be available in
+time for ALSA.

@@ -1,0 +1,16 @@
+.TH "take_gc_lnum" 9 "take_gc_lnum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+take_gc_lnum \- reserve GC LEB.
+.SH SYNOPSIS
+.B "int" take_gc_lnum
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function ensures that the LEB reserved for garbage collection is marked
+as "taken" in lprops. We also have to set free space to LEB size and dirty
+space to zero, because lprops may contain out-of-date information if the
+file-system was un-mounted before it has been committed. This function
+returns zero in case of success and a negative error code in case of
+failure.

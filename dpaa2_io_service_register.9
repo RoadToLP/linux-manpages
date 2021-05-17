@@ -1,0 +1,27 @@
+.TH "dpaa2_io_service_register" 9 "dpaa2_io_service_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpaa2_io_service_register \- Prepare for servicing of FQDAN or CDAN notifications on the given DPIO service.
+.SH SYNOPSIS
+.B "int" dpaa2_io_service_register
+.BI "(struct dpaa2_io *d "  ","
+.BI "struct dpaa2_io_notification_ctx *ctx "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "d" 12
+the given DPIO service.
+.IP "ctx" 12
+the notification context.
+.IP "dev" 12
+the device that requests the register
+.SH "DESCRIPTION"
+The caller should make the MC command to attach a DPAA2 object to
+a DPIO after this function completes successfully.  In that way:
+(a) The DPIO service is "ready" to handle a notification arrival
+(which might happen before the "attach" command to MC has
+returned control of execution back to the caller)
+(b) The DPIO service can provide back to the caller the 'dpio_id' and
+'qman64' parameters that it should pass along in the MC command
+in order for the object to be configured to produce the right
+notification fields to the DPIO service.
+
+Return 0 for success, or -ENODEV for failure.

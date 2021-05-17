@@ -1,0 +1,17 @@
+.TH "intel_power_domains_enable" 9 "intel_power_domains_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_power_domains_enable \- enable toggling of display power wells
+.SH SYNOPSIS
+.B "void" intel_power_domains_enable
+.BI "(struct drm_i915_private *i915 "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device instance
+.SH "DESCRIPTION"
+Enable the ondemand enabling/disabling of the display power wells. Note that
+power wells not belonging to POWER_DOMAIN_INIT are allowed to be toggled
+only at specific points of the display modeset sequence, thus they are not
+affected by the \fBintel_power_domains_enable\fP/\fBdisable\fP calls. The purpose
+of these function is to keep the rest of power wells enabled until the end
+of display HW readout (which will acquire the power references reflecting
+the current HW state).

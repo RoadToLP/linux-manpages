@@ -1,0 +1,29 @@
+.TH "phy_get_internal_delay" 9 "phy_get_internal_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_get_internal_delay \- returns the index of the internal delay
+.SH SYNOPSIS
+.B "s32" phy_get_internal_delay
+.BI "(struct phy_device *phydev "  ","
+.BI "struct device *dev "  ","
+.BI "const int *delay_values "  ","
+.BI "int size "  ","
+.BI "bool is_rx "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+phy_device struct
+.IP "dev" 12
+pointer to the devices device struct
+.IP "delay_values" 12
+array of delays the PHY supports
+.IP "size" 12
+the size of the delay array
+.IP "is_rx" 12
+boolean to indicate to get the rx internal delay
+.SH "DESCRIPTION"
+Returns the index within the array of internal delay passed in.
+If the device property is not present then the interface type is checked
+if the interface defines use of internal delay then a 1 is returned otherwise
+a 0 is returned.
+The array must be in ascending order. If PHY does not have an ascending order
+array then size = 0 and the value of the delay property is returned.
+Return -EINVAL if the delay is invalid or cannot be found.

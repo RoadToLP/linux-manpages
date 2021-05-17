@@ -1,0 +1,20 @@
+.TH "_scsih_check_ir_config_unhide_events" 9 "_scsih_check_ir_config_unhide_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_scsih_check_ir_config_unhide_events \- check for UNHIDE events
+.SH SYNOPSIS
+.B "void" _scsih_check_ir_config_unhide_events
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "Mpi2EventDataIrConfigChangeList_t *event_data "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "event_data" 12
+the event data payload
+.SH "CONTEXT"
+interrupt time.
+.SH "DESCRIPTION"
+This routine will send target reset to volume, followed by target
+resets to the PDs. This is called when a PD has been removed, or
+volume has been deleted or removed. When the target reset is sent
+to volume, the PD target resets need to be queued to start upon
+completion of the volume target reset.

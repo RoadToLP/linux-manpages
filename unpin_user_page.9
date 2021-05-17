@@ -1,0 +1,14 @@
+.TH "unpin_user_page" 9 "unpin_user_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unpin_user_page \- release a dma-pinned page
+.SH SYNOPSIS
+.B "void" unpin_user_page
+.BI "(struct page *page "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+pointer to page to be released
+.SH "DESCRIPTION"
+Pages that were pinned via pin_user_pages*() must be released via either
+\fBunpin_user_page\fP, or one of the unpin_user_pages*() routines. This is so
+that such pages can be separately tracked and uniquely handled. In
+particular, interactions with RDMA and filesystems need special handling.

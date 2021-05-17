@@ -1,0 +1,27 @@
+.TH "ubi_bitflip_check" 9 "ubi_bitflip_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_bitflip_check \- Check an eraseblock for bitflips and scrub it if needed.
+.SH SYNOPSIS
+.B "int" ubi_bitflip_check
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "int force "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+the physical eraseblock to schedule
+.IP "force" 12
+dont't read the block, assume bitflips happened and take action.
+.SH "DESCRIPTION"
+This function reads the given eraseblock and checks if bitflips occured.
+In case of bitflips, the eraseblock is scheduled for scrubbing.
+If scrubbing is forced with \fIforce\fP, the eraseblock is not read,
+but scheduled for scrubbing right away.
+.SH "RETURN"
+EINVAL, PEB is out of range
+ENOENT, PEB is no longer used by UBI
+EBUSY, PEB cannot be checked now or a check is currently running on it
+EAGAIN, bit flips happened but scrubbing is currently not possible
+EUCLEAN, bit flips happened and PEB is scheduled for scrubbing
+0, no bit flips detected

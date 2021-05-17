@@ -1,0 +1,19 @@
+.TH "ata_dev_classify" 9 "ata_dev_classify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_dev_classify \- determine device type based on ATA-spec signature
+.SH SYNOPSIS
+.B "unsigned int" ata_dev_classify
+.BI "(const struct ata_taskfile *tf "  ");"
+.SH ARGUMENTS
+.IP "tf" 12
+ATA taskfile register set for device to be identified
+
+Determine from taskfile register contents whether a device is
+ATA or ATAPI, as per "Signature and persistence" section
+of ATA/PI spec (volume 1, sect 5.14).
+
+LOCKING:
+None.
+.SH "RETURN"
+Device type, ATA_DEV_ATA, ATA_DEV_ATAPI, ATA_DEV_PMP,
+ATA_DEV_ZAC, or ATA_DEV_UNKNOWN the event of failure.

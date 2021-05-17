@@ -1,0 +1,26 @@
+.TH "vxfs_bmap_indir" 9 "vxfs_bmap_indir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vxfs_bmap_indir \- recursion for vxfs_bmap_typed
+.SH SYNOPSIS
+.B "daddr_t" vxfs_bmap_indir
+.BI "(struct inode *ip "  ","
+.BI "long indir "  ","
+.BI "int size "  ","
+.BI "long block "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+pointer to the inode we do bmap for
+.IP "indir" 12
+indirect block we start reading at
+.IP "size" 12
+size of the typed area to search
+.IP "block" 12
+partially result from further searches
+.SH "DESCRIPTION"
+vxfs_bmap_indir reads a \fIstruct vxfs_typed\fP at \fIindir\fP
+and performs the type-defined action.
+
+Return Value:
+The physical block number on success, else Zero.
+.SH "NOTE"
+Kernelstack is rare.  Unrecurse?

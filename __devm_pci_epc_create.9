@@ -1,0 +1,20 @@
+.TH "__devm_pci_epc_create" 9 "__devm_pci_epc_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devm_pci_epc_create \- create a new endpoint controller (EPC) device
+.SH SYNOPSIS
+.B "struct pci_epc *" __devm_pci_epc_create
+.BI "(struct device *dev "  ","
+.BI "const struct pci_epc_ops *ops "  ","
+.BI "struct module *owner "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device that is creating the new EPC
+.IP "ops" 12
+function pointers for performing EPC operations
+.IP "owner" 12
+the owner of the module that creates the EPC device
+.SH "DESCRIPTION"
+Invoke to create a new EPC device and add it to pci_epc class.
+While at that, it also associates the device with the pci_epc using devres.
+On driver detach, release function is invoked on the devres data,
+then, devres data is freed.

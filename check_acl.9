@@ -1,0 +1,25 @@
+.TH "check_acl" 9 "check_acl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_acl \- perform ACL permission checking
+.SH SYNOPSIS
+.B "int" check_acl
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "int mask "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+inode to check permissions on
+.IP "mask" 12
+right to check for (MAY_READ, MAY_WRITE, MAY_EXEC ...)
+.SH "DESCRIPTION"
+This function performs the ACL permission checking. Since this function
+retrieve POSIX acls it needs to know whether it is called from a blocking or
+non-blocking context and thus cares about the MAY_NOT_BLOCK bit.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions.
+On non-idmapped mounts or if permission checking is to be performed on the
+raw inode simply passs init_user_ns.

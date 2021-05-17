@@ -1,0 +1,20 @@
+.TH "drm_atomic_helper_commit_hw_done" 9 "drm_atomic_helper_commit_hw_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_commit_hw_done \- setup possible nonblocking commit
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_commit_hw_done
+.BI "(struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+This function is used to signal completion of the hardware commit step. After
+this step the driver is not allowed to read or change any permanent software
+or hardware modeset state. The only exception is state protected by other
+means than \fIdrm_modeset_lock\fP locks.
+
+Drivers should try to postpone any expensive or delayed cleanup work after
+this function is called.
+
+This is part of the atomic helper support for nonblocking commits, see
+\fBdrm_atomic_helper_setup_commit\fP for an overview.

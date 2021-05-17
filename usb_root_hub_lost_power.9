@@ -1,0 +1,16 @@
+.TH "usb_root_hub_lost_power" 9 "usb_root_hub_lost_power" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_root_hub_lost_power \- called by HCD if the root hub lost Vbus power
+.SH SYNOPSIS
+.B "void" usb_root_hub_lost_power
+.BI "(struct usb_device *rhdev "  ");"
+.SH ARGUMENTS
+.IP "rhdev" 12
+struct usb_device for the root hub
+.SH "DESCRIPTION"
+The USB host controller driver calls this function when its root hub
+is resumed and Vbus power has been interrupted or the controller
+has been reset.  The routine marks \fIrhdev\fP as having lost power.
+When the hub driver is resumed it will take notice and carry out
+power-session recovery for all the "USB-PERSIST"-enabled child devices;
+the others will be disconnected.

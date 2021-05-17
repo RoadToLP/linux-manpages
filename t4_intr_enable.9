@@ -1,0 +1,18 @@
+.TH "t4_intr_enable" 9 "t4_intr_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_intr_enable \- enable interrupts
+.SH SYNOPSIS
+.B "void" t4_intr_enable
+.BI "(struct adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter whose interrupts should be enabled
+
+Enable PF-specific interrupts for the calling function and the top-level
+interrupt concentrator for global interrupts.  Interrupts are already
+enabled at each module, here we just enable the roots of the interrupt
+hierarchies.
+.SH "NOTE"
+this function should be called only when the driver manages
+non PF-specific interrupts from the various HW modules.  Only one PCI
+function at a time should be doing this.

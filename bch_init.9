@@ -1,0 +1,32 @@
+.TH "bch_init" 9 "bch_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bch_init \- initialize a BCH encoder/decoder
+.SH SYNOPSIS
+.B "struct bch_control *" bch_init
+.BI "(int m "  ","
+.BI "int t "  ","
+.BI "unsigned int prim_poly "  ","
+.BI "bool swap_bits "  ");"
+.SH ARGUMENTS
+.IP "m" 12
+Galois field order, should be in the range 5-15
+.IP "t" 12
+maximum error correction capability, in bits
+.IP "prim_poly" 12
+user-provided primitive polynomial (or 0 to use default)
+.IP "swap_bits" 12
+swap bits within data and syndrome bytes
+.SH "RETURN"
+a newly allocated BCH control structure if successful, NULL otherwise
+.SH "DESCRIPTION"
+This initialization can take some time, as lookup tables are built for fast
+encoding/decoding; make sure not to call this function from a time critical
+path. Usually, \fBbch_init\fP should be called on module/driver init and
+\fBbch_free\fP should be called to release memory on exit.
+
+You may provide your own primitive polynomial of degree \fIm\fP in argument
+\fIprim_poly\fP, or let \fBbch_init\fP use its default polynomial.
+
+Once \fBbch_init\fP has successfully returned a pointer to a newly allocated
+BCH control structure, ecc length in bytes is given by member \fIecc_bytes\fP of
+the structure.

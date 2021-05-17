@@ -1,0 +1,21 @@
+.TH "__mdiobus_register" 9 "__mdiobus_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__mdiobus_register \- bring up all the PHYs on a given bus and attach them to bus
+.SH SYNOPSIS
+.B "int" __mdiobus_register
+.BI "(struct mii_bus *bus "  ","
+.BI "struct module *owner "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+target mii_bus
+.IP "owner" 12
+module containing bus accessor functions
+.SH "DESCRIPTION"
+Called by a bus driver to bring up all the PHYs
+on a given bus, and attach them to the bus. Drivers should use
+\fBmdiobus_register\fP rather than \fB__mdiobus_register\fP unless they
+need to pass a specific owner module. MDIO devices which are not
+PHYs will not be brought up by this function. They are expected to
+to be explicitly listed in DT and instantiated by \fBof_mdiobus_register\fP.
+
+Returns 0 on success or < 0 on error.

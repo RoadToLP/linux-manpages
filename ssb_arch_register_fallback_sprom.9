@@ -1,0 +1,25 @@
+.TH "ssb_arch_register_fallback_sprom" 9 "ssb_arch_register_fallback_sprom" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssb_arch_register_fallback_sprom \- Registers a method providing a fallback SPROM if no SPROM is found.
+.SH SYNOPSIS
+.B "int" ssb_arch_register_fallback_sprom
+.BI "(int (*sprom_callback)(struct ssb_bus *bus, struct ssb_sprom *out) "  ");"
+.SH ARGUMENTS
+.IP "sprom_callback" 12
+The callback function.
+.SH "DESCRIPTION"
+With this function the architecture implementation may register a
+callback handler which fills the SPROM data structure. The fallback is
+only used for PCI based SSB devices, where no valid SPROM can be found
+in the shadow registers.
+
+This function is useful for weird architectures that have a half-assed
+SSB device hardwired to their PCI bus.
+
+Note that it does only work with PCI attached SSB devices. PCMCIA
+devices currently don't use this fallback.
+Architectures must provide the SPROM for native SSB devices anyway, so
+the fallback also isn't used for native devices.
+
+This function is available for architecture code, only. So it is not
+exported.

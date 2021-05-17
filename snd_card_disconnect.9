@@ -1,0 +1,16 @@
+.TH "snd_card_disconnect" 9 "snd_card_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_card_disconnect \- disconnect all APIs from the file-operations (user space)
+.SH SYNOPSIS
+.B "int" snd_card_disconnect
+.BI "(struct snd_card *card "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+soundcard structure
+
+Disconnects all APIs from the file-operations (user space).
+.SH "RETURN"
+Zero, otherwise a negative error code.
+.SH "NOTE"
+The current implementation replaces all active file->f_op with special
+dummy file operations (they do nothing except release).

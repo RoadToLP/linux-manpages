@@ -1,0 +1,29 @@
+.TH "ntfs_rl_realloc" 9 "ntfs_rl_realloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_rl_realloc \- Reallocate memory for runlists
+.SH SYNOPSIS
+.B "runlist_element *" ntfs_rl_realloc
+.BI "(runlist_element *rl "  ","
+.BI "int old_size "  ","
+.BI "int new_size "  ");"
+.SH ARGUMENTS
+.IP "rl" 12
+original runlist
+.IP "old_size" 12
+number of runlist elements in the original runlist \fIrl\fP
+.IP "new_size" 12
+number of runlist elements we need space for
+.SH "DESCRIPTION"
+As the runlists grow, more memory will be required.  To prevent the
+kernel having to allocate and reallocate large numbers of small bits of
+memory, this function returns an entire page of memory.
+
+It is up to the caller to serialize access to the runlist \fIrl\fP.
+
+N.B.  If the new allocation doesn't require a different number of pages in
+memory, the function will return the original pointer.
+
+On success, return a pointer to the newly allocated, or recycled, memory.
+On error, return -errno. The following error codes are defined:
+-ENOMEM - Not enough memory to allocate runlist array.
+-EINVAL - Invalid parameters were passed in.

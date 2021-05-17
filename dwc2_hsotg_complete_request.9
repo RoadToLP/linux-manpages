@@ -1,0 +1,24 @@
+.TH "dwc2_hsotg_complete_request" 9 "dwc2_hsotg_complete_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hsotg_complete_request \- complete a request given to us
+.SH SYNOPSIS
+.B "void" dwc2_hsotg_complete_request
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_hsotg_ep *hs_ep "  ","
+.BI "struct dwc2_hsotg_req *hs_req "  ","
+.BI "int result "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The device state.
+.IP "hs_ep" 12
+The endpoint the request was on.
+.IP "hs_req" 12
+The request to complete.
+.IP "result" 12
+The result code (0 => Ok, otherwise errno)
+.SH "DESCRIPTION"
+The given request has finished, so call the necessary completion
+if it has one and then look to see if we can start a new request
+on the endpoint.
+
+Note, expects the ep to already be locked as appropriate.

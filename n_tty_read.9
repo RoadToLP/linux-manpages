@@ -1,0 +1,35 @@
+.TH "n_tty_read" 9 "n_tty_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_read \- read function for tty
+.SH SYNOPSIS
+.B "ssize_t" n_tty_read
+.BI "(struct tty_struct *tty "  ","
+.BI "struct file *file "  ","
+.BI "unsigned char *kbuf "  ","
+.BI "size_t nr "  ","
+.BI "void **cookie "  ","
+.BI "unsigned long offset "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device
+.IP "file" 12
+file object
+.IP "kbuf" 12
+-- undescribed --
+.IP "nr" 12
+size of I/O
+
+Perform reads for the line discipline. We are guaranteed that the
+line discipline will not be closed under us but we may get multiple
+parallel readers and must handle this ourselves. We may also get
+a hangup. Always called in user context, may sleep.
+
+This code must be sure never to sleep through a hangup.
+
+\fBn_tty_read\fP/consumer path:
+claims non-exclusive termios_rwsem
+publishes read_tail
+.IP "cookie" 12
+-- undescribed --
+.IP "offset" 12
+-- undescribed --

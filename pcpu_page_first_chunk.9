@@ -1,0 +1,26 @@
+.TH "pcpu_page_first_chunk" 9 "pcpu_page_first_chunk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_page_first_chunk \- map the first chunk using PAGE_SIZE pages
+.SH SYNOPSIS
+.B "int" pcpu_page_first_chunk
+.BI "(size_t reserved_size "  ","
+.BI "pcpu_fc_alloc_fn_t alloc_fn "  ","
+.BI "pcpu_fc_free_fn_t free_fn "  ","
+.BI "pcpu_fc_populate_pte_fn_t populate_pte_fn "  ");"
+.SH ARGUMENTS
+.IP "reserved_size" 12
+the size of reserved percpu area in bytes
+.IP "alloc_fn" 12
+function to allocate percpu page, always called with PAGE_SIZE
+.IP "free_fn" 12
+function to free percpu page, always called with PAGE_SIZE
+.IP "populate_pte_fn" 12
+function to populate pte
+.SH "DESCRIPTION"
+This is a helper to ease setting up page-remapped first percpu
+chunk and can be called where \fBpcpu_setup_first_chunk\fP is expected.
+
+This is the basic allocator.  Static percpu area is allocated
+page-by-page into vmalloc area.
+.SH "RETURN"
+0 on success, -errno on failure.

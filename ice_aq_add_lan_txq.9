@@ -1,0 +1,33 @@
+.TH "ice_aq_add_lan_txq" 9 "ice_aq_add_lan_txq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_aq_add_lan_txq \- 
+.SH SYNOPSIS
+.B "enum ice_status" ice_aq_add_lan_txq
+.BI "(struct ice_hw *hw "  ","
+.BI "u8 num_qgrps "  ","
+.BI "struct ice_aqc_add_tx_qgrp *qg_list "  ","
+.BI "u16 buf_size "  ","
+.BI "struct ice_sq_cd *cd "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "num_qgrps" 12
+Number of added queue groups
+.IP "qg_list" 12
+list of queue groups to be added
+.IP "buf_size" 12
+size of buffer for indirect command
+.IP "cd" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+Add Tx LAN queue (0x0C30)
+
+After add Tx LAN queue AQ command is completed:
+Interrupts should be associated with specific queues,
+Association of Tx queue to Doorbell queue is not part of Add LAN Tx queue
+flow.
+.SH "NOTE"
+Prior to calling add Tx LAN queue:
+Initialize the following as part of the Tx queue context:
+Completion queue ID if the queue uses Completion queue, Quanta profile,
+Cache profile and Packet shaper profile.

@@ -1,0 +1,19 @@
+.TH "drm_mode_config_helper_suspend" 9 "drm_mode_config_helper_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_mode_config_helper_suspend \- Modeset suspend helper
+.SH SYNOPSIS
+.B "int" drm_mode_config_helper_suspend
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+This helper function takes care of suspending the modeset side. It disables
+output polling if initialized, suspends fbdev if used and finally calls
+\fBdrm_atomic_helper_suspend\fP.
+If suspending fails, fbdev and polling is re-enabled.
+
+See also:
+\fBdrm_kms_helper_poll_disable\fP and \fBdrm_fb_helper_set_suspend_unlocked\fP.
+.SH "RETURN"
+Zero on success, negative error code on error.

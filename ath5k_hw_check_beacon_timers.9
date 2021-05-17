@@ -1,0 +1,46 @@
+.TH "ath5k_hw_check_beacon_timers" 9 "ath5k_hw_check_beacon_timers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_check_beacon_timers \- Check if the beacon timers are correct
+.SH SYNOPSIS
+.B "bool" ath5k_hw_check_beacon_timers
+.BI "(struct ath5k_hw *ah "  ","
+.BI "int intval "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "intval" 12
+beacon interval
+.SH "DESCRIPTION"
+This is a workaround for IBSS mode
+
+The need for this function arises from the fact that we have 4 separate
+HW timer registers (TIMER0 - TIMER3), which are closely related to the
+next beacon target time (NBTT), and that the HW updates these timers
+separately based on the current TSF value. The hardware increments each
+timer by the beacon interval, when the local TSF converted to TU is equal
+to the value stored in the timer.
+
+The reception of a beacon with the same BSSID can update the local HW TSF
+at any time - this is something we can't avoid. If the TSF jumps to a
+time which is later than the time stored in a timer, this timer will not
+be updated until the TSF in TU wraps around at 16 bit (the size of the
+timers) and reaches the time which is stored in the timer.
+
+The problem is that these timers are closely related to TIMER0 (NBTT) and
+that they define a time "window". When the TSF jumps between two timers
+(e.g. ATIM and NBTT), the one in the past will be left behind (not
+updated), while the one in the future will be updated every beacon
+interval. This causes the window to get larger, until the TSF wraps
+around as described above and the timer which was left behind gets
+updated again. But - because the beacon interval is usually not an exact
+divisor of the size of the timers (16 bit), an unwanted "window" between
+these timers has developed!
+
+This is especially important with the ATIM window, because during
+the ATIM window only ATIM frames and no data frames are allowed to be
+sent, which creates transmission pauses after each beacon. This symptom
+has been described as "ramping ping" because ping times increase linearly
+for some time and then drop down again. A wrong window on the DMA beacon
+timer has the same effect, so we check for these two conditions.
+
+Returns true if O.K.

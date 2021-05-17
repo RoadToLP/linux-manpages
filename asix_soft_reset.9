@@ -1,0 +1,16 @@
+.TH "asix_soft_reset" 9 "asix_soft_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asix_soft_reset \- software reset the PHY via BMCR_RESET bit
+.SH SYNOPSIS
+.B "int" asix_soft_reset
+.BI "(struct phy_device *phydev "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+target phy_device struct
+.SH "DESCRIPTION"
+Perform a software PHY reset using the standard
+BMCR_RESET bit and poll for the reset bit to be cleared.
+Toggle BMCR_RESET bit off to accommodate broken AX8796B PHY implementation
+such as used on the Individual Computers' X-Surf 100 Zorro card.
+.SH "RETURN"
+0 on success, < 0 on failure

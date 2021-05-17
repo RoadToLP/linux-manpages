@@ -1,0 +1,21 @@
+.TH "aa_dfa_unpack" 9 "aa_dfa_unpack" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_dfa_unpack \- unpack the binary tables of a serialized dfa
+.SH SYNOPSIS
+.B "struct aa_dfa *" aa_dfa_unpack
+.BI "(void *blob "  ","
+.BI "size_t size "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "blob" 12
+aligned serialized stream of data to unpack  (NOT NULL)
+.IP "size" 12
+size of data to unpack
+.IP "flags" 12
+flags controlling what type of accept tables are acceptable
+.SH "DESCRIPTION"
+Unpack a dfa that has been serialized.  To find information on the dfa
+format look in Documentation/admin-guide/LSM/apparmor.rst
+Assumes the dfa \fIblob\fP stream has been aligned on a 8 byte boundary
+.SH "RETURN"
+an unpacked dfa ready for matching or ERR_PTR on failure

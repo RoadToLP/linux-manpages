@@ -1,0 +1,22 @@
+.TH "kvm_mmu_write_protect_pt_masked" 9 "kvm_mmu_write_protect_pt_masked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mmu_write_protect_pt_masked \- write protect dirty pages
+.SH SYNOPSIS
+.B "void" kvm_mmu_write_protect_pt_masked
+.BI "(struct kvm *kvm "  ","
+.BI "struct kvm_memory_slot *slot "  ","
+.BI "gfn_t gfn_offset "  ","
+.BI "unsigned long mask "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+The KVM pointer
+.IP "slot" 12
+The memory slot associated with mask
+.IP "gfn_offset" 12
+The gfn offset in memory slot
+.IP "mask" 12
+The mask of dirty pages at offset 'gfn_offset' in this memory
+slot to be write protected
+.SH "DESCRIPTION"
+Walks bits set in mask write protects the associated pte's. Caller must
+acquire kvm_mmu_lock.

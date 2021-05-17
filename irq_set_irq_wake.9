@@ -1,0 +1,26 @@
+.TH "irq_set_irq_wake" 9 "irq_set_irq_wake" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+irq_set_irq_wake \- control irq power management wakeup
+.SH SYNOPSIS
+.B "int" irq_set_irq_wake
+.BI "(unsigned int irq "  ","
+.BI "unsigned int on "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt to control
+.IP "on" 12
+enable/disable power management wakeup
+
+Enable/disable power management wakeup mode, which is
+disabled by default.  Enables and disables must match,
+just as they match for non-wakeup mode support.
+
+Wakeup mode lets this IRQ wake the system from sleep
+states like "suspend to RAM".
+.SH "NOTE"
+irq enable/disable state is completely orthogonal
+to the enable/disable state of irq wake. An irq can be
+disabled with \fBdisable_irq\fP and still wake the system as
+long as the irq has wake enabled. If this does not hold,
+then the underlying irq chip and the related driver need
+to be investigated.

@@ -1,0 +1,61 @@
+.TH "tracing_map_create" 9 "tracing_map_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_map_create \- Create a lock-free map and element pool
+.SH SYNOPSIS
+.B "struct tracing_map *" tracing_map_create
+.BI "(unsigned int map_bits "  ","
+.BI "unsigned int key_size "  ","
+.BI "const struct tracing_map_ops *ops "  ","
+.BI "void *private_data "  ");"
+.SH ARGUMENTS
+.IP "map_bits" 12
+The size of the map (2 ** map_bits)
+.IP "key_size" 12
+The size of the key for the map in bytes
+.IP "ops" 12
+Optional client-defined tracing_map_ops instance
+.IP "private_data" 12
+Client data associated with the map
+.SH "DESCRIPTION"
+Creates and sets up a map to contain 2 ** map_bits number of
+elements (internally maintained as 'max_elts' in struct
+tracing_map).  Before using, map fields should be added to the map
+with \fBtracing_map_add_sum_field\fP and \fBtracing_map_add_key_field\fP.
+\fBtracing_map_init\fP should then be called to allocate the array of
+tracing_map_elts, in order to avoid allocating anything in the map
+insertion path.  The user-specified map size reflects the maximum
+number of elements that can be contained in the table requested by
+the user - internally we double that in order to keep the table
+sparse and keep collisions manageable.
+
+A tracing_map is a special-purpose map designed to aggregate or
+'sum' one or more values associated with a specific object of type
+tracing_map_elt, which is attached by the map to a given key.
+
+\fBtracing_map_create\fP sets up the map itself, and provides
+operations for inserting tracing_map_elts, but doesn't allocate the
+tracing_map_elts themselves, or provide a means for describing the
+keys or sums associated with the tracing_map_elts.  All
+tracing_map_elts for a given map have the same set of sums and
+keys, which are defined by the client using the functions
+\fBtracing_map_add_key_field\fP and \fBtracing_map_add_sum_field\fP.  Once
+the fields are defined, the pool of elements allocated for the map
+can be created, which occurs when the client code calls
+\fBtracing_map_init\fP.
+
+When \fBtracing_map_init\fP returns, tracing_map_elt elements can be
+inserted into the map using \fBtracing_map_insert\fP.  When called,
+\fBtracing_map_insert\fP grabs a free tracing_map_elt from the pool, or
+finds an existing match in the map and in either case returns it.
+The client can then use \fBtracing_map_update_sum\fP and
+\fBtracing_map_read_sum\fP to update or read a given sum field for the
+tracing_map_elt.
+
+The client can at any point retrieve and traverse the current set
+of inserted tracing_map_elts in a tracing_map, via
+\fBtracing_map_sort_entries\fP.  Sorting can be done on any field,
+including keys.
+
+See tracing_map.h for a description of tracing_map_ops.
+.SH "RETURN"
+the tracing_map pointer if successful, ERR_PTR if not.

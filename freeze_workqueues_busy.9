@@ -1,0 +1,18 @@
+.TH "freeze_workqueues_busy" 9 "freeze_workqueues_busy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+freeze_workqueues_busy \- are freezable workqueues still busy?
+.SH SYNOPSIS
+.B "bool" freeze_workqueues_busy
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Check whether freezing is complete.  This function must be called
+between \fBfreeze_workqueues_begin\fP and \fBthaw_workqueues\fP.
+.SH "CONTEXT"
+Grabs and releases wq_pool_mutex.
+.SH "RETURN"
+true if some freezable workqueues are still busy.  false if freezing
+is complete.

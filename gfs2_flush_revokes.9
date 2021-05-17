@@ -1,0 +1,17 @@
+.TH "gfs2_flush_revokes" 9 "gfs2_flush_revokes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_flush_revokes \- Add as many revokes to the system transaction as we can
+.SH SYNOPSIS
+.B "void" gfs2_flush_revokes
+.BI "(struct gfs2_sbd *sdp "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.SH "DESCRIPTION"
+Our usual strategy is to defer writing revokes as much as we can in the hope
+that we'll eventually overwrite the journal, which will make those revokes
+go away.  This changes when we flush the log: at that point, there will
+likely be some left-over space in the last revoke block of that transaction.
+We can fill that space with additional revokes for blocks that have already
+been written back.  This will basically come at no cost now, and will save
+us from having to keep track of those blocks on the AIL2 list later.

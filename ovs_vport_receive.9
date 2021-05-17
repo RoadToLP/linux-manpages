@@ -1,0 +1,18 @@
+.TH "ovs_vport_receive" 9 "ovs_vport_receive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_receive \- pass up received packet to the datapath for processing
+.SH SYNOPSIS
+.B "int" ovs_vport_receive
+.BI "(struct vport *vport "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "const struct ip_tunnel_info *tun_info "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+vport that received the packet
+.IP "skb" 12
+skb that was received
+.IP "tun_info" 12
+tunnel (if any) that carried packet
+.SH "DESCRIPTION"
+Must be called with rcu_read_lock.  The packet cannot be shared and
+skb->data should point to the Ethernet header.

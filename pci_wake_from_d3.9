@@ -1,0 +1,21 @@
+.TH "pci_wake_from_d3" 9 "pci_wake_from_d3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_wake_from_d3 \- enable/disable device to wake up from D3_hot or D3_cold
+.SH SYNOPSIS
+.B "int" pci_wake_from_d3
+.BI "(struct pci_dev *dev "  ","
+.BI "bool enable "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to prepare
+.IP "enable" 12
+True to enable wake-up event generation; false to disable
+.SH "DESCRIPTION"
+Many drivers want the device to wake up the system from D3_hot or D3_cold
+and this function allows them to set that up cleanly - \fBpci_enable_wake\fP
+should not be called twice in a row to enable wake-up due to PCI PM vs ACPI
+ordering constraints.
+
+This function only returns error code if the device is not allowed to wake
+up the system from sleep or it is not capable of generating PME# from both
+D3_hot and D3_cold and the platform is unable to enable wake-up power for it.

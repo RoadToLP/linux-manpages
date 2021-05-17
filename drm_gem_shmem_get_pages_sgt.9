@@ -1,0 +1,19 @@
+.TH "drm_gem_shmem_get_pages_sgt" 9 "drm_gem_shmem_get_pages_sgt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_shmem_get_pages_sgt \- Pin pages, dma map them, and return a scatter/gather table for a shmem GEM object.
+.SH SYNOPSIS
+.B "struct sg_table *" drm_gem_shmem_get_pages_sgt
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+GEM object
+.SH "DESCRIPTION"
+This function returns a scatter/gather table suitable for driver usage. If
+the sg table doesn't exist, the pages are pinned, dma-mapped, and a sg
+table created.
+
+This is the main function for drivers to get at backing storage, and it hides
+and difference between dma-buf imported and natively allocated objects.
+\fBdrm_gem_shmem_get_sg_table\fP should not be directly called by drivers.
+.SH "RETURN"
+A pointer to the scatter/gather table of pinned pages or errno on failure.

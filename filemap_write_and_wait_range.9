@@ -1,0 +1,22 @@
+.TH "filemap_write_and_wait_range" 9 "filemap_write_and_wait_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+filemap_write_and_wait_range \- write out & wait on a file range
+.SH SYNOPSIS
+.B "int" filemap_write_and_wait_range
+.BI "(struct address_space *mapping "  ","
+.BI "loff_t lstart "  ","
+.BI "loff_t lend "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+the address_space for the pages
+.IP "lstart" 12
+offset in bytes where the range starts
+.IP "lend" 12
+offset in bytes where the range ends (inclusive)
+.SH "DESCRIPTION"
+Write out and wait upon file offsets lstart->lend, inclusive.
+
+Note that \fIlend\fP is inclusive (describes the last byte to be written) so
+that this function can be used to write to the very end-of-file (end = -1).
+.SH "RETURN"
+error status of the address space.

@@ -1,0 +1,22 @@
+.TH "usb_add_function" 9 "usb_add_function" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_add_function \- add a function to a configuration
+.SH SYNOPSIS
+.B "int" usb_add_function
+.BI "(struct usb_configuration *config "  ","
+.BI "struct usb_function *function "  ");"
+.SH ARGUMENTS
+.IP "config" 12
+the configuration
+.IP "function" 12
+the function being added
+.SH "CONTEXT"
+single threaded during gadget setup
+.SH "DESCRIPTION"
+After initialization, each configuration must have one or more
+functions added to it.  Adding a function involves calling its \fI\fP\fBbind\fP
+method to allocate resources such as interface and string identifiers
+and endpoints.
+
+This function returns the value of the function's \fBbind\fP, which is
+zero for success else a negative errno value.

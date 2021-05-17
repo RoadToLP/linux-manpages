@@ -1,0 +1,27 @@
+.TH "batadv_reroute_unicast_packet" 9 "batadv_reroute_unicast_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_reroute_unicast_packet \- update the unicast header for re-routing
+.SH SYNOPSIS
+.B "bool" batadv_reroute_unicast_packet
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct batadv_unicast_packet *unicast_packet "  ","
+.BI "u8 *dst_addr "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+unicast packet to process
+.IP "unicast_packet" 12
+the unicast header to be updated
+.IP "dst_addr" 12
+the payload destination
+.IP "vid" 12
+VLAN identifier
+.SH "DESCRIPTION"
+Search the translation table for dst_addr and update the unicast header with
+the new corresponding information (originator address where the destination
+client currently is and its known TTVN)
+.SH "RETURN"
+true if the packet header has been updated, false otherwise

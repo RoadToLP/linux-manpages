@@ -1,0 +1,17 @@
+.TH "acpi_early_init" 9 "acpi_early_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_early_init \- Initialize ACPICA and populate the ACPI namespace.
+.SH SYNOPSIS
+.B "void" acpi_early_init
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+The ACPI tables are accessible after this, but the handling of events has not
+been initialized and the global lock is not available yet, so AML should not
+be executed at this point.
+
+Doing this before switching the EFI runtime services to virtual mode allows
+the EfiBootServices memory to be freed slightly earlier on boot.

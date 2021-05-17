@@ -1,0 +1,22 @@
+.TH "__devlink_snapshot_id_increment" 9 "__devlink_snapshot_id_increment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devlink_snapshot_id_increment \- Increment number of snapshots using an id
+.SH SYNOPSIS
+.B "int" __devlink_snapshot_id_increment
+.BI "(struct devlink *devlink "  ","
+.BI "u32 id "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink instance
+.IP "id" 12
+the snapshot id
+
+Track when a new snapshot begins using an id. Load the count for the
+given id from the snapshot xarray, increment it, and store it back.
+
+Called when a new snapshot is created with the given id.
+
+The id *must* have been previously allocated by
+\fBdevlink_region_snapshot_id_get\fP.
+
+Returns 0 on success, or an error on failure.

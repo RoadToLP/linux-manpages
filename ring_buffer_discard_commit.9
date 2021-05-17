@@ -1,0 +1,26 @@
+.TH "ring_buffer_discard_commit" 9 "ring_buffer_discard_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_discard_commit \- discard an event that has not been committed
+.SH SYNOPSIS
+.B "void" ring_buffer_discard_commit
+.BI "(struct trace_buffer *buffer "  ","
+.BI "struct ring_buffer_event *event "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+the ring buffer
+.IP "event" 12
+non committed event to discard
+.SH "DESCRIPTION"
+Sometimes an event that is in the ring buffer needs to be ignored.
+This function lets the user discard an event in the ring buffer
+and then that event will not be read later.
+
+This function only works if it is called before the item has been
+committed. It will try to free the event from the ring buffer
+if another event has not been added behind it.
+
+If another event has been added behind it, it will set the event
+up as discarded, and perform the commit.
+
+If this function is called, do not call ring_buffer_unlock_commit on
+the event.

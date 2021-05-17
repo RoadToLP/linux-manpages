@@ -1,0 +1,22 @@
+.TH "typec_altmode_notify" 9 "typec_altmode_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+typec_altmode_notify \- Communication between the OS and alternate mode driver
+.SH SYNOPSIS
+.B "int" typec_altmode_notify
+.BI "(struct typec_altmode *adev "  ","
+.BI "unsigned long conf "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+Handle to the alternate mode
+.IP "conf" 12
+Alternate mode specific configuration value
+.IP "data" 12
+Alternate mode specific data
+.SH "DESCRIPTION"
+The primary purpose for this function is to allow the alternate mode drivers
+to tell which pin configuration has been negotiated with the partner. That
+information will then be used for example to configure the muxes.
+Communication to the other direction is also possible, and low level device
+drivers can also send notifications to the alternate mode drivers. The actual
+communication will be specific for every SVID.

@@ -1,0 +1,15 @@
+.TH "scsi_eh_lock_door" 9 "scsi_eh_lock_door" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_eh_lock_door \- Prevent medium removal for the specified device
+.SH SYNOPSIS
+.B "void" scsi_eh_lock_door
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device to prevent medium removal
+.SH "DESCRIPTION"
+Locking:
+We must be called from process context.
+.SH "NOTES"
+We queue up an asynchronous "ALLOW MEDIUM REMOVAL" request on the
+head of the devices request queue, and continue.

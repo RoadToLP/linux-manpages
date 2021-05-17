@@ -1,0 +1,18 @@
+.TH "drm_crtc_send_vblank_event" 9 "drm_crtc_send_vblank_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_send_vblank_event \- helper to send vblank event after pageflip
+.SH SYNOPSIS
+.B "void" drm_crtc_send_vblank_event
+.BI "(struct drm_crtc *crtc "  ","
+.BI "struct drm_pending_vblank_event *e "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+the source CRTC of the vblank event
+.IP "e" 12
+the event to send
+.SH "DESCRIPTION"
+Updates sequence # and timestamp on event for the most recently processed
+vblank, and sends it to userspace.  Caller must hold event lock.
+
+See \fBdrm_crtc_arm_vblank_event\fP for a helper which can be used in certain
+situation, especially to send out events for atomic commit operations.

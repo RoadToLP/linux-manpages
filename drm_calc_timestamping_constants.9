@@ -1,0 +1,18 @@
+.TH "drm_calc_timestamping_constants" 9 "drm_calc_timestamping_constants" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_calc_timestamping_constants \- calculate vblank timestamp constants
+.SH SYNOPSIS
+.B "void" drm_calc_timestamping_constants
+.BI "(struct drm_crtc *crtc "  ","
+.BI "const struct drm_display_mode *mode "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+drm_crtc whose timestamp constants should be updated.
+.IP "mode" 12
+display mode containing the scanout timings
+.SH "DESCRIPTION"
+Calculate and store various constants which are later needed by vblank and
+swap-completion timestamping, e.g, by
+\fBdrm_crtc_vblank_helper_get_vblank_timestamp\fP. They are derived from
+CRTC's true scanout timing, so they take things like panel scaling or
+other adjustments into account.

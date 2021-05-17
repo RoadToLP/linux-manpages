@@ -1,0 +1,45 @@
+.TH "sgx_ioc_enclave_add_pages" 9 "sgx_ioc_enclave_add_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sgx_ioc_enclave_add_pages \- The handler for %SGX_IOC_ENCLAVE_ADD_PAGES
+.SH SYNOPSIS
+.B "long" sgx_ioc_enclave_add_pages
+.BI "(struct sgx_encl *encl "  ","
+.BI "void __user *arg "  ");"
+.SH ARGUMENTS
+.IP "encl" 12
+an enclave pointer
+.IP "arg" 12
+a user pointer to a struct sgx_enclave_add_pages instance
+.SH "DESCRIPTION"
+Add one or more pages to an uninitialized enclave, and optionally extend the
+measurement with the contents of the page. The SECINFO and measurement mask
+are applied to all pages.
+
+A SECINFO for a TCS is required to always contain zero permissions because
+CPU silently zeros them. Allowing anything else would cause a mismatch in
+the measurement.
+
+\fBmmap\fP's protection bits are capped by the page permissions. For each page
+address, the maximum protection bits are computed with the following
+heuristics:
+
+1. A regular page: PROT_R, PROT_W and PROT_X match the SECINFO permissions.
+2. A TCS page: PROT_R | PROT_W.
+
+\fBmmap\fP is not allowed to surpass the minimum of the maximum protection bits
+within the given address range.
+
+The function deinitializes kernel data structures for enclave and returns
+-EIO in any of the following conditions:
+
+- Enclave Page Cache (EPC), the physical memory holding enclaves, has
+been invalidated. This will cause EADD and EEXTEND to fail.
+- If the source address is corrupted somehow when executing EADD.
+.SH "RETURN"
+- 0:         Success.
+- -EACCES:   The source page is located in a noexec partition.
+- -ENOMEM:   Out of EPC pages.
+- -EINTR:    The call was interrupted before data was processed.
+- -EIO:      Either EADD or EEXTEND failed because invalid source address
+or power cycle.
+- -errno:    POSIX error.

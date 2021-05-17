@@ -1,0 +1,17 @@
+.TH "signal_delivered" 9 "signal_delivered" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+signal_delivered \- 
+.SH SYNOPSIS
+.B "void" signal_delivered
+.BI "(struct ksignal *ksig "  ","
+.BI "int stepping "  ");"
+.SH ARGUMENTS
+.IP "ksig" 12
+kernel signal struct
+.IP "stepping" 12
+nonzero if debugger single-step or block-step in use
+.SH "DESCRIPTION"
+This function should be called when a signal has successfully been
+delivered. It updates the blocked signals accordingly (\fIksig->ka.sa.sa_mask\fP
+is always blocked, and the signal itself is blocked unless SA_NODEFER
+is set in \fIksig->ka.sa.sa_flags\fP.  Tracing is notified.

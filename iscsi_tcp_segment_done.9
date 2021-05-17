@@ -1,0 +1,27 @@
+.TH "iscsi_tcp_segment_done" 9 "iscsi_tcp_segment_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_tcp_segment_done \- check whether the segment is complete
+.SH SYNOPSIS
+.B "int" iscsi_tcp_segment_done
+.BI "(struct iscsi_tcp_conn *tcp_conn "  ","
+.BI "struct iscsi_segment *segment "  ","
+.BI "int recv "  ","
+.BI "unsigned copied "  ");"
+.SH ARGUMENTS
+.IP "tcp_conn" 12
+iscsi tcp connection
+.IP "segment" 12
+iscsi segment to check
+.IP "recv" 12
+set to one of this is called from the recv path
+.IP "copied" 12
+number of bytes copied
+.SH "DESCRIPTION"
+Check if we're done receiving this segment. If the receive
+buffer is full but we expect more data, move on to the
+next entry in the scatterlist.
+
+If the amount of data we received isn't a multiple of 4,
+we will transparently receive the pad bytes, too.
+
+This function must be re-entrant.

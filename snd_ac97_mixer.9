@@ -1,0 +1,28 @@
+.TH "snd_ac97_mixer" 9 "snd_ac97_mixer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ac97_mixer \- create an Codec97 component
+.SH SYNOPSIS
+.B "int" snd_ac97_mixer
+.BI "(struct snd_ac97_bus *bus "  ","
+.BI "struct snd_ac97_template *template "  ","
+.BI "struct snd_ac97 **rac97 "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+the AC97 bus which codec is attached to
+.IP "template" 12
+the template of ac97, including index, callbacks and
+the private data.
+.IP "rac97" 12
+the pointer to store the new ac97 instance.
+.SH "DESCRIPTION"
+Creates an Codec97 component.  An struct snd_ac97 instance is newly
+allocated and initialized from the template.  The codec
+is then initialized by the standard procedure.
+
+The template must include the codec number (num) and address (addr),
+and the private data (private_data).
+
+The ac97 instance is registered as a low-level device, so you don't
+have to release it manually.
+.SH "RETURN"
+Zero if successful, or a negative error code on failure.

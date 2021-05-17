@@ -1,0 +1,26 @@
+.TH "ubi_io_read_vid_hdr" 9 "ubi_io_read_vid_hdr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_io_read_vid_hdr \- read and check a volume identifier header.
+.SH SYNOPSIS
+.B "int" ubi_io_read_vid_hdr
+.BI "(struct ubi_device *ubi "  ","
+.BI "int pnum "  ","
+.BI "struct ubi_vid_io_buf *vidb "  ","
+.BI "int verbose "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device description object
+.IP "pnum" 12
+physical eraseblock number to read from
+.IP "vidb" 12
+the volume identifier buffer to store data in
+.IP "verbose" 12
+be verbose if the header is corrupted or wasn't found
+.SH "DESCRIPTION"
+This function reads the volume identifier header from physical eraseblock
+\fIpnum\fP and stores it in \fIvidb\fP. It also checks CRC checksum of the read
+volume identifier header. The error codes are the same as in
+'\fBubi_io_read_ec_hdr\fP'.
+
+Note, the implementation of this function is also very similar to
+'\fBubi_io_read_ec_hdr\fP', so refer commentaries in '\fBubi_io_read_ec_hdr\fP'.

@@ -1,0 +1,25 @@
+.TH "ata_id_string" 9 "ata_id_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_id_string \- Convert IDENTIFY DEVICE page into string
+.SH SYNOPSIS
+.B "void" ata_id_string
+.BI "(const u16 *id "  ","
+.BI "unsigned char *s "  ","
+.BI "unsigned int ofs "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+IDENTIFY DEVICE results we will examine
+.IP "s" 12
+string into which data is output
+.IP "ofs" 12
+offset into identify device page
+.IP "len" 12
+length of string to return. must be an even number.
+
+The strings in the IDENTIFY DEVICE page are broken up into
+16-bit chunks.  Run through the string, and output each
+8-bit chunk linearly, regardless of platform.
+
+LOCKING:
+caller.

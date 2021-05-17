@@ -1,0 +1,18 @@
+.TH "find_acpi_cpu_topology_package" 9 "find_acpi_cpu_topology_package" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_acpi_cpu_topology_package \- Determine a unique CPU package value
+.SH SYNOPSIS
+.B "int" find_acpi_cpu_topology_package
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+Kernel logical CPU number
+.SH "DESCRIPTION"
+Determine a topology unique package ID for the given CPU.
+This ID can then be used to group peers, which will have matching ids.
+
+The search terminates when either a level is found with the PHYSICAL_PACKAGE
+flag set or we reach a root node.
+.SH "RETURN"
+-ENOENT if the PPTT doesn't exist, or the CPU cannot be found.
+Otherwise returns a value which represents the package for this CPU.

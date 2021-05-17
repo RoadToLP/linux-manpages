@@ -1,0 +1,18 @@
+.TH "ks8851_rxctrl_work" 9 "ks8851_rxctrl_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_rxctrl_work \- work handler to change rx mode
+.SH SYNOPSIS
+.B "void" ks8851_rxctrl_work
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+The work structure this belongs to.
+.SH "DESCRIPTION"
+Lock the device and issue the necessary changes to the receive mode from
+the network device layer. This is done so that we can do this without
+having to sleep whilst holding the network device lock.
+
+Since the recommendation from Micrel is that the RXQ is shutdown whilst the
+receive parameters are programmed, we issue a write to disable the RXQ and
+then wait for the interrupt handler to be triggered once the RXQ shutdown is
+complete. The interrupt handler then writes the new values into the chip.

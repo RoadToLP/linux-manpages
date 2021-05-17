@@ -1,0 +1,25 @@
+.TH "xdr_truncate_encode" 9 "xdr_truncate_encode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_truncate_encode \- truncate an encode buffer
+.SH SYNOPSIS
+.B "void" xdr_truncate_encode
+.BI "(struct xdr_stream *xdr "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream
+.IP "len" 12
+new length of buffer
+.SH "DESCRIPTION"
+Truncates the xdr stream, so that xdr->buf->len == len,
+and xdr->p points at offset len from the start of the buffer, and
+head, tail, and page lengths are adjusted to correspond.
+
+If this means moving xdr->p to a different buffer, we assume that
+the end pointer should be set to the end of the current page,
+except in the case of the head buffer when we assume the head
+buffer's current length represents the end of the available buffer.
+
+This is *not* safe to use on a buffer that already has inlined page
+cache pages (as in a zero-copy server read reply), except for the
+simple case of truncating from one position in the tail to another.

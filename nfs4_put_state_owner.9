@@ -1,0 +1,17 @@
+.TH "nfs4_put_state_owner" 9 "nfs4_put_state_owner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_put_state_owner \- Release a nfs4_state_owner
+.SH SYNOPSIS
+.B "void" nfs4_put_state_owner
+.BI "(struct nfs4_state_owner *sp "  ");"
+.SH ARGUMENTS
+.IP "sp" 12
+state owner data to release
+.SH "DESCRIPTION"
+Note that we keep released state owners on an LRU
+list.
+This caches valid state owners so that they can be
+reused, to avoid the OPEN_CONFIRM on minor version 0.
+It also pins the uniquifier of dropped state owners for
+a while, to ensure that those state owner names are
+never reused.

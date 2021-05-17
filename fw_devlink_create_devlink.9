@@ -1,0 +1,30 @@
+.TH "fw_devlink_create_devlink" 9 "fw_devlink_create_devlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_devlink_create_devlink \- Create a device link from a consumer to fwnode @con - Consumer device for the device link @sup_handle - fwnode handle of supplier
+.SH SYNOPSIS
+.B "int" fw_devlink_create_devlink
+.BI "(struct device *con "  ","
+.BI "struct fwnode_handle *sup_handle "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "con" 12
+-- undescribed --
+.IP "sup_handle" 12
+-- undescribed --
+.IP "flags" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function will try to create a device link between the consumer device
+\fIcon\fP and the supplier device represented by \fIsup_handle\fP.
+
+The supplier has to be provided as a fwnode because incorrect cycles in
+fwnode links can sometimes cause the supplier device to never be created.
+This function detects such cases and returns an error if it cannot create a
+device link from the consumer to a missing supplier.
+
+Returns,
+0 on successfully creating a device link
+-EINVAL if the device link cannot be created as expected
+-EAGAIN if the device link cannot be created right now, but it may be
+possible to do that in the future

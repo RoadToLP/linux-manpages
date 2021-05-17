@@ -1,0 +1,29 @@
+.TH "skb_zerocopy" 9 "skb_zerocopy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_zerocopy \- Zero copy skb to skb
+.SH SYNOPSIS
+.B "int" skb_zerocopy
+.BI "(struct sk_buff *to "  ","
+.BI "struct sk_buff *from "  ","
+.BI "int len "  ","
+.BI "int hlen "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+destination buffer
+.IP "from" 12
+source buffer
+.IP "len" 12
+number of bytes to copy from source buffer
+.IP "hlen" 12
+size of linear headroom in destination buffer
+
+Copies up to `len` bytes from `from` to `to` by creating references
+to the frags in the source buffer.
+
+The `hlen` as calculated by \fBskb_zerocopy_headlen\fP specifies the
+headroom in the `to` buffer.
+
+Return value:
+0: everything is OK
+-ENOMEM: couldn't orphan frags of \fIfrom\fP due to lack of memory
+-EFAULT: \fBskb_copy_bits\fP found some problem with skb geometry

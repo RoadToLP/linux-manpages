@@ -1,0 +1,26 @@
+.TH "__wb_calc_thresh" 9 "__wb_calc_thresh" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__wb_calc_thresh \- @wb's share of dirty throttling threshold
+.SH SYNOPSIS
+.B "unsigned long" __wb_calc_thresh
+.BI "(struct dirty_throttle_control *dtc "  ");"
+.SH ARGUMENTS
+.IP "dtc" 12
+dirty_throttle_context of interest
+.SH "DESCRIPTION"
+Note that \fBbalance_dirty_pages\fP will only seriously take it as a hard limit
+when sleeping max_pause per page is not enough to keep the dirty pages under
+control. For example, when the device is completely stalled due to some error
+conditions, or when there are 1000 dd tasks writing to a slow 10MB/s USB key.
+In the other normal situations, it acts more gently by throttling the tasks
+more (rather than completely block them) when the wb dirty pages go high.
+
+It allocates high/low dirty limits to fast/slow devices, in order to prevent
+- starving fast devices
+- piling up dirty pages (that will take long time to sync) on slow devices
+
+The wb's share of dirty limit will be adapting to its throughput and
+bounded by the bdi->min_ratio and/or bdi->max_ratio parameters, if set.
+.SH "RETURN"
+\fIwb\fP's dirty limit in pages. The term "dirty" in the context of
+dirty balancing includes all PG_dirty and PG_writeback pages.

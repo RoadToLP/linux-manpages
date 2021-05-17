@@ -1,0 +1,28 @@
+.TH "acm_cdc_notify" 9 "acm_cdc_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acm_cdc_notify \- issue CDC notification to host
+.SH SYNOPSIS
+.B "int" acm_cdc_notify
+.BI "(struct f_acm *acm "  ","
+.BI "u8 type "  ","
+.BI "u16 value "  ","
+.BI "void *data "  ","
+.BI "unsigned length "  ");"
+.SH ARGUMENTS
+.IP "acm" 12
+wraps host to be notified
+.IP "type" 12
+notification type
+.IP "value" 12
+Refer to cdc specs, wValue field.
+.IP "data" 12
+data to be sent
+.IP "length" 12
+size of data
+.SH "CONTEXT"
+irqs blocked, acm->lock held, acm_notify_req non-null
+.SH "DESCRIPTION"
+Returns zero on success or a negative errno.
+
+See section 6.3.5 of the CDC 1.1 specification for information
+about the only notification we issue:  SerialState change.

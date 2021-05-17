@@ -1,0 +1,15 @@
+.TH "prism2_cmd_ev" 9 "prism2_cmd_ev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prism2_cmd_ev \- Prism2 command completion event handler
+.SH SYNOPSIS
+.B "void" prism2_cmd_ev
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to net_device
+.SH "DESCRIPTION"
+Interrupt handler for command completion events. Called by the main
+interrupt handler in hardware IRQ context. Read Resp0 and status registers
+from the hardware and ACK the event. Depending on the issued command type
+either wake up the sleeping process that is waiting for command completion
+or call the callback function. Issue the next command, if one is pending.

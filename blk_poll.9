@@ -1,0 +1,20 @@
+.TH "blk_poll" 9 "blk_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_poll \- poll for IO completions
+.SH SYNOPSIS
+.B "int" blk_poll
+.BI "(struct request_queue *q "  ","
+.BI "blk_qc_t cookie "  ","
+.BI "bool spin "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue
+.IP "cookie" 12
+cookie passed back at IO submission time
+.IP "spin" 12
+whether to spin for completions
+.SH "DESCRIPTION"
+Poll for completions on the passed in queue. Returns number of
+completed entries found. If \fIspin\fP is true, then blk_poll will continue
+looping until at least one completion is found, unless the task is
+otherwise marked running (or we need to reschedule).

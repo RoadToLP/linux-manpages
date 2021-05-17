@@ -1,0 +1,17 @@
+.TH "dump_lpt_leb" 9 "dump_lpt_leb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dump_lpt_leb \- dump an LPT LEB.
+.SH SYNOPSIS
+.B "void" dump_lpt_leb
+.BI "(const struct ubifs_info *c "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number to dump
+.SH "DESCRIPTION"
+This function dumps an LEB from LPT area. Nodes in this area are very
+different to nodes in the main area (e.g., they do not have common headers,
+they do not have 8-byte alignments, etc), so we have a separate function to
+dump LPT area LEBs. Note, LPT has to be locked by the caller.

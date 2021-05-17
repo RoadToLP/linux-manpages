@@ -1,0 +1,19 @@
+.TH "it821x_program" 9 "it821x_program" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+it821x_program \- program the PIO/MWDMA registers
+.SH SYNOPSIS
+.B "void" it821x_program
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "u16 timing "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port
+.IP "adev" 12
+Device to program
+.IP "timing" 12
+Timing value (66Mhz in top 8bits, 50 in the low 8)
+
+Program the PIO/MWDMA timing for this channel according to the
+current clock. These share the same register so are managed by
+the DMA start/stop sequence as with the old driver.

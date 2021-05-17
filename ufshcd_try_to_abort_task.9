@@ -1,0 +1,20 @@
+.TH "ufshcd_try_to_abort_task" 9 "ufshcd_try_to_abort_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_try_to_abort_task \- abort a specific task
+.SH SYNOPSIS
+.B "int" ufshcd_try_to_abort_task
+.BI "(struct ufs_hba *hba "  ","
+.BI "int tag "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+Pointer to adapter instance
+.IP "tag" 12
+Task tag/index to be aborted
+.SH "DESCRIPTION"
+Abort the pending command in device by sending UFS_ABORT_TASK task management
+command, and in host controller by clearing the door-bell register. There can
+be race between controller sending the command to the device while abort is
+issued. To avoid that, first issue UFS_QUERY_TASK to check if the command is
+really issued and then try to abort it.
+
+Returns zero on success, non-zero on failure

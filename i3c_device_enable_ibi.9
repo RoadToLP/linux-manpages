@@ -1,0 +1,18 @@
+.TH "i3c_device_enable_ibi" 9 "i3c_device_enable_ibi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i3c_device_enable_ibi \- Enable IBIs coming from a specific device
+.SH SYNOPSIS
+.B "int" i3c_device_enable_ibi
+.BI "(struct i3c_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device on which IBIs should be enabled
+.SH "DESCRIPTION"
+This function enable IBIs coming from a specific device and wait for
+all pending IBIs to be processed. This should be called on a device
+where \fBi3c_device_request_ibi\fP has succeeded.
+
+Note that IBIs from this device might be received before this function
+returns to its caller.
+.SH "RETURN"
+0 in case of success, a negative error core otherwise.

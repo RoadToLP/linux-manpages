@@ -1,0 +1,27 @@
+.TH "drm_bridge_hpd_enable" 9 "drm_bridge_hpd_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_hpd_enable \- enable hot plug detection for the bridge
+.SH SYNOPSIS
+.B "void" drm_bridge_hpd_enable
+.BI "(struct drm_bridge *bridge "  ","
+.BI "void (*cb)(void *data, enum drm_connector_status status) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.IP "cb" 12
+hot-plug detection callback
+.IP "data" 12
+data to be passed to the hot-plug detection callback
+.SH "DESCRIPTION"
+Call \fIdrm_bridge_funcs.hpd_enable\fP if implemented and register the given \fIcb\fP
+and \fIdata\fP as hot plug notification callback. From now on the \fIcb\fP will be
+called with \fIdata\fP when an output status change is detected by the bridge,
+until hot plug notification gets disabled with \fBdrm_bridge_hpd_disable\fP.
+
+Hot plug detection is supported only if the DRM_BRIDGE_OP_HPD flag is set in
+bridge->ops. This function shall not be called when the flag is not set.
+
+Only one hot plug detection callback can be registered at a time, it is an
+error to call this function when hot plug detection is already enabled for
+the bridge.

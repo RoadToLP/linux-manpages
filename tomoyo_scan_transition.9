@@ -1,0 +1,25 @@
+.TH "tomoyo_scan_transition" 9 "tomoyo_scan_transition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_scan_transition \- Try to find specific domain transition type.
+.SH SYNOPSIS
+.B "bool" tomoyo_scan_transition
+.BI "(const struct list_head *list "  ","
+.BI "const struct tomoyo_path_info *domainname "  ","
+.BI "const struct tomoyo_path_info *program "  ","
+.BI "const char *last_name "  ","
+.BI "const enum tomoyo_transition_type type "  ");"
+.SH ARGUMENTS
+.IP "list" 12
+Pointer to "struct list_head".
+.IP "domainname" 12
+The name of current domain.
+.IP "program" 12
+The name of requested program.
+.IP "last_name" 12
+The last component of \fIdomainname\fP.
+.IP "type" 12
+One of values in "enum tomoyo_transition_type".
+.SH "DESCRIPTION"
+Returns true if found one, false otherwise.
+
+Caller holds \fBtomoyo_read_lock\fP.

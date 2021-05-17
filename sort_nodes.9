@@ -1,0 +1,38 @@
+.TH "sort_nodes" 9 "sort_nodes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sort_nodes \- sort nodes for GC.
+.SH SYNOPSIS
+.B "int" sort_nodes
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_scan_leb *sleb "  ","
+.BI "struct list_head *nondata "  ","
+.BI "int *min "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "sleb" 12
+describes nodes to sort and contains the result on exit
+.IP "nondata" 12
+contains non-data nodes on exit
+.IP "min" 12
+minimum node size is returned here
+.SH "DESCRIPTION"
+This function sorts the list of inodes to garbage collect. First of all, it
+kills obsolete nodes and separates data and non-data nodes to the
+\fIsleb->nodes\fP and \fInondata\fP lists correspondingly.
+
+Data nodes are then sorted in block number order - this is important for
+bulk-read; data nodes with lower inode number go before data nodes with
+higher inode number, and data nodes with lower block number go before data
+nodes with higher block number;
+
+Non-data nodes are sorted as follows.
+o First go inode nodes - they are sorted in descending length order.
+o Then go directory entry nodes - they are sorted in hash order, which
+should supposedly optimize '\fBreaddir\fP'. Direntry nodes with lower parent
+inode number go before direntry nodes with higher parent inode number,
+and direntry nodes with lower name hash values go before direntry nodes
+with higher name hash values.
+
+This function returns zero in case of success and a negative error code in
+case of failure.

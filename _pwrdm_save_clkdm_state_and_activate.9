@@ -1,0 +1,23 @@
+.TH "_pwrdm_save_clkdm_state_and_activate" 9 "_pwrdm_save_clkdm_state_and_activate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_pwrdm_save_clkdm_state_and_activate \- prepare for power state change
+.SH SYNOPSIS
+.B "u8" _pwrdm_save_clkdm_state_and_activate
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "u8 curr_pwrst "  ","
+.BI "u8 pwrst "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+struct powerdomain * to operate on
+.IP "curr_pwrst" 12
+current power state of \fIpwrdm\fP
+.IP "pwrst" 12
+power state to switch to
+.SH "DESCRIPTION"
+Determine whether the powerdomain needs to be turned on before
+attempting to switch power states.  Called by
+\fBomap_set_pwrdm_state\fP.  NOTE that if the powerdomain contains
+multiple clockdomains, this code assumes that the first clockdomain
+supports software-supervised wakeup mode - potentially a problem.
+Returns the power state switch mode currently in use (see the
+"Types of sleep_switch" comment above).

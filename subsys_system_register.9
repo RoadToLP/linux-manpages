@@ -1,0 +1,25 @@
+.TH "subsys_system_register" 9 "subsys_system_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+subsys_system_register \- register a subsystem at /sys/devices/system/
+.SH SYNOPSIS
+.B "int" subsys_system_register
+.BI "(struct bus_type *subsys "  ","
+.BI "const struct attribute_group **groups "  ");"
+.SH ARGUMENTS
+.IP "subsys" 12
+system subsystem
+.IP "groups" 12
+default attributes for the root device
+.SH "DESCRIPTION"
+All 'system' subsystems have a /sys/devices/system/<name> root device
+with the name of the subsystem. The root device can carry subsystem-
+wide attributes. All registered devices are below this single root
+device and are named after the subsystem with a simple enumeration
+number appended. The registered devices are not explicitly named;
+only 'id' in the device needs to be set.
+
+Do not use this interface for anything new, it exists for compatibility
+with bad ideas only. New subsystems should use plain subsystems; and
+add the subsystem-wide attributes should be added to the subsystem
+directory itself and not some create fake root-device placed in
+/sys/devices/system/<name>.

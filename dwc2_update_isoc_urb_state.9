@@ -1,0 +1,24 @@
+.TH "dwc2_update_isoc_urb_state" 9 "dwc2_update_isoc_urb_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_update_isoc_urb_state \- Updates the state of an Isochronous URB when the transfer is stopped for any reason. The fields of the current entry in the frame descriptor array are set based on the transfer state and the input halt_status. Completes the Isochronous URB if all the URB frames have been completed.
+.SH SYNOPSIS
+.B "enum dwc2_halt_status" dwc2_update_isoc_urb_state
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ","
+.BI "int chnum "  ","
+.BI "struct dwc2_qtd *qtd "  ","
+.BI "enum dwc2_halt_status halt_status "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+Programming view of the DWC_otg controller
+.IP "chan" 12
+Programming view of host channel
+.IP "chnum" 12
+Channel number
+.IP "qtd" 12
+Queue transfer descriptor
+.IP "halt_status" 12
+Reason for halting a host channel
+.SH "RETURN"
+DWC2_HC_XFER_COMPLETE if there are more frames remaining to be
+transferred in the URB. Otherwise return DWC2_HC_XFER_URB_COMPLETE.

@@ -1,0 +1,19 @@
+.TH "acpi_bus_scan" 9 "acpi_bus_scan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_bus_scan \- Add ACPI device node objects in a given namespace scope.
+.SH SYNOPSIS
+.B "int" acpi_bus_scan
+.BI "(acpi_handle handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+Root of the namespace scope to scan.
+.SH "DESCRIPTION"
+Scan a given ACPI tree (probably recently hot-plugged) and create and add
+found devices.
+
+If no devices were found, -ENODEV is returned, but it does not mean that
+there has been a real error.  There just have been no suitable ACPI objects
+in the table trunk from which the kernel could create a device and add an
+appropriate driver.
+
+Must be called under acpi_scan_lock.

@@ -1,0 +1,24 @@
+.TH "objagg_hints_get" 9 "objagg_hints_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+objagg_hints_get \- obtains hints instance
+.SH SYNOPSIS
+.B "struct objagg_hints *" objagg_hints_get
+.BI "(struct objagg *objagg "  ","
+.BI "enum objagg_opt_algo_type opt_algo_type "  ");"
+.SH ARGUMENTS
+.IP "objagg" 12
+objagg instance
+.IP "opt_algo_type" 12
+type of hints finding algorithm
+.SH "NOTE"
+all locking must be provided by the caller.
+.SH "DESCRIPTION"
+According to the algo type, the existing objects of objagg instance
+are going to be went-through to assemble an optimal tree. We call this
+tree hints. These hints can be later on used for creation of
+a new objagg instance. There, the future object creations are going
+to be consulted with these hints in order to find out, where exactly
+the new object should be put as a root or delta.
+
+Returns a pointer to hints instance in case of success,
+otherwise it returns pointer error using ERR_PTR macro.

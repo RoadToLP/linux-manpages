@@ -1,0 +1,38 @@
+.TH "dfs_cache_find" 9 "dfs_cache_find" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfs_cache_find \- find a DFS cache entry
+.SH SYNOPSIS
+.B "int" dfs_cache_find
+.BI "(const unsigned int xid "  ","
+.BI "struct cifs_ses *ses "  ","
+.BI "const struct nls_table *nls_codepage "  ","
+.BI "int remap "  ","
+.BI "const char *path "  ","
+.BI "struct dfs_info3_param *ref "  ","
+.BI "struct dfs_cache_tgt_list *tgt_list "  ");"
+.SH ARGUMENTS
+.IP "xid" 12
+syscall xid
+.IP "ses" 12
+smb session to issue the request on
+.IP "nls_codepage" 12
+charset conversion
+.IP "remap" 12
+path character remapping type
+.IP "path" 12
+path to lookup in DFS referral cache.
+.IP "ref" 12
+when non-NULL, store single DFS referral result in it.
+.IP "tgt_list" 12
+when non-NULL, store complete DFS target list in it.
+.SH "DESCRIPTION"
+
+If it doesn't find the cache entry, then it will get a DFS referral
+for \fIpath\fP and create a new entry.
+
+In case the cache entry exists but expired, it will get a DFS referral
+for \fIpath\fP and then update the respective cache entry.
+
+These parameters are passed down to the \fBget_dfs_refer\fP call if it
+needs to be issued:
+Return zero if the target was found, otherwise non-zero.

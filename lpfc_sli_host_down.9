@@ -1,0 +1,22 @@
+.TH "lpfc_sli_host_down" 9 "lpfc_sli_host_down" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_host_down \- Vport cleanup function
+.SH SYNOPSIS
+.B "int" lpfc_sli_host_down
+.BI "(struct lpfc_vport *vport "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to virtual port object.
+.SH "DESCRIPTION"
+lpfc_sli_host_down is called to clean up the resources
+associated with a vport before destroying virtual
+port data structures.
+This function does following operations:
+- Free discovery resources associated with this virtual
+port.
+- Free iocbs associated with this virtual port in
+the txq.
+- Send abort for all iocb commands associated with this
+vport in txcmplq.
+
+This function is called with no lock held and always returns 1.

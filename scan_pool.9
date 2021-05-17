@@ -1,0 +1,27 @@
+.TH "scan_pool" 9 "scan_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scan_pool \- scans a pool for changed (no longer empty PEBs).
+.SH SYNOPSIS
+.B "int" scan_pool
+.BI "(struct ubi_device *ubi "  ","
+.BI "struct ubi_attach_info *ai "  ","
+.BI "__be32 *pebs "  ","
+.BI "int pool_size "  ","
+.BI "unsigned long long *max_sqnum "  ","
+.BI "struct list_head *free "  ");"
+.SH ARGUMENTS
+.IP "ubi" 12
+UBI device object
+.IP "ai" 12
+attach info object
+.IP "pebs" 12
+an array of all PEB numbers in the to be scanned pool
+.IP "pool_size" 12
+size of the pool (number of entries in \fIpebs\fP)
+.IP "max_sqnum" 12
+pointer to the maximal sequence number
+.IP "free" 12
+list of PEBs which are most likely free (and go into \fIai->free\fP)
+.SH "DESCRIPTION"
+Returns 0 on success, if the pool is unusable UBI_BAD_FASTMAP is returned.
+< 0 indicates an internal error.

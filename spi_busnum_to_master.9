@@ -1,0 +1,18 @@
+.TH "spi_busnum_to_master" 9 "spi_busnum_to_master" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_busnum_to_master \- look up master associated with bus_num
+.SH SYNOPSIS
+.B "struct spi_controller *" spi_busnum_to_master
+.BI "(u16 bus_num "  ");"
+.SH ARGUMENTS
+.IP "bus_num" 12
+the master's bus number
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+This call may be used with devices that are registered after
+arch init time.  It returns a refcounted pointer to the relevant
+spi_controller (which the caller must release), or NULL if there is
+no such master registered.
+.SH "RETURN"
+the SPI master structure on success, else NULL.

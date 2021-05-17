@@ -1,0 +1,23 @@
+.TH "lpfc_initialize_node" 9 "lpfc_initialize_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_initialize_node \- Initialize all fields of node object
+.SH SYNOPSIS
+.B "void" lpfc_initialize_node
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "uint32_t did "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to Virtual Port object.
+.IP "ndlp" 12
+Pointer to FC node object.
+.IP "did" 12
+FC_ID of the node.
+.SH "DESCRIPTION"
+This function is always called when node object need to be initialized.
+It initializes all the fields of the node object. Although the reference
+to phba from \fIndlp\fP can be obtained indirectly through it's reference to
+\fIvport\fP, a direct reference to phba is taken here by \fIndlp\fP. This is due
+to the life-span of the \fIndlp\fP might go beyond the existence of \fIvport\fP as
+the final release of ndlp is determined by its reference count. And, the
+operation on \fIndlp\fP needs the reference to phba.

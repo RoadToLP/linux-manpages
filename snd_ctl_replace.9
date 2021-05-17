@@ -1,0 +1,23 @@
+.TH "snd_ctl_replace" 9 "snd_ctl_replace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ctl_replace \- replace the control instance of the card
+.SH SYNOPSIS
+.B "int" snd_ctl_replace
+.BI "(struct snd_card *card "  ","
+.BI "struct snd_kcontrol *kcontrol "  ","
+.BI "bool add_on_replace "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "kcontrol" 12
+the control instance to replace
+.IP "add_on_replace" 12
+add the control if not already added
+.SH "DESCRIPTION"
+Replaces the given control.  If the given control does not exist
+and the add_on_replace flag is set, the control is added.  If the
+control exists, it is destroyed first.
+
+It frees automatically the control which cannot be added or replaced.
+.SH "RETURN"
+Zero if successful, or a negative error code on failure.

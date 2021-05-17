@@ -1,0 +1,21 @@
+.TH "vfio_ap_irq_disable" 9 "vfio_ap_irq_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfio_ap_irq_disable \- 
+.SH SYNOPSIS
+.B "struct ap_queue_status" vfio_ap_irq_disable
+.BI "(struct vfio_ap_queue *q "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+The vfio_ap_queue
+.SH "DESCRIPTION"
+Uses ap_aqic to disable the interruption and in case of success, reset
+in progress or IRQ disable command already proceeded: calls
+\fBvfio_ap_wait_for_irqclear\fP to check for the IRQ bit to be clear
+and calls \fBvfio_ap_free_aqic_resources\fP to free the resources associated
+with the AP interrupt handling.
+
+In the case the AP is busy, or a reset is in progress,
+retries after 20ms, up to 5 times.
+
+Returns if ap_aqic function failed with invalid, deconfigured or
+checkstopped AP.

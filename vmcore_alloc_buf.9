@@ -1,0 +1,15 @@
+.TH "vmcore_alloc_buf" 9 "vmcore_alloc_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmcore_alloc_buf \- allocate buffer in vmalloc memory
+.SH SYNOPSIS
+.B "char *" vmcore_alloc_buf
+.BI "(size_t size "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+-- undescribed --
+.SH "DESCRIPTION"
+If CONFIG_MMU is defined, use \fBvmalloc_user\fP to allow users to mmap
+the buffer to user-space by means of \fBremap_vmalloc_range\fP.
+
+If CONFIG_MMU is not defined, use \fBvzalloc\fP since \fBmmap_vmcore\fP is
+disabled and there's no need to allow users to mmap the buffer.

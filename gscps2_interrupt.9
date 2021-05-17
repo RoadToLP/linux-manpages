@@ -1,0 +1,21 @@
+.TH "gscps2_interrupt" 9 "gscps2_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gscps2_interrupt \- Interruption service routine
+.SH SYNOPSIS
+.B "irqreturn_t" gscps2_interrupt
+.BI "(int irq "  ","
+.BI "void *dev "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+-- undescribed --
+.IP "dev" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function reads received PS/2 bytes and processes them on
+all interfaces.
+The problematic part here is, that the keyboard and mouse PS/2 port
+share the same interrupt and it's not possible to send data if any
+one of them holds input data. To solve this problem we try to receive
+the data as fast as possible and handle the reporting to the upper layer
+later.

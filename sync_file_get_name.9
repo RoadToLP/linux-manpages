@@ -1,0 +1,22 @@
+.TH "sync_file_get_name" 9 "sync_file_get_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sync_file_get_name \- get the name of the sync_file
+.SH SYNOPSIS
+.B "char *" sync_file_get_name
+.BI "(struct sync_file *sync_file "  ","
+.BI "char *buf "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "sync_file" 12
+sync_file to get the fence from
+.IP "buf" 12
+destination buffer to copy sync_file name into
+.IP "len" 12
+available size of destination buffer.
+.SH "DESCRIPTION"
+Each sync_file may have a name assigned either by the user (when merging
+sync_files together) or created from the fence it contains. In the latter
+case construction of the name is deferred until use, and so requires
+\fBsync_file_get_name\fP.
+.SH "RETURN"
+a string representing the name.

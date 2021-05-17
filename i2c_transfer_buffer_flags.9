@@ -1,0 +1,20 @@
+.TH "i2c_transfer_buffer_flags" 9 "i2c_transfer_buffer_flags" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_transfer_buffer_flags \- issue a single I2C message transferring data to/from a buffer
+.SH SYNOPSIS
+.B "int" i2c_transfer_buffer_flags
+.BI "(const struct i2c_client *client "  ","
+.BI "char *buf "  ","
+.BI "int count "  ","
+.BI "u16 flags "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+Handle to slave device
+.IP "buf" 12
+Where the data is stored
+.IP "count" 12
+How many bytes to transfer, must be less than 64k since msg.len is u16
+.IP "flags" 12
+The flags to be used for the message, e.g. I2C_M_RD for reads
+.SH "DESCRIPTION"
+Returns negative errno, or else the number of bytes transferred.

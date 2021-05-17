@@ -1,0 +1,36 @@
+.TH "uv_mmtimer_ioctl" 9 "uv_mmtimer_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uv_mmtimer_ioctl \- ioctl interface for /dev/uv_mmtimer
+.SH SYNOPSIS
+.B "long" uv_mmtimer_ioctl
+.BI "(struct file *file "  ","
+.BI "unsigned int cmd "  ","
+.BI "unsigned long arg "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file structure for the device
+.IP "cmd" 12
+command to execute
+.IP "arg" 12
+optional argument to command
+.SH "DESCRIPTION"
+Executes the command specified by \fIcmd\fP.  Returns 0 for success, < 0 for
+failure.
+
+Valid commands:
+
+MMTIMER_GETOFFSET - Should return the offset (relative to the start
+of the page where the registers are mapped) for the counter in question.
+
+MMTIMER_GETRES - Returns the resolution of the clock in femto (10^-15)
+seconds
+
+MMTIMER_GETFREQ - Copies the frequency of the clock in Hz to the address
+specified by \fIarg\fP
+
+MMTIMER_GETBITS - Returns the number of bits in the clock's counter
+
+MMTIMER_MMAPAVAIL - Returns 1 if registers can be mmap'd into userspace
+
+MMTIMER_GETCOUNTER - Gets the current value in the counter and places it
+in the address specified by \fIarg\fP.

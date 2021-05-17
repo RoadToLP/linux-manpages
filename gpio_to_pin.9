@@ -1,0 +1,20 @@
+.TH "gpio_to_pin" 9 "gpio_to_pin" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpio_to_pin \- GPIO range GPIO number to pin number translation
+.SH SYNOPSIS
+.B "int" gpio_to_pin
+.BI "(struct pinctrl_gpio_range *range "  ","
+.BI "unsigned int gpio "  ");"
+.SH ARGUMENTS
+.IP "range" 12
+GPIO range used for the translation
+.IP "gpio" 12
+gpio pin to translate to a pin number
+.SH "DESCRIPTION"
+Finds the pin number for a given GPIO using the specified GPIO range
+as a base for translation. The distinction between linear GPIO ranges
+and pin list based GPIO ranges is managed correctly by this function.
+
+This function assumes the gpio is part of the specified GPIO range, use
+only after making sure this is the case (e.g. by calling it on the
+result of successful pinctrl_get_device_gpio_range calls)!

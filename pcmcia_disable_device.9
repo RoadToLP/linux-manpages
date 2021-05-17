@@ -1,0 +1,17 @@
+.TH "pcmcia_disable_device" 9 "pcmcia_disable_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcmcia_disable_device \- disable and clean up a PCMCIA device
+.SH SYNOPSIS
+.B "void" pcmcia_disable_device
+.BI "(struct pcmcia_device *p_dev "  ");"
+.SH ARGUMENTS
+.IP "p_dev" 12
+the associated PCMCIA device
+.SH "DESCRIPTION"
+\fBpcmcia_disable_device\fP is the driver-callable counterpart to
+\fBpcmcia_enable_device\fP: If a PCMCIA device is no longer used,
+drivers are expected to clean up and disable the device by calling
+this function. Any I/O ranges (iomem and ioports) will be released,
+the Vpp voltage will be set to 0, and IRQs will no longer be
+generated -- at least if there is no other card function (of
+multifunction devices) being used.

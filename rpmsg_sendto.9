@@ -1,0 +1,29 @@
+.TH "rpmsg_sendto" 9 "rpmsg_sendto" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_sendto \- send a message across to the remote processor, specify dst
+.SH SYNOPSIS
+.B "int" rpmsg_sendto
+.BI "(struct rpmsg_endpoint *ept "  ","
+.BI "void *data "  ","
+.BI "int len "  ","
+.BI "u32 dst "  ");"
+.SH ARGUMENTS
+.IP "ept" 12
+the rpmsg endpoint
+.IP "data" 12
+payload of message
+.IP "len" 12
+length of payload
+.IP "dst" 12
+destination address
+.SH "DESCRIPTION"
+This function sends \fIdata\fP of length \fIlen\fP to the remote \fIdst\fP address.
+The message will be sent to the remote processor which the \fIept\fP
+endpoint belongs to, using \fIept\fP's address as source.
+In case there are no TX buffers available, the function will block until
+one becomes available, or a timeout of 15 seconds elapses. When the latter
+happens, -ERESTARTSYS is returned.
+
+Can only be called from process context (for now).
+
+Returns 0 on success and an appropriate error value on failure.

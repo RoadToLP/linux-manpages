@@ -1,0 +1,23 @@
+.TH "usb_free_streams" 9 "usb_free_streams" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_free_streams \- free bulk endpoint stream IDs.
+.SH SYNOPSIS
+.B "int" usb_free_streams
+.BI "(struct usb_interface *interface "  ","
+.BI "struct usb_host_endpoint **eps "  ","
+.BI "unsigned int num_eps "  ","
+.BI "gfp_t mem_flags "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+alternate setting that includes all endpoints.
+.IP "eps" 12
+array of endpoints to remove streams from.
+.IP "num_eps" 12
+number of endpoints in the array.
+.IP "mem_flags" 12
+flags hcd should use to allocate memory.
+.SH "DESCRIPTION"
+Reverts a group of bulk endpoints back to not using stream IDs.
+Can fail if we are given bad arguments, or HCD is broken.
+.SH "RETURN"
+0 on success. On failure, a negative error code.

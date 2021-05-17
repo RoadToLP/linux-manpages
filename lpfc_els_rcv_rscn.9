@@ -1,0 +1,31 @@
+.TH "lpfc_els_rcv_rscn" 9 "lpfc_els_rcv_rscn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_els_rcv_rscn \- Process an unsolicited rscn iocb
+.SH SYNOPSIS
+.B "int" lpfc_els_rcv_rscn
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_nodelist *ndlp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.SH "DESCRIPTION"
+This routine processes an unsolicited RSCN (Registration State Change
+Notification) IOCB. First, the payload of the unsolicited RSCN is walked
+to invoke \fBfc_host_post_event\fP routine to the FC transport layer. If the
+discover state machine is about to begin discovery, it just accepts the
+RSCN and the discovery process will satisfy the RSCN. If this RSCN only
+contains N_Port IDs for other vports on this HBA, it just accepts the
+RSCN and ignore processing it. If the state machine is in the recovery
+state, the fc_rscn_id_list of this \fIvport\fP is walked and the
+\fBlpfc_rscn_recovery_check\fP routine is invoked to send recovery event for
+all nodes that match RSCN payload. Otherwise, the \fBlpfc_els_handle_rscn\fP
+routine is invoked to handle the RSCN event.
+
+Return code
+0 - Just sent the acc response
+1 - Sent the acc response and waited for name server completion

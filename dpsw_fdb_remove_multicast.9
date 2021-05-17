@@ -1,0 +1,28 @@
+.TH "dpsw_fdb_remove_multicast" 9 "dpsw_fdb_remove_multicast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpsw_fdb_remove_multicast \- Removing interfaces from an existing multicast group.
+.SH SYNOPSIS
+.B "int" dpsw_fdb_remove_multicast
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u16 fdb_id "  ","
+.BI "const struct dpsw_fdb_multicast_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPSW object
+.IP "fdb_id" 12
+Forwarding Database Identifier
+.IP "cfg" 12
+Multicast entry configuration
+.SH "DESCRIPTION"
+Interfaces provided by this API have to exist in the group,
+otherwise an error will be returned and an entire command
+ignored. If there is no interface left in the group,
+an entire group is deleted
+.SH "RETURN"
+Completion status. '0' on Success; Error code otherwise.

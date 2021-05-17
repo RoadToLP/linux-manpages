@@ -1,0 +1,20 @@
+.TH "ecryptfs_write_metadata" 9 "ecryptfs_write_metadata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_write_metadata \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_write_metadata
+.BI "(struct dentry *ecryptfs_dentry "  ","
+.BI "struct inode *ecryptfs_inode "  ");"
+.SH ARGUMENTS
+.IP "ecryptfs_dentry" 12
+The eCryptfs dentry, which should be negative
+.IP "ecryptfs_inode" 12
+The newly created eCryptfs inode
+.SH "DESCRIPTION"
+Write the file headers out.  This will likely involve a userspace
+callout, in which the session key is encrypted with one or more
+public keys and/or the passphrase necessary to do the encryption is
+retrieved via a prompt.  Exactly what happens at this point should
+be policy-dependent.
+
+Returns zero on success; non-zero on error

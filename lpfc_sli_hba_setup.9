@@ -1,0 +1,18 @@
+.TH "lpfc_sli_hba_setup" 9 "lpfc_sli_hba_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_hba_setup \- SLI initialization function
+.SH SYNOPSIS
+.B "int" lpfc_sli_hba_setup
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is the main SLI initialization function. This function
+is called by the HBA initialization code, HBA reset code and HBA
+error attention handler code. Caller is not required to hold any
+locks. This function issues config_port mailbox command to configure
+the SLI, setup iocb rings and HBQ rings. In the end the function
+calls the config_port_post function to issue init_link mailbox
+command and to start the discovery. The function will return zero
+if successful, else it will return negative error code.

@@ -1,0 +1,21 @@
+.TH "bcma_arch_register_fallback_sprom" 9 "bcma_arch_register_fallback_sprom" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcma_arch_register_fallback_sprom \- Registers a method providing a fallback SPROM if no SPROM is found.
+.SH SYNOPSIS
+.B "int" bcma_arch_register_fallback_sprom
+.BI "(int (*sprom_callback)(struct bcma_bus *bus, struct ssb_sprom *out) "  ");"
+.SH ARGUMENTS
+.IP "sprom_callback" 12
+The callback function.
+.SH "DESCRIPTION"
+With this function the architecture implementation may register a
+callback handler which fills the SPROM data structure. The fallback is
+used for PCI based BCMA devices, where no valid SPROM can be found
+in the shadow registers and to provide the SPROM for SoCs where BCMA is
+to controll the system bus.
+
+This function is useful for weird architectures that have a half-assed
+BCMA device hardwired to their PCI bus.
+
+This function is available for architecture code, only. So it is not
+exported.

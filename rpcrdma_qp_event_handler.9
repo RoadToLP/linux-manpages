@@ -1,0 +1,16 @@
+.TH "rpcrdma_qp_event_handler" 9 "rpcrdma_qp_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_qp_event_handler \- Handle one QP event (error notification)
+.SH SYNOPSIS
+.B "void" rpcrdma_qp_event_handler
+.BI "(struct ib_event *event "  ","
+.BI "void *context "  ");"
+.SH ARGUMENTS
+.IP "event" 12
+details of the event
+.IP "context" 12
+ep that owns QP where event occurred
+.SH "DESCRIPTION"
+Called from the RDMA provider (device driver) possibly in an interrupt
+context. The QP is always destroyed before the ID, so the ID will be
+reliably available when this handler is invoked.

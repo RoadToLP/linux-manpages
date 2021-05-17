@@ -1,0 +1,57 @@
+.TH "rpcb_v4_register" 9 "rpcb_v4_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcb_v4_register \- set or unset a port registration with the local rpcbind
+.SH SYNOPSIS
+.B "int" rpcb_v4_register
+.BI "(struct net *net "  ","
+.BI "const u32 program "  ","
+.BI "const u32 version "  ","
+.BI "const struct sockaddr *address "  ","
+.BI "const char *netid "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+target network namespace
+.IP "program" 12
+RPC program number of service to (un)register
+.IP "version" 12
+RPC version number of service to (un)register
+.IP "address" 12
+address family, IP address, and port to (un)register
+.IP "netid" 12
+netid of transport protocol to (un)register
+.SH "DESCRIPTION"
+Returns zero if the registration request was dispatched successfully
+and the rpcbind daemon returned success.  Otherwise, returns an errno
+value that reflects the nature of the error (request could not be
+dispatched, timed out, or rpcbind returned an error).
+
+RPC services invoke this function to advertise their contact
+information via the system's rpcbind daemon.  RPC services
+invoke this function once for each [program, version, address,
+netid] tuple they wish to advertise.
+
+Callers may also unregister RPC services that are registered at a
+specific address by setting the port number in \fIaddress\fP to zero.
+They may unregister all registered protocol families at once for
+a service by passing a NULL \fIaddress\fP argument.  If \fInetid\fP is ""
+then all netids for [program, version, address] are unregistered.
+
+This function uses rpcbind protocol version 4 to contact the
+local rpcbind daemon.  The local rpcbind daemon must support
+version 4 of the rpcbind protocol in order for these functions
+to register a service successfully.
+
+Supported netids include "udp" and "tcp" for UDP and TCP over
+IPv4, and "udp6" and "tcp6" for UDP and TCP over IPv6,
+respectively.
+
+The contents of \fIaddress\fP determine the address family and the
+port to be registered.  The usual practice is to pass INADDR_ANY
+as the raw address, but specifying a non-zero address is also
+supported by this API if the caller wishes to advertise an RPC
+service on a specific network interface.
+
+Note that passing in INADDR_ANY does not create the same service
+registration as IN6ADDR_ANY.  The former advertises an RPC
+service on any IPv4 address, but not on IPv6.  The latter
+advertises the service on all IPv4 and IPv6 addresses.

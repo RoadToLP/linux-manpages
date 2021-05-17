@@ -1,0 +1,28 @@
+.TH "nilfs_cpfile_delete_checkpoints" 9 "nilfs_cpfile_delete_checkpoints" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_cpfile_delete_checkpoints \- delete checkpoints
+.SH SYNOPSIS
+.B "int" nilfs_cpfile_delete_checkpoints
+.BI "(struct inode *cpfile "  ","
+.BI "__u64 start "  ","
+.BI "__u64 end "  ");"
+.SH ARGUMENTS
+.IP "cpfile" 12
+inode of checkpoint file
+.IP "start" 12
+start checkpoint number
+.IP "end" 12
+end checkpoint numer
+.SH "DESCRIPTION"
+\fBnilfs_cpfile_delete_checkpoints\fP deletes the checkpoints in
+the period from \fIstart\fP to \fIend\fP, excluding \fIend\fP itself. The checkpoints
+which have been already deleted are ignored.
+
+Return Value: On success, 0 is returned. On error, one of the following
+negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EINVAL - invalid checkpoints.

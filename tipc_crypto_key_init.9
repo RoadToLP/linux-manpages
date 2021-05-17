@@ -1,0 +1,23 @@
+.TH "tipc_crypto_key_init" 9 "tipc_crypto_key_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_key_init \- Initiate a new user / AEAD key
+.SH SYNOPSIS
+.B "int" tipc_crypto_key_init
+.BI "(struct tipc_crypto *c "  ","
+.BI "struct tipc_aead_key *ukey "  ","
+.BI "u8 mode "  ","
+.BI "bool master_key "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+TIPC crypto to which new key is attached
+.IP "ukey" 12
+the user key
+.IP "mode" 12
+the key mode (CLUSTER_KEY or PER_NODE_KEY)
+.IP "master_key" 12
+specify this is a cluster master key
+.SH "DESCRIPTION"
+A new TIPC AEAD key will be allocated and initiated with the specified user
+key, then attached to the TIPC crypto.
+.SH "RETURN"
+new key id in case of success, otherwise: < 0

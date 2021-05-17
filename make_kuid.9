@@ -1,0 +1,20 @@
+.TH "make_kuid" 9 "make_kuid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+make_kuid \- Map a user-namespace uid pair into a kuid.
+.SH SYNOPSIS
+.B "kuid_t" make_kuid
+.BI "(struct user_namespace *ns "  ","
+.BI "uid_t uid "  ");"
+.SH ARGUMENTS
+.IP "ns" 12
+User namespace that the uid is in
+.IP "uid" 12
+User identifier
+
+Maps a user-namespace uid pair into a kernel internal kuid,
+and returns that kuid.
+
+When there is no mapping defined for the user-namespace uid
+pair INVALID_UID is returned.  Callers are expected to test
+for and handle INVALID_UID being returned.  INVALID_UID
+may be tested for using \fBuid_valid\fP.

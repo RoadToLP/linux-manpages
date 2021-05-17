@@ -1,0 +1,18 @@
+.TH "ubifs_evict_xattr_inode" 9 "ubifs_evict_xattr_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_evict_xattr_inode \- Evict an xattr inode.
+.SH SYNOPSIS
+.B "void" ubifs_evict_xattr_inode
+.BI "(struct ubifs_info *c "  ","
+.BI "ino_t xattr_inum "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "xattr_inum" 12
+xattr inode number
+.SH "DESCRIPTION"
+When an inode that hosts xattrs is being removed we have to make sure
+that cached inodes of the xattrs also get removed from the inode cache
+otherwise we'd waste memory. This function looks up an inode from the
+inode cache and clears the link counter such that \fBiput\fP will evict
+the inode.

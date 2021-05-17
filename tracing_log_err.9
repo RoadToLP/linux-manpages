@@ -1,0 +1,42 @@
+.TH "tracing_log_err" 9 "tracing_log_err" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_log_err \- write an error to the tracing error log
+.SH SYNOPSIS
+.B "void" tracing_log_err
+.BI "(struct trace_array *tr "  ","
+.BI "const char *loc "  ","
+.BI "const char *cmd "  ","
+.BI "const char **errs "  ","
+.BI "u8 type "  ","
+.BI "u8 pos "  ");"
+.SH ARGUMENTS
+.IP "tr" 12
+The associated trace array for the error (NULL for top level array)
+.IP "loc" 12
+A string describing where the error occurred
+.IP "cmd" 12
+The tracing command that caused the error
+.IP "errs" 12
+The array of loc-specific static error strings
+.IP "type" 12
+The index into errs[], which produces the specific static err string
+.IP "pos" 12
+The position the caret should be placed in the cmd
+.SH "DESCRIPTION"
+Writes an error into tracing/error_log of the form:
+
+<loc>: error: <text>
+Command: <cmd>
+^
+
+tracing/error_log is a small log file containing the last
+TRACING_LOG_ERRS_MAX errors (8).  Memory for errors isn't allocated
+unless there has been a tracing error, and the error log can be
+cleared and have its memory freed by writing the empty string in
+truncation mode to it i.e. echo > tracing/error_log.
+.SH "NOTE"
+the \fIerrs\fP array along with the \fItype\fP param are used to
+produce a static error string - this string is not copied and saved
+when the error is logged - only a pointer to it is saved.  See
+existing callers for examples of how static strings are typically
+defined for use with \fBtracing_log_err\fP.

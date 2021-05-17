@@ -1,0 +1,20 @@
+.TH "acpi_os_map_iomem" 9 "acpi_os_map_iomem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_os_map_iomem \- Get a virtual address for a given physical address range.
+.SH SYNOPSIS
+.B "void __iomem __ref *" acpi_os_map_iomem
+.BI "(acpi_physical_address phys "  ","
+.BI "acpi_size size "  ");"
+.SH ARGUMENTS
+.IP "phys" 12
+Start of the physical address range to map.
+.IP "size" 12
+Size of the physical address range to map.
+.SH "DESCRIPTION"
+Look up the given physical address range in the list of existing ACPI memory
+mappings.  If found, get a reference to it and return a pointer to it (its
+virtual address).  If not found, map it, add it to that list and return a
+pointer to it.
+
+During early init (when acpi_permanent_mmap has not been set yet) this
+routine simply calls \fB__acpi_map_table\fP to get the job done.

@@ -1,0 +1,19 @@
+.TH "check_ring_tx_db" 9 "check_ring_tx_db" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_ring_tx_db \- check and potentially ring a Tx queue's doorbell
+.SH SYNOPSIS
+.B "void" check_ring_tx_db
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_txq *q "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the Tx queue
+
+Ring the doorbel if a Tx queue is asleep.  There is a natural race,
+where the HW is going to sleep just after we checked, however,
+then the interrupt handler will detect the outstanding TX packet
+and ring the doorbell for us.
+
+When GTS is disabled we unconditionally ring the doorbell.

@@ -1,0 +1,27 @@
+.TH "clk_notifier_register" 9 "clk_notifier_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_notifier_register \- add a clk rate change notifier
+.SH SYNOPSIS
+.B "int" clk_notifier_register
+.BI "(struct clk *clk "  ","
+.BI "struct notifier_block *nb "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk * to watch
+.IP "nb" 12
+struct notifier_block * with callback info
+.SH "DESCRIPTION"
+Request notification when clk's rate changes.  This uses an SRCU
+notifier because we want it to block and notifier unregistrations are
+uncommon.  The callbacks associated with the notifier must not
+re-enter into the clk framework by calling any top-level clk APIs;
+this will cause a nested prepare_lock mutex.
+
+In all notification cases (pre, post and abort rate change) the original
+clock rate is passed to the callback via struct clk_notifier_data.old_rate
+and the new frequency is passed via struct clk_notifier_data.new_rate.
+
+\fBclk_notifier_register\fP must be called from non-atomic context.
+Returns -EINVAL if called with null arguments, -ENOMEM upon
+allocation failure; otherwise, passes along the return value of
+\fBsrcu_notifier_chain_register\fP.

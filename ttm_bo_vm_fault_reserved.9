@@ -1,0 +1,29 @@
+.TH "ttm_bo_vm_fault_reserved" 9 "ttm_bo_vm_fault_reserved" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ttm_bo_vm_fault_reserved \- TTM fault helper
+.SH SYNOPSIS
+.B "vm_fault_t" ttm_bo_vm_fault_reserved
+.BI "(struct vm_fault *vmf "  ","
+.BI "pgprot_t prot "  ","
+.BI "pgoff_t num_prefault "  ","
+.BI "pgoff_t fault_page_size "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+The struct vm_fault given as argument to the fault callback
+.IP "prot" 12
+The page protection to be used for this memory area.
+.IP "num_prefault" 12
+Maximum number of prefault pages. The caller may want to
+specify this based on madvice settings and the size of the GPU object
+backed by the memory.
+.IP "fault_page_size" 12
+The size of the fault in pages.
+.SH "DESCRIPTION"
+This function inserts one or more page table entries pointing to the
+memory backing the buffer object, and then returns a return code
+instructing the caller to retry the page access.
+.SH "RETURN"
+VM_FAULT_NOPAGE on success or pending signal
+VM_FAULT_SIGBUS on unspecified error
+VM_FAULT_OOM on out-of-memory
+VM_FAULT_RETRY if retryable wait

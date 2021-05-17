@@ -1,0 +1,19 @@
+.TH "svc_rdma_read_multiple_chunks" 9 "svc_rdma_read_multiple_chunks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_read_multiple_chunks \- Construct RDMA Reads to pull data item Read chunks
+.SH SYNOPSIS
+.B "int" svc_rdma_read_multiple_chunks
+.BI "(struct svc_rdma_read_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for RDMA Reads
+.SH "DESCRIPTION"
+The chunk data lands in head->rc_arg as a series of contiguous pages,
+like an incoming TCP call.
+
+Return values:
+0: RDMA Read WQEs were successfully built
+-EINVAL: client provided too many chunks or segments,
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

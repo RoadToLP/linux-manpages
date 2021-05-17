@@ -1,0 +1,15 @@
+.TH "z8530_tx_done" 9 "z8530_tx_done" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_tx_done \- TX complete callback
+.SH SYNOPSIS
+.B "void" z8530_tx_done
+.BI "(struct z8530_channel *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+The channel that completed a transmit.
+
+This is called when we complete a packet send. We wake the queue,
+start the next packet going and then free the buffer of the existing
+packet. This code is fairly timing sensitive.
+
+Called with the register lock held.

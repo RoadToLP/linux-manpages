@@ -1,0 +1,17 @@
+.TH "lpfc_sli4_calc_ring" 9 "lpfc_sli4_calc_ring" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_calc_ring \- Calculates which ring to use
+.SH SYNOPSIS
+.B "struct lpfc_sli_ring *" lpfc_sli4_calc_ring
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *piocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "piocb" 12
+Pointer to command iocb.
+.SH "DESCRIPTION"
+For SLI4 only, FCP IO can deferred to one fo many WQs, based on
+hba_wqidx, thus we need to calculate the corresponding ring.
+Since ABORTS must go on the same WQ of the command they are
+aborting, we use command's hba_wqidx.

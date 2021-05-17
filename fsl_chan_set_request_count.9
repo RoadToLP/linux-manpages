@@ -1,0 +1,19 @@
+.TH "fsl_chan_set_request_count" 9 "fsl_chan_set_request_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_chan_set_request_count \- Set DMA Request Count for external control
+.SH SYNOPSIS
+.B "void" fsl_chan_set_request_count
+.BI "(struct fsldma_chan *chan "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+Freescale DMA channel
+.IP "size" 12
+Number of bytes to transfer in a single request
+.SH "DESCRIPTION"
+The Freescale DMA channel can be controlled by the external signal DREQ#.
+The DMA request count is how many bytes are allowed to transfer before
+pausing the channel, after which a new assertion of DREQ# resumes channel
+operation.
+
+A size of 0 disables external pause control. The maximum size is 1024.

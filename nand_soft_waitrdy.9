@@ -1,0 +1,24 @@
+.TH "nand_soft_waitrdy" 9 "nand_soft_waitrdy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nand_soft_waitrdy \- Poll STATUS reg until RDY bit is set to 1
+.SH SYNOPSIS
+.B "int" nand_soft_waitrdy
+.BI "(struct nand_chip *chip "  ","
+.BI "unsigned long timeout_ms "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip structure
+.IP "timeout_ms" 12
+Timeout in ms
+.SH "DESCRIPTION"
+Poll the STATUS register using ->\fBexec_op\fP until the RDY bit becomes 1.
+If that does not happen whitin the specified timeout, -ETIMEDOUT is
+returned.
+
+This helper is intended to be used when the controller does not have access
+to the NAND R/B pin.
+
+Be aware that calling this helper from an ->\fBexec_op\fP implementation means
+->\fBexec_op\fP must be re-entrant.
+
+Return 0 if the NAND chip is ready, a negative error otherwise.

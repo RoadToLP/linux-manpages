@@ -1,0 +1,31 @@
+.TH "rvt_lkey_ok" 9 "rvt_lkey_ok" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_lkey_ok \- check IB SGE for validity and initialize
+.SH SYNOPSIS
+.B "int" rvt_lkey_ok
+.BI "(struct rvt_lkey_table *rkt "  ","
+.BI "struct rvt_pd *pd "  ","
+.BI "struct rvt_sge *isge "  ","
+.BI "struct rvt_sge *last_sge "  ","
+.BI "struct ib_sge *sge "  ","
+.BI "int acc "  ");"
+.SH ARGUMENTS
+.IP "rkt" 12
+table containing lkey to check SGE against
+.IP "pd" 12
+protection domain
+.IP "isge" 12
+outgoing internal SGE
+.IP "last_sge" 12
+last outgoing SGE written
+.IP "sge" 12
+SGE to check
+.IP "acc" 12
+access flags
+.SH "DESCRIPTION"
+Check the IB SGE for validity and initialize our internal version
+of it.
+
+Increments the reference count when a new sge is stored.
+.SH "RETURN"
+0 if compressed, 1 if added , otherwise returns -errno.

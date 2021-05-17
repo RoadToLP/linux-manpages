@@ -1,0 +1,21 @@
+.TH "drm_send_event_helper" 9 "drm_send_event_helper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_send_event_helper \- send DRM event to file descriptor
+.SH SYNOPSIS
+.B "void" drm_send_event_helper
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_pending_event *e "  ","
+.BI "ktime_t timestamp "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "e" 12
+DRM event to deliver
+.IP "timestamp" 12
+timestamp to set for the fence event in kernel's CLOCK_MONOTONIC
+time domain
+.SH "DESCRIPTION"
+This helper function sends the event \fIe\fP, initialized with
+\fBdrm_event_reserve_init\fP, to its associated userspace DRM file.
+The timestamp variant of dma_fence_signal is used when the caller
+sends a valid timestamp.

@@ -1,0 +1,21 @@
+.TH "mptcp_token_new_connect" 9 "mptcp_token_new_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mptcp_token_new_connect \- create new key/idsn/token for subflow
+.SH SYNOPSIS
+.B "int" mptcp_token_new_connect
+.BI "(struct sock *sk "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+the socket that will initiate a connection
+.SH "DESCRIPTION"
+This function is called when a new outgoing mptcp connection is
+initiated.
+
+It creates a unique token to identify the new mptcp connection,
+a secret local key and the initial data sequence number (idsn).
+
+On success, the mptcp connection can be found again using
+the computed token at a later time, this is needed to process
+join requests.
+
+returns 0 on success.

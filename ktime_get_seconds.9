@@ -1,0 +1,16 @@
+.TH "ktime_get_seconds" 9 "ktime_get_seconds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ktime_get_seconds \- Get the seconds portion of CLOCK_MONOTONIC
+.SH SYNOPSIS
+.B "time64_t" ktime_get_seconds
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Returns the seconds portion of CLOCK_MONOTONIC with a single non
+serialized read. tk->ktime_sec is of type 'unsigned long' so this
+works on both 32 and 64 bit systems. On 32 bit systems the readout
+covers ~136 years of uptime which should be enough to prevent
+premature wrap arounds.

@@ -1,0 +1,23 @@
+.TH "rhashtable_walk_start_check" 9 "rhashtable_walk_start_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rhashtable_walk_start_check \- Start a hash table walk
+.SH SYNOPSIS
+.B "int" rhashtable_walk_start_check
+.BI "(struct rhashtable_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+Hash table iterator
+.SH "DESCRIPTION"
+Start a hash table walk at the current iterator position.  Note that we take
+the RCU lock in all cases including when we return an error.  So you must
+always call rhashtable_walk_stop to clean up.
+
+Returns zero if successful.
+
+Returns -EAGAIN if resize event occured.  Note that the iterator
+will rewind back to the beginning and you may use it immediately
+by calling rhashtable_walk_next.
+
+rhashtable_walk_start is defined as an inline variant that returns
+void. This is preferred in cases where the caller would ignore
+resize events and always continue.

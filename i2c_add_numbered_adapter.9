@@ -1,0 +1,29 @@
+.TH "i2c_add_numbered_adapter" 9 "i2c_add_numbered_adapter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_add_numbered_adapter \- declare i2c adapter, use static bus number
+.SH SYNOPSIS
+.B "int" i2c_add_numbered_adapter
+.BI "(struct i2c_adapter *adap "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter to register (with adap->nr initialized)
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+This routine is used to declare an I2C adapter when its bus number
+matters.  For example, use it for I2C adapters from system-on-chip CPUs,
+or otherwise built in to the system's mainboard, and where i2c_board_info
+is used to properly configure I2C devices.
+
+If the requested bus number is set to -1, then this function will behave
+identically to i2c_add_adapter, and will dynamically assign a bus number.
+
+If no devices have pre-been declared for this bus, then be sure to
+register the adapter before any dynamically allocated ones.  Otherwise
+the required bus ID may not be available.
+
+When this returns zero, the specified adapter became available for
+clients using the bus number provided in adap->nr.  Also, the table
+of I2C devices pre-declared using \fBi2c_register_board_info\fP is scanned,
+and the appropriate driver model device nodes are created.  Otherwise, a
+negative errno value is returned.

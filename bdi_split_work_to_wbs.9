@@ -1,0 +1,20 @@
+.TH "bdi_split_work_to_wbs" 9 "bdi_split_work_to_wbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdi_split_work_to_wbs \- split a wb_writeback_work to all wb's of a bdi
+.SH SYNOPSIS
+.B "void" bdi_split_work_to_wbs
+.BI "(struct backing_dev_info *bdi "  ","
+.BI "struct wb_writeback_work *base_work "  ","
+.BI "bool skip_if_busy "  ");"
+.SH ARGUMENTS
+.IP "bdi" 12
+target backing_dev_info
+.IP "base_work" 12
+wb_writeback_work to issue
+.IP "skip_if_busy" 12
+skip wb's which already have writeback in progress
+.SH "DESCRIPTION"
+Split and issue \fIbase_work\fP to all wb's (bdi_writeback's) of \fIbdi\fP which
+have dirty inodes.  If \fIbase_work->nr_page\fP isn't LONG_MAX, it's
+distributed to the busy wbs according to each wb's proportion in the
+total active write bandwidth of \fIbdi\fP.

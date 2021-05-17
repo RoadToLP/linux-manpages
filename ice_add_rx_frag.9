@@ -1,0 +1,22 @@
+.TH "ice_add_rx_frag" 9 "ice_add_rx_frag" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_rx_frag \- Add contents of Rx buffer to sk_buff as a frag
+.SH SYNOPSIS
+.B "void" ice_add_rx_frag
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "struct ice_rx_buf *rx_buf "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring to transact packets on
+.IP "rx_buf" 12
+buffer containing page to add
+.IP "skb" 12
+sk_buff to place the data into
+.IP "size" 12
+packet length from rx_desc
+.SH "DESCRIPTION"
+This function will add the data contained in rx_buf->page to the skb.
+It will just attach the page as a frag to the skb.
+The function will then update the page offset.

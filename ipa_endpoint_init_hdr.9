@@ -1,0 +1,26 @@
+.TH "ipa_endpoint_init_hdr" 9 "ipa_endpoint_init_hdr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_endpoint_init_hdr \- Initialize HDR endpoint configuration register
+.SH SYNOPSIS
+.B "void" ipa_endpoint_init_hdr
+.BI "(struct ipa_endpoint *endpoint "  ");"
+.SH ARGUMENTS
+.IP "endpoint" 12
+Endpoint pointer
+.SH "DESCRIPTION"
+We program QMAP endpoints so each packet received is preceded by a QMAP
+header structure.  The QMAP header contains a 1-byte mux_id and 2-byte
+packet size field, and we have the IPA hardware populate both for each
+received packet.  The header is configured (in the HDR_EXT register)
+to use big endian format.
+
+The packet size is written into the QMAP header's pkt_len field.  That
+location is defined here using the HDR_OFST_PKT_SIZE field.
+
+The mux_id comes from a 4-byte metadata value supplied with each packet
+by the modem.  It is *not* a QMAP header, but it does contain the mux_id
+value that we want, in its low-order byte.  A bitmask defined in the
+endpoint's METADATA_MASK register defines which byte within the modem
+metadata contains the mux_id.  And the OFST_METADATA field programmed
+here indicates where the extracted byte should be placed within the QMAP
+header.

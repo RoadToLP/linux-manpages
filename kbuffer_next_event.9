@@ -1,0 +1,19 @@
+.TH "kbuffer_next_event" 9 "kbuffer_next_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kbuffer_next_event \- increment the current pointer
+.SH SYNOPSIS
+.B "void *" kbuffer_next_event
+.BI "(struct kbuffer *kbuf "  ","
+.BI "unsigned long long *ts "  ");"
+.SH ARGUMENTS
+.IP "kbuf" 12
+The kbuffer to read
+.IP "ts" 12
+Address to store the next record's timestamp (may be NULL to ignore)
+.SH "DESCRIPTION"
+Increments the pointers into the subbuffer of the kbuffer to point to the
+next event so that the next \fBkbuffer_read_event\fP will return a
+new event.
+
+Returns the data of the next event if a new event exists on the subbuffer,
+NULL otherwise.

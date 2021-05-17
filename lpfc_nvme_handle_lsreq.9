@@ -1,0 +1,23 @@
+.TH "lpfc_nvme_handle_lsreq" 9 "lpfc_nvme_handle_lsreq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvme_handle_lsreq \- Process an unsolicited NVME LS request
+.SH SYNOPSIS
+.B "int" lpfc_nvme_handle_lsreq
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_async_xchg_ctx *axchg "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "axchg" 12
+pointer to exchange context for the NVME LS request
+.SH "DESCRIPTION"
+This routine is used for processing an asychronously received NVME LS
+request. Any remaining validation is done and the LS is then forwarded
+to the nvme-fc transport via \fBnvme_fc_rcv_ls_req\fP.
+
+The calling sequence should be: \fBnvme_fc_rcv_ls_req\fP -> (processing)
+-> lpfc_nvme_xmt_ls_rsp/cmp -> req->done.
+__lpfc_nvme_xmt_ls_rsp_cmp should free the allocated axchg.
+
+Returns 0 if LS was handled and delivered to the transport
+Returns 1 if LS failed to be handled and should be dropped

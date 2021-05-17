@@ -1,0 +1,15 @@
+.TH "binder_free_txn_fixups" 9 "binder_free_txn_fixups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_free_txn_fixups \- free unprocessed fd fixups
+.SH SYNOPSIS
+.B "void" binder_free_txn_fixups
+.BI "(struct binder_transaction *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+binder transaction for t->from
+.SH "DESCRIPTION"
+If the transaction is being torn down prior to being
+processed by the target process, free all of the
+fd fixups and fput the file structs. It is safe to
+call this function after the fixups have been
+processed -- in that case, the list will be empty.

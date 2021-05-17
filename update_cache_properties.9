@@ -1,0 +1,21 @@
+.TH "update_cache_properties" 9 "update_cache_properties" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_cache_properties \- Update cacheinfo for the given processor
+.SH SYNOPSIS
+.B "void" update_cache_properties
+.BI "(struct cacheinfo *this_leaf "  ","
+.BI "struct acpi_pptt_cache *found_cache "  ","
+.BI "struct acpi_pptt_processor *cpu_node "  ");"
+.SH ARGUMENTS
+.IP "this_leaf" 12
+Kernel cache info structure being updated
+.IP "found_cache" 12
+The PPTT node describing this cache instance
+.IP "cpu_node" 12
+A unique reference to describe this cache instance
+.SH "DESCRIPTION"
+The ACPI spec implies that the fields in the cache structures are used to
+extend and correct the information probed from the hardware. Lets only
+set fields that we determine are VALID.
+.SH "RETURN"
+nothing. Side effect of updating the global cacheinfo

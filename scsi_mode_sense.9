@@ -1,0 +1,38 @@
+.TH "scsi_mode_sense" 9 "scsi_mode_sense" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_mode_sense \- issue a mode sense, falling back from 10 to six bytes if necessary.
+.SH SYNOPSIS
+.B "int" scsi_mode_sense
+.BI "(struct scsi_device *sdev "  ","
+.BI "int dbd "  ","
+.BI "int modepage "  ","
+.BI "unsigned char *buffer "  ","
+.BI "int len "  ","
+.BI "int timeout "  ","
+.BI "int retries "  ","
+.BI "struct scsi_mode_data *data "  ","
+.BI "struct scsi_sense_hdr *sshdr "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device to be queried
+.IP "dbd" 12
+set if mode sense will allow block descriptors to be returned
+.IP "modepage" 12
+mode page being requested
+.IP "buffer" 12
+request buffer (may not be smaller than eight bytes)
+.IP "len" 12
+length of request buffer.
+.IP "timeout" 12
+command timeout
+.IP "retries" 12
+number of retries before failing
+.IP "data" 12
+returns a structure abstracting the mode header data
+.IP "sshdr" 12
+place to put sense data (or NULL if no sense to be collected).
+must be SCSI_SENSE_BUFFERSIZE big.
+
+Returns zero if unsuccessful, or the header offset (either 4
+or 8 depending on whether a six or ten byte command was
+issued) if successful.

@@ -1,0 +1,15 @@
+.TH "iommu_group_get_for_dev" 9 "iommu_group_get_for_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_group_get_for_dev \- Find or create the IOMMU group for a device
+.SH SYNOPSIS
+.B "struct iommu_group *" iommu_group_get_for_dev
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target device
+.SH "DESCRIPTION"
+This function is intended to be called by IOMMU drivers and extended to
+support common, bus-defined algorithms when determining or creating the
+IOMMU group for a device.  On success, the caller will hold a reference
+to the returned IOMMU group, which will already include the provided
+device.  The reference should be released with \fBiommu_group_put\fP.

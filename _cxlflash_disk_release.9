@@ -1,0 +1,24 @@
+.TH "_cxlflash_disk_release" 9 "_cxlflash_disk_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_cxlflash_disk_release \- releases the specified resource entry
+.SH SYNOPSIS
+.B "int" _cxlflash_disk_release
+.BI "(struct scsi_device *sdev "  ","
+.BI "struct ctx_info *ctxi "  ","
+.BI "struct dk_cxlflash_release *release "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "ctxi" 12
+Context owning resources.
+.IP "release" 12
+Release ioctl data structure.
+.SH "DESCRIPTION"
+For LUNs in virtual mode, the virtual LUN associated with the specified
+resource handle is resized to 0 prior to releasing the RHTE. Note that the
+AFU sync should _not_ be performed when the context is sitting on the error
+recovery list. A context on the error recovery list is not known to the AFU
+due to reset. When the context is recovered, it will be reattached and made
+known again to the AFU.
+.SH "RETURN"
+0 on success, -errno on failure

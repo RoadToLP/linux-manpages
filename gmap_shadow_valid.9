@@ -1,0 +1,19 @@
+.TH "gmap_shadow_valid" 9 "gmap_shadow_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_shadow_valid \- check if a shadow guest address space matches the given properties and is still valid
+.SH SYNOPSIS
+.B "int" gmap_shadow_valid
+.BI "(struct gmap *sg "  ","
+.BI "unsigned long asce "  ","
+.BI "int edat_level "  ");"
+.SH ARGUMENTS
+.IP "sg" 12
+pointer to the shadow guest address space structure
+.IP "asce" 12
+ASCE for which the shadow table is requested
+.IP "edat_level" 12
+edat level to be used for the shadow translation
+.SH "DESCRIPTION"
+Returns 1 if the gmap shadow is still valid and matches the given
+properties, the caller can continue using it. Returns 0 otherwise, the
+caller has to request a new shadow gmap in this case.

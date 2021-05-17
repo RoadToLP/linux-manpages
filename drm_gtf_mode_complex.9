@@ -1,0 +1,43 @@
+.TH "drm_gtf_mode_complex" 9 "drm_gtf_mode_complex" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gtf_mode_complex \- create the modeline based on the full GTF algorithm
+.SH SYNOPSIS
+.B "struct drm_display_mode *" drm_gtf_mode_complex
+.BI "(struct drm_device *dev "  ","
+.BI "int hdisplay "  ","
+.BI "int vdisplay "  ","
+.BI "int vrefresh "  ","
+.BI "bool interlaced "  ","
+.BI "int margins "  ","
+.BI "int GTF_M "  ","
+.BI "int GTF_2C "  ","
+.BI "int GTF_K "  ","
+.BI "int GTF_2J "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "hdisplay" 12
+hdisplay size
+.IP "vdisplay" 12
+vdisplay size
+.IP "vrefresh" 12
+vrefresh rate.
+.IP "interlaced" 12
+whether to compute an interlaced mode
+.IP "margins" 12
+desired margin (borders) size
+.IP "GTF_M" 12
+extended GTF formula parameters
+.IP "GTF_2C" 12
+extended GTF formula parameters
+.IP "GTF_K" 12
+extended GTF formula parameters
+.IP "GTF_2J" 12
+extended GTF formula parameters
+.SH "DESCRIPTION"
+GTF feature blocks specify C and J in multiples of 0.5, so we pass them
+in here multiplied by two.  For a C of 40, pass in 80.
+.SH "RETURN"
+The modeline based on the full GTF algorithm stored in a drm_display_mode object.
+The display mode object is allocated with \fBdrm_mode_create\fP. Returns NULL
+when no mode could be allocated.

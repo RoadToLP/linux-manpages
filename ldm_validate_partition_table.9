@@ -1,0 +1,21 @@
+.TH "ldm_validate_partition_table" 9 "ldm_validate_partition_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ldm_validate_partition_table \- Determine whether bdev might be a dynamic disk
+.SH SYNOPSIS
+.B "bool" ldm_validate_partition_table
+.BI "(struct parsed_partitions *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+Partition check state including device holding the LDM Database
+.SH "DESCRIPTION"
+This function provides a weak test to decide whether the device is a dynamic
+disk or not.  It looks for an MS-DOS-style partition table containing at
+least one partition of type 0x42 (formerly SFS, now used by Windows for
+dynamic disks).
+
+N.B.  The only possible error can come from the read_part_sector and that is
+only likely to happen if the underlying device is strange.  If that IS
+the case we should return zero to let someone else try.
+.SH "RETURN"
+'true'   \fIstate->bdev\fP is a dynamic disk
+'false'  \fIstate->bdev\fP is not a dynamic disk, or an error occurred

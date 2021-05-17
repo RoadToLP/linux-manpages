@@ -1,0 +1,27 @@
+.TH "asd_ms_get_phy_params" 9 "asd_ms_get_phy_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_ms_get_phy_params \- get phy parameters from the manufacturing sector
+.SH SYNOPSIS
+.B "int" asd_ms_get_phy_params
+.BI "(struct asd_ha_struct *asd_ha "  ","
+.BI "struct asd_manuf_sec *manuf_sec "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to the host adapter structure
+.IP "manuf_sec" 12
+pointer to the manufacturing sector
+.SH "DESCRIPTION"
+The manufacturing sector contans also the linked list of sub-segments,
+since when it was read, its size was taken from the flash directory,
+not from the structure size.
+
+HIDDEN phys do not count in the total count.  REPORTED phys cannot
+be enabled but are reported and counted towards the total.
+ENABLED phys are enabled by default and count towards the total.
+The absolute total phy number is ASD_MAX_PHYS.  hw_prof->num_phys
+merely specifies the number of phys the host adapter decided to
+report.  E.g., it is possible for phys 0, 1 and 2 to be HIDDEN,
+phys 3, 4 and 5 to be REPORTED and phys 6 and 7 to be ENABLED.
+In this case ASD_MAX_PHYS is 8, hw_prof->num_phys is 5, and only 2
+are actually enabled (enabled by default, max number of phys
+enableable in this case).

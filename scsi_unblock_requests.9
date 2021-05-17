@@ -1,0 +1,14 @@
+.TH "scsi_unblock_requests" 9 "scsi_unblock_requests" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_unblock_requests \- Utility function used by low-level drivers to allow further commands to be queued to the device.
+.SH SYNOPSIS
+.B "void" scsi_unblock_requests
+.BI "(struct Scsi_Host *shost "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+host in question
+.SH "DESCRIPTION"
+There is no timer nor any other means by which the requests get unblocked
+other than the low-level driver calling \fBscsi_unblock_requests\fP. This is done
+as an API function so that changes to the internals of the scsi mid-layer
+won't require wholesale changes to drivers that use this feature.

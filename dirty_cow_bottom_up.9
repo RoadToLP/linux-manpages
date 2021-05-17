@@ -1,0 +1,17 @@
+.TH "dirty_cow_bottom_up" 9 "dirty_cow_bottom_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dirty_cow_bottom_up \- dirty a znode and its ancestors.
+.SH SYNOPSIS
+.B "struct ubifs_znode *" dirty_cow_bottom_up
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_znode *znode "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "znode" 12
+znode to dirty
+.SH "DESCRIPTION"
+If we do not have a unique key that resides in a znode, then we cannot
+dirty that znode from the top down (i.e. by using lookup_level0_dirty)
+This function records the path back to the last dirty ancestor, and then
+dirties the znodes on that path.

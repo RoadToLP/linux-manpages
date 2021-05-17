@@ -1,0 +1,17 @@
+.TH "ddcb_cmd_fixups" 9 "ddcb_cmd_fixups" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ddcb_cmd_fixups \- Establish DMA fixups/sglists for user memory references
+.SH SYNOPSIS
+.B "int" ddcb_cmd_fixups
+.BI "(struct genwqe_file *cfile "  ","
+.BI "struct ddcb_requ *req "  ");"
+.SH ARGUMENTS
+.IP "cfile" 12
+Descriptor of opened file
+.IP "req" 12
+DDCB work request
+.SH "DESCRIPTION"
+Before the DDCB gets executed we need to handle the fixups. We
+replace the user-space addresses with DMA addresses or do
+additional setup work e.g. generating a scatter-gather list which
+is used to describe the memory referred to in the fixup.

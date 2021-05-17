@@ -1,0 +1,19 @@
+.TH "config_item_set_name" 9 "config_item_set_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+config_item_set_name \- Set the name of an item
+.SH SYNOPSIS
+.B "int" config_item_set_name
+.BI "(struct config_item *item "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "item" 12
+item.
+.IP "fmt" 12
+The \fBvsnprintf\fP's format string.
+
+If strlen(name) >= CONFIGFS_ITEM_NAME_LEN, then use a
+dynamically allocated string that \fIitem->ci_name\fP points to.
+Otherwise, use the static \fIitem->ci_namebuf\fP array.
+.IP "..." 12
+variable arguments

@@ -1,0 +1,16 @@
+.TH "kfree_sensitive" 9 "kfree_sensitive" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kfree_sensitive \- Clear sensitive information in memory before freeing
+.SH SYNOPSIS
+.B "void" kfree_sensitive
+.BI "(const void *p "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+object to free memory of
+.SH "DESCRIPTION"
+The memory of the object \fIp\fP points to is zeroed before freed.
+If \fIp\fP is NULL, \fBkfree_sensitive\fP does nothing.
+.SH "NOTE"
+this function zeroes the whole allocated buffer which can be a good
+deal bigger than the requested buffer size passed to \fBkmalloc\fP. So be
+careful when using this function in performance sensitive code.

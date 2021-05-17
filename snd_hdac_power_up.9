@@ -1,0 +1,15 @@
+.TH "snd_hdac_power_up" 9 "snd_hdac_power_up" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_power_up \- power up the codec
+.SH SYNOPSIS
+.B "int" snd_hdac_power_up
+.BI "(struct hdac_device *codec "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the codec object
+.SH "DESCRIPTION"
+This function calls the runtime PM helper to power up the given codec.
+Unlike \fBsnd_hdac_power_up_pm\fP, you should call this only for the code
+path that isn't included in PM path.  Otherwise it gets stuck.
+
+Returns zero if successful, or a negative error code.

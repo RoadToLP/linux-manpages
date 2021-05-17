@@ -1,0 +1,27 @@
+.TH "intel_soc_pmic_exec_mipi_pmic_seq_element" 9 "intel_soc_pmic_exec_mipi_pmic_seq_element" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_soc_pmic_exec_mipi_pmic_seq_element \- Execute PMIC MIPI sequence
+.SH SYNOPSIS
+.B "int" intel_soc_pmic_exec_mipi_pmic_seq_element
+.BI "(u16 i2c_address "  ","
+.BI "u32 reg_address "  ","
+.BI "u32 value "  ","
+.BI "u32 mask "  ");"
+.SH ARGUMENTS
+.IP "i2c_address" 12
+I2C client address for the PMIC
+.IP "reg_address" 12
+PMIC register address
+.IP "value" 12
+New value for the register bits to change
+.IP "mask" 12
+Mask indicating which register bits to change
+.SH "DESCRIPTION"
+DSI LCD panels describe an initialization sequence in the i915 VBT (Video
+BIOS Tables) using so called MIPI sequences. One possible element in these
+sequences is a PMIC specific element of 15 bytes.
+
+This function executes these PMIC specific elements sending the embedded
+commands to the PMIC.
+
+Return 0 on success, < 0 on failure.

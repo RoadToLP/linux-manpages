@@ -1,0 +1,26 @@
+.TH "__auxiliary_device_add" 9 "__auxiliary_device_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__auxiliary_device_add \- add an auxiliary bus device
+.SH SYNOPSIS
+.B "int" __auxiliary_device_add
+.BI "(struct auxiliary_device *auxdev "  ","
+.BI "const char *modname "  ");"
+.SH ARGUMENTS
+.IP "auxdev" 12
+auxiliary bus device to add to the bus
+.IP "modname" 12
+name of the parent device's driver module
+.SH "DESCRIPTION"
+This is the second step in the two-step process to register an
+auxiliary_device.
+
+This function must be called after a successful call to
+\fBauxiliary_device_init\fP, which will perform the device_initialize.  This
+means that if this returns an error code, then a call to
+\fBauxiliary_device_uninit\fP must be performed so that the .release callback
+will be triggered to free the memory associated with the auxiliary_device.
+
+The expectation is that users will call the "auxiliary_device_add" macro so
+that the caller's KBUILD_MODNAME is automatically inserted for the modname
+parameter.  Only if a user requires a custom name would this version be
+called directly.

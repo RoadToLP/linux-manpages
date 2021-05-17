@@ -1,0 +1,20 @@
+.TH "rb_update_event" 9 "rb_update_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rb_update_event \- update event type and data
+.SH SYNOPSIS
+.B "void" rb_update_event
+.BI "(struct ring_buffer_per_cpu *cpu_buffer "  ","
+.BI "struct ring_buffer_event *event "  ","
+.BI "struct rb_event_info *info "  ");"
+.SH ARGUMENTS
+.IP "cpu_buffer" 12
+The per cpu buffer of the \fIevent\fP
+.IP "event" 12
+the event to update
+.IP "info" 12
+The info to update the \fIevent\fP with (contains length and delta)
+.SH "DESCRIPTION"
+Update the type and data fields of the \fIevent\fP. The length
+is the actual size that is written to the ring buffer,
+and with this, we can determine what to place into the
+data field.

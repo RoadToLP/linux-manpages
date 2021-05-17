@@ -1,0 +1,32 @@
+.TH "ibmvmc_add_buffer" 9 "ibmvmc_add_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvmc_add_buffer \- Add Buffer
+.SH SYNOPSIS
+.B "int" ibmvmc_add_buffer
+.BI "(struct crq_server_adapter *adapter "  ","
+.BI "struct ibmvmc_crq_msg *crq "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+crq_server_adapter struct
+.IP "crq" 12
+ibmvmc_crq_msg struct
+.SH "DESCRIPTION"
+This message transfers a buffer from hypervisor ownership to management
+partition ownership. The LIOBA is obtained from the virtual TCE table
+associated with the hypervisor side of the VMC device, and points to a
+buffer of size MTU (as established in the capabilities exchange).
+
+Typical flow for ading buffers:
+1. A new management application connection is opened by the management
+partition.
+2. The hypervisor assigns new buffers for the traffic associated with
+that connection.
+3. The hypervisor sends VMC Add Buffer messages to the management
+partition, informing it of the new buffers.
+4. The hypervisor sends an HMC protocol message (to the management
+application) notifying it of the new buffers. This informs the
+application that it has buffers available for sending HMC
+commands.
+.SH "RETURN"
+0 - Success
+Non-zero - Failure

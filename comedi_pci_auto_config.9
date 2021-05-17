@@ -1,0 +1,24 @@
+.TH "comedi_pci_auto_config" 9 "comedi_pci_auto_config" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_pci_auto_config \- Configure/probe a PCI COMEDI device
+.SH SYNOPSIS
+.B "int" comedi_pci_auto_config
+.BI "(struct pci_dev *pcidev "  ","
+.BI "struct comedi_driver *driver "  ","
+.BI "unsigned long context "  ");"
+.SH ARGUMENTS
+.IP "pcidev" 12
+PCI device.
+.IP "driver" 12
+Registered COMEDI driver.
+.IP "context" 12
+Driver specific data, passed to \fBcomedi_auto_config\fP.
+.SH "DESCRIPTION"
+Typically called from the pci_driver (*probe) function.  Auto-configure
+a COMEDI device, using the \fIstruct device\fP embedded in *\fIpcidev\fP as the
+hardware device.  The \fIcontext\fP value gets passed through to \fIdriver\fP's
+"auto_attach" handler.  The "auto_attach" handler may call
+\fBcomedi_to_pci_dev\fP on the passed in COMEDI device to recover \fIpcidev\fP.
+.SH "RETURN"
+The result of calling \fBcomedi_auto_config\fP (0 on success, or
+a negative error number on failure).

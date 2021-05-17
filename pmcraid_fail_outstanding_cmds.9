@@ -1,0 +1,17 @@
+.TH "pmcraid_fail_outstanding_cmds" 9 "pmcraid_fail_outstanding_cmds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_fail_outstanding_cmds \- Fails all outstanding ops.
+.SH SYNOPSIS
+.B "void" pmcraid_fail_outstanding_cmds
+.BI "(struct pmcraid_instance *pinstance "  ");"
+.SH ARGUMENTS
+.IP "pinstance" 12
+pointer to adapter instance structure
+.SH "DESCRIPTION"
+This function fails all outstanding ops. If they are submitted to IOA
+already, it sends cancel all messages if IOA is still accepting IOARCBs,
+otherwise just completes the commands and returns the cmd blocks to free
+pool.
+
+Return value:
+none

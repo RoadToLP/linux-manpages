@@ -1,0 +1,17 @@
+.TH "usb_get_intf" 9 "usb_get_intf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_intf \- increments the reference count of the usb interface structure
+.SH SYNOPSIS
+.B "struct usb_interface *" usb_get_intf
+.BI "(struct usb_interface *intf "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+the interface being referenced
+.SH "DESCRIPTION"
+Each live reference to a interface must be refcounted.
+
+Drivers for USB interfaces should normally record such references in
+their \fBprobe\fP methods, when they bind to an interface, and release
+them by calling \fBusb_put_intf\fP, in their \fBdisconnect\fP methods.
+.SH "RETURN"
+A pointer to the interface with the incremented reference counter.

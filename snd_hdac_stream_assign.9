@@ -1,0 +1,18 @@
+.TH "snd_hdac_stream_assign" 9 "snd_hdac_stream_assign" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_stream_assign \- assign a stream for the PCM
+.SH SYNOPSIS
+.B "struct hdac_stream *" snd_hdac_stream_assign
+.BI "(struct hdac_bus *bus "  ","
+.BI "struct snd_pcm_substream *substream "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+HD-audio core bus
+.IP "substream" 12
+PCM substream to assign
+.SH "DESCRIPTION"
+Look for an unused stream for the given PCM substream, assign it
+and return the stream object.  If no stream is free, returns NULL.
+The function tries to keep using the same stream object when it's used
+beforehand.  Also, when bus->reverse_assign flag is set, the last free
+or matching entry is returned.  This is needed for some strange codecs.

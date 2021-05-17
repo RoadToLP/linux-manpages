@@ -1,0 +1,25 @@
+.TH "qcom_labibb_ocp_isr" 9 "qcom_labibb_ocp_isr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qcom_labibb_ocp_isr \- Interrupt routine for OverCurrent Protection
+.SH SYNOPSIS
+.B "irqreturn_t" qcom_labibb_ocp_isr
+.BI "(int irq "  ","
+.BI "void *chip "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt number
+.IP "chip" 12
+Main driver structure
+.SH "DESCRIPTION"
+Over Current Protection (OCP) will signal to the client driver
+that an over-current event has happened and then will schedule
+a recovery worker.
+
+Disabling and eventually re-enabling the regulator is expected
+to be done by the driver, as some hardware may be triggering an
+over-current condition only at first initialization or it may
+be expected only for a very brief amount of time, after which
+the attached hardware may be expected to stabilize its current
+draw.
+.SH "RETURN"
+IRQ_HANDLED for success or IRQ_NONE for failure.

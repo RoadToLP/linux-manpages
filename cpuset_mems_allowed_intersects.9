@@ -1,0 +1,17 @@
+.TH "cpuset_mems_allowed_intersects" 9 "cpuset_mems_allowed_intersects" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuset_mems_allowed_intersects \- Does @tsk1's mems_allowed intersect @tsk2's?
+.SH SYNOPSIS
+.B "int" cpuset_mems_allowed_intersects
+.BI "(const struct task_struct *tsk1 "  ","
+.BI "const struct task_struct *tsk2 "  ");"
+.SH ARGUMENTS
+.IP "tsk1" 12
+pointer to task_struct of some task.
+.IP "tsk2" 12
+pointer to task_struct of some other task.
+.SH "DESCRIPTION"
+Return true if \fItsk1\fP's mems_allowed intersects the
+mems_allowed of \fItsk2\fP.  Used by the OOM killer to determine if
+one of the task's memory usage might impact the memory available
+to the other.

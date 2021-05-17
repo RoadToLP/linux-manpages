@@ -1,0 +1,23 @@
+.TH "fscache_check_aux" 9 "fscache_check_aux" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscache_check_aux \- Ask the netfs whether an object on disk is still valid
+.SH SYNOPSIS
+.B "enum fscache_checkaux" fscache_check_aux
+.BI "(struct fscache_object *object "  ","
+.BI "const void *data "  ","
+.BI "uint16_t datalen "  ","
+.BI "loff_t object_size "  ");"
+.SH ARGUMENTS
+.IP "object" 12
+The object to ask about
+.IP "data" 12
+The auxiliary data for the object
+.IP "datalen" 12
+The size of the auxiliary data
+.IP "object_size" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This function consults the netfs about the coherency state of an object.
+The caller must be holding a ref on cookie->n_active (held by
+\fBfscache_look_up_object\fP on behalf of the cache backend during object lookup
+and creation).

@@ -1,0 +1,24 @@
+.TH "ptep_force_prot" 9 "ptep_force_prot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ptep_force_prot \- change access rights of a locked pte
+.SH SYNOPSIS
+.B "int" ptep_force_prot
+.BI "(struct mm_struct *mm "  ","
+.BI "unsigned long addr "  ","
+.BI "pte_t *ptep "  ","
+.BI "int prot "  ","
+.BI "unsigned long bit "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+pointer to the process mm_struct
+.IP "addr" 12
+virtual address in the guest address space
+.IP "ptep" 12
+pointer to the page table entry
+.IP "prot" 12
+indicates guest access rights: PROT_NONE, PROT_READ or PROT_WRITE
+.IP "bit" 12
+pgste bit to set (e.g. for notification)
+.SH "DESCRIPTION"
+Returns 0 if the access rights were changed and -EAGAIN if the current
+and requested access rights are incompatible.

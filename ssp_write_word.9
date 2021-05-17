@@ -1,0 +1,18 @@
+.TH "ssp_write_word" 9 "ssp_write_word" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssp_write_word \- write a word to the SSP port
+.SH SYNOPSIS
+.B "int" ssp_write_word
+.BI "(u16 data "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+16-bit, MSB justified data to write.
+.SH "DESCRIPTION"
+Wait for a free entry in the SSP transmit FIFO, and write a data
+word to the SSP port.  Wait for the SSP port to start sending
+the data.
+
+The caller is expected to perform the necessary locking.
+.SH "RETURN"
+-ETIMEDOUT        timeout occurred
+0                  success

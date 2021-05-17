@@ -1,0 +1,19 @@
+.TH "exynos5_dmc_align_init_freq" 9 "exynos5_dmc_align_init_freq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_dmc_align_init_freq \- Align initial frequency value
+.SH SYNOPSIS
+.B "unsigned long" exynos5_dmc_align_init_freq
+.BI "(struct exynos5_dmc *dmc "  ","
+.BI "unsigned long bootloader_init_freq "  ");"
+.SH ARGUMENTS
+.IP "dmc" 12
+device for which the frequency is going to be set
+.IP "bootloader_init_freq" 12
+initial frequency set by the bootloader in KHz
+.SH "DESCRIPTION"
+The initial bootloader frequency, which is present during boot, might be
+different that supported frequency values in the driver. It is possible
+due to different PLL settings or used PLL as a source.
+This function provides the 'initial_freq' for the devfreq framework
+statistics engine which supports only registered values. Thus, some alignment
+must be made.

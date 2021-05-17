@@ -1,0 +1,19 @@
+.TH "__host1x_client_register" 9 "__host1x_client_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__host1x_client_register \- register a host1x client
+.SH SYNOPSIS
+.B "int" __host1x_client_register
+.BI "(struct host1x_client *client "  ","
+.BI "struct lock_class_key *key "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+host1x client
+.IP "key" 12
+lock class key for the client-specific mutex
+.SH "DESCRIPTION"
+Registers a host1x client with each host1x controller instance. Note that
+each client will only match their parent host1x controller and will only be
+associated with that instance. Once all clients have been registered with
+their parent host1x controller, the infrastructure will set up the logical
+device and call \fBhost1x_device_init\fP, which will in turn call each client's
+\fIhost1x_client_ops.init\fP implementation.

@@ -1,0 +1,16 @@
+.TH "pids_charge" 9 "pids_charge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pids_charge \- hierarchically charge the pid count
+.SH SYNOPSIS
+.B "void" pids_charge
+.BI "(struct pids_cgroup *pids "  ","
+.BI "int num "  ");"
+.SH ARGUMENTS
+.IP "pids" 12
+the pid cgroup state
+.IP "num" 12
+the number of pids to charge
+.SH "DESCRIPTION"
+This function does *not* follow the pid limit set. It cannot fail and the new
+pid count may exceed the limit. This is only used for reverting failed
+attaches, where there is no other way out than violating the limit.

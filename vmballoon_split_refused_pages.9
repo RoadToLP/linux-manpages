@@ -1,0 +1,15 @@
+.TH "vmballoon_split_refused_pages" 9 "vmballoon_split_refused_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmballoon_split_refused_pages \- Split the 2MB refused pages to 4k.
+.SH SYNOPSIS
+.B "void" vmballoon_split_refused_pages
+.BI "(struct vmballoon_ctl *ctl "  ");"
+.SH ARGUMENTS
+.IP "ctl" 12
+pointer for the struct vmballoon_ctl, which defines the operation.
+.SH "DESCRIPTION"
+
+If inflation of 2MB pages was denied by the hypervisor, it is likely to be
+due to one or few 4KB pages. These 2MB pages may keep being allocated and
+then being refused. To prevent this case, this function splits the refused
+pages into 4KB pages and adds them into \fIprealloc_pages\fP list.

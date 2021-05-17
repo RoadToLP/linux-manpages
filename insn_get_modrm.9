@@ -1,0 +1,13 @@
+.TH "insn_get_modrm" 9 "insn_get_modrm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_get_modrm \- collect ModRM byte, if any
+.SH SYNOPSIS
+.B "void" insn_get_modrm
+.BI "(struct insn *insn "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+\fIstruct insn\fP containing instruction
+.SH "DESCRIPTION"
+Populates \fIinsn->modrm\fP and updates \fIinsn->next_byte\fP to point past the
+ModRM byte, if any.  If necessary, first collects the preceding bytes
+(prefixes and opcode(s)).  No effect if \fIinsn->modrm.got\fP is already 1.

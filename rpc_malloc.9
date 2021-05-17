@@ -1,0 +1,22 @@
+.TH "rpc_malloc" 9 "rpc_malloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_malloc \- allocate RPC buffer resources
+.SH SYNOPSIS
+.B "int" rpc_malloc
+.BI "(struct rpc_task *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+RPC task
+.SH "DESCRIPTION"
+A single memory region is allocated, which is split between the
+RPC call and RPC reply that this task is being used for. When
+this RPC is retired, the memory is released by calling rpc_free.
+
+To prevent rpciod from hanging, this allocator never sleeps,
+returning -ENOMEM and suppressing warning if the request cannot
+be serviced immediately. The caller can arrange to sleep in a
+way that is safe for rpciod.
+
+Most requests are 'small' (under 2KiB) and can be serviced from a
+mempool, ensuring that NFS reads and writes can always proceed,
+and that there is good locality of reference for these buffers.

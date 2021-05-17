@@ -1,0 +1,31 @@
+.TH "emulate_umip_insn" 9 "emulate_umip_insn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+emulate_umip_insn \- Emulate UMIP instructions and return dummy values
+.SH SYNOPSIS
+.B "int" emulate_umip_insn
+.BI "(struct insn *insn "  ","
+.BI "int umip_inst "  ","
+.BI "unsigned char *data "  ","
+.BI "int *data_size "  ","
+.BI "bool x86_64 "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction structure with operands
+.IP "umip_inst" 12
+A constant indicating the instruction to emulate
+.IP "data" 12
+Buffer into which the dummy result is stored
+.IP "data_size" 12
+Size of the emulated result
+.IP "x86_64" 12
+true if process is 64-bit, false otherwise
+.SH "DESCRIPTION"
+Emulate an instruction protected by UMIP and provide a dummy result. The
+result of the emulation is saved in \fIdata\fP. The size of the results depends
+on both the instruction and type of operand (register vs memory address).
+The size of the result is updated in \fIdata_size\fP. Caller is responsible
+of providing a \fIdata\fP buffer of at least UMIP_GDT_IDT_BASE_SIZE +
+UMIP_GDT_IDT_LIMIT_SIZE bytes.
+
+0 on success, -EINVAL on error while emulating.
+.SH "RETURN"

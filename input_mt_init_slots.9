@@ -1,0 +1,24 @@
+.TH "input_mt_init_slots" 9 "input_mt_init_slots" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+input_mt_init_slots \- initialize MT input slots
+.SH SYNOPSIS
+.B "int" input_mt_init_slots
+.BI "(struct input_dev *dev "  ","
+.BI "unsigned int num_slots "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+input device supporting MT events and finger tracking
+.IP "num_slots" 12
+number of slots used by the device
+.IP "flags" 12
+mt tasks to handle in core
+.SH "DESCRIPTION"
+This function allocates all necessary memory for MT slot handling
+in the input device, prepares the ABS_MT_SLOT and
+ABS_MT_TRACKING_ID events for use and sets up appropriate buffers.
+Depending on the flags set, it also performs pointer emulation and
+frame synchronization.
+
+May be called repeatedly. Returns -EINVAL if attempting to
+reinitialize with a different number of slots.

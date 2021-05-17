@@ -1,0 +1,37 @@
+.TH "fwnode_property_get_reference_args" 9 "fwnode_property_get_reference_args" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_property_get_reference_args \- Find a reference with arguments
+.SH SYNOPSIS
+.B "int" fwnode_property_get_reference_args
+.BI "(const struct fwnode_handle *fwnode "  ","
+.BI "const char *prop "  ","
+.BI "const char *nargs_prop "  ","
+.BI "unsigned int nargs "  ","
+.BI "unsigned int index "  ","
+.BI "struct fwnode_reference_args *args "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+Firmware node where to look for the reference
+.IP "prop" 12
+The name of the property
+.IP "nargs_prop" 12
+The name of the property telling the number of
+arguments in the referred node. NULL if \fInargs\fP is known,
+otherwise \fInargs\fP is ignored. Only relevant on OF.
+.IP "nargs" 12
+Number of arguments. Ignored if \fInargs_prop\fP is non-NULL.
+.IP "index" 12
+Index of the reference, from zero onwards.
+.IP "args" 12
+Result structure with reference and integer arguments.
+.SH "DESCRIPTION"
+Obtain a reference based on a named property in an fwnode, with
+integer arguments.
+
+Caller is responsible to call \fBfwnode_handle_put\fP on the returned
+args->fwnode pointer.
+.SH "RETURN"
+0 on success
+-ENOENT when the index is out of bounds, the index has an empty
+reference or the property was not found
+-EINVAL on parse error

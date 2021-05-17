@@ -1,0 +1,22 @@
+.TH "lpfc_sli_ringtxcmpl_put" 9 "lpfc_sli_ringtxcmpl_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_ringtxcmpl_put \- Adds new iocb to the txcmplq
+.SH SYNOPSIS
+.B "int" lpfc_sli_ringtxcmpl_put
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *piocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "piocb" 12
+Pointer to the driver iocb object.
+.SH "DESCRIPTION"
+The driver calls this function with the hbalock held for SLI3 ports or
+the ring lock held for SLI4 ports. The function adds the
+new iocb to txcmplq of the given ring. This function always returns
+0. If this function is called for ELS ring, this function checks if
+there is a vport associated with the ELS command. This function also
+starts els_tmofunc timer if this is an ELS command.

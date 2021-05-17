@@ -1,0 +1,15 @@
+.TH "lpfc_issue_hb_tmo" 9 "lpfc_issue_hb_tmo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_hb_tmo \- Signals heartbeat timer to issue mbox command
+.SH SYNOPSIS
+.B "void" lpfc_issue_hb_tmo
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+The heartbeat timer (every 5 sec) will fire. If the HBA_HBEAT_TMO
+flag is set, it will force a MBX_HEARTBEAT mbox command, regardless
+of the value of lpfc_enable_hba_heartbeat.
+If lpfc_enable_hba_heartbeat is set, the timeout routine will always
+try to issue a MBX_HEARTBEAT mbox command.

@@ -1,0 +1,32 @@
+.TH "resolve_collision_directly" 9 "resolve_collision_directly" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+resolve_collision_directly \- resolve a collision directly.
+.SH SYNOPSIS
+.B "int" resolve_collision_directly
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "struct ubifs_znode **zn "  ","
+.BI "int *n "  ","
+.BI "int lnum "  ","
+.BI "int offs "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key of directory entry
+.IP "zn" 12
+znode is passed and returned here
+.IP "n" 12
+zbranch number is passed and returned here
+.IP "lnum" 12
+LEB number of dent node to match
+.IP "offs" 12
+offset of dent node to match
+.SH "DESCRIPTION"
+This function is used for "hashed" keys to make sure the found directory or
+extended attribute entry node is what was looked for. It is used when the
+flash address of the right node is known (\fIlnum\fP:\fIoffs\fP) which makes it much
+easier to resolve collisions (no need to read entries and match full
+names). This function returns 1 and sets \fIzn\fP and \fIn\fP if the collision is
+resolved, 0 if \fIlnum\fP:\fIoffs\fP is not found and \fIzn\fP and \fIn\fP are set to the
+previous directory entry. Otherwise a negative error code is returned.

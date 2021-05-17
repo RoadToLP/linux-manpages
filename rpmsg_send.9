@@ -1,0 +1,27 @@
+.TH "rpmsg_send" 9 "rpmsg_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_send \- send a message across to the remote processor
+.SH SYNOPSIS
+.B "int" rpmsg_send
+.BI "(struct rpmsg_endpoint *ept "  ","
+.BI "void *data "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ept" 12
+the rpmsg endpoint
+.IP "data" 12
+payload of message
+.IP "len" 12
+length of payload
+.SH "DESCRIPTION"
+This function sends \fIdata\fP of length \fIlen\fP on the \fIept\fP endpoint.
+The message will be sent to the remote processor which the \fIept\fP
+endpoint belongs to, using \fIept\fP's address and its associated rpmsg
+device destination addresses.
+In case there are no TX buffers available, the function will block until
+one becomes available, or a timeout of 15 seconds elapses. When the latter
+happens, -ERESTARTSYS is returned.
+
+Can only be called from process context (for now).
+
+Returns 0 on success and an appropriate error value on failure.

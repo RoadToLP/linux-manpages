@@ -1,0 +1,27 @@
+.TH "drm_fb_xrgb8888_to_rgb888_dstclip" 9 "drm_fb_xrgb8888_to_rgb888_dstclip" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_xrgb8888_to_rgb888_dstclip \- Convert XRGB8888 to RGB888 clip buffer
+.SH SYNOPSIS
+.B "void" drm_fb_xrgb8888_to_rgb888_dstclip
+.BI "(void __iomem *dst "  ","
+.BI "unsigned int dst_pitch "  ","
+.BI "void *vaddr "  ","
+.BI "struct drm_framebuffer *fb "  ","
+.BI "struct drm_rect *clip "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+RGB565 destination buffer (iomem)
+.IP "dst_pitch" 12
+destination buffer pitch
+.IP "vaddr" 12
+XRGB8888 source buffer
+.IP "fb" 12
+DRM framebuffer
+.IP "clip" 12
+Clip rectangle area to copy
+.SH "DESCRIPTION"
+Drivers can use this function for RGB888 devices that don't natively
+support XRGB8888.
+
+This function applies clipping on dst, i.e. the destination is a
+full (iomem) framebuffer but only the clip rect content is copied over.

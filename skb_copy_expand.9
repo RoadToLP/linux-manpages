@@ -1,0 +1,29 @@
+.TH "skb_copy_expand" 9 "skb_copy_expand" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_copy_expand \- copy and expand sk_buff
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_copy_expand
+.BI "(const struct sk_buff *skb "  ","
+.BI "int newheadroom "  ","
+.BI "int newtailroom "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to copy
+.IP "newheadroom" 12
+new free bytes at head
+.IP "newtailroom" 12
+new free bytes at tail
+.IP "gfp_mask" 12
+allocation priority
+
+Make a copy of both an \fIsk_buff\fP and its data and while doing so
+allocate additional space.
+
+This is used when the caller wishes to modify the data and needs a
+private copy of the data to alter as well as more space for new fields.
+Returns NULL on failure or the pointer to the buffer
+on success. The returned buffer has a reference count of 1.
+
+You must pass GFP_ATOMIC as the allocation priority if this function
+is called from an interrupt.

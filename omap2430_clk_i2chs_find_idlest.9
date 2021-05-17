@@ -1,0 +1,23 @@
+.TH "omap2430_clk_i2chs_find_idlest" 9 "omap2430_clk_i2chs_find_idlest" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap2430_clk_i2chs_find_idlest \- return CM_IDLEST info for 2430 I2CHS
+.SH SYNOPSIS
+.B "void" omap2430_clk_i2chs_find_idlest
+.BI "(struct clk_hw_omap *clk "  ","
+.BI "struct clk_omap_reg *idlest_reg "  ","
+.BI "u8 *idlest_bit "  ","
+.BI "u8 *idlest_val "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk * being enabled
+.IP "idlest_reg" 12
+void __iomem ** to store CM_IDLEST reg address into
+.IP "idlest_bit" 12
+pointer to a u8 to store the CM_IDLEST bit shift into
+.IP "idlest_val" 12
+pointer to a u8 to store the CM_IDLEST indicator
+.SH "DESCRIPTION"
+OMAP2430 I2CHS CM_IDLEST bits are in CM_IDLEST1_CORE, but the
+CM_*CLKEN bits are in CM_{I,F}CLKEN2_CORE.  This custom function
+passes back the correct CM_IDLEST register address for I2CHS
+modules.  No return value.

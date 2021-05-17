@@ -1,0 +1,16 @@
+.TH "amdgpu_device_ip_resume" 9 "amdgpu_device_ip_resume" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_device_ip_resume \- run resume for hardware IPs
+.SH SYNOPSIS
+.B "int" amdgpu_device_ip_resume
+.BI "(struct amdgpu_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.SH "DESCRIPTION"
+Main resume function for hardware IPs.  The hardware IPs
+are split into two resume functions because they are
+are also used in in recovering from a GPU reset and some additional
+steps need to be take between them.  In this case (S3/S4) they are
+run sequentially.
+Returns 0 on success, negative error code on failure.

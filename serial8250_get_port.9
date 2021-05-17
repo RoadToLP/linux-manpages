@@ -1,0 +1,17 @@
+.TH "serial8250_get_port" 9 "serial8250_get_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+serial8250_get_port \- retrieve struct uart_8250_port
+.SH SYNOPSIS
+.B "struct uart_8250_port *" serial8250_get_port
+.BI "(int line "  ");"
+.SH ARGUMENTS
+.IP "line" 12
+serial line number
+.SH "DESCRIPTION"
+This function retrieves struct uart_8250_port for the specific line.
+This struct *must* *not* be used to perform a 8250 or serial core operation
+which is not accessible otherwise. Its only purpose is to make the struct
+accessible to the runtime-pm callbacks for context suspend/restore.
+The lock assumption made here is none because runtime-pm suspend/resume
+callbacks should not be invoked if there is any operation performed on the
+port.

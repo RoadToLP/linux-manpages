@@ -1,0 +1,15 @@
+.TH "vgic_v3_rdist_free_slot" 9 "vgic_v3_rdist_free_slot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vgic_v3_rdist_free_slot \- Look up registered rdist regions and identify one which has free space to put a new rdist region.
+.SH SYNOPSIS
+.B "struct vgic_redist_region *" vgic_v3_rdist_free_slot
+.BI "(struct list_head *rd_regions "  ");"
+.SH ARGUMENTS
+.IP "rd_regions" 12
+redistributor region list head
+.SH "DESCRIPTION"
+A redistributor regions maps n redistributors, n = region size / (2 x 64kB).
+Stride between redistributors is 0 and regions are filled in the index order.
+.SH "RETURN"
+the redist region handle, if any, that has space to map a new rdist
+region.

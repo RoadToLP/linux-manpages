@@ -1,0 +1,17 @@
+.TH "write_inode_now" 9 "write_inode_now" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_inode_now \- write an inode to disk
+.SH SYNOPSIS
+.B "int" write_inode_now
+.BI "(struct inode *inode "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to write to disk
+.IP "sync" 12
+whether the write should be synchronous or not
+.SH "DESCRIPTION"
+This function commits an inode to disk immediately if it is dirty. This is
+primarily needed by knfsd.
+
+The caller must either have a ref on the inode or must have set I_WILL_FREE.

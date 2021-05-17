@@ -1,0 +1,18 @@
+.TH "lpfc_sli4_xri_exchange_busy_wait" 9 "lpfc_sli4_xri_exchange_busy_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_xri_exchange_busy_wait \- Wait for device XRI exchange busy
+.SH SYNOPSIS
+.B "void" lpfc_sli4_xri_exchange_busy_wait
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.SH "DESCRIPTION"
+This function is called in the SLI4 code path to wait for completion
+of device's XRIs exchange busy. It will check the XRI exchange busy
+on outstanding FCP and ELS I/Os every 10ms for up to 10 seconds; after
+that, it will check the XRI exchange busy on outstanding FCP and ELS
+I/Os every 30 seconds, log error message, and wait forever. Only when
+all XRI exchange busy complete, the driver unload shall proceed with
+invoking the function reset ioctl mailbox command to the CNA and the
+the rest of the driver unload resource release.

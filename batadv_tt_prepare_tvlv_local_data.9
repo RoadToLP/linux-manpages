@@ -1,0 +1,28 @@
+.TH "batadv_tt_prepare_tvlv_local_data" 9 "batadv_tt_prepare_tvlv_local_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tt_prepare_tvlv_local_data \- allocate and prepare the TT TVLV for this node
+.SH SYNOPSIS
+.B "u16" batadv_tt_prepare_tvlv_local_data
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_tvlv_tt_data **tt_data "  ","
+.BI "struct batadv_tvlv_tt_change **tt_change "  ","
+.BI "s32 *tt_len "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "tt_data" 12
+uninitialised pointer to the address of the TVLV buffer
+.IP "tt_change" 12
+uninitialised pointer to the address of the area where the TT
+changes can be stored
+.IP "tt_len" 12
+pointer to the length to reserve to the tt_change. if -1 this
+function reserves the amount of space needed to send the entire local TT
+table. In case of success the value is updated with the real amount of
+reserved bytes
+.SH "DESCRIPTION"
+Allocate the needed amount of memory for the entire TT TVLV and write its
+header made up by one tvlv_tt_data object and a series of tvlv_tt_vlan_data
+objects, one per active VLAN.
+.SH "RETURN"
+the size of the allocated buffer or 0 in case of failure.

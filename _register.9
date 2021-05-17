@@ -1,0 +1,22 @@
+.TH "_register" 9 "_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_register \- register a struct omap_hwmod
+.SH SYNOPSIS
+.B "int" _register
+.BI "(struct omap_hwmod *oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.SH "DESCRIPTION"
+Registers the omap_hwmod \fIoh\fP.  Returns -EEXIST if an omap_hwmod
+already has been registered by the same name; -EINVAL if the
+omap_hwmod is in the wrong state, if \fIoh\fP is NULL, if the
+omap_hwmod's class field is NULL; if the omap_hwmod is missing a
+name, or if the omap_hwmod's class is missing a name; or 0 upon
+success.
+
+XXX The data should be copied into bootmem, so the original data
+should be marked __initdata and freed after init.  This would allow
+unneeded omap_hwmods to be freed on multi-OMAP configurations.  Note
+that the copy process would be relatively complex due to the large number
+of substructures.

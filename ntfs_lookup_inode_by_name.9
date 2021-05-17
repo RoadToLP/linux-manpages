@@ -1,0 +1,29 @@
+.TH "ntfs_lookup_inode_by_name" 9 "ntfs_lookup_inode_by_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_lookup_inode_by_name \- find an inode in a directory given its name
+.SH SYNOPSIS
+.B "u64" ntfs_lookup_inode_by_name
+.BI "(ntfs_inode *dir_ni "  ","
+.BI "const ntfschar *uname "  ","
+.BI "const int uname_len "  ");"
+.SH ARGUMENTS
+.IP "dir_ni" 12
+ntfs inode of the directory in which to search for the name
+.IP "uname" 12
+Unicode name for which to search in the directory
+.IP "uname_len" 12
+length of the name \fIuname\fP in Unicode characters
+.SH "DESCRIPTION"
+Look for an inode with name \fIuname\fP in the directory with inode \fIdir_ni\fP.
+\fBntfs_lookup_inode_by_name\fP walks the contents of the directory looking for
+the Unicode name. If the name is found in the directory, the corresponding
+inode number (>= 0) is returned as a mft reference in cpu format, i.e. it
+is a 64-bit number containing the sequence number.
+
+On error, a negative value is returned corresponding to the error code. In
+particular if the inode is not found -ENOENT is returned. Note that you
+can't just check the return value for being negative, you have to check the
+inode number for being negative which you can extract using MREC(return
+value).
+
+Note, \fIuname_len\fP does not include the (optional) terminating NULL character.

@@ -1,0 +1,19 @@
+.TH "err_pos" 9 "err_pos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+err_pos \- find the position of a string within a command for error careting
+.SH SYNOPSIS
+.B "unsigned int" err_pos
+.BI "(char *cmd "  ","
+.BI "const char *str "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+The tracing command that caused the error
+.IP "str" 12
+The string to position the caret at within \fIcmd\fP
+.SH "DESCRIPTION"
+Finds the position of the first occurence of \fIstr\fP within \fIcmd\fP.  The
+return value can be passed to \fBtracing_log_err\fP for caret placement
+within \fIcmd\fP.
+
+Returns the index within \fIcmd\fP of the first occurence of \fIstr\fP or 0
+if \fIstr\fP was not found.

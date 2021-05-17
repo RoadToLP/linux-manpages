@@ -1,0 +1,41 @@
+.TH "ext2_try_to_allocate_with_rsv" 9 "ext2_try_to_allocate_with_rsv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ext2_try_to_allocate_with_rsv \- 
+.SH SYNOPSIS
+.B "ext2_grpblk_t" ext2_try_to_allocate_with_rsv
+.BI "(struct super_block *sb "  ","
+.BI "unsigned int group "  ","
+.BI "struct buffer_head *bitmap_bh "  ","
+.BI "ext2_grpblk_t grp_goal "  ","
+.BI "struct ext2_reserve_window_node * my_rsv "  ","
+.BI "unsigned long *count "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock
+.IP "group" 12
+given allocation block group
+.IP "bitmap_bh" 12
+bufferhead holds the block bitmap
+.IP "grp_goal" 12
+given target block within the group
+.IP "my_rsv" 12
+reservation window
+.IP "count" 12
+target number of blocks to allocate
+.SH "DESCRIPTION"
+This is the main function used to allocate a new block and its reservation
+window.
+
+Each time when a new block allocation is need, first try to allocate from
+its own reservation.  If it does not have a reservation window, instead of
+looking for a free bit on bitmap first, then look up the reservation list to
+see if it is inside somebody else's reservation window, we try to allocate a
+reservation window for it starting from the goal first. Then do the block
+allocation within the reservation window.
+
+This will avoid keeping on searching the reservation list again and
+again when somebody is looking for a free block (without
+reservation), and there are lots of free blocks, but they are all
+being reserved.
+
+We use a red-black tree for the per-filesystem reservation list.

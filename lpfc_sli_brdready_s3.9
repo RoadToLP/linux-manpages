@@ -1,0 +1,20 @@
+.TH "lpfc_sli_brdready_s3" 9 "lpfc_sli_brdready_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_brdready_s3 \- Check for sli3 host ready status
+.SH SYNOPSIS
+.B "int" lpfc_sli_brdready_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t mask "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "mask" 12
+Bit mask to be checked.
+.SH "DESCRIPTION"
+This function reads the host status register and compares
+with the provided bit mask to check if HBA completed
+the restart. This function will wait in a loop for the
+HBA to complete restart. If the HBA does not restart within
+15 iterations, the function will reset the HBA again. The
+function returns 1 when HBA fail to restart otherwise returns
+zero.

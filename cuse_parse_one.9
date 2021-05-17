@@ -1,0 +1,26 @@
+.TH "cuse_parse_one" 9 "cuse_parse_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cuse_parse_one \- parse one key=value pair
+.SH SYNOPSIS
+.B "int" cuse_parse_one
+.BI "(char **pp "  ","
+.BI "char *end "  ","
+.BI "char **keyp "  ","
+.BI "char **valp "  ");"
+.SH ARGUMENTS
+.IP "pp" 12
+i/o parameter for the current position
+.IP "end" 12
+points to one past the end of the packed string
+.IP "keyp" 12
+out parameter for key
+.IP "valp" 12
+out parameter for value
+.SH "DESCRIPTION"
+*\fIpp\fP points to packed strings - "key0=val0\0key1=val1\0" which ends
+at \fIend\fP - 1.  This function parses one pair and set *\fIkeyp\fP to the
+start of the key and *\fIvalp\fP to the start of the value.  Note that
+the original string is modified such that the key string is
+terminated with '\0'.  *\fIpp\fP is updated to point to the next string.
+.SH "RETURN"
+1 on successful parse, 0 on EOF, -errno on failure.

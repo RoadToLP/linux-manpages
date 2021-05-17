@@ -1,0 +1,21 @@
+.TH "lpfc_snapshot_mxp" 9 "lpfc_snapshot_mxp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_snapshot_mxp \- Snapshot pbl, pvt and busy count
+.SH SYNOPSIS
+.B "void" lpfc_snapshot_mxp
+.BI "(struct lpfc_hba *phba "  ","
+.BI "u32 hwqid "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "hwqid" 12
+belong to which HWQ.
+.SH "DESCRIPTION"
+The purpose of this routine is to take a snapshot of pbl, pvt and busy count
+15 seconds after a test case is running.
+
+The user should call lpfc_debugfs_multixripools_write before running a test
+case to clear stat_snapshot_taken. Then the user starts a test case. During
+test case is running, stat_snapshot_taken is incremented by 1 every time when
+this routine is called from heartbeat timer. When stat_snapshot_taken is
+equal to LPFC_MXP_SNAPSHOT_TAKEN, a snapshot is taken.

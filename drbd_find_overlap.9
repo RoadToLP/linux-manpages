@@ -1,0 +1,21 @@
+.TH "drbd_find_overlap" 9 "drbd_find_overlap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_find_overlap \- search for an interval overlapping with [sector, sector + size)
+.SH SYNOPSIS
+.B "struct drbd_interval *" drbd_find_overlap
+.BI "(struct rb_root *root "  ","
+.BI "sector_t sector "  ","
+.BI "unsigned int size "  ");"
+.SH ARGUMENTS
+.IP "root" 12
+-- undescribed --
+.IP "sector" 12
+start sector
+.IP "size" 12
+size, aligned to 512 bytes
+.SH "DESCRIPTION"
+Returns an interval overlapping with [sector, sector + size), or NULL if
+there is none.  When there is more than one overlapping interval in the
+tree, the interval with the lowest start sector is returned, and all other
+overlapping intervals will be on the right side of the tree, reachable with
+\fBrb_next\fP.

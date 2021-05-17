@@ -1,0 +1,16 @@
+.TH "fm10k_udp_tunnel_sync" 9 "fm10k_udp_tunnel_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_udp_tunnel_sync \- Called when UDP tunnel ports change
+.SH SYNOPSIS
+.B "int" fm10k_udp_tunnel_sync
+.BI "(struct net_device *dev "  ","
+.BI "unsigned int table "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+network interface device structure
+.IP "table" 12
+Tunnel table (according to tables of \fIfm10k_udp_tunnels\fP)
+.SH "DESCRIPTION"
+This function is called when a new UDP tunnel port is added or deleted.
+Due to hardware restrictions, only one port per type can be offloaded at
+once. Core will send to the driver a port of its choice.

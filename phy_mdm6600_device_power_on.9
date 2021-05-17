@@ -1,0 +1,15 @@
+.TH "phy_mdm6600_device_power_on" 9 "phy_mdm6600_device_power_on" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_mdm6600_device_power_on \- power on mdm6600 device
+.SH SYNOPSIS
+.B "int" phy_mdm6600_device_power_on
+.BI "(struct phy_mdm6600 *ddata "  ");"
+.SH ARGUMENTS
+.IP "ddata" 12
+device driver data
+.SH "DESCRIPTION"
+To get the integrated USB phy in MDM6600 takes some hoops. We must ensure
+the shared USB bootmode GPIOs are configured, then request modem start-up,
+reset and power-up.. And then we need to recycle the shared USB bootmode
+GPIOs as they are also used for Out of Band (OOB) wake for the USB and
+TS 27.010 serial mux.

@@ -1,0 +1,30 @@
+.TH "ipv6_renew_options" 9 "ipv6_renew_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipv6_renew_options \- replace a specific ext hdr with a new one.
+.SH SYNOPSIS
+.B "struct ipv6_txoptions *" ipv6_renew_options
+.BI "(struct sock *sk "  ","
+.BI "struct ipv6_txoptions *opt "  ","
+.BI "int newtype "  ","
+.BI "struct ipv6_opt_hdr *newopt "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+sock from which to allocate memory
+.IP "opt" 12
+original options
+.IP "newtype" 12
+option type to replace in \fIopt\fP
+.IP "newopt" 12
+new option of type \fInewtype\fP to replace (user-mem)
+.SH "DESCRIPTION"
+Returns a new set of options which is a copy of \fIopt\fP with the
+option type \fInewtype\fP replaced with \fInewopt\fP.
+
+\fIopt\fP may be NULL, in which case a new set of options is returned
+containing just \fInewopt\fP.
+
+\fInewopt\fP may be NULL, in which case the specified option type is
+not copied into the new set of options.
+
+The new set of options is allocated from the socket option memory
+buffer of \fIsk\fP.

@@ -1,0 +1,30 @@
+.TH "stm32_timers_dma_burst_read" 9 "stm32_timers_dma_burst_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32_timers_dma_burst_read \- Read from timers registers using DMA.
+.SH SYNOPSIS
+.B "int" stm32_timers_dma_burst_read
+.BI "(struct device *dev "  ","
+.BI "u32 *buf "  ","
+.BI "enum stm32_timers_dmas id "  ","
+.BI "u32 reg "  ","
+.BI "unsigned int num_reg "  ","
+.BI "unsigned int bursts "  ","
+.BI "unsigned long tmo_ms "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+reference to stm32_timers MFD device
+.IP "buf" 12
+DMA'able destination buffer
+.IP "id" 12
+stm32_timers_dmas event identifier (ch[1..4], up, trig or com)
+.IP "reg" 12
+registers start offset for DMA to read from (like CCRx for capture)
+.IP "num_reg" 12
+number of registers to read upon each DMA request, starting \fIreg\fP.
+.IP "bursts" 12
+number of bursts to read (e.g. like two for pwm period capture)
+.IP "tmo_ms" 12
+timeout (milliseconds)
+.SH "DESCRIPTION"
+
+Read from STM32 timers registers using DMA on a single event.

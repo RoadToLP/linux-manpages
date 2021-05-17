@@ -1,0 +1,15 @@
+.TH "is_ofld_imm" 9 "is_ofld_imm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_ofld_imm \- check whether a packet can be sent as immediate data
+.SH SYNOPSIS
+.B "int" is_ofld_imm
+.BI "(const struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+
+Returns true if a packet can be sent as an offload WR with immediate
+data.
+FW_OFLD_TX_DATA_WR limits the payload to 255 bytes due to 8-bit field.
+However, FW_ULPTX_WR commands have a 256 byte immediate only
+payload limit.

@@ -1,0 +1,18 @@
+.TH "blk_mq_request_bypass_insert" 9 "blk_mq_request_bypass_insert" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_mq_request_bypass_insert \- Insert a request at dispatch list.
+.SH SYNOPSIS
+.B "void" blk_mq_request_bypass_insert
+.BI "(struct request *rq "  ","
+.BI "bool at_head "  ","
+.BI "bool run_queue "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+Pointer to request to be inserted.
+.IP "at_head" 12
+true if the request should be inserted at the head of the list.
+.IP "run_queue" 12
+If we should run the hardware queue after inserting the request.
+.SH "DESCRIPTION"
+Should only be used carefully, when the caller knows we want to
+bypass a potential IO scheduler on the target device.

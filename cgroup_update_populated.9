@@ -1,0 +1,24 @@
+.TH "cgroup_update_populated" 9 "cgroup_update_populated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_update_populated \- update the populated count of a cgroup
+.SH SYNOPSIS
+.B "void" cgroup_update_populated
+.BI "(struct cgroup *cgrp "  ","
+.BI "bool populated "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+the target cgroup
+.IP "populated" 12
+inc or dec populated count
+.SH "DESCRIPTION"
+One of the css_sets associated with \fIcgrp\fP is either getting its first
+task or losing the last.  Update \fIcgrp->nr_populated_\fP* accordingly.  The
+count is propagated towards root so that a given cgroup's
+nr_populated_children is zero iff none of its descendants contain any
+tasks.
+
+\fIcgrp\fP's interface file "cgroup.populated" is zero if both
+\fIcgrp->nr_populated_csets\fP and \fIcgrp->nr_populated_children\fP are zero and
+1 otherwise.  When the sum changes from or to zero, userland is notified
+that the content of the interface file has changed.  This can be used to
+detect when \fIcgrp\fP and its descendants become populated or empty.

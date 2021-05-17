@@ -1,0 +1,31 @@
+.TH "get_vaddr_frames" 9 "get_vaddr_frames" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_vaddr_frames \- map virtual addresses to pfns
+.SH SYNOPSIS
+.B "int" get_vaddr_frames
+.BI "(unsigned long start "  ","
+.BI "unsigned int nr_frames "  ","
+.BI "struct frame_vector *vec "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+starting user address
+.IP "nr_frames" 12
+number of pages / pfns from start to map
+.IP "vec" 12
+structure which receives pages / pfns of the addresses mapped.
+It should have space for at least nr_frames entries.
+.SH "DESCRIPTION"
+This function maps virtual addresses from \fIstart\fP and fills \fIvec\fP structure
+with page frame numbers or page pointers to corresponding pages (choice
+depends on the type of the vma underlying the virtual address). If \fIstart\fP
+belongs to a normal vma, the function grabs reference to each of the pages
+to pin them in memory. If \fIstart\fP belongs to VM_IO | VM_PFNMAP vma, we don't
+touch page structures and the caller must make sure pfns aren't reused for
+anything else while he is using them.
+
+The function returns number of pages mapped which may be less than
+\fInr_frames\fP. In particular we stop mapping if there are more vmas of
+different type underlying the specified range of virtual addresses.
+When the function isn't able to map a single page, it returns error.
+
+This function takes care of grabbing mmap_lock as necessary.

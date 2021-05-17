@@ -1,0 +1,20 @@
+.TH "ns87415_init_one" 9 "ns87415_init_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ns87415_init_one \- Register 87415 ATA PCI device with kernel services
+.SH SYNOPSIS
+.B "int" ns87415_init_one
+.BI "(struct pci_dev *pdev "  ","
+.BI "const struct pci_device_id *ent "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+PCI device to register
+.IP "ent" 12
+Entry in ns87415_pci_tbl matching with \fIpdev\fP
+
+Called from kernel PCI layer.  We probe for combined mode (sigh),
+and then hand over control to libata, for it to do the rest.
+
+LOCKING:
+Inherited from PCI layer (may sleep).
+.SH "RETURN"
+Zero on success, or -ERRNO value.

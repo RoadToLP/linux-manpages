@@ -1,0 +1,15 @@
+.TH "scmi_protocols_late_init" 9 "scmi_protocols_late_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_protocols_late_init \- Worker for late initialization
+.SH SYNOPSIS
+.B "void" scmi_protocols_late_init
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+The work item to use associated to the proper SCMI instance
+.SH "DESCRIPTION"
+This kicks in whenever a new protocol has completed its own registration via
+\fBscmi_register_protocol_events\fP: it is in charge of scanning the table of
+pending handlers (registered by users while the related protocol was still
+not initialized) and finalizing their initialization whenever possible;
+invalid pending handlers are purged at this point in time.

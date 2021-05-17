@@ -1,0 +1,35 @@
+.TH "ipu_init_channel_buffer" 9 "ipu_init_channel_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipu_init_channel_buffer \- initialize a buffer for logical IPU channel.
+.SH SYNOPSIS
+.B "int" ipu_init_channel_buffer
+.BI "(struct idmac_channel *ichan "  ","
+.BI "enum pixel_fmt pixel_fmt "  ","
+.BI "uint16_t width "  ","
+.BI "uint16_t height "  ","
+.BI "uint32_t stride "  ","
+.BI "enum ipu_rotate_mode rot_mode "  ","
+.BI "dma_addr_t phyaddr_0 "  ","
+.BI "dma_addr_t phyaddr_1 "  ");"
+.SH ARGUMENTS
+.IP "ichan" 12
+IDMAC channel.
+.IP "pixel_fmt" 12
+pixel format of buffer. Pixel format is a FOURCC ASCII code.
+.IP "width" 12
+width of buffer in pixels.
+.IP "height" 12
+height of buffer in pixels.
+.IP "stride" 12
+stride length of buffer in pixels.
+.IP "rot_mode" 12
+rotation mode of buffer. A rotation setting other than
+IPU_ROTATE_VERT_FLIP should only be used for input buffers of
+rotation channels.
+.IP "phyaddr_0" 12
+buffer 0 physical address.
+.IP "phyaddr_1" 12
+buffer 1 physical address. Setting this to a value other than
+NULL enables double buffering mode.
+.SH "RETURN"
+0 on success or negative error code on failure.

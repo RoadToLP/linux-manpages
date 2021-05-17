@@ -1,0 +1,24 @@
+.TH "lpfc_pci_resume_one_s4" 9 "lpfc_pci_resume_one_s4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_pci_resume_one_s4 \- PCI func to resume SLI-4 device for power mgmnt
+.SH SYNOPSIS
+.B "int __maybe_unused" lpfc_pci_resume_one_s4
+.BI "(struct device *dev_d "  ");"
+.SH ARGUMENTS
+.IP "dev_d" 12
+pointer to device
+.SH "DESCRIPTION"
+This routine is called from the kernel's PCI subsystem to support system
+Power Management (PM) to device with SLI-4 interface spac. When PM invokes
+this method, it restores the device's PCI config space state and fully
+reinitializes the device and brings it online. Note that as the driver
+implements the minimum PM requirements to a power-aware driver's PM for
+suspend/resume -- all the possible PM messages (SUSPEND, HIBERNATE, FREEZE)
+to the \fBsuspend\fP method call will be treated as SUSPEND and the driver
+will fully reinitialize its device during \fBresume\fP method call, the device
+will be set to PCI_D0 directly in PCI config space before restoring the
+state.
+
+Return code
+0 - driver suspended the device
+Error otherwise

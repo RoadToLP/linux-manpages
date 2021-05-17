@@ -1,0 +1,20 @@
+.TH "device_links_unbind_consumers" 9 "device_links_unbind_consumers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_links_unbind_consumers \- Force unbind consumers of the given device.
+.SH SYNOPSIS
+.B "void" device_links_unbind_consumers
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to unbind the consumers of.
+.SH "DESCRIPTION"
+Walk the list of links to consumers for \fIdev\fP and if any of them is in the
+"consumer probe" state, wait for all device probes in progress to complete
+and start over.
+
+If that's not the case, change the status of the link to "supplier unbind"
+and check if the link was in the "active" state.  If so, force the consumer
+driver to unbind and start over (the consumer will not re-probe as we have
+changed the state of the link already).
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

@@ -1,0 +1,18 @@
+.TH "igb_shift_in_eec_bits" 9 "igb_shift_in_eec_bits" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igb_shift_in_eec_bits \- Shift data bits in from the EEPROM
+.SH SYNOPSIS
+.B "u16" igb_shift_in_eec_bits
+.BI "(struct e1000_hw *hw "  ","
+.BI "u16 count "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "count" 12
+number of bits to shift in
+
+In order to read a register from the EEPROM, we need to shift 'count' bits
+in from the EEPROM.  Bits are "shifted in" by raising the clock input to
+the EEPROM (setting the SK bit), and then reading the value of the data out
+"DO" bit.  During this "shifting in" process the data in "DI" bit should
+always be clear.

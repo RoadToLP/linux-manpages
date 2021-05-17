@@ -1,0 +1,22 @@
+.TH "vmw_cmdbuf_alloc" 9 "vmw_cmdbuf_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_alloc \- Allocate a command buffer header complete with command buffer space.
+.SH SYNOPSIS
+.B "void *" vmw_cmdbuf_alloc
+.BI "(struct vmw_cmdbuf_man *man "  ","
+.BI "size_t size "  ","
+.BI "bool interruptible "  ","
+.BI "struct vmw_cmdbuf_header **p_header "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+The command buffer manager.
+.IP "size" 12
+The requested size of the buffer space.
+.IP "interruptible" 12
+Whether to sleep interruptible while waiting for space.
+.IP "p_header" 12
+points to a header pointer to populate on successful return.
+.SH "DESCRIPTION"
+Returns a pointer to command buffer space if successful. Otherwise
+returns an error pointer. The header pointer returned in \fIp_header\fP should
+be used for upcoming calls to \fBvmw_cmdbuf_reserve\fP and \fBvmw_cmdbuf_commit\fP.

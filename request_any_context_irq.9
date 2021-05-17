@@ -1,0 +1,30 @@
+.TH "request_any_context_irq" 9 "request_any_context_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_any_context_irq \- allocate an interrupt line
+.SH SYNOPSIS
+.B "int" request_any_context_irq
+.BI "(unsigned int irq "  ","
+.BI "irq_handler_t handler "  ","
+.BI "unsigned long flags "  ","
+.BI "const char *name "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+Interrupt line to allocate
+.IP "handler" 12
+Function to be called when the IRQ occurs.
+Threaded handler for threaded interrupts.
+.IP "flags" 12
+Interrupt type flags
+.IP "name" 12
+An ascii name for the claiming device
+.IP "dev_id" 12
+A cookie passed back to the handler function
+
+This call allocates interrupt resources and enables the
+interrupt line and IRQ handling. It selects either a
+hardirq or threaded handling method depending on the
+context.
+
+On failure, it returns a negative value. On success,
+it returns either IRQC_IS_HARDIRQ or IRQC_IS_NESTED.

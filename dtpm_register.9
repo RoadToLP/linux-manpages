@@ -1,0 +1,31 @@
+.TH "dtpm_register" 9 "dtpm_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dtpm_register \- Register a dtpm node in the hierarchy tree
+.SH SYNOPSIS
+.B "int" dtpm_register
+.BI "(const char *name "  ","
+.BI "struct dtpm *dtpm "  ","
+.BI "struct dtpm *parent "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a string specifying the name of the node
+.IP "dtpm" 12
+a pointer to a dtpm structure corresponding to the new node
+.IP "parent" 12
+a pointer to a dtpm structure corresponding to the parent node
+.SH "DESCRIPTION"
+Create a dtpm node in the tree. If no parent is specified, the node
+is the root node of the hierarchy. If the root node already exists,
+then the registration will fail. The powercap controller must be
+initialized before calling this function.
+
+The dtpm structure must be initialized with the power numbers
+before calling this function.
+.SH "RETURN"
+zero on success, a negative value in case of error:
+-EAGAIN: the function is called before the framework is initialized.
+-EBUSY: the root node is already inserted
+-EINVAL: * there is no root node yet and \fIparent\fP is specified
+* no all ops are defined
+* parent have ops which are reserved for leaves
+Other negative values are reported back from the powercap framework

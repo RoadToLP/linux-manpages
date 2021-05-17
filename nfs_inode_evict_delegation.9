@@ -1,0 +1,13 @@
+.TH "nfs_inode_evict_delegation" 9 "nfs_inode_evict_delegation" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_inode_evict_delegation \- return delegation, don't reclaim opens
+.SH SYNOPSIS
+.B "void" nfs_inode_evict_delegation
+.BI "(struct inode *inode "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to process
+.SH "DESCRIPTION"
+Does not protect against delegation reclaims, therefore really only safe
+to be called from \fBnfs4_clear_inode\fP. Guaranteed to always free
+the delegation structure.

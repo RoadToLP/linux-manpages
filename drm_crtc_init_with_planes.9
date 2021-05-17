@@ -1,0 +1,45 @@
+.TH "drm_crtc_init_with_planes" 9 "drm_crtc_init_with_planes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_init_with_planes \- Initialise a new CRTC object with specified primary and cursor planes.
+.SH SYNOPSIS
+.B "int" drm_crtc_init_with_planes
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_crtc *crtc "  ","
+.BI "struct drm_plane *primary "  ","
+.BI "struct drm_plane *cursor "  ","
+.BI "const struct drm_crtc_funcs *funcs "  ","
+.BI "const char *name "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "crtc" 12
+CRTC object to init
+.IP "primary" 12
+Primary plane for CRTC
+.IP "cursor" 12
+Cursor plane for CRTC
+.IP "funcs" 12
+callbacks for the new CRTC
+.IP "name" 12
+printf style format string for the CRTC name, or NULL for default name
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Inits a new object created as base part of a driver crtc object. Drivers
+should use this function instead of \fBdrm_crtc_init\fP, which is only provided
+for backwards compatibility with drivers which do not yet support universal
+planes). For really simple hardware which has only 1 plane look at
+\fBdrm_simple_display_pipe_init\fP instead.
+The \fIdrm_crtc_funcs.destroy\fP hook should call \fBdrm_crtc_cleanup\fP and \fBkfree\fP
+the crtc structure. The crtc structure should not be allocated with
+\fBdevm_kzalloc\fP.
+
+The \fIprimary\fP and \fIcursor\fP planes are only relevant for legacy uAPI, see
+\fIdrm_crtc.primary\fP and \fIdrm_crtc.cursor\fP.
+.SH "NOTE"
+consider using \fBdrmm_crtc_alloc_with_planes\fP instead of
+\fBdrm_crtc_init_with_planes\fP to let the DRM managed resource infrastructure
+take care of cleanup and deallocation.
+.SH "RETURN"
+Zero on success, error code on failure.

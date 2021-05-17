@@ -1,0 +1,15 @@
+.TH "blk_queue_split" 9 "blk_queue_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_split \- split a bio and submit the second half
+.SH SYNOPSIS
+.B "void" blk_queue_split
+.BI "(struct bio **bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+[in, out] bio to be split
+.SH "DESCRIPTION"
+Split a bio into two bios, chains the two bios, submit the second half and
+store a pointer to the first half in *\fIbio\fP. Since this function may allocate
+a new bio from q->bio_split, it is the responsibility of the caller to ensure
+that q->bio_split is only released after processing of the split bio has
+finished.

@@ -1,0 +1,17 @@
+.TH "ntfs_show_options" 9 "ntfs_show_options" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_show_options \- show mount options in /proc/mounts
+.SH SYNOPSIS
+.B "int" ntfs_show_options
+.BI "(struct seq_file *sf "  ","
+.BI "struct dentry *root "  ");"
+.SH ARGUMENTS
+.IP "sf" 12
+seq_file in which to write our mount options
+.IP "root" 12
+root of the mounted tree whose mount options to display
+.SH "DESCRIPTION"
+Called by the VFS once for each mounted ntfs volume when someone reads
+/proc/mounts in order to display the NTFS specific mount options of each
+mount. The mount options of fs specified by \fIroot\fP are written to the seq file
+\fIsf\fP and success is returned.

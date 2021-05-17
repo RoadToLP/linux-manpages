@@ -1,0 +1,21 @@
+.TH "hid_ishtp_cl_init" 9 "hid_ishtp_cl_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hid_ishtp_cl_init \- Init function for ISHTP client
+.SH SYNOPSIS
+.B "int" hid_ishtp_cl_init
+.BI "(struct ishtp_cl *hid_ishtp_cl "  ","
+.BI "int reset "  ");"
+.SH ARGUMENTS
+.IP "hid_ishtp_cl" 12
+ISHTP client instance
+.IP "reset" 12
+true if called for init after reset
+.SH "DESCRIPTION"
+This function complete the initializtion of the client. The summary of
+processing:
+- Send request to enumerate the hid clients
+Get the HID descriptor for each enumearated device
+Get report description of each device
+Register each device wik hid core by calling ishtp_hid_probe
+.SH "RETURN"
+0 on success, non zero on error

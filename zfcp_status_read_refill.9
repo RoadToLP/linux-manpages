@@ -1,0 +1,13 @@
+.TH "zfcp_status_read_refill" 9 "zfcp_status_read_refill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_status_read_refill \- refill the long running status_read_requests
+.SH SYNOPSIS
+.B "int" zfcp_status_read_refill
+.BI "(struct zfcp_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+ptr to struct zfcp_adapter for which the buffers should be refilled
+.SH "RETURN"
+* 0 on success meaning at least one status read is pending
+* 1 if posting failed and not a single status read buffer is pending,
+also triggers adapter reopen recovery

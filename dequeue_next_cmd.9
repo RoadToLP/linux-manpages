@@ -1,0 +1,15 @@
+.TH "dequeue_next_cmd" 9 "dequeue_next_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dequeue_next_cmd \- dequeue a command for processing
+.SH SYNOPSIS
+.B "struct scsi_cmnd *" dequeue_next_cmd
+.BI "(struct Scsi_Host *instance "  ");"
+.SH ARGUMENTS
+.IP "instance" 12
+the scsi host instance
+.SH "DESCRIPTION"
+Priority is given to commands on the autosense queue. These commands
+need autosense because of a CHECK CONDITION result.
+
+Returns a command pointer if a command is found for a target that is
+not already busy. Otherwise returns NULL.

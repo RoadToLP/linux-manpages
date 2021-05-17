@@ -1,0 +1,17 @@
+.TH "free_iova_fast" 9 "free_iova_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+free_iova_fast \- free iova pfn range into rcache
+.SH SYNOPSIS
+.B "void" free_iova_fast
+.BI "(struct iova_domain *iovad "  ","
+.BI "unsigned long pfn "  ","
+.BI "unsigned long size "  ");"
+.SH ARGUMENTS
+.IP "iovad" 12
+- iova domain in question.
+.IP "pfn" 12
+- pfn that is allocated previously
+.IP "size" 12
+- # of pages in range
+This functions frees an iova range by trying to put it into the rcache,
+falling back to regular iova deallocation via \fBfree_iova\fP if this fails.

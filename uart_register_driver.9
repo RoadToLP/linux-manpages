@@ -1,0 +1,18 @@
+.TH "uart_register_driver" 9 "uart_register_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uart_register_driver \- register a driver with the uart core layer
+.SH SYNOPSIS
+.B "int" uart_register_driver
+.BI "(struct uart_driver *drv "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+low level driver structure
+
+Register a uart driver with the core driver.  We in turn register
+with the tty layer, and initialise the core driver per-port state.
+
+We have a proc file in /proc/tty/driver which is named after the
+normal driver.
+
+drv->port should be NULL, and the per-port structures should be
+registered using uart_add_one_port after this call has succeeded.

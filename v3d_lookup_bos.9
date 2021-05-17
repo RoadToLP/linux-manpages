@@ -1,0 +1,28 @@
+.TH "v3d_lookup_bos" 9 "v3d_lookup_bos" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+v3d_lookup_bos \- Sets up job->bo[] with the GEM objects referenced by the job.
+.SH SYNOPSIS
+.B "int" v3d_lookup_bos
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_file *file_priv "  ","
+.BI "struct v3d_job *job "  ","
+.BI "u64 bo_handles "  ","
+.BI "u32 bo_count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "file_priv" 12
+DRM file for this fd
+.IP "job" 12
+V3D job being set up
+.IP "bo_handles" 12
+GEM handles
+.IP "bo_count" 12
+Number of GEM handles passed in
+.SH "DESCRIPTION"
+The command validator needs to reference BOs by their index within
+the submitted job's BO list.  This does the validation of the job's
+BO list and reference counting for the lifetime of the job.
+
+Note that this function doesn't need to unreference the BOs on
+failure, because that will happen at \fBv3d_exec_cleanup\fP time.

@@ -1,0 +1,51 @@
+.TH "spu2_fmd_ctrl1_write" 9 "spu2_fmd_ctrl1_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spu2_fmd_ctrl1_write \- Write ctrl1 field in fixed metadata (FMD) field of SPU request packet.
+.SH SYNOPSIS
+.B "void" spu2_fmd_ctrl1_write
+.BI "(struct SPU2_FMD *fmd "  ","
+.BI "bool is_inbound "  ","
+.BI "u64 assoc_size "  ","
+.BI "u64 auth_key_len "  ","
+.BI "u64 cipher_key_len "  ","
+.BI "bool gen_iv "  ","
+.BI "bool hash_iv "  ","
+.BI "bool return_iv "  ","
+.BI "u64 ret_iv_len "  ","
+.BI "u64 ret_iv_offset "  ","
+.BI "u64 cipher_iv_len "  ","
+.BI "u64 digest_size "  ","
+.BI "bool return_payload "  ","
+.BI "bool return_md "  ");"
+.SH ARGUMENTS
+.IP "fmd" 12
+Start of FMD field to be written
+.IP "is_inbound" 12
+-- undescribed --
+.IP "assoc_size" 12
+Length of additional associated data, in bytes
+.IP "auth_key_len" 12
+Length of authentication key, in bytes
+.IP "cipher_key_len" 12
+Length of cipher key, in bytes
+.IP "gen_iv" 12
+If true, hw generates IV and returns in response
+.IP "hash_iv" 12
+IV participates in hash. Used for IPSEC and TLS.
+.IP "return_iv" 12
+Return IV in output packet before payload
+.IP "ret_iv_len" 12
+Length of IV returned from SPU, in bytes
+.IP "ret_iv_offset" 12
+Offset into full IV of start of returned IV
+.IP "cipher_iv_len" 12
+Length of input cipher IV, in bytes
+.IP "digest_size" 12
+Length of digest (aka, hash tag or ICV), in bytes
+.IP "return_payload" 12
+Return payload in SPU response
+.IP "return_md" 12
+return metadata in SPU response
+.SH "DESCRIPTION"
+Packet can have AAD2 w/o AAD1. For algorithms currently supported,
+associated data goes in AAD2.

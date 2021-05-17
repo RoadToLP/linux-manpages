@@ -1,0 +1,24 @@
+.TH "gmap_mprotect_notify" 9 "gmap_mprotect_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gmap_mprotect_notify \- change access rights for a range of ptes and call the notifier if any pte changes again
+.SH SYNOPSIS
+.B "int" gmap_mprotect_notify
+.BI "(struct gmap *gmap "  ","
+.BI "unsigned long gaddr "  ","
+.BI "unsigned long len "  ","
+.BI "int prot "  ");"
+.SH ARGUMENTS
+.IP "gmap" 12
+pointer to guest mapping meta data structure
+.IP "gaddr" 12
+virtual address in the guest address space
+.IP "len" 12
+size of area
+.IP "prot" 12
+indicates access rights: PROT_NONE, PROT_READ or PROT_WRITE
+.SH "DESCRIPTION"
+Returns 0 if for each page in the given range a gmap mapping exists,
+the new access rights could be set and the notifier could be armed.
+If the gmap mapping is missing for one or more pages -EFAULT is
+returned. If no memory could be allocated -ENOMEM is returned.
+This function establishes missing page table entries.

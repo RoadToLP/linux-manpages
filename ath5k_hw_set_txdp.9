@@ -1,0 +1,22 @@
+.TH "ath5k_hw_set_txdp" 9 "ath5k_hw_set_txdp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_set_txdp \- Set TX Descriptor's address for a specific queue
+.SH SYNOPSIS
+.B "int" ath5k_hw_set_txdp
+.BI "(struct ath5k_hw *ah "  ","
+.BI "unsigned int queue "  ","
+.BI "u32 phys_addr "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "queue" 12
+The hw queue number
+.IP "phys_addr" 12
+The physical address
+.SH "DESCRIPTION"
+Set TX descriptor's address for a specific queue. For 5210 we ignore
+the queue number and we use tx queue type since we only have 2 queues
+so as above we use TXDP0 for normal data queue and TXDP1 for beacon queue.
+For newer chips with QCU/DCU we just set the corresponding TXDP register.
+Returns -EINVAL if queue type is invalid for 5210 and -EIO if queue is still
+active.

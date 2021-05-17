@@ -1,0 +1,20 @@
+.TH "wil6210_disconnect" 9 "wil6210_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wil6210_disconnect \- disconnect one connection
+.SH SYNOPSIS
+.B "void" wil6210_disconnect
+.BI "(struct wil6210_vif *vif "  ","
+.BI "const u8 *bssid "  ","
+.BI "u16 reason_code "  ");"
+.SH ARGUMENTS
+.IP "vif" 12
+virtual interface context
+.IP "bssid" 12
+peer to disconnect, NULL to disconnect all
+.IP "reason_code" 12
+Reason code for the Disassociation frame
+.SH "DESCRIPTION"
+Disconnect and release associated resources. Issue WMI
+command(s) to trigger MAC disconnect. When command was issued
+successfully, call the wil6210_disconnect_complete function
+to handle the event synchronously

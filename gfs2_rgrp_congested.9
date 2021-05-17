@@ -1,0 +1,33 @@
+.TH "gfs2_rgrp_congested" 9 "gfs2_rgrp_congested" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_rgrp_congested \- Use stats to figure out whether an rgrp is congested
+.SH SYNOPSIS
+.B "bool" gfs2_rgrp_congested
+.BI "(const struct gfs2_rgrpd *rgd "  ","
+.BI "int loops "  ");"
+.SH ARGUMENTS
+.IP "rgd" 12
+The rgrp in question
+.IP "loops" 12
+An indication of how picky we can be (0=very, 1=less so)
+.SH "DESCRIPTION"
+This function uses the recently added glock statistics in order to
+figure out whether a parciular resource group is suffering from
+contention from multiple nodes. This is done purely on the basis
+of timings, since this is the only data we have to work with and
+our aim here is to reject a resource group which is highly contended
+but (very important) not to do this too often in order to ensure that
+we do not land up introducing fragmentation by changing resource
+groups when not actually required.
+
+The calculation is fairly simple, we want to know whether the SRTTB
+(i.e. smoothed round trip time for blocking operations) to acquire
+the lock for this rgrp's glock is significantly greater than the
+time taken for resource groups on average. We introduce a margin in
+the form of the variable \fIvar\fP which is computed as the sum of the two
+respective variences, and multiplied by a factor depending on \fIloops\fP
+and whether we have a lot of data to base the decision on. This is
+then tested against the square difference of the means in order to
+decide whether the result is statistically significant or not.
+.SH "RETURN"
+A boolean verdict on the congestion status

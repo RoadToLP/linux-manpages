@@ -1,0 +1,25 @@
+.TH "nfs_inode_attrs_need_update" 9 "nfs_inode_attrs_need_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_inode_attrs_need_update \- check if the inode attributes need updating
+.SH SYNOPSIS
+.B "int" nfs_inode_attrs_need_update
+.BI "(const struct inode *inode "  ","
+.BI "const struct nfs_fattr *fattr "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+pointer to inode
+.IP "fattr" 12
+attributes
+.SH "DESCRIPTION"
+Attempt to divine whether or not an RPC call reply carrying stale
+attributes got scheduled after another call carrying updated ones.
+
+To do so, the function first assumes that a more recent ctime means
+that the attributes in fattr are newer, however it also attempt to
+catch the case where ctime either didn't change, or went backwards
+(if someone reset the clock on the server) by looking at whether
+or not this RPC call was started after the inode was last updated.
+Note also the check for wraparound of 'attr_gencount'
+
+The function returns 'true' if it thinks the attributes in 'fattr' are
+more recent than the ones cached in the inode.

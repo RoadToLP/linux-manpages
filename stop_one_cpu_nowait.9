@@ -1,0 +1,27 @@
+.TH "stop_one_cpu_nowait" 9 "stop_one_cpu_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stop_one_cpu_nowait \- stop a cpu but don't wait for completion
+.SH SYNOPSIS
+.B "bool" stop_one_cpu_nowait
+.BI "(unsigned int cpu "  ","
+.BI "cpu_stop_fn_t fn "  ","
+.BI "void *arg "  ","
+.BI "struct cpu_stop_work *work_buf "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+cpu to stop
+.IP "fn" 12
+function to execute
+.IP "arg" 12
+argument to \fIfn\fP
+.IP "work_buf" 12
+pointer to cpu_stop_work structure
+.SH "DESCRIPTION"
+Similar to \fBstop_one_cpu\fP but doesn't wait for completion.  The
+caller is responsible for ensuring \fIwork_buf\fP is currently unused
+and will remain untouched until stopper starts executing \fIfn\fP.
+.SH "CONTEXT"
+Don't care.
+.SH "RETURN"
+true if cpu_stop_work was queued successfully and \fIfn\fP will be called,
+false otherwise.

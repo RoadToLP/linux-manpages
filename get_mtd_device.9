@@ -1,0 +1,18 @@
+.TH "get_mtd_device" 9 "get_mtd_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_mtd_device \- obtain a validated handle for an MTD device
+.SH SYNOPSIS
+.B "struct mtd_info *" get_mtd_device
+.BI "(struct mtd_info *mtd "  ","
+.BI "int num "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+last known address of the required MTD device
+.IP "num" 12
+internal device number of the required MTD device
+
+Given a number and NULL address, return the num'th entry in the device
+table, if any.  Given an address and num == -1, search the device table
+for a device with that address and return if it's still present. Given
+both, return the num'th driver only if its address matches. Return
+error code if not.

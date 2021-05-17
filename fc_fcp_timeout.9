@@ -1,0 +1,16 @@
+.TH "fc_fcp_timeout" 9 "fc_fcp_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_fcp_timeout \- Handler for fcp_pkt timeouts
+.SH SYNOPSIS
+.B "void" fc_fcp_timeout
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Timer context used to fetch the FSP packet
+.SH "DESCRIPTION"
+If REC is supported then just issue it and return. The REC exchange will
+complete or time out and recovery can continue at that point. Otherwise,
+if the response has been received without all the data it has been
+ER_TIMEOUT since the response was received. If the response has not been
+received we see if data was received recently. If it has been then we
+continue waiting, otherwise, we abort the command.

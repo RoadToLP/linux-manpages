@@ -1,0 +1,21 @@
+.TH "check_telem_request" 9 "check_telem_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_telem_request \- Ensure that a request from userspace is valid.
+.SH SYNOPSIS
+.B "int" check_telem_request
+.BI "(struct wilco_ec_telem_request *rq "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+Request buffer copied from userspace.
+.IP "size" 12
+Number of bytes copied from userspace.
+.SH "RETURN"
+0 if valid, -EINVAL if bad command or reserved byte is non-zero,
+-EMSGSIZE if the request is too long.
+.SH "DESCRIPTION"
+We do not want to allow userspace to send arbitrary telemetry commands to
+the EC. Therefore we check to ensure that
+1. The request follows the format of struct wilco_ec_telem_request.
+2. The supplied command code is one of the allowlisted commands.
+3. The request only contains the necessary data for the header and arguments.

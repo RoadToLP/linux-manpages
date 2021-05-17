@@ -1,0 +1,20 @@
+.TH "pidfd_create" 9 "pidfd_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pidfd_create \- Create a new pid file descriptor.
+.SH SYNOPSIS
+.B "int" pidfd_create
+.BI "(struct pid *pid "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "pid" 12
+struct pid that the pidfd will reference
+.IP "flags" 12
+flags to pass
+.SH "DESCRIPTION"
+This creates a new pid file descriptor with the O_CLOEXEC flag set.
+
+Note, that this function can only be called after the fd table has
+been unshared to avoid leaking the pidfd to the new process.
+.SH "RETURN"
+On success, a cloexec pidfd is returned.
+On error, a negative errno number will be returned.

@@ -1,0 +1,44 @@
+.TH "ima_get_action" 9 "ima_get_action" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_get_action \- appraise & measure decision based on policy.
+.SH SYNOPSIS
+.B "int" ima_get_action
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct cred *cred "  ","
+.BI "u32 secid "  ","
+.BI "int mask "  ","
+.BI "enum ima_hooks func "  ","
+.BI "int *pcr "  ","
+.BI "struct ima_template_desc **template_desc "  ","
+.BI "const char *func_data "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+pointer to the inode associated with the object being validated
+.IP "cred" 12
+pointer to credentials structure to validate
+.IP "secid" 12
+secid of the task being validated
+.IP "mask" 12
+contains the permission mask (MAY_READ, MAY_WRITE, MAY_EXEC,
+MAY_APPEND)
+.IP "func" 12
+caller identifier
+.IP "pcr" 12
+pointer filled in if matched measure policy sets pcr=
+.IP "template_desc" 12
+pointer filled in if matched measure policy sets template=
+.IP "func_data" 12
+func specific data, may be NULL
+.SH "DESCRIPTION"
+The policy is defined in terms of keypairs:
+subj=, obj=, type=, func=, mask=, fsmagic=
+subj,obj, and type: are LSM specific.
+func: FILE_CHECK | BPRM_CHECK | CREDS_CHECK | MMAP_CHECK | MODULE_CHECK
+| KEXEC_CMDLINE | KEY_CHECK | CRITICAL_DATA
+mask: contains the permission mask
+fsmagic: hex value
+
+Returns IMA_MEASURE, IMA_APPRAISE mask.

@@ -1,0 +1,18 @@
+.TH "ofld_poll" 9 "ofld_poll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ofld_poll \- NAPI handler for offload packets in interrupt mode
+.SH SYNOPSIS
+.B "int" ofld_poll
+.BI "(struct napi_struct *napi "  ","
+.BI "int budget "  ");"
+.SH ARGUMENTS
+.IP "napi" 12
+the network device doing the polling
+.IP "budget" 12
+polling budget
+
+The NAPI handler for offload packets when a response queue is serviced
+by the hard interrupt handler, i.e., when it's operating in non-polling
+mode.  Creates small packet batches and sends them through the offload
+receive handler.  Batches need to be of modest size as we do prefetches
+on the packets in each.

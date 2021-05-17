@@ -1,0 +1,28 @@
+.TH "fscrypt_zeroout_range" 9 "fscrypt_zeroout_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_zeroout_range \- zero out a range of blocks in an encrypted file
+.SH SYNOPSIS
+.B "int" fscrypt_zeroout_range
+.BI "(const struct inode *inode "  ","
+.BI "pgoff_t lblk "  ","
+.BI "sector_t pblk "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the file's inode
+.IP "lblk" 12
+the first file logical block to zero out
+.IP "pblk" 12
+the first filesystem physical block to zero out
+.IP "len" 12
+number of blocks to zero out
+.SH "DESCRIPTION"
+Zero out filesystem blocks in an encrypted regular file on-disk, i.e. write
+ciphertext blocks which decrypt to the all-zeroes block.  The blocks must be
+both logically and physically contiguous.  It's also assumed that the
+filesystem only uses a single block device, ->s_bdev.
+
+Note that since each block uses a different IV, this involves writing a
+different ciphertext to each block; we can't simply reuse the same one.
+.SH "RETURN"
+0 on success; -errno on failure.

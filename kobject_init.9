@@ -1,0 +1,19 @@
+.TH "kobject_init" 9 "kobject_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kobject_init \- Initialize a kobject structure.
+.SH SYNOPSIS
+.B "void" kobject_init
+.BI "(struct kobject *kobj "  ","
+.BI "struct kobj_type *ktype "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+pointer to the kobject to initialize
+.IP "ktype" 12
+pointer to the ktype for this kobject.
+.SH "DESCRIPTION"
+This function will properly initialize a kobject such that it can then
+be passed to the \fBkobject_add\fP call.
+
+After this function is called, the kobject MUST be cleaned up by a call
+to \fBkobject_put\fP, not by a call to kfree directly to ensure that all of
+the memory is cleaned up properly.

@@ -1,0 +1,14 @@
+.TH "tipc_crypto_work_tx" 9 "tipc_crypto_work_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_crypto_work_tx \- Scheduled TX works handler
+.SH SYNOPSIS
+.B "void" tipc_crypto_work_tx
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+the struct TX work
+.SH "DESCRIPTION"
+The function processes the previous scheduled work, i.e. key rekeying, by
+generating a new session key based on current one, then attaching it to the
+TX crypto and finally distributing it to peers. It also re-schedules the
+rekeying if needed.

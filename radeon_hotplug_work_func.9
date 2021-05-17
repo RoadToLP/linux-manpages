@@ -1,0 +1,15 @@
+.TH "radeon_hotplug_work_func" 9 "radeon_hotplug_work_func" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_hotplug_work_func \- display hotplug work handler
+.SH SYNOPSIS
+.B "void" radeon_hotplug_work_func
+.BI "(struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work struct
+.SH "DESCRIPTION"
+This is the hot plug event work handler (all asics).
+The work gets scheduled from the irq handler if there
+was a hot plug interrupt.  It walks the connector table
+and calls the hotplug handler for each one, then sends
+a drm hotplug event to alert userspace.

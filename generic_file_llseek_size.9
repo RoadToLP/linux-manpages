@@ -1,0 +1,29 @@
+.TH "generic_file_llseek_size" 9 "generic_file_llseek_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_file_llseek_size \- generic llseek implementation for regular files
+.SH SYNOPSIS
+.B "loff_t" generic_file_llseek_size
+.BI "(struct file *file "  ","
+.BI "loff_t offset "  ","
+.BI "int whence "  ","
+.BI "loff_t maxsize "  ","
+.BI "loff_t eof "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file structure to seek on
+.IP "offset" 12
+file offset to seek to
+.IP "whence" 12
+type of seek
+.IP "maxsize" 12
+-- undescribed --
+.IP "eof" 12
+offset used for SEEK_END position
+.SH "DESCRIPTION"
+This is a variant of generic_file_llseek that allows passing in a custom
+maximum file size and a custom EOF position, for e.g. hashed directories
+
+Synchronization:
+SEEK_SET and SEEK_END are unsynchronized (but atomic on 64bit platforms)
+SEEK_CUR is synchronized against other SEEK_CURs, but not read/writes.
+read/writes behave like SEEK_SET against seeks.

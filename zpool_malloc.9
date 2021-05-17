@@ -1,0 +1,27 @@
+.TH "zpool_malloc" 9 "zpool_malloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_malloc \- Allocate memory
+.SH SYNOPSIS
+.B "int" zpool_malloc
+.BI "(struct zpool *zpool "  ","
+.BI "size_t size "  ","
+.BI "gfp_t gfp "  ","
+.BI "unsigned long *handle "  ");"
+.SH ARGUMENTS
+.IP "zpool" 12
+The zpool to allocate from.
+.IP "size" 12
+The amount of memory to allocate.
+.IP "gfp" 12
+The GFP flags to use when allocating memory.
+.IP "handle" 12
+Pointer to the handle to set
+.SH "DESCRIPTION"
+This allocates the requested amount of memory from the pool.
+The gfp flags will be used when allocating memory, if the
+implementation supports it.  The provided \fIhandle\fP will be
+set to the allocated object handle.
+
+Implementations must guarantee this to be thread-safe.
+.SH "RETURN"
+0 on success, negative value on error.

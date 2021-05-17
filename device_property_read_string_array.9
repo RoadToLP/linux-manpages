@@ -1,0 +1,29 @@
+.TH "device_property_read_string_array" 9 "device_property_read_string_array" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_property_read_string_array \- return a string array property of device
+.SH SYNOPSIS
+.B "int" device_property_read_string_array
+.BI "(struct device *dev "  ","
+.BI "const char *propname "  ","
+.BI "const char **val "  ","
+.BI "size_t nval "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to get the property of
+.IP "propname" 12
+Name of the property
+.IP "val" 12
+The values are stored here or NULL to return the number of values
+.IP "nval" 12
+Size of the \fIval\fP array
+.SH "DESCRIPTION"
+Function reads an array of string properties with \fIpropname\fP from the device
+firmware description and stores them to \fIval\fP if found.
+.SH "RETURN"
+number of values read on success if \fIval\fP is non-NULL,
+number of values available on success if \fIval\fP is NULL,
+-EINVAL if given arguments are not valid,
+-ENODATA if the property does not have a value,
+-EPROTO or -EILSEQ if the property is not an array of strings,
+-EOVERFLOW if the size of the property is not as expected.
+-ENXIO if no suitable firmware interface is present.

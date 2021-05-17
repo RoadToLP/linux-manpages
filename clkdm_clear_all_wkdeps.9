@@ -1,0 +1,15 @@
+.TH "clkdm_clear_all_wkdeps" 9 "clkdm_clear_all_wkdeps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clkdm_clear_all_wkdeps \- remove all wakeup dependencies from target clkdm
+.SH SYNOPSIS
+.B "int" clkdm_clear_all_wkdeps
+.BI "(struct clockdomain *clkdm "  ");"
+.SH ARGUMENTS
+.IP "clkdm" 12
+struct clockdomain * to remove all wakeup dependencies from
+.SH "DESCRIPTION"
+Remove all inter-clockdomain wakeup dependencies that could cause
+\fIclkdm\fP to wake.  Intended to be used during boot to initialize the
+PRCM to a known state, after all clockdomains are put into swsup idle
+and woken up.  Returns -EINVAL if \fIclkdm\fP pointer is invalid, or
+0 upon success.

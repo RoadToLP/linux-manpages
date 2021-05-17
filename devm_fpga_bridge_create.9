@@ -1,0 +1,28 @@
+.TH "devm_fpga_bridge_create" 9 "devm_fpga_bridge_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_fpga_bridge_create \- create and init a managed struct fpga_bridge
+.SH SYNOPSIS
+.B "struct fpga_bridge *" devm_fpga_bridge_create
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ","
+.BI "const struct fpga_bridge_ops *br_ops "  ","
+.BI "void *priv "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+FPGA bridge device from pdev
+.IP "name" 12
+FPGA bridge name
+.IP "br_ops" 12
+pointer to structure of fpga bridge ops
+.IP "priv" 12
+FPGA bridge private data
+.SH "DESCRIPTION"
+This function is intended for use in a FPGA bridge driver's probe function.
+After the bridge driver creates the struct with \fBdevm_fpga_bridge_create\fP, it
+should register the bridge with \fBfpga_bridge_register\fP.  The bridge driver's
+remove function should call \fBfpga_bridge_unregister\fP.  The bridge struct
+allocated with this function will be freed automatically on driver detach.
+This includes the case of a probe function returning error before calling
+\fBfpga_bridge_register\fP, the struct will still get cleaned up.
+.SH "RETURN"
+struct fpga_bridge or NULL

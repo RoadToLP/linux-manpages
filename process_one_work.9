@@ -1,0 +1,20 @@
+.TH "process_one_work" 9 "process_one_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+process_one_work \- process single work
+.SH SYNOPSIS
+.B "void" process_one_work
+.BI "(struct worker *worker "  ","
+.BI "struct work_struct *work "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+self
+.IP "work" 12
+work to process
+.SH "DESCRIPTION"
+Process \fIwork\fP.  This function contains all the logics necessary to
+process a single work including synchronization against and
+interaction with other workers on the same cpu, queueing and
+flushing.  As long as context requirement is met, any worker can
+call this function to process a work.
+.SH "CONTEXT"
+raw_spin_lock_irq(pool->lock) which is released and regrabbed.

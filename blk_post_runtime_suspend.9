@@ -1,0 +1,19 @@
+.TH "blk_post_runtime_suspend" 9 "blk_post_runtime_suspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_post_runtime_suspend \- Post runtime suspend processing
+.SH SYNOPSIS
+.B "void" blk_post_runtime_suspend
+.BI "(struct request_queue *q "  ","
+.BI "int err "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue of the device
+.IP "err" 12
+return value of the device's runtime_suspend function
+.SH "DESCRIPTION"
+Update the queue's runtime status according to the return value of the
+device's runtime suspend function and mark last busy for the device so
+that PM core will try to auto suspend the device at a later time.
+
+This function should be called near the end of the device's
+runtime_suspend callback.

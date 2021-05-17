@@ -1,0 +1,29 @@
+.TH "fcoe_ctlr_encaps" 9 "fcoe_ctlr_encaps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_encaps \- Encapsulate an ELS frame for FIP, without sending it
+.SH SYNOPSIS
+.B "int" fcoe_ctlr_encaps
+.BI "(struct fcoe_ctlr *fip "  ","
+.BI "struct fc_lport *lport "  ","
+.BI "u8 dtype "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u32 d_id "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller for the ELS frame
+.IP "lport" 12
+The local port
+.IP "dtype" 12
+The FIP descriptor type for the frame
+.IP "skb" 12
+The FCoE ELS frame including FC header but no FCoE headers
+.IP "d_id" 12
+The destination port ID.
+.SH "DESCRIPTION"
+Returns non-zero error code on failure.
+
+The caller must check that the length is a multiple of 4.
+
+The \fIskb\fP must have enough headroom (28 bytes) and tailroom (8 bytes).
+Headroom includes the FIP encapsulation description, FIP header, and
+Ethernet header.  The tailroom is for the FIP MAC descriptor.

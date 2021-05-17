@@ -1,0 +1,17 @@
+.TH "ovs_vport_find_upcall_portid" 9 "ovs_vport_find_upcall_portid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_find_upcall_portid \- find the upcall portid to send upcall.
+.SH SYNOPSIS
+.B "u32" ovs_vport_find_upcall_portid
+.BI "(const struct vport *vport "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+vport from which the missed packet is received.
+.IP "skb" 12
+skb that the missed packet was received.
+.SH "DESCRIPTION"
+Uses the \fBskb_get_hash\fP to select the upcall portid to send the
+upcall.
+
+Returns the portid of the target socket.  Must be called with rcu_read_lock.

@@ -1,0 +1,32 @@
+.TH "pwrdm_get_valid_lp_state" 9 "pwrdm_get_valid_lp_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwrdm_get_valid_lp_state \- Find best match deep power state
+.SH SYNOPSIS
+.B "u8" pwrdm_get_valid_lp_state
+.BI "(struct powerdomain *pwrdm "  ","
+.BI "bool is_logic_state "  ","
+.BI "u8 req_state "  ");"
+.SH ARGUMENTS
+.IP "pwrdm" 12
+power domain for which we want to find best match
+.IP "is_logic_state" 12
+Are we looking for logic state match here? Should
+be one of PWRDM_xxx macro values
+.IP "req_state" 12
+requested power state
+.SH "RETURN"
+closest match for requested power state. default fallback
+is RET for logic state and ON for power state.
+.SH "DESCRIPTION"
+This does a search from the power domain data looking for the
+closest valid power domain state that the hardware can achieve.
+PRCM definitions for PWRSTCTRL allows us to program whatever
+configuration we'd like, and PRCM will actually attempt such
+a transition, however if the powerdomain does not actually support it,
+we endup with a hung system. The valid power domain states are already
+available in our powerdomain data files. So this function tries to do
+the following:
+a) find if we have an exact match to the request - no issues.
+b) else find if a deeper power state is possible.
+c) failing which, it tries to find closest higher power state for the
+request.

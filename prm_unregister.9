@@ -1,0 +1,16 @@
+.TH "prm_unregister" 9 "prm_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prm_unregister \- unregister per-SoC low-level data & function pointers
+.SH SYNOPSIS
+.B "int" prm_unregister
+.BI "(struct prm_ll_data *pld "  ");"
+.SH ARGUMENTS
+.IP "pld" 12
+low-level per-SoC OMAP PRM data & function pointers to unregister
+.SH "DESCRIPTION"
+Unregister per-SoC low-level OMAP PRM data and function pointers
+that were previously registered with \fBprm_register\fP.  The
+caller may not destroy any of the data pointed to by \fIpld\fP until
+this function returns successfully.  Returns 0 upon success, or
+-EINVAL if \fIpld\fP is NULL or if \fIpld\fP does not match the struct
+prm_ll_data * previously registered by \fBprm_register\fP.

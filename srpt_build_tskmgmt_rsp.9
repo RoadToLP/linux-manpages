@@ -1,0 +1,24 @@
+.TH "srpt_build_tskmgmt_rsp" 9 "srpt_build_tskmgmt_rsp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srpt_build_tskmgmt_rsp \- build a task management response
+.SH SYNOPSIS
+.B "int" srpt_build_tskmgmt_rsp
+.BI "(struct srpt_rdma_ch *ch "  ","
+.BI "struct srpt_send_ioctx *ioctx "  ","
+.BI "u8 rsp_code "  ","
+.BI "u64 tag "  ");"
+.SH ARGUMENTS
+.IP "ch" 12
+RDMA channel through which the request has been received.
+.IP "ioctx" 12
+I/O context in which the SRP_RSP response will be built.
+.IP "rsp_code" 12
+RSP_CODE that will be stored in the response.
+.IP "tag" 12
+Tag of the request for which this response is being generated.
+.SH "DESCRIPTION"
+Returns the size in bytes of the SRP_RSP response.
+
+An SRP_RSP response contains a SCSI status or service response. See also
+section 6.9 in the SRP r16a document for the format of an SRP_RSP
+response.

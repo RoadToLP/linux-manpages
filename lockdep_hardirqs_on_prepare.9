@@ -1,0 +1,14 @@
+.TH "lockdep_hardirqs_on_prepare" 9 "lockdep_hardirqs_on_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lockdep_hardirqs_on_prepare \- Prepare for enabling interrupts
+.SH SYNOPSIS
+.B "void" lockdep_hardirqs_on_prepare
+.BI "(unsigned long ip "  ");"
+.SH ARGUMENTS
+.IP "ip" 12
+Caller address
+.SH "DESCRIPTION"
+Invoked before a possible transition to RCU idle from exit to user or
+guest mode. This ensures that all RCU operations are done before RCU
+stops watching. After the RCU transition \fBlockdep_hardirqs_on\fP has to be
+invoked to set the final state.

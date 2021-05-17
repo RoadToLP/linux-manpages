@@ -1,0 +1,20 @@
+.TH "event_trace_add_tracer" 9 "event_trace_add_tracer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_trace_add_tracer \- add a instance of a trace_array to events
+.SH SYNOPSIS
+.B "int" event_trace_add_tracer
+.BI "(struct dentry *parent "  ","
+.BI "struct trace_array *tr "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+The parent dentry to place the files/directories for events in
+.IP "tr" 12
+The trace array associated with these events
+.SH "DESCRIPTION"
+When a new instance is created, it needs to set up its events
+directory, as well as other files associated with events. It also
+creates the event hierarchy in the \fIparent\fP/events directory.
+
+Returns 0 on success.
+
+Must be called with event_mutex held.

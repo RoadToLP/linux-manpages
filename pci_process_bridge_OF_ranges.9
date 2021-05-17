@@ -1,0 +1,33 @@
+.TH "pci_process_bridge_OF_ranges" 9 "pci_process_bridge_OF_ranges" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_process_bridge_OF_ranges \- Parse PCI bridge resources from device tree
+.SH SYNOPSIS
+.B "void" pci_process_bridge_OF_ranges
+.BI "(struct pci_controller *hose "  ","
+.BI "struct device_node *dev "  ","
+.BI "int primary "  ");"
+.SH ARGUMENTS
+.IP "hose" 12
+newly allocated pci_controller to be setup
+.IP "dev" 12
+device node of the host bridge
+.IP "primary" 12
+set if primary bus (32 bits only, soon to be deprecated)
+.SH "DESCRIPTION"
+This function will parse the "ranges" property of a PCI host bridge device
+node and setup the resource mapping of a pci controller based on its
+content.
+
+Life would be boring if it wasn't for a few issues that we have to deal
+with here:
+
+- We can only cope with one IO space range and up to 3 Memory space
+ranges. However, some machines (thanks Apple !) tend to split their
+space into lots of small contiguous ranges. So we have to coalesce.
+
+- Some busses have IO space not starting at 0, which causes trouble with
+the way we do our IO resource renumbering. The code somewhat deals with
+it for 64 bits but I would expect problems on 32 bits.
+
+- Some 32 bits platforms such as 4xx can have physical space larger than
+32 bits so we need to use 64 bits values for the parsing

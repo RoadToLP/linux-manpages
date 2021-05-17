@@ -1,0 +1,21 @@
+.TH "tb_cfg_request" 9 "tb_cfg_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_cfg_request \- Start control request not waiting for it to complete
+.SH SYNOPSIS
+.B "int" tb_cfg_request
+.BI "(struct tb_ctl *ctl "  ","
+.BI "struct tb_cfg_request *req "  ","
+.BI "void (*callback)(void *) "  ","
+.BI "void *callback_data "  ");"
+.SH ARGUMENTS
+.IP "ctl" 12
+Control channel to use
+.IP "req" 12
+Request to start
+.IP "callback" 12
+Callback called when the request is completed
+.IP "callback_data" 12
+Data to be passed to \fIcallback\fP
+.SH "DESCRIPTION"
+This queues \fIreq\fP on the given control channel without waiting for it
+to complete. When the request completes \fIcallback\fP is called.

@@ -1,0 +1,13 @@
+.TH "inode_go_free" 9 "inode_go_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_go_free \- wake up anyone waiting for dlm's unlock ast to free it
+.SH SYNOPSIS
+.B "void" inode_go_free
+.BI "(struct gfs2_glock *gl "  ");"
+.SH ARGUMENTS
+.IP "gl" 12
+glock being freed
+.SH "DESCRIPTION"
+For now, this is only used for the journal inode glock. In withdraw
+situations, we need to wait for the glock to be freed so that we know
+other nodes may proceed with recovery / journal replay.

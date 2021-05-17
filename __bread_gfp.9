@@ -1,0 +1,23 @@
+.TH "__bread_gfp" 9 "__bread_gfp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bread_gfp \- reads a specified block and returns the bh
+.SH SYNOPSIS
+.B "struct buffer_head *" __bread_gfp
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t block "  ","
+.BI "unsigned size "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+the block_device to read from
+.IP "block" 12
+number of block
+.IP "size" 12
+size (in bytes) to read
+.IP "gfp" 12
+page allocation flag
+
+Reads a specified block, and returns buffer head that contains it.
+The page cache can be allocated from non-movable area
+not to prevent page migration if you set gfp to zero.
+It returns NULL if the block was unreadable.

@@ -1,0 +1,48 @@
+.TH "kernel_read_file" 9 "kernel_read_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kernel_read_file \- read file contents into a kernel buffer
+.SH SYNOPSIS
+.B "int" kernel_read_file
+.BI "(struct file *file "  ","
+.BI "loff_t offset "  ","
+.BI "void **buf "  ","
+.BI "size_t buf_size "  ","
+.BI "size_t *file_size "  ","
+.BI "enum kernel_read_file_id id "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+-- undescribed --
+.IP "offset" 12
+-- undescribed --
+.IP "buf" 12
+-- undescribed --
+.IP "buf_size" 12
+-- undescribed --
+.IP "file_size" 12
+-- undescribed --
+.IP "id" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+\fIfile\fP        file to read from
+\fIoffset\fP      where to start reading from (see below).
+\fIbuf\fP         pointer to a "void *" buffer for reading into (if
+*\fIbuf\fP is NULL, a buffer will be allocated, and
+\fIbuf_size\fP will be ignored)
+\fIbuf_size\fP    size of buf, if already allocated. If \fIbuf\fP not
+allocated, this is the largest size to allocate.
+\fIfile_size\fP   if non-NULL, the full size of \fIfile\fP will be
+written here.
+\fIid\fP          the kernel_read_file_id identifying the type of
+file contents being read (for LSMs to examine)
+
+\fIoffset\fP must be 0 unless both \fIbuf\fP and \fIfile_size\fP are non-NULL
+(i.e. the caller must be expecting to read partial file contents
+via an already-allocated \fIbuf\fP, in at most \fIbuf_size\fP chunks, and
+will be able to determine when the entire file was read by
+checking \fIfile_size\fP). This isn't a recommended way to read a
+file, though, since it is possible that the contents might
+change between calls to \fBkernel_read_file\fP.
+
+Returns number of bytes read (no single read will be bigger
+than INT_MAX), or negative on error.

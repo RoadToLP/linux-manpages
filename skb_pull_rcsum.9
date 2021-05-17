@@ -1,0 +1,18 @@
+.TH "skb_pull_rcsum" 9 "skb_pull_rcsum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_pull_rcsum \- pull skb and update receive checksum
+.SH SYNOPSIS
+.B "void *" skb_pull_rcsum
+.BI "(struct sk_buff *skb "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to update
+.IP "len" 12
+length of data pulled
+
+This function performs an skb_pull on the packet and updates
+the CHECKSUM_COMPLETE checksum.  It should be used on
+receive path processing instead of skb_pull unless you know
+that the checksum difference is zero (e.g., a valid IP header)
+or you are setting ip_summed to CHECKSUM_NONE.

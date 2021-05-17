@@ -1,0 +1,22 @@
+.TH "map_extent_mft_record" 9 "map_extent_mft_record" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+map_extent_mft_record \- load an extent inode and attach it to its base
+.SH SYNOPSIS
+.B "MFT_RECORD *" map_extent_mft_record
+.BI "(ntfs_inode *base_ni "  ","
+.BI "MFT_REF mref "  ","
+.BI "ntfs_inode **ntfs_ino "  ");"
+.SH ARGUMENTS
+.IP "base_ni" 12
+base ntfs inode
+.IP "mref" 12
+mft reference of the extent inode to load
+.IP "ntfs_ino" 12
+on successful return, pointer to the ntfs_inode structure
+.SH "DESCRIPTION"
+Load the extent mft record \fImref\fP and attach it to its base inode \fIbase_ni\fP.
+Return the mapped extent mft record if IS_ERR(result) is false.  Otherwise
+PTR_ERR(result) gives the negative error code.
+
+On successful return, \fIntfs_ino\fP contains a pointer to the ntfs_inode
+structure of the mapped extent inode.

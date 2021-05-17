@@ -1,0 +1,18 @@
+.TH "scsi_decide_disposition" 9 "scsi_decide_disposition" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_decide_disposition \- Disposition a cmd on return from LLD.
+.SH SYNOPSIS
+.B "int" scsi_decide_disposition
+.BI "(struct scsi_cmnd *scmd "  ");"
+.SH ARGUMENTS
+.IP "scmd" 12
+SCSI cmd to examine.
+.SH "NOTES"
+This is *only* called when we are examining the status after sending
+out the actual data command.  any commands that are queued for error
+recovery (e.g. test_unit_ready) do *not* come through here.
+
+When this routine returns failed, it means the error handler thread
+is woken.  In cases where the error code indicates an error that
+doesn't require the error handler read (i.e. we don't need to
+abort/reset), this function should return SUCCESS.

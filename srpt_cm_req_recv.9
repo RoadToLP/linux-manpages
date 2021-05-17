@@ -1,0 +1,31 @@
+.TH "srpt_cm_req_recv" 9 "srpt_cm_req_recv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srpt_cm_req_recv \- process the event IB_CM_REQ_RECEIVED
+.SH SYNOPSIS
+.B "int" srpt_cm_req_recv
+.BI "(struct srpt_device *const sdev "  ","
+.BI "struct ib_cm_id *ib_cm_id "  ","
+.BI "struct rdma_cm_id *rdma_cm_id "  ","
+.BI "u8 port_num "  ","
+.BI "__be16 pkey "  ","
+.BI "const struct srp_login_req *req "  ","
+.BI "const char *src_addr "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+HCA through which the login request was received.
+.IP "ib_cm_id" 12
+IB/CM connection identifier in case of IB/CM.
+.IP "rdma_cm_id" 12
+RDMA/CM connection identifier in case of RDMA/CM.
+.IP "port_num" 12
+Port through which the REQ message was received.
+.IP "pkey" 12
+P_Key of the incoming connection.
+.IP "req" 12
+SRP login request.
+.IP "src_addr" 12
+GID (IB/CM) or IP address (RDMA/CM) of the port that submitted
+the login request.
+.SH "DESCRIPTION"
+Ownership of the cm_id is transferred to the target session if this
+function returns zero. Otherwise the caller remains the owner of cm_id.

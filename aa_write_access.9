@@ -1,0 +1,32 @@
+.TH "aa_write_access" 9 "aa_write_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_write_access \- generic permissions and data query
+.SH SYNOPSIS
+.B "ssize_t" aa_write_access
+.BI "(struct file *file "  ","
+.BI "const char __user *ubuf "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+pointer to open apparmorfs/access file
+.IP "ubuf" 12
+user buffer containing the complete query string (NOT NULL)
+.IP "count" 12
+size of ubuf
+.IP "ppos" 12
+position in the file (MUST BE ZERO)
+.SH "DESCRIPTION"
+Allows for one permissions or data query per \fBopen\fP, \fBwrite\fP, and \fBread\fP
+sequence. The only queries currently supported are label-based queries for
+permissions or data.
+
+For permissions queries, ubuf must begin with "label\0", followed by the
+profile query specific format described in the \fBquery_label\fP function
+documentation.
+
+For data queries, ubuf must have the form "data\0<LABEL>\0<KEY>\0", where
+<LABEL> is the name of the security confinement context and <KEY> is the
+name of the data to retrieve.
+.SH "RETURN"
+number of bytes written or -errno on failure

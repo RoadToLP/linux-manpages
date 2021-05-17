@@ -1,0 +1,18 @@
+.TH "rcu_idle_enter" 9 "rcu_idle_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_idle_enter \- inform RCU that current CPU is entering idle
+.SH SYNOPSIS
+.B "void" rcu_idle_enter
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Enter idle mode, in other words, -leave- the mode in which RCU
+read-side critical sections can occur.  (Though RCU read-side
+critical sections can occur in irq handlers in idle, a possibility
+handled by \fBirq_enter\fP and \fBirq_exit\fP.)
+
+If you add or remove a call to \fBrcu_idle_enter\fP, be sure to test with
+CONFIG_RCU_EQS_DEBUG=y.

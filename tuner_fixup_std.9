@@ -1,0 +1,20 @@
+.TH "tuner_fixup_std" 9 "tuner_fixup_std" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tuner_fixup_std \- force a given video standard variant
+.SH SYNOPSIS
+.B "v4l2_std_id" tuner_fixup_std
+.BI "(struct tuner *t "  ","
+.BI "v4l2_std_id std "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+tuner internal struct
+.IP "std" 12
+TV standard
+.SH "DESCRIPTION"
+A few devices or drivers have problem to detect some standard variations.
+On other operational systems, the drivers generally have a per-country
+code, and some logic to apply per-country hacks. V4L2 API doesn't provide
+such hacks. Instead, it relies on a proper video standard selection from
+the userspace application. However, as some apps are buggy, not allowing
+to distinguish all video standard variations, a modprobe parameter can
+be used to force a video standard match.

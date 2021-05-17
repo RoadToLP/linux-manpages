@@ -1,0 +1,23 @@
+.TH "skb_to_sgvec" 9 "skb_to_sgvec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_to_sgvec \- Fill a scatter-gather list from a socket buffer
+.SH SYNOPSIS
+.B "int" skb_to_sgvec
+.BI "(struct sk_buff *skb "  ","
+.BI "struct scatterlist *sg "  ","
+.BI "int offset "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+Socket buffer containing the buffers to be mapped
+.IP "sg" 12
+The scatter-gather list to map into
+.IP "offset" 12
+The offset into the buffer's contents to start mapping
+.IP "len" 12
+Length of buffer space to be mapped
+
+Fill the specified scatter-gather list with mappings/pointers into a
+region of the buffer space attached to a socket buffer. Returns either
+the number of scatterlist items used, or -EMSGSIZE if the contents
+could not fit.

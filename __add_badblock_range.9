@@ -1,0 +1,19 @@
+.TH "__add_badblock_range" 9 "__add_badblock_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__add_badblock_range \- Convert a physical address range to bad sectors
+.SH SYNOPSIS
+.B "void" __add_badblock_range
+.BI "(struct badblocks *bb "  ","
+.BI "u64 ns_offset "  ","
+.BI "u64 len "  ");"
+.SH ARGUMENTS
+.IP "bb" 12
+badblocks instance to populate
+.IP "ns_offset" 12
+namespace offset where the error range begins (in bytes)
+.IP "len" 12
+number of bytes of badrange to be added
+.SH "DESCRIPTION"
+This assumes that the range provided with (ns_offset, len) is within
+the bounds of physical addresses for this namespace, i.e. lies in the
+interval [ns_start, ns_start + ns_size)

@@ -1,0 +1,19 @@
+.TH "sca3000_event_handler" 9 "sca3000_event_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sca3000_event_handler \- handling ring and non ring events
+.SH SYNOPSIS
+.B "irqreturn_t" sca3000_event_handler
+.BI "(int irq "  ","
+.BI "void *private "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+The irq being handled.
+.IP "private" 12
+struct iio_device pointer for the device.
+.SH "DESCRIPTION"
+Ring related interrupt handler. Depending on event, push to
+the ring buffer event chrdev or the event one.
+
+This function is complicated by the fact that the devices can signify ring
+and non ring events via the same interrupt line and they can only
+be distinguished via a read of the relevant status register.

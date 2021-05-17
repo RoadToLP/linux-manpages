@@ -1,0 +1,17 @@
+.TH "rproc_coredump_using_sections" 9 "rproc_coredump_using_sections" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_coredump_using_sections \- perform coredump using section headers
+.SH SYNOPSIS
+.B "void" rproc_coredump_using_sections
+.BI "(struct rproc *rproc "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+rproc handle
+.SH "DESCRIPTION"
+This function will generate an ELF header for the registered sections of
+segments and create a devcoredump device associated with rproc. Based on
+the coredump configuration this function will directly copy the segments
+from device memory to userspace or copy segments from device memory to
+a separate buffer, which can then be read by userspace.
+The first approach avoids using extra vmalloc memory. But it will stall
+recovery flow until dump is read by userspace.

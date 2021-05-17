@@ -1,0 +1,19 @@
+.TH "i2c_get_dma_safe_msg_buf" 9 "i2c_get_dma_safe_msg_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_get_dma_safe_msg_buf \- get a DMA safe buffer for the given i2c_msg
+.SH SYNOPSIS
+.B "u8 *" i2c_get_dma_safe_msg_buf
+.BI "(struct i2c_msg *msg "  ","
+.BI "unsigned int threshold "  ");"
+.SH ARGUMENTS
+.IP "msg" 12
+the message to be checked
+.IP "threshold" 12
+the minimum number of bytes for which using DMA makes sense.
+Should at least be 1.
+.SH "RETURN"
+NULL if a DMA safe buffer was not obtained. Use msg->buf with PIO.
+Or a valid pointer to be used with DMA. After use, release it by
+calling \fBi2c_put_dma_safe_msg_buf\fP.
+.SH "DESCRIPTION"
+This function must only be called from process context!

@@ -1,0 +1,22 @@
+.TH "tty_set_termios_ldisc" 9 "tty_set_termios_ldisc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_set_termios_ldisc \- set ldisc field
+.SH SYNOPSIS
+.B "void" tty_set_termios_ldisc
+.BI "(struct tty_struct *tty "  ","
+.BI "int disc "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty structure
+.IP "disc" 12
+line discipline number
+
+This is probably overkill for real world processors but
+they are not on hot paths so a little discipline won't do
+any harm.
+
+The line discipline-related tty_struct fields are reset to
+prevent the ldisc driver from re-using stale information for
+the new ldisc instance.
+
+Locking: takes termios_rwsem

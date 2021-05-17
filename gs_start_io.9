@@ -1,0 +1,15 @@
+.TH "gs_start_io" 9 "gs_start_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gs_start_io \- start USB I/O streams
+.SH SYNOPSIS
+.B "int" gs_start_io
+.BI "(struct gs_port *port "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+port to use
+.SH "CONTEXT"
+holding port_lock; port_tty and port_usb are non-null
+.SH "DESCRIPTION"
+We only start I/O when something is connected to both sides of
+this port.  If nothing is listening on the host side, we may
+be pointlessly filling up our TX buffers and FIFO.

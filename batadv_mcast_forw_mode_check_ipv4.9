@@ -1,0 +1,24 @@
+.TH "batadv_mcast_forw_mode_check_ipv4" 9 "batadv_mcast_forw_mode_check_ipv4" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_mcast_forw_mode_check_ipv4 \- check for optimized forwarding potential
+.SH SYNOPSIS
+.B "int" batadv_mcast_forw_mode_check_ipv4
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "bool *is_unsnoopable "  ","
+.BI "int *is_routable "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+the IPv4 packet to check
+.IP "is_unsnoopable" 12
+stores whether the destination is snoopable
+.IP "is_routable" 12
+stores whether the destination is routable
+.SH "DESCRIPTION"
+Checks whether the given IPv4 packet has the potential to be forwarded with a
+mode more optimal than classic flooding.
+.SH "RETURN"
+If so then 0. Otherwise -EINVAL or -ENOMEM in case of memory
+allocation failure.

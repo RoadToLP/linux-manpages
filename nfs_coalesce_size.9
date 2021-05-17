@@ -1,0 +1,21 @@
+.TH "nfs_coalesce_size" 9 "nfs_coalesce_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs_coalesce_size \- test two requests for compatibility
+.SH SYNOPSIS
+.B "unsigned int" nfs_coalesce_size
+.BI "(struct nfs_page *prev "  ","
+.BI "struct nfs_page *req "  ","
+.BI "struct nfs_pageio_descriptor *pgio "  ");"
+.SH ARGUMENTS
+.IP "prev" 12
+pointer to nfs_page
+.IP "req" 12
+pointer to nfs_page
+.IP "pgio" 12
+pointer to nfs_pagio_descriptor
+.SH "DESCRIPTION"
+The nfs_page structures 'prev' and 'req' are compared to ensure that the
+page data area they describe is contiguous, and that their RPC
+credentials, NFSv4 open state, and lockowners are the same.
+
+Returns size of the request that can be coalesced

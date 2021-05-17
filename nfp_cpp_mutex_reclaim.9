@@ -1,0 +1,20 @@
+.TH "nfp_cpp_mutex_reclaim" 9 "nfp_cpp_mutex_reclaim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_cpp_mutex_reclaim \- Unlock mutex if held by local endpoint
+.SH SYNOPSIS
+.B "int" nfp_cpp_mutex_reclaim
+.BI "(struct nfp_cpp *cpp "  ","
+.BI "int target "  ","
+.BI "unsigned long long address "  ");"
+.SH ARGUMENTS
+.IP "cpp" 12
+NFP CPP handle
+.IP "target" 12
+NFP CPP target ID (ie NFP_CPP_TARGET_CLS or NFP_CPP_TARGET_MU)
+.IP "address" 12
+Offset into the address space of the NFP CPP target ID
+.SH "DESCRIPTION"
+Release lock if held by local system.  Extreme care is advised, call only
+when no local lock users can exist.
+.SH "RETURN"
+0 if the lock was OK, 1 if locked by us, -errno on invalid mutex

@@ -1,0 +1,26 @@
+.TH "lpfc_sli_process_sol_iocb" 9 "lpfc_sli_process_sol_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_process_sol_iocb \- process solicited iocb completion
+.SH SYNOPSIS
+.B "int" lpfc_sli_process_sol_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "struct lpfc_iocbq *saveq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "saveq" 12
+Pointer to the response iocb to be processed.
+.SH "DESCRIPTION"
+This function is called by the ring event handler for non-fcp
+rings when there is a new response iocb in the response ring.
+The caller is not required to hold any locks. This function
+gets the command iocb associated with the response iocb and
+calls the completion handler for the command iocb. If there
+is no completion handler, the function will free the resources
+associated with command iocb. If the response iocb is for
+an already aborted command iocb, the status of the completion
+is changed to IOSTAT_LOCAL_REJECT/IOERR_SLI_ABORTED.
+This function always returns 1.

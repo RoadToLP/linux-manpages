@@ -1,0 +1,27 @@
+.TH "mipi_dbi_dev_init" 9 "mipi_dbi_dev_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mipi_dbi_dev_init \- MIPI DBI device initialization
+.SH SYNOPSIS
+.B "int" mipi_dbi_dev_init
+.BI "(struct mipi_dbi_dev *dbidev "  ","
+.BI "const struct drm_simple_display_pipe_funcs *funcs "  ","
+.BI "const struct drm_display_mode *mode "  ","
+.BI "unsigned int rotation "  ");"
+.SH ARGUMENTS
+.IP "dbidev" 12
+MIPI DBI device structure to initialize
+.IP "funcs" 12
+Display pipe functions
+.IP "mode" 12
+Display mode
+.IP "rotation" 12
+Initial rotation in degrees Counter Clock Wise
+.SH "DESCRIPTION"
+This function sets up a \fIdrm_simple_display_pipe\fP with a \fIdrm_connector\fP that
+has one fixed \fIdrm_display_mode\fP which is rotated according to \fIrotation\fP.
+This mode is used to set the mode config min/max width/height properties.
+Additionally \fImipi_dbi.tx_buf\fP is allocated.
+
+Supported formats: Native RGB565 and emulated XRGB8888.
+.SH "RETURN"
+Zero on success, negative error code on failure.

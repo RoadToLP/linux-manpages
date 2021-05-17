@@ -1,0 +1,33 @@
+.TH "__nla_parse" 9 "__nla_parse" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__nla_parse \- Parse a stream of attributes into a tb buffer
+.SH SYNOPSIS
+.B "int" __nla_parse
+.BI "(struct nlattr **tb "  ","
+.BI "int maxtype "  ","
+.BI "const struct nlattr *head "  ","
+.BI "int len "  ","
+.BI "const struct nla_policy *policy "  ","
+.BI "unsigned int validate "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+destination array with maxtype+1 elements
+.IP "maxtype" 12
+maximum attribute type to be expected
+.IP "head" 12
+head of attribute stream
+.IP "len" 12
+length of attribute stream
+.IP "policy" 12
+validation policy
+.IP "validate" 12
+validation strictness
+.IP "extack" 12
+extended ACK pointer
+.SH "DESCRIPTION"
+Parses a stream of attributes and stores a pointer to each attribute in
+the tb array accessible via the attribute type.
+Validation is controlled by the \fIvalidate\fP parameter.
+
+Returns 0 on success or a negative error code.

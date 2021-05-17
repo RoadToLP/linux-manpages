@@ -1,0 +1,26 @@
+.TH "asd_initiate_ssp_tmf" 9 "asd_initiate_ssp_tmf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_initiate_ssp_tmf \- - send a TMF to an I_T_L or I_T_L_Q nexus
+.SH SYNOPSIS
+.B "int" asd_initiate_ssp_tmf
+.BI "(struct domain_device *dev "  ","
+.BI "u8 *lun "  ","
+.BI "int tmf "  ","
+.BI "int index "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+pointer to struct domain_device of interest
+.IP "lun" 12
+pointer to u8[8] which is the LUN
+.IP "tmf" 12
+the TMF to be performed (see sas_task.h or the SAS spec)
+.IP "index" 12
+the transaction context of the task to be queried if QT TMF
+.SH "DESCRIPTION"
+This function is used to send ABORT TASK SET, CLEAR ACA,
+CLEAR TASK SET, LU RESET and QUERY TASK TMFs.
+
+No SCBs should be queued to the I_T_L nexus when this SCB is
+pending.
+.SH "RETURN"
+TMF response code (see sas_task.h or the SAS spec)

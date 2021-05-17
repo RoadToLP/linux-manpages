@@ -1,0 +1,37 @@
+.TH "try_to_grab_pending" 9 "try_to_grab_pending" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_to_grab_pending \- steal work item from worklist and disable irq
+.SH SYNOPSIS
+.B "int" try_to_grab_pending
+.BI "(struct work_struct *work "  ","
+.BI "bool is_dwork "  ","
+.BI "unsigned long *flags "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+work item to steal
+.IP "is_dwork" 12
+\fIwork\fP is a delayed_work
+.IP "flags" 12
+place to store irq state
+.SH "DESCRIPTION"
+Try to grab PENDING bit of \fIwork\fP.  This function can handle \fIwork\fP in any
+stable state - idle, on timer or on worklist.
+
+On successful return, >= 0, irq is disabled and the caller is
+responsible for releasing it using local_irq_restore(*\fIflags\fP).
+
+This function is safe to call from any context including IRQ handler.
+.SH "RETURN"
+
+========    ================================================================
+1           if \fIwork\fP was pending and we successfully stole PENDING
+0           if \fIwork\fP was idle and we claimed PENDING
+-EAGAIN     if PENDING couldn't be grabbed at the moment, safe to busy-retry
+-ENOENT     if someone else is canceling \fIwork\fP, this state may persist
+for arbitrarily long
+========    ================================================================
+.SH "NOTE"
+On >= 0 return, the caller owns \fIwork\fP's PENDING bit.  To avoid getting
+interrupted while holding PENDING and \fIwork\fP off queue, irq must be
+disabled on entry.  This, combined with delayed_work->timer being
+irqsafe, ensures that we return -EAGAIN for finite short period of time.

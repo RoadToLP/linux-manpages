@@ -1,0 +1,18 @@
+.TH "nd_btt_arena_is_valid" 9 "nd_btt_arena_is_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nd_btt_arena_is_valid \- check if the metadata layout is valid
+.SH SYNOPSIS
+.B "bool" nd_btt_arena_is_valid
+.BI "(struct nd_btt *nd_btt "  ","
+.BI "struct btt_sb *super "  ");"
+.SH ARGUMENTS
+.IP "nd_btt" 12
+device with BTT geometry and backing device info
+.IP "super" 12
+pointer to the arena's info block being tested
+.SH "DESCRIPTION"
+Check consistency of the btt info block with itself by validating
+the checksum, and with the parent namespace by verifying the
+parent_uuid contained in the info block with the one supplied in.
+.SH "RETURN"
+false for an invalid info block, true for a valid one

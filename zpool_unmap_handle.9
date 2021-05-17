@@ -1,0 +1,17 @@
+.TH "zpool_unmap_handle" 9 "zpool_unmap_handle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zpool_unmap_handle \- Unmap a previously mapped handle
+.SH SYNOPSIS
+.B "void" zpool_unmap_handle
+.BI "(struct zpool *zpool "  ","
+.BI "unsigned long handle "  ");"
+.SH ARGUMENTS
+.IP "zpool" 12
+The zpool that the handle was allocated from
+.IP "handle" 12
+The handle to unmap
+.SH "DESCRIPTION"
+This unmaps a previously mapped handle.  Any locks or other
+actions that the implementation took in \fBzpool_map_handle\fP
+will be undone here.  The memory area returned from
+\fBzpool_map_handle\fP should no longer be used after this.

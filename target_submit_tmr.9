@@ -1,0 +1,35 @@
+.TH "target_submit_tmr" 9 "target_submit_tmr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+target_submit_tmr \- lookup unpacked lun and submit uninitialized se_cmd for TMR CDBs
+.SH SYNOPSIS
+.B "int" target_submit_tmr
+.BI "(struct se_cmd *se_cmd "  ","
+.BI "struct se_session *se_sess "  ","
+.BI "unsigned char *sense "  ","
+.BI "u64 unpacked_lun "  ","
+.BI "void *fabric_tmr_ptr "  ","
+.BI "unsigned char tm_type "  ","
+.BI "gfp_t gfp "  ","
+.BI "u64 tag "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "se_cmd" 12
+command descriptor to submit
+.IP "se_sess" 12
+associated se_sess for endpoint
+.IP "sense" 12
+pointer to SCSI sense buffer
+.IP "unpacked_lun" 12
+unpacked LUN to reference for struct se_lun
+.IP "fabric_tmr_ptr" 12
+fabric context for TMR req
+.IP "tm_type" 12
+Type of TM request
+.IP "gfp" 12
+gfp type for caller
+.IP "tag" 12
+referenced task tag for TMR_ABORT_TASK
+.IP "flags" 12
+submit cmd flags
+.SH "DESCRIPTION"
+Callable from all contexts.

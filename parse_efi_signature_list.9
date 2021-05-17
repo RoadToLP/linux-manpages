@@ -1,0 +1,34 @@
+.TH "parse_efi_signature_list" 9 "parse_efi_signature_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_efi_signature_list \- Parse an EFI signature list for certificates
+.SH SYNOPSIS
+.B "int" parse_efi_signature_list
+.BI "(const char *source "  ","
+.BI "const void *data "  ","
+.BI "size_t size "  ","
+.BI "efi_element_handler_t (*get_handler_for_guid)(const efi_guid_t *) "  ");"
+.SH ARGUMENTS
+.IP "source" 12
+The source of the key
+.IP "data" 12
+The data blob to parse
+.IP "size" 12
+The size of the data blob
+.IP "get_handler_for_guid" 12
+Get the handler func for the sig type (or NULL)
+.SH "DESCRIPTION"
+Parse an EFI signature list looking for elements of interest.  A list is
+made up of a series of sublists, where all the elements in a sublist are of
+the same type, but sublists can be of different types.
+
+For each sublist encountered, the \fIget_handler_for_guid\fP function is called
+with the type specifier GUID and returns either a pointer to a function to
+handle elements of that type or NULL if the type is not of interest.
+
+If the sublist is of interest, each element is passed to the handler
+function in turn.
+
+Error EBADMSG is returned if the list doesn't parse correctly and 0 is
+returned if the list was parsed correctly.  No error can be returned from
+the \fIget_handler_for_guid\fP function or the element handler function it
+returns.

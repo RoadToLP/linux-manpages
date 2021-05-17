@@ -1,0 +1,18 @@
+.TH "check_state" 9 "check_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+check_state \- checks and responds to the current adapter state
+.SH SYNOPSIS
+.B "int" check_state
+.BI "(struct cxlflash_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.SH "DESCRIPTION"
+This routine can block and should only be used on process context.
+It assumes that the caller is an ioctl thread and holding the ioctl
+read semaphore. This is temporarily let up across the wait to allow
+for draining actively running ioctls. Also note that when waking up
+from waiting in reset, the state is unknown and must be checked again
+before proceeding.
+.SH "RETURN"
+0 on success, -errno on failure

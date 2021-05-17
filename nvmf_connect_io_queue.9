@@ -1,0 +1,28 @@
+.TH "nvmf_connect_io_queue" 9 "nvmf_connect_io_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmf_connect_io_queue \- NVMe Fabrics I/O Queue "Connect" API function.
+.SH SYNOPSIS
+.B "int" nvmf_connect_io_queue
+.BI "(struct nvme_ctrl *ctrl "  ","
+.BI "u16 qid "  ","
+.BI "bool poll "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+Host nvme controller instance used to establish an
+NVMe I/O queue connection to the already allocated NVMe
+controller on the target system.
+.IP "qid" 12
+NVMe I/O queue number for the new I/O connection between
+host and target (note qid == 0 is illegal as this is
+the Admin queue, per NVMe standard).
+.IP "poll" 12
+Whether or not to poll for the completion of the connect cmd.
+.SH "DESCRIPTION"
+This function issues a fabrics-protocol connection
+of a NVMe I/O queue (via NVMe Fabrics "Connect" command)
+between the host system device and the allocated NVMe controller
+on the target system.
+.SH "RETURN"
+0: success
+> 0: NVMe error status code
+< 0: Linux errno error code

@@ -1,0 +1,18 @@
+.TH "handle_untracked_irq" 9 "handle_untracked_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_untracked_irq \- Simple and software-decoded IRQs.
+.SH SYNOPSIS
+.B "void" handle_untracked_irq
+.BI "(struct irq_desc *desc "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+the interrupt description structure for this irq
+
+Untracked interrupts are sent from a demultiplexing interrupt
+handler when the demultiplexer does not know which device it its
+multiplexed irq domain generated the interrupt. IRQ's handled
+through here are not subjected to stats tracking, randomness, or
+spurious interrupt detection.
+.SH "NOTE"
+Like handle_simple_irq, the caller is expected to handle
+the ack, clear, mask and unmask issues if necessary.

@@ -1,0 +1,25 @@
+.TH "s3c_fb_update_palette" 9 "s3c_fb_update_palette" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c_fb_update_palette \- set or schedule a palette update.
+.SH SYNOPSIS
+.B "void" s3c_fb_update_palette
+.BI "(struct s3c_fb *sfb "  ","
+.BI "struct s3c_fb_win *win "  ","
+.BI "unsigned int reg "  ","
+.BI "u32 value "  ");"
+.SH ARGUMENTS
+.IP "sfb" 12
+The hardware information.
+.IP "win" 12
+The window being updated.
+.IP "reg" 12
+The palette index being changed.
+.IP "value" 12
+The computed palette value.
+.SH "DESCRIPTION"
+Change the value of a palette register, either by directly writing to
+the palette (this requires the palette RAM to be disconnected from the
+hardware whilst this is in progress) or schedule the update for later.
+
+At the moment, since we have no VSYNC interrupt support, we simply set
+the palette entry directly.

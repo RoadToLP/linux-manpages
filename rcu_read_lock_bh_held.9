@@ -1,0 +1,22 @@
+.TH "rcu_read_lock_bh_held" 9 "rcu_read_lock_bh_held" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rcu_read_lock_bh_held \- might we be in RCU-bh read-side critical section?
+.SH SYNOPSIS
+.B "int" rcu_read_lock_bh_held
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Check for bottom half being disabled, which covers both the
+CONFIG_PROVE_RCU and not cases.  Note that if someone uses
+\fBrcu_read_lock_bh\fP, but then later enables BH, lockdep (if enabled)
+will show the situation.  This is useful for debug checks in functions
+that require that they be called within an RCU read-side critical
+section.
+
+Check \fBdebug_lockdep_rcu_enabled\fP to prevent false positives during boot.
+
+Note that \fBrcu_read_lock_bh\fP is disallowed if the CPU is either idle or
+offline from an RCU perspective, so check for those as well.

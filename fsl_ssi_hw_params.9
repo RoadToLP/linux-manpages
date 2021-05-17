@@ -1,0 +1,22 @@
+.TH "fsl_ssi_hw_params" 9 "fsl_ssi_hw_params" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_ssi_hw_params \- Configure SSI based on PCM hardware parameters
+.SH SYNOPSIS
+.B "int" fsl_ssi_hw_params
+.BI "(struct snd_pcm_substream *substream "  ","
+.BI "struct snd_pcm_hw_params *hw_params "  ","
+.BI "struct snd_soc_dai *dai "  ");"
+.SH ARGUMENTS
+.IP "substream" 12
+ASoC substream
+.IP "hw_params" 12
+pointers to hw_params
+.IP "dai" 12
+pointer to DAI
+.SH "NOTES"
+1) SxCCR.WL bits are critical bits that require SSI to be temporarily
+disabled on offline_config SoCs. Even for online configurable SoCs
+running in synchronous mode (both TX and RX use STCCR), it is not
+safe to re-configure them when both two streams start running.
+2) SxCCR.PM, SxCCR.DIV2 and SxCCR.PSR bits will be configured in the
+\fBfsl_ssi_set_bclk\fP if SSI is the DAI clock master.

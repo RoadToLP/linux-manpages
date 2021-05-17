@@ -1,0 +1,21 @@
+.TH "gfs2_rindex_update" 9 "gfs2_rindex_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_rindex_update \- Update the rindex if required
+.SH SYNOPSIS
+.B "int" gfs2_rindex_update
+.BI "(struct gfs2_sbd *sdp "  ");"
+.SH ARGUMENTS
+.IP "sdp" 12
+The GFS2 superblock
+.SH "DESCRIPTION"
+We grab a lock on the rindex inode to make sure that it doesn't
+change whilst we are performing an operation. We keep this lock
+for quite long periods of time compared to other locks. This
+doesn't matter, since it is shared and it is very, very rarely
+accessed in the exclusive mode (i.e. only when expanding the filesystem).
+
+This makes sure that we're using the latest copy of the resource index
+special file, which might have been updated if someone expanded the
+filesystem (via gfs2_grow utility), which adds new resource groups.
+.SH "RETURN"
+0 on succeess, error code otherwise

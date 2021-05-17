@@ -1,0 +1,22 @@
+.TH "calipso_map_cat_hton" 9 "calipso_map_cat_hton" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calipso_map_cat_hton \- Perform a category mapping from host to network
+.SH SYNOPSIS
+.B "int" calipso_map_cat_hton
+.BI "(const struct calipso_doi *doi_def "  ","
+.BI "const struct netlbl_lsm_secattr *secattr "  ","
+.BI "unsigned char *net_cat "  ","
+.BI "u32 net_cat_len "  ");"
+.SH ARGUMENTS
+.IP "doi_def" 12
+the DOI definition
+.IP "secattr" 12
+the security attributes
+.IP "net_cat" 12
+the zero'd out category bitmap in network/CALIPSO format
+.IP "net_cat_len" 12
+the length of the CALIPSO bitmap in bytes
+.SH "DESCRIPTION"
+Perform a label mapping to translate a local MLS category bitmap to the
+correct CALIPSO bitmap using the given DOI definition.  Returns the minimum
+size in bytes of the network bitmap on success, negative values otherwise.

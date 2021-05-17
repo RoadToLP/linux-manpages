@@ -1,0 +1,19 @@
+.TH "ccid2_rtt_estimator" 9 "ccid2_rtt_estimator" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccid2_rtt_estimator \- Sample RTT and compute RTO using RFC2988 algorithm
+.SH SYNOPSIS
+.B "void" ccid2_rtt_estimator
+.BI "(struct sock *sk "  ","
+.BI "const long mrtt "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket to perform estimator on
+.IP "mrtt" 12
+-- undescribed --
+.SH "DESCRIPTION"
+This code is almost identical with TCP's \fBtcp_rtt_estimator\fP, since
+- it has a higher sampling frequency (recommended by RFC 1323),
+- the RTO does not collapse into RTT due to RTTVAR going towards zero,
+- it is simple (cf. more complex proposals such as Eifel timer or research
+which suggests that the gain should be set according to window size),
+- in tests it was found to work well with CCID2 [gerrit].

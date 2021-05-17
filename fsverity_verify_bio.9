@@ -1,0 +1,20 @@
+.TH "fsverity_verify_bio" 9 "fsverity_verify_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_verify_bio \- verify a 'read' bio that has just completed
+.SH SYNOPSIS
+.B "void" fsverity_verify_bio
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+the bio to verify
+.SH "DESCRIPTION"
+Verify a set of pages that have just been read from a verity file.  The pages
+must be pagecache pages that are still locked and not yet uptodate.  Pages
+that fail verification are set to the Error state.  Verification is skipped
+for pages already in the Error state, e.g. due to fscrypt decryption failure.
+
+This is a helper function for use by the ->\fBreadpages\fP method of filesystems
+that issue bios to read data directly into the page cache.  Filesystems that
+populate the page cache without issuing bios (e.g. non block-based
+filesystems) must instead call \fBfsverity_verify_page\fP directly on each page.
+All filesystems must also call \fBfsverity_verify_page\fP on holes.

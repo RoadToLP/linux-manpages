@@ -1,0 +1,23 @@
+.TH "update_cfs_rq_load_avg" 9 "update_cfs_rq_load_avg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_cfs_rq_load_avg \- update the cfs_rq's load/util averages
+.SH SYNOPSIS
+.B "int" update_cfs_rq_load_avg
+.BI "(u64 now "  ","
+.BI "struct cfs_rq *cfs_rq "  ");"
+.SH ARGUMENTS
+.IP "now" 12
+current time, as per \fBcfs_rq_clock_pelt\fP
+.IP "cfs_rq" 12
+cfs_rq to update
+.SH "DESCRIPTION"
+The cfs_rq avg is the direct sum of all its entities (blocked and runnable)
+avg. The immediate corollary is that all (fair) tasks must be attached, see
+\fBpost_init_entity_util_avg\fP.
+
+cfs_rq->avg is used for \fBtask_h_load\fP and \fBupdate_cfs_share\fP for example.
+
+Returns true if the load decayed or we removed load.
+
+Since both these conditions indicate a changed cfs_rq->avg.load we should
+call \fBupdate_tg_load_avg\fP when this function returns true.

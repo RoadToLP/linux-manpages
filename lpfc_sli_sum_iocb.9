@@ -1,0 +1,30 @@
+.TH "lpfc_sli_sum_iocb" 9 "lpfc_sli_sum_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_sum_iocb \- Function to count the number of FCP iocbs pending
+.SH SYNOPSIS
+.B "int" lpfc_sli_sum_iocb
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint16_t tgt_id "  ","
+.BI "uint64_t lun_id "  ","
+.BI "lpfc_ctx_cmd ctx_cmd "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+Pointer to virtual port.
+.IP "tgt_id" 12
+SCSI ID of the target.
+.IP "lun_id" 12
+LUN ID of the scsi device.
+.IP "ctx_cmd" 12
+LPFC_CTX_LUN/LPFC_CTX_TGT/LPFC_CTX_HOST.
+.SH "DESCRIPTION"
+This function returns number of FCP commands pending for the vport.
+When ctx_cmd == LPFC_CTX_LUN, the function returns number of FCP
+commands pending on the vport associated with SCSI device specified
+by tgt_id and lun_id parameters.
+When ctx_cmd == LPFC_CTX_TGT, the function returns number of FCP
+commands pending on the vport associated with SCSI target specified
+by tgt_id parameter.
+When ctx_cmd == LPFC_CTX_HOST, the function returns number of FCP
+commands pending on the vport.
+This function returns the number of iocbs which satisfy the filter.
+This function is called without any lock held.

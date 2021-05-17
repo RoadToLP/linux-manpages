@@ -1,0 +1,35 @@
+.TH "write_same16" 9 "write_same16" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_same16 \- sends a SCSI WRITE_SAME16 (0) command to specified LUN
+.SH SYNOPSIS
+.B "int" write_same16
+.BI "(struct scsi_device *sdev "  ","
+.BI "u64 lba "  ","
+.BI "u32 nblks "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device associated with LUN.
+.IP "lba" 12
+Logical block address to start write same.
+.IP "nblks" 12
+Number of logical blocks to write same.
+.SH "DESCRIPTION"
+The SCSI WRITE_SAME16 can take quite a while to complete. Should an EEH occur
+while in \fBscsi_execute\fP, the EEH handler will attempt to recover. As part of
+the recovery, the handler drains all currently running ioctls, waiting until
+they have completed before proceeding with a reset. As this routine is used
+on the ioctl path, this can create a condition where the EEH handler becomes
+stuck, infinitely waiting for this ioctl thread. To avoid this behavior,
+temporarily unmark this thread as an ioctl thread by releasing the ioctl read
+semaphore. This will allow the EEH handler to proceed with a recovery while
+this thread is still running. Once the \fBscsi_execute\fP returns, reacquire the
+ioctl read semaphore and check the adapter state in case it changed while
+inside of \fBscsi_execute\fP. The state check will wait if the adapter is still
+being recovered or return a failure if the recovery failed. In the event that
+the adapter reset failed, simply return the failure as the ioctl would be
+unable to continue.
+
+Note that the above puts a requirement on this routine to only be called on
+an ioctl thread.
+.SH "RETURN"
+0 on success, -errno on failure

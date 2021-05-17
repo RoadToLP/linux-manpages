@@ -1,0 +1,18 @@
+.TH "ixgbe_atr_compute_perfect_hash_82599" 9 "ixgbe_atr_compute_perfect_hash_82599" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_atr_compute_perfect_hash_82599 \- Compute the perfect filter hash
+.SH SYNOPSIS
+.B "void" ixgbe_atr_compute_perfect_hash_82599
+.BI "(union ixgbe_atr_input *input "  ","
+.BI "union ixgbe_atr_input *input_mask "  ");"
+.SH ARGUMENTS
+.IP "input" 12
+input bitstream to compute the hash on
+.IP "input_mask" 12
+mask for the input bitstream
+
+This function serves two main purposes.  First it applies the input_mask
+to the atr_input resulting in a cleaned up atr_input data stream.
+Secondly it computes the hash and stores it in the bkt_hash field at
+the end of the input byte stream.  This way it will be available for
+future use without needing to recompute the hash.

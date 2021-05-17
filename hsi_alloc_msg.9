@@ -1,0 +1,18 @@
+.TH "hsi_alloc_msg" 9 "hsi_alloc_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hsi_alloc_msg \- Allocate an HSI message
+.SH SYNOPSIS
+.B "struct hsi_msg *" hsi_alloc_msg
+.BI "(unsigned int nents "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "nents" 12
+Number of memory entries
+.IP "flags" 12
+Kernel allocation flags
+.SH "DESCRIPTION"
+nents can be 0. This mainly makes sense for read transfer.
+In that case, HSI drivers will call the complete callback when
+there is data to be read without consuming it.
+
+Return NULL on failure or a pointer to an hsi_msg on success.

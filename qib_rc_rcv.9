@@ -1,0 +1,28 @@
+.TH "qib_rc_rcv" 9 "qib_rc_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_rc_rcv \- process an incoming RC packet
+.SH SYNOPSIS
+.B "void" qib_rc_rcv
+.BI "(struct qib_ctxtdata *rcd "  ","
+.BI "struct ib_header *hdr "  ","
+.BI "int has_grh "  ","
+.BI "void *data "  ","
+.BI "u32 tlen "  ","
+.BI "struct rvt_qp *qp "  ");"
+.SH ARGUMENTS
+.IP "rcd" 12
+the context pointer
+.IP "hdr" 12
+the header of this packet
+.IP "has_grh" 12
+true if the header has a GRH
+.IP "data" 12
+the packet data
+.IP "tlen" 12
+the packet length
+.IP "qp" 12
+the QP for this packet
+.SH "DESCRIPTION"
+This is called from \fBqib_qp_rcv\fP to process an incoming RC packet
+for the given QP.
+Called at interrupt level.

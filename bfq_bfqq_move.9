@@ -1,0 +1,23 @@
+.TH "bfq_bfqq_move" 9 "bfq_bfqq_move" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bfq_bfqq_move \- migrate @bfqq to @bfqg.
+.SH SYNOPSIS
+.B "void" bfq_bfqq_move
+.BI "(struct bfq_data *bfqd "  ","
+.BI "struct bfq_queue *bfqq "  ","
+.BI "struct bfq_group *bfqg "  ");"
+.SH ARGUMENTS
+.IP "bfqd" 12
+queue descriptor.
+.IP "bfqq" 12
+the queue to move.
+.IP "bfqg" 12
+the group to move to.
+.SH "DESCRIPTION"
+Move \fIbfqq\fP to \fIbfqg\fP, deactivating it from its old group and reactivating
+it on the new one.  Avoid putting the entity on the old group idle tree.
+
+Must be called under the scheduler lock, to make sure that the blkg
+owning \fIbfqg\fP does not disappear (see comments in
+bfq_bic_update_cgroup on guaranteeing the consistency of blkg
+objects).

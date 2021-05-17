@@ -1,0 +1,24 @@
+.TH "zs_map_object" 9 "zs_map_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zs_map_object \- get address of allocated object from handle.
+.SH SYNOPSIS
+.B "void *" zs_map_object
+.BI "(struct zs_pool *pool "  ","
+.BI "unsigned long handle "  ","
+.BI "enum zs_mapmode mm "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool from which the object was allocated
+.IP "handle" 12
+handle returned from zs_malloc
+.IP "mm" 12
+maping mode to use
+.SH "DESCRIPTION"
+Before using an object allocated from zs_malloc, it must be mapped using
+this function. When done with the object, it must be unmapped using
+zs_unmap_object.
+
+Only one object can be mapped per cpu at a time. There is no protection
+against nested mappings.
+
+This function returns with preemption and page faults disabled.

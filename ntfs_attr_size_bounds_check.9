@@ -1,0 +1,21 @@
+.TH "ntfs_attr_size_bounds_check" 9 "ntfs_attr_size_bounds_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_size_bounds_check \- check a size of an attribute type for validity
+.SH SYNOPSIS
+.B "int" ntfs_attr_size_bounds_check
+.BI "(const ntfs_volume *vol "  ","
+.BI "const ATTR_TYPE type "  ","
+.BI "const s64 size "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume to which the attribute belongs
+.IP "type" 12
+attribute type which to check
+.IP "size" 12
+size which to check
+.SH "DESCRIPTION"
+Check whether the \fIsize\fP in bytes is valid for an attribute of \fItype\fP on the
+ntfs volume \fIvol\fP.  This information is obtained from $AttrDef system file.
+
+Return 0 if valid, -ERANGE if not valid, or -ENOENT if the attribute is not
+listed in $AttrDef.

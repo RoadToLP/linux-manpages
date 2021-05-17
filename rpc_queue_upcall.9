@@ -1,0 +1,17 @@
+.TH "rpc_queue_upcall" 9 "rpc_queue_upcall" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_queue_upcall \- queue an upcall message to userspace
+.SH SYNOPSIS
+.B "int" rpc_queue_upcall
+.BI "(struct rpc_pipe *pipe "  ","
+.BI "struct rpc_pipe_msg *msg "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+upcall pipe on which to queue given message
+.IP "msg" 12
+message to queue
+.SH "DESCRIPTION"
+Call with an \fIinode\fP created by \fBrpc_mkpipe\fP to queue an upcall.
+A userspace process may then later read the upcall by performing a
+read on an open file for this inode.  It is up to the caller to
+initialize the fields of \fImsg\fP (other than \fImsg->list\fP) appropriately.

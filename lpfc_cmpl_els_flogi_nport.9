@@ -1,0 +1,29 @@
+.TH "lpfc_cmpl_els_flogi_nport" 9 "lpfc_cmpl_els_flogi_nport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_flogi_nport \- Completion function for flogi to an N_Port
+.SH SYNOPSIS
+.B "int" lpfc_cmpl_els_flogi_nport
+.BI "(struct lpfc_vport *vport "  ","
+.BI "struct lpfc_nodelist *ndlp "  ","
+.BI "struct serv_parm *sp "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "ndlp" 12
+pointer to a node-list data structure.
+.IP "sp" 12
+pointer to service parameter data structure.
+.SH "DESCRIPTION"
+This routine is invoked by the \fBlpfc_cmpl_els_flogi\fP completion callback
+function to handle the completion of a Fabric Login (FLOGI) into an N_Port
+in a point-to-point topology. First, the \fIvport\fP's N_Port Name is compared
+with the received N_Port Name: if the \fIvport\fP's N_Port Name is greater than
+the received N_Port Name lexicographically, this node shall assign local
+N_Port ID (PT2PT_LocalID: 1) and remote N_Port ID (PT2PT_RemoteID: 2) and
+will send out Port Login (PLOGI) with the N_Port IDs assigned. Otherwise,
+this node shall just wait for the remote node to issue PLOGI and assign
+N_Port IDs.
+
+Return code
+0 - Success
+-ENXIO - Fail

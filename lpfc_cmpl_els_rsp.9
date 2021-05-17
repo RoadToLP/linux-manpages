@@ -1,0 +1,22 @@
+.TH "lpfc_cmpl_els_rsp" 9 "lpfc_cmpl_els_rsp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_rsp \- Completion callback function for els response iocb cmd
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_rsp
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the completion callback function for ELS Response IOCB
+command. In normal case, this callback function just properly sets the
+nlp_flag bitmap in the ndlp data structure, if the mbox command reference
+field in the command IOCB is not NULL, the referred mailbox command will
+be send out, and then invokes the \fBlpfc_els_free_iocb\fP routine to release
+the IOCB.

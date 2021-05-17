@@ -1,0 +1,22 @@
+.TH "tb_xdomain_find_by_uuid" 9 "tb_xdomain_find_by_uuid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_xdomain_find_by_uuid \- Find an XDomain by UUID
+.SH SYNOPSIS
+.B "struct tb_xdomain *" tb_xdomain_find_by_uuid
+.BI "(struct tb *tb "  ","
+.BI "const uuid_t *uuid "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Domain where the XDomain belongs to
+.IP "uuid" 12
+UUID to look for
+.SH "DESCRIPTION"
+Finds XDomain by walking through the Thunderbolt topology below \fItb\fP.
+The returned XDomain will have its reference count increased so the
+caller needs to call \fBtb_xdomain_put\fP when it is done with the
+object.
+
+This will find all XDomains including the ones that are not yet added
+to the bus (handshake is still in progress).
+
+The caller needs to hold \fItb->lock\fP.

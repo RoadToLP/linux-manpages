@@ -1,0 +1,28 @@
+.TH "phy_lookup_setting" 9 "phy_lookup_setting" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_lookup_setting \- lookup a PHY setting
+.SH SYNOPSIS
+.B "const struct phy_setting *" phy_lookup_setting
+.BI "(int speed "  ","
+.BI "int duplex "  ","
+.BI "const unsigned long *mask "  ","
+.BI "bool exact "  ");"
+.SH ARGUMENTS
+.IP "speed" 12
+speed to match
+.IP "duplex" 12
+duplex to match
+.IP "mask" 12
+allowed link modes
+.IP "exact" 12
+an exact match is required
+.SH "DESCRIPTION"
+Search the settings array for a setting that matches the speed and
+duplex, and which is supported.
+
+If \fIexact\fP is unset, either an exact match or NULL for no match will
+be returned.
+
+If \fIexact\fP is set, an exact match, the fastest supported setting at
+or below the specified speed, the slowest supported setting, or if
+they all fail, NULL will be returned.

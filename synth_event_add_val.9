@@ -1,0 +1,37 @@
+.TH "synth_event_add_val" 9 "synth_event_add_val" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_add_val \- Add a named field's value to an open synth trace
+.SH SYNOPSIS
+.B "int" synth_event_add_val
+.BI "(const char *field_name "  ","
+.BI "u64 val "  ","
+.BI "struct synth_event_trace_state *trace_state "  ");"
+.SH ARGUMENTS
+.IP "field_name" 12
+The name of the synthetic event field value to set
+.IP "val" 12
+The value to set the next field to
+.IP "trace_state" 12
+A pointer to object tracking the piecewise trace state
+.SH "DESCRIPTION"
+Set the value of the named field in an event that's been opened by
+\fBsynth_event_trace_start\fP.
+
+The val param should be the value cast to u64.  If the value points
+to a string, the val param should be a char * cast to u64.
+
+This function looks up the field name, and if found, sets the field
+to the specified value.  This lookup makes this function more
+expensive than \fBsynth_event_add_next_val\fP, so use that or the
+none-piecewise \fBsynth_event_trace\fP instead if efficiency is more
+important.
+
+Note however that \fBsynth_event_add_next_val\fP and
+\fBsynth_event_add_val\fP can't be intermixed for a given event trace -
+one or the other but not both can be used at the same time.
+
+Note also that \fBsynth_event_trace_end\fP must be called after all
+values have been added for each event trace, regardless of whether
+adding all field values succeeded or not.
+.SH "RETURN"
+0 on success, err otherwise.

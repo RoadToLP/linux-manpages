@@ -1,0 +1,23 @@
+.TH "fscrypt_match_name" 9 "fscrypt_match_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_match_name \- test whether the given name matches a directory entry
+.SH SYNOPSIS
+.B "bool" fscrypt_match_name
+.BI "(const struct fscrypt_name *fname "  ","
+.BI "const u8 *de_name "  ","
+.BI "u32 de_name_len "  ");"
+.SH ARGUMENTS
+.IP "fname" 12
+the name being searched for
+.IP "de_name" 12
+the name from the directory entry
+.IP "de_name_len" 12
+the length of \fIde_name\fP in bytes
+.SH "DESCRIPTION"
+Normally \fIfname->disk_name\fP will be set, and in that case we simply compare
+that to the name stored in the directory entry.  The only exception is that
+if we don't have the key for an encrypted directory and the name we're
+looking for is very long, then we won't have the full disk_name and instead
+we'll need to match against a fscrypt_nokey_name that includes a strong hash.
+.SH "RETURN"
+true if the name matches, otherwise false.

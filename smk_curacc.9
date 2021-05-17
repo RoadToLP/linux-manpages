@@ -1,0 +1,20 @@
+.TH "smk_curacc" 9 "smk_curacc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smk_curacc \- determine if current has a specific access to an object
+.SH SYNOPSIS
+.B "int" smk_curacc
+.BI "(struct smack_known *obj_known "  ","
+.BI "u32 mode "  ","
+.BI "struct smk_audit_info *a "  ");"
+.SH ARGUMENTS
+.IP "obj_known" 12
+a pointer to the object's Smack label entry
+.IP "mode" 12
+the access requested, in "MAY" format
+.IP "a" 12
+common audit data
+.SH "DESCRIPTION"
+This function checks the current subject label/object label pair
+in the access rule list and returns 0 if the access is permitted,
+non zero otherwise. It allows that current may have the capability
+to override the rules.

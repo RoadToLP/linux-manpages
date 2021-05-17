@@ -1,0 +1,16 @@
+.TH "cpufreq_cpu_get" 9 "cpufreq_cpu_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpufreq_cpu_get \- Return policy for a CPU and mark it as busy.
+.SH SYNOPSIS
+.B "struct cpufreq_policy *" cpufreq_cpu_get
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+CPU to find the policy for.
+.SH "DESCRIPTION"
+Call \fBcpufreq_cpu_get_raw\fP to obtain a cpufreq policy for \fIcpu\fP and increment
+the kobject reference counter of that policy.  Return a valid policy on
+success or NULL on failure.
+
+The policy returned by this function has to be released with the help of
+\fBcpufreq_cpu_put\fP to balance its kobject reference counter properly.

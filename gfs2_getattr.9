@@ -1,0 +1,29 @@
+.TH "gfs2_getattr" 9 "gfs2_getattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_getattr \- Read out an inode's attributes
+.SH SYNOPSIS
+.B "int" gfs2_getattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "const struct path *path "  ","
+.BI "struct kstat *stat "  ","
+.BI "u32 request_mask "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "path" 12
+Object to query
+.IP "stat" 12
+The inode's stats
+.IP "request_mask" 12
+Mask of STATX_xxx flags indicating the caller's interests
+.IP "flags" 12
+AT_STATX_xxx setting
+.SH "DESCRIPTION"
+This may be called from the VFS directly, or from within GFS2 with the
+inode locked, so we look to see if the glock is already locked and only
+lock the glock if its not already been done. Note that its the NFS
+readdirplus operation which causes this to be called (from filldir)
+with the glock already held.
+.SH "RETURN"
+errno

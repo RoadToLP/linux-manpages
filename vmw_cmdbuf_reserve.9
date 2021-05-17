@@ -1,0 +1,25 @@
+.TH "vmw_cmdbuf_reserve" 9 "vmw_cmdbuf_reserve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_reserve \- Reserve space for commands in a command buffer.
+.SH SYNOPSIS
+.B "void *" vmw_cmdbuf_reserve
+.BI "(struct vmw_cmdbuf_man *man "  ","
+.BI "size_t size "  ","
+.BI "int ctx_id "  ","
+.BI "bool interruptible "  ","
+.BI "struct vmw_cmdbuf_header *header "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+The command buffer manager.
+.IP "size" 12
+The requested size of the commands.
+.IP "ctx_id" 12
+The context id if any. Otherwise set to SVGA3D_REG_INVALID.
+.IP "interruptible" 12
+Whether to sleep interruptible while waiting for space.
+.IP "header" 12
+Header of the command buffer. NULL if the current command buffer
+should be used.
+.SH "DESCRIPTION"
+Returns a pointer to command buffer space if successful. Otherwise
+returns an error pointer.

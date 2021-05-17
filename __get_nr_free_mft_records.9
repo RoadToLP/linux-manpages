@@ -1,0 +1,26 @@
+.TH "__get_nr_free_mft_records" 9 "__get_nr_free_mft_records" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__get_nr_free_mft_records \- return the number of free inodes on a volume
+.SH SYNOPSIS
+.B "unsigned long" __get_nr_free_mft_records
+.BI "(ntfs_volume *vol "  ","
+.BI "s64 nr_free "  ","
+.BI "const pgoff_t max_index "  ");"
+.SH ARGUMENTS
+.IP "vol" 12
+ntfs volume for which to obtain free inode count
+.IP "nr_free" 12
+number of mft records in filesystem
+.IP "max_index" 12
+maximum number of pages containing set bits
+.SH "DESCRIPTION"
+Calculate the number of free mft records (inodes) on the mounted NTFS
+volume \fIvol\fP. We actually calculate the number of mft records in use instead
+because this allows us to not care about partial pages as these will be just
+zero filled and hence not be counted as allocated mft record.
+
+If any pages cannot be read we assume all mft records in the erroring pages
+are in use. This means we return an underestimate on errors which is better
+than an overestimate.
+.SH "NOTE"
+Caller must hold mftbmp_lock rw_semaphore for reading or writing.

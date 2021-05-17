@@ -1,0 +1,30 @@
+.TH "cros_ec_sensor_ring_ts_filter" 9 "cros_ec_sensor_ring_ts_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_sensor_ring_ts_filter \- Translate EC timebase timestamp to AP timebase
+.SH SYNOPSIS
+.B "s64" cros_ec_sensor_ring_ts_filter
+.BI "(struct cros_ec_sensors_ts_filter_state *state "  ","
+.BI "s64 x "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+filter information.
+.IP "x" 12
+any ec timestamp (us):
+.SH "DESCRIPTION"
+cros_ec_sensor_ring_ts_filter(a) => a' event timestamp, AP timebase
+cros_ec_sensor_ring_ts_filter(b) => calculated timestamp when the EC IRQ
+should have happened on the AP, with low jitter
+
+How to derive the formula, starting from:
+f(x) = median_m * x + median_error
+That's the calculated AP - EC offset (at the x point in time)
+Undo the coordinate system transform:
+f(x) = median_m * (x - x_offset) + median_error + y_offset
+Remember to undo the "y = c - b * 1000" modification:
+f(x) = median_m * (x - x_offset) + median_error + y_offset + x * 1000
+.SH "NOTE"
+The filter will only activate once state->history_len goes
+over TS_HISTORY_THRESHOLD. Otherwise it'll just do the naive c - b + a
+transform.
+.SH "RETURN"
+timestamp in AP timebase (ns)

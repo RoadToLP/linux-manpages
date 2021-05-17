@@ -1,0 +1,18 @@
+.TH "grab_super" 9 "grab_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+grab_super \- acquire an active reference
+.SH SYNOPSIS
+.B "int" grab_super
+.BI "(struct super_block *s "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+reference we are trying to make active
+
+Tries to acquire an active reference.  \fBgrab_super\fP is used when we
+had just found a superblock in super_blocks or fs_type->fs_supers
+and want to turn it into a full-blown active reference.  \fBgrab_super\fP
+is called with sb_lock held and drops it.  Returns 1 in case of
+success, 0 if we had failed (superblock contents was already dead or
+dying when \fBgrab_super\fP had been called).  Note that this is only
+called for superblocks not in rundown mode (== ones still on ->fs_supers
+of their type), so increment of ->s_count is OK here.

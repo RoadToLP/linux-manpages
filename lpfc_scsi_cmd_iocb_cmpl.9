@@ -1,0 +1,19 @@
+.TH "lpfc_scsi_cmd_iocb_cmpl" 9 "lpfc_scsi_cmd_iocb_cmpl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_scsi_cmd_iocb_cmpl \- Scsi cmnd IOCB completion routine
+.SH SYNOPSIS
+.B "void" lpfc_scsi_cmd_iocb_cmpl
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *pIocbIn "  ","
+.BI "struct lpfc_iocbq *pIocbOut "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "pIocbIn" 12
+The command IOCBQ for the scsi cmnd.
+.IP "pIocbOut" 12
+The response IOCBQ for the scsi cmnd.
+.SH "DESCRIPTION"
+This routine assigns scsi command result by looking into response IOCB
+status field appropriately. This routine handles QUEUE FULL condition as
+well by ramping down device queue depth.

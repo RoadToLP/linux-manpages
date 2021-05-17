@@ -1,0 +1,36 @@
+.TH "ubifs_recover_size_accum" 9 "ubifs_recover_size_accum" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_recover_size_accum \- accumulate inode sizes for recovery.
+.SH SYNOPSIS
+.B "int" ubifs_recover_size_accum
+.BI "(struct ubifs_info *c "  ","
+.BI "union ubifs_key *key "  ","
+.BI "int deletion "  ","
+.BI "loff_t new_size "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+node key
+.IP "deletion" 12
+node is for a deletion
+.IP "new_size" 12
+inode size
+.SH "DESCRIPTION"
+This function has two purposes:
+1) to ensure there are no data nodes that fall outside the inode size
+2) to ensure there are no data nodes for inodes that do not exist
+To accomplish those purposes, a rb-tree is constructed containing an entry
+for each inode number in the journal that has not been deleted, and recording
+the size from the inode node, the maximum size of any data node (also altered
+by truncations) and a flag indicating a inode number for which no inode node
+was present in the journal.
+
+Note that there is still the possibility that there are data nodes that have
+been committed that are beyond the inode size, however the only way to find
+them would be to scan the entire index. Alternatively, some provision could
+be made to record the size of inodes at the start of commit, which would seem
+very cumbersome for a scenario that is quite unlikely and the only negative
+consequence of which is wasted space.
+
+This functions returns 0 on success and a negative error code on failure.

@@ -1,0 +1,25 @@
+.TH "kvm_mips_resume_hrtimer" 9 "kvm_mips_resume_hrtimer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_resume_hrtimer \- Resume hrtimer, updating expiry.
+.SH SYNOPSIS
+.B "void" kvm_mips_resume_hrtimer
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "ktime_t now "  ","
+.BI "u32 count "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "now" 12
+ktime at point of resume.
+.IP "count" 12
+CP0_Count at point of resume.
+.SH "DESCRIPTION"
+Resumes the timer and updates the timer expiry based on \fInow\fP and \fIcount\fP.
+This can be used in conjunction with \fBkvm_mips_freeze_timer\fP when timer
+parameters need to be changed.
+
+It is guaranteed that a timer interrupt immediately after resume will be
+handled, but not if CP_Compare is exactly at \fIcount\fP. That case is already
+handled by \fBkvm_mips_freeze_timer\fP.
+
+Assumes !kvm_mips_count_disabled(\fIvcpu\fP) (guest CP0_Count timer is running).

@@ -1,0 +1,42 @@
+.TH "write_cache_pages" 9 "write_cache_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_cache_pages \- walk the list of dirty pages of the given address space and write all of them.
+.SH SYNOPSIS
+.B "int" write_cache_pages
+.BI "(struct address_space *mapping "  ","
+.BI "struct writeback_control *wbc "  ","
+.BI "writepage_t writepage "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "mapping" 12
+address space structure to write
+.IP "wbc" 12
+subtract the number of written pages from *\fIwbc->nr_to_write\fP
+.IP "writepage" 12
+function called for each page
+.IP "data" 12
+data passed to writepage function
+.SH "DESCRIPTION"
+If a page is already under I/O, \fBwrite_cache_pages\fP skips it, even
+if it's dirty.  This is desirable behaviour for memory-cleaning writeback,
+but it is INCORRECT for data-integrity system calls such as \fBfsync\fP.  \fBfsync\fP
+and \fBmsync\fP need to guarantee that all the data which was dirty at the time
+the call was made get new I/O started against them.  If wbc->sync_mode is
+WB_SYNC_ALL then we were called for data integrity and we must wait for
+existing IO to complete.
+
+To avoid livelocks (when other process dirties new pages), we first tag
+pages which should be written back with TOWRITE tag and only then start
+writing them. For data-integrity sync we have to be careful so that we do
+not miss some pages (e.g., because some other process has cleared TOWRITE
+tag we set). The rule we follow is that TOWRITE tag can be cleared only
+by the process clearing the DIRTY tag (and submitting the page for IO).
+
+To avoid deadlocks between range_cyclic writeback and callers that hold
+pages in PageWriteback to aggregate IO until \fBwrite_cache_pages\fP returns,
+we do not loop back to the start of the file. Doing so causes a page
+lock/page writeback access order inversion - we should only ever lock
+multiple pages in ascending page->index order, and looping back to the start
+of the file violates that rule and causes deadlocks.
+.SH "RETURN"
+0 on success, negative error code otherwise

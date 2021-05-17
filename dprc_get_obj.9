@@ -1,0 +1,28 @@
+.TH "dprc_get_obj" 9 "dprc_get_obj" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dprc_get_obj \- Get general information on an object
+.SH SYNOPSIS
+.B "int" dprc_get_obj
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "int obj_index "  ","
+.BI "struct fsl_mc_obj_desc *obj_desc "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPRC object
+.IP "obj_index" 12
+Index of the object to be queried (< obj_count)
+.IP "obj_desc" 12
+Returns the requested object descriptor
+.SH "DESCRIPTION"
+The object descriptors are retrieved one by one by incrementing
+obj_index up to (not including) the value of obj_count returned
+from \fBdprc_get_obj_count\fP. \fBdprc_get_obj_count\fP must
+be called prior to \fBdprc_get_obj\fP.
+.SH "RETURN"
+'0' on Success; Error code otherwise.

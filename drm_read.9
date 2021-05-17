@@ -1,0 +1,36 @@
+.TH "drm_read" 9 "drm_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_read \- read method for DRM file
+.SH SYNOPSIS
+.B "ssize_t" drm_read
+.BI "(struct file *filp "  ","
+.BI "char __user *buffer "  ","
+.BI "size_t count "  ","
+.BI "loff_t *offset "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file pointer
+.IP "buffer" 12
+userspace destination pointer for the read
+.IP "count" 12
+count in bytes to read
+.IP "offset" 12
+offset to read
+.SH "DESCRIPTION"
+This function must be used by drivers as their \fIfile_operations.read\fP
+method iff they use DRM events for asynchronous signalling to userspace.
+Since events are used by the KMS API for vblank and page flip completion this
+means all modern display drivers must use it.
+
+\fIoffset\fP is ignored, DRM events are read like a pipe. Therefore drivers also
+must set the \fIfile_operation.llseek\fP to \fBno_llseek\fP. Polling support is
+provided by \fBdrm_poll\fP.
+
+This function will only ever read a full event. Therefore userspace must
+supply a big enough buffer to fit any event to ensure forward progress. Since
+the maximum event space is currently 4K it's recommended to just use that for
+safety.
+
+Number of bytes read (always aligned to full events, and can be 0) or a
+negative error code on failure.
+.SH "RETURN"

@@ -1,0 +1,21 @@
+.TH "verify_root_map" 9 "verify_root_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+verify_root_map \- check the uid 0 mapping
+.SH SYNOPSIS
+.B "bool" verify_root_map
+.BI "(const struct file *file "  ","
+.BI "struct user_namespace *map_ns "  ","
+.BI "struct uid_gid_map *new_map "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+idmapping file
+.IP "map_ns" 12
+user namespace of the target process
+.IP "new_map" 12
+requested idmap
+.SH "DESCRIPTION"
+If a process requests mapping parent uid 0 into the new ns, verify that the
+process writing the map had the CAP_SETFCAP capability as the target process
+will be able to write fscaps that are valid in ancestor user namespaces.
+.SH "RETURN"
+true if the mapping is allowed, false if not.

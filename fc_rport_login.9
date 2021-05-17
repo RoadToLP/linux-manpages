@@ -1,0 +1,25 @@
+.TH "fc_rport_login" 9 "fc_rport_login" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_rport_login \- Start the remote port login state machine
+.SH SYNOPSIS
+.B "int" fc_rport_login
+.BI "(struct fc_rport_priv *rdata "  ");"
+.SH ARGUMENTS
+.IP "rdata" 12
+The remote port to be logged in to
+.SH "DESCRIPTION"
+Initiates the RP state machine. It is called from the LP module.
+This function will issue the following commands to the N_Port
+identified by the FC ID provided.
+
+- PLOGI
+- PRLI
+- RTV
+
+Locking Note: Called without the rport lock held. This
+function will hold the rport lock, call an _enter_*
+function and then unlock the rport.
+
+This indicates the intent to be logged into the remote port.
+If it appears we are already logged in, ADISC is used to verify
+the setup.

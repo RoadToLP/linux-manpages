@@ -1,0 +1,29 @@
+.TH "pcpu_alloc_area" 9 "pcpu_alloc_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_alloc_area \- allocates an area from a pcpu_chunk
+.SH SYNOPSIS
+.B "int" pcpu_alloc_area
+.BI "(struct pcpu_chunk *chunk "  ","
+.BI "int alloc_bits "  ","
+.BI "size_t align "  ","
+.BI "int start "  ");"
+.SH ARGUMENTS
+.IP "chunk" 12
+chunk of interest
+.IP "alloc_bits" 12
+size of request in allocation units
+.IP "align" 12
+alignment of area (max PAGE_SIZE)
+.IP "start" 12
+bit_off to start searching
+.SH "DESCRIPTION"
+This function takes in a \fIstart\fP offset to begin searching to fit an
+allocation of \fIalloc_bits\fP with alignment \fIalign\fP.  It needs to scan
+the allocation map because if it fits within the block's contig hint,
+\fIstart\fP will be block->first_free. This is an attempt to fill the
+allocation prior to breaking the contig hint.  The allocation and
+boundary maps are updated accordingly if it confirms a valid
+free area.
+.SH "RETURN"
+Allocated addr offset in \fIchunk\fP on success.
+-1 if no matching area is found.

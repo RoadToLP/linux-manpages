@@ -1,0 +1,23 @@
+.TH "selinux_netlbl_err" 9 "selinux_netlbl_err" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+selinux_netlbl_err \- Handle a NetLabel packet error
+.SH SYNOPSIS
+.B "void" selinux_netlbl_err
+.BI "(struct sk_buff *skb "  ","
+.BI "u16 family "  ","
+.BI "int error "  ","
+.BI "int gateway "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+the packet
+.IP "family" 12
+-- undescribed --
+.IP "error" 12
+the error code
+.IP "gateway" 12
+true if host is acting as a gateway, false otherwise
+.SH "DESCRIPTION"
+When a packet is dropped due to a call to \fBavc_has_perm\fP pass the error
+code to the NetLabel subsystem so any protocol specific processing can be
+done.  This is safe to call even if you are unsure if NetLabel labeling is
+present on the packet, NetLabel is smart enough to only act when it should.

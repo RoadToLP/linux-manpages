@@ -1,0 +1,22 @@
+.TH "i915_vma_instance" 9 "i915_vma_instance" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_vma_instance \- return the singleton instance of the VMA
+.SH SYNOPSIS
+.B "struct i915_vma *" i915_vma_instance
+.BI "(struct drm_i915_gem_object *obj "  ","
+.BI "struct i915_address_space *vm "  ","
+.BI "const struct i915_ggtt_view *view "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+parent \fIstruct drm_i915_gem_object\fP to be mapped
+.IP "vm" 12
+address space in which the mapping is located
+.IP "view" 12
+additional mapping requirements
+.SH "DESCRIPTION"
+\fBi915_vma_instance\fP looks up an existing VMA of the \fIobj\fP in the \fIvm\fP with
+the same \fIview\fP characteristics. If a match is not found, one is created.
+Once created, the VMA is kept until either the object is freed, or the
+address space is closed.
+
+Returns the vma, or an error pointer.

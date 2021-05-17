@@ -1,0 +1,45 @@
+.TH "set_mtrr" 9 "set_mtrr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_mtrr \- update mtrrs on all processors
+.SH SYNOPSIS
+.B "void" set_mtrr
+.BI "(unsigned int reg "  ","
+.BI "unsigned long base "  ","
+.BI "unsigned long size "  ","
+.BI "mtrr_type type "  ");"
+.SH ARGUMENTS
+.IP "reg" 12
+mtrr in question
+.IP "base" 12
+mtrr base
+.IP "size" 12
+mtrr size
+.IP "type" 12
+mtrr type
+.SH "DESCRIPTION"
+This is kinda tricky, but fortunately, Intel spelled it out for us cleanly:
+
+1. Queue work to do the following on all processors:
+2. Disable Interrupts
+3. Wait for all procs to do so
+4. Enter no-fill cache mode
+5. Flush caches
+6. Clear PGE bit
+7. Flush all TLBs
+8. Disable all range registers
+9. Update the MTRRs
+10. Enable all range registers
+11. Flush all TLBs and caches again
+12. Enter normal cache mode and reenable caching
+13. Set PGE
+14. Wait for buddies to catch up
+15. Enable interrupts.
+
+What does that mean for us? Well, \fBstop_machine\fP will ensure that
+the rendezvous handler is started on each CPU. And in lockstep they
+do the state transition of disabling interrupts, updating MTRR's
+(the CPU vendors may each do it differently, so we call mtrr_if->\fBset\fP
+callback and let them take care of it.) and enabling interrupts.
+
+Note that the mechanism is the same for UP systems, too; all the SMP stuff
+becomes nops.

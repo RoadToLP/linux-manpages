@@ -1,0 +1,36 @@
+.TH "key_move" 9 "key_move" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+key_move \- Move a key from one keyring to another
+.SH SYNOPSIS
+.B "int" key_move
+.BI "(struct key *key "  ","
+.BI "struct key *from_keyring "  ","
+.BI "struct key *to_keyring "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "key" 12
+The key to move
+.IP "from_keyring" 12
+The keyring to remove the link from.
+.IP "to_keyring" 12
+The keyring to make the link in.
+.IP "flags" 12
+Qualifying flags, such as KEYCTL_MOVE_EXCL.
+.SH "DESCRIPTION"
+Make a link in \fIto_keyring\fP to a key, such that the keyring holds a reference
+on that key and the key can potentially be found by searching that keyring
+whilst simultaneously removing a link to the key from \fIfrom_keyring\fP.
+
+This function will write-lock both keyring's semaphores and will consume
+some of the user's key data quota to hold the link on \fIto_keyring\fP.
+
+Returns 0 if successful, -ENOTDIR if either keyring isn't a keyring,
+-EKEYREVOKED if either keyring has been revoked, -ENFILE if the second
+keyring is full, -EDQUOT if there is insufficient key data quota remaining
+to add another link or -ENOMEM if there's insufficient memory.  If
+KEYCTL_MOVE_EXCL is set, then -EEXIST will be returned if there's already a
+matching key in \fIto_keyring\fP.
+
+It is assumed that the caller has checked that it is permitted for a link to
+be made (the keyring should have Write permission and the key Link
+permission).

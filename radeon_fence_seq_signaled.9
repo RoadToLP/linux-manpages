@@ -1,0 +1,22 @@
+.TH "radeon_fence_seq_signaled" 9 "radeon_fence_seq_signaled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+radeon_fence_seq_signaled \- check if a fence sequence number has signaled
+.SH SYNOPSIS
+.B "bool" radeon_fence_seq_signaled
+.BI "(struct radeon_device *rdev "  ","
+.BI "u64 seq "  ","
+.BI "unsigned ring "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon device pointer
+.IP "seq" 12
+sequence number
+.IP "ring" 12
+ring index the fence is associated with
+.SH "DESCRIPTION"
+Check if the last signaled fence sequnce number is >= the requested
+sequence number (all asics).
+Returns true if the fence has signaled (current fence value
+is >= requested value) or false if it has not (current fence
+value is < the requested value.  Helper function for
+\fBradeon_fence_signaled\fP.

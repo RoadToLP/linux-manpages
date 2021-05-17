@@ -1,0 +1,17 @@
+.TH "dev_get_stats" 9 "dev_get_stats" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_get_stats \- get network device statistics
+.SH SYNOPSIS
+.B "struct rtnl_link_stats64 *" dev_get_stats
+.BI "(struct net_device *dev "  ","
+.BI "struct rtnl_link_stats64 *storage "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to get statistics from
+.IP "storage" 12
+place to store stats
+
+Get network statistics from device. Return \fIstorage\fP.
+The device driver may provide its own method by setting
+dev->netdev_ops->get_stats64 or dev->netdev_ops->get_stats;
+otherwise the internal statistics structure is used.

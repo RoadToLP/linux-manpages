@@ -1,0 +1,25 @@
+.TH "omap3430es2_clk_dss_usbhost_find_idlest" 9 "omap3430es2_clk_dss_usbhost_find_idlest" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap3430es2_clk_dss_usbhost_find_idlest \- CM_IDLEST info for DSS, USBHOST
+.SH SYNOPSIS
+.B "void" omap3430es2_clk_dss_usbhost_find_idlest
+.BI "(struct clk_hw_omap *clk "  ","
+.BI "struct clk_omap_reg *idlest_reg "  ","
+.BI "u8 *idlest_bit "  ","
+.BI "u8 *idlest_val "  ");"
+.SH ARGUMENTS
+.IP "clk" 12
+struct clk * being enabled
+.IP "idlest_reg" 12
+void __iomem ** to store CM_IDLEST reg address into
+.IP "idlest_bit" 12
+pointer to a u8 to store the CM_IDLEST bit shift into
+.IP "idlest_val" 12
+pointer to a u8 to store the CM_IDLEST indicator
+.SH "DESCRIPTION"
+Some OMAP modules on OMAP3 ES2+ chips have both initiator and
+target IDLEST bits.  For our purposes, we are concerned with the
+target IDLEST bits, which exist at a different bit position than
+the *CLKEN bit position for these modules (DSS and USBHOST) (The
+default find_idlest code assumes that they are at the same
+position.)  No return value.

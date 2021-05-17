@@ -1,0 +1,13 @@
+.TH "iscsi_suspend_tx" 9 "iscsi_suspend_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_suspend_tx \- suspend iscsi_data_xmit
+.SH SYNOPSIS
+.B "void" iscsi_suspend_tx
+.BI "(struct iscsi_conn *conn "  ");"
+.SH ARGUMENTS
+.IP "conn" 12
+iscsi conn tp stop processing IO on.
+.SH "DESCRIPTION"
+This function sets the suspend bit to prevent iscsi_data_xmit
+from sending new IO, and if work is queued on the xmit thread
+it will wait for it to be completed.

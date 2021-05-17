@@ -1,0 +1,23 @@
+.TH "tiocsctty" 9 "tiocsctty" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tiocsctty \- set controlling tty
+.SH SYNOPSIS
+.B "int" tiocsctty
+.BI "(struct tty_struct *tty "  ","
+.BI "struct file *file "  ","
+.BI "int arg "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty structure
+.IP "file" 12
+file structure used to check permissions
+.IP "arg" 12
+user argument
+
+This ioctl is used to manage job control. It permits a session
+leader to set this tty as the controlling tty for the session.
+
+Locking:
+Takes \fBtty_lock\fP to serialize \fBproc_set_tty\fP for this tty
+Takes tasklist_lock internally to walk sessions
+Takes ->\fBsiglock\fP when updating signal->tty

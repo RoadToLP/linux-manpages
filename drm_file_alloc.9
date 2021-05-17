@@ -1,0 +1,15 @@
+.TH "drm_file_alloc" 9 "drm_file_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_file_alloc \- allocate file context
+.SH SYNOPSIS
+.B "struct drm_file *" drm_file_alloc
+.BI "(struct drm_minor *minor "  ");"
+.SH ARGUMENTS
+.IP "minor" 12
+minor to allocate on
+.SH "DESCRIPTION"
+This allocates a new DRM file context. It is not linked into any context and
+can be used by the caller freely. Note that the context keeps a pointer to
+\fIminor\fP, so it must be freed before \fIminor\fP is.
+.SH "RETURN"
+Pointer to newly allocated context, ERR_PTR on failure.

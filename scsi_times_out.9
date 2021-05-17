@@ -1,0 +1,14 @@
+.TH "scsi_times_out" 9 "scsi_times_out" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_times_out \- Timeout function for normal scsi commands.
+.SH SYNOPSIS
+.B "enum blk_eh_timer_return" scsi_times_out
+.BI "(struct request *req "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+request that is timing out.
+.SH "NOTES"
+We do not need to lock this.  There is the potential for a race
+only in that the normal completion handling might run, but if the
+normal completion function determines that the timer has already
+fired, then it mustn't do anything.

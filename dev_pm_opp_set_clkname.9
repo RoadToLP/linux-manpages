@@ -1,0 +1,19 @@
+.TH "dev_pm_opp_set_clkname" 9 "dev_pm_opp_set_clkname" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_pm_opp_set_clkname \- Set clk name for the device
+.SH SYNOPSIS
+.B "struct opp_table *" dev_pm_opp_set_clkname
+.BI "(struct device *dev "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which clk name is being set.
+.IP "name" 12
+Clk name.
+.SH "DESCRIPTION"
+In order to support OPP switching, OPP layer needs to get pointer to the
+clock for the device. Simple cases work fine without using this routine (i.e.
+by passing connection-id as NULL), but for a device with multiple clocks
+available, the OPP core needs to know the exact name of the clk to use.
+
+This must be called before any OPPs are initialized for the device.

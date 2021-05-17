@@ -1,0 +1,29 @@
+.TH "scsi_io_completion" 9 "scsi_io_completion" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_io_completion \- Completion processing for SCSI commands.
+.SH SYNOPSIS
+.B "void" scsi_io_completion
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "unsigned int good_bytes "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+command that is finished.
+.IP "good_bytes" 12
+number of processed bytes.
+.SH "DESCRIPTION"
+We will finish off the specified number of sectors. If we are done, the
+command block will be released and the queue function will be goosed. If we
+are not done then we have to figure out what to do next:
+
+a) We can call \fBscsi_io_completion_reprep\fP.  The request will be
+unprepared and put back on the queue.  Then a new command will
+be created for it.  This should be used if we made forward
+progress, or if we want to switch from READ(10) to READ(6) for
+example.
+
+b) We can call \fBscsi_io_completion_action\fP.  The request will be
+put back on the queue and retried using the same command as
+before, possibly after a delay.
+
+c) We can call \fBscsi_end_request\fP with blk_stat other than
+BLK_STS_OK, to fail the remainder of the request.

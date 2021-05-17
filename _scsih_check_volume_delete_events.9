@@ -1,0 +1,18 @@
+.TH "_scsih_check_volume_delete_events" 9 "_scsih_check_volume_delete_events" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_scsih_check_volume_delete_events \- set delete flag for volumes
+.SH SYNOPSIS
+.B "void" _scsih_check_volume_delete_events
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "Mpi2EventDataIrVolume_t *event_data "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "event_data" 12
+the event data payload
+.SH "CONTEXT"
+interrupt time.
+.SH "DESCRIPTION"
+This will handle the case when the cable connected to entire volume is
+pulled. We will take care of setting the deleted flag so normal IO will
+not be sent.

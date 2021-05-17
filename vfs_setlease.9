@@ -1,0 +1,28 @@
+.TH "vfs_setlease" 9 "vfs_setlease" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfs_setlease \- sets a lease on an open file
+.SH SYNOPSIS
+.B "int" vfs_setlease
+.BI "(struct file *filp "  ","
+.BI "long arg "  ","
+.BI "struct file_lock **lease "  ","
+.BI "void **priv "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+file pointer
+.IP "arg" 12
+type of lease to obtain
+.IP "lease" 12
+file_lock to use when adding a lease
+.IP "priv" 12
+private info for lm_setup when adding a lease (may be
+NULL if lm_setup doesn't require it)
+.SH "DESCRIPTION"
+Call this to establish a lease on the file. The "lease" argument is not
+used for F_UNLCK requests and may be NULL. For commands that set or alter
+an existing lease, the ``(*lease)->fl_lmops->lm_break`` operation must be
+set; if not, this function will return -ENOLCK (and generate a scary-looking
+stack trace).
+
+The "priv" pointer is passed directly to the lm_setup function as-is. It
+may be NULL if the lm_setup operation doesn't require it.

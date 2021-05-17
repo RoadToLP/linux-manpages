@@ -1,0 +1,15 @@
+.TH "try_then_request_governor" 9 "try_then_request_governor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+try_then_request_governor \- Try to find the governor and request the module if is not found.
+.SH SYNOPSIS
+.B "struct devfreq_governor *" try_then_request_governor
+.BI "(const char *name "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+name of the governor
+.SH "DESCRIPTION"
+Search the list of devfreq governors and request the module and try again
+if is not found. This can happen when both drivers (the governor driver
+and the driver that call devfreq_add_device) are built as modules.
+devfreq_list_lock should be held by the caller. Returns the matched
+governor's pointer or an error pointer.

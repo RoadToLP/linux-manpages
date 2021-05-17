@@ -1,0 +1,29 @@
+.TH "gpiochip_add_pin_range" 9 "gpiochip_add_pin_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpiochip_add_pin_range \- add a range for GPIO <-> pin mapping
+.SH SYNOPSIS
+.B "int" gpiochip_add_pin_range
+.BI "(struct gpio_chip *gc "  ","
+.BI "const char *pinctl_name "  ","
+.BI "unsigned int gpio_offset "  ","
+.BI "unsigned int pin_offset "  ","
+.BI "unsigned int npins "  ");"
+.SH ARGUMENTS
+.IP "gc" 12
+the gpiochip to add the range for
+.IP "pinctl_name" 12
+the \fBdev_name\fP of the pin controller to map to
+.IP "gpio_offset" 12
+the start offset in the current gpio_chip number space
+.IP "pin_offset" 12
+the start offset in the pin controller number space
+.IP "npins" 12
+the number of pins from the offset of each pin space (GPIO and
+pin controller) to accumulate in this range
+.SH "RETURN"
+0 on success, or a negative error-code on failure.
+.SH "DESCRIPTION"
+Calling this function directly from a DeviceTree-supported
+pinctrl driver is DEPRECATED. Please see Section 2.1 of
+Documentation/devicetree/bindings/gpio/gpio.txt on how to
+bind pinctrl and gpio drivers via the "gpio-ranges" property.

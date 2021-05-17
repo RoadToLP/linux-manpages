@@ -1,0 +1,17 @@
+.TH "ctrlq_check_stop" 9 "ctrlq_check_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ctrlq_check_stop \- check if a control queue is full and should stop
+.SH SYNOPSIS
+.B "void" ctrlq_check_stop
+.BI "(struct sge_ctrl_txq *q "  ","
+.BI "struct fw_wr_hdr *wr "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the queue
+.IP "wr" 12
+most recent WR written to the queue
+
+Check if a control queue has become full and should be stopped.
+We clean up control queue descriptors very lazily, only when we are out.
+If the queue is still full after reclaiming any completed descriptors
+we suspend it and have the last WR wake it up.

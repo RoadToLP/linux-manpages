@@ -1,0 +1,27 @@
+.TH "lpfc_aer_cleanup_state" 9 "lpfc_aer_cleanup_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_aer_cleanup_state \- Clean up aer state to the aer enabled device
+.SH SYNOPSIS
+.B "ssize_t" lpfc_aer_cleanup_state
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+containing flag 1 for aer cleanup state.
+.IP "count" 12
+unused variable.
+.SH "DESCRIPTION"
+If the \fIbuf\fP contains 1 and the device currently has the AER support
+enabled, then invokes the kernel AER helper routine
+\fBpci_aer_clear_nonfatal_status\fP to clean up the uncorrectable
+error status register.
+.SH "NOTES"
+.SH "RETURN"
+-EINVAL if the buf does not contain the 1 or the device is not currently
+enabled with the AER support.

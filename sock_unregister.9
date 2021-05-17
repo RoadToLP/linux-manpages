@@ -1,0 +1,18 @@
+.TH "sock_unregister" 9 "sock_unregister" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sock_unregister \- remove a protocol handler
+.SH SYNOPSIS
+.B "void" sock_unregister
+.BI "(int family "  ");"
+.SH ARGUMENTS
+.IP "family" 12
+protocol family to remove
+
+This function is called by a protocol handler that wants to
+remove its address family, and have it unlinked from the
+new socket creation.
+
+If protocol handler is a module, then it can use module reference
+counts to protect against new references. If protocol handler is not
+a module then it needs to provide its own protection in
+the ops->create routine.

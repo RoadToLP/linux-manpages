@@ -1,0 +1,18 @@
+.TH "__gsi_trans_commit" 9 "__gsi_trans_commit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__gsi_trans_commit \- Common GSI transaction commit code
+.SH SYNOPSIS
+.B "void" __gsi_trans_commit
+.BI "(struct gsi_trans *trans "  ","
+.BI "bool ring_db "  ");"
+.SH ARGUMENTS
+.IP "trans" 12
+Transaction to commit
+.IP "ring_db" 12
+Whether to tell the hardware about these queued transfers
+.SH "DESCRIPTION"
+Formats channel ring TRE entries based on the content of the scatterlist.
+Maps a transaction pointer to the last ring entry used for the transaction,
+so it can be recovered when it completes.  Moves the transaction to the
+pending list.  Finally, updates the channel ring pointer and optionally
+rings the doorbell.

@@ -1,0 +1,26 @@
+.TH "dax_iomap_fault" 9 "dax_iomap_fault" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dax_iomap_fault \- handle a page fault on a DAX file
+.SH SYNOPSIS
+.B "vm_fault_t" dax_iomap_fault
+.BI "(struct vm_fault *vmf "  ","
+.BI "enum page_entry_size pe_size "  ","
+.BI "pfn_t *pfnp "  ","
+.BI "int *iomap_errp "  ","
+.BI "const struct iomap_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "vmf" 12
+The description of the fault
+.IP "pe_size" 12
+Size of the page to fault in
+.IP "pfnp" 12
+PFN to insert for synchronous faults if fsync is required
+.IP "iomap_errp" 12
+Storage for detailed error code in case of error
+.IP "ops" 12
+Iomap ops passed from the file system
+.SH "DESCRIPTION"
+When a page fault occurs, filesystems may call this helper in
+their fault handler for DAX files. \fBdax_iomap_fault\fP assumes the caller
+has done all the necessary locking for page fault to proceed
+successfully.

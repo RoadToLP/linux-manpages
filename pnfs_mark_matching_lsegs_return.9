@@ -1,0 +1,27 @@
+.TH "pnfs_mark_matching_lsegs_return" 9 "pnfs_mark_matching_lsegs_return" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pnfs_mark_matching_lsegs_return \- Free or return matching layout segments
+.SH SYNOPSIS
+.B "int" pnfs_mark_matching_lsegs_return
+.BI "(struct pnfs_layout_hdr *lo "  ","
+.BI "struct list_head *tmp_list "  ","
+.BI "const struct pnfs_layout_range *return_range "  ","
+.BI "u32 seq "  ");"
+.SH ARGUMENTS
+.IP "lo" 12
+pointer to layout header
+.IP "tmp_list" 12
+list header to be used with \fBpnfs_free_lseg_list\fP
+.IP "return_range" 12
+describe layout segment ranges to be returned
+.IP "seq" 12
+stateid seqid to match
+.SH "DESCRIPTION"
+This function is mainly intended for use by layoutrecall. It attempts
+to free the layout segment immediately, or else to mark it for return
+as soon as its reference count drops to zero.
+
+Returns
+- 0: a layoutreturn needs to be scheduled.
+- EBUSY: there are layout segment that are still in use.
+- ENOENT: there are no layout segments that need to be returned.

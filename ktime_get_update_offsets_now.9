@@ -1,0 +1,24 @@
+.TH "ktime_get_update_offsets_now" 9 "ktime_get_update_offsets_now" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ktime_get_update_offsets_now \- hrtimer helper
+.SH SYNOPSIS
+.B "ktime_t" ktime_get_update_offsets_now
+.BI "(unsigned int *cwsseq "  ","
+.BI "ktime_t *offs_real "  ","
+.BI "ktime_t *offs_boot "  ","
+.BI "ktime_t *offs_tai "  ");"
+.SH ARGUMENTS
+.IP "cwsseq" 12
+pointer to check and store the clock was set sequence number
+.IP "offs_real" 12
+pointer to storage for monotonic -> realtime offset
+.IP "offs_boot" 12
+pointer to storage for monotonic -> boottime offset
+.IP "offs_tai" 12
+pointer to storage for monotonic -> clock tai offset
+.SH "DESCRIPTION"
+Returns current monotonic time and updates the offsets if the
+sequence number in \fIcwsseq\fP and timekeeper.clock_was_set_seq are
+different.
+
+Called from \fBhrtimer_interrupt\fP or \fBretrigger_next_event\fP

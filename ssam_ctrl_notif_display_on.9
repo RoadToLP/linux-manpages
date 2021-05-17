@@ -1,0 +1,24 @@
+.TH "ssam_ctrl_notif_display_on" 9 "ssam_ctrl_notif_display_on" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_ctrl_notif_display_on \- Notify EC that the display has been turned on.
+.SH SYNOPSIS
+.B "int" ssam_ctrl_notif_display_on
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller.
+.SH "DESCRIPTION"
+Notify the EC that the display has been turned back on and the driver has
+exited its lower-power state. This notification is the counterpart to the
+display-off notification sent via \fBssam_ctrl_notif_display_off\fP and will
+reverse its effects, including resetting events to their default behavior.
+
+This function will only send the display-on notification command if display
+notifications are supported by the EC. Currently all known devices support
+these notifications.
+
+See \fBssam_ctrl_notif_display_off\fP for more details.
+.SH "RETURN"
+Returns zero on success or if no request has been executed, the
+status of the executed SAM request if that request failed, or -EPROTO if
+an unexpected response has been received.

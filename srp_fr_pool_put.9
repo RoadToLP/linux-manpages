@@ -1,0 +1,18 @@
+.TH "srp_fr_pool_put" 9 "srp_fr_pool_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+srp_fr_pool_put \- put an FR descriptor back in the free list
+.SH SYNOPSIS
+.B "void" srp_fr_pool_put
+.BI "(struct srp_fr_pool *pool "  ","
+.BI "struct srp_fr_desc **desc "  ","
+.BI "int n "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+Pool the descriptor was allocated from.
+.IP "desc" 12
+Pointer to an array of fast registration descriptor pointers.
+.IP "n" 12
+Number of descriptors to put back.
+.SH "NOTE"
+The caller must already have queued an invalidation request for
+desc->mr->rkey before calling this function.

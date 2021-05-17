@@ -1,0 +1,22 @@
+.TH "touchscreen_parse_properties" 9 "touchscreen_parse_properties" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+touchscreen_parse_properties \- parse common touchscreen DT properties
+.SH SYNOPSIS
+.B "void" touchscreen_parse_properties
+.BI "(struct input_dev *input "  ","
+.BI "bool multitouch "  ","
+.BI "struct touchscreen_properties *prop "  ");"
+.SH ARGUMENTS
+.IP "input" 12
+input device that should be parsed
+.IP "multitouch" 12
+specifies whether parsed properties should be applied to
+single-touch or multi-touch axes
+.IP "prop" 12
+pointer to a struct touchscreen_properties into which to store
+axis swap and invert info for use with \fBtouchscreen_report_x_y\fP;
+or NULL
+.SH "DESCRIPTION"
+This function parses common DT properties for touchscreens and setups the
+input device accordingly. The function keeps previously set up default
+values if no value is specified via DT.

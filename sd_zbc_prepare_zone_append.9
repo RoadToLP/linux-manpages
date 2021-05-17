@@ -1,0 +1,22 @@
+.TH "sd_zbc_prepare_zone_append" 9 "sd_zbc_prepare_zone_append" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_zbc_prepare_zone_append \- Prepare an emulated ZONE_APPEND command.
+.SH SYNOPSIS
+.B "blk_status_t" sd_zbc_prepare_zone_append
+.BI "(struct scsi_cmnd *cmd "  ","
+.BI "sector_t *lba "  ","
+.BI "unsigned int nr_blocks "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+the command to setup
+.IP "lba" 12
+the LBA to patch
+.IP "nr_blocks" 12
+the number of LBAs to be written
+.SH "DESCRIPTION"
+Called from \fBsd_setup_read_write_cmnd\fP for REQ_OP_ZONE_APPEND.
+\fI\fP\fBsd_zbc_prepare_zone_append\fP handles the necessary zone wrote locking and
+patching of the lba for an emulated ZONE_APPEND command.
+
+In case the cached write pointer offset is SD_ZBC_INVALID_WP_OFST it will
+schedule a REPORT ZONES command and return BLK_STS_IOERR.

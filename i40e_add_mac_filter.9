@@ -1,0 +1,19 @@
+.TH "i40e_add_mac_filter" 9 "i40e_add_mac_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_add_mac_filter \- Add a MAC filter for all active VLANs
+.SH SYNOPSIS
+.B "struct i40e_mac_filter *" i40e_add_mac_filter
+.BI "(struct i40e_vsi *vsi "  ","
+.BI "const u8 *macaddr "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+the VSI to be searched
+.IP "macaddr" 12
+the mac address to be filtered
+.SH "DESCRIPTION"
+If we're not in VLAN mode, just add the filter to I40E_VLAN_ANY. Otherwise,
+go through all the macvlan filters and add a macvlan filter for each
+unique vlan that already exists. If a PVID has been assigned, instead only
+add the macaddr to that VLAN.
+
+Returns last filter added on success, else NULL

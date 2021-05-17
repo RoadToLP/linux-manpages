@@ -1,0 +1,26 @@
+.TH "dynevent_arg_pair_init" 9 "dynevent_arg_pair_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dynevent_arg_pair_init \- Initialize a dynevent_arg_pair object
+.SH SYNOPSIS
+.B "void" dynevent_arg_pair_init
+.BI "(struct dynevent_arg_pair *arg_pair "  ","
+.BI "char operator "  ","
+.BI "char separator "  ");"
+.SH ARGUMENTS
+.IP "arg_pair" 12
+A pointer to the dynevent_arg_pair struct representing the arg
+.IP "operator" 12
+An (optional) operator, appended after adding the first arg
+.IP "separator" 12
+An (optional) separator, appended after adding the second arg
+.SH "DESCRIPTION"
+Initialize a dynevent_arg_pair object.  A dynevent_arg_pair
+represents an object used to append argument pairs such as 'type
+variable_name;' or 'x+y' to the current command string.  An
+argument pair consists of a left-hand-side argument and a
+right-hand-side argument separated by an operator, which can be
+whitespace, all followed by a separator, if applicable.  After the
+first arg string is successfully appended to the command string,
+the optional \fIoperator\fP is appended, followed by the second arg and
+optional \fIseparator\fP.  If no separator was specified when
+initializing the arg, a space will be appended.

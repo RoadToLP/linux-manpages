@@ -1,0 +1,25 @@
+.TH "ixgbe_hic_unlocked" 9 "ixgbe_hic_unlocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ixgbe_hic_unlocked \- Issue command to manageability block unlocked
+.SH SYNOPSIS
+.B "s32" ixgbe_hic_unlocked
+.BI "(struct ixgbe_hw *hw "  ","
+.BI "u32 *buffer "  ","
+.BI "u32 length "  ","
+.BI "u32 timeout "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "buffer" 12
+command to write and where the return status will be placed
+.IP "length" 12
+length of buffer, must be multiple of 4 bytes
+.IP "timeout" 12
+time in ms to wait for command completion
+
+Communicates with the manageability block. On success return 0
+else returns semaphore error when encountering an error acquiring
+semaphore or IXGBE_ERR_HOST_INTERFACE_COMMAND when command fails.
+
+This function assumes that the IXGBE_GSSR_SW_MNG_SM semaphore is held
+by the caller.

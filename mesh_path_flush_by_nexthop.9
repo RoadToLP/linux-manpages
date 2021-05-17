@@ -1,0 +1,15 @@
+.TH "mesh_path_flush_by_nexthop" 9 "mesh_path_flush_by_nexthop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_path_flush_by_nexthop \- Deletes mesh paths if their next hop matches
+.SH SYNOPSIS
+.B "void" mesh_path_flush_by_nexthop
+.BI "(struct sta_info *sta "  ");"
+.SH ARGUMENTS
+.IP "sta" 12
+mesh peer to match
+.SH "DESCRIPTION"
+RCU notes: this function is called when a mesh plink transitions from
+PLINK_ESTAB to any other state, since PLINK_ESTAB state is the only one that
+allows path creation. This will happen before the sta can be freed (because
+\fBsta_info_destroy\fP calls this) so any reader in a rcu read block will be
+protected against the plink disappearing.

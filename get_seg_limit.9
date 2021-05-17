@@ -1,0 +1,23 @@
+.TH "get_seg_limit" 9 "get_seg_limit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_seg_limit \- Obtain the limit of a segment descriptor
+.SH SYNOPSIS
+.B "unsigned long" get_seg_limit
+.BI "(struct pt_regs *regs "  ","
+.BI "int seg_reg_idx "  ");"
+.SH ARGUMENTS
+.IP "regs" 12
+Register values as seen when entering kernel mode
+.IP "seg_reg_idx" 12
+Index of the segment register pointing to seg descriptor
+.SH "DESCRIPTION"
+Obtain the limit of the segment as indicated by the segment descriptor
+pointed by the segment selector. The segment selector is obtained from the
+input segment register index \fIseg_reg_idx\fP.
+
+In protected mode, the limit of the segment descriptor in bytes.
+In long mode and virtual-8086 mode, segment limits are not enforced. Thus,
+limit is returned as -1L to imply a limit-less segment.
+
+Zero is returned on error.
+.SH "RETURN"

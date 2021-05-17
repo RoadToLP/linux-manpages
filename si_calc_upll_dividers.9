@@ -1,0 +1,48 @@
+.TH "si_calc_upll_dividers" 9 "si_calc_upll_dividers" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+si_calc_upll_dividers \- calc UPLL clock dividers
+.SH SYNOPSIS
+.B "int" si_calc_upll_dividers
+.BI "(struct amdgpu_device *adev "  ","
+.BI "unsigned vclk "  ","
+.BI "unsigned dclk "  ","
+.BI "unsigned vco_min "  ","
+.BI "unsigned vco_max "  ","
+.BI "unsigned fb_factor "  ","
+.BI "unsigned fb_mask "  ","
+.BI "unsigned pd_min "  ","
+.BI "unsigned pd_max "  ","
+.BI "unsigned pd_even "  ","
+.BI "unsigned *optimal_fb_div "  ","
+.BI "unsigned *optimal_vclk_div "  ","
+.BI "unsigned *optimal_dclk_div "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "vclk" 12
+wanted VCLK
+.IP "dclk" 12
+wanted DCLK
+.IP "vco_min" 12
+minimum VCO frequency
+.IP "vco_max" 12
+maximum VCO frequency
+.IP "fb_factor" 12
+factor to multiply vco freq with
+.IP "fb_mask" 12
+limit and bitmask for feedback divider
+.IP "pd_min" 12
+post divider minimum
+.IP "pd_max" 12
+post divider maximum
+.IP "pd_even" 12
+post divider must be even above this value
+.IP "optimal_fb_div" 12
+resulting feedback divider
+.IP "optimal_vclk_div" 12
+resulting vclk post divider
+.IP "optimal_dclk_div" 12
+resulting dclk post divider
+.SH "DESCRIPTION"
+Calculate dividers for UVDs UPLL (except APUs).
+Returns zero on success; -EINVAL on error.

@@ -1,0 +1,39 @@
+.TH "lpfc_reg_rpi" 9 "lpfc_reg_rpi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_reg_rpi \- Prepare a mailbox command for registering remote login
+.SH SYNOPSIS
+.B "int" lpfc_reg_rpi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint16_t vpi "  ","
+.BI "uint32_t did "  ","
+.BI "uint8_t *param "  ","
+.BI "LPFC_MBOXQ_t *pmb "  ","
+.BI "uint16_t rpi "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "vpi" 12
+virtual N_Port identifier.
+.IP "did" 12
+remote port identifier.
+.IP "param" 12
+pointer to memory holding the server parameters.
+.IP "pmb" 12
+pointer to the driver internal queue element for mailbox command.
+.IP "rpi" 12
+the rpi to use in the registration (usually only used for SLI4.
+.SH "DESCRIPTION"
+The registration login mailbox command is used to register an N_Port or
+F_Port login. This registration allows the HBA to cache the remote N_Port
+service parameters internally and thereby make the appropriate FC-2
+decisions. The remote port service parameters are handed off by the driver
+to the HBA using a descriptor entry that directly identifies a buffer in
+host memory. In exchange, the HBA returns an RPI identifier.
+
+This routine prepares the mailbox command for registering remote port login.
+The function allocates DMA buffer for passing the service parameters to the
+HBA with the mailbox command.
+
+Return codes
+0 - Success
+1 - DMA memory allocation failed

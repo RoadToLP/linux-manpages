@@ -1,0 +1,25 @@
+.TH "synth_event_trace_end" 9 "synth_event_trace_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+synth_event_trace_end \- End piecewise synthetic event trace
+.SH SYNOPSIS
+.B "int" synth_event_trace_end
+.BI "(struct synth_event_trace_state *trace_state "  ");"
+.SH ARGUMENTS
+.IP "trace_state" 12
+A pointer to object tracking the piecewise trace state
+.SH "DESCRIPTION"
+End the trace of a synthetic event opened by
+\fBsynth_event_trace__start\fP.
+
+This function 'closes' an event trace, which basically means that
+it commits the reserved event and cleans up other loose ends.
+
+A pointer to a trace_state object is passed in, which will keep
+track of the current event trace state opened with
+\fBsynth_event_trace_start\fP.
+
+Note that this function must be called after all values have been
+added for each event trace, regardless of whether adding all field
+values succeeded or not.
+.SH "RETURN"
+0 on success, err otherwise.

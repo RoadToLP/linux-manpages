@@ -1,0 +1,22 @@
+.TH "pwm_get" 9 "pwm_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pwm_get \- look up and request a PWM device
+.SH SYNOPSIS
+.B "struct pwm_device *" pwm_get
+.BI "(struct device *dev "  ","
+.BI "const char *con_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for PWM consumer
+.IP "con_id" 12
+consumer name
+.SH "DESCRIPTION"
+Lookup is first attempted using DT. If the device was not instantiated from
+a device tree, a PWM chip and a relative index is looked up via a table
+supplied by board setup code (see \fBpwm_add_table\fP).
+
+Once a PWM chip has been found the specified PWM device will be requested
+and is ready to be used.
+.SH "RETURN"
+A pointer to the requested PWM device or an \fBERR_PTR\fP-encoded
+error code on failure.

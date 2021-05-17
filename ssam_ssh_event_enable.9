@@ -1,0 +1,28 @@
+.TH "ssam_ssh_event_enable" 9 "ssam_ssh_event_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_ssh_event_enable \- Enable SSH event.
+.SH SYNOPSIS
+.B "int" ssam_ssh_event_enable
+.BI "(struct ssam_controller *ctrl "  ","
+.BI "struct ssam_event_registry reg "  ","
+.BI "struct ssam_event_id id "  ","
+.BI "u8 flags "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller for which to enable the event.
+.IP "reg" 12
+The event registry describing what request to use for enabling and
+disabling the event.
+.IP "id" 12
+The event identifier.
+.IP "flags" 12
+The event flags.
+.SH "DESCRIPTION"
+Enables the specified event on the EC. This function does not manage
+reference counting of enabled events and is basically only a wrapper for
+the raw EC request. If the specified event is already enabled, the EC will
+ignore this request.
+.SH "RETURN"
+Returns the status of the executed SAM request (zero on success and
+negative on direct failure) or -EPROTO if the request response indicates a
+failure.

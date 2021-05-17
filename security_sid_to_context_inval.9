@@ -1,0 +1,24 @@
+.TH "security_sid_to_context_inval" 9 "security_sid_to_context_inval" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+security_sid_to_context_inval \- Obtain a context for a given SID if it is invalid.
+.SH SYNOPSIS
+.B "int" security_sid_to_context_inval
+.BI "(struct selinux_state *state "  ","
+.BI "u32 sid "  ","
+.BI "char **scontext "  ","
+.BI "u32 *scontext_len "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+-- undescribed --
+.IP "sid" 12
+security identifier, SID
+.IP "scontext" 12
+security context
+.IP "scontext_len" 12
+length in bytes
+.SH "DESCRIPTION"
+Write the string representation of the context associated with \fIsid\fP
+into a dynamically allocated string of the correct size, but only if the
+context is invalid in the current policy.  Set \fIscontext\fP to point to
+this string (or NULL if the context is valid) and set \fIscontext_len\fP to
+the length of the string (or 0 if the context is valid).

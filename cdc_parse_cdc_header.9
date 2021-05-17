@@ -1,0 +1,25 @@
+.TH "cdc_parse_cdc_header" 9 "cdc_parse_cdc_header" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdc_parse_cdc_header \- parse the extra headers present in CDC devices
+.SH SYNOPSIS
+.B "int" cdc_parse_cdc_header
+.BI "(struct usb_cdc_parsed_header *hdr "  ","
+.BI "struct usb_interface *intf "  ","
+.BI "u8 *buffer "  ","
+.BI "int buflen "  ");"
+.SH ARGUMENTS
+.IP "hdr" 12
+the place to put the results of the parsing
+.IP "intf" 12
+the interface for which parsing is requested
+.IP "buffer" 12
+pointer to the extra headers to be parsed
+.IP "buflen" 12
+length of the extra headers
+.SH "DESCRIPTION"
+This evaluates the extra headers present in CDC devices which
+bind the interfaces for data and control and provide details
+about the capabilities of the device.
+.SH "RETURN"
+number of descriptors parsed or -EINVAL
+if the header is contradictory beyond salvage

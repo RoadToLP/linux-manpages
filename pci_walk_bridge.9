@@ -1,0 +1,22 @@
+.TH "pci_walk_bridge" 9 "pci_walk_bridge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_walk_bridge \- walk bridges potentially AER affected
+.SH SYNOPSIS
+.B "void" pci_walk_bridge
+.BI "(struct pci_dev *bridge "  ","
+.BI "int (*cb)(struct pci_dev *, void *) "  ","
+.BI "void *userdata "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge which may be a Port, an RCEC, or an RCiEP
+.IP "cb" 12
+callback to be called for each device found
+.IP "userdata" 12
+arbitrary pointer to be passed to callback
+.SH "DESCRIPTION"
+If the device provided is a bridge, walk the subordinate bus, including
+any bridged devices on buses under this bus.  Call the provided callback
+on each device found.
+
+If the device provided has no subordinate bus, e.g., an RCEC or RCiEP,
+call the callback on the device itself.

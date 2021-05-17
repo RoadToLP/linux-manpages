@@ -1,0 +1,41 @@
+.TH "verify_pefile_signature" 9 "verify_pefile_signature" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+verify_pefile_signature \- Verify the signature on a PE binary image
+.SH SYNOPSIS
+.B "int" verify_pefile_signature
+.BI "(const void *pebuf "  ","
+.BI "unsigned pelen "  ","
+.BI "struct key *trusted_keys "  ","
+.BI "enum key_being_used_for usage "  ");"
+.SH ARGUMENTS
+.IP "pebuf" 12
+Buffer containing the PE binary image
+.IP "pelen" 12
+Length of the binary image
+.IP "trusted_keys" 12
+-- undescribed --
+.IP "usage" 12
+The use to which the key is being put.
+.SH "DESCRIPTION"
+Validate that the certificate chain inside the PKCS#7 message inside the PE
+binary image intersects keys we already know and trust.
+
+Returns, in order of descending priority:
+
+(*) -ELIBBAD if the image cannot be parsed, or:
+
+(*) -EKEYREJECTED if a signature failed to match for which we have a valid
+key, or:
+
+(*) 0 if at least one signature chain intersects with the keys in the trust
+keyring, or:
+
+(*) -ENODATA if there is no signature present.
+
+(*) -ENOPKG if a suitable crypto module couldn't be found for a check on a
+chain.
+
+(*) -ENOKEY if we couldn't find a match for any of the signature chains in
+the message.
+
+May also return -ENOMEM.

@@ -1,0 +1,15 @@
+.TH "vmw_cmdbuf_remove_pool" 9 "vmw_cmdbuf_remove_pool" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmdbuf_remove_pool \- Take down the main buffer space pool.
+.SH SYNOPSIS
+.B "void" vmw_cmdbuf_remove_pool
+.BI "(struct vmw_cmdbuf_man *man "  ");"
+.SH ARGUMENTS
+.IP "man" 12
+Pointer to a command buffer manager.
+.SH "DESCRIPTION"
+This function removes the main buffer space pool, and should be called
+before MOB memory management is removed. When this function has been called,
+only small command buffer submissions of size VMW_CMDBUF_INLINE_SIZE or
+less are allowed, and the default size of the command buffer for small kernel
+submissions is also set to this size.

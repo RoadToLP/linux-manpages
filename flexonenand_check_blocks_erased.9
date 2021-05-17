@@ -1,0 +1,23 @@
+.TH "flexonenand_check_blocks_erased" 9 "flexonenand_check_blocks_erased" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+flexonenand_check_blocks_erased \- Check if blocks are erased
+.SH SYNOPSIS
+.B "int" flexonenand_check_blocks_erased
+.BI "(struct mtd_info *mtd "  ","
+.BI "int start "  ","
+.BI "int end "  ");"
+.SH ARGUMENTS
+.IP "mtd" 12
+mtd info structure
+.IP "start" 12
+first erase block to check
+.IP "end" 12
+last erase block to check
+.SH "DESCRIPTION"
+Converting an unerased block from MLC to SLC
+causes byte values to change. Since both data and its ECC
+have changed, reads on the block give uncorrectable error.
+This might lead to the block being detected as bad.
+
+Avoid this by ensuring that the block to be converted is
+erased.

@@ -1,0 +1,21 @@
+.TH "genwqe_mmap" 9 "genwqe_mmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genwqe_mmap \- Provide contignous buffers to userspace
+.SH SYNOPSIS
+.B "int" genwqe_mmap
+.BI "(struct file *filp "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+File pointer (unused)
+.IP "vma" 12
+VMA area to map
+.SH "DESCRIPTION"
+We use \fBmmap\fP to allocate contignous buffers used for DMA
+transfers. After the buffer is allocated we remap it to user-space
+and remember a reference to our dma_mapping data structure, where
+we store the associated DMA address and allocated size.
+
+When we receive a DDCB execution request with the ATS bits set to
+plain buffer, we lookup our dma_mapping list to find the
+corresponding DMA address for the associated user-space address.

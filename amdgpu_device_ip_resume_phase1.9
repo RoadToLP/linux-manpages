@@ -1,0 +1,16 @@
+.TH "amdgpu_device_ip_resume_phase1" 9 "amdgpu_device_ip_resume_phase1" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_device_ip_resume_phase1 \- run resume for hardware IPs
+.SH SYNOPSIS
+.B "int" amdgpu_device_ip_resume_phase1
+.BI "(struct amdgpu_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.SH "DESCRIPTION"
+First resume function for hardware IPs.  The list of all the hardware
+IPs that make up the asic is walked and the resume callbacks are run for
+COMMON, GMC, and IH.  resume puts the hardware into a functional state
+after a suspend and updates the software state as necessary.  This
+function is also used for restoring the GPU after a GPU reset.
+Returns 0 on success, negative error code on failure.

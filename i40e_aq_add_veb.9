@@ -1,0 +1,33 @@
+.TH "i40e_aq_add_veb" 9 "i40e_aq_add_veb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_aq_add_veb \- Insert a VEB between the VSI and the MAC
+.SH SYNOPSIS
+.B "i40e_status" i40e_aq_add_veb
+.BI "(struct i40e_hw *hw "  ","
+.BI "u16 uplink_seid "  ","
+.BI "u16 downlink_seid "  ","
+.BI "u8 enabled_tc "  ","
+.BI "bool default_port "  ","
+.BI "u16 *veb_seid "  ","
+.BI "bool enable_stats "  ","
+.BI "struct i40e_asq_cmd_details *cmd_details "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hw struct
+.IP "uplink_seid" 12
+the MAC or other gizmo SEID
+.IP "downlink_seid" 12
+the VSI SEID
+.IP "enabled_tc" 12
+bitmap of TCs to be enabled
+.IP "default_port" 12
+true for default port VSI, false for control port
+.IP "veb_seid" 12
+pointer to where to put the resulting VEB SEID
+.IP "enable_stats" 12
+true to turn on VEB stats
+.IP "cmd_details" 12
+pointer to command details structure or NULL
+.SH "DESCRIPTION"
+This asks the FW to add a VEB between the uplink and downlink
+elements.  If the uplink SEID is 0, this will be a floating VEB.

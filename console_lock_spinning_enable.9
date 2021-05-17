@@ -1,0 +1,15 @@
+.TH "console_lock_spinning_enable" 9 "console_lock_spinning_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+console_lock_spinning_enable \- mark beginning of code where another thread might safely busy wait
+.SH SYNOPSIS
+.B "void" console_lock_spinning_enable
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This basically converts console_lock into a spinlock. This marks
+the section where the console_lock owner can not sleep, because
+there may be a waiter spinning (like a spinlock). Also it must be
+ready to hand over the lock at the end of the section.

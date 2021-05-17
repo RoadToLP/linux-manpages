@@ -1,0 +1,17 @@
+.TH "svc_rdma_build_read_segment" 9 "svc_rdma_build_read_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_build_read_segment \- Build RDMA Read WQEs to pull one RDMA segment
+.SH SYNOPSIS
+.B "int" svc_rdma_build_read_segment
+.BI "(struct svc_rdma_read_info *info "  ","
+.BI "const struct svc_rdma_segment *segment "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+context for ongoing I/O
+.IP "segment" 12
+co-ordinates of remote memory to be read
+.SH "RETURN"
+0: the Read WR chain was constructed successfully
+-EINVAL: there were not enough rq_pages to finish
+-ENOMEM: allocating a local resources failed
+-EIO: a DMA mapping error occurred

@@ -1,0 +1,29 @@
+.TH "cdev_device_add" 9 "cdev_device_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdev_device_add \- add a char device and it's corresponding struct device, linkink
+.SH SYNOPSIS
+.B "int" cdev_device_add
+.BI "(struct cdev *cdev "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+the cdev structure
+.IP "dev" 12
+the device structure
+.SH "DESCRIPTION"
+\fBcdev_device_add\fP adds the char device represented by \fIcdev\fP to the system,
+just as cdev_add does. It then adds \fIdev\fP to the system using device_add
+The dev_t for the char device will be taken from the struct device which
+needs to be initialized first. This helper function correctly takes a
+reference to the parent device so the parent will not get released until
+all references to the cdev are released.
+
+This helper uses dev->devt for the device number. If it is not set
+it will not add the cdev and it will be equivalent to device_add.
+
+This function should be used whenever the struct cdev and the
+struct device are members of the same structure whose lifetime is
+managed by the struct device.
+.SH "NOTE"
+Callers must assume that userspace was able to open the cdev and
+can call cdev fops callbacks at any time, even if this function fails.

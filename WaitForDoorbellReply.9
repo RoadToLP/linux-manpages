@@ -1,0 +1,21 @@
+.TH "WaitForDoorbellReply" 9 "WaitForDoorbellReply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+WaitForDoorbellReply \- Wait for and capture an IOC handshake reply.
+.SH SYNOPSIS
+.B "int" WaitForDoorbellReply
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int howlong "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "howlong" 12
+How long to wait (in seconds)
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+
+This routine polls the IOC for a handshake reply, 16 bits at a time.
+Reply is cached to IOC private area large enough to hold a maximum
+of 128 bytes of reply data.
+
+Returns a negative value on failure, else size of reply in WORDS.

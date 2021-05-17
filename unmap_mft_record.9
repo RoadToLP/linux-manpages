@@ -1,0 +1,16 @@
+.TH "unmap_mft_record" 9 "unmap_mft_record" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unmap_mft_record \- release a mapped mft record
+.SH SYNOPSIS
+.B "void" unmap_mft_record
+.BI "(ntfs_inode *ni "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode whose MFT record to unmap
+.SH "DESCRIPTION"
+We release the page mapping and the mrec_lock mutex which unmaps the mft
+record and releases it for others to get hold of. We also release the ntfs
+inode by decrementing the ntfs inode reference count.
+.SH "NOTE"
+If caller has modified the mft record, it is imperative to set the mft
+record dirty BEFORE calling \fBunmap_mft_record\fP.

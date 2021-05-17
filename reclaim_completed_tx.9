@@ -1,0 +1,22 @@
+.TH "reclaim_completed_tx" 9 "reclaim_completed_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reclaim_completed_tx \- reclaims completed TX Descriptors
+.SH SYNOPSIS
+.B "int" reclaim_completed_tx
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_txq *q "  ","
+.BI "int maxreclaim "  ","
+.BI "bool unmap "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the Tx queue to reclaim completed descriptors from
+.IP "maxreclaim" 12
+the maximum number of TX Descriptors to reclaim or -1
+.IP "unmap" 12
+whether the buffers should be unmapped for DMA
+
+Reclaims Tx Descriptors that the SGE has indicated it has processed,
+and frees the associated buffers if possible.  If \fImax\fP == -1, then
+we'll use a defaiult maximum.  Called with the TX Queue locked.

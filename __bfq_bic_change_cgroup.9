@@ -1,0 +1,23 @@
+.TH "__bfq_bic_change_cgroup" 9 "__bfq_bic_change_cgroup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__bfq_bic_change_cgroup \- move @bic to @cgroup.
+.SH SYNOPSIS
+.B "struct bfq_group *" __bfq_bic_change_cgroup
+.BI "(struct bfq_data *bfqd "  ","
+.BI "struct bfq_io_cq *bic "  ","
+.BI "struct blkcg *blkcg "  ");"
+.SH ARGUMENTS
+.IP "bfqd" 12
+the queue descriptor.
+.IP "bic" 12
+the bic to move.
+.IP "blkcg" 12
+the blk-cgroup to move to.
+.SH "DESCRIPTION"
+Move bic to blkcg, assuming that bfqd->lock is held; which makes
+sure that the reference to cgroup is valid across the call (see
+comments in bfq_bic_update_cgroup on this issue)
+.SH "NOTE"
+an alternative approach might have been to store the current
+cgroup in bfqq and getting a reference to it, reducing the lookup
+time here, at the price of slightly more complex code.

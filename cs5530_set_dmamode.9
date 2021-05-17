@@ -1,0 +1,16 @@
+.TH "cs5530_set_dmamode" 9 "cs5530_set_dmamode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cs5530_set_dmamode \- DMA timing setup
+.SH SYNOPSIS
+.B "void" cs5530_set_dmamode
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA interface
+.IP "adev" 12
+Device being configured
+
+We cannot mix MWDMA and UDMA without reloading timings each switch
+master to slave. We track the last DMA setup in order to minimise
+reloads.

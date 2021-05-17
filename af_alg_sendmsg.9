@@ -1,0 +1,32 @@
+.TH "af_alg_sendmsg" 9 "af_alg_sendmsg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+af_alg_sendmsg \- implementation of sendmsg system call handler
+.SH SYNOPSIS
+.B "int" af_alg_sendmsg
+.BI "(struct socket *sock "  ","
+.BI "struct msghdr *msg "  ","
+.BI "size_t size "  ","
+.BI "unsigned int ivsize "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+-- undescribed --
+.IP "msg" 12
+-- undescribed --
+.IP "size" 12
+-- undescribed --
+.IP "ivsize" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+The sendmsg system call handler obtains the user data and stores it
+in ctx->tsgl_list. This implies allocation of the required numbers of
+struct af_alg_tsgl.
+
+In addition, the ctx is filled with the information sent via CMSG.
+
+\fIsock\fP socket of connection to user space
+\fImsg\fP message from user space
+\fIsize\fP size of message from user space
+\fIivsize\fP the size of the IV for the cipher operation to verify that the
+user-space-provided IV has the right size
+\fIreturn\fP the number of copied data upon success, < 0 upon error

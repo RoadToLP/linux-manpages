@@ -1,0 +1,17 @@
+.TH "pmcraid_error_handler" 9 "pmcraid_error_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pmcraid_error_handler \- Error response handlers for a SCSI op
+.SH SYNOPSIS
+.B "int" pmcraid_error_handler
+.BI "(struct pmcraid_cmd *cmd "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+pointer to pmcraid_cmd that has failed
+.SH "DESCRIPTION"
+This function determines whether or not to initiate ERP on the affected
+device. This is called from a tasklet, which doesn't hold any locks.
+
+Return value:
+0 it caller can complete the request, otherwise 1 where in error
+handler itself completes the request and returns the command block
+back to free-pool

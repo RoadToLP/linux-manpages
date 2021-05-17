@@ -1,0 +1,26 @@
+.TH "die_find_child" 9 "die_find_child" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+die_find_child \- Generic DIE search function in DIE tree
+.SH SYNOPSIS
+.B "Dwarf_Die *" die_find_child
+.BI "(Dwarf_Die *rt_die "  ","
+.BI "int (*callback)(Dwarf_Die *, void *) "  ","
+.BI "void *data "  ","
+.BI "Dwarf_Die *die_mem "  ");"
+.SH ARGUMENTS
+.IP "rt_die" 12
+a root DIE
+.IP "callback" 12
+a callback function
+.IP "data" 12
+a user data passed to the callback function
+.IP "die_mem" 12
+a buffer for result DIE
+.SH "DESCRIPTION"
+Trace DIE tree from \fIrt_die\fP and call \fIcallback\fP for each child DIE.
+If \fIcallback\fP returns DIE_FIND_CB_END, this stores the DIE into
+\fIdie_mem\fP and returns it. If \fIcallback\fP returns DIE_FIND_CB_CONTINUE,
+this continues to trace the tree. Optionally, \fIcallback\fP can return
+DIE_FIND_CB_CHILD and DIE_FIND_CB_SIBLING, those means trace only
+the children and trace only the siblings respectively.
+Returns NULL if \fIcallback\fP can't find any appropriate DIE.

@@ -1,0 +1,33 @@
+.TH "regmap_add_irq_chip_fwnode" 9 "regmap_add_irq_chip_fwnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_add_irq_chip_fwnode \- Use standard regmap IRQ controller handling
+.SH SYNOPSIS
+.B "int" regmap_add_irq_chip_fwnode
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "struct regmap *map "  ","
+.BI "int irq "  ","
+.BI "int irq_flags "  ","
+.BI "int irq_base "  ","
+.BI "const struct regmap_irq_chip *chip "  ","
+.BI "struct regmap_irq_chip_data **data "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+The firmware node where the IRQ domain should be added to.
+.IP "map" 12
+The regmap for the device.
+.IP "irq" 12
+The IRQ the device uses to signal interrupts.
+.IP "irq_flags" 12
+The IRQF_ flags to use for the primary interrupt.
+.IP "irq_base" 12
+Allocate at specific IRQ number if irq_base > 0.
+.IP "chip" 12
+Configuration for the interrupt controller.
+.IP "data" 12
+Runtime data structure for the controller, allocated on success.
+.SH "DESCRIPTION"
+Returns 0 on success or an errno on failure.
+
+In order for this to be efficient the chip really should use a
+register cache.  The chip driver is responsible for restoring the
+register values used by the IRQ controller over suspend and resume.

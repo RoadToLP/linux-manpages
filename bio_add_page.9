@@ -1,0 +1,21 @@
+.TH "bio_add_page" 9 "bio_add_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_add_page \- attempt to add page(s) to bio
+.SH SYNOPSIS
+.B "int" bio_add_page
+.BI "(struct bio *bio "  ","
+.BI "struct page *page "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int offset "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+destination bio
+.IP "page" 12
+start page to add
+.IP "len" 12
+vec entry length, may cross pages
+.IP "offset" 12
+vec entry offset relative to \fIpage\fP, may cross pages
+
+Attempt to add page(s) to the bio_vec maplist. This will only fail
+if either bio->bi_vcnt == bio->bi_max_vecs or it's a cloned bio.

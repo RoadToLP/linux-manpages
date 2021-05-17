@@ -1,0 +1,16 @@
+.TH "sd_unlock_native_capacity" 9 "sd_unlock_native_capacity" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_unlock_native_capacity \- unlock native capacity
+.SH SYNOPSIS
+.B "void" sd_unlock_native_capacity
+.BI "(struct gendisk *disk "  ");"
+.SH ARGUMENTS
+.IP "disk" 12
+struct gendisk to set capacity for
+
+Block layer calls this function if it detects that partitions
+on \fIdisk\fP reach beyond the end of the device.  If the SCSI host
+implements ->\fBunlock_native_capacity\fP method, it's invoked to
+give it a chance to adjust the device capacity.
+.SH "CONTEXT"
+Defined by block layer.  Might sleep.

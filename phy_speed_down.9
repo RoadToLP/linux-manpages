@@ -1,0 +1,20 @@
+.TH "phy_speed_down" 9 "phy_speed_down" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phy_speed_down \- set speed to lowest speed supported by both link partners
+.SH SYNOPSIS
+.B "int" phy_speed_down
+.BI "(struct phy_device *phydev "  ","
+.BI "bool sync "  ");"
+.SH ARGUMENTS
+.IP "phydev" 12
+the phy_device struct
+.IP "sync" 12
+perform action synchronously
+.SH "DESCRIPTION"
+Typically used to save energy when waiting for a WoL packet
+
+WARNING: Setting sync to false may cause the system being unable to suspend
+in case the PHY generates an interrupt when finishing the autonegotiation.
+This interrupt may wake up the system immediately after suspend.
+Therefore use sync = false only if you're sure it's safe with the respective
+network chip.

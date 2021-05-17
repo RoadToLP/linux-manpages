@@ -1,0 +1,28 @@
+.TH "lpfc_oas_lun_get_next" 9 "lpfc_oas_lun_get_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_oas_lun_get_next \- get the next lun that has been enabled for Optimized Access Storage (OAS) operations.
+.SH SYNOPSIS
+.B "uint64_t" lpfc_oas_lun_get_next
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint8_t vpt_wwpn[] "  ","
+.BI "uint8_t tgt_wwpn[] "  ","
+.BI "uint32_t *lun_status "  ","
+.BI "uint32_t *lun_pri "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+lpfc_hba pointer.
+.IP "vpt_wwpn" 12
+wwpn of the vport associated with the returned lun
+.IP "tgt_wwpn" 12
+wwpn of the target associated with the returned lun
+.IP "lun_status" 12
+status of the lun returned lun
+.IP "lun_pri" 12
+priority of the lun returned lun
+.SH "DESCRIPTION"
+Returns the first or next lun enabled for OAS operations for the vport/target
+specified.  If a lun is found, its vport wwpn, target wwpn and status is
+returned.  If the lun is not found, NOT_OAS_ENABLED_LUN is returned.
+.SH "RETURN"
+lun that is OAS enabled for the vport/target
+NOT_OAS_ENABLED_LUN when no oas enabled lun found.

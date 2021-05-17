@@ -1,0 +1,21 @@
+.TH "ecryptfs_do_create" 9 "ecryptfs_do_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_do_create \- 
+.SH SYNOPSIS
+.B "struct inode *" ecryptfs_do_create
+.BI "(struct inode *directory_inode "  ","
+.BI "struct dentry *ecryptfs_dentry "  ","
+.BI "umode_t mode "  ");"
+.SH ARGUMENTS
+.IP "directory_inode" 12
+inode of the new file's dentry's parent in ecryptfs
+.IP "ecryptfs_dentry" 12
+New file's dentry in ecryptfs
+.IP "mode" 12
+The mode of the new file
+.SH "DESCRIPTION"
+Creates the underlying file and the eCryptfs inode which will link to
+it. It will also update the eCryptfs directory inode to mimic the
+stat of the lower directory inode.
+
+Returns the new eCryptfs inode on success; an ERR_PTR on error condition

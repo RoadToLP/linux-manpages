@@ -1,0 +1,24 @@
+.TH "generic_block_fiemap" 9 "generic_block_fiemap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_block_fiemap \- FIEMAP for block based inodes
+.SH SYNOPSIS
+.B "int" generic_block_fiemap
+.BI "(struct inode *inode "  ","
+.BI "struct fiemap_extent_info *fieinfo "  ","
+.BI "u64 start "  ","
+.BI "u64 len "  ","
+.BI "get_block_t *get_block "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+The inode to map
+.IP "fieinfo" 12
+The mapping information
+.IP "start" 12
+The initial block to map
+.IP "len" 12
+The length of the extect to attempt to map
+.IP "get_block" 12
+The block mapping function for the fs
+.SH "DESCRIPTION"
+Calls __generic_block_fiemap to map the inode, after taking
+the inode's mutex lock.

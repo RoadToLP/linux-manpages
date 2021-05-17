@@ -1,0 +1,19 @@
+.TH "regulator_dev_lookup" 9 "regulator_dev_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_dev_lookup \- lookup a regulator device.
+.SH SYNOPSIS
+.B "struct regulator_dev *" regulator_dev_lookup
+.BI "(struct device *dev "  ","
+.BI "const char *supply "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device for regulator "consumer".
+.IP "supply" 12
+Supply name or regulator ID.
+.SH "DESCRIPTION"
+If successful, returns a struct regulator_dev that corresponds to the name
+\fIsupply\fP and with the embedded struct device refcount incremented by one.
+The refcount must be dropped by calling \fBput_device\fP.
+On failure one of the following ERR-PTR-encoded values is returned:
+-ENODEV if lookup fails permanently, -EPROBE_DEFER if lookup could succeed
+in the future.

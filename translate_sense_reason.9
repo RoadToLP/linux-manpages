@@ -1,0 +1,18 @@
+.TH "translate_sense_reason" 9 "translate_sense_reason" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+translate_sense_reason \- translate a sense reason into T10 key, asc and ascq
+.SH SYNOPSIS
+.B "void" translate_sense_reason
+.BI "(struct se_cmd *cmd "  ","
+.BI "sense_reason_t reason "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+SCSI command in which the resulting sense buffer or SCSI status will
+be stored.
+.IP "reason" 12
+LIO sense reason code. If this argument has the value
+TCM_CHECK_CONDITION_UNIT_ATTENTION, try to dequeue a unit attention. If
+dequeuing a unit attention fails due to multiple commands being processed
+concurrently, set the command status to BUSY.
+.SH "RETURN"
+0 upon success or -EINVAL if the sense buffer is too small.

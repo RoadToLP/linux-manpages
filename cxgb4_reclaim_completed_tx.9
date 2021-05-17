@@ -1,0 +1,19 @@
+.TH "cxgb4_reclaim_completed_tx" 9 "cxgb4_reclaim_completed_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxgb4_reclaim_completed_tx \- reclaims completed Tx descriptors
+.SH SYNOPSIS
+.B "void" cxgb4_reclaim_completed_tx
+.BI "(struct adapter *adap "  ","
+.BI "struct sge_txq *q "  ","
+.BI "bool unmap "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "q" 12
+the Tx queue to reclaim completed descriptors from
+.IP "unmap" 12
+whether the buffers should be unmapped for DMA
+
+Reclaims Tx descriptors that the SGE has indicated it has processed,
+and frees the associated buffers if possible.  Called with the Tx
+queue locked.

@@ -1,0 +1,26 @@
+.TH "drm_writeback_queue_job" 9 "drm_writeback_queue_job" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_writeback_queue_job \- Queue a writeback job for later signalling
+.SH SYNOPSIS
+.B "void" drm_writeback_queue_job
+.BI "(struct drm_writeback_connector *wb_connector "  ","
+.BI "struct drm_connector_state *conn_state "  ");"
+.SH ARGUMENTS
+.IP "wb_connector" 12
+The writeback connector to queue a job on
+.IP "conn_state" 12
+The connector state containing the job to queue
+.SH "DESCRIPTION"
+This function adds the job contained in \fIconn_state\fP to the job_queue for a
+writeback connector. It takes ownership of the writeback job and sets the
+\fIconn_state->writeback_job\fP to NULL, and so no access to the job may be
+performed by the caller after this function returns.
+
+Drivers must ensure that for a given writeback connector, jobs are queued in
+exactly the same order as they will be completed by the hardware (and
+signaled via drm_writeback_signal_completion).
+
+For every call to \fBdrm_writeback_queue_job\fP there must be exactly one call to
+\fBdrm_writeback_signal_completion\fP
+
+See also: \fBdrm_writeback_signal_completion\fP

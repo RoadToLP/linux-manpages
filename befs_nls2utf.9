@@ -1,0 +1,34 @@
+.TH "befs_nls2utf" 9 "befs_nls2utf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_nls2utf \- Convert NLS string to utf8 encodeing
+.SH SYNOPSIS
+.B "int" befs_nls2utf
+.BI "(struct super_block *sb "  ","
+.BI "const char *in "  ","
+.BI "int in_len "  ","
+.BI "char **out "  ","
+.BI "int *out_len "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Superblock
+.IP "in" 12
+Input string buffer in NLS format
+.IP "in_len" 12
+Length of input string in bytes
+.IP "out" 12
+The output string in UTF-8 format
+.IP "out_len" 12
+Length of the output buffer
+.SH "DESCRIPTION"
+Converts input string \fIin\fP, which is in the format of the loaded NLS map,
+into a utf8 string.
+
+The destination string \fIout\fP is allocated by this function and the caller is
+responsible for freeing it with \fBkfree\fP
+
+On return, *\fIout_len\fP is the length of \fIout\fP in bytes.
+
+On success, the return value is the number of utf8 characters written to
+the output buffer \fIout\fP.
+
+On Failure, a negative number coresponding to the error code is returned.

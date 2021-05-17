@@ -1,0 +1,40 @@
+.TH "scsi_mode_select" 9 "scsi_mode_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_mode_select \- issue a mode select
+.SH SYNOPSIS
+.B "int" scsi_mode_select
+.BI "(struct scsi_device *sdev "  ","
+.BI "int pf "  ","
+.BI "int sp "  ","
+.BI "int modepage "  ","
+.BI "unsigned char *buffer "  ","
+.BI "int len "  ","
+.BI "int timeout "  ","
+.BI "int retries "  ","
+.BI "struct scsi_mode_data *data "  ","
+.BI "struct scsi_sense_hdr *sshdr "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+SCSI device to be queried
+.IP "pf" 12
+Page format bit (1 == standard, 0 == vendor specific)
+.IP "sp" 12
+Save page bit (0 == don't save, 1 == save)
+.IP "modepage" 12
+mode page being requested
+.IP "buffer" 12
+request buffer (may not be smaller than eight bytes)
+.IP "len" 12
+length of request buffer.
+.IP "timeout" 12
+command timeout
+.IP "retries" 12
+number of retries before failing
+.IP "data" 12
+returns a structure abstracting the mode header data
+.IP "sshdr" 12
+place to put sense data (or NULL if no sense to be collected).
+must be SCSI_SENSE_BUFFERSIZE big.
+
+Returns zero if successful; negative error number or scsi
+status on error

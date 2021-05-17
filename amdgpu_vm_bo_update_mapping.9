@@ -1,0 +1,49 @@
+.TH "amdgpu_vm_bo_update_mapping" 9 "amdgpu_vm_bo_update_mapping" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_vm_bo_update_mapping \- update a mapping in the vm page table
+.SH SYNOPSIS
+.B "int" amdgpu_vm_bo_update_mapping
+.BI "(struct amdgpu_device *adev "  ","
+.BI "struct amdgpu_device *bo_adev "  ","
+.BI "struct amdgpu_vm *vm "  ","
+.BI "bool immediate "  ","
+.BI "bool unlocked "  ","
+.BI "struct dma_resv *resv "  ","
+.BI "uint64_t start "  ","
+.BI "uint64_t last "  ","
+.BI "uint64_t flags "  ","
+.BI "uint64_t offset "  ","
+.BI "struct drm_mm_node *nodes "  ","
+.BI "dma_addr_t *pages_addr "  ","
+.BI "struct dma_fence **fence "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer of the VM
+.IP "bo_adev" 12
+amdgpu_device pointer of the mapped BO
+.IP "vm" 12
+requested vm
+.IP "immediate" 12
+immediate submission in a page fault
+.IP "unlocked" 12
+unlocked invalidation during MM callback
+.IP "resv" 12
+fences we need to sync to
+.IP "start" 12
+start of mapped range
+.IP "last" 12
+last mapped entry
+.IP "flags" 12
+flags for the entries
+.IP "offset" 12
+offset into nodes and pages_addr
+.IP "nodes" 12
+array of drm_mm_nodes with the MC addresses
+.IP "pages_addr" 12
+DMA addresses to use for mapping
+.IP "fence" 12
+optional resulting fence
+.SH "DESCRIPTION"
+Fill in the page table entries between \fIstart\fP and \fIlast\fP.
+.SH "RETURN"
+0 for success, -EINVAL for failure.

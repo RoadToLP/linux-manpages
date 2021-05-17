@@ -1,0 +1,15 @@
+.TH "cxlflash_eh_abort_handler" 9 "cxlflash_eh_abort_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_eh_abort_handler \- abort a SCSI command
+.SH SYNOPSIS
+.B "int" cxlflash_eh_abort_handler
+.BI "(struct scsi_cmnd *scp "  ");"
+.SH ARGUMENTS
+.IP "scp" 12
+SCSI command to abort.
+.SH "DESCRIPTION"
+CXL Flash devices do not support a single command abort. Reset the context
+as per SISLite specification. Flush any pending commands in the hardware
+queue before the reset.
+.SH "RETURN"
+SUCCESS/FAILED as defined in scsi/scsi.h

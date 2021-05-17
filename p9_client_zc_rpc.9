@@ -1,0 +1,35 @@
+.TH "p9_client_zc_rpc" 9 "p9_client_zc_rpc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+p9_client_zc_rpc \- issue a request and wait for a response
+.SH SYNOPSIS
+.B "struct p9_req_t *" p9_client_zc_rpc
+.BI "(struct p9_client *c "  ","
+.BI "int8_t type "  ","
+.BI "struct iov_iter *uidata "  ","
+.BI "struct iov_iter *uodata "  ","
+.BI "int inlen "  ","
+.BI "int olen "  ","
+.BI "int in_hdrlen "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+client session
+.IP "type" 12
+type of request
+.IP "uidata" 12
+destination for zero copy read
+.IP "uodata" 12
+source for zero copy write
+.IP "inlen" 12
+read buffer size
+.IP "olen" 12
+write buffer size
+.IP "in_hdrlen" 12
+reader header size, This is the size of response protocol data
+.IP "fmt" 12
+protocol format string (see protocol.c)
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Returns request structure (which client must free using p9_tag_remove)

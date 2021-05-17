@@ -1,0 +1,21 @@
+.TH "sst_slot_put" 9 "sst_slot_put" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sst_slot_put \- set the status of interleaver/deinterleaver control
+.SH SYNOPSIS
+.B "int" sst_slot_put
+.BI "(struct snd_kcontrol *kcontrol "  ","
+.BI "struct snd_ctl_elem_value *ucontrol "  ");"
+.SH ARGUMENTS
+.IP "kcontrol" 12
+control pointer
+.IP "ucontrol" 12
+User data
+(de)interleaver controls are defined in opposite sense to be user-friendly
+.SH "DESCRIPTION"
+Instead of the enum value being the value written to the register, it is the
+register address; and the kcontrol number (register num) is the value written
+to the register. This is so that there can be only one value for each
+slot/channel since there is only one control for each slot/channel.
+
+This means that whenever an enum is set, we need to clear the bit
+for that kcontrol_no for all the interleaver OR deinterleaver registers

@@ -1,0 +1,19 @@
+.TH "usb_gadget_vbus_connect" 9 "usb_gadget_vbus_connect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_vbus_connect \- Notify controller that VBUS is powered
+.SH SYNOPSIS
+.B "int" usb_gadget_vbus_connect
+.BI "(struct usb_gadget *gadget "  ");"
+.SH ARGUMENTS
+.IP "gadget" 12
+The device which now has VBUS power.
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+This call is used by a driver for an external transceiver (or GPIO)
+that detects a VBUS power session starting.  Common responses include
+resuming the controller, activating the D+ (or D-) pullup to let the
+host detect that a USB device is attached, and starting to draw power
+(8mA or possibly more, especially after SET_CONFIGURATION).
+
+Returns zero on success, else negative errno.

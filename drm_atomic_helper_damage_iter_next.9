@@ -1,0 +1,23 @@
+.TH "drm_atomic_helper_damage_iter_next" 9 "drm_atomic_helper_damage_iter_next" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_damage_iter_next \- Advance the damage iterator.
+.SH SYNOPSIS
+.B "bool" drm_atomic_helper_damage_iter_next
+.BI "(struct drm_atomic_helper_damage_iter *iter "  ","
+.BI "struct drm_rect *rect "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+The iterator to advance.
+.IP "rect" 12
+Return a rectangle in fb coordinate clipped to plane src.
+.SH "DESCRIPTION"
+Since plane src is in 16.16 fixed point and damage clips are whole number,
+this iterator round off clips that intersect with plane src. Round down for
+x1/y1 and round up for x2/y2 for the intersected coordinate. Similar rounding
+off for full plane src, in case it's returned as damage. This iterator will
+skip damage clips outside of plane src.
+
+If the first call to iterator next returns false then it means no need to
+update the plane.
+.SH "RETURN"
+True if the output is valid, false if reached the end.

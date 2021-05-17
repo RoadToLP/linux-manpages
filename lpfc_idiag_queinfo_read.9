@@ -1,0 +1,27 @@
+.TH "lpfc_idiag_queinfo_read" 9 "lpfc_idiag_queinfo_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_idiag_queinfo_read \- idiag debugfs read queue information
+.SH SYNOPSIS
+.B "ssize_t" lpfc_idiag_queinfo_read
+.BI "(struct file *file "  ","
+.BI "char __user *buf "  ","
+.BI "size_t nbytes "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The file pointer to read from.
+.IP "buf" 12
+The buffer to copy the data to.
+.IP "nbytes" 12
+The number of bytes to read.
+.IP "ppos" 12
+The position in the file to start reading from.
+.SH "DESCRIPTION"
+This routine reads data from the \fIphba\fP SLI4 PCI function queue information,
+and copies to user \fIbuf\fP.
+This routine only returns 1 EQs worth of information. It remembers the last
+EQ read and jumps to the next EQ. Thus subsequent calls to queInfo will
+retrieve all EQs allocated for the phba.
+.SH "RETURN"
+This function returns the amount of data that was read (this could be less
+than \fInbytes\fP if the end of the file was reached) or a negative error value.

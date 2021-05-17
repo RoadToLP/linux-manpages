@@ -1,0 +1,22 @@
+.TH "dev_change_net_namespace" 9 "dev_change_net_namespace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dev_change_net_namespace \- move device to different nethost namespace
+.SH SYNOPSIS
+.B "int" dev_change_net_namespace
+.BI "(struct net_device *dev "  ","
+.BI "struct net *net "  ","
+.BI "const char *pat "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.IP "net" 12
+network namespace
+.IP "pat" 12
+If not NULL name pattern to try if the current device name
+is already taken in the destination network namespace.
+
+This function shuts down a device interface and moves it
+to a new network namespace. On success 0 is returned, on
+a failure a netagive errno code is returned.
+
+Callers must hold the rtnl semaphore.

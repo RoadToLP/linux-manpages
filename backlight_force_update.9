@@ -1,0 +1,18 @@
+.TH "backlight_force_update" 9 "backlight_force_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+backlight_force_update \- tell the backlight subsystem that hardware state has changed
+.SH SYNOPSIS
+.B "void" backlight_force_update
+.BI "(struct backlight_device *bd "  ","
+.BI "enum backlight_update_reason reason "  ");"
+.SH ARGUMENTS
+.IP "bd" 12
+the backlight device to update
+.IP "reason" 12
+reason for update
+.SH "DESCRIPTION"
+Updates the internal state of the backlight in response to a hardware event,
+and generates an uevent to notify userspace. A backlight driver shall call
+\fBbacklight_force_update\fP when the backlight is changed using, for example,
+a hot-key. The updated brightness is read using \fBget_brightness\fP and the
+brightness value is reported using an uevent.

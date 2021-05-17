@@ -1,0 +1,20 @@
+.TH "sclp_sd_store_data" 9 "sclp_sd_store_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sclp_sd_store_data \- Obtain data for specified Store Data entity
+.SH SYNOPSIS
+.B "int" sclp_sd_store_data
+.BI "(struct sclp_sd_data *result "  ","
+.BI "u8 di "  ");"
+.SH ARGUMENTS
+.IP "result" 12
+Resulting data
+.IP "di" 12
+DI value associated with this entity
+.SH "DESCRIPTION"
+Perform a series of Store Data requests to obtain the size and contents of
+the specified Store Data entity.
+.SH "RETURN"
+0:       Success - result is stored in \fIresult\fP. \fIresult->data\fP must be
+released using \fBvfree\fP after use.
+-ENOENT: No data available for this entity
+%<0:      Other error

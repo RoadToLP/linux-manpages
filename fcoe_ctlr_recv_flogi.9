@@ -1,0 +1,25 @@
+.TH "fcoe_ctlr_recv_flogi" 9 "fcoe_ctlr_recv_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_recv_flogi \- Snoop pre-FIP receipt of FLOGI response
+.SH SYNOPSIS
+.B "int" fcoe_ctlr_recv_flogi
+.BI "(struct fcoe_ctlr *fip "  ","
+.BI "struct fc_lport *lport "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+The FCoE controller
+.IP "lport" 12
+The local port
+.IP "fp" 12
+The FC frame to snoop
+.SH "DESCRIPTION"
+Snoop potential response to FLOGI or even incoming FLOGI.
+
+The caller has checked that we are waiting for login as indicated
+by fip->flogi_oxid != FC_XID_UNKNOWN.
+
+The caller is responsible for freeing the frame.
+Fill in the granted_mac address.
+
+Return non-zero if the frame should not be delivered to libfc.

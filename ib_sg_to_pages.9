@@ -1,0 +1,34 @@
+.TH "ib_sg_to_pages" 9 "ib_sg_to_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_sg_to_pages \- Convert the largest prefix of a sg list to a page vector
+.SH SYNOPSIS
+.B "int" ib_sg_to_pages
+.BI "(struct ib_mr *mr "  ","
+.BI "struct scatterlist *sgl "  ","
+.BI "int sg_nents "  ","
+.BI "unsigned int *sg_offset_p "  ","
+.BI "int (*set_page)(struct ib_mr *, u64) "  ");"
+.SH ARGUMENTS
+.IP "mr" 12
+memory region
+.IP "sgl" 12
+dma mapped scatterlist
+.IP "sg_nents" 12
+number of entries in sg
+.IP "sg_offset_p" 12
+==== =======================================================
+IN   start offset in bytes into sg
+OUT  offset in bytes for element n of the sg of the first
+byte that has not been processed where n is the return
+value of this function.
+==== =======================================================
+.IP "set_page" 12
+driver page assignment function pointer
+.SH "DESCRIPTION"
+Core service helper for drivers to convert the largest
+prefix of given sg list to a page vector. The sg list
+prefix converted is the prefix that meet the requirements
+of ib_map_mr_sg.
+
+Returns the number of sg elements that were assigned to
+a page vector.

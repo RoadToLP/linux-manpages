@@ -1,0 +1,16 @@
+.TH "s3c24xx_spi_tryfiq" 9 "s3c24xx_spi_tryfiq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3c24xx_spi_tryfiq \- attempt to claim and setup FIQ for transfer
+.SH SYNOPSIS
+.B "void" s3c24xx_spi_tryfiq
+.BI "(struct s3c24xx_spi *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+The hardware state.
+.SH "DESCRIPTION"
+Claim the FIQ handler (only one can be active at any one time) and
+then setup the correct transfer code for this transfer.
+
+This call updates all the necessary state information if successful,
+so the caller does not need to do anything more than start the transfer
+as normal, since the IRQ will have been re-routed to the FIQ handler.

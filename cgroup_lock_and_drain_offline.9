@@ -1,0 +1,13 @@
+.TH "cgroup_lock_and_drain_offline" 9 "cgroup_lock_and_drain_offline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_lock_and_drain_offline \- lock cgroup_mutex and drain offlined csses
+.SH SYNOPSIS
+.B "void" cgroup_lock_and_drain_offline
+.BI "(struct cgroup *cgrp "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+root of the target subtree
+.SH "DESCRIPTION"
+Because css offlining is asynchronous, userland may try to re-enable a
+controller while the previous css is still around.  This function grabs
+cgroup_mutex and drains the previous css instances of \fIcgrp\fP's subtree.

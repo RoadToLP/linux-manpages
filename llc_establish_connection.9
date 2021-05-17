@@ -1,0 +1,24 @@
+.TH "llc_establish_connection" 9 "llc_establish_connection" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+llc_establish_connection \- Called by upper layer to establish a conn
+.SH SYNOPSIS
+.B "int" llc_establish_connection
+.BI "(struct sock *sk "  ","
+.BI "u8 *lmac "  ","
+.BI "u8 *dmac "  ","
+.BI "u8 dsap "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+connection
+.IP "lmac" 12
+local mac address
+.IP "dmac" 12
+destination mac address
+.IP "dsap" 12
+destination sap
+
+Upper layer calls this to establish an LLC connection with a remote
+machine. This function packages a proper event and sends it connection
+component state machine. Success or failure of connection
+establishment will inform to upper layer via calling it's confirm
+function and passing proper information.

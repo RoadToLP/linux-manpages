@@ -1,0 +1,20 @@
+.TH "dma_fence_begin_signalling" 9 "dma_fence_begin_signalling" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_begin_signalling \- begin a critical DMA fence signalling section
+.SH SYNOPSIS
+.B "bool" dma_fence_begin_signalling
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Drivers should use this to annotate the beginning of any code section
+required to eventually complete \fIdma_fence\fP by calling \fBdma_fence_signal\fP.
+
+The end of these critical sections are annotated with
+\fBdma_fence_end_signalling\fP.
+
+Opaque cookie needed by the implementation, which needs to be passed to
+\fBdma_fence_end_signalling\fP.
+.SH "RETURN"

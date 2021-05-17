@@ -1,0 +1,16 @@
+.TH "deactivate_locked_super" 9 "deactivate_locked_super" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+deactivate_locked_super \- drop an active reference to superblock
+.SH SYNOPSIS
+.B "void" deactivate_locked_super
+.BI "(struct super_block *s "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+superblock to deactivate
+
+Drops an active reference to superblock, converting it into a temporary
+one if there is no other active references left.  In that case we
+tell fs driver to shut it down and drop the temporary reference we
+had just acquired.
+
+Caller holds exclusive lock on superblock; that lock is released.

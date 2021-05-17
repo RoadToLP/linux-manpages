@@ -1,0 +1,45 @@
+.TH "sys_membarrier" 9 "sys_membarrier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sys_membarrier \- issue memory barriers on a set of threads
+.SH SYNOPSIS
+.B "long" sys_membarrier
+.BI "(int cmd "  ","
+.BI "unsigned int flags "  ","
+.BI "int cpu_id "  ");"
+.SH ARGUMENTS
+.IP "cmd" 12
+Takes command values defined in enum membarrier_cmd.
+.IP "flags" 12
+Currently needs to be 0 for all commands other than
+MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ: in the latter
+case it can be MEMBARRIER_CMD_FLAG_CPU, indicating that \fIcpu_id\fP
+contains the CPU on which to interrupt (= restart)
+the RSEQ critical section.
+.IP "cpu_id" 12
+if \fIflags\fP == MEMBARRIER_CMD_FLAG_CPU, indicates the cpu on which
+RSEQ CS should be interrupted (\fIcmd\fP must be
+MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ).
+.SH "DESCRIPTION"
+If this system call is not implemented, -ENOSYS is returned. If the
+command specified does not exist, not available on the running
+kernel, or if the command argument is invalid, this system call
+returns -EINVAL. For a given command, with flags argument set to 0,
+if this system call returns -ENOSYS or -EINVAL, it is guaranteed to
+always return the same value until reboot. In addition, it can return
+-ENOMEM if there is not enough memory available to perform the system
+call.
+
+All memory accesses performed in program order from each targeted thread
+is guaranteed to be ordered with respect to \fBsys_membarrier\fP. If we use
+the semantic "\fBbarrier\fP" to represent a compiler barrier forcing memory
+accesses to be performed in program order across the barrier, and
+\fBsmp_mb\fP to represent explicit memory barriers forcing full memory
+ordering across the barrier, we have the following ordering table for
+each pair of \fBbarrier\fP, \fBsys_membarrier\fP and \fBsmp_mb\fP:
+
+The pair ordering is detailed as (O: ordered, X: not ordered):
+
+\fBbarrier\fP   \fBsmp_mb\fP \fBsys_membarrier\fP
+\fBbarrier\fP          X           X            O
+\fBsmp_mb\fP           X           O            O
+\fBsys_membarrier\fP   O           O            O

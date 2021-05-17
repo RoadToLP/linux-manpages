@@ -1,0 +1,20 @@
+.TH "ovs_vport_get_upcall_portids" 9 "ovs_vport_get_upcall_portids" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_vport_get_upcall_portids \- get the upcall_portids of @vport.
+.SH SYNOPSIS
+.B "int" ovs_vport_get_upcall_portids
+.BI "(const struct vport *vport "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+vport from which to retrieve the portids.
+.IP "skb" 12
+sk_buff where portids should be appended.
+.SH "DESCRIPTION"
+Retrieves the configuration of the given vport, appending the
+OVS_VPORT_ATTR_UPCALL_PID attribute which is the array of upcall
+portids to \fIskb\fP.
+
+Returns 0 if successful, -EMSGSIZE if \fIskb\fP has insufficient room.
+If an error occurs, \fIskb\fP is left unmodified.  Must be called with
+ovs_mutex or rcu_read_lock.

@@ -1,0 +1,18 @@
+.TH "pm8001_bytes_dmaed" 9 "pm8001_bytes_dmaed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pm8001_bytes_dmaed \- one of the interface function communication with libsas
+.SH SYNOPSIS
+.B "void" pm8001_bytes_dmaed
+.BI "(struct pm8001_hba_info *pm8001_ha "  ","
+.BI "int i "  ");"
+.SH ARGUMENTS
+.IP "pm8001_ha" 12
+our hba card information
+.IP "i" 12
+which phy that received the event.
+.SH "DESCRIPTION"
+when HBA driver received the identify done event or initiate FIS received
+event(for SATA), it will invoke this function to notify the sas layer that
+the sas toplogy has formed, please discover the the whole sas domain,
+while receive a broadcast(change) primitive just tell the sas
+layer to discover the changed domain rather than the whole domain.

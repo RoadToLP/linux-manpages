@@ -1,0 +1,18 @@
+.TH "ks8851_init_mac" 9 "ks8851_init_mac" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ks8851_init_mac \- initialise the mac address
+.SH SYNOPSIS
+.B "void" ks8851_init_mac
+.BI "(struct ks8851_net *ks "  ","
+.BI "struct device_node *np "  ");"
+.SH ARGUMENTS
+.IP "ks" 12
+The device structure
+.IP "np" 12
+The device node pointer
+.SH "DESCRIPTION"
+Get or create the initial mac address for the device and then set that
+into the station address register. A mac address supplied in the device
+tree takes precedence. Otherwise, if there is an EEPROM present, then
+we try that. If no valid mac address is found we use \fBeth_random_addr\fP
+to create a new one.

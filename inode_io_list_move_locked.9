@@ -1,0 +1,19 @@
+.TH "inode_io_list_move_locked" 9 "inode_io_list_move_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_io_list_move_locked \- move an inode onto a bdi_writeback IO list
+.SH SYNOPSIS
+.B "bool" inode_io_list_move_locked
+.BI "(struct inode *inode "  ","
+.BI "struct bdi_writeback *wb "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to be moved
+.IP "wb" 12
+target bdi_writeback
+.IP "head" 12
+one of \fIwb->b_\fP{dirty|io|more_io|dirty_time}
+.SH "DESCRIPTION"
+Move \fIinode->i_io_list\fP to \fIlist\fP of \fIwb\fP and set WB_has_dirty_io.
+Returns true if \fIinode\fP is the first occupant of the !dirty_time IO
+lists; otherwise, false.

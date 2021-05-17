@@ -1,0 +1,18 @@
+.TH "apparmor_sock_graft" 9 "apparmor_sock_graft" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+apparmor_sock_graft \- Initialize newly created socket
+.SH SYNOPSIS
+.B "void" apparmor_sock_graft
+.BI "(struct sock *sk "  ","
+.BI "struct socket *parent "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+child sock
+.IP "parent" 12
+parent socket
+.SH "NOTE"
+could set off of SOCK_CTX(parent) but need to track inode and we can
+just set sk security information off of current creating process label
+Labeling of sk for accept case - probably should be sock based
+instead of task, because of the case where an implicitly labeled
+socket is shared by different tasks.

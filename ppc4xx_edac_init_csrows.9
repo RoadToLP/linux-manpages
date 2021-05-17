@@ -1,0 +1,23 @@
+.TH "ppc4xx_edac_init_csrows" 9 "ppc4xx_edac_init_csrows" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ppc4xx_edac_init_csrows \- initialize driver instance rows
+.SH SYNOPSIS
+.B "int" ppc4xx_edac_init_csrows
+.BI "(struct mem_ctl_info *mci "  ","
+.BI "u32 mcopt1 "  ");"
+.SH ARGUMENTS
+.IP "mci" 12
+A pointer to the EDAC memory controller instance
+associated with the ibm,sdram-4xx-ddr2 controller for which
+the csrows (i.e. banks/ranks) are being initialized.
+.IP "mcopt1" 12
+The 32-bit Memory Controller Option 1 register value
+currently set for the controller, from which bank width
+and memory typ information is derived.
+.SH "DESCRIPTION"
+This routine initializes the virtual "chip select rows" associated
+with the EDAC memory controller instance. An ibm,sdram-4xx-ddr2
+controller bank/rank is mapped to a row.
+
+Returns 0 if OK; otherwise, -EINVAL if the memory bank size
+configuration cannot be determined.

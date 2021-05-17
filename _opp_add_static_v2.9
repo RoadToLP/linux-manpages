@@ -1,0 +1,32 @@
+.TH "_opp_add_static_v2" 9 "_opp_add_static_v2" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_opp_add_static_v2 \- Allocate static OPPs (As per 'v2' DT bindings)
+.SH SYNOPSIS
+.B "struct dev_pm_opp *" _opp_add_static_v2
+.BI "(struct opp_table *opp_table "  ","
+.BI "struct device *dev "  ","
+.BI "struct device_node *np "  ");"
+.SH ARGUMENTS
+.IP "opp_table" 12
+OPP table
+.IP "dev" 12
+device for which we do this operation
+.IP "np" 12
+device node
+.SH "DESCRIPTION"
+This function adds an opp definition to the opp table and returns status. The
+opp can be controlled using dev_pm_opp_enable/disable functions and may be
+removed by dev_pm_opp_remove.
+.SH "RETURN"
+Valid OPP pointer:
+On success
+NULL:
+Duplicate OPPs (both freq and volt are same) and opp->available
+OR if the OPP is not supported by hardware.
+ERR_PTR(-EEXIST):
+Freq are same and volt are different OR
+Duplicate OPPs (both freq and volt are same) and !opp->available
+ERR_PTR(-ENOMEM):
+Memory allocation failure
+ERR_PTR(-EINVAL):
+Failed parsing the OPP node

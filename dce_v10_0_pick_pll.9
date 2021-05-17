@@ -1,0 +1,25 @@
+.TH "dce_v10_0_pick_pll" 9 "dce_v10_0_pick_pll" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dce_v10_0_pick_pll \- Allocate a PPLL for use by the crtc.
+.SH SYNOPSIS
+.B "u32" dce_v10_0_pick_pll
+.BI "(struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+drm crtc
+.SH "DESCRIPTION"
+Returns the PPLL (Pixel PLL) to be used by the crtc.  For DP monitors
+a single PPLL can be used for all DP crtcs/encoders.  For non-DP
+monitors a dedicated PPLL must be used.  If a particular board has
+an external DP PLL, return ATOM_PPLL_INVALID to skip PLL programming
+as there is no need to program the PLL itself.  If we are not able to
+allocate a PLL, return ATOM_PPLL_INVALID to skip PLL programming to
+avoid messing up an existing monitor.
+
+Asic specific PLL information
+
+DCE 10.x
+Tonga
+- PPLL1, PPLL2 are available for all UNIPHY (both DP and non-DP)
+CI
+- PPLL0, PPLL1, PPLL2 are available for all UNIPHY (both DP and non-DP) and DAC

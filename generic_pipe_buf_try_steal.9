@@ -1,0 +1,18 @@
+.TH "generic_pipe_buf_try_steal" 9 "generic_pipe_buf_try_steal" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_pipe_buf_try_steal \- attempt to take ownership of a &pipe_buffer
+.SH SYNOPSIS
+.B "bool" generic_pipe_buf_try_steal
+.BI "(struct pipe_inode_info *pipe "  ","
+.BI "struct pipe_buffer *buf "  ");"
+.SH ARGUMENTS
+.IP "pipe" 12
+the pipe that the buffer belongs to
+.IP "buf" 12
+the buffer to attempt to steal
+.SH "DESCRIPTION"
+This function attempts to steal the \fIstruct page\fP attached to
+\fIbuf\fP. If successful, this function returns 0 and returns with
+the page locked. The caller may then reuse the page for whatever
+he wishes; the typical use is insertion into a different file
+page cache.

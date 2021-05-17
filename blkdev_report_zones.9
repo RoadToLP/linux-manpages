@@ -1,0 +1,31 @@
+.TH "blkdev_report_zones" 9 "blkdev_report_zones" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkdev_report_zones \- Get zones information
+.SH SYNOPSIS
+.B "int" blkdev_report_zones
+.BI "(struct block_device *bdev "  ","
+.BI "sector_t sector "  ","
+.BI "unsigned int nr_zones "  ","
+.BI "report_zones_cb cb "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+Target block device
+.IP "sector" 12
+Sector from which to report zones
+.IP "nr_zones" 12
+Maximum number of zones to report
+.IP "cb" 12
+Callback function called for each reported zone
+.IP "data" 12
+Private data for the callback
+.SH "DESCRIPTION"
+Get zone information starting from the zone containing \fIsector\fP for at most
+\fInr_zones\fP, and call \fIcb\fP for each zone reported by the device.
+To report all zones in a device starting from \fIsector\fP, the BLK_ALL_ZONES
+constant can be passed to \fInr_zones\fP.
+Returns the number of zones reported by the device, or a negative errno
+value in case of failure.
+.SH "NOTE"
+The caller must use memalloc_noXX_save/\fBrestore\fP calls to control
+memory allocations done within this function.

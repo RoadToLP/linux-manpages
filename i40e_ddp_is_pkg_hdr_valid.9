@@ -1,0 +1,19 @@
+.TH "i40e_ddp_is_pkg_hdr_valid" 9 "i40e_ddp_is_pkg_hdr_valid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ddp_is_pkg_hdr_valid \- performs basic pkg header integrity checks
+.SH SYNOPSIS
+.B "bool" i40e_ddp_is_pkg_hdr_valid
+.BI "(struct net_device *netdev "  ","
+.BI "struct i40e_package_header *pkg_hdr "  ","
+.BI "size_t size_huge "  ");"
+.SH ARGUMENTS
+.IP "netdev" 12
+net device structure (for logging purposes)
+.IP "pkg_hdr" 12
+pointer to package header
+.IP "size_huge" 12
+size of the whole DDP profile package in size_t
+.SH "DESCRIPTION"
+Checks correctness of pkg header: Version, size too big/small, and
+all segment offsets alignment and boundaries. This function lets
+reject non DDP profile file to be loaded by administrator mistake.

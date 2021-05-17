@@ -1,0 +1,14 @@
+.TH "ata_eh_worth_retry" 9 "ata_eh_worth_retry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_worth_retry \- analyze error and decide whether to retry
+.SH SYNOPSIS
+.B "int" ata_eh_worth_retry
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+qc to possibly retry
+
+Look at the cause of the error and decide if a retry
+might be useful or not.  We don't want to retry media errors
+because the drive itself has probably already taken 10-30 seconds
+doing its own internal retries before reporting the failure.

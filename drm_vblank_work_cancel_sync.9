@@ -1,0 +1,18 @@
+.TH "drm_vblank_work_cancel_sync" 9 "drm_vblank_work_cancel_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vblank_work_cancel_sync \- cancel a vblank work and wait for it to finish executing
+.SH SYNOPSIS
+.B "bool" drm_vblank_work_cancel_sync
+.BI "(struct drm_vblank_work *work "  ");"
+.SH ARGUMENTS
+.IP "work" 12
+vblank work to cancel
+.SH "DESCRIPTION"
+Cancel an already scheduled vblank work and wait for its
+execution to finish.
+
+On return, \fIwork\fP is guaranteed to no longer be scheduled or running, even
+if it's self-arming.
+.SH "RETURN"
+True if the work was cancelled before it started to execute, false
+otherwise.

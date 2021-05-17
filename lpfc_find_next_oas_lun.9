@@ -1,0 +1,48 @@
+.TH "lpfc_find_next_oas_lun" 9 "lpfc_find_next_oas_lun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_find_next_oas_lun \- searches for the next oas lun
+.SH SYNOPSIS
+.B "bool" lpfc_find_next_oas_lun
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_name *vport_wwpn "  ","
+.BI "struct lpfc_name *target_wwpn "  ","
+.BI "uint64_t *starting_lun "  ","
+.BI "struct lpfc_name *found_vport_wwpn "  ","
+.BI "struct lpfc_name *found_target_wwpn "  ","
+.BI "uint64_t *found_lun "  ","
+.BI "uint32_t *found_lun_status "  ","
+.BI "uint32_t *found_lun_pri "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to host bus adapter structure.
+.IP "vport_wwpn" 12
+Pointer to vport's wwpn information
+.IP "target_wwpn" 12
+Pointer to target's wwpn information
+.IP "starting_lun" 12
+Pointer to the lun to start searching for
+.IP "found_vport_wwpn" 12
+Pointer to the found lun's vport wwpn information
+.IP "found_target_wwpn" 12
+Pointer to the found lun's target wwpn information
+.IP "found_lun" 12
+Pointer to the found lun.
+.IP "found_lun_status" 12
+Pointer to status of the found lun.
+.IP "found_lun_pri" 12
+Pointer to priority of the found lun.
+.SH "DESCRIPTION"
+This routine searches the luns list for the specified lun
+or the first lun for the vport/target.  If the vport wwpn contains
+a zero value then a specific vport is not specified. In this case
+any vport which contains the lun will be considered a match.  If the
+target wwpn contains a zero value then a specific target is not specified.
+In this case any target which contains the lun will be considered a
+match.  If the lun is found, the lun, vport wwpn, target wwpn and lun status
+are returned.  The function will also return the next lun if available.
+If the next lun is not found, starting_lun parameter will be set to
+NO_MORE_OAS_LUN.
+
+Return codes:
+non-0 - Error
+0 - Success

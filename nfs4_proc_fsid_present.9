@@ -1,0 +1,21 @@
+.TH "nfs4_proc_fsid_present" 9 "nfs4_proc_fsid_present" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs4_proc_fsid_present \- Is this FSID present or absent on server?
+.SH SYNOPSIS
+.B "int" nfs4_proc_fsid_present
+.BI "(struct inode *inode "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode on FSID to check
+.IP "cred" 12
+credential to use for this operation
+.SH "DESCRIPTION"
+Server indicates whether the FSID is present, moved, or not
+recognized.  This operation is necessary to clear a LEASE_MOVED
+condition for this client ID.
+
+Returns NFS4_OK if the FSID is present on this server,
+-NFS4ERR_MOVED if the FSID is no longer present, a negative
+NFS4ERR code if some error occurred on the server, or a
+negative errno if a local failure occurred.

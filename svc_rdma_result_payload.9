@@ -1,0 +1,24 @@
+.TH "svc_rdma_result_payload" 9 "svc_rdma_result_payload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_result_payload \- special processing for a result payload
+.SH SYNOPSIS
+.B "int" svc_rdma_result_payload
+.BI "(struct svc_rqst *rqstp "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "rqstp" 12
+svc_rqst to operate on
+.IP "offset" 12
+payload's byte offset in \fIxdr\fP
+.IP "length" 12
+size of payload, in bytes
+.SH "DESCRIPTION"
+Return values:
+0 if successful or nothing needed to be done
+-EMSGSIZE on XDR buffer overflow
+-E2BIG if the payload was larger than the Write chunk
+-EINVAL if client provided too many segments
+-ENOMEM if rdma_rw context pool was exhausted
+-ENOTCONN if posting failed (connection is lost)
+-EIO if rdma_rw initialization failed (DMA mapping, etc)

@@ -1,0 +1,14 @@
+.TH "sync_file_create" 9 "sync_file_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sync_file_create \- creates a sync file
+.SH SYNOPSIS
+.B "struct sync_file *" sync_file_create
+.BI "(struct dma_fence *fence "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+fence to add to the sync_fence
+.SH "DESCRIPTION"
+Creates a sync_file containg \fIfence\fP. This function acquires and additional
+reference of \fIfence\fP for the newly-created \fIsync_file\fP, if it succeeds. The
+sync_file can be released with fput(sync_file->file). Returns the
+sync_file or NULL in case of error.

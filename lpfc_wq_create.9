@@ -1,0 +1,33 @@
+.TH "lpfc_wq_create" 9 "lpfc_wq_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_wq_create \- Create a Work Queue on the HBA
+.SH SYNOPSIS
+.B "int" lpfc_wq_create
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *wq "  ","
+.BI "struct lpfc_queue *cq "  ","
+.BI "uint32_t subtype "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "wq" 12
+The queue structure to use to create the work queue.
+.IP "cq" 12
+The completion queue to bind this work queue to.
+.IP "subtype" 12
+The subtype of the work queue indicating its functionality.
+.SH "DESCRIPTION"
+This function creates a work queue, as detailed in \fIwq\fP, on a port, described
+by \fIphba\fP by sending a WQ_CREATE mailbox command to the HBA.
+
+The \fIphba\fP struct is used to send mailbox command to HBA. The \fIwq\fP struct
+is used to get the entry count and entry size that are necessary to
+determine the number of pages to allocate and use for this queue. The \fIcq\fP
+is used to indicate which completion queue to bind this work queue to. This
+function will send the WQ_CREATE mailbox command to the HBA to setup the
+work queue. This function is asynchronous and will wait for the mailbox
+command to finish before continuing.
+
+On success this function will return a zero. If unable to allocate enough
+memory this function will return -ENOMEM. If the queue create mailbox command
+fails this function will return -ENXIO.

@@ -1,0 +1,24 @@
+.TH "ice_add_entry_to_vsi_fltr_list" 9 "ice_add_entry_to_vsi_fltr_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_add_entry_to_vsi_fltr_list \- Add copy of fltr_list_entry to remove list
+.SH SYNOPSIS
+.B "enum ice_status" ice_add_entry_to_vsi_fltr_list
+.BI "(struct ice_hw *hw "  ","
+.BI "u16 vsi_handle "  ","
+.BI "struct list_head *vsi_list_head "  ","
+.BI "struct ice_fltr_info *fi "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the hardware structure
+.IP "vsi_handle" 12
+VSI handle to remove filters from
+.IP "vsi_list_head" 12
+pointer to the list to add entry to
+.IP "fi" 12
+pointer to fltr_info of filter entry to copy & add
+.SH "DESCRIPTION"
+Helper function, used when creating a list of filters to remove from
+a specific VSI. The entry added to vsi_list_head is a COPY of the
+original filter entry, with the exception of fltr_info.fltr_act and
+fltr_info.fwd_id fields. These are set such that later logic can
+extract which VSI to remove the fltr from, and pass on that information.

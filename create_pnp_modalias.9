@@ -1,0 +1,23 @@
+.TH "create_pnp_modalias" 9 "create_pnp_modalias" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_pnp_modalias \- Create hid/cid(s) string for modalias and uevent
+.SH SYNOPSIS
+.B "int" create_pnp_modalias
+.BI "(struct acpi_device *acpi_dev "  ","
+.BI "char *modalias "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "acpi_dev" 12
+ACPI device object.
+.IP "modalias" 12
+Buffer to print into.
+.IP "size" 12
+Size of the buffer.
+.SH "DESCRIPTION"
+Creates hid/cid(s) string needed for modalias and uevent
+e.g. on a device with hid:IBM0001 and cid:ACPI0001 you get:
+char *modalias: "acpi:IBM0001:ACPI0001"
+.SH "RETURN"
+0: no _HID and no _CID
+-EINVAL: output error
+-ENOMEM: output is truncated

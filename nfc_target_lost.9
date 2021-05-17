@@ -1,0 +1,18 @@
+.TH "nfc_target_lost" 9 "nfc_target_lost" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfc_target_lost \- inform that an activated target went out of field
+.SH SYNOPSIS
+.B "int" nfc_target_lost
+.BI "(struct nfc_dev *dev "  ","
+.BI "u32 target_idx "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The nfc device that had the activated target in field
+.IP "target_idx" 12
+the nfc index of the target
+.SH "DESCRIPTION"
+The device driver must call this function when the activated target
+goes out of the field.
+IMPORTANT: this function must not be called from an atomic context.
+In addition, it must also not be called from a context that would prevent
+the NFC Core to call other nfc ops entry point concurrently.

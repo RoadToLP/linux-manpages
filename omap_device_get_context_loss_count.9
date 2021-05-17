@@ -1,0 +1,20 @@
+.TH "omap_device_get_context_loss_count" 9 "omap_device_get_context_loss_count" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_device_get_context_loss_count \- get lost context count
+.SH SYNOPSIS
+.B "int" omap_device_get_context_loss_count
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+The platform device to update.
+.SH "DESCRIPTION"
+Using the primary hwmod, query the context loss count for this
+device.
+
+Callers should consider context for this device lost any time this
+function returns a value different than the value the caller got
+the last time it called this function.
+
+If any hwmods exist for the omap_device associated with \fIpdev\fP,
+return the context loss counter for that hwmod, otherwise return
+zero.

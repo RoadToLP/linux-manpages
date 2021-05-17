@@ -1,0 +1,25 @@
+.TH "sysfs_update_group" 9 "sysfs_update_group" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sysfs_update_group \- given a directory kobject, update an attribute group
+.SH SYNOPSIS
+.B "int" sysfs_update_group
+.BI "(struct kobject *kobj "  ","
+.BI "const struct attribute_group *grp "  ");"
+.SH ARGUMENTS
+.IP "kobj" 12
+The kobject to update the group on
+.IP "grp" 12
+The attribute group to update
+.SH "DESCRIPTION"
+This function updates an attribute group.  Unlike
+\fBsysfs_create_group\fP, it will explicitly not warn or error if any
+of the attribute files being created already exist.  Furthermore,
+if the visibility of the files has changed through the \fBis_visible\fP
+callback, it will update the permissions and add or remove the
+relevant files. Changing a group's name (subdirectory name under
+kobj's directory in sysfs) is not allowed.
+
+The primary use for this function is to call it after making a change
+that affects group visibility.
+
+Returns 0 on success or error code on failure.

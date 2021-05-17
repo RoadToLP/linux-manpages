@@ -1,0 +1,29 @@
+.TH "efi_capsule_write" 9 "efi_capsule_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_write \- store the capsule binary and pass it to efi_capsule_update() API
+.SH SYNOPSIS
+.B "ssize_t" efi_capsule_write
+.BI "(struct file *file "  ","
+.BI "const char __user *buff "  ","
+.BI "size_t count "  ","
+.BI "loff_t *offp "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+file pointer
+.IP "buff" 12
+buffer pointer
+.IP "count" 12
+number of bytes in \fIbuff\fP
+.IP "offp" 12
+not used
+
+Expectation:
+- A user space tool should start at the beginning of capsule binary and
+pass data in sequentially.
+- Users should close and re-open this file note in order to upload more
+capsules.
+- After an error returned, user should close the file and restart the
+operation for the next try otherwise -EIO will be returned until the
+file is closed.
+- An EFI capsule header must be located at the beginning of capsule
+binary file and passed in as first block data of write operation.

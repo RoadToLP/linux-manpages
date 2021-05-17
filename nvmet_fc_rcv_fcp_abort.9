@@ -1,0 +1,29 @@
+.TH "nvmet_fc_rcv_fcp_abort" 9 "nvmet_fc_rcv_fcp_abort" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvmet_fc_rcv_fcp_abort \- transport entry point called by an LLDD upon the reception of an ABTS for a FCP command
+.SH SYNOPSIS
+.B "void" nvmet_fc_rcv_fcp_abort
+.BI "(struct nvmet_fc_target_port *target_port "  ","
+.BI "struct nvmefc_tgt_fcp_req *fcpreq "  ");"
+.SH ARGUMENTS
+.IP "target_port" 12
+pointer to the (registered) target port the FCP CMD IU
+was received on.
+.IP "fcpreq" 12
+pointer to the fcpreq request structure that corresponds
+to the exchange that received the ABTS.
+.SH "DESCRIPTION"
+
+Notify the transport that an ABTS has been received for a FCP command
+that had been given to the transport via \fBnvmet_fc_rcv_fcp_req\fP. The
+LLDD believes the command is still being worked on
+(template_ops->\fBfcp_req_release\fP has not been called).
+
+The transport will wait for any outstanding work (an op to the LLDD,
+which the lldd should complete with error due to the ABTS; or the
+completion from the nvmet layer of the nvme command), then will
+stop processing and call the \fBnvmet_fc_rcv_fcp_req\fP callback to
+return the i/o context to the LLDD.  The LLDD may send the BA_ACC
+to the ABTS either after return from this function (assuming any
+outstanding op work has been terminated) or upon the callback being
+called.

@@ -1,0 +1,33 @@
+.TH "set_gpmc_timing_reg" 9 "set_gpmc_timing_reg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_gpmc_timing_reg \- set a single timing parameter for Chip Select Region. Caller is expected to have initialized CONFIG1 GPMCFCLKDIVIDER prior to calling this function with @cd equal to GPMC_CD_CLK.
+.SH SYNOPSIS
+.B "int" set_gpmc_timing_reg
+.BI "(int cs "  ","
+.BI "int reg "  ","
+.BI "int st_bit "  ","
+.BI "int end_bit "  ","
+.BI "int max "  ","
+.BI "int time "  ","
+.BI "enum gpmc_clk_domain cd "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+Chip Select Region.
+.IP "reg" 12
+GPMC_CS_CONFIGn register offset.
+.IP "st_bit" 12
+Start Bit
+.IP "end_bit" 12
+End Bit. Must be >= \fIst_bit\fP.
+.IP "max" 12
+Maximum parameter value.
+If 0, maximum is as high as \fIst_bit\fP and \fIend_bit\fP allow.
+.IP "time" 12
+Timing parameter in ns.
+.IP "cd" 12
+Timing parameter clock domain.
+.IP "name" 12
+Timing parameter name.
+.SH "RETURN"
+0 on success, -1 on error.

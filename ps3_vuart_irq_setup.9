@@ -1,0 +1,19 @@
+.TH "ps3_vuart_irq_setup" 9 "ps3_vuart_irq_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ps3_vuart_irq_setup \- Setup the system virtual uart virq.
+.SH SYNOPSIS
+.B "int" ps3_vuart_irq_setup
+.BI "(enum ps3_cpu_binding cpu "  ","
+.BI "void* virt_addr_bmp "  ","
+.BI "unsigned int *virq "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+enum ps3_cpu_binding indicating the cpu the interrupt should be
+serviced on.
+.IP "virt_addr_bmp" 12
+The caller supplied virtual uart interrupt bitmap.
+.IP "virq" 12
+The assigned Linux virq.
+.SH "DESCRIPTION"
+The system supports only a single virtual uart, so multiple calls without
+freeing the interrupt will return a wrong state error.

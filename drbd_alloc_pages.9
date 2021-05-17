@@ -1,0 +1,29 @@
+.TH "drbd_alloc_pages" 9 "drbd_alloc_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_alloc_pages \- Returns @number pages, retries forever (or until signalled)
+.SH SYNOPSIS
+.B "struct page *" drbd_alloc_pages
+.BI "(struct drbd_peer_device *peer_device "  ","
+.BI "unsigned int number "  ","
+.BI "bool retry "  ");"
+.SH ARGUMENTS
+.IP "peer_device" 12
+-- undescribed --
+.IP "number" 12
+number of pages requested
+.IP "retry" 12
+whether to retry, if not enough pages are available right now
+.SH "DESCRIPTION"
+Tries to allocate number pages, first from our own page pool, then from
+the kernel.
+Possibly retry until DRBD frees sufficient pages somewhere else.
+
+If this allocation would exceed the max_buffers setting, we throttle
+allocation (schedule_timeout) to give the system some room to breathe.
+
+We do not use max-buffers as hard limit, because it could lead to
+congestion and further to a distributed deadlock during online-verify or
+(checksum based) resync, if the max-buffers, socket buffer sizes and
+resync-rate settings are mis-configured.
+
+Returns a page chain linked via page->private.

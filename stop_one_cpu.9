@@ -1,0 +1,31 @@
+.TH "stop_one_cpu" 9 "stop_one_cpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stop_one_cpu \- stop a cpu
+.SH SYNOPSIS
+.B "int" stop_one_cpu
+.BI "(unsigned int cpu "  ","
+.BI "cpu_stop_fn_t fn "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+cpu to stop
+.IP "fn" 12
+function to execute
+.IP "arg" 12
+argument to \fIfn\fP
+.SH "DESCRIPTION"
+Execute \fIfn\fP(\fIarg\fP) on \fIcpu\fP.  \fIfn\fP is run in a process context with
+the highest priority preempting any task on the cpu and
+monopolizing it.  This function returns after the execution is
+complete.
+
+This function doesn't guarantee \fIcpu\fP stays online till \fIfn\fP
+completes.  If \fIcpu\fP goes down in the middle, execution may happen
+partially or fully on different cpus.  \fIfn\fP should either be ready
+for that or the caller should ensure that \fIcpu\fP stays online until
+this function completes.
+.SH "CONTEXT"
+Might sleep.
+.SH "RETURN"
+-ENOENT if \fIfn\fP(\fIarg\fP) was not executed because \fIcpu\fP was offline;
+otherwise, the return value of \fIfn\fP.

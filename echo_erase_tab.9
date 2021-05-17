@@ -1,0 +1,23 @@
+.TH "echo_erase_tab" 9 "echo_erase_tab" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+echo_erase_tab \- add operation to erase a tab
+.SH SYNOPSIS
+.B "void" echo_erase_tab
+.BI "(unsigned int num_chars "  ","
+.BI "int after_tab "  ","
+.BI "struct n_tty_data *ldata "  ");"
+.SH ARGUMENTS
+.IP "num_chars" 12
+number of character columns already used
+.IP "after_tab" 12
+true if num_chars starts after a previous tab
+.IP "ldata" 12
+n_tty data
+
+Add an operation to the echo buffer to erase a tab.
+
+Called by the eraser function, which knows how many character
+columns have been used since either a previous tab or the start
+of input.  This information will be used later, along with
+canon column (if applicable), to go back the correct number
+of columns.

@@ -1,0 +1,24 @@
+.TH "tracefs_create_dir" 9 "tracefs_create_dir" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracefs_create_dir \- create a directory in the tracefs filesystem
+.SH SYNOPSIS
+.B "struct dentry *" tracefs_create_dir
+.BI "(const char *name "  ","
+.BI "struct dentry *parent "  ");"
+.SH ARGUMENTS
+.IP "name" 12
+a pointer to a string containing the name of the directory to
+create.
+.IP "parent" 12
+a pointer to the parent dentry for this file.  This should be a
+directory dentry if set.  If this parameter is NULL, then the
+directory will be created in the root of the tracefs filesystem.
+.SH "DESCRIPTION"
+This function creates a directory in tracefs with the given name.
+
+This function will return a pointer to a dentry if it succeeds.  This
+pointer must be passed to the \fBtracefs_remove\fP function when the file is
+to be removed. If an error occurs, NULL will be returned.
+
+If tracing is not enabled in the kernel, the value -ENODEV will be
+returned.

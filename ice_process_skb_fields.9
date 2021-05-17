@@ -1,0 +1,22 @@
+.TH "ice_process_skb_fields" 9 "ice_process_skb_fields" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_process_skb_fields \- Populate skb header fields from Rx descriptor
+.SH SYNOPSIS
+.B "void" ice_process_skb_fields
+.BI "(struct ice_ring *rx_ring "  ","
+.BI "union ice_32b_rx_flex_desc *rx_desc "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u8 ptype "  ");"
+.SH ARGUMENTS
+.IP "rx_ring" 12
+Rx descriptor ring packet is being transacted on
+.IP "rx_desc" 12
+pointer to the EOP Rx descriptor
+.IP "skb" 12
+pointer to current skb being populated
+.IP "ptype" 12
+the packet type decoded by hardware
+.SH "DESCRIPTION"
+This function checks the ring, descriptor, and packet information in
+order to populate the hash, checksum, VLAN, protocol, and
+other fields within the skb.

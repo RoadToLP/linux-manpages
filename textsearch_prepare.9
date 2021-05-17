@@ -1,0 +1,31 @@
+.TH "textsearch_prepare" 9 "textsearch_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+textsearch_prepare \- Prepare a search
+.SH SYNOPSIS
+.B "struct ts_config *" textsearch_prepare
+.BI "(const char *algo "  ","
+.BI "const void *pattern "  ","
+.BI "unsigned int len "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int flags "  ");"
+.SH ARGUMENTS
+.IP "algo" 12
+name of search algorithm
+.IP "pattern" 12
+pattern data
+.IP "len" 12
+length of pattern
+.IP "gfp_mask" 12
+allocation mask
+.IP "flags" 12
+search flags
+.SH "DESCRIPTION"
+Looks up the search algorithm module and creates a new textsearch
+configuration for the specified pattern.
+
+Returns a new textsearch configuration according to the specified
+parameters or a \fBERR_PTR\fP. If a zero length pattern is passed, this
+function returns EINVAL.
+.SH "NOTE"
+The format of the pattern may not be compatible between
+the various search algorithms.

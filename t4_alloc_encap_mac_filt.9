@@ -1,0 +1,37 @@
+.TH "t4_alloc_encap_mac_filt" 9 "t4_alloc_encap_mac_filt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_alloc_encap_mac_filt \- Adds a mac entry in mps tcam with VNI support
+.SH SYNOPSIS
+.B "int" t4_alloc_encap_mac_filt
+.BI "(struct adapter *adap "  ","
+.BI "unsigned int viid "  ","
+.BI "const u8 *addr "  ","
+.BI "const u8 *mask "  ","
+.BI "unsigned int vni "  ","
+.BI "unsigned int vni_mask "  ","
+.BI "u8 dip_hit "  ","
+.BI "u8 lookup_type "  ","
+.BI "bool sleep_ok "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter
+.IP "viid" 12
+the VI id
+.IP "addr" 12
+the MAC address
+.IP "mask" 12
+the mask
+.IP "vni" 12
+the VNI id for the tunnel protocol
+.IP "vni_mask" 12
+mask for the VNI id
+.IP "dip_hit" 12
+to enable DIP match for the MPS entry
+.IP "lookup_type" 12
+MAC address for inner (1) or outer (0) header
+.IP "sleep_ok" 12
+call is allowed to sleep
+
+Allocates an MPS entry with specified MAC address and VNI value.
+
+Returns a negative error number or the allocated index for this mac.

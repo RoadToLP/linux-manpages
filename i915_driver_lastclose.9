@@ -1,0 +1,17 @@
+.TH "i915_driver_lastclose" 9 "i915_driver_lastclose" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_driver_lastclose \- clean up after all DRM clients have exited
+.SH SYNOPSIS
+.B "void" i915_driver_lastclose
+.BI "(struct drm_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.SH "DESCRIPTION"
+Take care of cleaning up after all DRM clients have exited.  In the
+mode setting case, we want to restore the kernel's initial mode (just
+in case the last client left us in a bad state).
+
+Additionally, in the non-mode setting case, we'll tear down the GTT
+and DMA structures, since the kernel won't be using them, and clea
+up any GEM state.

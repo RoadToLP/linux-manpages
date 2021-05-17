@@ -1,0 +1,17 @@
+.TH "pl022_setup" 9 "pl022_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pl022_setup \- setup function registered to SPI master framework
+.SH SYNOPSIS
+.B "int" pl022_setup
+.BI "(struct spi_device *spi "  ");"
+.SH ARGUMENTS
+.IP "spi" 12
+spi device which is requesting setup
+.SH "DESCRIPTION"
+This function is registered to the SPI framework for this SPI master
+controller. If it is the first time when setup is called by this device,
+this function will initialize the runtime state for this chip and save
+the same in the device structure. Else it will update the runtime info
+with the updated chip info. Nothing is really being written to the
+controller hardware here, that is not done until the actual transfer
+commence.

@@ -1,0 +1,17 @@
+.TH "drm_fb_helper_alloc_fbi" 9 "drm_fb_helper_alloc_fbi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_fb_helper_alloc_fbi \- allocate fb_info and some of its members
+.SH SYNOPSIS
+.B "struct fb_info *" drm_fb_helper_alloc_fbi
+.BI "(struct drm_fb_helper *fb_helper "  ");"
+.SH ARGUMENTS
+.IP "fb_helper" 12
+driver-allocated fbdev helper
+.SH "DESCRIPTION"
+A helper to alloc fb_info and the members cmap and apertures. Called
+by the driver within the fb_probe fb_helper callback function. Drivers do not
+need to release the allocated fb_info structure themselves, this is
+automatically done when calling \fBdrm_fb_helper_fini\fP.
+.SH "RETURN"
+fb_info pointer if things went okay, pointer containing error code
+otherwise

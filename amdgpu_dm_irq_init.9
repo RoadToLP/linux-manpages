@@ -1,0 +1,19 @@
+.TH "amdgpu_dm_irq_init" 9 "amdgpu_dm_irq_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dm_irq_init \- Initialize DM IRQ management
+.SH SYNOPSIS
+.B "int" amdgpu_dm_irq_init
+.BI "(struct amdgpu_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+The base driver device containing the DM device
+.SH "DESCRIPTION"
+Initialize DM's high and low context IRQ tables.
+
+The N by M table contains N IRQ sources, with M
+\fIstruct amdgpu_dm_irq_handler_data\fP hooked together in a linked list. The
+list_heads are initialized here. When an interrupt n is triggered, all m
+handlers are called in sequence, FIFO according to registration order.
+
+The low context table requires special steps to initialize, since handlers
+will be deferred to a workqueue. See \fIstruct irq_list_head\fP.

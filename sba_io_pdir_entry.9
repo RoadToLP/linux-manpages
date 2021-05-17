@@ -1,0 +1,50 @@
+.TH "sba_io_pdir_entry" 9 "sba_io_pdir_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sba_io_pdir_entry \- fill in one IO PDIR entry
+.SH SYNOPSIS
+.B "void SBA_INLINE" sba_io_pdir_entry
+.BI "(u64 *pdir_ptr "  ","
+.BI "space_t sid "  ","
+.BI "unsigned long vba "  ","
+.BI "unsigned long hint "  ");"
+.SH ARGUMENTS
+.IP "pdir_ptr" 12
+pointer to IO PDIR entry
+.IP "sid" 12
+process Space ID - currently only support KERNEL_SPACE
+.IP "vba" 12
+Virtual CPU address of buffer to map
+.IP "hint" 12
+DMA hint set to use for this mapping
+.SH "DESCRIPTION"
+SBA Mapping Routine
+
+Given a virtual address (vba, arg2) and space id, (sid, arg1)
+\fBsba_io_pdir_entry\fP loads the I/O PDIR entry pointed to by
+pdir_ptr (arg0). 
+Using the bass-ackwards HP bit numbering, Each IO Pdir entry
+for Astro/Ike looks like:
+
+
+0                    19                                 51   55       63
++-+---------------------+----------------------------------+----+--------+
+|V|        U            |            PPN[43:12]            | U  |   VI   |
++-+---------------------+----------------------------------+----+--------+
+
+Pluto is basically identical, supports fewer physical address bits:
+
+0                       23                              51   55       63
++-+------------------------+-------------------------------+----+--------+
+|V|        U               |         PPN[39:12]            | U  |   VI   |
++-+------------------------+-------------------------------+----+--------+
+
+V  == Valid Bit  (Most Significant Bit is bit 0)
+U  == Unused
+PPN == Physical Page Number
+VI  == Virtual Index (aka Coherent Index)
+
+LPA instruction output is put into PPN field.
+LCI (Load Coherence Index) instruction provides the "VI" bits.
+
+We pre-swap the bytes since PCX-W is Big Endian and the
+IOMMU uses little endian for the pdir.

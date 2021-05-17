@@ -1,0 +1,32 @@
+.TH "lpfc_cmpl_els_flogi" 9 "lpfc_cmpl_els_flogi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_cmpl_els_flogi \- Completion callback function for flogi
+.SH SYNOPSIS
+.B "void" lpfc_cmpl_els_flogi
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_iocbq *cmdiocb "  ","
+.BI "struct lpfc_iocbq *rspiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "cmdiocb" 12
+pointer to lpfc command iocb data structure.
+.IP "rspiocb" 12
+pointer to lpfc response iocb data structure.
+.SH "DESCRIPTION"
+This routine is the top-level completion callback function for issuing
+a Fabric Login (FLOGI) command. If the response IOCB reported error,
+the \fBlpfc_els_retry\fP routine shall be invoked to retry the FLOGI. If
+retry has been made (either immediately or delayed with \fBlpfc_els_retry\fP
+returning 1), the command IOCB will be released and function returned.
+If the retry attempt has been given up (possibly reach the maximum
+number of retries), one additional decrement of ndlp reference shall be
+invoked before going out after releasing the command IOCB. This will
+actually release the remote node (Note, \fBlpfc_els_free_iocb\fP will also
+invoke one decrement of ndlp reference count). If no error reported in
+the IOCB status, the command Port ID field is used to determine whether
+this is a point-to-point topology or a fabric topology: if the Port ID
+field is assigned, it is a fabric topology; otherwise, it is a
+point-to-point topology. The routine \fBlpfc_cmpl_els_flogi_fabric\fP or
+\fBlpfc_cmpl_els_flogi_nport\fP shall be invoked accordingly to handle the
+specific topology completion conditions.

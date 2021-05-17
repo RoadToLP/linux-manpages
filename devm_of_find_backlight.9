@@ -1,0 +1,19 @@
+.TH "devm_of_find_backlight" 9 "devm_of_find_backlight" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_of_find_backlight \- find backlight for a device
+.SH SYNOPSIS
+.B "struct backlight_device *" devm_of_find_backlight
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device
+.SH "DESCRIPTION"
+This function looks for a property named 'backlight' on the DT node
+connected to \fIdev\fP and looks up the backlight device. The lookup is
+device managed so the reference to the backlight device is automatically
+dropped on driver detach.
+
+A pointer to the backlight device if found.
+Error pointer -EPROBE_DEFER if the DT property is set, but no backlight
+device is found. NULL if there's no backlight property.
+.SH "RETURN"

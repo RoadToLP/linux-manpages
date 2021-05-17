@@ -1,0 +1,18 @@
+.TH "mesh_nexthop_resolve" 9 "mesh_nexthop_resolve" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mesh_nexthop_resolve \- lookup next hop; conditionally start path discovery
+.SH SYNOPSIS
+.B "int" mesh_nexthop_resolve
+.BI "(struct ieee80211_sub_if_data *sdata "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "sdata" 12
+network subif the frame will be sent through
+.IP "skb" 12
+802.11 frame to be sent
+.SH "DESCRIPTION"
+Lookup next hop for given skb and start path discovery if no
+forwarding information is found.
+.SH "RETURN"
+0 if the next hop was found and -ENOENT if the frame was queued.
+skb is freeed here if no mpath could be allocated.

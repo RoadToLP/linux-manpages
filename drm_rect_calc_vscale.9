@@ -1,0 +1,27 @@
+.TH "drm_rect_calc_vscale" 9 "drm_rect_calc_vscale" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_rect_calc_vscale \- calculate the vertical scaling factor
+.SH SYNOPSIS
+.B "int" drm_rect_calc_vscale
+.BI "(const struct drm_rect *src "  ","
+.BI "const struct drm_rect *dst "  ","
+.BI "int min_vscale "  ","
+.BI "int max_vscale "  ");"
+.SH ARGUMENTS
+.IP "src" 12
+source window rectangle
+.IP "dst" 12
+destination window rectangle
+.IP "min_vscale" 12
+minimum allowed vertical scaling factor
+.IP "max_vscale" 12
+maximum allowed vertical scaling factor
+.SH "DESCRIPTION"
+Calculate the vertical scaling factor as
+(\fIsrc\fP height) / (\fIdst\fP height).
+
+If the scale is below 1 << 16, round down. If the scale is above
+1 << 16, round up. This will calculate the scale with the most
+pessimistic limit calculation.
+.SH "RETURN"
+The vertical scaling factor, or errno of out of limits.

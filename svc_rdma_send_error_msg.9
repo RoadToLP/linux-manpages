@@ -1,0 +1,26 @@
+.TH "svc_rdma_send_error_msg" 9 "svc_rdma_send_error_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_send_error_msg \- Send an RPC/RDMA v1 error response
+.SH SYNOPSIS
+.B "void" svc_rdma_send_error_msg
+.BI "(struct svcxprt_rdma *rdma "  ","
+.BI "struct svc_rdma_send_ctxt *sctxt "  ","
+.BI "struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "int status "  ");"
+.SH ARGUMENTS
+.IP "rdma" 12
+controlling transport context
+.IP "sctxt" 12
+Send context for the response
+.IP "rctxt" 12
+Receive context for incoming bad message
+.IP "status" 12
+negative errno indicating error that occurred
+.SH "DESCRIPTION"
+Given the client-provided Read, Write, and Reply chunks, the
+server was not able to parse the Call or form a complete Reply.
+Return an RDMA_ERROR message so the client can retire the RPC
+transaction.
+
+The caller does not have to release \fIsctxt\fP. It is released by
+Send completion, or by this function on error.

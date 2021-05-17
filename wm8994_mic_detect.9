@@ -1,0 +1,23 @@
+.TH "wm8994_mic_detect" 9 "wm8994_mic_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wm8994_mic_detect \- Enable microphone detection via the WM8994 IRQ
+.SH SYNOPSIS
+.B "int" wm8994_mic_detect
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_soc_jack *jack "  ","
+.BI "int micbias "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+WM8994 component
+.IP "jack" 12
+jack to report detection events on
+.IP "micbias" 12
+microphone bias to detect on
+.SH "DESCRIPTION"
+Enable microphone detection via IRQ on the WM8994.  If GPIOs are
+being used to bring out signals to the processor then only platform
+data configuration is needed for WM8994 and processor GPIOs should
+be configured using \fBsnd_soc_jack_add_gpios\fP instead.
+
+Configuration of detection levels is available via the micbias1_lvl
+and micbias2_lvl platform data members.

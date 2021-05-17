@@ -1,0 +1,31 @@
+.TH "gen8_append_oa_reports" 9 "gen8_append_oa_reports" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen8_append_oa_reports \- Copies all buffered OA reports into userspace read() buffer.
+.SH SYNOPSIS
+.B "int" gen8_append_oa_reports
+.BI "(struct i915_perf_stream *stream "  ","
+.BI "char __user *buf "  ","
+.BI "size_t count "  ","
+.BI "size_t *offset "  ");"
+.SH ARGUMENTS
+.IP "stream" 12
+An i915-perf stream opened for OA metrics
+.IP "buf" 12
+destination buffer given by userspace
+.IP "count" 12
+the number of bytes userspace wants to read
+.IP "offset" 12
+(inout): the current position for writing into \fIbuf\fP
+.SH "DESCRIPTION"
+Notably any error condition resulting in a short read (-ENOSPC or
+-EFAULT) will be returned even though one or more records may
+have been successfully copied. In this case it's up to the caller
+to decide if the error should be squashed before returning to
+userspace.
+.SH "NOTE"
+reports are consumed from the head, and appended to the
+tail, so the tail chases the head?... If you think that's mad
+and back-to-front you're not alone, but this follows the
+Gen PRM naming convention.
+.SH "RETURN"
+0 on success, negative error code on failure.

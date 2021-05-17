@@ -1,0 +1,21 @@
+.TH "set_mm_exe_file" 9 "set_mm_exe_file" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_mm_exe_file \- change a reference to the mm's executable file
+.SH SYNOPSIS
+.B "void" set_mm_exe_file
+.BI "(struct mm_struct *mm "  ","
+.BI "struct file *new_exe_file "  ");"
+.SH ARGUMENTS
+.IP "mm" 12
+-- undescribed --
+.IP "new_exe_file" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This changes mm's executable file (shown as symlink /proc/[pid]/exe).
+
+Main users are \fBmmput\fP and \fBsys_execve\fP. Callers prevent concurrent
+invocations: in \fBmmput\fP nobody alive left, in execve task is single
+threaded. sys_prctl(PR_SET_MM_MAP/EXE_FILE) also needs to set the
+mm->exe_file, but does so without using \fBset_mm_exe_file\fP in order
+to do avoid the need for any locks.

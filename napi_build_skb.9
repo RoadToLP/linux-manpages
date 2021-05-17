@@ -1,0 +1,17 @@
+.TH "napi_build_skb" 9 "napi_build_skb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+napi_build_skb \- build a network buffer
+.SH SYNOPSIS
+.B "struct sk_buff *" napi_build_skb
+.BI "(void *data "  ","
+.BI "unsigned int frag_size "  ");"
+.SH ARGUMENTS
+.IP "data" 12
+data buffer provided by caller
+.IP "frag_size" 12
+size of data, or 0 if head was kmalloced
+.SH "DESCRIPTION"
+Version of \fB__napi_build_skb\fP that takes care of skb->head_frag
+and skb->pfmemalloc when the data is a page or page fragment.
+
+Returns a new \fIsk_buff\fP on success, NULL on allocation failure.

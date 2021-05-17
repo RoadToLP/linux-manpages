@@ -1,0 +1,17 @@
+.TH "queue_rcu_work" 9 "queue_rcu_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+queue_rcu_work \- queue work after a RCU grace period
+.SH SYNOPSIS
+.B "bool" queue_rcu_work
+.BI "(struct workqueue_struct *wq "  ","
+.BI "struct rcu_work *rwork "  ");"
+.SH ARGUMENTS
+.IP "wq" 12
+workqueue to use
+.IP "rwork" 12
+work to queue
+.SH "RETURN"
+false if \fIrwork\fP was already pending, true otherwise.  Note
+that a full RCU grace period is guaranteed only after a true return.
+While \fIrwork\fP is guaranteed to be executed after a false return, the
+execution may happen before a full RCU grace period has passed.

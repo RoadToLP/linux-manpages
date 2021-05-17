@@ -1,0 +1,18 @@
+.TH "kvm_mips_set_count_hz" 9 "kvm_mips_set_count_hz" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_mips_set_count_hz \- Update the frequency of the timer.
+.SH SYNOPSIS
+.B "int" kvm_mips_set_count_hz
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "s64 count_hz "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+Virtual CPU.
+.IP "count_hz" 12
+Frequency of CP0_Count timer in Hz.
+.SH "DESCRIPTION"
+Change the frequency of the CP0_Count timer. This is done atomically so that
+CP0_Count is continuous and no timer interrupt is lost.
+.SH "RETURN"
+-EINVAL if \fIcount_hz\fP is out of range.
+0 on success.

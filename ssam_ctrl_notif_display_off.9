@@ -1,0 +1,31 @@
+.TH "ssam_ctrl_notif_display_off" 9 "ssam_ctrl_notif_display_off" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_ctrl_notif_display_off \- Notify EC that the display has been turned off.
+.SH SYNOPSIS
+.B "int" ssam_ctrl_notif_display_off
+.BI "(struct ssam_controller *ctrl "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+The controller.
+.SH "DESCRIPTION"
+Notify the EC that the display has been turned off and the driver may enter
+a lower-power state. This will prevent events from being sent directly.
+Rather, the EC signals an event by pulling the wakeup GPIO high for as long
+as there are pending events. The events then need to be manually released,
+one by one, via the GPIO callback request. All pending events accumulated
+during this state can also be released by issuing the display-on
+notification, e.g. via \fBssam_ctrl_notif_display_on\fP, which will also reset
+the GPIO.
+
+On some devices, specifically ones with an integrated keyboard, the keyboard
+backlight will be turned off by this call.
+
+This function will only send the display-off notification command if
+display notifications are supported by the EC. Currently all known devices
+support these notifications.
+
+Use \fBssam_ctrl_notif_display_on\fP to reverse the effects of this function.
+.SH "RETURN"
+Returns zero on success or if no request has been executed, the
+status of the executed SAM request if that request failed, or -EPROTO if
+an unexpected response has been received.

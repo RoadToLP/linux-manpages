@@ -1,0 +1,17 @@
+.TH "rdma_replace_ah_attr" 9 "rdma_replace_ah_attr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_replace_ah_attr \- Replace valid ah_attr with new new one.
+.SH SYNOPSIS
+.B "void" rdma_replace_ah_attr
+.BI "(struct rdma_ah_attr *old "  ","
+.BI "const struct rdma_ah_attr *new "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+Pointer to existing ah_attr which needs to be replaced.
+old is assumed to be valid or zero'd
+.IP "new" 12
+Pointer to the new ah_attr.
+.SH "DESCRIPTION"
+\fBrdma_replace_ah_attr\fP first releases any reference in the old ah_attr if
+old the ah_attr is valid; after that it copies the new attribute and holds
+the reference to the replaced ah_attr.

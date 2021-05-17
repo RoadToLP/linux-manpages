@@ -1,0 +1,26 @@
+.TH "snd_hdac_ext_stream_assign" 9 "snd_hdac_ext_stream_assign" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_ext_stream_assign \- assign a stream for the PCM
+.SH SYNOPSIS
+.B "struct hdac_ext_stream *" snd_hdac_ext_stream_assign
+.BI "(struct hdac_bus *bus "  ","
+.BI "struct snd_pcm_substream *substream "  ","
+.BI "int type "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+HD-audio core bus
+.IP "substream" 12
+PCM substream to assign
+.IP "type" 12
+type of stream (coupled, host or link stream)
+.SH "DESCRIPTION"
+This assigns the stream based on the type (coupled/host/link), for the
+given PCM substream, assigns it and returns the stream object
+
+coupled: Looks for an unused stream
+host: Looks for an unused decoupled host stream
+link: Looks for an unused decoupled link stream
+
+If no stream is free, returns NULL. The function tries to keep using
+the same stream object when it's used beforehand.  when a stream is
+decoupled, it becomes a host stream and link stream.

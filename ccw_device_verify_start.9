@@ -1,0 +1,15 @@
+.TH "ccw_device_verify_start" 9 "ccw_device_verify_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccw_device_verify_start \- perform path verification
+.SH SYNOPSIS
+.B "void" ccw_device_verify_start
+.BI "(struct ccw_device *cdev "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+ccw device
+.SH "DESCRIPTION"
+Perform an I/O on each available channel path to \fIcdev\fP to determine which
+paths are operational. The resulting path mask is stored in sch->vpm.
+If device options specify pathgrouping, establish a pathgroup for the
+operational paths. When finished, call ccw_device_verify_done with a
+return code specifying the result.

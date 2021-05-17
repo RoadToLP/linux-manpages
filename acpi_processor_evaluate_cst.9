@@ -1,0 +1,23 @@
+.TH "acpi_processor_evaluate_cst" 9 "acpi_processor_evaluate_cst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_processor_evaluate_cst \- Evaluate the processor _CST control method.
+.SH SYNOPSIS
+.B "int" acpi_processor_evaluate_cst
+.BI "(acpi_handle handle "  ","
+.BI "u32 cpu "  ","
+.BI "struct acpi_processor_power *info "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+ACPI handle of the processor object containing the _CST.
+.IP "cpu" 12
+The numeric ID of the target CPU.
+.IP "info" 12
+Object write the C-states information into.
+.SH "DESCRIPTION"
+Extract the C-state information for the given CPU from the output of the _CST
+control method under the corresponding ACPI processor object (or processor
+device object) and populate \fIinfo\fP with it.
+
+If any ACPI_ADR_SPACE_FIXED_HARDWARE C-states are found, invoke
+\fBacpi_processor_ffh_cstate_probe\fP to verify them and update the
+cpu_cstate_entry data for \fIcpu\fP.

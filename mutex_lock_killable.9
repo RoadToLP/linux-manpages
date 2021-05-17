@@ -1,0 +1,18 @@
+.TH "mutex_lock_killable" 9 "mutex_lock_killable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mutex_lock_killable \- Acquire the mutex, interruptible by fatal signals.
+.SH SYNOPSIS
+.B "int" mutex_lock_killable
+.BI "(struct mutex *lock "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+The mutex to be acquired.
+.SH "DESCRIPTION"
+Lock the mutex like \fBmutex_lock\fP.  If a signal which will be fatal to
+the current process is delivered while the process is sleeping, this
+function will return without acquiring the mutex.
+.SH "CONTEXT"
+Process context.
+.SH "RETURN"
+0 if the lock was successfully acquired or -EINTR if a
+fatal signal arrived.

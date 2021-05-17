@@ -1,0 +1,21 @@
+.TH "skb_ext_add" 9 "skb_ext_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_ext_add \- allocate space for given extension, COW if needed
+.SH SYNOPSIS
+.B "void *" skb_ext_add
+.BI "(struct sk_buff *skb "  ","
+.BI "enum skb_ext_id id "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer
+.IP "id" 12
+extension to allocate space for
+.SH "DESCRIPTION"
+Allocates enough space for the given extension.
+If the extension is already present, a pointer to that extension
+is returned.
+
+If the skb was cloned, COW applies and the returned memory can be
+modified without changing the extension space of clones buffers.
+
+Returns pointer to the extension or NULL on allocation failure.

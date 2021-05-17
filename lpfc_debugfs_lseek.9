@@ -1,0 +1,24 @@
+.TH "lpfc_debugfs_lseek" 9 "lpfc_debugfs_lseek" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_debugfs_lseek \- Seek through a debugfs file
+.SH SYNOPSIS
+.B "loff_t" lpfc_debugfs_lseek
+.BI "(struct file *file "  ","
+.BI "loff_t off "  ","
+.BI "int whence "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+The file pointer to seek through.
+.IP "off" 12
+The offset to seek to or the amount to seek by.
+.IP "whence" 12
+Indicates how to seek.
+.SH "DESCRIPTION"
+This routine is the entry point for the debugfs lseek file operation. The
+\fIwhence\fP parameter indicates whether \fIoff\fP is the offset to directly seek to,
+or if it is a value to seek forward or reverse by. This function figures out
+what the new offset of the debugfs file will be and assigns that value to the
+f_pos field of \fIfile\fP.
+.SH "RETURN"
+This function returns the new offset if successful and returns a negative
+error if unable to process the seek.

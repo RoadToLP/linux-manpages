@@ -1,0 +1,24 @@
+.TH "ice_sched_add_rl_profile" 9 "ice_sched_add_rl_profile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_sched_add_rl_profile \- add RL profile
+.SH SYNOPSIS
+.B "struct ice_aqc_rl_profile_info *" ice_sched_add_rl_profile
+.BI "(struct ice_port_info *pi "  ","
+.BI "enum ice_rl_type rl_type "  ","
+.BI "u32 bw "  ","
+.BI "u8 layer_num "  ");"
+.SH ARGUMENTS
+.IP "pi" 12
+port information structure
+.IP "rl_type" 12
+type of rate limit BW - min, max, or shared
+.IP "bw" 12
+bandwidth in Kbps - Kilo bits per sec
+.IP "layer_num" 12
+specifies in which layer to create profile
+.SH "DESCRIPTION"
+This function first checks the existing list for corresponding BW
+parameter. If it exists, it returns the associated profile otherwise
+it creates a new rate limit profile for requested BW, and adds it to
+the HW DB and local list. It returns the new profile or null on error.
+The caller needs to hold the scheduler lock.

@@ -1,0 +1,28 @@
+.TH "rvt_qp_iter_init" 9 "rvt_qp_iter_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rvt_qp_iter_init \- initial for QP iteration
+.SH SYNOPSIS
+.B "struct rvt_qp_iter *" rvt_qp_iter_init
+.BI "(struct rvt_dev_info *rdi "  ","
+.BI "u64 v "  ","
+.BI "void (*cb)(struct rvt_qp *qp, u64 v) "  ");"
+.SH ARGUMENTS
+.IP "rdi" 12
+rvt devinfo
+.IP "v" 12
+u64 value
+.IP "cb" 12
+user-defined callback
+.SH "DESCRIPTION"
+This returns an iterator suitable for iterating QPs
+in the system.
+
+The \fIcb\fP is a user-defined callback and \fIv\fP is a 64-bit
+value passed to and relevant for processing in the
+\fIcb\fP.  An example use case would be to alter QP processing
+based on criteria not part of the rvt_qp.
+
+Use cases that require memory allocation to succeed
+must preallocate appropriately.
+.SH "RETURN"
+a pointer to an rvt_qp_iter or NULL

@@ -1,0 +1,31 @@
+.TH "amdgpu_dm_atomic_check" 9 "amdgpu_dm_atomic_check" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_dm_atomic_check \- Atomic check implementation for AMDgpu DM.
+.SH SYNOPSIS
+.B "int" amdgpu_dm_atomic_check
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The DRM device
+.IP "state" 12
+The atomic state to commit
+.SH "DESCRIPTION"
+Validate that the given atomic state is programmable by DC into hardware.
+This involves constructing a \fIstruct dc_state\fP reflecting the new hardware
+state we wish to commit, then querying DC to see if it is programmable. It's
+important not to modify the existing DC state. Otherwise, atomic_check
+may unexpectedly commit hardware changes.
+
+When validating the DC state, it's important that the right locks are
+acquired. For full updates case which removes/adds/updates streams on one
+CRTC while flipping on another CRTC, acquiring global lock will guarantee
+that any such full update commit will wait for completion of any outstanding
+flip using DRMs synchronization events.
+
+Note that DM adds the affected connectors for all CRTCs in state, when that
+might not seem necessary. This is because DC stream creation requires the
+DC sink, which is tied to the DRM connector state. Cleaning this up should
+be possible but non-trivial - a possible TODO item.
+.SH "RETURN"
+-Error code if validation failed.

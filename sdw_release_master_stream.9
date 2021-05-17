@@ -1,0 +1,17 @@
+.TH "sdw_release_master_stream" 9 "sdw_release_master_stream" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sdw_release_master_stream \- Free Master runtime handle
+.SH SYNOPSIS
+.B "void" sdw_release_master_stream
+.BI "(struct sdw_master_runtime *m_rt "  ","
+.BI "struct sdw_stream_runtime *stream "  ");"
+.SH ARGUMENTS
+.IP "m_rt" 12
+Master runtime node
+.IP "stream" 12
+Stream runtime handle.
+.SH "DESCRIPTION"
+This function is to be called with bus_lock held
+It frees the Master runtime handle and associated Slave(s) runtime
+handle. If this is called first then \fBsdw_release_slave_stream\fP will have
+no effect as Slave(s) runtime handle would already be freed up.

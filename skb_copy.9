@@ -1,0 +1,23 @@
+.TH "skb_copy" 9 "skb_copy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_copy \- create private copy of an sk_buff
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_copy
+.BI "(const struct sk_buff *skb "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to copy
+.IP "gfp_mask" 12
+allocation priority
+
+Make a copy of both an \fIsk_buff\fP and its data. This is used when the
+caller wishes to modify the data and needs a private copy of the
+data to alter. Returns NULL on failure or the pointer to the buffer
+on success. The returned buffer has a reference count of 1.
+
+As by-product this function converts non-linear \fIsk_buff\fP to linear
+one, so that \fIsk_buff\fP becomes completely private and caller is allowed
+to modify all the data of returned buffer. This means that this
+function is not recommended for use in circumstances when only
+header is going to be modified. Use \fBpskb_copy\fP instead.

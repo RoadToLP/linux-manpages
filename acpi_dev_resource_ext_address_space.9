@@ -1,0 +1,21 @@
+.TH "acpi_dev_resource_ext_address_space" 9 "acpi_dev_resource_ext_address_space" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_dev_resource_ext_address_space \- Extract ACPI address space information.
+.SH SYNOPSIS
+.B "bool" acpi_dev_resource_ext_address_space
+.BI "(struct acpi_resource *ares "  ","
+.BI "struct resource_win *win "  ");"
+.SH ARGUMENTS
+.IP "ares" 12
+Input ACPI resource object.
+.IP "win" 12
+Output generic resource object.
+.SH "DESCRIPTION"
+Check if the given ACPI resource object represents an extended address space
+resource and if that's the case, use the information in it to populate the
+generic resource object pointed to by \fIwin\fP.
+.SH "RETURN"
+1) false with win->res.flags setting to zero: not the expected resource type
+2) false with IORESOURCE_DISABLED in win->res.flags: valid unassigned
+resource
+3) true: valid assigned resource

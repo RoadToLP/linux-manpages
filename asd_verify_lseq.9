@@ -1,0 +1,23 @@
+.TH "asd_verify_lseq" 9 "asd_verify_lseq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_verify_lseq \- verify the microcode of a link sequencer
+.SH SYNOPSIS
+.B "int" asd_verify_lseq
+.BI "(struct asd_ha_struct *asd_ha "  ","
+.BI "const u8 *_prog "  ","
+.BI "u32 size "  ","
+.BI "int lseq "  ");"
+.SH ARGUMENTS
+.IP "asd_ha" 12
+pointer to host adapter structure
+.IP "_prog" 12
+pointer to the microcode
+.IP "size" 12
+size of the microcode in bytes
+.IP "lseq" 12
+link sequencer of interest
+.SH "DESCRIPTION"
+The link sequencer code is accessed in 4 KB pages, which are selected
+by setting LmRAMPAGE (bits 8 and 9) of the LmBISTCTL1 register.
+The 10 KB LSEQm instruction code is mapped, page at a time, at
+LmSEQRAM address.

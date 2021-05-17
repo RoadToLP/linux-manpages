@@ -1,0 +1,27 @@
+.TH "batadv_tt_tvlv_generate" 9 "batadv_tt_tvlv_generate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_tt_tvlv_generate \- fill the tvlv buff with the tt entries from the specified tt hash
+.SH SYNOPSIS
+.B "void" batadv_tt_tvlv_generate
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_hashtable *hash "  ","
+.BI "void *tvlv_buff "  ","
+.BI "u16 tt_len "  ","
+.BI "bool (*valid_cb)(const void *, const void *, u8 *flags) "  ","
+.BI "void *cb_data "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "hash" 12
+hash table containing the tt entries
+.IP "tvlv_buff" 12
+pointer to the buffer to fill with the TT data
+.IP "tt_len" 12
+expected tvlv tt data buffer length in number of bytes
+.IP "valid_cb" 12
+function to filter tt change entries and to return TT flags
+.IP "cb_data" 12
+data passed to the filter function as argument
+.SH "DESCRIPTION"
+Fills the tvlv buff with the tt entries from the specified hash. If valid_cb
+is not provided then this becomes a no-op.

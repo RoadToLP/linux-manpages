@@ -1,0 +1,18 @@
+.TH "wdtpci_open" 9 "wdtpci_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wdtpci_open \- 
+.SH SYNOPSIS
+.B "int" wdtpci_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of device
+.IP "file" 12
+file handle to device
+
+The watchdog device has been opened. The watchdog device is single
+open and on opening we load the counters. Counter zero is a 100Hz
+cascade, into counter 1 which downcounts to reboot. When the counter
+triggers counter 2 downcounts the length of the reset pulse which
+set set to be as long as possible.

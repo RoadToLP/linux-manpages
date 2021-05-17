@@ -1,0 +1,18 @@
+.TH "drm_get_edid_switcheroo" 9 "drm_get_edid_switcheroo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_get_edid_switcheroo \- get EDID data for a vga_switcheroo output
+.SH SYNOPSIS
+.B "struct edid *" drm_get_edid_switcheroo
+.BI "(struct drm_connector *connector "  ","
+.BI "struct i2c_adapter *adapter "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+connector we're probing
+.IP "adapter" 12
+I2C adapter to use for DDC
+.SH "DESCRIPTION"
+Wrapper around \fBdrm_get_edid\fP for laptops with dual GPUs using one set of
+outputs. The wrapper adds the requisite vga_switcheroo calls to temporarily
+switch DDC to the GPU which is retrieving EDID.
+.SH "RETURN"
+Pointer to valid EDID or NULL if we couldn't find any.

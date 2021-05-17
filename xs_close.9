@@ -1,0 +1,15 @@
+.TH "xs_close" 9 "xs_close" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xs_close \- close a socket
+.SH SYNOPSIS
+.B "void" xs_close
+.BI "(struct rpc_xprt *xprt "  ");"
+.SH ARGUMENTS
+.IP "xprt" 12
+transport
+.SH "DESCRIPTION"
+This is used when all requests are complete; ie, no DRC state remains
+on the server we want to save.
+
+The caller _must_ be holding XPRT_LOCKED in order to avoid issues with
+\fBxs_reset_transport\fP zeroing the socket from underneath a writer.

@@ -1,0 +1,24 @@
+.TH "tm_spr_get" 9 "tm_spr_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tm_spr_get \- get the TM related SPR registers
+.SH SYNOPSIS
+.B "int" tm_spr_get
+.BI "(struct task_struct *target "  ","
+.BI "const struct user_regset *regset "  ","
+.BI "struct membuf to "  ");"
+.SH ARGUMENTS
+.IP "target" 12
+The target task.
+.IP "regset" 12
+The user regset structure.
+.IP "to" 12
+Destination of copy.
+.SH "DESCRIPTION"
+This function gets transactional memory related SPR registers.
+The userspace interface buffer layout is as follows.
+
+struct {
+u64             tm_tfhar;
+u64             tm_texasr;
+u64             tm_tfiar;
+};

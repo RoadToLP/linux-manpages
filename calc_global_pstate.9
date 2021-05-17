@@ -1,0 +1,19 @@
+.TH "calc_global_pstate" 9 "calc_global_pstate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_global_pstate \- Calculate global pstate
+.SH SYNOPSIS
+.B "int" calc_global_pstate
+.BI "(unsigned int elapsed_time "  ","
+.BI "int highest_lpstate_idx "  ","
+.BI "int local_pstate_idx "  ");"
+.SH ARGUMENTS
+.IP "elapsed_time" 12
+Elapsed time in milliseconds
+.IP "highest_lpstate_idx" 12
+pstate from which its ramping down
+.IP "local_pstate_idx" 12
+New local pstate
+.SH "DESCRIPTION"
+Finds the appropriate global pstate based on the pstate from which its
+ramping down and the time elapsed in ramping down. It follows a quadratic
+equation which ensures that it reaches ramping down to pmin in 5sec.

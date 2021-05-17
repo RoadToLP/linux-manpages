@@ -1,0 +1,20 @@
+.TH "WaitForDoorbellInt" 9 "WaitForDoorbellInt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+WaitForDoorbellInt \- Wait for IOC to set its doorbell interrupt bit
+.SH SYNOPSIS
+.B "int" WaitForDoorbellInt
+.BI "(MPT_ADAPTER *ioc "  ","
+.BI "int howlong "  ","
+.BI "int sleepFlag "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+Pointer to MPT_ADAPTER structure
+.IP "howlong" 12
+How long to wait (in seconds)
+.IP "sleepFlag" 12
+Specifies whether the process can sleep
+
+This routine waits (up to ~2 seconds max) for IOC doorbell interrupt
+(MPI_HIS_DOORBELL_INTERRUPT) to be set in the IntStatus register.
+
+Returns a negative value on failure, else wait loop count.

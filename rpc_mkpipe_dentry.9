@@ -1,0 +1,29 @@
+.TH "rpc_mkpipe_dentry" 9 "rpc_mkpipe_dentry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpc_mkpipe_dentry \- make an rpc_pipefs file for kernel<->userspace communication
+.SH SYNOPSIS
+.B "struct dentry *" rpc_mkpipe_dentry
+.BI "(struct dentry *parent "  ","
+.BI "const char *name "  ","
+.BI "void *private "  ","
+.BI "struct rpc_pipe *pipe "  ");"
+.SH ARGUMENTS
+.IP "parent" 12
+dentry of directory to create new "pipe" in
+.IP "name" 12
+name of pipe
+.IP "private" 12
+private data to associate with the pipe, for the caller's use
+.IP "pipe" 12
+\fIrpc_pipe\fP containing input parameters
+.SH "DESCRIPTION"
+Data is made available for userspace to read by calls to
+\fBrpc_queue_upcall\fP.  The actual reads will result in calls to
+\fIops->upcall\fP, which will be called with the file pointer,
+message, and userspace buffer to copy to.
+
+Writes can come at any time, and do not necessarily have to be
+responses to upcalls.  They will result in calls to \fImsg->downcall\fP.
+
+The \fIprivate\fP argument passed here will be available to all these methods
+from the file pointer, via RPC_I(file_inode(file))->private.

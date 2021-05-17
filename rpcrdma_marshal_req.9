@@ -1,0 +1,25 @@
+.TH "rpcrdma_marshal_req" 9 "rpcrdma_marshal_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_marshal_req \- Marshal and send one RPC request
+.SH SYNOPSIS
+.B "int" rpcrdma_marshal_req
+.BI "(struct rpcrdma_xprt *r_xprt "  ","
+.BI "struct rpc_rqst *rqst "  ");"
+.SH ARGUMENTS
+.IP "r_xprt" 12
+controlling transport
+.IP "rqst" 12
+RPC request to be marshaled
+.SH "DESCRIPTION"
+For the RPC in "rqst", this function:
+- Chooses the transfer mode (eg., RDMA_MSG or RDMA_NOMSG)
+- Registers Read, Write, and Reply chunks
+- Constructs the transport header
+- Posts a Send WR to send the transport header and request
+.SH "RETURN"
+0 if the RPC was sent successfully,
+-ENOTCONN if the connection was lost,
+-EAGAIN if the caller should call again with the same arguments,
+-ENOBUFS if the caller should call again after a delay,
+-EMSGSIZE if the transport header is too small,
+-EIO if a permanent problem occurred while marshaling.

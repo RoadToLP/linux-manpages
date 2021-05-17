@@ -1,0 +1,20 @@
+.TH "selinux_conn_sid" 9 "selinux_conn_sid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+selinux_conn_sid \- Determine the child socket label for a connection
+.SH SYNOPSIS
+.B "int" selinux_conn_sid
+.BI "(u32 sk_sid "  ","
+.BI "u32 skb_sid "  ","
+.BI "u32 *conn_sid "  ");"
+.SH ARGUMENTS
+.IP "sk_sid" 12
+the parent socket's SID
+.IP "skb_sid" 12
+the packet's SID
+.IP "conn_sid" 12
+the resulting connection SID
+.SH "DESCRIPTION"
+If \fIskb_sid\fP is valid then the user:role:type information from \fIsk_sid\fP is
+combined with the MLS information from \fIskb_sid\fP in order to create
+\fIconn_sid\fP.  If \fIskb_sid\fP is not valid then \fIconn_sid\fP is simply a copy
+of \fIsk_sid\fP.  Returns zero on success, negative values on failure.

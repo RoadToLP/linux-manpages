@@ -1,0 +1,18 @@
+.TH "register_netdev" 9 "register_netdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+register_netdev \- register a network device
+.SH SYNOPSIS
+.B "int" register_netdev
+.BI "(struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to register
+
+Take a completed network device structure and add it to the kernel
+interfaces. A NETDEV_REGISTER message is sent to the netdev notifier
+chain. 0 is returned on success. A negative errno code is returned
+on a failure to set up the device, or if the name is a duplicate.
+
+This is a wrapper around register_netdevice that takes the rtnl semaphore
+and expands the device name if you passed a format string to
+alloc_netdev.

@@ -1,0 +1,20 @@
+.TH "lpfc_do_offline" 9 "lpfc_do_offline" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_do_offline \- Issues a mailbox command to bring the link down
+.SH SYNOPSIS
+.B "int" lpfc_do_offline
+.BI "(struct lpfc_hba *phba "  ","
+.BI "uint32_t type "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+lpfc_hba pointer.
+.IP "type" 12
+LPFC_EVT_OFFLINE, LPFC_EVT_WARM_START, LPFC_EVT_KILL.
+.SH "NOTES"
+Assumes any error from \fBlpfc_do_offline\fP will be negative.
+Can wait up to 5 seconds for the port ring buffers count
+to reach zero, prints a warning if it is not zero and continues.
+\fBlpfc_workq_post_event\fP returns a non-zero return code if call fails.
+.SH "RETURN"
+-EIO error posting the event
+zero for success

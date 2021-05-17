@@ -1,0 +1,24 @@
+.TH "lpfc_sli4_post_io_sgl_list" 9 "lpfc_sli4_post_io_sgl_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_post_io_sgl_list \- Post blocks of nvme buffer sgls from a list
+.SH SYNOPSIS
+.B "int" lpfc_sli4_post_io_sgl_list
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct list_head *post_nblist "  ","
+.BI "int sb_count "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.IP "post_nblist" 12
+pointer to the nvme buffer list.
+.IP "sb_count" 12
+number of nvme buffers.
+.SH "DESCRIPTION"
+This routine walks a list of nvme buffers that was passed in. It attempts
+to construct blocks of nvme buffer sgls which contains contiguous xris and
+uses the non-embedded SGL block post mailbox commands to post to the port.
+For single NVME buffer sgl with non-contiguous xri, if any, it shall use
+embedded SGL post mailbox command for posting. The \fIpost_nblist\fP passed in
+must be local list, thus no lock is needed when manipulate the list.
+.SH "RETURN"
+0 = failure, non-zero number of successfully posted buffers.

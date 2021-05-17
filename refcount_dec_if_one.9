@@ -1,0 +1,21 @@
+.TH "refcount_dec_if_one" 9 "refcount_dec_if_one" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+refcount_dec_if_one \- decrement a refcount if it is 1
+.SH SYNOPSIS
+.B "bool" refcount_dec_if_one
+.BI "(refcount_t *r "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the refcount
+.SH "DESCRIPTION"
+No atomic_t counterpart, it attempts a 1 -> 0 transition and returns the
+success thereof.
+
+Like all decrement operations, it provides release memory order and provides
+a control dependency.
+
+It can be used like a try-delete operator; this explicit case is provided
+and not cmpxchg in generic, because that would allow implementing unsafe
+operations.
+.SH "RETURN"
+true if the resulting refcount is 0, false otherwise

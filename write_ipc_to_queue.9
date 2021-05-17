@@ -1,0 +1,29 @@
+.TH "write_ipc_to_queue" 9 "write_ipc_to_queue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_ipc_to_queue \- write ipc msg to Tx queue
+.SH SYNOPSIS
+.B "int" write_ipc_to_queue
+.BI "(struct ishtp_device *dev "  ","
+.BI "void (*ipc_send_compl)(void *) "  ","
+.BI "void *ipc_send_compl_prm "  ","
+.BI "unsigned char *msg "  ","
+.BI "int length "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ishtp device instance
+.IP "ipc_send_compl" 12
+Send complete callback
+.IP "ipc_send_compl_prm" 12
+Parameter to send in complete callback
+.IP "msg" 12
+Pointer to message
+.IP "length" 12
+Length of message
+.SH "DESCRIPTION"
+Recived msg with IPC (and upper protocol) header  and add it to the device
+Tx-to-write list then try to send the first IPC waiting msg
+(if DRBL is cleared)
+This function returns negative value for failure (means free list
+is empty, or msg too long) and 0 for success.
+.SH "RETURN"
+0 for success else failure code

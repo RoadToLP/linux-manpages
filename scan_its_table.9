@@ -1,0 +1,31 @@
+.TH "scan_its_table" 9 "scan_its_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scan_its_table \- Scan a contiguous table in guest RAM and applies a function to each entry
+.SH SYNOPSIS
+.B "int" scan_its_table
+.BI "(struct vgic_its *its "  ","
+.BI "gpa_t base "  ","
+.BI "int size "  ","
+.BI "u32 esz "  ","
+.BI "int start_id "  ","
+.BI "entry_fn_t fn "  ","
+.BI "void *opaque "  ");"
+.SH ARGUMENTS
+.IP "its" 12
+its handle
+.IP "base" 12
+base gpa of the table
+.IP "size" 12
+size of the table in bytes
+.IP "esz" 12
+entry size in bytes
+.IP "start_id" 12
+the ID of the first entry in the table
+(non zero for 2d level tables)
+.IP "fn" 12
+function to apply on each entry
+.IP "opaque" 12
+-- undescribed --
+.SH "RETURN"
+< 0 on error, 0 if last element was identified, 1 otherwise
+(the last element may not be found on second level tables)

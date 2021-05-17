@@ -1,0 +1,21 @@
+.TH "dwc2_pick_first_frame" 9 "dwc2_pick_first_frame" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_pick_first_frame \- Choose 1st frame for qh that's already scheduled
+.SH SYNOPSIS
+.B "void" dwc2_pick_first_frame
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller
+.IP "qh" 12
+QH for a periodic endpoint
+.SH "DESCRIPTION"
+
+Takes a qh that has already been scheduled (which means we know we have the
+bandwdith reserved for us) and set the next_active_frame and the
+start_active_frame.
+
+This is expected to be called on qh's that weren't previously actively
+running.  It just picks the next frame that we can fit into without any
+thought about the past.

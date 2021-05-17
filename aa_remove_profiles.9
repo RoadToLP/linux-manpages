@@ -1,0 +1,25 @@
+.TH "aa_remove_profiles" 9 "aa_remove_profiles" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+aa_remove_profiles \- remove profile(s) from the system
+.SH SYNOPSIS
+.B "ssize_t" aa_remove_profiles
+.BI "(struct aa_ns *policy_ns "  ","
+.BI "struct aa_label *subj "  ","
+.BI "char *fqname "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "policy_ns" 12
+namespace the remove is being done from
+.IP "subj" 12
+label attempting to remove policy
+.IP "fqname" 12
+name of the profile or namespace to remove  (NOT NULL)
+.IP "size" 12
+size of the name
+.SH "DESCRIPTION"
+Remove a profile or sub namespace from the current namespace, so that
+they can not be found anymore and mark them as replaced by unconfined
+.SH "NOTE"
+removing confinement does not restore rlimits to preconfinement values
+.SH "RETURN"
+size of data consume else error code if fails

@@ -1,0 +1,19 @@
+.TH "fc_lport_logo_resp" 9 "fc_lport_logo_resp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_lport_logo_resp \- Handle response to LOGO request
+.SH SYNOPSIS
+.B "void" fc_lport_logo_resp
+.BI "(struct fc_seq *sp "  ","
+.BI "struct fc_frame *fp "  ","
+.BI "void *lp_arg "  ");"
+.SH ARGUMENTS
+.IP "sp" 12
+The sequence that the LOGO was on
+.IP "fp" 12
+The LOGO frame
+.IP "lp_arg" 12
+The lport port that received the LOGO request
+.SH "DESCRIPTION"
+Locking Note: This function will be called without the lport lock
+held, but it will lock, call an _enter_* function or \fBfc_lport_error\fP
+and then unlock the lport.

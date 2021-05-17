@@ -1,0 +1,38 @@
+.TH "ata_wait_register" 9 "ata_wait_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_wait_register \- wait until register value changes
+.SH SYNOPSIS
+.B "u32" ata_wait_register
+.BI "(struct ata_port *ap "  ","
+.BI "void __iomem *reg "  ","
+.BI "u32 mask "  ","
+.BI "u32 val "  ","
+.BI "unsigned long interval "  ","
+.BI "unsigned long timeout "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to wait register for, can be NULL
+.IP "reg" 12
+IO-mapped register
+.IP "mask" 12
+Mask to apply to read register value
+.IP "val" 12
+Wait condition
+.IP "interval" 12
+polling interval in milliseconds
+.IP "timeout" 12
+timeout in milliseconds
+
+Waiting for some bits of register to change is a common
+operation for ATA controllers.  This function reads 32bit LE
+IO-mapped register \fIreg\fP and tests for the following condition.
+
+(*\fIreg\fP & mask) != val
+
+If the condition is met, it returns; otherwise, the process is
+repeated after \fIinterval_msec\fP until timeout.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+The final register value.

@@ -1,0 +1,24 @@
+.TH "ima_post_load_data" 9 "ima_post_load_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ima_post_load_data \- appraise decision based on policy
+.SH SYNOPSIS
+.B "int" ima_post_load_data
+.BI "(char *buf "  ","
+.BI "loff_t size "  ","
+.BI "enum kernel_load_data_id load_id "  ","
+.BI "char *description "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+pointer to in memory file contents
+.IP "size" 12
+size of in memory file contents
+.IP "load_id" 12
+-- undescribed --
+.IP "description" 12
+\fIid\fP-specific description of contents
+.SH "DESCRIPTION"
+Measure/appraise/audit in memory buffer based on policy.  Policy rules
+are written in terms of a policy identifier.
+
+On success return 0.  On integrity appraisal error, assuming the file
+is in policy and IMA-appraisal is in enforcing mode, return -EACCES.

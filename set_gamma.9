@@ -1,0 +1,20 @@
+.TH "set_gamma" 9 "set_gamma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_gamma \- set gamma curves
+.SH SYNOPSIS
+.B "int" set_gamma
+.BI "(struct fbtft_par *par "  ","
+.BI "u32 *curves "  ");"
+.SH ARGUMENTS
+.IP "par" 12
+FBTFT parameter object
+.IP "curves" 12
+gamma curves
+.SH "DESCRIPTION"
+Before the gamma curves are applied, they are preprocessed with a bitmask
+to ensure syntactically correct input for the display controller.
+This implies that the curves input parameter might be changed by this
+function and that illegal gamma values are auto-corrected and not
+reported as errors.
+.SH "RETURN"
+0 on success, < 0 if error occurred.

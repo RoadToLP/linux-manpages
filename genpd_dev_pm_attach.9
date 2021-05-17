@@ -1,0 +1,18 @@
+.TH "genpd_dev_pm_attach" 9 "genpd_dev_pm_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+genpd_dev_pm_attach \- Attach a device to its PM domain using DT.
+.SH SYNOPSIS
+.B "int" genpd_dev_pm_attach
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to attach.
+.SH "DESCRIPTION"
+Parse device's OF node to find a PM domain specifier. If such is found,
+attaches the device to retrieved pm_domain ops.
+
+Returns 1 on successfully attached PM domain, 0 when the device don't need a
+PM domain or when multiple power-domains exists for it, else a negative error
+code. Note that if a power-domain exists for the device, but it cannot be
+found or turned on, then return -EPROBE_DEFER to ensure that the device is
+not probed and to re-try again later.

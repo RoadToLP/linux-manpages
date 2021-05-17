@@ -1,0 +1,22 @@
+.TH "binder_get_object" 9 "binder_get_object" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_get_object \- gets object and checks for valid metadata
+.SH SYNOPSIS
+.B "size_t" binder_get_object
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_buffer *buffer "  ","
+.BI "unsigned long offset "  ","
+.BI "struct binder_object *object "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+binder_proc owning the buffer
+.IP "buffer" 12
+binder_buffer that we're parsing.
+.IP "offset" 12
+offset in the \fIbuffer\fP at which to validate an object.
+.IP "object" 12
+struct binder_object to read into
+.SH "RETURN"
+If there's a valid metadata object at \fIoffset\fP in \fIbuffer\fP, the
+size of that object. Otherwise, it returns zero. The object
+is read into the struct binder_object pointed to by \fIobject\fP.

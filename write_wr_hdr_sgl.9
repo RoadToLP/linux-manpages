@@ -1,0 +1,44 @@
+.TH "write_wr_hdr_sgl" 9 "write_wr_hdr_sgl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_wr_hdr_sgl \- write a WR header and, optionally, SGL
+.SH SYNOPSIS
+.B "void" write_wr_hdr_sgl
+.BI "(unsigned int ndesc "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "struct tx_desc *d "  ","
+.BI "unsigned int pidx "  ","
+.BI "const struct sge_txq *q "  ","
+.BI "const struct sg_ent *sgl "  ","
+.BI "unsigned int flits "  ","
+.BI "unsigned int sgl_flits "  ","
+.BI "unsigned int gen "  ","
+.BI "__be32 wr_hi "  ","
+.BI "__be32 wr_lo "  ");"
+.SH ARGUMENTS
+.IP "ndesc" 12
+number of Tx descriptors spanned by the SGL
+.IP "skb" 12
+the packet corresponding to the WR
+.IP "d" 12
+first Tx descriptor to be written
+.IP "pidx" 12
+index of above descriptors
+.IP "q" 12
+the SGE Tx queue
+.IP "sgl" 12
+the SGL
+.IP "flits" 12
+number of flits to the start of the SGL in the first descriptor
+.IP "sgl_flits" 12
+the SGL size in flits
+.IP "gen" 12
+the Tx descriptor generation
+.IP "wr_hi" 12
+top 32 bits of WR header based on WR type (big endian)
+.IP "wr_lo" 12
+low 32 bits of WR header based on WR type (big endian)
+
+Write a work request header and an associated SGL.  If the SGL is
+small enough to fit into one Tx descriptor it has already been written
+and we just need to write the WR header.  Otherwise we distribute the
+SGL across the number of descriptors it spans.

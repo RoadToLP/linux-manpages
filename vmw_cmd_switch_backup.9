@@ -1,0 +1,32 @@
+.TH "vmw_cmd_switch_backup" 9 "vmw_cmd_switch_backup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cmd_switch_backup \- Utility function to handle backup buffer switching
+.SH SYNOPSIS
+.B "int" vmw_cmd_switch_backup
+.BI "(struct vmw_private *dev_priv "  ","
+.BI "struct vmw_sw_context *sw_context "  ","
+.BI "enum vmw_res_type res_type "  ","
+.BI "const struct vmw_user_resource_conv *converter "  ","
+.BI "uint32_t *res_id "  ","
+.BI "uint32_t *buf_id "  ","
+.BI "unsigned long backup_offset "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+Pointer to a device private struct.
+.IP "sw_context" 12
+The software context being used for this batch.
+.IP "res_type" 12
+The resource type.
+.IP "converter" 12
+Information about user-space binding for this resource type.
+.IP "res_id" 12
+Pointer to the user-space resource handle in the command stream.
+.IP "buf_id" 12
+Pointer to the user-space backup buffer handle in the command
+stream.
+.IP "backup_offset" 12
+Offset of backup into MOB.
+.SH "DESCRIPTION"
+This function prepares for registering a switch of backup buffers in the
+resource metadata just prior to unreserving. It's basically a wrapper around
+vmw_cmd_res_switch_backup with a different interface.

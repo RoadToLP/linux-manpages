@@ -1,0 +1,23 @@
+.TH "lpfc_nvmet_ls_req" 9 "lpfc_nvmet_ls_req" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_nvmet_ls_req \- Issue an Link Service request
+.SH SYNOPSIS
+.B "int" lpfc_nvmet_ls_req
+.BI "(struct nvmet_fc_target_port *targetport "  ","
+.BI "void *hosthandle "  ","
+.BI "struct nvmefc_ls_req *pnvme_lsreq "  ");"
+.SH ARGUMENTS
+.IP "targetport" 12
+pointer to target instance registered with nvmet transport.
+.IP "hosthandle" 12
+hosthandle set by the driver in a prior ls_rqst_rcv.
+Driver sets this value to the ndlp pointer.
+.IP "pnvme_lsreq" 12
+the transport nvme_ls_req structure for the LS
+.SH "DESCRIPTION"
+Driver registers this routine to handle any link service request
+from the nvme_fc transport to a remote nvme-aware port.
+
+Return value :
+0 - Success
+non-zero: various error codes, in form of -Exxx

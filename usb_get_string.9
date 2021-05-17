@@ -1,0 +1,36 @@
+.TH "usb_get_string" 9 "usb_get_string" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_string \- gets a string descriptor
+.SH SYNOPSIS
+.B "int" usb_get_string
+.BI "(struct usb_device *dev "  ","
+.BI "unsigned short langid "  ","
+.BI "unsigned char index "  ","
+.BI "void *buf "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose string descriptor is being retrieved
+.IP "langid" 12
+code for language chosen (from string descriptor zero)
+.IP "index" 12
+the number of the descriptor
+.IP "buf" 12
+where to put the string
+.IP "size" 12
+how big is "buf"?
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+Retrieves a string, encoded using UTF-16LE (Unicode, 16 bits per character,
+in little-endian byte order).
+The \fBusb_string\fP function will often be a convenient way to turn
+these strings into kernel-printable form.
+
+Strings may be referenced in device, configuration, interface, or other
+descriptors, and could also be used in vendor-specific ways.
+
+This call is synchronous, and may not be used in an interrupt context.
+.SH "RETURN"
+The number of bytes received on success, or else the status code
+returned by the underlying \fBusb_control_msg\fP call.

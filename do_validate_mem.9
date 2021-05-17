@@ -1,0 +1,24 @@
+.TH "do_validate_mem" 9 "do_validate_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+do_validate_mem \- low level validate a memory region for PCMCIA use
+.SH SYNOPSIS
+.B "int" do_validate_mem
+.BI "(struct pcmcia_socket *s "  ","
+.BI "unsigned long base "  ","
+.BI "unsigned long size "  ","
+.BI "int validate (struct pcmcia_socket *s# struct resource *res# unsigned int *value) "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+PCMCIA socket to validate
+.IP "base" 12
+start address of resource to check
+.IP "size" 12
+size of resource to check
+.IP "value" 12
+-- undescribed --
+.SH "DESCRIPTION"
+\fBdo_validate_mem\fP splits up the memory region which is to be checked
+into two parts. Both are passed to the \fI\fP\fBvalidate\fP function. If
+\fI\fP\fBvalidate\fP returns non-zero, or the value parameter to \fI\fP\fBvalidate\fP
+is zero, or the value parameter is different between both calls,
+the check fails, and -EINVAL is returned. Else, 0 is returned.

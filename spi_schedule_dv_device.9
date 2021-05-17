@@ -1,0 +1,14 @@
+.TH "spi_schedule_dv_device" 9 "spi_schedule_dv_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_schedule_dv_device \- schedule domain validation to occur on the device
+.SH SYNOPSIS
+.B "void" spi_schedule_dv_device
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+The device to validate
+
+Identical to \fBspi_dv_device\fP above, except that the DV will be
+scheduled to occur in a workqueue later.  All memory allocations
+are atomic, so may be called from any context including those holding
+SCSI locks.

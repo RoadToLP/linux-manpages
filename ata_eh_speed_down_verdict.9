@@ -1,0 +1,61 @@
+.TH "ata_eh_speed_down_verdict" 9 "ata_eh_speed_down_verdict" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_speed_down_verdict \- Determine speed down verdict
+.SH SYNOPSIS
+.B "unsigned int" ata_eh_speed_down_verdict
+.BI "(struct ata_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device of interest
+
+This function examines error ring of \fIdev\fP and determines
+whether NCQ needs to be turned off, transfer speed should be
+stepped down, or falling back to PIO is necessary.
+
+ECAT_ATA_BUS    : ATA_BUS error for any command
+
+ECAT_TOUT_HSM   : TIMEOUT for any command or HSM violation for
+IO commands
+
+ECAT_UNK_DEV    : Unknown DEV error for IO commands
+
+ECAT_DUBIOUS_*  : Identical to above three but occurred while
+data transfer hasn't been verified.
+
+Verdicts are
+
+NCQ_OFF         : Turn off NCQ.
+
+SPEED_DOWN      : Speed down transfer speed but don't fall back
+to PIO.
+
+FALLBACK_TO_PIO : Fall back to PIO.
+
+Even if multiple verdicts are returned, only one action is
+taken per error.  An action triggered by non-DUBIOUS errors
+clears ering, while one triggered by DUBIOUS_* errors doesn't.
+This is to expedite speed down decisions right after device is
+initially configured.
+
+The following are speed down rules.  #1 and #2 deal with
+DUBIOUS errors.
+
+1. If more than one DUBIOUS_ATA_BUS or DUBIOUS_TOUT_HSM errors
+occurred during last 5 mins, SPEED_DOWN and FALLBACK_TO_PIO.
+
+2. If more than one DUBIOUS_TOUT_HSM or DUBIOUS_UNK_DEV errors
+occurred during last 5 mins, NCQ_OFF.
+
+3. If more than 8 ATA_BUS, TOUT_HSM or UNK_DEV errors
+occurred during last 5 mins, FALLBACK_TO_PIO
+
+4. If more than 3 TOUT_HSM or UNK_DEV errors occurred
+during last 10 mins, NCQ_OFF.
+
+5. If more than 3 ATA_BUS or TOUT_HSM errors, or more than 6
+UNK_DEV errors occurred during last 10 mins, SPEED_DOWN.
+
+LOCKING:
+Inherited from caller.
+.SH "RETURN"
+OR of ATA_EH_SPDN_* flags.

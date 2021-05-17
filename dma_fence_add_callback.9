@@ -1,0 +1,33 @@
+.TH "dma_fence_add_callback" 9 "dma_fence_add_callback" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fence_add_callback \- add a callback to be called when the fence is signaled
+.SH SYNOPSIS
+.B "int" dma_fence_add_callback
+.BI "(struct dma_fence *fence "  ","
+.BI "struct dma_fence_cb *cb "  ","
+.BI "dma_fence_func_t func "  ");"
+.SH ARGUMENTS
+.IP "fence" 12
+the fence to wait on
+.IP "cb" 12
+the callback to register
+.IP "func" 12
+the function to call
+.SH "DESCRIPTION"
+\fIcb\fP will be initialized by \fBdma_fence_add_callback\fP, no initialization
+by the caller is required. Any number of callbacks can be registered
+to a fence, but a callback can only be registered to one fence at a time.
+
+Note that the callback can be called from an atomic context.  If
+fence is already signaled, this function will return -ENOENT (and
+*not* call the callback).
+
+Add a software callback to the fence. Same restrictions apply to
+refcount as it does to \fBdma_fence_wait\fP, however the caller doesn't need to
+keep a refcount to fence afterward \fBdma_fence_add_callback\fP has returned:
+when software access is enabled, the creator of the fence is required to keep
+the fence alive until after it signals with \fBdma_fence_signal\fP. The callback
+itself can be called from irq context.
+
+Returns 0 in case of success, -ENOENT if the fence is already signaled
+and -EINVAL in case of error.

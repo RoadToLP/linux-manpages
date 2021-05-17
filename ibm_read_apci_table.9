@@ -1,0 +1,31 @@
+.TH "ibm_read_apci_table" 9 "ibm_read_apci_table" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibm_read_apci_table \- callback for the sysfs apci_table file
+.SH SYNOPSIS
+.B "ssize_t" ibm_read_apci_table
+.BI "(struct file *filp "  ","
+.BI "struct kobject *kobj "  ","
+.BI "struct bin_attribute *bin_attr "  ","
+.BI "char *buffer "  ","
+.BI "loff_t pos "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+the open sysfs file
+.IP "kobj" 12
+the kobject this binary attribute is a part of
+.IP "bin_attr" 12
+struct bin_attribute for this file
+.IP "buffer" 12
+the kernel space buffer to fill
+.IP "pos" 12
+the offset into the file
+.IP "size" 12
+the number of bytes requested
+.SH "DESCRIPTION"
+Gets registered with sysfs as the reader callback
+to be executed when /sys/bus/pci/slots/apci_table gets read.
+
+Since we don't get notified on open and close for this file,
+things get really tricky here...
+our solution is to only allow reading the table in all at once.

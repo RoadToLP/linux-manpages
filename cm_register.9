@@ -1,0 +1,16 @@
+.TH "cm_register" 9 "cm_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cm_register \- register per-SoC low-level data with the CM
+.SH SYNOPSIS
+.B "int" cm_register
+.BI "(const struct cm_ll_data *cld "  ");"
+.SH ARGUMENTS
+.IP "cld" 12
+low-level per-SoC OMAP CM data & function pointers to register
+.SH "DESCRIPTION"
+Register per-SoC low-level OMAP CM data and function pointers with
+the OMAP CM common interface.  The caller must keep the data
+pointed to by \fIcld\fP valid until it calls \fBcm_unregister\fP and
+it returns successfully.  Returns 0 upon success, -EINVAL if \fIcld\fP
+is NULL, or -EEXIST if \fBcm_register\fP has already been called
+without an intervening \fBcm_unregister\fP.

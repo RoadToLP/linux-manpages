@@ -1,0 +1,20 @@
+.TH "exynos5_switch_timing_regs" 9 "exynos5_switch_timing_regs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+exynos5_switch_timing_regs \- Changes bank register set for DRAM timings
+.SH SYNOPSIS
+.B "int" exynos5_switch_timing_regs
+.BI "(struct exynos5_dmc *dmc "  ","
+.BI "bool set "  ");"
+.SH ARGUMENTS
+.IP "dmc" 12
+device for which the new settings is going to be applied
+.IP "set" 12
+boolean variable passing set value
+.SH "DESCRIPTION"
+Changes the register set, which holds timing parameters.
+There is two register sets: 0 and 1. The register set 0
+is used in normal operation when the clock is provided from main PLL.
+The bank register set 1 is used when the main PLL frequency is going to be
+changed and the clock is taken from alternative, stable source.
+This function switches between these banks according to the
+currently used clock source.

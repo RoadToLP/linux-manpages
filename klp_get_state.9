@@ -1,0 +1,19 @@
+.TH "klp_get_state" 9 "klp_get_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klp_get_state \- get information about system state modified by the given patch
+.SH SYNOPSIS
+.B "struct klp_state *" klp_get_state
+.BI "(struct klp_patch *patch "  ","
+.BI "unsigned long id "  ");"
+.SH ARGUMENTS
+.IP "patch" 12
+livepatch that modifies the given system state
+.IP "id" 12
+custom identifier of the modified system state
+.SH "DESCRIPTION"
+Checks whether the given patch modifies the given system state.
+
+The function can be called either from pre/post (un)patch
+callbacks or from the kernel code added by the livepatch.
+.SH "RETURN"
+pointer to struct klp_state when found, otherwise NULL.

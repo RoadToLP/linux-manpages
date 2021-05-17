@@ -1,0 +1,21 @@
+.TH "read_fifo" 9 "read_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_fifo \- Transfer packets from OUT endpoint into usb request
+.SH SYNOPSIS
+.B "int" read_fifo
+.BI "(struct pxa_ep *ep "  ","
+.BI "struct pxa27x_request *req "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+pxa physical endpoint
+.IP "req" 12
+usb request
+.SH "CONTEXT"
+interrupt handler
+.SH "DESCRIPTION"
+Unload as many packets as possible from the fifo we use for usb OUT
+transfers and put them into the request. Caller should have made sure
+there's at least one packet ready.
+Doesn't complete the request, that's the caller's job
+
+Returns 1 if the request completed, 0 otherwise

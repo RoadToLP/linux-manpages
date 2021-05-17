@@ -1,0 +1,14 @@
+.TH "sfp_upstream_stop" 9 "sfp_upstream_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sfp_upstream_stop \- Inform the SFP that the network device is down
+.SH SYNOPSIS
+.B "void" sfp_upstream_stop
+.BI "(struct sfp_bus *bus "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+a pointer to the \fIstruct sfp_bus\fP structure for the sfp module
+.SH "DESCRIPTION"
+Inform the SFP socket that the network device is now up, so that the
+module can be disabled by asserting TX_DISABLE, disabling the laser
+in optical modules. This should be called from the network device
+driver's \fIstruct net_device_ops\fP \fBndo_stop\fP method.

@@ -1,0 +1,18 @@
+.TH "usb_gadget_disconnect" 9 "usb_gadget_disconnect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_gadget_disconnect \- software-controlled disconnect from USB host
+.SH SYNOPSIS
+.B "int" usb_gadget_disconnect
+.BI "(struct usb_gadget *gadget "  ");"
+.SH ARGUMENTS
+.IP "gadget" 12
+the peripheral being disconnected
+.SH "DESCRIPTION"
+Disables the D+ (or potentially D-) pullup, which the host may see
+as a disconnect (when a VBUS session is active).  Not all systems
+support software pullup controls.
+
+Following a successful disconnect, invoke the ->\fBdisconnect\fP callback
+for the current gadget driver so that UDC drivers don't need to.
+
+Returns zero on success, else negative errno.

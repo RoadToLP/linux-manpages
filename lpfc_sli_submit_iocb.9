@@ -1,0 +1,26 @@
+.TH "lpfc_sli_submit_iocb" 9 "lpfc_sli_submit_iocb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_submit_iocb \- Submit an iocb to the firmware
+.SH SYNOPSIS
+.B "void" lpfc_sli_submit_iocb
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "IOCB_t *iocb "  ","
+.BI "struct lpfc_iocbq *nextiocb "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "iocb" 12
+Pointer to iocb slot in the ring.
+.IP "nextiocb" 12
+Pointer to driver iocb object which need to be
+posted to firmware.
+.SH "DESCRIPTION"
+This function is called to post a new iocb to the firmware. This
+function copies the new iocb to ring iocb slot and updates the
+ring pointers. It adds the new iocb to txcmplq if there is
+a completion call back for this iocb else the function will free the
+iocb object.  The hbalock is asserted held in the code path calling
+this routine.

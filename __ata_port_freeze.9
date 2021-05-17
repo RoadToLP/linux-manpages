@@ -1,0 +1,23 @@
+.TH "__ata_port_freeze" 9 "__ata_port_freeze" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ata_port_freeze \- freeze port
+.SH SYNOPSIS
+.B "void" __ata_port_freeze
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to freeze
+
+This function is called when HSM violation or some other
+condition disrupts normal operation of the port.  Frozen port
+is not allowed to perform any operation until the port is
+thawed, which usually follows a successful reset.
+
+ap->ops->\fBfreeze\fP callback can be used for freezing the port
+hardware-wise (e.g. mask interrupt and stop DMA engine).  If a
+port cannot be frozen hardware-wise, the interrupt handler
+must ack and clear interrupts unconditionally while the port
+is frozen.
+
+LOCKING:
+spin_lock_irqsave(host lock)

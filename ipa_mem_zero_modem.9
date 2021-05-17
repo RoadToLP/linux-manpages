@@ -1,0 +1,15 @@
+.TH "ipa_mem_zero_modem" 9 "ipa_mem_zero_modem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_mem_zero_modem \- Zero IPA-local memory regions owned by the modem
+.SH SYNOPSIS
+.B "int" ipa_mem_zero_modem
+.BI "(struct ipa *ipa "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.SH "DESCRIPTION"
+Zero regions of IPA-local memory used by the modem.  These are configured
+(and initially zeroed) by \fBipa_mem_setup\fP, but if the modem crashes and
+restarts via SSR we need to re-initialize them.  A QMI message tells the
+modem where to find regions of IPA local memory it needs to know about
+(these included).

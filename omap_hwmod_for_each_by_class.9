@@ -1,0 +1,21 @@
+.TH "omap_hwmod_for_each_by_class" 9 "omap_hwmod_for_each_by_class" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+omap_hwmod_for_each_by_class \- call @fn for each hwmod of class @classname
+.SH SYNOPSIS
+.B "int" omap_hwmod_for_each_by_class
+.BI "(const char *classname "  ","
+.BI "int (*fn)(struct omap_hwmod *oh, void *user) "  ","
+.BI "void *user "  ");"
+.SH ARGUMENTS
+.IP "classname" 12
+struct omap_hwmod_class name to search for
+.IP "fn" 12
+callback function pointer to call for each hwmod in class \fIclassname\fP
+.IP "user" 12
+arbitrary context data to pass to the callback function
+.SH "DESCRIPTION"
+For each omap_hwmod of class \fIclassname\fP, call \fIfn\fP.
+If the callback function returns something other than
+zero, the iterator is terminated, and the callback function's return
+value is passed back to the caller.  Returns 0 upon success, -EINVAL
+if \fIclassname\fP or \fIfn\fP are NULL, or passes back the error code from \fIfn\fP.

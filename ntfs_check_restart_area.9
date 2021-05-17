@@ -1,0 +1,21 @@
+.TH "ntfs_check_restart_area" 9 "ntfs_check_restart_area" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_check_restart_area \- check the restart area for consistency
+.SH SYNOPSIS
+.B "bool" ntfs_check_restart_area
+.BI "(struct inode *vi "  ","
+.BI "RESTART_PAGE_HEADER *rp "  ");"
+.SH ARGUMENTS
+.IP "vi" 12
+$LogFile inode to which the restart page belongs
+.IP "rp" 12
+restart page whose restart area to check
+.SH "DESCRIPTION"
+Check the restart area of the restart page \fIrp\fP for consistency and return
+'true' if it is consistent and 'false' otherwise.
+
+This function assumes that the restart page header has already been
+consistency checked.
+
+This function only needs NTFS_BLOCK_SIZE bytes in \fIrp\fP, i.e. it does not
+require the full restart page.

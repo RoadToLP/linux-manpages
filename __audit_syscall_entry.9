@@ -1,0 +1,29 @@
+.TH "__audit_syscall_entry" 9 "__audit_syscall_entry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__audit_syscall_entry \- fill in an audit record at syscall entry
+.SH SYNOPSIS
+.B "void" __audit_syscall_entry
+.BI "(int major "  ","
+.BI "unsigned long a1 "  ","
+.BI "unsigned long a2 "  ","
+.BI "unsigned long a3 "  ","
+.BI "unsigned long a4 "  ");"
+.SH ARGUMENTS
+.IP "major" 12
+major syscall type (function)
+.IP "a1" 12
+additional syscall register 1
+.IP "a2" 12
+additional syscall register 2
+.IP "a3" 12
+additional syscall register 3
+.IP "a4" 12
+additional syscall register 4
+.SH "DESCRIPTION"
+Fill in audit context at syscall entry.  This only happens if the
+audit context was created when the task was created and the state or
+filters demand the audit context be built.  If the state from the
+per-task filter or from the per-syscall filter is AUDIT_RECORD_CONTEXT,
+then the record will be written at syscall exit time (otherwise, it
+will only be written if another part of the kernel requests that it
+be written).

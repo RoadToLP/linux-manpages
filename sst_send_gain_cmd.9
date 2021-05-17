@@ -1,0 +1,33 @@
+.TH "sst_send_gain_cmd" 9 "sst_send_gain_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sst_send_gain_cmd \- send the gain algorithm IPC to the FW
+.SH SYNOPSIS
+.B "int" sst_send_gain_cmd
+.BI "(struct sst_data *drv "  ","
+.BI "struct sst_gain_value *gv "  ","
+.BI "u16 task_id "  ","
+.BI "u16 loc_id "  ","
+.BI "u16 module_id "  ","
+.BI "int mute "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+sst_data
+.IP "gv" 12
+the stored value of gain (also contains rampduration)
+.IP "task_id" 12
+task index
+.IP "loc_id" 12
+location/position index
+.IP "module_id" 12
+module index
+.IP "mute" 12
+flag that indicates whether this was called from the
+digital_mute callback or directly. If called from the
+digital_mute callback, module will be muted/unmuted based on this
+flag. The flag is always 0 if called directly.
+.SH "DESCRIPTION"
+Called with sst_data.lock held
+
+The user-set gain value is sent only if the user-controllable 'mute' control
+is OFF (indicated by gv->mute). Otherwise, the mute value (MIN value) is
+sent.

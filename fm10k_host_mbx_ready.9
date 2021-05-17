@@ -1,0 +1,15 @@
+.TH "fm10k_host_mbx_ready" 9 "fm10k_host_mbx_ready" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_host_mbx_ready \- Check PF interface's mailbox readiness
+.SH SYNOPSIS
+.B "bool" fm10k_host_mbx_ready
+.BI "(struct fm10k_intfc *interface "  ");"
+.SH ARGUMENTS
+.IP "interface" 12
+board private structure
+.SH "DESCRIPTION"
+This function checks if the PF interface's mailbox is ready before queueing
+mailbox messages for transmission. This will prevent filling the TX mailbox
+queue when the receiver is not ready. VF interfaces are exempt from this
+check since it will block all PF-VF mailbox messages from being sent from
+the VF to the PF at initialization.

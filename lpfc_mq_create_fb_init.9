@@ -1,0 +1,25 @@
+.TH "lpfc_mq_create_fb_init" 9 "lpfc_mq_create_fb_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_mq_create_fb_init \- Send MCC_CREATE without async events registration
+.SH SYNOPSIS
+.B "void" lpfc_mq_create_fb_init
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *mq "  ","
+.BI "LPFC_MBOXQ_t *mbox "  ","
+.BI "struct lpfc_queue *cq "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+HBA structure that indicates port to create a queue on.
+.IP "mq" 12
+The queue structure to use to create the mailbox queue.
+.IP "mbox" 12
+An allocated pointer to type LPFC_MBOXQ_t
+.IP "cq" 12
+The completion queue to associate with this cq.
+.SH "DESCRIPTION"
+This function provides failback (fb) functionality when the
+mq_create_ext fails on older FW generations.  It's purpose is identical
+to mq_create_ext otherwise.
+
+This routine cannot fail as all attributes were previously accessed and
+initialized in mq_create_ext.

@@ -1,0 +1,23 @@
+.TH "alloc_etherdev_mqs" 9 "alloc_etherdev_mqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_etherdev_mqs \- Allocates and sets up an Ethernet device
+.SH SYNOPSIS
+.B "struct net_device *" alloc_etherdev_mqs
+.BI "(int sizeof_priv "  ","
+.BI "unsigned int txqs "  ","
+.BI "unsigned int rxqs "  ");"
+.SH ARGUMENTS
+.IP "sizeof_priv" 12
+Size of additional driver-private structure to be allocated
+for this Ethernet device
+.IP "txqs" 12
+The number of TX queues this device has.
+.IP "rxqs" 12
+The number of RX queues this device has.
+.SH "DESCRIPTION"
+Fill in the fields of the device structure with Ethernet-generic
+values. Basically does everything except registering the device.
+
+Constructs a new net device, complete with a private data area of
+size (sizeof_priv).  A 32-byte (not bit) alignment is enforced for
+this private data area.

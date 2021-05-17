@@ -1,0 +1,24 @@
+.TH "iio_buffer_read_outer" 9 "iio_buffer_read_outer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iio_buffer_read_outer \- chrdev read for buffer access
+.SH SYNOPSIS
+.B "ssize_t" iio_buffer_read_outer
+.BI "(struct file *filp "  ","
+.BI "char __user *buf "  ","
+.BI "size_t n "  ","
+.BI "loff_t *f_ps "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+File structure pointer for the char device
+.IP "buf" 12
+Destination buffer for iio buffer read
+.IP "n" 12
+First n bytes to read
+.IP "f_ps" 12
+Long offset provided by the user as a seek position
+.SH "DESCRIPTION"
+This function relies on all buffer implementations having an
+iio_buffer as their first element.
+.SH "RETURN"
+negative values corresponding to error codes or ret != 0
+for ending the reading activity

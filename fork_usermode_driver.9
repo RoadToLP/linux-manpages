@@ -1,0 +1,15 @@
+.TH "fork_usermode_driver" 9 "fork_usermode_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fork_usermode_driver \- fork a usermode driver
+.SH SYNOPSIS
+.B "int" fork_usermode_driver
+.BI "(struct umd_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+information about usermode driver (shouldn't be NULL)
+.SH "DESCRIPTION"
+Returns either negative error or zero which indicates success in
+executing a usermode driver. In such case 'struct umd_info *info'
+is populated with two pipes and a tgid of the process. The caller is
+responsible for health check of the user process, killing it via
+tgid, and closing the pipes when user process is no longer needed.

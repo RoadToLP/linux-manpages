@@ -1,0 +1,25 @@
+.TH "ice_vsi_setup" 9 "ice_vsi_setup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_vsi_setup \- Set up a VSI by a given type
+.SH SYNOPSIS
+.B "struct ice_vsi *" ice_vsi_setup
+.BI "(struct ice_pf *pf "  ","
+.BI "struct ice_port_info *pi "  ","
+.BI "enum ice_vsi_type vsi_type "  ","
+.BI "u16 vf_id "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+board private structure
+.IP "pi" 12
+pointer to the port_info instance
+.IP "vsi_type" 12
+VSI type
+.IP "vf_id" 12
+defines VF ID to which this VSI connects. This field is meant to be
+used only for ICE_VSI_VF VSI type. For other VSI types, should
+fill-in ICE_INVAL_VFID as input.
+.SH "DESCRIPTION"
+This allocates the sw VSI structure and its queue resources.
+
+Returns pointer to the successfully allocated and configured VSI sw struct on
+success, NULL on failure.

@@ -1,0 +1,19 @@
+.TH "intel_fbc_handle_fifo_underrun_irq" 9 "intel_fbc_handle_fifo_underrun_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_fbc_handle_fifo_underrun_irq \- disable FBC when we get a FIFO underrun
+.SH SYNOPSIS
+.B "void" intel_fbc_handle_fifo_underrun_irq
+.BI "(struct drm_i915_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+i915 device instance
+.SH "DESCRIPTION"
+Without FBC, most underruns are harmless and don't really cause too many
+problems, except for an annoying message on dmesg. With FBC, underruns can
+become black screens or even worse, especially when paired with bad
+watermarks. So in order for us to be on the safe side, completely disable FBC
+in case we ever detect a FIFO underrun on any pipe. An underrun on any pipe
+already suggests that watermarks may be bad, so try to be as safe as
+possible.
+
+This function is called from the IRQ handler.

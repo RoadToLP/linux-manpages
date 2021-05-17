@@ -1,0 +1,21 @@
+.TH "lpfc_hb_timeout_handler" 9 "lpfc_hb_timeout_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_hb_timeout_handler \- The HBA-timer timeout handler
+.SH SYNOPSIS
+.B "void" lpfc_hb_timeout_handler
+.BI "(struct lpfc_hba *phba "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+pointer to lpfc hba data structure.
+.SH "DESCRIPTION"
+This is the actual HBA-timer timeout handler to be invoked by the worker
+thread whenever the HBA timer fired and HBA-timeout event posted. This
+handler performs any periodic operations needed for the device. If such
+periodic event has already been attended to either in the interrupt handler
+or by processing slow-ring or fast-ring events within the HBA-timer
+timeout window (LPFC_HB_MBOX_INTERVAL), this handler just simply resets
+the timer for the next timeout period. If lpfc heart-beat mailbox command
+is configured and there is no heart-beat mailbox command outstanding, a
+heart-beat mailbox is issued and timer set properly. Otherwise, if there
+has been a heart-beat mailbox command outstanding, the HBA shall be put
+to offline.

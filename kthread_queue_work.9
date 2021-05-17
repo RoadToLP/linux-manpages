@@ -1,0 +1,19 @@
+.TH "kthread_queue_work" 9 "kthread_queue_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_queue_work \- queue a kthread_work
+.SH SYNOPSIS
+.B "bool" kthread_queue_work
+.BI "(struct kthread_worker *worker "  ","
+.BI "struct kthread_work *work "  ");"
+.SH ARGUMENTS
+.IP "worker" 12
+target kthread_worker
+.IP "work" 12
+kthread_work to queue
+.SH "DESCRIPTION"
+Queue \fIwork\fP to work processor \fItask\fP for async execution.  \fItask\fP
+must have been created with \fBkthread_worker_create\fP.  Returns true
+if \fIwork\fP was successfully queued, false if it was already pending.
+
+Reinitialize the work if it needs to be used by another worker.
+For example, when the worker was stopped and started again.

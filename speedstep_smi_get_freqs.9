@@ -1,0 +1,16 @@
+.TH "speedstep_smi_get_freqs" 9 "speedstep_smi_get_freqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+speedstep_smi_get_freqs \- get SpeedStep preferred & current freq.
+.SH SYNOPSIS
+.B "int" speedstep_smi_get_freqs
+.BI "(unsigned int *low "  ","
+.BI "unsigned int *high "  ");"
+.SH ARGUMENTS
+.IP "low" 12
+the low frequency value is placed here
+.IP "high" 12
+the high frequency value is placed here
+.SH "DESCRIPTION"
+Only available on later SpeedStep-enabled systems, returns false results or
+even hangs [cf. bugme.osdl.org # 1422] on earlier systems. Empirical testing
+shows that the latter occurs if !(ist_info.event & 0xFFFF).

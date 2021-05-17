@@ -1,0 +1,26 @@
+.TH "vmap" 9 "vmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmap \- map an array of pages into virtually contiguous space
+.SH SYNOPSIS
+.B "void *" vmap
+.BI "(struct page **pages "  ","
+.BI "unsigned int count "  ","
+.BI "unsigned long flags "  ","
+.BI "pgprot_t prot "  ");"
+.SH ARGUMENTS
+.IP "pages" 12
+array of page pointers
+.IP "count" 12
+number of pages to map
+.IP "flags" 12
+vm_area->flags
+.IP "prot" 12
+page protection for the mapping
+.SH "DESCRIPTION"
+Maps \fIcount\fP pages from \fIpages\fP into contiguous kernel virtual space.
+If \fIflags\fP contains VM_MAP_PUT_PAGES the ownership of the pages array itself
+(which must be kmalloc or vmalloc memory) and one reference per pages in it
+are transferred from the caller to \fBvmap\fP, and will be freed / dropped when
+\fBvfree\fP is called on the return value.
+.SH "RETURN"
+the address of the area or NULL on failure

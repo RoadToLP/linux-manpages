@@ -1,0 +1,26 @@
+.TH "balloon_page_list_dequeue" 9 "balloon_page_list_dequeue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+balloon_page_list_dequeue \- removes pages from balloon's page list and returns a list of the pages.
+.SH SYNOPSIS
+.B "size_t" balloon_page_list_dequeue
+.BI "(struct balloon_dev_info *b_dev_info "  ","
+.BI "struct list_head *pages "  ","
+.BI "size_t n_req_pages "  ");"
+.SH ARGUMENTS
+.IP "b_dev_info" 12
+balloon device decriptor where we will grab a page from.
+.IP "pages" 12
+pointer to the list of pages that would be returned to the caller.
+.IP "n_req_pages" 12
+number of requested pages.
+.SH "DESCRIPTION"
+Driver must call this function to properly de-allocate a previous enlisted
+balloon pages before definitively releasing it back to the guest system.
+This function tries to remove \fIn_req_pages\fP from the ballooned pages and
+return them to the caller in the \fIpages\fP list.
+
+Note that this function may fail to dequeue some pages even if the balloon
+isn't empty - since the page list can be temporarily empty due to compaction
+of isolated pages.
+.SH "RETURN"
+number of pages that were added to the \fIpages\fP list.

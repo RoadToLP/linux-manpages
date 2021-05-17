@@ -1,0 +1,26 @@
+.TH "dpni_set_rx_tc_dist" 9 "dpni_set_rx_tc_dist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_rx_tc_dist \- Set Rx traffic class distribution configuration
+.SH SYNOPSIS
+.B "int" dpni_set_rx_tc_dist
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "u8 tc_id "  ","
+.BI "const struct dpni_rx_tc_dist_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "tc_id" 12
+Traffic class selection (0-7)
+.IP "cfg" 12
+Traffic class distribution configuration
+.SH "DESCRIPTION"
+warning: if 'dist_mode != DPNI_DIST_MODE_NONE', call \fBdpni_prepare_key_cfg\fP
+first to prepare the key_cfg_iova parameter
+.SH "RETURN"
+'0' on Success; error code otherwise.

@@ -1,0 +1,26 @@
+.TH "create_timings_aligned" 9 "create_timings_aligned" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+create_timings_aligned \- Create register values and align with standard
+.SH SYNOPSIS
+.B "int" create_timings_aligned
+.BI "(struct exynos5_dmc *dmc "  ","
+.BI "u32 *reg_timing_row "  ","
+.BI "u32 *reg_timing_data "  ","
+.BI "u32 *reg_timing_power "  ","
+.BI "u32 clk_period_ps "  ");"
+.SH ARGUMENTS
+.IP "dmc" 12
+device for which the frequency is going to be set
+.IP "reg_timing_row" 12
+array to fill with values for timing row register
+.IP "reg_timing_data" 12
+array to fill with values for timing data register
+.IP "reg_timing_power" 12
+array to fill with values for timing power register
+.IP "clk_period_ps" 12
+the period of the clock, known as tCK
+.SH "DESCRIPTION"
+The function calculates timings and creates a register value ready for
+a frequency transition. The register contains a few timings. They are
+shifted by a known offset. The timing value is calculated based on memory
+specyfication: minimal time required and minimal cycles required.

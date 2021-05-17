@@ -1,0 +1,25 @@
+.TH "find_valid_gpt" 9 "find_valid_gpt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_valid_gpt \- Search disk for valid GPT headers and PTEs
+.SH SYNOPSIS
+.B "int" find_valid_gpt
+.BI "(struct parsed_partitions *state "  ","
+.BI "gpt_header **gpt "  ","
+.BI "gpt_entry **ptes "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+disk parsed partitions
+.IP "gpt" 12
+GPT header ptr, filled on return.
+.IP "ptes" 12
+PTEs ptr, filled on return.
+.SH "DESCRIPTION"
+Returns 1 if valid, 0 on error.
+If valid, returns pointers to newly allocated GPT header and PTEs.
+Validity depends on PMBR being valid (or being overridden by the
+'gpt' kernel command line option) and finding either the Primary
+GPT header and PTEs valid, or the Alternate GPT header and PTEs
+valid.  If the Primary GPT header is not valid, the Alternate GPT header
+is not checked unless the 'gpt' kernel command line option is passed.
+This protects against devices which misreport their size, and forces
+the user to decide to use the Alternate GPT.

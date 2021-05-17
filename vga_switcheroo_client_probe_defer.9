@@ -1,0 +1,16 @@
+.TH "vga_switcheroo_client_probe_defer" 9 "vga_switcheroo_client_probe_defer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vga_switcheroo_client_probe_defer \- whether to defer probing a given client
+.SH SYNOPSIS
+.B "bool" vga_switcheroo_client_probe_defer
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+client pci device
+.SH "DESCRIPTION"
+Determine whether any prerequisites are not fulfilled to probe a given
+client. Drivers shall invoke this early on in their ->probe callback
+and return -EPROBE_DEFER if it evaluates to true. Thou shalt not
+register the client ere thou hast called this.
+.SH "RETURN"
+true if probing should be deferred, otherwise false.

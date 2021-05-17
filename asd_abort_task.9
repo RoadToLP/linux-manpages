@@ -1,0 +1,38 @@
+.TH "asd_abort_task" 9 "asd_abort_task" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_abort_task \- - ABORT TASK TMF
+.SH SYNOPSIS
+.B "int" asd_abort_task
+.BI "(struct sas_task *task "  ");"
+.SH ARGUMENTS
+.IP "task" 12
+the task to be aborted
+.SH "DESCRIPTION"
+Before calling ABORT TASK the task state flags should be ORed with
+SAS_TASK_STATE_ABORTED (unless SAS_TASK_STATE_DONE is set) under
+the task_state_lock IRQ spinlock, then ABORT TASK *must* be called.
+
+Implements the ABORT TASK TMF, I_T_L_Q nexus.
+When ABORT TASK returns, the caller of ABORT TASK checks first the
+task->task_state_flags, and then the return value of ABORT TASK.
+
+If the task has task state bit SAS_TASK_STATE_DONE set, then the
+task was completed successfully prior to it being aborted.  The
+caller of ABORT TASK has responsibility to call task->\fBtask_done\fP
+xor free the task, depending on their framework.  The return code
+is TMF_RESP_FUNC_FAILED in this case.
+
+Else the SAS_TASK_STATE_DONE bit is not set,
+If the return code is TMF_RESP_FUNC_COMPLETE, then
+the task was aborted successfully.  The caller of
+ABORT TASK has responsibility to call task->\fBtask_done\fP
+to finish the task, xor free the task depending on their
+framework.
+else
+the ABORT TASK returned some kind of error. The task
+was _not_ cancelled.  Nothing can be assumed.
+The caller of ABORT TASK may wish to retry.
+.SH "RETURN"
+SAS TMF responses (see sas_task.h),
+-ENOMEM,
+-SAS_QUEUE_FULL.

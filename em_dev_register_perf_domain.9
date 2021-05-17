@@ -1,0 +1,36 @@
+.TH "em_dev_register_perf_domain" 9 "em_dev_register_perf_domain" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+em_dev_register_perf_domain \- Register the Energy Model (EM) for a device
+.SH SYNOPSIS
+.B "int" em_dev_register_perf_domain
+.BI "(struct device *dev "  ","
+.BI "unsigned int nr_states "  ","
+.BI "struct em_data_callback *cb "  ","
+.BI "cpumask_t *cpus "  ","
+.BI "bool milliwatts "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device for which the EM is to register
+.IP "nr_states" 12
+Number of performance states to register
+.IP "cb" 12
+Callback functions providing the data of the Energy Model
+.IP "cpus" 12
+Pointer to cpumask_t, which in case of a CPU device is
+obligatory. It can be taken from i.e. 'policy->cpus'. For other
+type of devices this should be set to NULL.
+.IP "milliwatts" 12
+Flag indicating that the power values are in milliWatts or
+in some other scale. It must be set properly.
+.SH "DESCRIPTION"
+Create Energy Model tables for a performance domain using the callbacks
+defined in cb.
+
+The \fImilliwatts\fP is important to set with correct value. Some kernel
+sub-systems might rely on this flag and check if all devices in the EM are
+using the same scale.
+
+If multiple clients register the same performance domain, all but the first
+registration will be ignored.
+
+Return 0 on success

@@ -1,0 +1,34 @@
+.TH "fscrypt_setup_filename" 9 "fscrypt_setup_filename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_setup_filename \- prepare to search a possibly encrypted directory
+.SH SYNOPSIS
+.B "int" fscrypt_setup_filename
+.BI "(struct inode *dir "  ","
+.BI "const struct qstr *iname "  ","
+.BI "int lookup "  ","
+.BI "struct fscrypt_name *fname "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+the directory that will be searched
+.IP "iname" 12
+the user-provided filename being searched for
+.IP "lookup" 12
+1 if we're allowed to proceed without the key because it's
+->\fBlookup\fP or we're finding the dir_entry for deletion; 0 if we cannot
+proceed without the key because we're going to create the dir_entry.
+.IP "fname" 12
+the filename information to be filled in
+.SH "DESCRIPTION"
+Given a user-provided filename \fIiname\fP, this function sets \fIfname->disk_name\fP
+to the name that would be stored in the on-disk directory entry, if possible.
+If the directory is unencrypted this is simply \fIiname\fP.  Else, if we have the
+directory's encryption key, then \fIiname\fP is the plaintext, so we encrypt it to
+get the disk_name.
+
+Else, for keyless \fIlookup\fP operations, \fIiname\fP should be a no-key name, so we
+decode it to get the struct fscrypt_nokey_name.  Non-\fIlookup\fP operations will
+be impossible in this case, so we fail them with ENOKEY.
+
+If successful, \fBfscrypt_free_filename\fP must be called later to clean up.
+.SH "RETURN"
+0 on success, -errno on failure

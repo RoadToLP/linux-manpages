@@ -1,0 +1,19 @@
+.TH "vmw_bo_dirty_pre_unmap" 9 "vmw_bo_dirty_pre_unmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_bo_dirty_pre_unmap \- write-protect and pick up dirty pages before an unmap_mapping_range operation.
+.SH SYNOPSIS
+.B "void" vmw_bo_dirty_pre_unmap
+.BI "(struct vmw_buffer_object *vbo "  ","
+.BI "pgoff_t start "  ","
+.BI "pgoff_t end "  ");"
+.SH ARGUMENTS
+.IP "vbo" 12
+The buffer object,
+.IP "start" 12
+First page of the range within the buffer object.
+.IP "end" 12
+Last page of the range within the buffer object + 1.
+.SH "DESCRIPTION"
+If we're using the _PAGETABLE scan method, we may leak dirty pages
+when calling \fBunmap_mapping_range\fP. This function makes sure we pick
+up all dirty pages.

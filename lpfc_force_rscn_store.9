@@ -1,0 +1,25 @@
+.TH "lpfc_force_rscn_store" 9 "lpfc_force_rscn_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_force_rscn_store \- 
+.SH SYNOPSIS
+.B "ssize_t" lpfc_force_rscn_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+class device that is converted into a Scsi_host.
+.IP "attr" 12
+device attribute, not used.
+.IP "buf" 12
+unused string
+.IP "count" 12
+unused variable.
+.SH "DESCRIPTION"
+Force the switch to send a RSCN to all other NPorts in our zone
+If we are direct connect pt2pt, build the RSCN command ourself
+and send to the other NPort. Not supported for private loop.
+.SH "RETURN"
+0      - on success
+-EIO   - if command is not sent

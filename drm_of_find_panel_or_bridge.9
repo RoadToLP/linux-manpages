@@ -1,0 +1,27 @@
+.TH "drm_of_find_panel_or_bridge" 9 "drm_of_find_panel_or_bridge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_of_find_panel_or_bridge \- return connected panel or bridge device
+.SH SYNOPSIS
+.B "int" drm_of_find_panel_or_bridge
+.BI "(const struct device_node *np "  ","
+.BI "int port "  ","
+.BI "int endpoint "  ","
+.BI "struct drm_panel **panel "  ","
+.BI "struct drm_bridge **bridge "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device tree node containing encoder output ports
+.IP "port" 12
+port in the device tree node
+.IP "endpoint" 12
+endpoint in the device tree node
+.IP "panel" 12
+pointer to hold returned drm_panel
+.IP "bridge" 12
+pointer to hold returned drm_bridge
+.SH "DESCRIPTION"
+Given a DT node's port and endpoint number, find the connected node and
+return either the associated struct drm_panel or drm_bridge device. Either
+\fIpanel\fP or \fIbridge\fP must not be NULL.
+
+Returns zero if successful, or one of the standard error codes if it fails.

@@ -1,0 +1,18 @@
+.TH "consume_stock" 9 "consume_stock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+consume_stock \- Try to consume stocked charge on this cpu.
+.SH SYNOPSIS
+.B "bool" consume_stock
+.BI "(struct mem_cgroup *memcg "  ","
+.BI "unsigned int nr_pages "  ");"
+.SH ARGUMENTS
+.IP "memcg" 12
+memcg to consume from.
+.IP "nr_pages" 12
+how many pages to charge.
+.SH "DESCRIPTION"
+The charges will only happen if \fImemcg\fP matches the current cpu's memcg
+stock, and at least \fInr_pages\fP are available in that stock.  Failure to
+service an allocation will refill the stock.
+
+returns true if successful, false otherwise.

@@ -1,0 +1,14 @@
+.TH "pvm_find_va_enclose_addr" 9 "pvm_find_va_enclose_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pvm_find_va_enclose_addr \- find the vmap_area @addr belongs to
+.SH SYNOPSIS
+.B "struct vmap_area *" pvm_find_va_enclose_addr
+.BI "(unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+target address
+.SH "RETURN"
+vmap_area if it is found. If there is no such area
+the first highest(reverse order) vmap_area is returned
+i.e. va->va_start < addr && va->va_end < addr or NULL
+if there are no any areas before \fIaddr\fP.

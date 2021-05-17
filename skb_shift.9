@@ -1,0 +1,27 @@
+.TH "skb_shift" 9 "skb_shift" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_shift \- Shifts paged data partially from skb to another
+.SH SYNOPSIS
+.B "int" skb_shift
+.BI "(struct sk_buff *tgt "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "int shiftlen "  ");"
+.SH ARGUMENTS
+.IP "tgt" 12
+buffer into which tail data gets added
+.IP "skb" 12
+buffer from which the paged data comes from
+.IP "shiftlen" 12
+shift up to this many bytes
+.SH "DESCRIPTION"
+Attempts to shift up to shiftlen worth of bytes, which may be less than
+the length of the skb, from skb to tgt. Returns number bytes shifted.
+It's up to caller to free skb if everything was shifted.
+
+If \fItgt\fP runs out of frags, the whole operation is aborted.
+
+Skb cannot include anything else but paged data while tgt is allowed
+to have non-paged data as well.
+
+TODO: full sized shift could be optimized but that would need
+specialized skb free'er to handle frags without up-to-date nr_frags.

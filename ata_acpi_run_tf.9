@@ -1,0 +1,31 @@
+.TH "ata_acpi_run_tf" 9 "ata_acpi_run_tf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_acpi_run_tf \- send taskfile registers to host controller
+.SH SYNOPSIS
+.B "int" ata_acpi_run_tf
+.BI "(struct ata_device *dev "  ","
+.BI "const struct ata_acpi_gtf *gtf "  ","
+.BI "const struct ata_acpi_gtf *prev_gtf "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+target ATA device
+.IP "gtf" 12
+raw ATA taskfile register set (0x1f1 - 0x1f7)
+.IP "prev_gtf" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Outputs ATA taskfile to standard ATA host controller.
+Writes the control, feature, nsect, lbal, lbam, and lbah registers.
+Optionally (ATA_TFLAG_LBA48) writes hob_feature, hob_nsect,
+hob_lbal, hob_lbam, and hob_lbah.
+
+This function waits for idle (!BUSY and !DRQ) after writing
+registers.  If the control register has a new value, this
+function also waits for idle after writing control and before
+writing the remaining registers.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+1 if command is executed successfully.  0 if ignored, rejected or
+filtered out, -errno on other errors.

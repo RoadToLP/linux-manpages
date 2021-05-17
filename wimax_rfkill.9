@@ -1,0 +1,28 @@
+.TH "wimax_rfkill" 9 "wimax_rfkill" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wimax_rfkill \- Set the software RF switch state for a WiMAX device
+.SH SYNOPSIS
+.B "int" wimax_rfkill
+.BI "(struct wimax_dev *wimax_dev "  ","
+.BI "enum wimax_rf_state state "  ");"
+.SH ARGUMENTS
+.IP "wimax_dev" 12
+WiMAX device descriptor
+.IP "state" 12
+New RF state.
+.SH "RETURN"
+.SH "DESCRIPTION"
+>= 0 toggle state if ok, < 0 errno code on error. The toggle state
+is returned as a bitmap, bit 0 being the hardware RF state, bit 1
+the software RF state.
+
+0 means disabled (WIMAX_RF_ON, radio on), 1 means enabled radio
+off (WIMAX_RF_OFF).
+
+
+Called by the user when he wants to request the WiMAX radio to be
+switched on (WIMAX_RF_ON) or off (WIMAX_RF_OFF). With
+WIMAX_RF_QUERY, just the current state is returned.
+
+This call will block until the operation is complete.
+.SH "NOTE"

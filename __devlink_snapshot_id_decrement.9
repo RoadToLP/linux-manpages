@@ -1,0 +1,22 @@
+.TH "__devlink_snapshot_id_decrement" 9 "__devlink_snapshot_id_decrement" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devlink_snapshot_id_decrement \- Decrease number of snapshots using an id
+.SH SYNOPSIS
+.B "void" __devlink_snapshot_id_decrement
+.BI "(struct devlink *devlink "  ","
+.BI "u32 id "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink instance
+.IP "id" 12
+the snapshot id
+
+Track when a snapshot is deleted and stops using an id. Load the count
+for the given id from the snapshot xarray, decrement it, and store it
+back.
+
+If the count reaches zero, erase this id from the xarray, freeing it
+up for future re-use by \fBdevlink_region_snapshot_id_get\fP.
+
+Called when a snapshot using the given id is deleted, and when the
+initial allocator of the id is finished using it.

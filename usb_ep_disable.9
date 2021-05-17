@@ -1,0 +1,19 @@
+.TH "usb_ep_disable" 9 "usb_ep_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ep_disable \- endpoint is no longer usable
+.SH SYNOPSIS
+.B "int" usb_ep_disable
+.BI "(struct usb_ep *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint being unconfigured.  may not be the endpoint named "ep0".
+.SH "DESCRIPTION"
+no other task may be using this endpoint when this is called.
+any pending and uncompleted requests will complete with status
+indicating disconnect (-ESHUTDOWN) before this call returns.
+gadget drivers must call \fBusb_ep_enable\fP again before queueing
+requests to the endpoint.
+
+This routine must be called in process context.
+
+returns zero, or a negative error code.

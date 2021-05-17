@@ -1,0 +1,19 @@
+.TH "intel_prepare_plane_fb" 9 "intel_prepare_plane_fb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_prepare_plane_fb \- Prepare fb for usage on plane
+.SH SYNOPSIS
+.B "int" intel_prepare_plane_fb
+.BI "(struct drm_plane *_plane "  ","
+.BI "struct drm_plane_state *_new_plane_state "  ");"
+.SH ARGUMENTS
+.IP "_plane" 12
+drm plane to prepare for
+.IP "_new_plane_state" 12
+the plane state being prepared
+.SH "DESCRIPTION"
+Prepares a framebuffer for usage on a display plane.  Generally this
+involves pinning the underlying object and updating the frontbuffer tracking
+bits.  Some older platforms need special physical address handling for
+cursor planes.
+
+Returns 0 on success, negative error code on failure.

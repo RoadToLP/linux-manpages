@@ -1,0 +1,30 @@
+.TH "get_master_node" 9 "get_master_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_master_node \- get the last valid master node allowing for corruption.
+.SH SYNOPSIS
+.B "int" get_master_node
+.BI "(const struct ubifs_info *c "  ","
+.BI "int lnum "  ","
+.BI "void **pbuf "  ","
+.BI "struct ubifs_mst_node **mst "  ","
+.BI "void **cor "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "lnum" 12
+LEB number
+.IP "pbuf" 12
+buffer containing the LEB read, is returned here
+.IP "mst" 12
+master node, if found, is returned here
+.IP "cor" 12
+corruption, if found, is returned here
+.SH "DESCRIPTION"
+This function allocates a buffer, reads the LEB into it, and finds and
+returns the last valid master node allowing for one area of corruption.
+The corrupt area, if there is one, must be consistent with the assumption
+that it is the result of an unclean unmount while the master node was being
+written. Under those circumstances, it is valid to use the previously written
+master node.
+
+This function returns 0 on success and a negative error code on failure.

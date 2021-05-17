@@ -1,0 +1,35 @@
+.TH "hfsplus_submit_bio" 9 "hfsplus_submit_bio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hfsplus_submit_bio \- Perform block I/O
+.SH SYNOPSIS
+.B "int" hfsplus_submit_bio
+.BI "(struct super_block *sb "  ","
+.BI "sector_t sector "  ","
+.BI "void *buf "  ","
+.BI "void **data "  ","
+.BI "int op "  ","
+.BI "int op_flags "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of volume for I/O
+.IP "sector" 12
+block to read or write, for blocks of HFSPLUS_SECTOR_SIZE bytes
+.IP "buf" 12
+buffer for I/O
+.IP "data" 12
+output pointer for location of requested data
+.IP "op" 12
+direction of I/O
+.IP "op_flags" 12
+request op flags
+.SH "DESCRIPTION"
+The unit of I/O is hfsplus_min_io_size(sb), which may be bigger than
+HFSPLUS_SECTOR_SIZE, and \fIbuf\fP must be sized accordingly. On reads
+\fIdata\fP will return a pointer to the start of the requested sector,
+which may not be the same location as \fIbuf\fP.
+
+If \fIsector\fP is not aligned to the bdev logical block size it will
+be rounded down. For writes this means that \fIbuf\fP should contain data
+that starts at the rounded-down address. As long as the data was
+read using \fBhfsplus_submit_bio\fP and the same buffer is used things
+will work correctly.

@@ -1,0 +1,15 @@
+.TH "yenta_fixup_parent_bridge" 9 "yenta_fixup_parent_bridge" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+yenta_fixup_parent_bridge \- Fix subordinate bus# of the parent bridge
+.SH SYNOPSIS
+.B "void" yenta_fixup_parent_bridge
+.BI "(struct pci_bus *cardbus_bridge "  ");"
+.SH ARGUMENTS
+.IP "cardbus_bridge" 12
+The PCI bus which the CardBus bridge bridges to
+.SH "DESCRIPTION"
+Checks if devices on the bus which the CardBus bridge bridges to would be
+invisible during PCI scans because of a misconfigured subordinate number
+of the parent brige - some BIOSes seem to be too lazy to set it right.
+Does the fixup carefully by checking how far it can go without conflicts.
+See http://bugzilla.kernel.org/show_bug.cgi?id=2944 for more information.

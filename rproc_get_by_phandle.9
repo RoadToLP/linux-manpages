@@ -1,0 +1,17 @@
+.TH "rproc_get_by_phandle" 9 "rproc_get_by_phandle" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_get_by_phandle \- find a remote processor by phandle
+.SH SYNOPSIS
+.B "struct rproc *" rproc_get_by_phandle
+.BI "(phandle phandle "  ");"
+.SH ARGUMENTS
+.IP "phandle" 12
+phandle to the rproc
+.SH "DESCRIPTION"
+Finds an rproc handle using the remote processor's phandle, and then
+return a handle to the rproc.
+
+This function increments the remote processor's refcount, so always
+use \fBrproc_put\fP to decrement it back once rproc isn't needed anymore.
+
+Returns the rproc handle on success, and NULL on failure.

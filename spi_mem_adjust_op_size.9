@@ -1,0 +1,21 @@
+.TH "spi_mem_adjust_op_size" 9 "spi_mem_adjust_op_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_mem_adjust_op_size \- Adjust the data size of a SPI mem operation to match controller limitations
+.SH SYNOPSIS
+.B "int" spi_mem_adjust_op_size
+.BI "(struct spi_mem *mem "  ","
+.BI "struct spi_mem_op *op "  ");"
+.SH ARGUMENTS
+.IP "mem" 12
+the SPI memory
+.IP "op" 12
+the operation to adjust
+.SH "DESCRIPTION"
+Some controllers have FIFO limitations and must split a data transfer
+operation into multiple ones, others require a specific alignment for
+optimized accesses. This function allows SPI mem drivers to split a single
+operation into multiple sub-operations when required.
+.SH "RETURN"
+a negative error code if the controller can't properly adjust \fIop\fP,
+0 otherwise. Note that \fIop->data.nbytes\fP will be updated if \fIop\fP
+can't be handled in a single step.

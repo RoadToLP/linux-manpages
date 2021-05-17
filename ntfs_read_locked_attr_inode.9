@@ -1,0 +1,29 @@
+.TH "ntfs_read_locked_attr_inode" 9 "ntfs_read_locked_attr_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_read_locked_attr_inode \- read an attribute inode from its base inode
+.SH SYNOPSIS
+.B "int" ntfs_read_locked_attr_inode
+.BI "(struct inode *base_vi "  ","
+.BI "struct inode *vi "  ");"
+.SH ARGUMENTS
+.IP "base_vi" 12
+base inode
+.IP "vi" 12
+attribute inode to read
+.SH "DESCRIPTION"
+\fBntfs_read_locked_attr_inode\fP is called from \fBntfs_attr_iget\fP to read the
+attribute inode described by \fIvi\fP into memory from the base mft record
+described by \fIbase_ni\fP.
+
+\fBntfs_read_locked_attr_inode\fP maps, pins and locks the base inode for
+reading and looks up the attribute described by \fIvi\fP before setting up the
+necessary fields in \fIvi\fP as well as initializing the ntfs inode.
+
+Q: What locks are held when the function is called?
+A: i_state has I_NEW set, hence the inode is locked, also
+i_count is set to 1, so it is not going to go away
+
+Return 0 on success and -errno on error.  In the error case, the inode will
+have had \fBmake_bad_inode\fP executed on it.
+
+Note this cannot be called for AT_INDEX_ALLOCATION.

@@ -1,0 +1,35 @@
+.TH "unexpected_intr" 9 "unexpected_intr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unexpected_intr \- handle an unexpected IDE interrupt
+.SH SYNOPSIS
+.B "void" unexpected_intr
+.BI "(int irq "  ","
+.BI "ide_hwif_t *hwif "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt line
+.IP "hwif" 12
+port being processed
+
+There's nothing really useful we can do with an unexpected interrupt,
+other than reading the status register (to clear it), and logging it.
+There should be no way that an irq can happen before we're ready for it,
+so we needn't worry much about losing an "important" interrupt here.
+
+On laptops (and "green" PCs), an unexpected interrupt occurs whenever
+the drive enters "idle", "standby", or "sleep" mode, so if the status
+looks "good", we just ignore the interrupt completely.
+
+This routine assumes \fB__cli\fP is in effect when called.
+
+If an unexpected interrupt happens on irq15 while we are handling irq14
+and if the two interfaces are "serialized" (CMD640), then it looks like
+we could screw up by interfering with a new request being set up for 
+irq15.
+
+In reality, this is a non-issue.  The new command is not sent unless 
+the drive is ready to accept one, in which case we know the drive is
+not trying to interrupt us.  And \fBide_set_handler\fP is always invoked
+before completing the issuance of any new drive command, so we will not
+be accidentally invoked as a result of any valid command completion
+interrupt.

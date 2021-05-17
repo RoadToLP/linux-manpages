@@ -1,0 +1,30 @@
+.TH "scmi_notify" 9 "scmi_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scmi_notify \- Queues a notification for further deferred processing
+.SH SYNOPSIS
+.B "int" scmi_notify
+.BI "(const struct scmi_handle *handle "  ","
+.BI "u8 proto_id "  ","
+.BI "u8 evt_id "  ","
+.BI "const void *buf "  ","
+.BI "size_t len "  ","
+.BI "ktime_t ts "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+The handle identifying the platform instance from which the
+dispatched event is generated
+.IP "proto_id" 12
+Protocol ID
+.IP "evt_id" 12
+Event ID (msgID)
+.IP "buf" 12
+Event Message Payload (without the header)
+.IP "len" 12
+Event Message Payload size
+.IP "ts" 12
+RX Timestamp in nanoseconds (boottime)
+.SH "CONTEXT"
+Called in interrupt context to queue a received event for
+deferred processing.
+.SH "RETURN"
+0 on Success

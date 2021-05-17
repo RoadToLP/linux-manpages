@@ -1,0 +1,34 @@
+.TH "may_create_in_sticky" 9 "may_create_in_sticky" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+may_create_in_sticky \- Check whether an O_CREAT open in a sticky directory should be allowed, or not, on files that already exist.
+.SH SYNOPSIS
+.B "int" may_create_in_sticky
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct nameidata *nd "  ","
+.BI "struct inode *const inode "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "nd" 12
+-- undescribed --
+.IP "inode" 12
+the inode of the file to open
+.SH "DESCRIPTION"
+Block an O_CREAT open of a FIFO (or a regular file) when:
+- sysctl_protected_fifos (or sysctl_protected_regular) is enabled
+- the file already exists
+- we are in a sticky directory
+- we don't own the file
+- the owner of the directory doesn't own the file
+- the directory is world writable
+If the sysctl_protected_fifos (or sysctl_protected_regular) is set to 2
+the directory doesn't have to be world writable: being group writable will
+be enough.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions.
+On non-idmapped mounts or if permission checking is to be performed on the
+raw inode simply passs init_user_ns.
+
+Returns 0 if the open is allowed, -ve on error.

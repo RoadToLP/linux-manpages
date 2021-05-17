@@ -1,0 +1,19 @@
+.TH "dfs_cache_noreq_update_tgthint" 9 "dfs_cache_noreq_update_tgthint" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dfs_cache_noreq_update_tgthint \- update target hint of a DFS cache entry without sending any requests to the currently connected server.
+.SH SYNOPSIS
+.B "int" dfs_cache_noreq_update_tgthint
+.BI "(const char *path "  ","
+.BI "const struct dfs_cache_tgt_iterator *it "  ");"
+.SH ARGUMENTS
+.IP "path" 12
+path to lookup in DFS referral cache.
+.IP "it" 12
+target iterator which contains the target hint to update the cache
+entry with.
+.SH "NOTE"
+This function will neither update a cache entry in case it was
+expired, nor create a new cache entry if \fIpath\fP hasn't been found. It heavily
+relies on an existing cache entry.
+.SH "DESCRIPTION"
+Return zero if the target hint was updated successfully, otherwise non-zero.

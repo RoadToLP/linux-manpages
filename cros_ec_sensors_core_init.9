@@ -1,0 +1,28 @@
+.TH "cros_ec_sensors_core_init" 9 "cros_ec_sensors_core_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cros_ec_sensors_core_init \- basic initialization of the core structure
+.SH SYNOPSIS
+.B "int" cros_ec_sensors_core_init
+.BI "(struct platform_device *pdev "  ","
+.BI "struct iio_dev *indio_dev "  ","
+.BI "bool physical_device "  ","
+.BI "cros_ec_sensors_capture_t trigger_capture "  ","
+.BI "cros_ec_sensorhub_push_data_cb_t push_data "  ","
+.BI "bool has_hw_fifo "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+platform device created for the sensors
+.IP "indio_dev" 12
+iio device structure of the device
+.IP "physical_device" 12
+true if the device refers to a physical device
+.IP "trigger_capture" 12
+function pointer to call buffer is triggered,
+for backward compatibility.
+.IP "push_data" 12
+function to call when cros_ec_sensorhub receives
+a sample for that sensor.
+.IP "has_hw_fifo" 12
+Set true if this device has/uses a HW FIFO
+.SH "RETURN"
+0 on success, -errno on failure.

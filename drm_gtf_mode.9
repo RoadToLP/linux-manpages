@@ -1,0 +1,48 @@
+.TH "drm_gtf_mode" 9 "drm_gtf_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gtf_mode \- create the modeline based on the GTF algorithm
+.SH SYNOPSIS
+.B "struct drm_display_mode *" drm_gtf_mode
+.BI "(struct drm_device *dev "  ","
+.BI "int hdisplay "  ","
+.BI "int vdisplay "  ","
+.BI "int vrefresh "  ","
+.BI "bool interlaced "  ","
+.BI "int margins "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+drm device
+.IP "hdisplay" 12
+hdisplay size
+.IP "vdisplay" 12
+vdisplay size
+.IP "vrefresh" 12
+vrefresh rate.
+.IP "interlaced" 12
+whether to compute an interlaced mode
+.IP "margins" 12
+desired margin (borders) size
+.SH "DESCRIPTION"
+return the modeline based on GTF algorithm
+
+This function is to create the modeline based on the GTF algorithm.
+Generalized Timing Formula is derived from:
+
+GTF Spreadsheet by Andy Morrish (1/5/97)
+available at https://www.vesa.org
+
+And it is copied from the file of xserver/hw/xfree86/modes/xf86gtf.c.
+What I have done is to translate it by using integer calculation.
+I also refer to the function of fb_get_mode in the file of
+drivers/video/fbmon.c
+
+Standard GTF parameters::
+
+M = 600
+C = 40
+K = 128
+J = 20
+.SH "RETURN"
+The modeline based on the GTF algorithm stored in a drm_display_mode object.
+The display mode object is allocated with \fBdrm_mode_create\fP. Returns NULL
+when no mode could be allocated.

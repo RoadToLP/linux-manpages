@@ -1,0 +1,21 @@
+.TH "tipc_release" 9 "tipc_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_release \- destroy a TIPC socket
+.SH SYNOPSIS
+.B "int" tipc_release
+.BI "(struct socket *sock "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+socket to destroy
+.SH "DESCRIPTION"
+This routine cleans up any messages that are still queued on the socket.
+For DGRAM and RDM socket types, all queued messages are rejected.
+For SEQPACKET and STREAM socket types, the first message is rejected
+and any others are discarded.  (If the first message on a STREAM socket
+is partially-read, it is discarded and the next one is rejected instead.)
+.SH "NOTE"
+Rejected messages are not necessarily returned to the sender!  They
+are returned or discarded according to the "destination droppable" setting
+specified for the message by the sender.
+.SH "RETURN"
+0 on success, errno otherwise

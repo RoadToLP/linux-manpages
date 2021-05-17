@@ -1,0 +1,25 @@
+.TH "wait_task_stopped" 9 "wait_task_stopped" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_task_stopped \- Wait for %TASK_STOPPED or %TASK_TRACED
+.SH SYNOPSIS
+.B "int" wait_task_stopped
+.BI "(struct wait_opts *wo "  ","
+.BI "int ptrace "  ","
+.BI "struct task_struct *p "  ");"
+.SH ARGUMENTS
+.IP "wo" 12
+wait options
+.IP "ptrace" 12
+is the wait for ptrace
+.IP "p" 12
+task to wait for
+.SH "DESCRIPTION"
+Handle \fBsys_wait4\fP work for p in state TASK_STOPPED or TASK_TRACED.
+.SH "CONTEXT"
+read_lock(\fItasklist_lock\fP), which is released if return value is
+non-zero.  Also, grabs and releases \fIp->sighand->siglock\fP.
+.SH "RETURN"
+0 if wait condition didn't exist and search for other wait conditions
+should continue.  Non-zero return, -errno on failure and \fIp\fP's pid on
+success, implies that tasklist_lock is released and wait condition
+search should terminate.

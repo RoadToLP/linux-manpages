@@ -1,0 +1,21 @@
+.TH "rhashtable_shrink" 9 "rhashtable_shrink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rhashtable_shrink \- Shrink hash table while allowing concurrent lookups
+.SH SYNOPSIS
+.B "int" rhashtable_shrink
+.BI "(struct rhashtable *ht "  ");"
+.SH ARGUMENTS
+.IP "ht" 12
+the hash table to shrink
+.SH "DESCRIPTION"
+This function shrinks the hash table to fit, i.e., the smallest
+size would not cause it to expand right away automatically.
+
+The caller must ensure that no concurrent resizing occurs by holding
+ht->mutex.
+
+The caller must ensure that no concurrent table mutations take place.
+It is however valid to have concurrent lookups if they are RCU protected.
+
+It is valid to have concurrent insertions and deletions protected by per
+bucket locks or concurrent RCU protected lookups and traversals.

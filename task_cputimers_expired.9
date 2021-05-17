@@ -1,0 +1,15 @@
+.TH "task_cputimers_expired" 9 "task_cputimers_expired" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+task_cputimers_expired \- Check whether posix CPU timers are expired
+.SH SYNOPSIS
+.B "bool" task_cputimers_expired
+.BI "(const u64 *samples "  ","
+.BI "struct posix_cputimers *pct "  ");"
+.SH ARGUMENTS
+.IP "samples" 12
+Array of current samples for the CPUCLOCK clocks
+.IP "pct" 12
+Pointer to a posix_cputimers container
+.SH "DESCRIPTION"
+Returns true if any member of \fIsamples\fP is greater than the corresponding
+member of \fIpct->bases\fP[CLK].nextevt. False otherwise

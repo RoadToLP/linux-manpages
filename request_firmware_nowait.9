@@ -1,0 +1,40 @@
+.TH "request_firmware_nowait" 9 "request_firmware_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+request_firmware_nowait \- asynchronous version of request_firmware
+.SH SYNOPSIS
+.B "int" request_firmware_nowait
+.BI "(struct module *module "  ","
+.BI "bool uevent "  ","
+.BI "const char *name "  ","
+.BI "struct device *device "  ","
+.BI "gfp_t gfp "  ","
+.BI "void *context "  ","
+.BI "void (*cont)(const struct firmware *fw, void *context) "  ");"
+.SH ARGUMENTS
+.IP "module" 12
+module requesting the firmware
+.IP "uevent" 12
+sends uevent to copy the firmware image if this flag
+is non-zero else the firmware copy must be done manually.
+.IP "name" 12
+name of firmware file
+.IP "device" 12
+device for which firmware is being loaded
+.IP "gfp" 12
+allocation flags
+.IP "context" 12
+will be passed over to \fIcont\fP, and
+\fIfw\fP may be NULL if firmware request fails.
+.IP "cont" 12
+function will be called asynchronously when the firmware
+request is over.
+
+Caller must hold the reference count of \fIdevice\fP.
+
+Asynchronous variant of \fBrequest_firmware\fP for user contexts:
+- sleep for as small periods as possible since it may
+increase kernel boot time of built-in device drivers
+requesting firmware in their ->\fBprobe\fP methods, if
+\fIgfp\fP is GFP_KERNEL.
+
+- can't sleep at all if \fIgfp\fP is GFP_ATOMIC.

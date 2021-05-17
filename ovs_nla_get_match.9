@@ -1,0 +1,26 @@
+.TH "ovs_nla_get_match" 9 "ovs_nla_get_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ovs_nla_get_match \- parses Netlink attributes into a flow key and mask. In case the 'mask' is NULL, the flow is treated as exact match flow. Otherwise, it is treated as a wildcarded flow, except the mask does not include any don't care bit.
+.SH SYNOPSIS
+.B "int" ovs_nla_get_match
+.BI "(struct net *net "  ","
+.BI "struct sw_flow_match *match "  ","
+.BI "const struct nlattr *nla_key "  ","
+.BI "const struct nlattr *nla_mask "  ","
+.BI "bool log "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Used to determine per-namespace field support.
+.IP "match" 12
+receives the extracted flow match information.
+.IP "nla_key" 12
+Netlink attribute holding nested OVS_KEY_ATTR_* Netlink attribute
+sequence. The fields should of the packet that triggered the creation
+of this flow.
+.IP "nla_mask" 12
+Optional. Netlink attribute holding nested OVS_KEY_ATTR_*
+Netlink attribute specifies the mask field of the wildcarded flow.
+.IP "log" 12
+Boolean to allow kernel error logging.  Normally true, but when
+probing for feature compatibility this should be passed in as false to
+suppress unnecessary error logging.

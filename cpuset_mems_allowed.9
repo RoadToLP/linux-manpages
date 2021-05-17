@@ -1,0 +1,14 @@
+.TH "cpuset_mems_allowed" 9 "cpuset_mems_allowed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cpuset_mems_allowed \- return mems_allowed mask from a tasks cpuset.
+.SH SYNOPSIS
+.B "nodemask_t" cpuset_mems_allowed
+.BI "(struct task_struct *tsk "  ");"
+.SH ARGUMENTS
+.IP "tsk" 12
+pointer to task_struct from which to obtain cpuset->mems_allowed.
+.SH "DESCRIPTION"
+Returns the nodemask_t mems_allowed of the cpuset
+attached to the specified \fItsk\fP.  Guaranteed to return some non-empty
+subset of node_states[N_MEMORY], even if this means going outside the
+tasks cpuset.

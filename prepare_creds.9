@@ -1,0 +1,21 @@
+.TH "prepare_creds" 9 "prepare_creds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_creds \- Prepare a new set of credentials for modification
+.SH SYNOPSIS
+.B "struct cred *" prepare_creds
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Prepare a new set of task credentials for modification.  A task's creds
+shouldn't generally be modified directly, therefore this function is used to
+prepare a new copy, which the caller then modifies and then commits by
+calling \fBcommit_creds\fP.
+
+Preparation involves making a copy of the objective creds for modification.
+
+Returns a pointer to the new creds-to-be if successful, NULL otherwise.
+
+Call \fBcommit_creds\fP or \fBabort_creds\fP to clean up.

@@ -1,0 +1,13 @@
+.TH "amdgpu_fence_enable_signaling" 9 "amdgpu_fence_enable_signaling" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_fence_enable_signaling \- enable signalling on fence
+.SH SYNOPSIS
+.B "bool" amdgpu_fence_enable_signaling
+.BI "(struct dma_fence *f "  ");"
+.SH ARGUMENTS
+.IP "f" 12
+fence
+.SH "DESCRIPTION"
+This function is called with fence_queue lock held, and adds a callback
+to fence_queue that checks if this fence is signaled, and if so it
+signals the fence and removes itself.

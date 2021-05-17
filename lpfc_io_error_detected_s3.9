@@ -1,0 +1,25 @@
+.TH "lpfc_io_error_detected_s3" 9 "lpfc_io_error_detected_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_io_error_detected_s3 \- Method for handling SLI-3 device PCI I/O error
+.SH SYNOPSIS
+.B "pci_ers_result_t" lpfc_io_error_detected_s3
+.BI "(struct pci_dev *pdev "  ","
+.BI "pci_channel_state_t state "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pointer to PCI device.
+.IP "state" 12
+the current PCI connection state.
+.SH "DESCRIPTION"
+This routine is called from the PCI subsystem for I/O error handling to
+device with SLI-3 interface spec. This function is called by the PCI
+subsystem after a PCI bus error affecting this device has been detected.
+When this function is invoked, it will need to stop all the I/Os and
+interrupt(s) to the device. Once that is done, it will return
+PCI_ERS_RESULT_NEED_RESET for the PCI subsystem to perform proper recovery
+as desired.
+
+Return codes
+PCI_ERS_RESULT_CAN_RECOVER - can be recovered with reset_link
+PCI_ERS_RESULT_NEED_RESET - need to reset before recovery
+PCI_ERS_RESULT_DISCONNECT - device could not be recovered

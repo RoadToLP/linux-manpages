@@ -1,0 +1,25 @@
+.TH "cap_capset" 9 "cap_capset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cap_capset \- Validate and apply proposed changes to current's capabilities
+.SH SYNOPSIS
+.B "int" cap_capset
+.BI "(struct cred *new "  ","
+.BI "const struct cred *old "  ","
+.BI "const kernel_cap_t *effective "  ","
+.BI "const kernel_cap_t *inheritable "  ","
+.BI "const kernel_cap_t *permitted "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+The proposed new credentials; alterations should be made here
+.IP "old" 12
+The current task's current credentials
+.IP "effective" 12
+A pointer to the proposed new effective capabilities set
+.IP "inheritable" 12
+A pointer to the proposed new inheritable capabilities set
+.IP "permitted" 12
+A pointer to the proposed new permitted capabilities set
+.SH "DESCRIPTION"
+This function validates and applies a proposed mass change to the current
+process's capability sets.  The changes are made to the proposed new
+credentials, and assuming no error, will be committed by the caller of LSM.

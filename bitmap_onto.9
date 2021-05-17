@@ -1,0 +1,117 @@
+.TH "bitmap_onto" 9 "bitmap_onto" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bitmap_onto \- translate one bitmap relative to another
+.SH SYNOPSIS
+.B "void" bitmap_onto
+.BI "(unsigned long *dst "  ","
+.BI "const unsigned long *orig "  ","
+.BI "const unsigned long *relmap "  ","
+.BI "unsigned int bits "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+resulting translated bitmap
+.IP "orig" 12
+original untranslated bitmap
+.IP "relmap" 12
+bitmap relative to which translated
+.IP "bits" 12
+number of bits in each of these bitmaps
+.SH "DESCRIPTION"
+Set the n-th bit of \fIdst\fP iff there exists some m such that the
+n-th bit of \fIrelmap\fP is set, the m-th bit of \fIorig\fP is set, and
+the n-th bit of \fIrelmap\fP is also the m-th _set_ bit of \fIrelmap\fP.
+(If you understood the previous sentence the first time your
+read it, you're overqualified for your current job.)
+
+In other words, \fIorig\fP is mapped onto (surjectively) \fIdst\fP,
+using the map { <n, m> | the n-th bit of \fIrelmap\fP is the
+m-th set bit of \fIrelmap\fP }.
+
+Any set bits in \fIorig\fP above bit number W, where W is the
+weight of (number of set bits in) \fIrelmap\fP are mapped nowhere.
+In particular, if for all bits m set in \fIorig\fP, m >= W, then
+\fIdst\fP will end up empty.  In situations where the possibility
+of such an empty result is not desired, one way to avoid it is
+to use the \fBbitmap_fold\fP operator, below, to first fold the
+\fIorig\fP bitmap over itself so that all its set bits x are in the
+range 0 <= x < W.  The \fBbitmap_fold\fP operator does this by
+setting the bit (m % W) in \fIdst\fP, for each bit (m) set in \fIorig\fP.
+
+Example [1] for \fBbitmap_onto\fP:
+Let's say \fIrelmap\fP has bits 30-39 set, and \fIorig\fP has bits
+1, 3, 5, 7, 9 and 11 set.  Then on return from this routine,
+\fIdst\fP will have bits 31, 33, 35, 37 and 39 set.
+
+When bit 0 is set in \fIorig\fP, it means turn on the bit in
+\fIdst\fP corresponding to whatever is the first bit (if any)
+that is turned on in \fIrelmap\fP.  Since bit 0 was off in the
+above example, we leave off that bit (bit 30) in \fIdst\fP.
+
+When bit 1 is set in \fIorig\fP (as in the above example), it
+means turn on the bit in \fIdst\fP corresponding to whatever
+is the second bit that is turned on in \fIrelmap\fP.  The second
+bit in \fIrelmap\fP that was turned on in the above example was
+bit 31, so we turned on bit 31 in \fIdst\fP.
+
+Similarly, we turned on bits 33, 35, 37 and 39 in \fIdst\fP,
+because they were the 4th, 6th, 8th and 10th set bits
+set in \fIrelmap\fP, and the 4th, 6th, 8th and 10th bits of
+\fIorig\fP (i.e. bits 3, 5, 7 and 9) were also set.
+
+When bit 11 is set in \fIorig\fP, it means turn on the bit in
+\fIdst\fP corresponding to whatever is the twelfth bit that is
+turned on in \fIrelmap\fP.  In the above example, there were
+only ten bits turned on in \fIrelmap\fP (30..39), so that bit
+11 was set in \fIorig\fP had no affect on \fIdst\fP.
+
+Example [2] for \fBbitmap_fold\fP + \fBbitmap_onto\fP:
+Let's say \fIrelmap\fP has these ten bits set::
+
+40 41 42 43 45 48 53 61 74 95
+
+(for the curious, that's 40 plus the first ten terms of the
+Fibonacci sequence.)
+
+Further lets say we use the following code, invoking
+\fBbitmap_fold\fP then bitmap_onto, as suggested above to
+avoid the possibility of an empty \fIdst\fP result::
+
+unsigned long *tmp;     // a temporary bitmap's bits
+
+bitmap_fold(tmp, orig, bitmap_weight(relmap, bits), bits);
+bitmap_onto(dst, tmp, relmap, bits);
+
+Then this table shows what various values of \fIdst\fP would be, for
+various \fIorig\fP's.  I list the zero-based positions of each set bit.
+The tmp column shows the intermediate result, as computed by
+using \fBbitmap_fold\fP to fold the \fIorig\fP bitmap modulo ten
+(the weight of \fIrelmap\fP):
+
+=============== ============== =================
+\fIorig\fP           tmp            \fIdst\fP
+0                0             40
+1                1             41
+9                9             95
+10               0             40 [#f1]_
+1 3 5 7          1 3 5 7       41 43 48 61
+0 1 2 3 4        0 1 2 3 4     40 41 42 43 45
+0 9 18 27        0 9 8 7       40 61 74 95
+0 10 20 30       0             40
+0 11 22 33       0 1 2 3       40 41 42 43
+0 12 24 36       0 2 4 6       40 42 45 53
+78 102 211       1 2 8         41 42 74 [#f1]_
+=============== ============== =================
+
+\&.. [#f1]
+
+For these marked lines, if we hadn't first done \fBbitmap_fold\fP
+into tmp, then the \fIdst\fP result would have been empty.
+
+If either of \fIorig\fP or \fIrelmap\fP is empty (no set bits), then \fIdst\fP
+will be returned empty.
+
+If (as explained above) the only set bits in \fIorig\fP are in positions
+m where m >= W, (where W is the weight of \fIrelmap\fP) then \fIdst\fP will
+once again be returned empty.
+
+All bits in \fIdst\fP not set by the above rule are cleared.

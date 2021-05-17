@@ -1,0 +1,19 @@
+.TH "gpmc_cs_program_settings" 9 "gpmc_cs_program_settings" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gpmc_cs_program_settings \- programs non-timing related settings
+.SH SYNOPSIS
+.B "int" gpmc_cs_program_settings
+.BI "(int cs "  ","
+.BI "struct gpmc_settings *p "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+GPMC chip-select to program
+.IP "p" 12
+pointer to GPMC settings structure
+.SH "DESCRIPTION"
+Programs non-timing related settings for a GPMC chip-select, such as
+bus-width, burst configuration, etc. Function should be called once
+for each chip-select that is being used and must be called before
+calling \fBgpmc_cs_set_timings\fP as timing parameters in the CONFIG1
+register will be initialised to zero by this function. Returns 0 on
+success and appropriate negative error code on failure.

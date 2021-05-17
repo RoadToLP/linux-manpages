@@ -1,0 +1,28 @@
+.TH "rpmh_rsc_send_data" 9 "rpmh_rsc_send_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmh_rsc_send_data \- Write / trigger active-only message.
+.SH SYNOPSIS
+.B "int" rpmh_rsc_send_data
+.BI "(struct rsc_drv *drv "  ","
+.BI "const struct tcs_request *msg "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller.
+.IP "msg" 12
+The data to be sent.
+.SH "NOTES"
+- This is only used for "ACTIVE_ONLY" since the limitations of this
+function don't make sense for sleep/wake cases.
+- To do the transfer, we will grab a whole TCS for ourselves--we don't
+try to share. If there are none available we'll wait indefinitely
+for a free one.
+- This function will not wait for the commands to be finished, only for
+data to be programmed into the RPMh. See \fBrpmh_tx_done\fP which will
+be called when the transfer is fully complete.
+- This function must be called with interrupts enabled. If the hardware
+is busy doing someone else's transfer we need that transfer to fully
+finish so that we can have the hardware, and to fully finish it needs
+the interrupt handler to run. If the interrupts is set to run on the
+active CPU this can never happen if interrupts are disabled.
+.SH "RETURN"
+0 on success, -EINVAL on error.

@@ -1,0 +1,31 @@
+.TH "blk_rq_prep_clone" 9 "blk_rq_prep_clone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_rq_prep_clone \- Helper function to setup clone request
+.SH SYNOPSIS
+.B "int" blk_rq_prep_clone
+.BI "(struct request *rq "  ","
+.BI "struct request *rq_src "  ","
+.BI "struct bio_set *bs "  ","
+.BI "gfp_t gfp_mask "  ","
+.BI "int (*bio_ctr)(struct bio *, struct bio *, void *) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "rq" 12
+the request to be setup
+.IP "rq_src" 12
+original request to be cloned
+.IP "bs" 12
+bio_set that bios for clone are allocated from
+.IP "gfp_mask" 12
+memory allocation mask for bio
+.IP "bio_ctr" 12
+setup function to be called for each clone bio.
+Returns 0 for success, non 0 for failure.
+.IP "data" 12
+private data to be passed to \fIbio_ctr\fP
+.SH "DESCRIPTION"
+Clones bios in \fIrq_src\fP to \fIrq\fP, and copies attributes of \fIrq_src\fP to \fIrq\fP.
+Also, pages which the original bios are pointing to are not copied
+and the cloned bios just point same pages.
+So cloned bios must be completed before original bios, which means
+the caller must complete \fIrq\fP before \fIrq_src\fP.

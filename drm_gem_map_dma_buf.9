@@ -1,0 +1,19 @@
+.TH "drm_gem_map_dma_buf" 9 "drm_gem_map_dma_buf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_map_dma_buf \- map_dma_buf implementation for GEM
+.SH SYNOPSIS
+.B "struct sg_table *" drm_gem_map_dma_buf
+.BI "(struct dma_buf_attachment *attach "  ","
+.BI "enum dma_data_direction dir "  ");"
+.SH ARGUMENTS
+.IP "attach" 12
+attachment whose scatterlist is to be returned
+.IP "dir" 12
+direction of DMA transfer
+.SH "DESCRIPTION"
+Calls \fIdrm_gem_object_funcs.get_sg_table\fP and then maps the scatterlist. This
+can be used as the \fIdma_buf_ops.map_dma_buf\fP callback. Should be used together
+with \fBdrm_gem_unmap_dma_buf\fP.
+.SH "RETURN"
+sg_table containing the scatterlist to be returned; returns ERR_PTR
+on error. May return -EINTR if it is interrupted by a signal.

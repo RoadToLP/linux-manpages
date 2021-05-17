@@ -1,0 +1,17 @@
+.TH "n_tty_receive_overrun" 9 "n_tty_receive_overrun" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+n_tty_receive_overrun \- handle overrun reporting
+.SH SYNOPSIS
+.B "void" n_tty_receive_overrun
+.BI "(struct tty_struct *tty "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+terminal
+
+Data arrived faster than we could process it. While the tty
+driver has flagged this the bits that were missed are gone
+forever.
+
+Called from the receive_buf path so single threaded. Does not
+need locking as num_overrun and overrun_time are function
+private.

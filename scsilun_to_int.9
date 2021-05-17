@@ -1,0 +1,23 @@
+.TH "scsilun_to_int" 9 "scsilun_to_int" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsilun_to_int \- convert a scsi_lun to an int
+.SH SYNOPSIS
+.B "u64" scsilun_to_int
+.BI "(struct scsi_lun *scsilun "  ");"
+.SH ARGUMENTS
+.IP "scsilun" 12
+struct scsi_lun to be converted.
+.SH "DESCRIPTION"
+Convert \fIscsilun\fP from a struct scsi_lun to a four-byte host byte-ordered
+integer, and return the result. The caller must check for
+truncation before using this function.
+.SH "NOTES"
+For a description of the LUN format, post SCSI-3 see the SCSI
+Architecture Model, for SCSI-3 see the SCSI Controller Commands.
+
+Given a struct scsi_lun of: d2 04 0b 03 00 00 00 00, this function
+returns the integer: 0x0b03d204
+
+This encoding will return a standard integer LUN for LUNs smaller
+than 256, which typically use a single level LUN structure with
+addressing method 0.

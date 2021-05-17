@@ -1,0 +1,17 @@
+.TH "tipc_sk_mcast_rcv" 9 "tipc_sk_mcast_rcv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_sk_mcast_rcv \- Deliver multicast messages to all destination sockets
+.SH SYNOPSIS
+.B "void" tipc_sk_mcast_rcv
+.BI "(struct net *net "  ","
+.BI "struct sk_buff_head *arrvq "  ","
+.BI "struct sk_buff_head *inputq "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+the associated network namespace
+.IP "arrvq" 12
+queue with arriving messages, to be cloned after destination lookup
+.IP "inputq" 12
+queue with cloned messages, delivered to socket after dest lookup
+.SH "DESCRIPTION"
+Multi-threaded: parallel calls with reference to same queues may occur

@@ -1,0 +1,15 @@
+.TH "handle_external_interrupt" 9 "handle_external_interrupt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+handle_external_interrupt \- used for external interruption interceptions
+.SH SYNOPSIS
+.B "int" handle_external_interrupt
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This interception only occurs if the CPUSTAT_EXT_INT bit was set, or if
+the new PSW does not have external interrupts disabled. In the first case,
+we've got to deliver the interrupt manually, and in the second case, we
+drop to userspace to handle the situation there.

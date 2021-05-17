@@ -1,0 +1,17 @@
+.TH "__cpuhp_remove_state_cpuslocked" 9 "__cpuhp_remove_state_cpuslocked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cpuhp_remove_state_cpuslocked \- Remove the callbacks for an hotplug machine state
+.SH SYNOPSIS
+.B "void" __cpuhp_remove_state_cpuslocked
+.BI "(enum cpuhp_state state "  ","
+.BI "bool invoke "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+The state to remove
+.IP "invoke" 12
+If true, the teardown function is invoked for cpus where
+cpu state >= \fIstate\fP
+.SH "DESCRIPTION"
+The caller needs to hold cpus read locked while calling this function.
+The teardown callback is currently not allowed to fail. Think
+about module removal!

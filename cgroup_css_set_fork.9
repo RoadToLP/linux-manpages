@@ -1,0 +1,21 @@
+.TH "cgroup_css_set_fork" 9 "cgroup_css_set_fork" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_css_set_fork \- find or create a css_set for a child process
+.SH SYNOPSIS
+.B "int" cgroup_css_set_fork
+.BI "(struct kernel_clone_args *kargs "  ");"
+.SH ARGUMENTS
+.IP "kargs" 12
+the arguments passed to create the child process
+.SH "DESCRIPTION"
+This functions finds or creates a new css_set which the child
+process will be attached to in \fBcgroup_post_fork\fP. By default,
+the child process will be given the same css_set as its parent.
+
+If CLONE_INTO_CGROUP is specified this function will try to find an
+existing css_set which includes the requested cgroup and if not create
+a new css_set that the child will be attached to later. If this function
+succeeds it will hold cgroup_threadgroup_rwsem on return. If
+CLONE_INTO_CGROUP is requested this function will grab cgroup mutex
+before grabbing cgroup_threadgroup_rwsem and will hold a reference
+to the target cgroup.

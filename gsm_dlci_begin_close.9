@@ -1,0 +1,15 @@
+.TH "gsm_dlci_begin_close" 9 "gsm_dlci_begin_close" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsm_dlci_begin_close \- start channel open procedure
+.SH SYNOPSIS
+.B "void" gsm_dlci_begin_close
+.BI "(struct gsm_dlci *dlci "  ");"
+.SH ARGUMENTS
+.IP "dlci" 12
+DLCI to open
+
+Commence closing a DLCI from the Linux side. We issue DISC messages
+to the modem which should then reply with a UA, at which point we
+will move into closed state. Closing is done asynchronously with retry
+off timers. We may also receive a DM reply from the other end which
+indicates the channel was already closed.

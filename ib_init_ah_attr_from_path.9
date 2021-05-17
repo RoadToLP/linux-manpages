@@ -1,0 +1,28 @@
+.TH "ib_init_ah_attr_from_path" 9 "ib_init_ah_attr_from_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ib_init_ah_attr_from_path \- Initialize address handle attributes based on an SA path record.
+.SH SYNOPSIS
+.B "int" ib_init_ah_attr_from_path
+.BI "(struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "struct sa_path_rec *rec "  ","
+.BI "struct rdma_ah_attr *ah_attr "  ","
+.BI "const struct ib_gid_attr *gid_attr "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+Device associated ah attributes initialization.
+.IP "port_num" 12
+Port on the specified device.
+.IP "rec" 12
+path record entry to use for ah attributes initialization.
+.IP "ah_attr" 12
+address handle attributes to initialization from path record.
+.IP "gid_attr" 12
+SGID attribute to consider during initialization.
+.SH "DESCRIPTION"
+When \fBib_init_ah_attr_from_path\fP returns success,
+(a) for IB link layer it optionally contains a reference to SGID attribute
+when GRH is present for IB link layer.
+(b) for RoCE link layer it contains a reference to SGID attribute.
+User must invoke \fBrdma_destroy_ah_attr\fP to release reference to SGID
+attributes which are initialized using \fBib_init_ah_attr_from_path\fP.

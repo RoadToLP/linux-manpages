@@ -1,0 +1,26 @@
+.TH "tep_load_plugins_hook" 9 "tep_load_plugins_hook" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tep_load_plugins_hook \- call a user specified callback to load a plugin
+.SH SYNOPSIS
+.B "void" tep_load_plugins_hook
+.BI "(struct tep_handle *tep "  ","
+.BI "const char *suffix "  ","
+.BI "void (*load_plugin)(struct tep_handle *tep, const char *path, const char *name, void *data) "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "tep" 12
+handler to traceevent context
+.IP "suffix" 12
+filter only plugin files with given suffix
+.IP "load_plugin" 12
+user specified callback, called for each plugin file
+.IP "data" 12
+custom context, passed to \fIload_plugin\fP
+.SH "DESCRIPTION"
+Searches for traceevent plugin files and calls \fIload_plugin\fP for each
+The order of plugins search is:
+- Directories, specified in \fItep->plugins_dir\fP and priority TEP_PLUGIN_FIRST
+- Directory, specified at compile time with PLUGIN_TRACEEVENT_DIR
+- Directory, specified by environment variable TRACEEVENT_PLUGIN_DIR
+- In user's home: ~/.local/lib/traceevent/plugins/
+- Directories, specified in \fItep->plugins_dir\fP and priority TEP_PLUGIN_LAST

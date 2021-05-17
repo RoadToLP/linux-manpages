@@ -1,0 +1,29 @@
+.TH "ibmvmc_send_msg" 9 "ibmvmc_send_msg" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvmc_send_msg \- Signal Message
+.SH SYNOPSIS
+.B "int" ibmvmc_send_msg
+.BI "(struct crq_server_adapter *adapter "  ","
+.BI "struct ibmvmc_buffer *buffer "  ","
+.BI "struct ibmvmc_hmc *hmc "  ","
+.BI "int msg_len "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+crq_server_adapter struct
+.IP "buffer" 12
+ibmvmc_buffer struct
+.IP "hmc" 12
+ibmvmc_hmc struct
+.IP "msg_len" 12
+message length field
+.SH "DESCRIPTION"
+This command is sent between the management partition and the hypervisor
+in order to signal the arrival of an HMC protocol message. The command
+can be sent by both the management partition and the hypervisor. It is
+used for all traffic between the management application and the hypervisor,
+regardless of who initiated the communication.
+
+There is no response to this message.
+.SH "RETURN"
+0 - Success
+Non-zero - Failure

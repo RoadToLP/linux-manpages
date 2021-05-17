@@ -1,0 +1,30 @@
+.TH "unpin_user_pages_dirty_lock" 9 "unpin_user_pages_dirty_lock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unpin_user_pages_dirty_lock \- release and optionally dirty gup-pinned pages
+.SH SYNOPSIS
+.B "void" unpin_user_pages_dirty_lock
+.BI "(struct page **pages "  ","
+.BI "unsigned long npages "  ","
+.BI "bool make_dirty "  ");"
+.SH ARGUMENTS
+.IP "pages" 12
+array of pages to be maybe marked dirty, and definitely released.
+.IP "npages" 12
+number of pages in the \fIpages\fP array.
+.IP "make_dirty" 12
+whether to mark the pages dirty
+.SH "DESCRIPTION"
+"gup-pinned page" refers to a page that has had one of the \fBget_user_pages\fP
+variants called on that page.
+
+For each page in the \fIpages\fP array, make that page (or its head page, if a
+compound page) dirty, if \fImake_dirty\fP is true, and if the page was previously
+listed as clean. In any case, releases all pages using \fBunpin_user_page\fP,
+possibly via \fBunpin_user_pages\fP, for the non-dirty case.
+
+Please see the \fBunpin_user_page\fP documentation for details.
+
+\fBset_page_dirty_lock\fP is used internally. If instead, \fBset_page_dirty\fP is
+required, then the caller should a) verify that this is really correct,
+because \fB_lock\fP is usually required, and b) hand code it:
+\fBset_page_dirty_lock\fP, \fBunpin_user_page\fP.

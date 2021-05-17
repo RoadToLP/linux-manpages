@@ -1,0 +1,35 @@
+.TH "sti_hqvdp_check_hw_scaling" 9 "sti_hqvdp_check_hw_scaling" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sti_hqvdp_check_hw_scaling \- 
+.SH SYNOPSIS
+.B "bool" sti_hqvdp_check_hw_scaling
+.BI "(struct sti_hqvdp *hqvdp "  ","
+.BI "struct drm_display_mode *mode "  ","
+.BI "int src_w "  ","
+.BI "int src_h "  ","
+.BI "int dst_w "  ","
+.BI "int dst_h "  ");"
+.SH ARGUMENTS
+.IP "hqvdp" 12
+hqvdp pointer
+.IP "mode" 12
+display mode with timing constraints
+.IP "src_w" 12
+source width
+.IP "src_h" 12
+source height
+.IP "dst_w" 12
+destination width
+.IP "dst_h" 12
+destination height
+.SH "DESCRIPTION"
+Check if the HW is able to perform the scaling request
+The firmware scaling limitation is "CEIL(1/Zy) <= FLOOR(LFW)" where:
+Zy = OutputHeight / InputHeight
+LFW = (Tx * IPClock) / (MaxNbCycles * Cp)
+Tx : Total video mode horizontal resolution
+IPClock : HQVDP IP clock (Mhz)
+MaxNbCycles: max(InputWidth, OutputWidth)
+Cp: Video mode pixel clock (Mhz)
+.SH "RETURN"
+True if the HW can scale.

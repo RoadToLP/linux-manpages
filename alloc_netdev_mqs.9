@@ -1,0 +1,28 @@
+.TH "alloc_netdev_mqs" 9 "alloc_netdev_mqs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+alloc_netdev_mqs \- allocate network device
+.SH SYNOPSIS
+.B "struct net_device *" alloc_netdev_mqs
+.BI "(int sizeof_priv "  ","
+.BI "const char *name "  ","
+.BI "unsigned char name_assign_type "  ","
+.BI "void (*setup)(struct net_device *) "  ","
+.BI "unsigned int txqs "  ","
+.BI "unsigned int rxqs "  ");"
+.SH ARGUMENTS
+.IP "sizeof_priv" 12
+size of private data to allocate space for
+.IP "name" 12
+device name format string
+.IP "name_assign_type" 12
+origin of device name
+.IP "setup" 12
+callback to initialize device
+.IP "txqs" 12
+the number of TX subqueues to allocate
+.IP "rxqs" 12
+the number of RX subqueues to allocate
+.SH "DESCRIPTION"
+Allocates a struct net_device with private data area for driver use
+and performs basic initialization.  Also allocates subqueue structs
+for each queue on the device.

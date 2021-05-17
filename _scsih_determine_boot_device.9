@@ -1,0 +1,22 @@
+.TH "_scsih_determine_boot_device" 9 "_scsih_determine_boot_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_scsih_determine_boot_device \- determine boot device.
+.SH SYNOPSIS
+.B "void" _scsih_determine_boot_device
+.BI "(struct MPT3SAS_ADAPTER *ioc "  ","
+.BI "void *device "  ","
+.BI "u32 channel "  ");"
+.SH ARGUMENTS
+.IP "ioc" 12
+per adapter object
+.IP "device" 12
+sas_device or pcie_device object
+.IP "channel" 12
+SAS or PCIe channel
+.SH "DESCRIPTION"
+Determines whether this device should be first reported device to
+to scsi-ml or sas transport, this purpose is for persistent boot device.
+There are primary, alternate, and current entries in bios page 2. The order
+priority is primary, alternate, then current.  This routine saves
+the corresponding device object.
+The saved data to be used later in \fB_scsih_probe_boot_devices\fP.

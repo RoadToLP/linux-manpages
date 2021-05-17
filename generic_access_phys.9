@@ -1,0 +1,25 @@
+.TH "generic_access_phys" 9 "generic_access_phys" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_access_phys \- generic implementation for iomem mmap access
+.SH SYNOPSIS
+.B "int" generic_access_phys
+.BI "(struct vm_area_struct *vma "  ","
+.BI "unsigned long addr "  ","
+.BI "void *buf "  ","
+.BI "int len "  ","
+.BI "int write "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+the vma to access
+.IP "addr" 12
+userspace addres, not relative offset within \fIvma\fP
+.IP "buf" 12
+buffer to read/write
+.IP "len" 12
+length of transfer
+.IP "write" 12
+set to FOLL_WRITE when writing, otherwise reading
+.SH "DESCRIPTION"
+This is a generic implementation for \fIvm_operations_struct.access\fP for an
+iomem mapping. This callback is used by \fBaccess_process_vm\fP when the \fIvma\fP is
+not page based.

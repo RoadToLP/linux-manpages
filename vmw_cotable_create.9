@@ -1,0 +1,16 @@
+.TH "vmw_cotable_create" 9 "vmw_cotable_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_cotable_create \- Cotable resource create callback
+.SH SYNOPSIS
+.B "int" vmw_cotable_create
+.BI "(struct vmw_resource *res "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+Pointer to a cotable resource.
+.SH "DESCRIPTION"
+There is no separate create command for cotables, so this callback, which
+is called before \fBbind\fP in the validation sequence is instead used for two
+things.
+1) Unscrub the cotable if it is scrubbed and still attached to a backup
+buffer.
+2) Resize the cotable if needed.

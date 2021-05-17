@@ -1,0 +1,17 @@
+.TH "blkcg_maybe_throttle_current" 9 "blkcg_maybe_throttle_current" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blkcg_maybe_throttle_current \- throttle the current task if it has been marked
+.SH SYNOPSIS
+.B "void" blkcg_maybe_throttle_current
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is only called if we've been marked with \fBset_notify_resume\fP.  Obviously
+we can be \fBset_notify_resume\fP for reasons other than blkcg throttling, so we
+check to see if current->throttle_queue is set and if not this doesn't do
+anything.  This should only ever be called by the resume code, it's not meant
+to be called by people willy-nilly as it will actually do the work to
+throttle the task if it is setup for throttling.

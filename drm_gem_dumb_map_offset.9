@@ -1,0 +1,23 @@
+.TH "drm_gem_dumb_map_offset" 9 "drm_gem_dumb_map_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_dumb_map_offset \- return the fake mmap offset for a gem object
+.SH SYNOPSIS
+.B "int" drm_gem_dumb_map_offset
+.BI "(struct drm_file *file "  ","
+.BI "struct drm_device *dev "  ","
+.BI "u32 handle "  ","
+.BI "u64 *offset "  ");"
+.SH ARGUMENTS
+.IP "file" 12
+drm file-private structure containing the gem object
+.IP "dev" 12
+corresponding drm_device
+.IP "handle" 12
+gem object handle
+.IP "offset" 12
+return location for the fake mmap offset
+.SH "DESCRIPTION"
+This implements the \fIdrm_driver.dumb_map_offset\fP kms driver callback for
+drivers which use gem to manage their backing storage.
+.SH "RETURN"
+0 on success or a negative error code on failure.

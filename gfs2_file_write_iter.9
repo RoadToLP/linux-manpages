@@ -1,0 +1,17 @@
+.TH "gfs2_file_write_iter" 9 "gfs2_file_write_iter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_file_write_iter \- Perform a write to a file
+.SH SYNOPSIS
+.B "ssize_t" gfs2_file_write_iter
+.BI "(struct kiocb *iocb "  ","
+.BI "struct iov_iter *from "  ");"
+.SH ARGUMENTS
+.IP "iocb" 12
+The io context
+.IP "from" 12
+The data to write
+.SH "DESCRIPTION"
+We have to do a lock/unlock here to refresh the inode size for
+O_APPEND writes, otherwise we can land up writing at the wrong
+offset. There is still a race, but provided the app is using its
+own file locking, this will make O_APPEND work as expected.

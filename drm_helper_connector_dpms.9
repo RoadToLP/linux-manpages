@@ -1,0 +1,27 @@
+.TH "drm_helper_connector_dpms" 9 "drm_helper_connector_dpms" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_helper_connector_dpms \- connector dpms helper implementation
+.SH SYNOPSIS
+.B "int" drm_helper_connector_dpms
+.BI "(struct drm_connector *connector "  ","
+.BI "int mode "  ");"
+.SH ARGUMENTS
+.IP "connector" 12
+affected connector
+.IP "mode" 12
+DPMS mode
+.SH "DESCRIPTION"
+The \fBdrm_helper_connector_dpms\fP helper function implements the
+\fIdrm_connector_funcs.dpms\fP callback for drivers using the legacy CRTC
+helpers.
+
+This is the main helper function provided by the CRTC helper framework for
+implementing the DPMS connector attribute. It computes the new desired DPMS
+state for all encoders and CRTCs in the output mesh and calls the
+\fIdrm_crtc_helper_funcs.dpms\fP and \fIdrm_encoder_helper_funcs.dpms\fP callbacks
+provided by the driver.
+
+This function is deprecated.  New drivers must implement atomic modeset
+support, where DPMS is handled in the DRM core.
+.SH "RETURN"
+Always returns 0.

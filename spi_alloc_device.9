@@ -1,0 +1,23 @@
+.TH "spi_alloc_device" 9 "spi_alloc_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spi_alloc_device \- Allocate a new SPI device
+.SH SYNOPSIS
+.B "struct spi_device *" spi_alloc_device
+.BI "(struct spi_controller *ctlr "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+Controller to which device is connected
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+Allows a driver to allocate and initialize a spi_device without
+registering it immediately.  This allows a driver to directly
+fill the spi_device with device parameters before calling
+\fBspi_add_device\fP on it.
+
+Caller is responsible to call \fBspi_add_device\fP on the returned
+spi_device structure to add it to the SPI controller.  If the caller
+needs to discard the spi_device without adding it, then it should
+call \fBspi_dev_put\fP on it.
+.SH "RETURN"
+a pointer to the new device, or NULL.

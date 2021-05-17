@@ -1,0 +1,22 @@
+.TH "clk_hw_round_rate" 9 "clk_hw_round_rate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clk_hw_round_rate \- round the given rate for a hw clk
+.SH SYNOPSIS
+.B "unsigned long" clk_hw_round_rate
+.BI "(struct clk_hw *hw "  ","
+.BI "unsigned long rate "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+the hw clk for which we are rounding a rate
+.IP "rate" 12
+the rate which is to be rounded
+.SH "DESCRIPTION"
+Takes in a rate as input and rounds it to a rate that the clk can actually
+use.
+.SH "CONTEXT"
+prepare_lock must be held.
+For clk providers to call from within clk_ops such as .round_rate,
+\&.determine_rate.
+.SH "RETURN"
+returns rounded rate of hw clk if clk supports round_rate operation
+else returns the parent rate.

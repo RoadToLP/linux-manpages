@@ -1,0 +1,21 @@
+.TH "ata_eh_maybe_retry_flush" 9 "ata_eh_maybe_retry_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_maybe_retry_flush \- Retry FLUSH if necessary
+.SH SYNOPSIS
+.B "int" ata_eh_maybe_retry_flush
+.BI "(struct ata_device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+ATA device which may need FLUSH retry
+
+If \fIdev\fP failed FLUSH, it needs to be reported upper layer
+immediately as it means that \fIdev\fP failed to remap and already
+lost at least a sector and further FLUSH retrials won't make
+any difference to the lost sector.  However, if FLUSH failed
+for other reasons, for example transmission error, FLUSH needs
+to be retried.
+
+This function determines whether FLUSH failure retry is
+necessary and performs it if so.
+.SH "RETURN"
+0 if EH can continue, -errno if EH needs to be repeated.

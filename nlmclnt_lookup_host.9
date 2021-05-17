@@ -1,0 +1,35 @@
+.TH "nlmclnt_lookup_host" 9 "nlmclnt_lookup_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nlmclnt_lookup_host \- Find an NLM host handle matching a remote server
+.SH SYNOPSIS
+.B "struct nlm_host *" nlmclnt_lookup_host
+.BI "(const struct sockaddr *sap "  ","
+.BI "const size_t salen "  ","
+.BI "const unsigned short protocol "  ","
+.BI "const u32 version "  ","
+.BI "const char *hostname "  ","
+.BI "int noresvport "  ","
+.BI "struct net *net "  ","
+.BI "const struct cred *cred "  ");"
+.SH ARGUMENTS
+.IP "sap" 12
+network address of server
+.IP "salen" 12
+length of server address
+.IP "protocol" 12
+transport protocol to use
+.IP "version" 12
+NLM protocol version
+.IP "hostname" 12
+'\0'-terminated hostname of server
+.IP "noresvport" 12
+1 if non-privileged port should be used
+.IP "net" 12
+pointer to net namespace
+.IP "cred" 12
+pointer to cred
+.SH "DESCRIPTION"
+Returns an nlm_host structure that matches the passed-in
+[server address, transport protocol, NLM version, server hostname].
+If one doesn't already exist in the host cache, a new handle is
+created and returned.

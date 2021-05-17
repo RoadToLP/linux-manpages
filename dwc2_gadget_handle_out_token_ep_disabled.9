@@ -1,0 +1,16 @@
+.TH "dwc2_gadget_handle_out_token_ep_disabled" 9 "dwc2_gadget_handle_out_token_ep_disabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_gadget_handle_out_token_ep_disabled \- handle DXEPINT_OUTTKNEPDIS
+.SH SYNOPSIS
+.B "void" dwc2_gadget_handle_out_token_ep_disabled
+.BI "(struct dwc2_hsotg_ep *ep "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+The endpoint on which interrupt is asserted.
+.SH "DESCRIPTION"
+This is starting point for ISOC-OUT transfer, synchronization done with
+first out token received from host while corresponding EP is disabled.
+
+Device does not know initial frame in which out token will come. For this
+HW generates OUTTKNEPDIS - out token is received while EP is disabled. Upon
+getting this interrupt SW starts calculation for next transfer frame.

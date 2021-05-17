@@ -1,0 +1,23 @@
+.TH "__lpfc_nvme_xmt_ls_rsp" 9 "__lpfc_nvme_xmt_ls_rsp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__lpfc_nvme_xmt_ls_rsp \- Generic service routine to issue transmit an NVME LS rsp for a prior NVME LS request that was received.
+.SH SYNOPSIS
+.B "int" __lpfc_nvme_xmt_ls_rsp
+.BI "(struct lpfc_async_xchg_ctx *axchg "  ","
+.BI "struct nvmefc_ls_rsp *ls_rsp "  ","
+.BI "void (*xmt_ls_rsp_cmp)(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe, struct lpfc_wcqe_complete *wcqe) "  ");"
+.SH ARGUMENTS
+.IP "axchg" 12
+pointer to exchange context for the NVME LS request the response
+is for.
+.IP "ls_rsp" 12
+pointer to the transport LS RSP that is to be sent
+.IP "xmt_ls_rsp_cmp" 12
+completion routine to call upon RSP transmit done
+.SH "DESCRIPTION"
+This routine is used to format and send a WQE to transmit a NVME LS
+Response.  The response is for a prior NVME LS request that was
+received and posted to the transport.
+.SH "RETURN"
+0 : if response successfully transmit
+non-zero : if response failed to transmit, of the form -Exxx.

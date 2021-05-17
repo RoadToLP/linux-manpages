@@ -1,0 +1,21 @@
+.TH "phylink_mii_c22_pcs_get_state" 9 "phylink_mii_c22_pcs_get_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+phylink_mii_c22_pcs_get_state \- read the MAC PCS state
+.SH SYNOPSIS
+.B "void" phylink_mii_c22_pcs_get_state
+.BI "(struct mdio_device *pcs "  ","
+.BI "struct phylink_link_state *state "  ");"
+.SH ARGUMENTS
+.IP "pcs" 12
+a pointer to a \fIstruct mdio_device\fP.
+.IP "state" 12
+a pointer to a \fIstruct phylink_link_state\fP.
+.SH "DESCRIPTION"
+Helper for MAC PCS supporting the 802.3 clause 22 register set for
+clause 37 negotiation and/or SGMII control.
+
+Read the MAC PCS state from the MII device configured in \fIconfig\fP and
+parse the Clause 37 or Cisco SGMII link partner negotiation word into
+the phylink \fIstate\fP structure. This is suitable to be directly plugged
+into the \fBmac_pcs_get_state\fP member of the struct phylink_mac_ops
+structure.

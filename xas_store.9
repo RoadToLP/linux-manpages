@@ -1,0 +1,20 @@
+.TH "xas_store" 9 "xas_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xas_store \- Store this entry in the XArray.
+.SH SYNOPSIS
+.B "void *" xas_store
+.BI "(struct xa_state *xas "  ","
+.BI "void *entry "  ");"
+.SH ARGUMENTS
+.IP "xas" 12
+XArray operation state.
+.IP "entry" 12
+New entry.
+.SH "DESCRIPTION"
+If \fIxas\fP is operating on a multi-index entry, the entry returned by this
+function is essentially meaningless (it may be an internal entry or it
+may be NULL, even if there are non-NULL entries at some of the indices
+covered by the range).  This is not a problem for any current users,
+and can be changed if needed.
+.SH "RETURN"
+The old entry at this index.

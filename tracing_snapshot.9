@@ -1,0 +1,21 @@
+.TH "tracing_snapshot" 9 "tracing_snapshot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_snapshot \- take a snapshot of the current buffer.
+.SH SYNOPSIS
+.B "void" tracing_snapshot
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This causes a swap between the snapshot buffer and the current live
+tracing buffer. You can use this to take snapshots of the live
+trace when some condition is triggered, but continue to trace.
+
+Note, make sure to allocate the snapshot with either
+a \fBtracing_snapshot_alloc\fP, or by doing it manually
+with: echo 1 > /sys/kernel/debug/tracing/snapshot
+
+If the snapshot buffer is not allocated, it will stop tracing.
+Basically making a permanent snapshot.

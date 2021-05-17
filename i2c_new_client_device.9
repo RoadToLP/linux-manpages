@@ -1,0 +1,24 @@
+.TH "i2c_new_client_device" 9 "i2c_new_client_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_new_client_device \- instantiate an i2c device
+.SH SYNOPSIS
+.B "struct i2c_client *" i2c_new_client_device
+.BI "(struct i2c_adapter *adap "  ","
+.BI "struct i2c_board_info const *info "  ");"
+.SH ARGUMENTS
+.IP "adap" 12
+the adapter managing the device
+.IP "info" 12
+describes one I2C device; bus_num is ignored
+.SH "CONTEXT"
+can sleep
+.SH "DESCRIPTION"
+Create an i2c device. Binding is handled through driver model
+\fBprobe\fP/\fBremove\fP methods.  A driver may be bound to this device when we
+return from this function, or any later moment (e.g. maybe hotplugging will
+load the driver module).  This call is not appropriate for use by mainboard
+initialization logic, which usually runs during an \fBarch_initcall\fP long
+before any i2c_adapter could exist.
+
+This returns the new i2c client, which may be saved for later use with
+\fBi2c_unregister_device\fP; or an ERR_PTR to describe the error.

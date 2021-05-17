@@ -1,0 +1,18 @@
+.TH "rdma_move_ah_attr" 9 "rdma_move_ah_attr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_move_ah_attr \- Move ah_attr pointed by source to destination.
+.SH SYNOPSIS
+.B "void" rdma_move_ah_attr
+.BI "(struct rdma_ah_attr *dest "  ","
+.BI "struct rdma_ah_attr *src "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+Pointer to destination ah_attr to copy to.
+dest is assumed to be valid or zero'd
+.IP "src" 12
+Pointer to the new ah_attr.
+.SH "DESCRIPTION"
+\fBrdma_move_ah_attr\fP first releases any reference in the destination ah_attr
+if it is valid. This also transfers ownership of internal references from
+src to dest, making src invalid in the process. No new reference of the src
+ah_attr is taken.

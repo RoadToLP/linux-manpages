@@ -1,0 +1,36 @@
+.TH "usb_get_descriptor" 9 "usb_get_descriptor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_descriptor \- issues a generic GET_DESCRIPTOR request
+.SH SYNOPSIS
+.B "int" usb_get_descriptor
+.BI "(struct usb_device *dev "  ","
+.BI "unsigned char type "  ","
+.BI "unsigned char index "  ","
+.BI "void *buf "  ","
+.BI "int size "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device whose descriptor is being retrieved
+.IP "type" 12
+the descriptor type (USB_DT_*)
+.IP "index" 12
+the number of the descriptor
+.IP "buf" 12
+where to put the descriptor
+.IP "size" 12
+how big is "buf"?
+.SH "CONTEXT"
+task context, might sleep.
+.SH "DESCRIPTION"
+Gets a USB descriptor.  Convenience functions exist to simplify
+getting some types of descriptors.  Use
+\fBusb_get_string\fP or \fBusb_string\fP for USB_DT_STRING.
+Device (USB_DT_DEVICE) and configuration descriptors (USB_DT_CONFIG)
+are part of the device structure.
+In addition to a number of USB-standard descriptors, some
+devices also use class-specific or vendor-specific descriptors.
+
+This call is synchronous, and may not be used in an interrupt context.
+.SH "RETURN"
+The number of bytes received on success, or else the status code
+returned by the underlying \fBusb_control_msg\fP call.

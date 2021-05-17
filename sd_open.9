@@ -1,0 +1,22 @@
+.TH "sd_open" 9 "sd_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sd_open \- open a scsi disk device
+.SH SYNOPSIS
+.B "int" sd_open
+.BI "(struct block_device *bdev "  ","
+.BI "fmode_t mode "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+Block device of the scsi disk to open
+.IP "mode" 12
+FMODE_* mask
+
+Returns 0 if successful. Returns a negated errno value in case 
+of error.
+.SH "NOTE"
+This can be called from a user context (e.g. fsck(1) )
+or from within the kernel (e.g. as a result of a mount(1) ).
+In the latter case \fIinode\fP and \fIfilp\fP carry an abridged amount
+of information as noted above.
+
+Locking: called with bdev->bd_mutex held.

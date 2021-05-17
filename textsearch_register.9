@@ -1,0 +1,17 @@
+.TH "textsearch_register" 9 "textsearch_register" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+textsearch_register \- register a textsearch module
+.SH SYNOPSIS
+.B "int" textsearch_register
+.BI "(struct ts_ops *ops "  ");"
+.SH ARGUMENTS
+.IP "ops" 12
+operations lookup table
+.SH "DESCRIPTION"
+This function must be called by textsearch modules to announce
+their presence. The specified &\fIops\fP must have name set to a
+unique identifier and the callbacks \fBfind\fP, \fBinit\fP, \fBget_pattern\fP,
+and \fBget_pattern_len\fP must be implemented.
+
+Returns 0 or -EEXISTS if another module has already registered
+with same name.

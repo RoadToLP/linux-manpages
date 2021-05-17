@@ -1,0 +1,20 @@
+.TH "skb_clone" 9 "skb_clone" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_clone \- duplicate an sk_buff
+.SH SYNOPSIS
+.B "struct sk_buff *" skb_clone
+.BI "(struct sk_buff *skb "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to clone
+.IP "gfp_mask" 12
+allocation priority
+
+Duplicate an \fIsk_buff\fP. The new one is not owned by a socket. Both
+copies share the same packet data but not structure. The new
+buffer has a reference count of 1. If the allocation fails the
+function returns NULL otherwise the new buffer is returned.
+
+If this function is called from an interrupt \fBgfp_mask\fP must be
+GFP_ATOMIC.

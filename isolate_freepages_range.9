@@ -1,0 +1,23 @@
+.TH "isolate_freepages_range" 9 "isolate_freepages_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isolate_freepages_range \- isolate free pages.
+.SH SYNOPSIS
+.B "unsigned long" isolate_freepages_range
+.BI "(struct compact_control *cc "  ","
+.BI "unsigned long start_pfn "  ","
+.BI "unsigned long end_pfn "  ");"
+.SH ARGUMENTS
+.IP "cc" 12
+Compaction control structure.
+.IP "start_pfn" 12
+The first PFN to start isolating.
+.IP "end_pfn" 12
+The one-past-last PFN.
+.SH "DESCRIPTION"
+Non-free pages, invalid PFNs, or zone boundaries within the
+[start_pfn, end_pfn) range are considered errors, cause function to
+undo its actions and return zero.
+
+Otherwise, function returns one-past-the-last PFN of isolated page
+(which may be greater then end_pfn if end fell in a middle of
+a free page).

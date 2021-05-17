@@ -1,0 +1,17 @@
+.TH "i40e_init_shared_code" 9 "i40e_init_shared_code" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_init_shared_code \- Initialize the shared code
+.SH SYNOPSIS
+.B "i40e_status" i40e_init_shared_code
+.BI "(struct i40e_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.SH "DESCRIPTION"
+This assigns the MAC type and PHY code and inits the NVM.
+Does not touch the hardware. This function must be called prior to any
+other function in the shared code. The i40e_hw structure should be
+memset to 0 prior to calling this function.  The following fields in
+hw structure should be filled in prior to calling this function:
+hw_addr, back, device_id, vendor_id, subsystem_device_id,
+subsystem_vendor_id, and revision_id

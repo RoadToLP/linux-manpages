@@ -1,0 +1,19 @@
+.TH "ethnl_init_reply_data" 9 "ethnl_init_reply_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_init_reply_data \- Initialize reply data for GET request
+.SH SYNOPSIS
+.B "void" ethnl_init_reply_data
+.BI "(struct ethnl_reply_data *reply_data "  ","
+.BI "const struct ethnl_request_ops *ops "  ","
+.BI "struct net_device *dev "  ");"
+.SH ARGUMENTS
+.IP "reply_data" 12
+pointer to embedded struct ethnl_reply_data
+.IP "ops" 12
+instance of struct ethnl_request_ops describing the layout
+.IP "dev" 12
+network device to initialize the reply for
+.SH "DESCRIPTION"
+Fills the reply data part with zeros and sets the dev member. Must be called
+before calling the ->\fBfill_reply\fP callback (for each iteration when handling
+dump requests).

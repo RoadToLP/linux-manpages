@@ -1,0 +1,19 @@
+.TH "tty_signal_session_leader" 9 "tty_signal_session_leader" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_signal_session_leader \- sends SIGHUP to session leader
+.SH SYNOPSIS
+.B "int" tty_signal_session_leader
+.BI "(struct tty_struct *tty "  ","
+.BI "int exit_session "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+controlling tty
+.IP "exit_session" 12
+if non-zero, signal all foreground group processes
+
+Send SIGHUP and SIGCONT to the session leader and its process group.
+Optionally, signal all processes in the foreground process group.
+
+Returns the number of processes in the session with this tty
+as their controlling terminal. This value is used to drop
+tty references for those processes.

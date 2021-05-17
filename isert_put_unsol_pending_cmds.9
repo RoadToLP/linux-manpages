@@ -1,0 +1,13 @@
+.TH "isert_put_unsol_pending_cmds" 9 "isert_put_unsol_pending_cmds" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+isert_put_unsol_pending_cmds \- Drop commands waiting for unsolicitate dataout
+.SH SYNOPSIS
+.B "void" isert_put_unsol_pending_cmds
+.BI "(struct iscsi_conn *conn "  ");"
+.SH ARGUMENTS
+.IP "conn" 12
+iscsi connection
+.SH "DESCRIPTION"
+We might still have commands that are waiting for unsolicited
+dataouts messages. We must put the extra reference on those
+before blocking on the target_wait_for_session_cmds

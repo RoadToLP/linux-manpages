@@ -1,0 +1,19 @@
+.TH "tee_shm_pool_alloc_res_mem" 9 "tee_shm_pool_alloc_res_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tee_shm_pool_alloc_res_mem \- Create a shared memory pool from reserved memory range
+.SH SYNOPSIS
+.B "struct tee_shm_pool *" tee_shm_pool_alloc_res_mem
+.BI "(struct tee_shm_pool_mem_info *priv_info "  ","
+.BI "struct tee_shm_pool_mem_info *dmabuf_info "  ");"
+.SH ARGUMENTS
+.IP "priv_info" 12
+Information for driver private shared memory pool
+.IP "dmabuf_info" 12
+Information for dma-buf shared memory pool
+.SH "DESCRIPTION"
+Start and end of pools will must be page aligned.
+
+Allocation with the flag TEE_SHM_DMA_BUF set will use the range supplied
+in \fIdmabuf\fP, others will use the range provided by \fIpriv\fP.
+
+\fIreturns\fP pointer to a 'struct tee_shm_pool' or an ERR_PTR on failure.

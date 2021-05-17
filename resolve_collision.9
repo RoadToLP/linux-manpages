@@ -1,0 +1,29 @@
+.TH "resolve_collision" 9 "resolve_collision" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+resolve_collision \- resolve a collision.
+.SH SYNOPSIS
+.B "int" resolve_collision
+.BI "(struct ubifs_info *c "  ","
+.BI "const union ubifs_key *key "  ","
+.BI "struct ubifs_znode **zn "  ","
+.BI "int *n "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "key" 12
+key of a directory or extended attribute entry
+.IP "zn" 12
+znode is returned here
+.IP "n" 12
+zbranch number is passed and returned here
+.IP "nm" 12
+name of the entry
+.SH "DESCRIPTION"
+This function is called for "hashed" keys to make sure that the found key
+really corresponds to the looked up node (directory or extended attribute
+entry). It returns 1 and sets \fIzn\fP and \fIn\fP if the collision is resolved.
+0 is returned if \fInm\fP is not found and \fIzn\fP and \fIn\fP are set to the previous
+entry, i.e. to the entry after which \fInm\fP could follow if it were in TNC.
+This means that \fIn\fP may be set to -1 if the leftmost key in \fIzn\fP is the
+previous one. A negative error code is returned on failures.

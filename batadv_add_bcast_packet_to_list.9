@@ -1,0 +1,26 @@
+.TH "batadv_add_bcast_packet_to_list" 9 "batadv_add_bcast_packet_to_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_add_bcast_packet_to_list \- queue broadcast packet for multiple sends
+.SH SYNOPSIS
+.B "int" batadv_add_bcast_packet_to_list
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "const struct sk_buff *skb "  ","
+.BI "unsigned long delay "  ","
+.BI "bool own_packet "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+broadcast packet to add
+.IP "delay" 12
+number of jiffies to wait before sending
+.IP "own_packet" 12
+true if it is a self-generated broadcast packet
+.SH "DESCRIPTION"
+add a broadcast packet to the queue and setup timers. broadcast packets
+are sent multiple times to increase probability for being received.
+
+The skb is not consumed, so the caller should make sure that the
+skb is freed.
+.SH "RETURN"
+NETDEV_TX_OK on success and NETDEV_TX_BUSY on errors.

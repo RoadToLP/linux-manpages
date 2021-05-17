@@ -1,0 +1,30 @@
+.TH "si476x_core_start" 9 "si476x_core_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+si476x_core_start \- early chip startup function
+.SH SYNOPSIS
+.B "int" si476x_core_start
+.BI "(struct si476x_core *core "  ","
+.BI "bool soft "  ");"
+.SH ARGUMENTS
+.IP "core" 12
+Core device structure
+.IP "soft" 12
+When set, this flag forces "soft" startup, where "soft"
+power down is the one done by sending appropriate command instead
+of using reset pin of the tuner
+.SH "DESCRIPTION"
+Perform required startup sequence to correctly power
+up the chip and perform initial configuration. It does the
+following sequence of actions:
+1. Claims and enables the power supplies VD and VIO1 required
+for I2C interface of the chip operation.
+2. Waits for 100us, pulls the reset line up, enables irq,
+waits for another 100us as it is specified by the
+datasheet.
+3. Sends 'POWER_UP' command to the device with all provided
+information about power-up parameters.
+4. Configures, pin multiplexor, disables digital audio and
+configures interrupt sources.
+
+The function returns zero in case of succes or negative error code
+otherwise.

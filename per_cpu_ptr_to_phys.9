@@ -1,0 +1,27 @@
+.TH "per_cpu_ptr_to_phys" 9 "per_cpu_ptr_to_phys" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+per_cpu_ptr_to_phys \- convert translated percpu address to physical address
+.SH SYNOPSIS
+.B "phys_addr_t" per_cpu_ptr_to_phys
+.BI "(void *addr "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+the address to be converted to physical address
+.SH "DESCRIPTION"
+Given \fIaddr\fP which is dereferenceable address obtained via one of
+percpu access macros, this function translates it into its physical
+address.  The caller is responsible for ensuring \fIaddr\fP stays valid
+until this function finishes.
+
+percpu allocator has special setup for the first chunk, which currently
+supports either embedding in linear address space or vmalloc mapping,
+and, from the second one, the backing allocator (currently either vm or
+km) provides translation.
+
+The addr can be translated simply without checking if it falls into the
+first chunk. But the current code reflects better how percpu allocator
+actually works, and the verification can discover both bugs in percpu
+allocator itself and \fBper_cpu_ptr_to_phys\fP callers. So we keep current
+code.
+.SH "RETURN"
+The physical address for \fIaddr\fP.

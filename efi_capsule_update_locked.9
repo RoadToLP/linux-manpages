@@ -1,0 +1,24 @@
+.TH "efi_capsule_update_locked" 9 "efi_capsule_update_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_update_locked \- pass a single capsule to the firmware
+.SH SYNOPSIS
+.B "int" efi_capsule_update_locked
+.BI "(efi_capsule_header_t *capsule "  ","
+.BI "struct page **sg_pages "  ","
+.BI "int reset "  ");"
+.SH ARGUMENTS
+.IP "capsule" 12
+capsule to send to the firmware
+.IP "sg_pages" 12
+array of scatter gather (block descriptor) pages
+.IP "reset" 12
+the reset type required for \fIcapsule\fP
+.SH "DESCRIPTION"
+Since this function must be called under capsule_mutex check
+whether efi_reset_type will conflict with \fIreset\fP, and atomically
+set it and capsule_pending if a capsule was successfully sent to
+the firmware.
+
+We also check to see if the system is about to restart, and if so,
+abort. This avoids races between \fBefi_capsule_update\fP and
+\fBefi_capsule_pending\fP.

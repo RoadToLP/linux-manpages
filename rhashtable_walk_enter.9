@@ -1,0 +1,28 @@
+.TH "rhashtable_walk_enter" 9 "rhashtable_walk_enter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rhashtable_walk_enter \- Initialise an iterator
+.SH SYNOPSIS
+.B "void" rhashtable_walk_enter
+.BI "(struct rhashtable *ht "  ","
+.BI "struct rhashtable_iter *iter "  ");"
+.SH ARGUMENTS
+.IP "ht" 12
+Table to walk over
+.IP "iter" 12
+Hash table Iterator
+.SH "DESCRIPTION"
+This function prepares a hash table walk.
+
+Note that if you restart a walk after rhashtable_walk_stop you
+may see the same object twice.  Also, you may miss objects if
+there are removals in between rhashtable_walk_stop and the next
+call to rhashtable_walk_start.
+
+For a completely stable walk you should construct your own data
+structure outside the hash table.
+
+This function may be called from any process context, including
+non-preemptable context, but cannot be called from softirq or
+hardirq context.
+
+You must call rhashtable_walk_exit after this function returns.

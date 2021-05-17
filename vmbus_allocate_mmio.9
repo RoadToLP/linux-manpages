@@ -1,0 +1,40 @@
+.TH "vmbus_allocate_mmio" 9 "vmbus_allocate_mmio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmbus_allocate_mmio \- Pick a memory-mapped I/O range.
+.SH SYNOPSIS
+.B "int" vmbus_allocate_mmio
+.BI "(struct resource **new "  ","
+.BI "struct hv_device *device_obj "  ","
+.BI "resource_size_t min "  ","
+.BI "resource_size_t max "  ","
+.BI "resource_size_t size "  ","
+.BI "resource_size_t align "  ","
+.BI "bool fb_overlap_ok "  ");"
+.SH ARGUMENTS
+.IP "new" 12
+If successful, supplied a pointer to the
+allocated MMIO space.
+.IP "device_obj" 12
+Identifies the caller
+.IP "min" 12
+Minimum guest physical address of the
+allocation
+.IP "max" 12
+Maximum guest physical address
+.IP "size" 12
+Size of the range to be allocated
+.IP "align" 12
+Alignment of the range to be allocated
+.IP "fb_overlap_ok" 12
+Whether this allocation can be allowed
+to overlap the video frame buffer.
+.SH "DESCRIPTION"
+This function walks the resources granted to VMBus by the
+_CRS object in the ACPI namespace underneath the parent
+"bridge" whether that's a root PCI bus in the Generation 1
+case or a Module Device in the Generation 2 case.  It then
+attempts to allocate from the global MMIO pool in a way that
+matches the constraints supplied in these parameters and by
+that _CRS.
+.SH "RETURN"
+0 on success, -errno on failure

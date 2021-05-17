@@ -1,0 +1,23 @@
+.TH "tb_switch_alloc" 9 "tb_switch_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_switch_alloc \- allocate a switch
+.SH SYNOPSIS
+.B "struct tb_switch *" tb_switch_alloc
+.BI "(struct tb *tb "  ","
+.BI "struct device *parent "  ","
+.BI "u64 route "  ");"
+.SH ARGUMENTS
+.IP "tb" 12
+Pointer to the owning domain
+.IP "parent" 12
+Parent device for this switch
+.IP "route" 12
+Route string for this switch
+.SH "DESCRIPTION"
+Allocates and initializes a switch. Will not upload configuration to
+the switch. For that you need to call \fBtb_switch_configure\fP
+separately. The returned switch should be released by calling
+\fBtb_switch_put\fP.
+.SH "RETURN"
+Pointer to the allocated switch or \fBERR_PTR\fP in case of
+failure.

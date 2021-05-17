@@ -1,0 +1,17 @@
+.TH "fsverity_prepare_setattr" 9 "fsverity_prepare_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsverity_prepare_setattr \- prepare to change a verity inode's attributes
+.SH SYNOPSIS
+.B "int" fsverity_prepare_setattr
+.BI "(struct dentry *dentry "  ","
+.BI "struct iattr *attr "  ");"
+.SH ARGUMENTS
+.IP "dentry" 12
+dentry through which the inode is being changed
+.IP "attr" 12
+attributes to change
+.SH "DESCRIPTION"
+Verity files are immutable, so deny truncates.  This isn't covered by the
+open-time check because \fBsys_truncate\fP takes a path, not a file descriptor.
+.SH "RETURN"
+0 on success, -errno on failure

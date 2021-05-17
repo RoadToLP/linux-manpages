@@ -1,0 +1,25 @@
+.TH "restrict_link_reject" 9 "restrict_link_reject" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+restrict_link_reject \- Give -EPERM to restrict link
+.SH SYNOPSIS
+.B "int" restrict_link_reject
+.BI "(struct key *keyring "  ","
+.BI "const struct key_type *type "  ","
+.BI "const union key_payload *payload "  ","
+.BI "struct key *restriction_key "  ");"
+.SH ARGUMENTS
+.IP "keyring" 12
+The keyring being added to.
+.IP "type" 12
+The type of key being added.
+.IP "payload" 12
+The payload of the key intended to be added.
+.IP "restriction_key" 12
+Keys providing additional data for evaluating restriction.
+.SH "DESCRIPTION"
+Reject the addition of any links to a keyring.  It can be overridden by
+passing KEY_ALLOC_BYPASS_RESTRICTION to \fBkey_instantiate_and_link\fP when
+adding a key to a keyring.
+
+This is meant to be stored in a key_restriction structure which is passed
+in the restrict_link parameter to \fBkeyring_alloc\fP.

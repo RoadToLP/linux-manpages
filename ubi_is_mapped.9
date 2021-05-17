@@ -1,0 +1,23 @@
+.TH "ubi_is_mapped" 9 "ubi_is_mapped" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_is_mapped \- check if logical eraseblock is mapped.
+.SH SYNOPSIS
+.B "int" ubi_is_mapped
+.BI "(struct ubi_volume_desc *desc "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+volume descriptor
+.IP "lnum" 12
+logical eraseblock number
+.SH "DESCRIPTION"
+This function checks if logical eraseblock \fIlnum\fP is mapped to a physical
+eraseblock. If a logical eraseblock is un-mapped, this does not necessarily
+mean it will still be un-mapped after the UBI device is re-attached. The
+logical eraseblock may become mapped to the physical eraseblock it was last
+mapped to.
+
+This function returns 1 if the LEB is mapped, 0 if not, and a negative
+error code in case of failure. If the volume is damaged because of an
+interrupted update this function just returns immediately with -EBADF error
+code.

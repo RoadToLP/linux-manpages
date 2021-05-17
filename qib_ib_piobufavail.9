@@ -1,0 +1,13 @@
+.TH "qib_ib_piobufavail" 9 "qib_ib_piobufavail" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_ib_piobufavail \- callback when a PIO buffer is available
+.SH SYNOPSIS
+.B "void" qib_ib_piobufavail
+.BI "(struct qib_devdata *dd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the device pointer
+.SH "DESCRIPTION"
+This is called from \fBqib_intr\fP at interrupt level when a PIO buffer is
+available after \fBqib_verbs_send\fP returned an error that no buffers were
+available. Disable the interrupt if there are no more QPs waiting.

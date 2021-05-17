@@ -1,0 +1,19 @@
+.TH "blk_queue_update_dma_alignment" 9 "blk_queue_update_dma_alignment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_queue_update_dma_alignment \- update dma length and memory alignment
+.SH SYNOPSIS
+.B "void" blk_queue_update_dma_alignment
+.BI "(struct request_queue *q "  ","
+.BI "int mask "  ");"
+.SH ARGUMENTS
+.IP "q" 12
+the request queue for the device
+.IP "mask" 12
+alignment mask
+.SH "DESCRIPTION"
+update required memory and length alignment for direct dma transactions.
+If the requested alignment is larger than the current alignment, then
+the current queue alignment is updated to the new value, otherwise it
+is left alone.  The design of this is to allow multiple objects
+(driver, device, transport etc) to set their respective
+alignments without having them interfere.

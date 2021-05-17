@@ -1,0 +1,21 @@
+.TH "cgroup_add_cftypes" 9 "cgroup_add_cftypes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_add_cftypes \- add an array of cftypes to a subsystem
+.SH SYNOPSIS
+.B "int" cgroup_add_cftypes
+.BI "(struct cgroup_subsys *ss "  ","
+.BI "struct cftype *cfts "  ");"
+.SH ARGUMENTS
+.IP "ss" 12
+target cgroup subsystem
+.IP "cfts" 12
+zero-length name terminated array of cftypes
+.SH "DESCRIPTION"
+Register \fIcfts\fP to \fIss\fP.  Files described by \fIcfts\fP are created for all
+existing cgroups to which \fIss\fP is attached and all future cgroups will
+have them too.  This function can be called anytime whether \fIss\fP is
+attached or not.
+
+Returns 0 on successful registration, -errno on failure.  Note that this
+function currently returns 0 as long as \fIcfts\fP registration is successful
+even if some file creation attempts on existing cgroups fail.

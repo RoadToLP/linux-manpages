@@ -1,0 +1,21 @@
+.TH "find_next_usable_block" 9 "find_next_usable_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+find_next_usable_block \- 
+.SH SYNOPSIS
+.B "ext2_grpblk_t" find_next_usable_block
+.BI "(int start "  ","
+.BI "struct buffer_head *bh "  ","
+.BI "int maxblocks "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+the starting block (group relative) to find next
+allocatable block in bitmap.
+.IP "bh" 12
+bufferhead contains the block group bitmap
+.IP "maxblocks" 12
+the ending block (group relative) for the search
+.SH "DESCRIPTION"
+Find an allocatable block in a bitmap.  We perform the "most
+appropriate allocation" algorithm of looking for a free block near
+the initial goal; then for a free byte somewhere in the bitmap;
+then for any free bit in the bitmap.

@@ -1,0 +1,22 @@
+.TH "badblocks_clear" 9 "badblocks_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+badblocks_clear \- Remove a range of bad blocks to the table.
+.SH SYNOPSIS
+.B "int" badblocks_clear
+.BI "(struct badblocks *bb "  ","
+.BI "sector_t s "  ","
+.BI "int sectors "  ");"
+.SH ARGUMENTS
+.IP "bb" 12
+the badblocks structure that holds all badblock information
+.IP "s" 12
+first sector to mark as bad
+.IP "sectors" 12
+number of sectors to mark as bad
+.SH "DESCRIPTION"
+This may involve extending the table if we spilt a region,
+but it must not fail.  So if the table becomes full, we just
+drop the remove request.
+.SH "RETURN"
+0: success
+1: failed to clear badblocks

@@ -1,0 +1,31 @@
+.TH "__register_blkdev" 9 "__register_blkdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__register_blkdev \- register a new block device
+.SH SYNOPSIS
+.B "int" __register_blkdev
+.BI "(unsigned int major "  ","
+.BI "const char *name "  ","
+.BI "void (*probe)(dev_t devt) "  ");"
+.SH ARGUMENTS
+.IP "major" 12
+the requested major device number [1..BLKDEV_MAJOR_MAX-1]. If
+\fImajor\fP = 0, try to allocate any unused major number.
+.IP "name" 12
+the name of the new block device as a zero terminated string
+.IP "probe" 12
+allback that is called on access to any minor number of \fImajor\fP
+.SH "DESCRIPTION"
+The \fIname\fP must be unique within the system.
+
+The return value depends on the \fImajor\fP input parameter:
+
+- if a major device number was requested in range [1..BLKDEV_MAJOR_MAX-1]
+then the function returns zero on success, or a negative error code
+- if any unused major number was requested with \fImajor\fP = 0 parameter
+then the return value is the allocated major number in range
+[1..BLKDEV_MAJOR_MAX-1] or a negative error code otherwise
+
+See Documentation/admin-guide/devices.txt for the list of allocated
+major numbers.
+
+Use register_blkdev instead for any new code.

@@ -1,0 +1,20 @@
+.TH "smc_phy_reset" 9 "smc_phy_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+smc_phy_reset \- reset the phy
+.SH SYNOPSIS
+.B "int" smc_phy_reset
+.BI "(struct net_device *dev "  ","
+.BI "int phy "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+net device
+.IP "phy" 12
+phy address
+.SH "DESCRIPTION"
+Issue a software reset for the specified PHY and
+wait up to 100ms for the reset to complete.  We should
+not access the PHY for 50ms after issuing the reset.
+
+The time to wait appears to be dependent on the PHY.
+
+Must be called with lp->lock locked.

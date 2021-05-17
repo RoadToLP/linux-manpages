@@ -1,0 +1,18 @@
+.TH "qib_free_ctxtdata" 9 "qib_free_ctxtdata" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_free_ctxtdata \- free a context's allocated data
+.SH SYNOPSIS
+.B "void" qib_free_ctxtdata
+.BI "(struct qib_devdata *dd "  ","
+.BI "struct qib_ctxtdata *rcd "  ");"
+.SH ARGUMENTS
+.IP "dd" 12
+the qlogic_ib device
+.IP "rcd" 12
+the ctxtdata structure
+.SH "DESCRIPTION"
+free up any allocated data for a context
+This should not touch anything that would affect a simultaneous
+re-allocation of context data, because it is called after qib_mutex
+is released (and can be called from reinit as well).
+It should never change any chip state, or global driver state.

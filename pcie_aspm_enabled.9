@@ -1,0 +1,14 @@
+.TH "pcie_aspm_enabled" 9 "pcie_aspm_enabled" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcie_aspm_enabled \- Check if PCIe ASPM has been enabled for a device.
+.SH SYNOPSIS
+.B "bool" pcie_aspm_enabled
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+Target device.
+.SH "DESCRIPTION"
+Relies on the upstream bridge's link_state being valid.  The link_state
+is deallocated only when the last child of the bridge (i.e., \fIpdev\fP or a
+sibling) is removed, and the caller should be holding a reference to
+\fIpdev\fP, so this should be safe.

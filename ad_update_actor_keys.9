@@ -1,0 +1,16 @@
+.TH "ad_update_actor_keys" 9 "ad_update_actor_keys" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ad_update_actor_keys \- Update the oper / admin keys for a port based on its current speed and duplex settings.
+.SH SYNOPSIS
+.B "void" ad_update_actor_keys
+.BI "(struct port *port "  ","
+.BI "bool reset "  ");"
+.SH ARGUMENTS
+.IP "port" 12
+the port we'are looking at
+.IP "reset" 12
+Boolean to just reset the speed and the duplex part of the key
+.SH "DESCRIPTION"
+The logic to change the oper / admin keys is:
+(a) A full duplex port can participate in LACP with partner.
+(b) When the speed is changed, LACP need to be reinitiated.

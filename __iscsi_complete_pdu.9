@@ -1,0 +1,22 @@
+.TH "__iscsi_complete_pdu" 9 "__iscsi_complete_pdu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__iscsi_complete_pdu \- complete pdu
+.SH SYNOPSIS
+.B "int" __iscsi_complete_pdu
+.BI "(struct iscsi_conn *conn "  ","
+.BI "struct iscsi_hdr *hdr "  ","
+.BI "char *data "  ","
+.BI "int datalen "  ");"
+.SH ARGUMENTS
+.IP "conn" 12
+iscsi conn
+.IP "hdr" 12
+iscsi header
+.IP "data" 12
+data buffer
+.IP "datalen" 12
+len of data buffer
+.SH "DESCRIPTION"
+Completes pdu processing by freeing any resources allocated at
+queuecommand or send generic. session back_lock must be held and verify
+itt must have been called.

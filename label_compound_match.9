@@ -1,0 +1,33 @@
+.TH "label_compound_match" 9 "label_compound_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+label_compound_match \- find perms for full compound label
+.SH SYNOPSIS
+.B "int" label_compound_match
+.BI "(struct aa_profile *profile "  ","
+.BI "struct aa_label *label "  ","
+.BI "bool stack "  ","
+.BI "unsigned int state "  ","
+.BI "bool subns "  ","
+.BI "u32 request "  ","
+.BI "struct aa_perms *perms "  ");"
+.SH ARGUMENTS
+.IP "profile" 12
+profile to find perms for
+.IP "label" 12
+label to check access permissions for
+.IP "stack" 12
+whether this is a stacking request
+.IP "state" 12
+-- undescribed --
+.IP "subns" 12
+whether to do permission checks on components in a subns
+.IP "request" 12
+permissions to request
+.IP "perms" 12
+perms struct to set
+.SH "RETURN"
+0 on success else ERROR
+.SH "DESCRIPTION"
+For the label A//\fIB\fP//\fIC\fP this does the perm match for A//\fIB\fP//\fIC\fP
+\fIperms\fP should be preinitialized with allperms OR a previous permission
+check to be stacked.

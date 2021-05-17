@@ -1,0 +1,36 @@
+.TH "caam_jr_enqueue" 9 "caam_jr_enqueue" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+caam_jr_enqueue \- Enqueue a job descriptor head. Returns -EINPROGRESS if OK, -ENOSPC if the queue is full, -EIO if it cannot map the caller's descriptor.
+.SH SYNOPSIS
+.B "int" caam_jr_enqueue
+.BI "(struct device *dev "  ","
+.BI "u32 *desc "  ","
+.BI "void (*cbk)(struct device *dev, u32 *desc, u32 status, void *areq) "  ","
+.BI "void *areq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+struct device of the job ring to be used
+.IP "desc" 12
+points to a job descriptor that execute our request. All
+descriptors (and all referenced data) must be in a DMAable
+region, and all data references must be physical addresses
+accessible to CAAM (i.e. within a PAMU window granted
+to it).
+.IP "cbk" 12
+pointer to a callback function to be invoked upon completion
+of this request. This has the form:
+callback(struct device *dev, u32 *desc, u32 stat, void *arg)
+where:
+dev:     contains the job ring device that processed this
+response.
+desc:    descriptor that initiated the request, same as
+"desc" being argued to \fBcaam_jr_enqueue\fP.
+status:  untranslated status received from CAAM. See the
+reference manual for a detailed description of
+error meaning, or see the JRSTA definitions in the
+register header file
+areq:    optional pointer to an argument passed with the
+original request
+.IP "areq" 12
+optional pointer to a user argument for use at callback
+time.

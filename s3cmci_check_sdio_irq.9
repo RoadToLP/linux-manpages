@@ -1,0 +1,17 @@
+.TH "s3cmci_check_sdio_irq" 9 "s3cmci_check_sdio_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s3cmci_check_sdio_irq \- test whether the SDIO IRQ is being signalled
+.SH SYNOPSIS
+.B "void" s3cmci_check_sdio_irq
+.BI "(struct s3cmci_host *host "  ");"
+.SH ARGUMENTS
+.IP "host" 12
+The host to check.
+.SH "DESCRIPTION"
+Test to see if the SDIO interrupt is being signalled in case the
+controller has failed to re-detect a card interrupt. Read GPE8 and
+see if it is low and if so, signal a SDIO interrupt.
+
+This is currently called if a request is finished (we assume that the
+bus is now idle) and when the SDIO IRQ is enabled in case the IRQ is
+already being indicated.

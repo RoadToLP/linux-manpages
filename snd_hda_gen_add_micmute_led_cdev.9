@@ -1,0 +1,21 @@
+.TH "snd_hda_gen_add_micmute_led_cdev" 9 "snd_hda_gen_add_micmute_led_cdev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hda_gen_add_micmute_led_cdev \- Create a LED classdev and enable as mic-mute LED
+.SH SYNOPSIS
+.B "int" snd_hda_gen_add_micmute_led_cdev
+.BI "(struct hda_codec *codec "  ","
+.BI "int (*callback)(struct led_classdev *, enum led_brightness) "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the HDA codec
+.IP "callback" 12
+the callback for LED classdev brightness_set_blocking
+.SH "DESCRIPTION"
+Called from the codec drivers for offering the mic mute LED controls.
+This creates a LED classdev and sets up the cap_sync_hook that is called at
+each time when the capture mixer switch changes.
+
+When NULL is passed to \fIcallback\fP, no classdev is created but only the
+LED-trigger is set up.
+
+Returns 0 or a negative error.

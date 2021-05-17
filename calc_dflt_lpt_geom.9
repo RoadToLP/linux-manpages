@@ -1,0 +1,21 @@
+.TH "calc_dflt_lpt_geom" 9 "calc_dflt_lpt_geom" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+calc_dflt_lpt_geom \- calculate default LPT geometry.
+.SH SYNOPSIS
+.B "int" calc_dflt_lpt_geom
+.BI "(struct ubifs_info *c "  ","
+.BI "int *main_lebs "  ","
+.BI "int *big_lpt "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+the UBIFS file-system description object
+.IP "main_lebs" 12
+number of main area LEBs is passed and returned here
+.IP "big_lpt" 12
+whether the LPT area is "big" is returned here
+.SH "DESCRIPTION"
+The size of the LPT area depends on parameters that themselves are dependent
+on the size of the LPT area. This function, successively recalculates the LPT
+area geometry until the parameters and resultant geometry are consistent.
+
+This function returns 0 on success and a negative error code on failure.

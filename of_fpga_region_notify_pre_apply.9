@@ -1,0 +1,20 @@
+.TH "of_fpga_region_notify_pre_apply" 9 "of_fpga_region_notify_pre_apply" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_fpga_region_notify_pre_apply \- pre-apply overlay notification
+.SH SYNOPSIS
+.B "int" of_fpga_region_notify_pre_apply
+.BI "(struct fpga_region *region "  ","
+.BI "struct of_overlay_notify_data *nd "  ");"
+.SH ARGUMENTS
+.IP "region" 12
+FPGA region that the overlay was applied to
+.IP "nd" 12
+overlay notification data
+.SH "DESCRIPTION"
+Called when an overlay targeted to a FPGA Region is about to be applied.
+Parses the overlay for properties that influence how the FPGA will be
+programmed and does some checking. If the checks pass, programs the FPGA.
+If the checks fail, overlay is rejected and does not get added to the
+live tree.
+
+Returns 0 for success or negative error code for failure.

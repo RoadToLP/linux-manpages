@@ -1,0 +1,25 @@
+.TH "set_trigger_filter" 9 "set_trigger_filter" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+set_trigger_filter \- Generic event_command @set_filter implementation
+.SH SYNOPSIS
+.B "int" set_trigger_filter
+.BI "(char *filter_str "  ","
+.BI "struct event_trigger_data *trigger_data "  ","
+.BI "struct trace_event_file *file "  ");"
+.SH ARGUMENTS
+.IP "filter_str" 12
+The filter string for the trigger, NULL to remove filter
+.IP "trigger_data" 12
+Trigger-specific data
+.IP "file" 12
+The trace_event_file associated with the event
+.SH "DESCRIPTION"
+Common implementation for event command filter parsing and filter
+instantiation.
+
+Usually used directly as the \fIset_filter\fP method in event command
+implementations.
+
+Also used to remove a filter (if filter_str = NULL).
+.SH "RETURN"
+0 on success, errno otherwise

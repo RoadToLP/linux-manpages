@@ -1,0 +1,15 @@
+.TH "spider_net_resync_head_ptr" 9 "spider_net_resync_head_ptr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spider_net_resync_head_ptr \- Advance head ptr past empty descrs
+.SH SYNOPSIS
+.B "void" spider_net_resync_head_ptr
+.BI "(struct spider_net_card *card "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+card structure
+.SH "DESCRIPTION"
+If the driver fails to keep up and empty the queue, then the
+hardware wil run out of room to put incoming packets. This
+will cause the hardware to skip descrs that are full (instead
+of halting/retrying). Thus, once the driver runs, it wil need
+to "catch up" to where the hardware chain pointer is at.

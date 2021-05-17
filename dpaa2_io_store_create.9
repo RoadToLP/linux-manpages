@@ -1,0 +1,18 @@
+.TH "dpaa2_io_store_create" 9 "dpaa2_io_store_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpaa2_io_store_create \- Create the dma memory storage for dequeue result.
+.SH SYNOPSIS
+.B "struct dpaa2_io_store *" dpaa2_io_store_create
+.BI "(unsigned int max_frames "  ","
+.BI "struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "max_frames" 12
+the maximum number of dequeued result for frames, must be <= 32.
+.IP "dev" 12
+the device to allow mapping/unmapping the DMAable region.
+.SH "DESCRIPTION"
+The size of the storage is "max_frames*sizeof(struct dpaa2_dq)".
+The 'dpaa2_io_store' returned is a DPIO service managed object.
+
+Return pointer to dpaa2_io_store struct for successfully created storage
+memory, or NULL on error.

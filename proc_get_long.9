@@ -1,0 +1,32 @@
+.TH "proc_get_long" 9 "proc_get_long" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_get_long \- reads an ASCII formatted integer from a user buffer
+.SH SYNOPSIS
+.B "int" proc_get_long
+.BI "(char **buf "  ","
+.BI "size_t *size "  ","
+.BI "unsigned long *val "  ","
+.BI "bool *neg "  ","
+.BI "const char *perm_tr "  ","
+.BI "unsigned perm_tr_len "  ","
+.BI "char *tr "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+a kernel buffer
+.IP "size" 12
+size of the kernel buffer
+.IP "val" 12
+this is where the number will be stored
+.IP "neg" 12
+set to TRUE if number is negative
+.IP "perm_tr" 12
+a vector which contains the allowed trailers
+.IP "perm_tr_len" 12
+size of the perm_tr vector
+.IP "tr" 12
+pointer to store the trailer character
+.SH "DESCRIPTION"
+In case of success 0 is returned and \fIbuf\fP and \fIsize\fP are updated with
+the amount of bytes read. If \fItr\fP is non-NULL and a trailing
+character exists (size is non-zero after returning from this
+function), \fItr\fP is updated with the trailing character.

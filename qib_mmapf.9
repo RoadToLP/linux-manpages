@@ -1,0 +1,17 @@
+.TH "qib_mmapf" 9 "qib_mmapf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+qib_mmapf \- mmap various structures into user space
+.SH SYNOPSIS
+.B "int" qib_mmapf
+.BI "(struct file *fp "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "fp" 12
+the file pointer
+.IP "vma" 12
+the VM area
+.SH "DESCRIPTION"
+We use this to have a shared buffer between the kernel and the user code
+for the rcvhdr queue, egr buffers, and the per-context user regs and pio
+buffers in the chip.  We have the open and close entries so we can bump
+the ref count and keep the driver from being unloaded while still mapped.

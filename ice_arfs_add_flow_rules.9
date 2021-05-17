@@ -1,0 +1,17 @@
+.TH "ice_arfs_add_flow_rules" 9 "ice_arfs_add_flow_rules" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_arfs_add_flow_rules \- add the rules passed in from HW
+.SH SYNOPSIS
+.B "void" ice_arfs_add_flow_rules
+.BI "(struct ice_vsi *vsi "  ","
+.BI "struct hlist_head *add_list_head "  ");"
+.SH ARGUMENTS
+.IP "vsi" 12
+VSI for the flow rules that need to be added
+.IP "add_list_head" 12
+head of the list of ice_arfs_entry_ptr(s) for rule addition
+.SH "DESCRIPTION"
+Loop through the add list passed in and remove the rules from HW. After each
+rule is added, disconnect and free the ice_arfs_entry_ptr node. Don't free
+the ice_arfs_entry(s) because they are still being referenced in the aRFS
+hash table.

@@ -1,0 +1,30 @@
+.TH "dpni_set_rx_fs_dist" 9 "dpni_set_rx_fs_dist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_rx_fs_dist \- Set Rx flow steering distribution
+.SH SYNOPSIS
+.B "int" dpni_set_rx_fs_dist
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "const struct dpni_rx_dist_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "cfg" 12
+Distribution configuration
+.SH "DESCRIPTION"
+If the FS is already enabled with a previous call the classification
+key will be changed but all the table rules are kept. If the
+existing rules do not match the key the results will not be
+predictable. It is the user responsibility to keep key integrity.
+If cfg.enable is set to 1 the command will create a flow steering table
+and will classify packets according to this table. The packets that
+miss all the table rules will be classified according to settings
+made in \fBdpni_set_rx_hash_dist\fP
+If cfg.enable is set to 0 the command will clear flow steering table.
+The packets will be classified according to settings made in
+\fBdpni_set_rx_hash_dist\fP

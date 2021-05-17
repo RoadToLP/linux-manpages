@@ -1,0 +1,19 @@
+.TH "fwnode_get_nth_parent" 9 "fwnode_get_nth_parent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fwnode_get_nth_parent \- Return an nth parent of a node
+.SH SYNOPSIS
+.B "struct fwnode_handle *" fwnode_get_nth_parent
+.BI "(struct fwnode_handle *fwnode "  ","
+.BI "unsigned int depth "  ");"
+.SH ARGUMENTS
+.IP "fwnode" 12
+The node the parent of which is requested
+.IP "depth" 12
+Distance of the parent from the node
+.SH "DESCRIPTION"
+Returns the nth parent of a node. If there is no parent at the requested
+\fIdepth\fP, NULL is returned. If \fIdepth\fP is 0, the functionality is equivalent to
+\fBfwnode_handle_get\fP. For \fIdepth\fP == 1, it is \fBfwnode_get_parent\fP and so on.
+
+The caller is responsible for calling \fBfwnode_handle_put\fP for the returned
+node.

@@ -1,0 +1,16 @@
+.TH "pci_dev_adjust_pme" 9 "pci_dev_adjust_pme" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_dev_adjust_pme \- Adjust PME setting for a suspended device.
+.SH SYNOPSIS
+.B "void" pci_dev_adjust_pme
+.BI "(struct pci_dev *pci_dev "  ");"
+.SH ARGUMENTS
+.IP "pci_dev" 12
+Device to check.
+.SH "DESCRIPTION"
+If the device is suspended and it is not configured for system wakeup,
+disable PME for it to prevent it from waking up the system unnecessarily.
+
+Note that if the device's power state is D3cold and the platform check in
+\fBpci_dev_need_resume\fP has not triggered, the device's configuration need not
+be changed.

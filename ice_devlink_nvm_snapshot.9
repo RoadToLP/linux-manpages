@@ -1,0 +1,26 @@
+.TH "ice_devlink_nvm_snapshot" 9 "ice_devlink_nvm_snapshot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_devlink_nvm_snapshot \- Capture a snapshot of the Shadow RAM contents
+.SH SYNOPSIS
+.B "int" ice_devlink_nvm_snapshot
+.BI "(struct devlink *devlink "  ","
+.BI "const struct devlink_region_ops *ops "  ","
+.BI "struct netlink_ext_ack *extack "  ","
+.BI "u8 **data "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+the devlink instance
+.IP "ops" 12
+the devlink region being snapshotted
+.IP "extack" 12
+extended ACK response structure
+.IP "data" 12
+on exit points to snapshot data buffer
+.SH "DESCRIPTION"
+This function is called in response to the DEVLINK_CMD_REGION_TRIGGER for
+the shadow-ram devlink region. It captures a snapshot of the shadow ram
+contents. This snapshot can later be viewed via the devlink-region
+interface.
+
+\fIreturns\fP zero on success, and updates the data pointer. Returns a non-zero
+error code on failure.

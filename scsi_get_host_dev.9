@@ -1,0 +1,21 @@
+.TH "scsi_get_host_dev" 9 "scsi_get_host_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_get_host_dev \- Create a scsi_device that points to the host adapter itself
+.SH SYNOPSIS
+.B "struct scsi_device *" scsi_get_host_dev
+.BI "(struct Scsi_Host *shost "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+Host that needs a scsi_device
+.SH "DESCRIPTION"
+Lock status: None assumed.
+.SH "RETURN"
+The scsi_device or NULL
+.SH "NOTES"
+Attach a single scsi_device to the Scsi_Host - this should
+be made to look like a "pseudo-device" that points to the
+HA itself.
+
+Note - this device is not accessible from any high-level
+drivers (including generics), which is probably not
+optimal.  We can add hooks later to attach.

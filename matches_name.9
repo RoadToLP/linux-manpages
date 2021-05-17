@@ -1,0 +1,20 @@
+.TH "matches_name" 9 "matches_name" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+matches_name \- determine if a direntry or xattr entry matches a given name.
+.SH SYNOPSIS
+.B "int" matches_name
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_zbranch *zbr "  ","
+.BI "const struct fscrypt_name *nm "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "zbr" 12
+zbranch of dent
+.IP "nm" 12
+name to match
+.SH "DESCRIPTION"
+This function checks if xentry/direntry referred by zbranch \fIzbr\fP matches name
+\fInm\fP. Returns NAME_MATCHES if it does, NAME_LESS if the name referred by
+\fIzbr\fP is less than \fInm\fP, and NAME_GREATER if it is greater than \fInm\fP. In case
+of failure, a negative error code is returned.

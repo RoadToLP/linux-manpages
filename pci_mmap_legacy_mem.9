@@ -1,0 +1,22 @@
+.TH "pci_mmap_legacy_mem" 9 "pci_mmap_legacy_mem" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_mmap_legacy_mem \- map legacy PCI memory into user memory space
+.SH SYNOPSIS
+.B "int" pci_mmap_legacy_mem
+.BI "(struct file *filp "  ","
+.BI "struct kobject *kobj "  ","
+.BI "struct bin_attribute *attr "  ","
+.BI "struct vm_area_struct *vma "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+open sysfs file
+.IP "kobj" 12
+kobject corresponding to device to be mapped
+.IP "attr" 12
+struct bin_attribute for this file
+.IP "vma" 12
+struct vm_area_struct passed to mmap
+.SH "DESCRIPTION"
+Uses an arch specific callback, pci_mmap_legacy_mem_page_range, to mmap
+legacy memory space (first meg of bus space) into application virtual
+memory space.

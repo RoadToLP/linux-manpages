@@ -1,0 +1,18 @@
+.TH "css_rightmost_descendant" 9 "css_rightmost_descendant" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+css_rightmost_descendant \- return the rightmost descendant of a css
+.SH SYNOPSIS
+.B "struct cgroup_subsys_state *" css_rightmost_descendant
+.BI "(struct cgroup_subsys_state *pos "  ");"
+.SH ARGUMENTS
+.IP "pos" 12
+css of interest
+.SH "DESCRIPTION"
+Return the rightmost descendant of \fIpos\fP.  If there's no descendant, \fIpos\fP
+is returned.  This can be used during pre-order traversal to skip
+subtree of \fIpos\fP.
+
+While this function requires cgroup_mutex or RCU read locking, it
+doesn't require the whole traversal to be contained in a single critical
+section.  This function will return the correct rightmost descendant as
+long as \fIpos\fP is accessible.

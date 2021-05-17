@@ -1,0 +1,45 @@
+.TH "__next_mem_range" 9 "__next_mem_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__next_mem_range \- next function for for_each_free_mem_range() etc.
+.SH SYNOPSIS
+.B "void" __next_mem_range
+.BI "(u64 *idx "  ","
+.BI "int nid "  ","
+.BI "enum memblock_flags flags "  ","
+.BI "struct memblock_type *type_a "  ","
+.BI "struct memblock_type *type_b "  ","
+.BI "phys_addr_t *out_start "  ","
+.BI "phys_addr_t *out_end "  ","
+.BI "int *out_nid "  ");"
+.SH ARGUMENTS
+.IP "idx" 12
+pointer to u64 loop variable
+.IP "nid" 12
+node selector, NUMA_NO_NODE for all nodes
+.IP "flags" 12
+pick from blocks based on memory attributes
+.IP "type_a" 12
+pointer to memblock_type from where the range is taken
+.IP "type_b" 12
+pointer to memblock_type which excludes memory from being taken
+.IP "out_start" 12
+ptr to phys_addr_t for start address of the range, can be NULL
+.IP "out_end" 12
+ptr to phys_addr_t for end address of the range, can be NULL
+.IP "out_nid" 12
+ptr to int for nid of the range, can be NULL
+.SH "DESCRIPTION"
+Find the first area from *\fIidx\fP which matches \fInid\fP, fill the out
+parameters, and update *\fIidx\fP for the next iteration.  The lower 32bit of
+*\fIidx\fP contains index into type_a and the upper 32bit indexes the
+areas before each region in type_b.  For example, if type_b regions
+look like the following,
+
+0:[0-16), 1:[32-48), 2:[128-130)
+
+The upper 32bit indexes the following regions.
+
+0:[0-0), 1:[16-32), 2:[48-128), 3:[130-MAX)
+
+As both region arrays are sorted, the function advances the two indices
+in lockstep and returns each intersection.

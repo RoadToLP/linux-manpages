@@ -1,0 +1,28 @@
+.TH "pci_p2pdma_enable_store" 9 "pci_p2pdma_enable_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_p2pdma_enable_store \- parse a configfs/sysfs attribute store to enable p2pdma
+.SH SYNOPSIS
+.B "int" pci_p2pdma_enable_store
+.BI "(const char *page "  ","
+.BI "struct pci_dev **p2p_dev "  ","
+.BI "bool *use_p2pdma "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+contents of the value to be stored
+.IP "p2p_dev" 12
+returns the PCI device that was selected to be used
+(if one was specified in the stored value)
+.IP "use_p2pdma" 12
+returns whether to enable p2pdma or not
+.SH "DESCRIPTION"
+Parses an attribute value to decide whether to enable p2pdma.
+The value can select a PCI device (using its full BDF device
+name) or a boolean (in any format \fBstrtobool\fP accepts). A false
+value disables p2pdma, a true value expects the caller
+to automatically find a compatible device and specifying a PCI device
+expects the caller to use the specific provider.
+
+\fBpci_p2pdma_enable_show\fP should be used as the show operation for
+the attribute.
+
+Returns 0 on success

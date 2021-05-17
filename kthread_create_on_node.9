@@ -1,0 +1,37 @@
+.TH "kthread_create_on_node" 9 "kthread_create_on_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_create_on_node \- create a kthread.
+.SH SYNOPSIS
+.B "struct task_struct *" kthread_create_on_node
+.BI "(int (*threadfn)(void *data) "  ","
+.BI "void *data "  ","
+.BI "int node "  ","
+.BI "const char namefmt[] "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "threadfn" 12
+the function to run until signal_pending(current).
+.IP "data" 12
+data ptr for \fIthreadfn\fP.
+.IP "node" 12
+task and thread structures for the thread are allocated on this node
+.IP "namefmt" 12
+printf-style name for the thread.
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+This helper function creates and names a kernel
+thread.  The thread will be stopped: use \fBwake_up_process\fP to start
+it.  See also \fBkthread_run\fP.  The new thread has SCHED_NORMAL policy and
+is affine to all CPUs.
+
+If thread is going to be bound on a particular cpu, give its node
+in \fInode\fP, to get NUMA affinity for kthread stack, or else give NUMA_NO_NODE.
+When woken, the thread will run \fI\fP\fBthreadfn\fP with \fIdata\fP as its
+argument. \fI\fP\fBthreadfn\fP can either call \fBdo_exit\fP directly if it is a
+standalone thread for which no one will call \fBkthread_stop\fP, or
+return when '\fBkthread_should_stop\fP' is true (which means
+\fBkthread_stop\fP has been called).  The return value should be zero
+or a negative error number; it will be passed to \fBkthread_stop\fP.
+
+Returns a task_struct or ERR_PTR(-ENOMEM) or ERR_PTR(-EINTR).

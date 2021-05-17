@@ -1,0 +1,24 @@
+.TH "i915_gem_mmap_offset_ioctl" 9 "i915_gem_mmap_offset_ioctl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_mmap_offset_ioctl \- prepare an object for GTT mmap'ing
+.SH SYNOPSIS
+.B "int" i915_gem_mmap_offset_ioctl
+.BI "(struct drm_device *dev "  ","
+.BI "void *data "  ","
+.BI "struct drm_file *file "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "data" 12
+GTT mapping ioctl data
+.IP "file" 12
+GEM object info
+.SH "DESCRIPTION"
+Simply returns the fake offset to userspace so it can mmap it.
+The mmap call will end up in \fBdrm_gem_mmap\fP, which will set things
+up so we can get faults in the handler above.
+
+The fault handler will take care of binding the object into the GTT
+(since it may have been evicted to make room for something), allocating
+a fence register, and mapping the appropriate aperture address into
+userspace.

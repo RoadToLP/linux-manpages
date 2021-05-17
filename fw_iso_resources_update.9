@@ -1,0 +1,16 @@
+.TH "fw_iso_resources_update" 9 "fw_iso_resources_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fw_iso_resources_update \- update resource allocations after a bus reset
+.SH SYNOPSIS
+.B "int" fw_iso_resources_update
+.BI "(struct fw_iso_resources *r "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+the resource manager
+.SH "DESCRIPTION"
+This function must be called from the driver's .update handler to reallocate
+any resources that were allocated before the bus reset.  It is safe to call
+this function if no resources are currently allocated.
+
+Returns a negative error code on failure.  If this happens, the caller must
+stop streaming.

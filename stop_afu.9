@@ -1,0 +1,14 @@
+.TH "stop_afu" 9 "stop_afu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stop_afu \- stops the AFU command timers and unmaps the MMIO space
+.SH SYNOPSIS
+.B "void" stop_afu
+.BI "(struct cxlflash_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.SH "DESCRIPTION"
+Safe to call with AFU in a partially allocated/initialized state.
+
+Cancels scheduled worker threads, waits for any active internal AFU
+commands to timeout, disables IRQ polling and then unmaps the MMIO space.

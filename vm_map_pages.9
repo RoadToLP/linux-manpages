@@ -1,0 +1,28 @@
+.TH "vm_map_pages" 9 "vm_map_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vm_map_pages \- maps range of kernel pages starts with non zero offset
+.SH SYNOPSIS
+.B "int" vm_map_pages
+.BI "(struct vm_area_struct *vma "  ","
+.BI "struct page **pages "  ","
+.BI "unsigned long num "  ");"
+.SH ARGUMENTS
+.IP "vma" 12
+user vma to map to
+.IP "pages" 12
+pointer to array of source kernel pages
+.IP "num" 12
+number of pages in page array
+.SH "DESCRIPTION"
+Maps an object consisting of \fInum\fP pages, catering for the user's
+requested vm_pgoff
+
+If we fail to insert any page into the vma, the function will return
+immediately leaving any previously inserted pages present.  Callers
+from the mmap handler may immediately return the error as their caller
+will destroy the vma, removing any successfully inserted pages. Other
+callers should make their own arrangements for calling \fBunmap_region\fP.
+.SH "CONTEXT"
+Process context. Called by mmap handlers.
+.SH "RETURN"
+0 on success and error code otherwise.

@@ -1,0 +1,18 @@
+.TH "is_intel_ider" 9 "is_intel_ider" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_intel_ider \- identify intel IDE-R devices
+.SH SYNOPSIS
+.B "int" is_intel_ider
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+
+Distinguish Intel IDE-R controller devices from other Intel IDE
+devices. IDE-R devices have no timing registers and are in
+most respects virtual. They should be driven by the ata_generic
+driver.
+
+IDE-R devices have PCI offset 0xF8.L as zero, later Intel ATA has
+it non zero. All Intel ATA has 0x40 writable (timing), but it is
+not writable on IDE-R devices (this is guaranteed).

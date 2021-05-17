@@ -1,0 +1,27 @@
+.TH "shadow_crycb" 9 "shadow_crycb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+shadow_crycb \- Create a shadow copy of the crycb block
+.SH SYNOPSIS
+.B "int" shadow_crycb
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "struct vsie_page *vsie_page "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+a pointer to the virtual CPU
+.IP "vsie_page" 12
+a pointer to internal date used for the vSIE
+.SH "DESCRIPTION"
+Create a shadow copy of the crycb block and setup key wrapping, if
+requested for guest 3 and enabled for guest 2.
+
+We accept format-1 or format-2, but we convert format-1 into format-2
+in the shadow CRYCB.
+Using format-2 enables the firmware to choose the right format when
+scheduling the SIE.
+There is nothing to do for format-0.
+
+This function centralize the issuing of \fBset_validity_icpt\fP for all
+the subfunctions working on the crycb.
+.SH "RETURN"
+- 0 if shadowed or nothing to do
+- > 0 if control has to be given to guest 2

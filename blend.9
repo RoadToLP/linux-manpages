@@ -1,0 +1,24 @@
+.TH "blend" 9 "blend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blend \- blend value at vaddr_src with value at vaddr_dst
+.SH SYNOPSIS
+.B "void" blend
+.BI "(void *vaddr_dst "  ","
+.BI "void *vaddr_src "  ","
+.BI "struct vkms_composer *dst_composer "  ","
+.BI "struct vkms_composer *src_composer "  ");"
+.SH ARGUMENTS
+.IP "vaddr_dst" 12
+destination address
+.IP "vaddr_src" 12
+source address
+.IP "dst_composer" 12
+destination framebuffer's metadata
+.IP "src_composer" 12
+source framebuffer's metadata
+.SH "DESCRIPTION"
+Blend the vaddr_src value with the vaddr_dst value using the pre-multiplied
+alpha blending equation, since DRM currently assumes that the pixel color
+values have already been pre-multiplied with the alpha channel values. See
+more \fBdrm_plane_create_blend_mode_property\fP. This function uses buffer's
+metadata to locate the new composite values at vaddr_dst.

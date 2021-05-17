@@ -1,0 +1,42 @@
+.TH "assign_domain_store" 9 "assign_domain_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+assign_domain_store \- 
+.SH SYNOPSIS
+.B "ssize_t" assign_domain_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the matrix device
+.IP "attr" 12
+the mediated matrix device's assign_domain attribute
+.IP "buf" 12
+a buffer containing the AP queue index (APQI) of the domain to
+be assigned
+.IP "count" 12
+the number of bytes in \fIbuf\fP
+.SH "DESCRIPTION"
+Parses the APQI from \fIbuf\fP and sets the corresponding bit in the mediated
+matrix device's AQM.
+
+Returns the number of bytes processed if the APQI is valid; otherwise returns
+one of the following errors:
+
+1. -EINVAL
+The APQI is not a valid number
+
+2. -ENODEV
+The APQI exceeds the maximum value configured for the system
+
+3. -EADDRNOTAVAIL
+An APQN derived from the cross product of the APQI being assigned
+and the APIDs previously assigned is not bound to the vfio_ap device
+driver; or, if no APIDs have yet been assigned, the APQI is not
+contained in an APQN bound to the vfio_ap device driver.
+
+4. -EADDRINUSE
+An APQN derived from the cross product of the APQI being assigned
+and the APIDs previously assigned is being used by another mediated
+matrix device

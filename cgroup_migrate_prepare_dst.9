@@ -1,0 +1,19 @@
+.TH "cgroup_migrate_prepare_dst" 9 "cgroup_migrate_prepare_dst" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cgroup_migrate_prepare_dst \- prepare destination css_sets for migration
+.SH SYNOPSIS
+.B "int" cgroup_migrate_prepare_dst
+.BI "(struct cgroup_mgctx *mgctx "  ");"
+.SH ARGUMENTS
+.IP "mgctx" 12
+migration context
+.SH "DESCRIPTION"
+Tasks are about to be moved and all the source css_sets have been
+preloaded to \fImgctx->preloaded_src_csets\fP.  This function looks up and
+pins all destination css_sets, links each to its source, and append them
+to \fImgctx->preloaded_dst_csets\fP.
+
+This function must be called after \fBcgroup_migrate_add_src\fP has been
+called on each migration source css_set.  After migration is performed
+using \fBcgroup_migrate\fP, \fBcgroup_migrate_finish\fP must be called on
+\fImgctx\fP.

@@ -1,0 +1,25 @@
+.TH "fcoe_ctlr_els_send" 9 "fcoe_ctlr_els_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_ctlr_els_send \- Send an ELS frame encapsulated by FIP if appropriate.
+.SH SYNOPSIS
+.B "int" fcoe_ctlr_els_send
+.BI "(struct fcoe_ctlr *fip "  ","
+.BI "struct fc_lport *lport "  ","
+.BI "struct sk_buff *skb "  ");"
+.SH ARGUMENTS
+.IP "fip" 12
+FCoE controller.
+.IP "lport" 12
+libfc fc_lport to send from
+.IP "skb" 12
+FCoE ELS frame including FC header but no FCoE headers.
+.SH "DESCRIPTION"
+Returns a non-zero error code if the frame should not be sent.
+Returns zero if the caller should send the frame with FCoE encapsulation.
+
+The caller must check that the length is a multiple of 4.
+The SKB must have enough headroom (28 bytes) and tailroom (8 bytes).
+The the skb must also be an fc_frame.
+
+This is called from the lower-level driver with spinlocks held,
+so we must not take a mutex here.

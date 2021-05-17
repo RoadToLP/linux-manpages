@@ -1,0 +1,24 @@
+.TH "block_invalidatepage" 9 "block_invalidatepage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+block_invalidatepage \- invalidate part or all of a buffer-backed page
+.SH SYNOPSIS
+.B "void" block_invalidatepage
+.BI "(struct page *page "  ","
+.BI "unsigned int offset "  ","
+.BI "unsigned int length "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page which is affected
+.IP "offset" 12
+start of the range to invalidate
+.IP "length" 12
+length of the range to invalidate
+.SH "DESCRIPTION"
+\fBblock_invalidatepage\fP is called when all or part of the page has become
+invalidated by a truncate operation.
+
+\fBblock_invalidatepage\fP does not have to release all buffers, but it must
+ensure that no dirty buffer is left outside \fIoffset\fP and that no I/O
+is underway against any of the blocks which are outside the truncation
+point.  Because the caller is about to free (and possibly reuse) those
+blocks on-disk.

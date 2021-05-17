@@ -1,0 +1,25 @@
+.TH "generic_fillattr" 9 "generic_fillattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+generic_fillattr \- Fill in the basic attributes from the inode struct
+.SH SYNOPSIS
+.B "void" generic_fillattr
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "struct kstat *stat "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+user namespace of the mount the inode was found from
+.IP "inode" 12
+Inode to use as the source
+.IP "stat" 12
+Where to fill in the attributes
+.SH "DESCRIPTION"
+Fill in the basic attributes in the kstat structure from data that's to be
+found on the VFS inode structure.  This is the default if no getattr inode
+operation is supplied.
+
+If the inode has been found through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then
+take care to map the inode according to \fImnt_userns\fP before filling in the
+uid and gid filds. On non-idmapped mounts or if permission checking is to be
+performed on the raw inode simply passs init_user_ns.

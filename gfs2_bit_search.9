@@ -1,0 +1,26 @@
+.TH "gfs2_bit_search" 9 "gfs2_bit_search" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_bit_search \- 
+.SH SYNOPSIS
+.B "u64" gfs2_bit_search
+.BI "(const __le64 *ptr "  ","
+.BI "u64 mask "  ","
+.BI "u8 state "  ");"
+.SH ARGUMENTS
+.IP "ptr" 12
+Pointer to bitmap data
+.IP "mask" 12
+Mask to use (normally 0x55555.... but adjusted for search start)
+.IP "state" 12
+The state we are searching for
+.SH "DESCRIPTION"
+We xor the bitmap data with a patter which is the bitwise opposite
+of what we are looking for, this gives rise to a pattern of ones
+wherever there is a match. Since we have two bits per entry, we
+take this pattern, shift it down by one place and then and it with
+the original. All the even bit positions (0,2,4, etc) then represent
+successful matches, so we mask with 0x55555..... to remove the unwanted
+odd bit positions.
+
+This allows searching of a whole u64 at once (32 blocks) with a
+single test (on 64 bit arches).

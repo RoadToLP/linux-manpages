@@ -1,0 +1,35 @@
+.TH "ubifs_jnl_xrename" 9 "ubifs_jnl_xrename" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubifs_jnl_xrename \- cross rename two directory entries.
+.SH SYNOPSIS
+.B "int" ubifs_jnl_xrename
+.BI "(struct ubifs_info *c "  ","
+.BI "const struct inode *fst_dir "  ","
+.BI "const struct inode *fst_inode "  ","
+.BI "const struct fscrypt_name *fst_nm "  ","
+.BI "const struct inode *snd_dir "  ","
+.BI "const struct inode *snd_inode "  ","
+.BI "const struct fscrypt_name *snd_nm "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "fst_dir" 12
+parent inode of 1st directory entry to exchange
+.IP "fst_inode" 12
+1st inode to exchange
+.IP "fst_nm" 12
+name of 1st inode to exchange
+.IP "snd_dir" 12
+parent inode of 2nd directory entry to exchange
+.IP "snd_inode" 12
+2nd inode to exchange
+.IP "snd_nm" 12
+name of 2nd inode to exchange
+.IP "sync" 12
+non-zero if the write-buffer has to be synchronized
+.SH "DESCRIPTION"
+This function implements the cross rename operation which may involve
+writing 2 inodes and 2 directory entries. It marks the written inodes as clean
+and returns zero on success. In case of failure, a negative error code is
+returned.

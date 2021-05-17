@@ -1,0 +1,24 @@
+.TH "tb_next_port_on_path" 9 "tb_next_port_on_path" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_next_port_on_path \- Return next port for given port on a path
+.SH SYNOPSIS
+.B "struct tb_port *" tb_next_port_on_path
+.BI "(struct tb_port *start "  ","
+.BI "struct tb_port *end "  ","
+.BI "struct tb_port *prev "  ");"
+.SH ARGUMENTS
+.IP "start" 12
+Start port of the walk
+.IP "end" 12
+End port of the walk
+.IP "prev" 12
+Previous port (NULL if this is the first)
+.SH "DESCRIPTION"
+This function can be used to walk from one port to another if they
+are connected through zero or more switches. If the \fIprev\fP is dual
+link port, the function follows that link and returns another end on
+that same link.
+
+If the \fIend\fP port has been reached, return NULL.
+
+Domain tb->lock must be held when this function is called.

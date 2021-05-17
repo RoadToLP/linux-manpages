@@ -1,0 +1,24 @@
+.TH "nd_pmem_available_dpa" 9 "nd_pmem_available_dpa" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nd_pmem_available_dpa \- for the given dimm+region account unallocated dpa
+.SH SYNOPSIS
+.B "resource_size_t" nd_pmem_available_dpa
+.BI "(struct nd_region *nd_region "  ","
+.BI "struct nd_mapping *nd_mapping "  ","
+.BI "resource_size_t *overlap "  ");"
+.SH ARGUMENTS
+.IP "nd_region" 12
+constrain available space check to this reference region
+.IP "nd_mapping" 12
+container of dpa-resource-root + labels
+.IP "overlap" 12
+calculate available space assuming this level of overlap
+.SH "DESCRIPTION"
+Validate that a PMEM label, if present, aligns with the start of an
+interleave set and truncate the available size at the lowest BLK
+overlap point.
+
+The expectation is that this routine is called multiple times as it
+probes for the largest BLK encroachment for any single member DIMM of
+the interleave set.  Once that value is determined the PMEM-limit for
+the set can be established.

@@ -1,0 +1,19 @@
+.TH "ubi_leb_erase" 9 "ubi_leb_erase" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_leb_erase \- erase logical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_leb_erase
+.BI "(struct ubi_volume_desc *desc "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+volume descriptor
+.IP "lnum" 12
+logical eraseblock number
+.SH "DESCRIPTION"
+This function un-maps logical eraseblock \fIlnum\fP and synchronously erases the
+correspondent physical eraseblock. Returns zero in case of success and a
+negative error code in case of failure.
+
+If the volume is damaged because of an interrupted update this function just
+returns immediately with -EBADF code.

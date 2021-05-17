@@ -1,0 +1,21 @@
+.TH "stm32_adc_single_conv" 9 "stm32_adc_single_conv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32_adc_single_conv \- Performs a single conversion
+.SH SYNOPSIS
+.B "int" stm32_adc_single_conv
+.BI "(struct iio_dev *indio_dev "  ","
+.BI "const struct iio_chan_spec *chan "  ","
+.BI "int *res "  ");"
+.SH ARGUMENTS
+.IP "indio_dev" 12
+IIO device
+.IP "chan" 12
+IIO channel
+.IP "res" 12
+conversion result
+.SH "DESCRIPTION"
+The function performs a single conversion on a given channel:
+- Apply sampling time settings
+- Program sequencer with one channel (e.g. in SQ1 with len = 1)
+- Use SW trigger
+- Start conversion, then wait for interrupt completion.

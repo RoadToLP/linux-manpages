@@ -1,0 +1,21 @@
+.TH "ath5k_hw_start_tx_dma" 9 "ath5k_hw_start_tx_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_hw_start_tx_dma \- Start DMA transmit for a specific queue
+.SH SYNOPSIS
+.B "int" ath5k_hw_start_tx_dma
+.BI "(struct ath5k_hw *ah "  ","
+.BI "unsigned int queue "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.IP "queue" 12
+The hw queue number
+.SH "DESCRIPTION"
+Start DMA transmit for a specific queue and since 5210 doesn't have
+QCU/DCU, set up queue parameters for 5210 here based on queue type (one
+queue for normal data and one queue for beacons). For queue setup
+on newer chips check out qcu.c. Returns -EINVAL if queue number is out
+of range or if queue is already disabled.
+.SH "NOTE"
+Must be called after setting up tx control descriptor for that
+queue (see below).

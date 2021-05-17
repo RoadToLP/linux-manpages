@@ -1,0 +1,23 @@
+.TH "cdns_i2c_setclk" 9 "cdns_i2c_setclk" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns_i2c_setclk \- This function sets the serial clock rate for the I2C device
+.SH SYNOPSIS
+.B "int" cdns_i2c_setclk
+.BI "(unsigned long clk_in "  ","
+.BI "struct cdns_i2c *id "  ");"
+.SH ARGUMENTS
+.IP "clk_in" 12
+I2C clock input frequency in Hz
+.IP "id" 12
+Pointer to the I2C device structure
+.SH "DESCRIPTION"
+The device must be idle rather than busy transferring data before setting
+these device options.
+The data rate is set by values in the control register.
+The formula for determining the correct register values is
+Fscl = Fpclk/(22 x (divisor_a+1) x (divisor_b+1))
+See the hardware data sheet for a full explanation of setting the serial
+clock rate. The clock can not be faster than the input clock divide by 22.
+The two most common clock rates are 100KHz and 400KHz.
+.SH "RETURN"
+0 on success, negative error otherwise

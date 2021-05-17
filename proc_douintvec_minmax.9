@@ -1,0 +1,32 @@
+.TH "proc_douintvec_minmax" 9 "proc_douintvec_minmax" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+proc_douintvec_minmax \- read a vector of unsigned ints with min/max values
+.SH SYNOPSIS
+.B "int" proc_douintvec_minmax
+.BI "(struct ctl_table *table "  ","
+.BI "int write "  ","
+.BI "void *buffer "  ","
+.BI "size_t *lenp "  ","
+.BI "loff_t *ppos "  ");"
+.SH ARGUMENTS
+.IP "table" 12
+the sysctl table
+.IP "write" 12
+TRUE if this is a write to the sysctl file
+.IP "buffer" 12
+the user buffer
+.IP "lenp" 12
+the size of the user buffer
+.IP "ppos" 12
+file position
+.SH "DESCRIPTION"
+Reads/writes up to table->maxlen/sizeof(unsigned int) unsigned integer
+values from/to the user buffer, treated as an ASCII string. Negative
+strings are not allowed.
+
+This routine will ensure the values are within the range specified by
+table->extra1 (min) and table->extra2 (max). There is a final sanity
+check for UINT_MAX to avoid having to support wrap around uses from
+userspace.
+
+Returns 0 on success or -ERANGE on write when the range check fails.

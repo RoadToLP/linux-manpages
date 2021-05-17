@@ -1,0 +1,16 @@
+.TH "intel_shared_dpll_swap_state" 9 "intel_shared_dpll_swap_state" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_shared_dpll_swap_state \- make atomic DPLL configuration effective
+.SH SYNOPSIS
+.B "void" intel_shared_dpll_swap_state
+.BI "(struct intel_atomic_state *state "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.SH "DESCRIPTION"
+This is the dpll version of \fBdrm_atomic_helper_swap_state\fP since the
+helper does not handle driver-specific global state.
+
+For consistency with atomic helpers this function does a complete swap,
+i.e. it also puts the current state into \fIstate\fP, even though there is no
+need for that at this moment.

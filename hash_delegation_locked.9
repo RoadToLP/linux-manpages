@@ -1,0 +1,17 @@
+.TH "hash_delegation_locked" 9 "hash_delegation_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hash_delegation_locked \- Add a delegation to the appropriate lists
+.SH SYNOPSIS
+.B "int" hash_delegation_locked
+.BI "(struct nfs4_delegation *dp "  ","
+.BI "struct nfs4_file *fp "  ");"
+.SH ARGUMENTS
+.IP "dp" 12
+a pointer to the nfs4_delegation we are adding.
+.IP "fp" 12
+a pointer to the nfs4_file we're granting a delegation on
+.SH "RETURN"
+On success: NULL if the delegation was successfully hashed.
+
+On error: -EAGAIN if one was previously granted to this
+nfs4_client for this nfs4_file. Delegation is not hashed.

@@ -1,0 +1,21 @@
+.TH "bd_may_claim" 9 "bd_may_claim" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bd_may_claim \- test whether a block device can be claimed
+.SH SYNOPSIS
+.B "bool" bd_may_claim
+.BI "(struct block_device *bdev "  ","
+.BI "struct block_device *whole "  ","
+.BI "void *holder "  ");"
+.SH ARGUMENTS
+.IP "bdev" 12
+block device of interest
+.IP "whole" 12
+whole block device containing \fIbdev\fP, may equal \fIbdev\fP
+.IP "holder" 12
+holder trying to claim \fIbdev\fP
+.SH "DESCRIPTION"
+Test whether \fIbdev\fP can be claimed by \fIholder\fP.
+.SH "CONTEXT"
+spin_lock(\fIbdev_lock\fP).
+.SH "RETURN"
+true if \fIbdev\fP can be claimed, false otherwise.

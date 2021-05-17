@@ -1,0 +1,31 @@
+.TH "_kvm_mips_map_page_fast" 9 "_kvm_mips_map_page_fast" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_kvm_mips_map_page_fast \- Fast path GPA fault handler.
+.SH SYNOPSIS
+.B "int" _kvm_mips_map_page_fast
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned long gpa "  ","
+.BI "bool write_fault "  ","
+.BI "pte_t *out_entry "  ","
+.BI "pte_t *out_buddy "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+VCPU pointer.
+.IP "gpa" 12
+Guest physical address of fault.
+.IP "write_fault" 12
+Whether the fault was due to a write.
+.IP "out_entry" 12
+New PTE for \fIgpa\fP (written on success unless NULL).
+.IP "out_buddy" 12
+New PTE for \fIgpa\fP's buddy (written on success unless
+NULL).
+.SH "DESCRIPTION"
+Perform fast path GPA fault handling, doing all that can be done without
+calling into KVM. This handles marking old pages young (for idle page
+tracking), and dirtying of clean pages (for dirty page logging).
+.SH "RETURN"
+0 on success, in which case we can update derived mappings and
+resume guest execution.
+-EFAULT on failure due to absent GPA mapping or write to
+read-only page, in which case KVM must be consulted.

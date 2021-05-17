@@ -1,0 +1,20 @@
+.TH "ssam_request_sync_free" 9 "ssam_request_sync_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_request_sync_free \- Free a synchronous request.
+.SH SYNOPSIS
+.B "void" ssam_request_sync_free
+.BI "(struct ssam_request_sync *rqst "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+The request to be freed.
+.SH "DESCRIPTION"
+Free a synchronous request and its corresponding buffer allocated with
+\fBssam_request_sync_alloc\fP. Do not use for requests allocated on the stack
+or via any other function.
+
+Warning: The caller must ensure that the request is not in use any more.
+I.e. the caller must ensure that it has the only reference to the request
+and the request is not currently pending. This means that the caller has
+either never submitted the request, request submission has failed, or the
+caller has waited until the submitted request has been completed via
+\fBssam_request_sync_wait\fP.

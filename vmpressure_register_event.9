@@ -1,0 +1,27 @@
+.TH "vmpressure_register_event" 9 "vmpressure_register_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmpressure_register_event \- Bind vmpressure notifications to an eventfd
+.SH SYNOPSIS
+.B "int" vmpressure_register_event
+.BI "(struct mem_cgroup *memcg "  ","
+.BI "struct eventfd_ctx *eventfd "  ","
+.BI "const char *args "  ");"
+.SH ARGUMENTS
+.IP "memcg" 12
+memcg that is interested in vmpressure notifications
+.IP "eventfd" 12
+eventfd context to link notifications with
+.IP "args" 12
+event arguments (pressure level threshold, optional mode)
+.SH "DESCRIPTION"
+This function associates eventfd context with the vmpressure
+infrastructure, so that the notifications will be delivered to the
+\fIeventfd\fP. The \fIargs\fP parameter is a comma-delimited string that denotes a
+pressure level threshold (one of vmpressure_str_levels, i.e. "low", "medium",
+or "critical") and an optional mode (one of vmpressure_str_modes, i.e.
+"hierarchy" or "local").
+
+To be used as memcg event method.
+.SH "RETURN"
+0 on success, -ENOMEM on memory failure or -EINVAL if \fIargs\fP could
+not be parsed.

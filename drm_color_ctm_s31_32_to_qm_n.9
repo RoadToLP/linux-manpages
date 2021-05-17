@@ -1,0 +1,27 @@
+.TH "drm_color_ctm_s31_32_to_qm_n" 9 "drm_color_ctm_s31_32_to_qm_n" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_color_ctm_s31_32_to_qm_n \- 
+.SH SYNOPSIS
+.B "u64" drm_color_ctm_s31_32_to_qm_n
+.BI "(u64 user_input "  ","
+.BI "u32 m "  ","
+.BI "u32 n "  ");"
+.SH ARGUMENTS
+.IP "user_input" 12
+input value
+.IP "m" 12
+number of integer bits, only support m <= 32, include the sign-bit
+.IP "n" 12
+number of fractional bits, only support n <= 32
+.SH "DESCRIPTION"
+Convert and clamp S31.32 sign-magnitude to Qm.n (signed 2's complement).
+The sign-bit BIT(m+n-1) and above are 0 for positive value and 1 for negative
+the range of value is [-2^(m-1), 2^(m-1) - 2^-n]
+
+For example
+A Q3.12 format number:
+- required bit: 3 + 12 = 15bits
+- range: [-2^2, 2^2 - 2^−15]
+.SH "NOTE"
+the m can be zero if all bit_precision are used to present fractional
+bits like Q0.32

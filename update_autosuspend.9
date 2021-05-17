@@ -1,0 +1,20 @@
+.TH "update_autosuspend" 9 "update_autosuspend" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_autosuspend \- Handle a change to a device's autosuspend settings.
+.SH SYNOPSIS
+.B "void" update_autosuspend
+.BI "(struct device *dev "  ","
+.BI "int old_delay "  ","
+.BI "int old_use "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "old_delay" 12
+The former autosuspend_delay value.
+.IP "old_use" 12
+The former use_autosuspend value.
+.SH "DESCRIPTION"
+Prevent runtime suspend if the new delay is negative and use_autosuspend is
+set; otherwise allow it.  Send an idle notification if suspends are allowed.
+
+This function must be called under dev->power.lock with interrupts disabled.

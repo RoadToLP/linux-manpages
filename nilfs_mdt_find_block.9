@@ -1,0 +1,35 @@
+.TH "nilfs_mdt_find_block" 9 "nilfs_mdt_find_block" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_mdt_find_block \- find and get a buffer on meta data file.
+.SH SYNOPSIS
+.B "int" nilfs_mdt_find_block
+.BI "(struct inode *inode "  ","
+.BI "unsigned long start "  ","
+.BI "unsigned long end "  ","
+.BI "unsigned long *blkoff "  ","
+.BI "struct buffer_head **out_bh "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode of the meta data file
+.IP "start" 12
+start block offset (inclusive)
+.IP "end" 12
+end block offset (inclusive)
+.IP "blkoff" 12
+block offset
+.IP "out_bh" 12
+place to store a pointer to buffer_head struct
+.SH "DESCRIPTION"
+\fBnilfs_mdt_find_block\fP looks up an existing block in range of
+[\fIstart\fP, \fIend\fP] and stores pointer to a buffer head of the block to
+\fIout_bh\fP, and block offset to \fIblkoff\fP, respectively.  \fIout_bh\fP and
+\fIblkoff\fP are substituted only when zero is returned.
+
+Return Value: On success, it returns 0. On error, the following negative
+error code is returned.
+
+-ENOMEM - Insufficient memory available.
+
+-EIO - I/O error
+
+-ENOENT - no block was found in the range

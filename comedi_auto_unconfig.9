@@ -1,0 +1,21 @@
+.TH "comedi_auto_unconfig" 9 "comedi_auto_unconfig" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+comedi_auto_unconfig \- Unconfigure auto-allocated COMEDI device
+.SH SYNOPSIS
+.B "void" comedi_auto_unconfig
+.BI "(struct device *hardware_device "  ");"
+.SH ARGUMENTS
+.IP "hardware_device" 12
+Hardware device previously passed to
+\fBcomedi_auto_config\fP.
+.SH "DESCRIPTION"
+Cleans up and eventually destroys the COMEDI device allocated by
+\fBcomedi_auto_config\fP for the same hardware device.  As part of this
+clean-up, the low-level COMEDI driver's 'detach' handler will be called.
+(The COMEDI device itself will persist in an unattached state if it is
+still open, until it is released, and any mmapped buffers will persist
+until they are munmapped.)
+
+This is usually called from a wrapper module in a bus-specific COMEDI
+module, which in turn is usually set as the bus device 'remove' function
+in the low-level COMEDI driver.

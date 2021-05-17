@@ -1,0 +1,17 @@
+.TH "ufshcd_disable_auto_bkops" 9 "ufshcd_disable_auto_bkops" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ufshcd_disable_auto_bkops \- block device in doing background operations
+.SH SYNOPSIS
+.B "int" ufshcd_disable_auto_bkops
+.BI "(struct ufs_hba *hba "  ");"
+.SH ARGUMENTS
+.IP "hba" 12
+per-adapter instance
+.SH "DESCRIPTION"
+Disabling background operations improves command response latency but
+has drawback of device moving into critical state where the device is
+not-operable. Make sure to call \fBufshcd_enable_auto_bkops\fP whenever the
+host is idle so that BKOPS are managed effectively without any negative
+impacts.
+
+Returns zero on success, non-zero on failure.

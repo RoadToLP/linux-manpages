@@ -1,0 +1,25 @@
+.TH "befs_find_key" 9 "befs_find_key" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+befs_find_key \- Search for a key within a node
+.SH SYNOPSIS
+.B "int" befs_find_key
+.BI "(struct super_block *sb "  ","
+.BI "struct befs_btree_node *node "  ","
+.BI "const char *findkey "  ","
+.BI "befs_off_t * value "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+Filesystem superblock
+.IP "node" 12
+Node to find the key within
+.IP "findkey" 12
+Keystring to search for
+.IP "value" 12
+If key is found, the value stored with the key is put here
+.SH "DESCRIPTION"
+Finds exact match if one exists, and returns BEFS_BT_MATCH.
+If there is no match and node's value array is too small for key, return
+BEFS_BT_OVERFLOW.
+If no match and node should countain this key, return BEFS_BT_NOT_FOUND.
+
+Uses binary search instead of a linear.

@@ -1,0 +1,20 @@
+.TH "drm_vma_node_revoke" 9 "drm_vma_node_revoke" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_vma_node_revoke \- Remove open-file from list of allowed users
+.SH SYNOPSIS
+.B "void" drm_vma_node_revoke
+.BI "(struct drm_vma_offset_node *node "  ","
+.BI "struct drm_file *tag "  ");"
+.SH ARGUMENTS
+.IP "node" 12
+Node to modify
+.IP "tag" 12
+Tag of file to remove
+.SH "DESCRIPTION"
+Decrement the ref-count of \fItag\fP in the list of allowed open-files on \fInode\fP.
+If the ref-count drops to zero, remove \fItag\fP from the list. You must call
+this once for every \fBdrm_vma_node_allow\fP on \fItag\fP.
+
+This is locked against concurrent access internally.
+
+If \fItag\fP is not on the list, nothing is done.

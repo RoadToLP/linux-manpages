@@ -1,0 +1,18 @@
+.TH "fm10k_sm_mbx_process_reset" 9 "fm10k_sm_mbx_process_reset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_sm_mbx_process_reset \- Process header with version == 0 (RESET)
+.SH SYNOPSIS
+.B "s32" fm10k_sm_mbx_process_reset
+.BI "(struct fm10k_hw *hw "  ","
+.BI "struct fm10k_mbx_info *mbx "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to hardware structure
+.IP "mbx" 12
+pointer to mailbox
+
+This function is meant to respond to a request where the version data
+is set to 0.  As such we will either terminate the connection or go
+into the connect state in order to re-establish the connection.  This
+function can also be used to respond to an error as the connection
+resetting would also be a means of dealing with errors.

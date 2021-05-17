@@ -1,0 +1,18 @@
+.TH "i915_gem_shrink_all" 9 "i915_gem_shrink_all" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i915_gem_shrink_all \- Shrink buffer object caches completely
+.SH SYNOPSIS
+.B "unsigned long" i915_gem_shrink_all
+.BI "(struct drm_i915_private *i915 "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device
+.SH "DESCRIPTION"
+This is a simple wraper around \fBi915_gem_shrink\fP to aggressively shrink all
+caches completely. It also first waits for and retires all outstanding
+requests to also be able to release backing storage for active objects.
+
+This should only be used in code to intentionally quiescent the gpu or as a
+last-ditch effort when memory seems to have run out.
+.SH "RETURN"
+The number of pages of backing storage actually released.

@@ -1,0 +1,17 @@
+.TH "ath5k_ani_calibration" 9 "ath5k_ani_calibration" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ath5k_ani_calibration \- The main ANI calibration function
+.SH SYNOPSIS
+.B "void" ath5k_ani_calibration
+.BI "(struct ath5k_hw *ah "  ");"
+.SH ARGUMENTS
+.IP "ah" 12
+The \fIstruct ath5k_hw\fP
+.SH "DESCRIPTION"
+We count OFDM and CCK errors relative to the time where we did not send or
+receive ("listen" time) and raise or lower immunity accordingly.
+This is called regularly (every second) from the calibration timer, but also
+when an error threshold has been reached.
+
+In order to synchronize access from different contexts, this should be
+called only indirectly by scheduling the ANI tasklet!

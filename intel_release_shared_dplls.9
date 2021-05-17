@@ -1,0 +1,18 @@
+.TH "intel_release_shared_dplls" 9 "intel_release_shared_dplls" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_release_shared_dplls \- end use of DPLLs by CRTC in atomic state
+.SH SYNOPSIS
+.B "void" intel_release_shared_dplls
+.BI "(struct intel_atomic_state *state "  ","
+.BI "struct intel_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.IP "crtc" 12
+crtc from which the DPLLs are to be released
+.SH "DESCRIPTION"
+This function releases all DPLLs reserved by \fBintel_reserve_shared_dplls\fP
+from the current atomic commit \fIstate\fP and the old \fIcrtc\fP atomic state.
+
+The new configuration in the atomic commit \fIstate\fP is made effective by
+calling \fBintel_shared_dpll_swap_state\fP.

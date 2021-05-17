@@ -1,0 +1,14 @@
+.TH "swsusp_write" 9 "swsusp_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+swsusp_write \- Write entire image and metadata.
+.SH SYNOPSIS
+.B "int" swsusp_write
+.BI "(unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "flags" 12
+flags to pass to the "boot" kernel in the image header
+
+It is important _NOT_ to umount filesystems at this point. We want
+them synced (in case something goes wrong) but we DO not want to mark
+filesystem clean: it is not. (And it does not matter, if we resume
+correctly, we'll mark system clean, anyway.)

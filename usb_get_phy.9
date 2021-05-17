@@ -1,0 +1,15 @@
+.TH "usb_get_phy" 9 "usb_get_phy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_get_phy \- find the USB PHY
+.SH SYNOPSIS
+.B "struct usb_phy *" usb_get_phy
+.BI "(enum usb_phy_type type "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+the type of the phy the controller requires
+.SH "DESCRIPTION"
+Returns the phy driver, after getting a refcount to it; or
+-ENODEV if there is no such phy.  The caller is responsible for
+calling \fBusb_put_phy\fP to release that count.
+
+For use by USB host and peripheral drivers.

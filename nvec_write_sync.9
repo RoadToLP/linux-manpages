@@ -1,0 +1,27 @@
+.TH "nvec_write_sync" 9 "nvec_write_sync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nvec_write_sync \- Write a message to nvec and read the response
+.SH SYNOPSIS
+.B "int" nvec_write_sync
+.BI "(struct nvec_chip *nvec "  ","
+.BI "const unsigned char *data "  ","
+.BI "short size "  ","
+.BI "struct nvec_msg **msg "  ");"
+.SH ARGUMENTS
+.IP "nvec" 12
+An \fIstruct nvec_chip\fP
+.IP "data" 12
+The data to write
+.IP "size" 12
+The size of \fIdata\fP
+.IP "msg" 12
+The response message received
+.SH "DESCRIPTION"
+This is similar to \fBnvec_write_async\fP, but waits for the
+request to be answered before returning. This function
+uses a mutex and can thus not be called from e.g.
+interrupt handlers.
+.SH "RETURN"
+0 on success, a negative error code on failure.
+The response message is returned in \fImsg\fP. Shall be freed
+with \fBnvec_msg_free\fP once no longer used.

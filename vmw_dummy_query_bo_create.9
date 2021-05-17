@@ -1,0 +1,17 @@
+.TH "vmw_dummy_query_bo_create" 9 "vmw_dummy_query_bo_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_dummy_query_bo_create \- create a bo to hold a dummy query result
+.SH SYNOPSIS
+.B "int" vmw_dummy_query_bo_create
+.BI "(struct vmw_private *dev_priv "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+A device private structure.
+.SH "DESCRIPTION"
+This function creates a small buffer object that holds the query
+result for dummy queries emitted as query barriers.
+The function will then map the first page and initialize a pending
+occlusion query result structure, Finally it will unmap the buffer.
+No interruptible waits are done within this function.
+
+Returns an error if bo creation or initialization fails.

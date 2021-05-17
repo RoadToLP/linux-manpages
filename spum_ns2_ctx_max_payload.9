@@ -1,0 +1,21 @@
+.TH "spum_ns2_ctx_max_payload" 9 "spum_ns2_ctx_max_payload" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spum_ns2_ctx_max_payload \- Determine the max length of the payload for a SPU message for a given cipher and hash alg context.
+.SH SYNOPSIS
+.B "u32" spum_ns2_ctx_max_payload
+.BI "(enum spu_cipher_alg cipher_alg "  ","
+.BI "enum spu_cipher_mode cipher_mode "  ","
+.BI "unsigned int blocksize "  ");"
+.SH ARGUMENTS
+.IP "cipher_alg" 12
+The cipher algorithm
+.IP "cipher_mode" 12
+The cipher mode
+.IP "blocksize" 12
+The size of a block of data for this algo
+.SH "DESCRIPTION"
+The max payload must be a multiple of the blocksize so that if a request is
+too large to fit in a single SPU message, the request can be broken into
+max_payload sized chunks. Each chunk must be a multiple of blocksize.
+.SH "RETURN"
+Max payload length in bytes

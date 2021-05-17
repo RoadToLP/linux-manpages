@@ -1,0 +1,18 @@
+.TH "auth_domain_cleanup" 9 "auth_domain_cleanup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+auth_domain_cleanup \- check that the auth_domain table is empty
+.SH SYNOPSIS
+.B "void" auth_domain_cleanup
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+On module unload the auth_domain_table must be empty.  To make it
+easier to catch bugs which don't clean up domains properly, we
+warn if anything remains in the table at cleanup time.
+
+Note that we cannot proactively remove the domains at this stage.
+The ->\fBrelease\fP function might be in a module that has already been
+unloaded.

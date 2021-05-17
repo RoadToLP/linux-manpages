@@ -1,0 +1,16 @@
+.TH "device_links_driver_bound" 9 "device_links_driver_bound" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_links_driver_bound \- Update device links after probing its driver.
+.SH SYNOPSIS
+.B "void" device_links_driver_bound
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to update the links for.
+.SH "DESCRIPTION"
+The probe has been successful, so update links from this device to any
+consumers by changing their status to "available".
+
+Also change the status of \fIdev\fP's links to suppliers to "active".
+
+Links without the DL_FLAG_MANAGED flag set are ignored.

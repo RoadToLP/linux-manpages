@@ -1,0 +1,37 @@
+.TH "ntfs_dir_fsync" 9 "ntfs_dir_fsync" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_dir_fsync \- sync a directory to disk
+.SH SYNOPSIS
+.B "int" ntfs_dir_fsync
+.BI "(struct file *filp "  ","
+.BI "loff_t start "  ","
+.BI "loff_t end "  ","
+.BI "int datasync "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+directory to be synced
+.IP "start" 12
+-- undescribed --
+.IP "end" 12
+-- undescribed --
+.IP "datasync" 12
+if non-zero only flush user data and not metadata
+.SH "DESCRIPTION"
+Data integrity sync of a directory to disk.  Used for fsync, fdatasync, and
+msync system calls.  This function is based on file.c::\fBntfs_file_fsync\fP.
+
+Write the mft record and all associated extent mft records as well as the
+$INDEX_ALLOCATION and $BITMAP attributes and then sync the block device.
+
+If \fIdatasync\fP is true, we do not wait on the inode(s) to be written out
+but we always wait on the page cache pages to be written out.
+
+Locking: Caller must hold i_mutex on the inode.
+
+TODO: We should probably also write all attribute/index inodes associated
+with this inode but since we have no simple way of getting to them we ignore
+this problem for now.  We do write the $BITMAP attribute if it is present
+which is the important one for a directory so things are not too bad.
+.SH "NOTE"
+In the past \fIfilp\fP could be NULL so we ignore it as we don't need it
+anyway.

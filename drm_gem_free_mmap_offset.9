@@ -1,0 +1,15 @@
+.TH "drm_gem_free_mmap_offset" 9 "drm_gem_free_mmap_offset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_gem_free_mmap_offset \- release a fake mmap offset for an object
+.SH SYNOPSIS
+.B "void" drm_gem_free_mmap_offset
+.BI "(struct drm_gem_object *obj "  ");"
+.SH ARGUMENTS
+.IP "obj" 12
+obj in question
+.SH "DESCRIPTION"
+This routine frees fake offsets allocated by \fBdrm_gem_create_mmap_offset\fP.
+
+Note that \fBdrm_gem_object_release\fP already calls this function, so drivers
+don't have to take care of releasing the mmap offset themselves when freeing
+the GEM object.

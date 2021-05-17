@@ -1,0 +1,22 @@
+.TH "amdgpu_doorbell_get_kfd_info" 9 "amdgpu_doorbell_get_kfd_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdgpu_doorbell_get_kfd_info \- Report doorbell configuration required to setup amdkfd
+.SH SYNOPSIS
+.B "void" amdgpu_doorbell_get_kfd_info
+.BI "(struct amdgpu_device *adev "  ","
+.BI "phys_addr_t *aperture_base "  ","
+.BI "size_t *aperture_size "  ","
+.BI "size_t *start_offset "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+amdgpu_device pointer
+.IP "aperture_base" 12
+output returning doorbell aperture base physical address
+.IP "aperture_size" 12
+output returning doorbell aperture size in bytes
+.IP "start_offset" 12
+output returning # of doorbell bytes reserved for amdgpu.
+.SH "DESCRIPTION"
+amdgpu and amdkfd share the doorbell aperture. amdgpu sets it up,
+takes doorbells required for its own rings and reports the setup to amdkfd.
+amdgpu reserved doorbells are at the start of the doorbell aperture.

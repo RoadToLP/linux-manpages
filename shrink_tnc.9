@@ -1,0 +1,21 @@
+.TH "shrink_tnc" 9 "shrink_tnc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+shrink_tnc \- shrink TNC tree.
+.SH SYNOPSIS
+.B "int" shrink_tnc
+.BI "(struct ubifs_info *c "  ","
+.BI "int nr "  ","
+.BI "int age "  ","
+.BI "int *contention "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "nr" 12
+number of znodes to free
+.IP "age" 12
+the age of znodes to free
+.IP "contention" 12
+if any contention, this is set to 1
+.SH "DESCRIPTION"
+This function traverses TNC tree and frees clean znodes. It does not free
+clean znodes which younger then \fIage\fP. Returns number of freed znodes.

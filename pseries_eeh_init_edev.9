@@ -1,0 +1,14 @@
+.TH "pseries_eeh_init_edev" 9 "pseries_eeh_init_edev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pseries_eeh_init_edev \- initialise the eeh_dev and eeh_pe for a pci_dn
+.SH SYNOPSIS
+.B "void" pseries_eeh_init_edev
+.BI "(struct pci_dn *pdn "  ");"
+.SH ARGUMENTS
+.IP "pdn" 12
+PCI device node
+.SH "DESCRIPTION"
+When we discover a new PCI device via the device-tree we create a
+corresponding pci_dn and we allocate, but don't initialise, an eeh_dev.
+This function takes care of the initialisation and inserts the eeh_dev
+into the correct eeh_pe. If no eeh_pe exists we'll allocate one.

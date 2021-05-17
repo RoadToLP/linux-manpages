@@ -1,0 +1,23 @@
+.TH "devm_gpio_request" 9 "devm_gpio_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_gpio_request \- request a GPIO for a managed device
+.SH SYNOPSIS
+.B "int" devm_gpio_request
+.BI "(struct device *dev "  ","
+.BI "unsigned gpio "  ","
+.BI "const char *label "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device to request the GPIO for
+.IP "gpio" 12
+GPIO to allocate
+.IP "label" 12
+the name of the requested GPIO
+
+Except for the extra \fIdev\fP argument, this function takes the
+same arguments and performs the same function as
+\fBgpio_request\fP.  GPIOs requested with this function will be
+automatically freed on driver detach.
+
+If an GPIO allocated with this function needs to be freed
+separately, \fBdevm_gpio_free\fP must be used.

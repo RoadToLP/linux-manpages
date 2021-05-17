@@ -1,0 +1,33 @@
+.TH "cxlflash_cxl_release" 9 "cxlflash_cxl_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cxlflash_cxl_release \- release handler for adapter file descriptor
+.SH SYNOPSIS
+.B "int" cxlflash_cxl_release
+.BI "(struct inode *inode "  ","
+.BI "struct file *file "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+File-system inode associated with fd.
+.IP "file" 12
+File installed with adapter file descriptor.
+.SH "DESCRIPTION"
+This routine is the release handler for the fops registered with
+the CXL services on an initial attach for a context. It is called
+when a close (explicity by the user or as part of a process tear
+down) is performed on the adapter file descriptor returned to the
+user. The user should be aware that explicitly performing a close
+considered catastrophic and subsequent usage of the superpipe API
+with previously saved off tokens will fail.
+
+This routine derives the context reference and calls detach for
+each LUN associated with the context.The final detach operation
+causes the context itself to be freed. With exception to when the
+CXL process element (context id) lookup fails (a case that should
+theoretically never occur), every call into this routine results
+in a complete freeing of a context.
+
+Detaching the LUN is typically an \fBioctl\fP operation and the underlying
+code assumes that ioctl_rwsem has been acquired as a reader. To support
+that design point, the semaphore is acquired and released around detach.
+.SH "RETURN"
+0 on success

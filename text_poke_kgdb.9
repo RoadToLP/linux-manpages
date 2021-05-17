@@ -1,0 +1,23 @@
+.TH "text_poke_kgdb" 9 "text_poke_kgdb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+text_poke_kgdb \- Update instructions on a live kernel by kgdb
+.SH SYNOPSIS
+.B "void *" text_poke_kgdb
+.BI "(void *addr "  ","
+.BI "const void *opcode "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "addr" 12
+address to modify
+.IP "opcode" 12
+source of the copy
+.IP "len" 12
+length to copy
+.SH "DESCRIPTION"
+Only atomic text poke/set should be allowed when not doing early patching.
+It means the size must be writable atomically and the address must be aligned
+in a way that permits an atomic write. It also makes sure we fit on a single
+page.
+.SH "CONTEXT"
+should only be used by kgdb, which ensures no other core is running,
+despite the fact it does not hold the text_mutex.

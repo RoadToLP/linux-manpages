@@ -1,0 +1,19 @@
+.TH "device_rmrr_is_relaxable" 9 "device_rmrr_is_relaxable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_rmrr_is_relaxable \- Test whether the RMRR of this device is relaxable (ie. is allowed to be not enforced under some conditions)
+.SH SYNOPSIS
+.B "bool" device_rmrr_is_relaxable
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device handle
+.SH "DESCRIPTION"
+We assume that PCI USB devices with RMRRs have them largely
+for historical reasons and that the RMRR space is not actively used post
+boot.  This exclusion may change if vendors begin to abuse it.
+
+The same exception is made for graphics devices, with the requirement that
+any use of the RMRR regions will be torn down before assigning the device
+to a guest.
+.SH "RETURN"
+true if the RMRR is relaxable, false otherwise

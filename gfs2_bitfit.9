@@ -1,0 +1,30 @@
+.TH "gfs2_bitfit" 9 "gfs2_bitfit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_bitfit \- Search an rgrp's bitmap buffer to find a bit-pair representing a block in a given allocation state.
+.SH SYNOPSIS
+.B "u32" gfs2_bitfit
+.BI "(const u8 *buf "  ","
+.BI "const unsigned int len "  ","
+.BI "u32 goal "  ","
+.BI "u8 state "  ");"
+.SH ARGUMENTS
+.IP "buf" 12
+the buffer that holds the bitmaps
+.IP "len" 12
+the length (in bytes) of the buffer
+.IP "goal" 12
+start search at this block's bit-pair (within \fIbuffer\fP)
+.IP "state" 12
+GFS2_BLKST_XXX the state of the block we're looking for.
+.SH "DESCRIPTION"
+Scope of \fIgoal\fP and returned block number is only within this bitmap buffer,
+not entire rgrp or filesystem.  \fIbuffer\fP will be offset from the actual
+beginning of a bitmap block buffer, skipping any header structures, but
+headers are always a multiple of 64 bits long so that the buffer is
+always aligned to a 64 bit boundary.
+
+The size of the buffer is in bytes, but is it assumed that it is
+always ok to read a complete multiple of 64 bits at the end
+of the block in case the end is no aligned to a natural boundary.
+.SH "RETURN"
+the block number (bitmap buffer scope) that was found

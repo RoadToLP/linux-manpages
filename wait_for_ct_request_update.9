@@ -1,0 +1,20 @@
+.TH "wait_for_ct_request_update" 9 "wait_for_ct_request_update" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wait_for_ct_request_update \- Wait for CT request state update.
+.SH SYNOPSIS
+.B "int" wait_for_ct_request_update
+.BI "(struct ct_request *req "  ","
+.BI "u32 *status "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+pointer to pending request
+.IP "status" 12
+placeholder for status
+.SH "DESCRIPTION"
+For each sent request, Guc shall send bac CT response message.
+Our message handler will update status of tracked request once
+response message with given fence is received. Wait here and
+check for valid response status value.
+.SH "RETURN"
+*    0 response received (status is valid)
+*    -ETIMEDOUT no response within hardcoded timeout

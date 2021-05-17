@@ -1,0 +1,29 @@
+.TH "dma_fifo_alloc" 9 "dma_fifo_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dma_fifo_alloc \- initialize and allocate dma_fifo
+.SH SYNOPSIS
+.B "int" dma_fifo_alloc
+.BI "(struct dma_fifo *fifo "  ","
+.BI "int size "  ","
+.BI "unsigned int align "  ","
+.BI "int tx_limit "  ","
+.BI "int open_limit "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "fifo" 12
+address of in-place "struct dma_fifo" object
+.IP "size" 12
+'apparent' size, in bytes, of fifo
+.IP "align" 12
+dma alignment to maintain (should be at least cpu cache alignment),
+must be power of 2
+.IP "tx_limit" 12
+maximum # of bytes transmissible per dma (rounded down to
+multiple of alignment, but at least align size)
+.IP "open_limit" 12
+maximum # of outstanding dma transactions allowed
+.IP "gfp_mask" 12
+get_free_pages mask, passed to \fBkmalloc\fP
+.SH "DESCRIPTION"
+The 'apparent' size will be rounded up to next greater aligned size.
+Returns 0 if no error, otherwise an error code

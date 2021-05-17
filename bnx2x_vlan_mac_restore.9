@@ -1,0 +1,26 @@
+.TH "bnx2x_vlan_mac_restore" 9 "bnx2x_vlan_mac_restore" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bnx2x_vlan_mac_restore \- reconfigure next MAC/VLAN/VLAN-MAC element
+.SH SYNOPSIS
+.B "int" bnx2x_vlan_mac_restore
+.BI "(struct bnx2x *bp "  ","
+.BI "struct bnx2x_vlan_mac_ramrod_params *p "  ","
+.BI "struct bnx2x_vlan_mac_registry_elem **ppos "  ");"
+.SH ARGUMENTS
+.IP "bp" 12
+device handle
+.IP "p" 12
+command parameters
+.IP "ppos" 12
+pointer to the cookie
+.SH "DESCRIPTION"
+reconfigure next MAC/VLAN/VLAN-MAC element from the
+previously configured elements list.
+
+from command parameters only RAMROD_COMP_WAIT bit in ramrod_flags is taken
+into an account
+
+pointer to the cookie  - that should be given back in the next call to make
+function handle the next element. If *ppos is set to NULL it will restart the
+iterator. If returned *ppos == NULL this means that the last element has been
+handled.

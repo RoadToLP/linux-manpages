@@ -1,0 +1,25 @@
+.TH "i40e_parse_rx_flow_user_data" 9 "i40e_parse_rx_flow_user_data" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_parse_rx_flow_user_data \- Deconstruct user-defined data
+.SH SYNOPSIS
+.B "int" i40e_parse_rx_flow_user_data
+.BI "(struct ethtool_rx_flow_spec *fsp "  ","
+.BI "struct i40e_rx_flow_userdef *data "  ");"
+.SH ARGUMENTS
+.IP "fsp" 12
+pointer to rx flow specification
+.IP "data" 12
+pointer to userdef data structure for storage
+.SH "DESCRIPTION"
+Read the user-defined data and deconstruct the value into a structure. No
+other code should read the user-defined data, so as to ensure that every
+place consistently reads the value correctly.
+
+The user-defined field is a 64bit Big Endian format value, which we
+deconstruct by reading bits or bit fields from it. Single bit flags shall
+be defined starting from the highest bits, while small bit field values
+shall be defined starting from the lowest bits.
+
+Returns 0 if the data is valid, and non-zero if the userdef data is invalid
+and the filter should be rejected. The data structure will always be
+modified even if FLOW_EXT is not set.

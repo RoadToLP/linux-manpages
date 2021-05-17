@@ -1,0 +1,20 @@
+.TH "lpt_heap_replace" 9 "lpt_heap_replace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpt_heap_replace \- replace lprops in a category heap.
+.SH SYNOPSIS
+.B "void" lpt_heap_replace
+.BI "(struct ubifs_info *c "  ","
+.BI "struct ubifs_lprops *new_lprops "  ","
+.BI "int cat "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.IP "new_lprops" 12
+LEB properties with which to replace
+.IP "cat" 12
+LEB category
+.SH "DESCRIPTION"
+During commit it is sometimes necessary to copy a pnode (see dirty_cow_pnode)
+and the lprops that the pnode contains.  When that happens, references in
+the category heaps to those lprops must be updated to point to the new
+lprops.  This function does that.

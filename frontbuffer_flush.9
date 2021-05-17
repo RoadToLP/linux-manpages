@@ -1,0 +1,21 @@
+.TH "frontbuffer_flush" 9 "frontbuffer_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+frontbuffer_flush \- flush frontbuffer
+.SH SYNOPSIS
+.B "void" frontbuffer_flush
+.BI "(struct drm_i915_private *i915 "  ","
+.BI "unsigned int frontbuffer_bits "  ","
+.BI "enum fb_op_origin origin "  ");"
+.SH ARGUMENTS
+.IP "i915" 12
+i915 device
+.IP "frontbuffer_bits" 12
+frontbuffer plane tracking bits
+.IP "origin" 12
+which operation caused the flush
+.SH "DESCRIPTION"
+This function gets called every time rendering on the given planes has
+completed and frontbuffer caching can be started again. Flushes will get
+delayed if they're blocked by some outstanding asynchronous rendering.
+
+Can be called without any locks held.

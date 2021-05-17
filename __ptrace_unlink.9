@@ -1,0 +1,32 @@
+.TH "__ptrace_unlink" 9 "__ptrace_unlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ptrace_unlink \- unlink ptracee and restore its execution state
+.SH SYNOPSIS
+.B "void" __ptrace_unlink
+.BI "(struct task_struct *child "  ");"
+.SH ARGUMENTS
+.IP "child" 12
+ptracee to be unlinked
+.SH "DESCRIPTION"
+Remove \fIchild\fP from the ptrace list, move it back to the original parent,
+and restore the execution state so that it conforms to the group stop
+state.
+
+Unlinking can happen via two paths - explicit PTRACE_DETACH or ptracer
+exiting.  For PTRACE_DETACH, unless the ptracee has been killed between
+\fBptrace_check_attach\fP and here, it's guaranteed to be in TASK_TRACED.
+If the ptracer is exiting, the ptracee can be in any state.
+
+After detach, the ptracee should be in a state which conforms to the
+group stop.  If the group is stopped or in the process of stopping, the
+ptracee should be put into TASK_STOPPED; otherwise, it should be woken
+up from TASK_TRACED.
+
+If the ptracee is in TASK_TRACED and needs to be moved to TASK_STOPPED,
+it goes through TRACED -> RUNNING -> STOPPED transition which is similar
+to but in the opposite direction of what happens while attaching to a
+stopped task.  However, in this direction, the intermediate RUNNING
+state is not hidden even from the current ptracer and if it immediately
+re-attaches and performs a WNOHANG wait(2), it may fail.
+.SH "CONTEXT"
+write_lock_irq(tasklist_lock)

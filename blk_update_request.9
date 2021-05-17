@@ -1,0 +1,32 @@
+.TH "blk_update_request" 9 "blk_update_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+blk_update_request \- Special helper function for request stacking drivers
+.SH SYNOPSIS
+.B "bool" blk_update_request
+.BI "(struct request *req "  ","
+.BI "blk_status_t error "  ","
+.BI "unsigned int nr_bytes "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+the request being processed
+.IP "error" 12
+block status code
+.IP "nr_bytes" 12
+number of bytes to complete \fIreq\fP
+.SH "DESCRIPTION"
+Ends I/O on a number of bytes attached to \fIreq\fP, but doesn't complete
+the request structure even if \fIreq\fP doesn't have leftover.
+If \fIreq\fP has leftover, sets it up for the next range of segments.
+
+This special helper function is only for request stacking drivers
+(e.g. request-based dm) so that they can handle partial completion.
+Actual device drivers should use blk_mq_end_request instead.
+
+Passing the result of \fBblk_rq_bytes\fP as \fInr_bytes\fP guarantees
+false return from this function.
+.SH "NOTE"
+The RQF_SPECIAL_PAYLOAD flag is ignored on purpose in both
+\fBblk_rq_bytes\fP and in \fBblk_update_request\fP.
+.SH "RETURN"
+false - this request doesn't have any more data
+true  - this request has more data

@@ -1,0 +1,20 @@
+.TH "tomoyo_supervisor" 9 "tomoyo_supervisor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tomoyo_supervisor \- Ask for the supervisor's decision.
+.SH SYNOPSIS
+.B "int" tomoyo_supervisor
+.BI "(struct tomoyo_request_info *r "  ","
+.BI "const char *fmt "  ","
+.BI "... "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+Pointer to "struct tomoyo_request_info".
+.IP "fmt" 12
+The \fBprintf\fP's format string, followed by parameters.
+.IP "..." 12
+variable arguments
+.SH "DESCRIPTION"
+Returns 0 if the supervisor decided to permit the access request which
+violated the policy in enforcing mode, TOMOYO_RETRY_REQUEST if the
+supervisor decided to retry the access request which violated the policy in
+enforcing mode, 0 if it is not in enforcing mode, -EPERM otherwise.

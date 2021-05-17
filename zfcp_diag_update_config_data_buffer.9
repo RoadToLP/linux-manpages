@@ -1,0 +1,19 @@
+.TH "zfcp_diag_update_config_data_buffer" 9 "zfcp_diag_update_config_data_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+zfcp_diag_update_config_data_buffer \- Implementation of &typedef zfcp_diag_update_buffer_func to collect and update Config Data.
+.SH SYNOPSIS
+.B "int" zfcp_diag_update_config_data_buffer
+.BI "(struct zfcp_adapter *const adapter "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+Adapter to collect Config Data from.
+.SH "DESCRIPTION"
+This call is SYNCHRONOUS ! It blocks till the respective command has
+finished completely, or has failed in some way.
+.SH "RETURN"
+* 0          - Successfully retrieved new Diagnostics and Updated the buffer;
+this also includes cases where data was retrieved, but
+incomplete; you'll have to check the flag ``incomplete``
+of \fIstruct zfcp_diag_header\fP.
+* see \fBzfcp_fsf_exchange_config_data_sync\fP for possible error-codes (
+excluding -EAGAIN)

@@ -1,0 +1,18 @@
+.TH "scsi_internal_device_block_nowait" 9 "scsi_internal_device_block_nowait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+scsi_internal_device_block_nowait \- try to transition to the SDEV_BLOCK state
+.SH SYNOPSIS
+.B "int" scsi_internal_device_block_nowait
+.BI "(struct scsi_device *sdev "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+device to block
+.SH "DESCRIPTION"
+Pause SCSI command processing on the specified device. Does not sleep.
+
+Returns zero if successful or a negative error code upon failure.
+.SH "NOTES"
+This routine transitions the device to the SDEV_BLOCK state (which must be
+a legal transition). When the device is in this state, command processing
+is paused until the device leaves the SDEV_BLOCK state. See also
+\fBscsi_internal_device_unblock_nowait\fP.

@@ -1,0 +1,22 @@
+.TH "sifive_serial_clk_notifier" 9 "sifive_serial_clk_notifier" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sifive_serial_clk_notifier \- clock post-rate-change notifier
+.SH SYNOPSIS
+.B "int" sifive_serial_clk_notifier
+.BI "(struct notifier_block *nb "  ","
+.BI "unsigned long event "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "nb" 12
+pointer to the struct notifier_block, from the notifier code
+.IP "event" 12
+event mask from the notifier code
+.IP "data" 12
+pointer to the struct clk_notifier_data from the notifier code
+.SH "DESCRIPTION"
+On the V0 SoC, the UART IP block is derived from the CPU clock source
+after a synchronous divide-by-two divider, so any CPU clock rate change
+requires the UART baud rate to be updated.  This presumably corrupts any
+serial word currently being transmitted or received.  In order to avoid
+corrupting the output data stream, we drain the transmit queue before
+allowing the clock's rate to be changed.

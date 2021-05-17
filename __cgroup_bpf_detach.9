@@ -1,0 +1,21 @@
+.TH "__cgroup_bpf_detach" 9 "__cgroup_bpf_detach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cgroup_bpf_detach \- Detach the program or link from a cgroup, and propagate the change to descendants
+.SH SYNOPSIS
+.B "int" __cgroup_bpf_detach
+.BI "(struct cgroup *cgrp "  ","
+.BI "struct bpf_prog *prog "  ","
+.BI "struct bpf_cgroup_link *link "  ","
+.BI "enum bpf_attach_type type "  ");"
+.SH ARGUMENTS
+.IP "cgrp" 12
+The cgroup which descendants to traverse
+.IP "prog" 12
+A link to detach or NULL
+.IP "link" 12
+-- undescribed --
+.IP "type" 12
+Type of detach operation
+.SH "DESCRIPTION"
+At most one of \fIprog\fP or \fIlink\fP can be non-NULL.
+Must be called with cgroup_mutex held.

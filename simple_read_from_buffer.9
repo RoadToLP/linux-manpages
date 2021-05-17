@@ -1,0 +1,27 @@
+.TH "simple_read_from_buffer" 9 "simple_read_from_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+simple_read_from_buffer \- copy data from the buffer to user space
+.SH SYNOPSIS
+.B "ssize_t" simple_read_from_buffer
+.BI "(void __user *to "  ","
+.BI "size_t count "  ","
+.BI "loff_t *ppos "  ","
+.BI "const void *from "  ","
+.BI "size_t available "  ");"
+.SH ARGUMENTS
+.IP "to" 12
+the user space buffer to read to
+.IP "count" 12
+the maximum number of bytes to read
+.IP "ppos" 12
+the current position in the buffer
+.IP "from" 12
+the buffer to read from
+.IP "available" 12
+the size of the buffer
+.SH "DESCRIPTION"
+The \fBsimple_read_from_buffer\fP function reads up to \fIcount\fP bytes from the
+buffer \fIfrom\fP at offset \fIppos\fP into the user space address starting at \fIto\fP.
+
+On success, the number of bytes read is returned and the offset \fIppos\fP is
+advanced by this number, or negative value is returned on error.

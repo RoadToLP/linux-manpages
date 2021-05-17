@@ -1,0 +1,43 @@
+.TH "nfs3_decode_dirent" 9 "nfs3_decode_dirent" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfs3_decode_dirent \- Decode a single NFSv3 directory entry stored in the local page cache
+.SH SYNOPSIS
+.B "int" nfs3_decode_dirent
+.BI "(struct xdr_stream *xdr "  ","
+.BI "struct nfs_entry *entry "  ","
+.BI "bool plus "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+XDR stream where entry resides
+.IP "entry" 12
+buffer to fill in with entry data
+.IP "plus" 12
+boolean indicating whether this should be a readdirplus entry
+.SH "DESCRIPTION"
+Returns zero if successful, otherwise a negative errno value is
+returned.
+
+This function is not invoked during READDIR reply decoding, but
+rather whenever an application invokes the getdents(2) system call
+on a directory already in our cache.
+
+3.3.16  entry3
+
+struct entry3 {
+fileid3         fileid;
+filename3       name;
+cookie3         cookie;
+fhandle3        filehandle;
+post_op_attr3   attributes;
+entry3          *nextentry;
+};
+
+3.3.17  entryplus3
+struct entryplus3 {
+fileid3         fileid;
+filename3       name;
+cookie3         cookie;
+post_op_attr    name_attributes;
+post_op_fh3     name_handle;
+entryplus3      *nextentry;
+};

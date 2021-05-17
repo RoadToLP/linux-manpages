@@ -1,0 +1,21 @@
+.TH "pci_ext_cfg_is_aliased" 9 "pci_ext_cfg_is_aliased" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_ext_cfg_is_aliased \- Is ext config space just an alias of std config?
+.SH SYNOPSIS
+.B "bool" pci_ext_cfg_is_aliased
+.BI "(struct pci_dev *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device
+.SH "DESCRIPTION"
+PCI Express to PCI/PCI-X Bridge Specification, rev 1.0, 4.1.4 says that
+when forwarding a type1 configuration request the bridge must check that
+the extended register address field is zero.  The bridge is not permitted
+to forward the transactions and must handle it as an Unsupported Request.
+Some bridges do not follow this rule and simply drop the extended register
+bits, resulting in the standard config space being aliased, every 256
+bytes across the entire configuration space.  Test for this condition by
+comparing the first dword of each potential alias to the vendor/device ID.
+Known offenders:
+ASM1083/1085 PCIe-to-PCI Reversible Bridge (1b21:1080, rev 01 & 03)
+AMD/ATI SBx00 PCI to PCI Bridge (1002:4384, rev 40)

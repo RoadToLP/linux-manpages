@@ -1,0 +1,26 @@
+.TH "batadv_bla_tx" 9 "batadv_bla_tx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_bla_tx \- check packets going into the mesh
+.SH SYNOPSIS
+.B "bool" batadv_bla_tx
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned short vid "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "skb" 12
+the frame to be checked
+.IP "vid" 12
+the VLAN ID of the frame
+.SH "DESCRIPTION"
+batadv_bla_tx checks if:
+* a claim was received which has to be processed
+* the frame is allowed on the mesh
+
+in these cases, the skb is further handled by this function.
+
+This call might reallocate skb data.
+.SH "RETURN"
+true if handled, otherwise it returns false and the caller shall
+further process the skb.

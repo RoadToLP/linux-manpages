@@ -1,0 +1,53 @@
+.TH "pipapo_unmap" 9 "pipapo_unmap" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pipapo_unmap \- Remove rules from mapping tables, renumber remaining ones
+.SH SYNOPSIS
+.B "void" pipapo_unmap
+.BI "(union nft_pipapo_map_bucket *mt "  ","
+.BI "int rules "  ","
+.BI "int start "  ","
+.BI "int n "  ","
+.BI "int to_offset "  ","
+.BI "bool is_last "  ");"
+.SH ARGUMENTS
+.IP "mt" 12
+Mapping array
+.IP "rules" 12
+Original amount of rules in mapping table
+.IP "start" 12
+First rule index to be removed
+.IP "n" 12
+Amount of rules to be removed
+.IP "to_offset" 12
+First rule index, in next field, this group of rules maps to
+.IP "is_last" 12
+If this is the last field, delete reference from mapping array
+.SH "DESCRIPTION"
+This is used to unmap rules from the mapping table for a single field,
+maintaining consistency and compactness for the existing ones.
+
+In pictures: let's assume that we want to delete rules 2 and 3 from the
+following mapping array:
+
+rules
+0      1      2      3      4
+map to:  4-10   4-10   11-15  11-15  16-18
+
+the result will be:
+
+rules
+0      1      2
+map to:  4-10   4-10   11-13
+
+for fields before the last one. In case this is the mapping table for the
+last field in a set, and rules map to pointers to \fIstruct nft_pipapo_elem\fP:
+
+rules
+0      1      2      3      4
+element pointers:  0x42   0x42   0x33   0x33   0x44
+
+the result will be:
+
+rules
+0      1      2
+element pointers:  0x42   0x42   0x44

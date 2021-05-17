@@ -1,0 +1,31 @@
+.TH "rdma_user_mmap_entry_insert_range" 9 "rdma_user_mmap_entry_insert_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_user_mmap_entry_insert_range \- Insert an entry to the mmap_xa in a given range.
+.SH SYNOPSIS
+.B "int" rdma_user_mmap_entry_insert_range
+.BI "(struct ib_ucontext *ucontext "  ","
+.BI "struct rdma_user_mmap_entry *entry "  ","
+.BI "size_t length "  ","
+.BI "u32 min_pgoff "  ","
+.BI "u32 max_pgoff "  ");"
+.SH ARGUMENTS
+.IP "ucontext" 12
+associated user context.
+.IP "entry" 12
+the entry to insert into the mmap_xa
+.IP "length" 12
+length of the address that will be mmapped
+.IP "min_pgoff" 12
+minimum pgoff to be returned
+.IP "max_pgoff" 12
+maximum pgoff to be returned
+.SH "DESCRIPTION"
+This function should be called by drivers that use the rdma_user_mmap
+interface for implementing their mmap syscall A database of mmap offsets is
+handled in the core and helper functions are provided to insert entries
+into the database and extract entries when the user calls mmap with the
+given offset. The function allocates a unique page offset in a given range
+that should be provided to user, the user will use the offset to retrieve
+information such as address to be mapped and how.
+.SH "RETURN"
+0 on success and -ENOMEM on failure

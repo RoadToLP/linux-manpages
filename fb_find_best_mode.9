@@ -1,0 +1,22 @@
+.TH "fb_find_best_mode" 9 "fb_find_best_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fb_find_best_mode \- find best matching videomode
+.SH SYNOPSIS
+.B "const struct fb_videomode *" fb_find_best_mode
+.BI "(const struct fb_var_screeninfo *var "  ","
+.BI "struct list_head *head "  ");"
+.SH ARGUMENTS
+.IP "var" 12
+pointer to struct fb_var_screeninfo
+.IP "head" 12
+pointer to struct list_head of modelist
+.SH "RETURN"
+struct fb_videomode, NULL if none found
+.SH "DESCRIPTION"
+IMPORTANT:
+This function assumes that all modelist entries in
+info->modelist are valid.
+.SH "NOTES"
+Finds best matching videomode which has an equal or greater dimension than
+var->xres and var->yres.  If more than 1 videomode is found, will return
+the videomode with the highest refresh rate

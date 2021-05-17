@@ -1,0 +1,17 @@
+.TH "s5p_hash_prepare_request" 9 "s5p_hash_prepare_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+s5p_hash_prepare_request \- prepare request for processing
+.SH SYNOPSIS
+.B "int" s5p_hash_prepare_request
+.BI "(struct ahash_request *req "  ","
+.BI "bool update "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+AHASH request
+.IP "update" 12
+true if UPDATE op
+.SH "DESCRIPTION"
+Note 1: we can have update flag _and_ final flag at the same time.
+Note 2: we enter here when digcnt > BUFLEN (=HASH_BLOCK_SIZE) or
+either req->nbytes or ctx->bufcnt + req->nbytes is > BUFLEN or
+we have final op

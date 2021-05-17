@@ -1,0 +1,30 @@
+.TH "i2c_smbus_read_i2c_block_data_or_emulated" 9 "i2c_smbus_read_i2c_block_data_or_emulated" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i2c_smbus_read_i2c_block_data_or_emulated \- read block or emulate
+.SH SYNOPSIS
+.B "s32" i2c_smbus_read_i2c_block_data_or_emulated
+.BI "(const struct i2c_client *client "  ","
+.BI "u8 command "  ","
+.BI "u8 length "  ","
+.BI "u8 *values "  ");"
+.SH ARGUMENTS
+.IP "client" 12
+Handle to slave device
+.IP "command" 12
+Byte interpreted by slave
+.IP "length" 12
+Size of data block; SMBus allows at most I2C_SMBUS_BLOCK_MAX bytes
+.IP "values" 12
+Byte array into which data will be read; big enough to hold
+the data returned by the slave.  SMBus allows at most
+I2C_SMBUS_BLOCK_MAX bytes.
+.SH "DESCRIPTION"
+This executes the SMBus "block read" protocol if supported by the adapter.
+If block read is not supported, it emulates it using either word or byte
+read protocols depending on availability.
+
+The addresses of the I2C slave device that are accessed with this function
+must be mapped to a linear region, so that a block read will have the same
+effect as a byte read. Before using this function you must double-check
+if the I2C slave does support exchanging a block transfer with a byte
+transfer.

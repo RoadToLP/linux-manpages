@@ -1,0 +1,19 @@
+.TH "event_device_add" 9 "event_device_add" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+event_device_add \- Callback when creating a new device.
+.SH SYNOPSIS
+.B "int" event_device_add
+.BI "(struct acpi_device *adev "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+ACPI device that we will be receiving events from.
+.SH "DESCRIPTION"
+This finds a free minor number for the device, allocates and initializes
+some device data, and creates a new device and char dev node.
+
+The device data is freed in \fBfree_device_data\fP, which is called when
+dev_data->dev is \fBrelease\fPed. This happens after all references to
+dev_data->dev are dropped, which happens once both \fBevent_device_remove\fP
+has been called and every \fBopen\fPed file descriptor has been \fBrelease\fPed.
+.SH "RETURN"
+0 on success, negative error code on failure.

@@ -1,0 +1,21 @@
+.TH "__label_replace" 9 "__label_replace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__label_replace \- replace @old with @new in label set
+.SH SYNOPSIS
+.B "bool" __label_replace
+.BI "(struct aa_label *old "  ","
+.BI "struct aa_label *new "  ");"
+.SH ARGUMENTS
+.IP "old" 12
+label to remove from label set
+.IP "new" 12
+label to replace \fIold\fP with
+.SH "DESCRIPTION"
+Requires: labels_set(\fIold\fP)->lock write_lock
+valid ref count be held on \fInew\fP
+.SH "RETURN"
+true if \fIold\fP was in set and replaced by \fInew\fP
+.SH "NOTE"
+current implementation requires label set be order in such a way
+that \fInew\fP directly replaces \fIold\fP position in the set (ie.
+using pointer comparison of the label address would not work)

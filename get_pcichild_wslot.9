@@ -1,0 +1,20 @@
+.TH "get_pcichild_wslot" 9 "get_pcichild_wslot" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_pcichild_wslot \- Find device from slot
+.SH SYNOPSIS
+.B "struct hv_pci_dev *" get_pcichild_wslot
+.BI "(struct hv_pcibus_device *hbus "  ","
+.BI "u32 wslot "  ");"
+.SH ARGUMENTS
+.IP "hbus" 12
+Root PCI bus, as understood by this driver
+.IP "wslot" 12
+Location on the bus
+.SH "DESCRIPTION"
+This function looks up a PCI device and returns the internal
+representation of it.  It acquires a reference on it, so that
+the device won't be deleted while somebody is using it.  The
+caller is responsible for calling \fBput_pcichild\fP to release
+this reference.
+.SH "RETURN"
+Internal representation of a PCI device

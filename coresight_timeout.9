@@ -1,0 +1,21 @@
+.TH "coresight_timeout" 9 "coresight_timeout" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+coresight_timeout \- loop until a bit has changed to a specific register state.
+.SH SYNOPSIS
+.B "int" coresight_timeout
+.BI "(struct csdev_access *csa "  ","
+.BI "u32 offset "  ","
+.BI "int position "  ","
+.BI "int value "  ");"
+.SH ARGUMENTS
+.IP "csa" 12
+coresight device access for the device
+.IP "offset" 12
+Offset of the register from the base of the device.
+.IP "position" 12
+the position of the bit of interest.
+.IP "value" 12
+the value the bit should have.
+.SH "RETURN"
+0 as soon as the bit has taken the desired state or -EAGAIN if
+TIMEOUT_US has elapsed, which ever happens first.

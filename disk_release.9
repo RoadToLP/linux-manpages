@@ -1,0 +1,19 @@
+.TH "disk_release" 9 "disk_release" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+disk_release \- releases all allocated resources of the gendisk
+.SH SYNOPSIS
+.B "void" disk_release
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device representing this disk
+.SH "DESCRIPTION"
+This function releases all allocated resources of the gendisk.
+
+Drivers which used \fB__device_add_disk\fP have a gendisk with a request_queue
+assigned. Since the request_queue sits on top of the gendisk for these
+drivers we also call \fBblk_put_queue\fP for them, and we expect the
+request_queue refcount to reach 0 at this point, and so the request_queue
+will also be freed prior to the disk.
+.SH "CONTEXT"
+can sleep

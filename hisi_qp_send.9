@@ -1,0 +1,22 @@
+.TH "hisi_qp_send" 9 "hisi_qp_send" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hisi_qp_send \- Queue up a task in the hardware queue.
+.SH SYNOPSIS
+.B "int" hisi_qp_send
+.BI "(struct hisi_qp *qp "  ","
+.BI "const void *msg "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+The qp in which to put the message.
+.IP "msg" 12
+The message.
+.SH "DESCRIPTION"
+This function will return -EBUSY if qp is currently full, and -EAGAIN
+if qp related qm is resetting.
+.SH "NOTE"
+This function may run with qm_irq_thread and ACC reset at same time.
+It has no race with qm_irq_thread. However, during hisi_qp_send, ACC
+reset may happen, we have no lock here considering performance. This
+causes current qm_db sending fail or can not receive sended sqe. QM
+sync/async receive function should handle the error sqe. ACC reset
+done function should clear used sqe to 0.

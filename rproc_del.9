@@ -1,0 +1,20 @@
+.TH "rproc_del" 9 "rproc_del" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_del \- unregister a remote processor
+.SH SYNOPSIS
+.B "int" rproc_del
+.BI "(struct rproc *rproc "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+rproc handle to unregister
+.SH "DESCRIPTION"
+This function should be called when the platform specific rproc
+implementation decides to remove the rproc device. it should
+_only_ be called if a previous invocation of \fBrproc_add\fP
+has completed successfully.
+
+After \fBrproc_del\fP returns, \fIrproc\fP isn't freed yet, because
+of the outstanding reference created by rproc_alloc. To decrement that
+one last refcount, one still needs to call \fBrproc_free\fP.
+
+Returns 0 on success and -EINVAL if \fIrproc\fP isn't valid.

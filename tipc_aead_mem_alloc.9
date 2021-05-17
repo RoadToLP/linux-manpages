@@ -1,0 +1,30 @@
+.TH "tipc_aead_mem_alloc" 9 "tipc_aead_mem_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tipc_aead_mem_alloc \- Allocate memory for AEAD request operations
+.SH SYNOPSIS
+.B "void *" tipc_aead_mem_alloc
+.BI "(struct crypto_aead *tfm "  ","
+.BI "unsigned int crypto_ctx_size "  ","
+.BI "u8 **iv "  ","
+.BI "struct aead_request **req "  ","
+.BI "struct scatterlist **sg "  ","
+.BI "int nsg "  ");"
+.SH ARGUMENTS
+.IP "tfm" 12
+cipher handle to be registered with the request
+.IP "crypto_ctx_size" 12
+size of crypto context for callback
+.IP "iv" 12
+returned pointer to IV data
+.IP "req" 12
+returned pointer to AEAD request data
+.IP "sg" 12
+returned pointer to SG lists
+.IP "nsg" 12
+number of SG lists to be allocated
+.SH "DESCRIPTION"
+Allocate memory to store the crypto context data, AEAD request, IV and SG
+lists, the memory layout is as follows:
+crypto_ctx || iv || aead_req || sg[]
+.SH "RETURN"
+the pointer to the memory areas in case of success, otherwise NULL

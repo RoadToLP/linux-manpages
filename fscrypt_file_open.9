@@ -1,0 +1,27 @@
+.TH "fscrypt_file_open" 9 "fscrypt_file_open" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_file_open \- prepare to open a possibly-encrypted regular file
+.SH SYNOPSIS
+.B "int" fscrypt_file_open
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode being opened
+.IP "filp" 12
+the struct file being set up
+.SH "DESCRIPTION"
+Currently, an encrypted regular file can only be opened if its encryption key
+is available; access to the raw encrypted contents is not supported.
+Therefore, we first set up the inode's encryption key (if not already done)
+and return an error if it's unavailable.
+
+We also verify that if the parent directory (from the path via which the file
+is being opened) is encrypted, then the inode being opened uses the same
+encryption policy.  This is needed as part of the enforcement that all files
+in an encrypted directory tree use the same encryption policy, as a
+protection against certain types of offline attacks.  Note that this check is
+needed even when opening an *unencrypted* file, since it's forbidden to have
+an unencrypted file in an encrypted directory.
+.SH "RETURN"
+0 on success, -ENOKEY if the key is missing, or another -errno code

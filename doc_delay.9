@@ -1,0 +1,18 @@
+.TH "doc_delay" 9 "doc_delay" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+doc_delay \- delay docg3 operations
+.SH SYNOPSIS
+.B "void" doc_delay
+.BI "(struct docg3 *docg3 "  ","
+.BI "int nbNOPs "  ");"
+.SH ARGUMENTS
+.IP "docg3" 12
+the device
+.IP "nbNOPs" 12
+the number of NOPs to issue
+.SH "DESCRIPTION"
+As no specification is available, the right timings between chip commands are
+unknown. The only available piece of information are the observed nops on a
+working docg3 chip.
+Therefore, doc_delay relies on a busy loop of NOPs, instead of scheduler
+friendlier \fBmsleep\fP functions or blocking \fBmdelay\fP.

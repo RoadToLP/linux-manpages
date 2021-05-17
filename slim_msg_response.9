@@ -1,0 +1,23 @@
+.TH "slim_msg_response" 9 "slim_msg_response" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+slim_msg_response \- Deliver Message response received from a device to the framework.
+.SH SYNOPSIS
+.B "void" slim_msg_response
+.BI "(struct slim_controller *ctrl "  ","
+.BI "u8 *reply "  ","
+.BI "u8 tid "  ","
+.BI "u8 len "  ");"
+.SH ARGUMENTS
+.IP "ctrl" 12
+Controller handle
+.IP "reply" 12
+Reply received from the device
+.IP "tid" 12
+Transaction ID received with which framework can associate reply.
+.IP "len" 12
+Length of the reply
+.SH "DESCRIPTION"
+Called by controller to inform framework about the response received.
+This helps in making the API asynchronous, and controller-driver doesn't need
+to manage 1 more table other than the one managed by framework mapping TID
+with buffers

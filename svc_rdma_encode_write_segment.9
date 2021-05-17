@@ -1,0 +1,23 @@
+.TH "svc_rdma_encode_write_segment" 9 "svc_rdma_encode_write_segment" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_encode_write_segment \- Encode one Write segment
+.SH SYNOPSIS
+.B "ssize_t" svc_rdma_encode_write_segment
+.BI "(struct svc_rdma_send_ctxt *sctxt "  ","
+.BI "const struct svc_rdma_chunk *chunk "  ","
+.BI "u32 *remaining "  ","
+.BI "unsigned int segno "  ");"
+.SH ARGUMENTS
+.IP "sctxt" 12
+Send context for the RPC Reply
+.IP "chunk" 12
+Write chunk to push
+.IP "remaining" 12
+remaining bytes of the payload left in the Write chunk
+.IP "segno" 12
+which segment in the chunk
+.SH "DESCRIPTION"
+Return values:
+On success, returns length in bytes of the Reply XDR buffer
+that was consumed by the Write segment, and updates \fIremaining\fP
+-EMSGSIZE on XDR buffer overflow

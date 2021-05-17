@@ -1,0 +1,73 @@
+.TH "__ntfs_cluster_free" 9 "__ntfs_cluster_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__ntfs_cluster_free \- free clusters on an ntfs volume
+.SH SYNOPSIS
+.B "s64" __ntfs_cluster_free
+.BI "(ntfs_inode *ni "  ","
+.BI "const VCN start_vcn "  ","
+.BI "s64 count "  ","
+.BI "ntfs_attr_search_ctx *ctx "  ","
+.BI "const bool is_rollback "  ");"
+.SH ARGUMENTS
+.IP "ni" 12
+ntfs inode whose runlist describes the clusters to free
+.IP "start_vcn" 12
+vcn in the runlist of \fIni\fP at which to start freeing clusters
+.IP "count" 12
+number of clusters to free or -1 for all clusters
+.IP "ctx" 12
+active attribute search context if present or NULL if not
+.IP "is_rollback" 12
+true if this is a rollback operation
+.SH "DESCRIPTION"
+Free \fIcount\fP clusters starting at the cluster \fIstart_vcn\fP in the runlist
+described by the vfs inode \fIni\fP.
+
+If \fIcount\fP is -1, all clusters from \fIstart_vcn\fP to the end of the runlist are
+deallocated.  Thus, to completely free all clusters in a runlist, use
+\fIstart_vcn\fP = 0 and \fIcount\fP = -1.
+
+If \fIctx\fP is specified, it is an active search context of \fIni\fP and its base mft
+record.  This is needed when \fB__ntfs_cluster_free\fP encounters unmapped
+runlist fragments and allows their mapping.  If you do not have the mft
+record mapped, you can specify \fIctx\fP as NULL and \fB__ntfs_cluster_free\fP will
+perform the necessary mapping and unmapping.
+
+Note, \fB__ntfs_cluster_free\fP saves the state of \fIctx\fP on entry and restores it
+before returning.  Thus, \fIctx\fP will be left pointing to the same attribute on
+return as on entry.  However, the actual pointers in \fIctx\fP may point to
+different memory locations on return, so you must remember to reset any
+cached pointers from the \fIctx\fP, i.e. after the call to \fB__ntfs_cluster_free\fP,
+you will probably want to do:
+m = ctx->mrec;
+a = ctx->attr;
+Assuming you cache ctx->attr in a variable \fIa\fP of type ATTR_RECORD * and that
+you cache ctx->mrec in a variable \fIm\fP of type MFT_RECORD *.
+
+\fIis_rollback\fP should always be 'false', it is for internal use to rollback
+errors.  You probably want to use \fBntfs_cluster_free\fP instead.
+
+Note, \fB__ntfs_cluster_free\fP does not modify the runlist, so you have to
+remove from the runlist or mark sparse the freed runs later.
+
+Return the number of deallocated clusters (not counting sparse ones) on
+success and -errno on error.
+
+WARNING: If \fIctx\fP is supplied, regardless of whether success or failure is
+returned, you need to check IS_ERR(\fIctx->mrec\fP) and if 'true' the \fIctx\fP
+is no longer valid, i.e. you need to either call
+\fBntfs_attr_reinit_search_ctx\fP or \fBntfs_attr_put_search_ctx\fP on it.
+In that case PTR_ERR(\fIctx->mrec\fP) will give you the error code for
+why the mapping of the old inode failed.
+
+Locking: - The runlist described by \fIni\fP must be locked for writing on entry
+and is locked on return.  Note the runlist may be modified when
+needed runlist fragments need to be mapped.
+- The volume lcn bitmap must be unlocked on entry and is unlocked
+on return.
+- This function takes the volume lcn bitmap lock for writing and
+modifies the bitmap contents.
+- If \fIctx\fP is NULL, the base mft record of \fIni\fP must not be mapped on
+entry and it will be left unmapped on return.
+- If \fIctx\fP is not NULL, the base mft record must be mapped on entry
+and it will be left mapped on return.

@@ -1,0 +1,35 @@
+.TH "pcpu_get_vm_areas" 9 "pcpu_get_vm_areas" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pcpu_get_vm_areas \- allocate vmalloc areas for percpu allocator
+.SH SYNOPSIS
+.B "struct vm_struct **" pcpu_get_vm_areas
+.BI "(const unsigned long *offsets "  ","
+.BI "const size_t *sizes "  ","
+.BI "int nr_vms "  ","
+.BI "size_t align "  ");"
+.SH ARGUMENTS
+.IP "offsets" 12
+array containing offset of each area
+.IP "sizes" 12
+array containing size of each area
+.IP "nr_vms" 12
+the number of areas to allocate
+.IP "align" 12
+alignment, all entries in \fIoffsets\fP and \fIsizes\fP must be aligned to this
+.SH "RETURN"
+kmalloc'd vm_struct pointer array pointing to allocated
+vm_structs on success, NULL on failure
+.SH "DESCRIPTION"
+Percpu allocator wants to use congruent vm areas so that it can
+maintain the offsets among percpu areas.  This function allocates
+congruent vmalloc areas for it with GFP_KERNEL.  These areas tend to
+be scattered pretty far, distance between two areas easily going up
+to gigabytes.  To avoid interacting with regular vmallocs, these
+areas are allocated from top.
+
+Despite its complicated look, this allocator is rather simple. It
+does everything top-down and scans free blocks from the end looking
+for matching base. While scanning, if any of the areas do not fit the
+base address is pulled down to fit the area. Scanning is repeated till
+all the areas fit and then all necessary data structures are inserted
+and the result is returned.

@@ -1,0 +1,16 @@
+.TH "flush_delayed_work" 9 "flush_delayed_work" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+flush_delayed_work \- wait for a dwork to finish executing the last queueing
+.SH SYNOPSIS
+.B "bool" flush_delayed_work
+.BI "(struct delayed_work *dwork "  ");"
+.SH ARGUMENTS
+.IP "dwork" 12
+the delayed work to flush
+.SH "DESCRIPTION"
+Delayed timer is cancelled and the pending work is queued for
+immediate execution.  Like \fBflush_work\fP, this function only
+considers the last queueing instance of \fIdwork\fP.
+.SH "RETURN"
+true if \fBflush_work\fP waited for the work to finish execution,
+false if it was already idle.

@@ -1,0 +1,35 @@
+.TH "drm_rect_rotate_inv" 9 "drm_rect_rotate_inv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_rect_rotate_inv \- Inverse rotate the rectangle
+.SH SYNOPSIS
+.B "void" drm_rect_rotate_inv
+.BI "(struct drm_rect *r "  ","
+.BI "int width "  ","
+.BI "int height "  ","
+.BI "unsigned int rotation "  ");"
+.SH ARGUMENTS
+.IP "r" 12
+rectangle to be rotated
+.IP "width" 12
+Width of the coordinate space
+.IP "height" 12
+Height of the coordinate space
+.IP "rotation" 12
+Transformation whose inverse is to be applied
+.SH "DESCRIPTION"
+Apply the inverse of \fIrotation\fP to the coordinates
+of rectangle \fIr\fP.
+
+\fIwidth\fP and \fIheight\fP combined with \fIrotation\fP define
+the location of the new origin.
+
+\fIwidth\fP correcsponds to the horizontal and \fIheight\fP
+to the vertical axis of the original untransformed
+coordinate space, so that you never have to flip
+them when doing a rotatation and its inverse.
+That is, if you do ::
+
+drm_rect_rotate(\fIr\fP, width, height, rotation);
+drm_rect_rotate_inv(\fIr\fP, width, height, rotation);
+
+you will always get back the original rectangle.

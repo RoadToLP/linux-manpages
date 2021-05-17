@@ -1,0 +1,20 @@
+.TH "netif_setup_tc" 9 "netif_setup_tc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netif_setup_tc \- Handle tc mappings on real_num_tx_queues change
+.SH SYNOPSIS
+.B "void" netif_setup_tc
+.BI "(struct net_device *dev "  ","
+.BI "unsigned int txq "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Network device
+.IP "txq" 12
+number of queues available
+.SH "DESCRIPTION"
+If real_num_tx_queues is changed the tc mappings may no longer be
+valid. To resolve this verify the tc mapping remains valid and if
+not NULL the mapping. With no priorities mapping to this
+offset/count pair it will no longer be used. In the worst case TC0
+is invalid nothing can be done so disable priority mappings. If is
+expected that drivers will fix this mapping if they can before
+calling netif_set_real_num_tx_queues.

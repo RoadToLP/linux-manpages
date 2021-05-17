@@ -1,0 +1,23 @@
+.TH "max77802_set_suspend_mode" 9 "max77802_set_suspend_mode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+max77802_set_suspend_mode \- set regulator opmode when the system is suspended
+.SH SYNOPSIS
+.B "int" max77802_set_suspend_mode
+.BI "(struct regulator_dev *rdev "  ","
+.BI "unsigned int mode "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+regulator to change mode
+.IP "mode" 12
+operating mode to be set
+.SH "DESCRIPTION"
+Will set the operating mode for the regulators during system suspend.
+This function is valid for the three different enable control logics:
+
+Enable Control Logic1 by PWRREQ (BUCK 2-4 and LDOs 2, 4-19, 22-35)
+Enable Control Logic2 by PWRREQ (LDOs 1, 20, 21)
+Enable Control Logic3 by PWRREQ (LDO 3)
+
+If setting the regulator mode fails, the function only warns but does
+not return an error code to avoid the regulator core to stop setting
+the operating mode for the remaining regulators.

@@ -1,0 +1,25 @@
+.TH "r600_copy_dma" 9 "r600_copy_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+r600_copy_dma \- copy pages using the DMA engine
+.SH SYNOPSIS
+.B "struct radeon_fence *" r600_copy_dma
+.BI "(struct radeon_device *rdev "  ","
+.BI "uint64_t src_offset "  ","
+.BI "uint64_t dst_offset "  ","
+.BI "unsigned num_gpu_pages "  ","
+.BI "struct dma_resv *resv "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+radeon_device pointer
+.IP "src_offset" 12
+src GPU address
+.IP "dst_offset" 12
+dst GPU address
+.IP "num_gpu_pages" 12
+number of GPU pages to xfer
+.IP "resv" 12
+reservation object to sync to
+.SH "DESCRIPTION"
+Copy GPU paging using the DMA engine (r6xx).
+Used by the radeon ttm implementation to move pages if
+registered as the asic copy callback.

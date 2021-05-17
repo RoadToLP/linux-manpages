@@ -1,0 +1,24 @@
+.TH "relay_late_setup_files" 9 "relay_late_setup_files" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+relay_late_setup_files \- triggers file creation
+.SH SYNOPSIS
+.B "int" relay_late_setup_files
+.BI "(struct rchan *chan "  ","
+.BI "const char *base_filename "  ","
+.BI "struct dentry *parent "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+channel to operate on
+.IP "base_filename" 12
+base name of files to create
+.IP "parent" 12
+dentry of parent directory, NULL for root directory
+
+Returns 0 if successful, non-zero otherwise.
+
+Use to setup files for a previously buffer-only channel created
+by \fBrelay_open\fP with a NULL parent dentry.
+
+For example, this is useful for perfomring early tracing in kernel,
+before VFS is up and then exposing the early results once the dentry
+is available.

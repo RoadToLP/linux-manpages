@@ -1,0 +1,16 @@
+.TH "wb_split_bdi_pages" 9 "wb_split_bdi_pages" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+wb_split_bdi_pages \- split nr_pages to write according to bandwidth
+.SH SYNOPSIS
+.B "long" wb_split_bdi_pages
+.BI "(struct bdi_writeback *wb "  ","
+.BI "long nr_pages "  ");"
+.SH ARGUMENTS
+.IP "wb" 12
+target bdi_writeback to split \fInr_pages\fP to
+.IP "nr_pages" 12
+number of pages to write for the whole bdi
+.SH "DESCRIPTION"
+Split \fIwb\fP's portion of \fInr_pages\fP according to \fIwb\fP's write bandwidth in
+relation to the total write bandwidth of all wb's w/ dirty inodes on
+\fIwb->bdi\fP.

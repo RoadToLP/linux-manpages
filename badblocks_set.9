@@ -1,0 +1,25 @@
+.TH "badblocks_set" 9 "badblocks_set" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+badblocks_set \- Add a range of bad blocks to the table.
+.SH SYNOPSIS
+.B "int" badblocks_set
+.BI "(struct badblocks *bb "  ","
+.BI "sector_t s "  ","
+.BI "int sectors "  ","
+.BI "int acknowledged "  ");"
+.SH ARGUMENTS
+.IP "bb" 12
+the badblocks structure that holds all badblock information
+.IP "s" 12
+first sector to mark as bad
+.IP "sectors" 12
+number of sectors to mark as bad
+.IP "acknowledged" 12
+weather to mark the bad sectors as acknowledged
+.SH "DESCRIPTION"
+This might extend the table, or might contract it if two adjacent ranges
+can be merged. We binary-search to find the 'insertion' point, then
+decide how best to handle it.
+.SH "RETURN"
+0: success
+1: failed to set badblocks (out of space)

@@ -1,0 +1,29 @@
+.TH "memblock_alloc_exact_nid_raw" 9 "memblock_alloc_exact_nid_raw" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+memblock_alloc_exact_nid_raw \- allocate boot memory block on the exact node without zeroing memory
+.SH SYNOPSIS
+.B "void *" memblock_alloc_exact_nid_raw
+.BI "(phys_addr_t size "  ","
+.BI "phys_addr_t align "  ","
+.BI "phys_addr_t min_addr "  ","
+.BI "phys_addr_t max_addr "  ","
+.BI "int nid "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of memory block to be allocated in bytes
+.IP "align" 12
+alignment of the region and block's size
+.IP "min_addr" 12
+the lower bound of the memory region from where the allocation
+is preferred (phys address)
+.IP "max_addr" 12
+the upper bound of the memory region from where the allocation
+is preferred (phys address), or MEMBLOCK_ALLOC_ACCESSIBLE to
+allocate only from memory limited by memblock.current_limit value
+.IP "nid" 12
+nid of the free area to find, NUMA_NO_NODE for any node
+.SH "DESCRIPTION"
+Public function, provides additional debug information (including caller
+info), if enabled. Does not zero allocated memory.
+.SH "RETURN"
+Virtual address of allocated memory block on success, NULL on failure.

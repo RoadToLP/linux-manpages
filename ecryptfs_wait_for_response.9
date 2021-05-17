@@ -1,0 +1,18 @@
+.TH "ecryptfs_wait_for_response" 9 "ecryptfs_wait_for_response" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_wait_for_response \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_wait_for_response
+.BI "(struct ecryptfs_msg_ctx *msg_ctx "  ","
+.BI "struct ecryptfs_message **msg "  ");"
+.SH ARGUMENTS
+.IP "msg_ctx" 12
+The context that was assigned when sending a message
+.IP "msg" 12
+The incoming message from userspace; not set if rc != 0
+.SH "DESCRIPTION"
+Sleeps until awaken by ecryptfs_receive_message or until the amount
+of time exceeds ecryptfs_message_wait_timeout.  If zero is
+returned, msg will point to a valid message from userspace; a
+non-zero value is returned upon failure to receive a message or an
+error occurs. Callee must free \fImsg\fP on success.

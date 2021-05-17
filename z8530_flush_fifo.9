@@ -1,0 +1,16 @@
+.TH "z8530_flush_fifo" 9 "z8530_flush_fifo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z8530_flush_fifo \- Flush on chip RX FIFO
+.SH SYNOPSIS
+.B "void" z8530_flush_fifo
+.BI "(struct z8530_channel *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+Channel to flush
+
+Flush the receive FIFO. There is no specific option for this, we 
+blindly read bytes and discard them. Reading when there is no data
+is harmless. The 8530 has a 4 byte FIFO, the 85230 has 8 bytes.
+
+All locking is handled for the caller. On return data may still be
+present if it arrived during the flush.

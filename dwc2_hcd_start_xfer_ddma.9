@@ -1,0 +1,25 @@
+.TH "dwc2_hcd_start_xfer_ddma" 9 "dwc2_hcd_start_xfer_ddma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hcd_start_xfer_ddma \- Starts a transfer in Descriptor DMA mode
+.SH SYNOPSIS
+.B "void" dwc2_hcd_start_xfer_ddma
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_qh *qh "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller
+.IP "qh" 12
+The QH to init
+.SH "RETURN"
+0 if successful, negative error code otherwise
+.SH "DESCRIPTION"
+For Control and Bulk endpoints, initializes descriptor list and starts the
+transfer. For Interrupt and Isochronous endpoints, initializes descriptor
+list then updates FrameList, marking appropriate entries as active.
+
+For Isochronous endpoints the starting descriptor index is calculated based
+on the scheduled frame, but only on the first transfer descriptor within a
+session. Then the transfer is started via enabling the channel.
+
+For Isochronous endpoints the channel is not halted on XferComplete
+interrupt so remains assigned to the endpoint(QH) until session is done.

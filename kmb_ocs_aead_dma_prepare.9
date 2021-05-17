@@ -1,0 +1,20 @@
+.TH "kmb_ocs_aead_dma_prepare" 9 "kmb_ocs_aead_dma_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kmb_ocs_aead_dma_prepare \- Do DMA mapping for AEAD processing.
+.SH SYNOPSIS
+.B "int" kmb_ocs_aead_dma_prepare
+.BI "(struct aead_request *req "  ","
+.BI "u32 *src_dll_size "  ");"
+.SH ARGUMENTS
+.IP "req" 12
+The AEAD request being processed.
+.IP "src_dll_size" 12
+Where to store the length of the data mapped into the
+src_dll OCS DMA list.
+.SH "DESCRIPTION"
+Do the following:
+- DMA map req->src and req->dst
+- Initialize the following OCS DMA linked lists: rctx->src_dll,
+rctx->dst_dll, rctx->aad_src_dll and rxtc->aad_dst_dll.
+.SH "RETURN"
+0 on success, negative error code otherwise.

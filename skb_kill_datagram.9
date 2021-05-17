@@ -1,0 +1,29 @@
+.TH "skb_kill_datagram" 9 "skb_kill_datagram" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+skb_kill_datagram \- Free a datagram skbuff forcibly
+.SH SYNOPSIS
+.B "int" skb_kill_datagram
+.BI "(struct sock *sk "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "unsigned int flags "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+socket
+.IP "skb" 12
+datagram skbuff
+.IP "flags" 12
+MSG\_ flags
+
+This function frees a datagram skbuff that was received by
+skb_recv_datagram.  The flags argument must match the one
+used for skb_recv_datagram.
+
+If the MSG_PEEK flag is set, and the packet is still on the
+receive queue of the socket, it will be taken off the queue
+before it is freed.
+
+This function currently only disables BH when acquiring the
+sk_receive_queue lock.  Therefore it must not be used in a
+context where that lock is acquired in an IRQ context.
+
+It returns 0 if the packet was removed by us.

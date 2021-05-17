@@ -1,0 +1,58 @@
+.TH "bcm2835_spi_transfer_one_dma" 9 "bcm2835_spi_transfer_one_dma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bcm2835_spi_transfer_one_dma \- perform SPI transfer using DMA engine
+.SH SYNOPSIS
+.B "int" bcm2835_spi_transfer_one_dma
+.BI "(struct spi_controller *ctlr "  ","
+.BI "struct spi_device *spi "  ","
+.BI "struct spi_transfer *tfr "  ","
+.BI "u32 cs "  ");"
+.SH ARGUMENTS
+.IP "ctlr" 12
+SPI master controller
+.IP "spi" 12
+SPI slave
+.IP "tfr" 12
+SPI transfer
+.IP "cs" 12
+CS register
+.SH "DESCRIPTION"
+For *bidirectional* transfers (both tx_buf and rx_buf are non-NULL), set up
+the TX and RX DMA channel to copy between memory and FIFO register.
+
+For *TX-only* transfers (rx_buf is NULL), copying the RX FIFO's contents to
+memory is pointless.  However not reading the RX FIFO isn't an option either
+because transmission is halted once it's full.  As a workaround, cyclically
+clear the RX FIFO by setting the CLEAR_RX bit in the CS register.
+
+The CS register value is precalculated in \fBbcm2835_spi_setup\fP.  Normally
+this is called only once, on slave registration.  A DMA descriptor to write
+this value is preallocated in \fBbcm2835_dma_init\fP.  All that's left to do
+when performing a TX-only transfer is to submit this descriptor to the RX
+DMA channel.  Latency is thereby minimized.  The descriptor does not
+generate any interrupts while running.  It must be terminated once the
+TX DMA channel is done.
+
+Clearing the RX FIFO is paced by the DREQ signal.  The signal is asserted
+when the RX FIFO becomes half full, i.e. 32 bytes.  (Tuneable with the DC
+register.)  Reading 32 bytes from the RX FIFO would normally require 8 bus
+accesses, whereas clearing it requires only 1 bus access.  So an 8-fold
+reduction in bus traffic and thus energy consumption is achieved.
+
+For *RX-only* transfers (tx_buf is NULL), fill the TX FIFO by cyclically
+copying from the zero page.  The DMA descriptor to do this is preallocated
+in \fBbcm2835_dma_init\fP.  It must be terminated once the RX DMA channel is
+done and can then be reused.
+
+The BCM2835 DMA driver autodetects when a transaction copies from the zero
+page and utilizes the DMA controller's ability to synthesize zeroes instead
+of copying them from memory.  This reduces traffic on the memory bus.  The
+feature is not available on so-called "lite" channels, but normally TX DMA
+is backed by a full-featured channel.
+
+Zero-filling the TX FIFO is paced by the DREQ signal.  Unfortunately the
+BCM2835 SPI controller continues to assert DREQ even after the DLEN register
+has been counted down to zero (hardware erratum).  Thus, when the transfer
+has finished, the DMA engine zero-fills the TX FIFO until it is half full.
+(Tuneable with the DC register.)  So up to 9 gratuitous bus accesses are
+performed at the end of an RX-only transfer.

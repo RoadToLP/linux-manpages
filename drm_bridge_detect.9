@@ -1,0 +1,17 @@
+.TH "drm_bridge_detect" 9 "drm_bridge_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_bridge_detect \- check if anything is attached to the bridge output
+.SH SYNOPSIS
+.B "enum drm_connector_status" drm_bridge_detect
+.BI "(struct drm_bridge *bridge "  ");"
+.SH ARGUMENTS
+.IP "bridge" 12
+bridge control structure
+.SH "DESCRIPTION"
+If the bridge supports output detection, as reported by the
+DRM_BRIDGE_OP_DETECT bridge ops flag, call \fIdrm_bridge_funcs.detect\fP for the
+bridge and return the connection status. Otherwise return
+connector_status_unknown.
+.SH "RETURN"
+The detection status on success, or connector_status_unknown if the bridge
+doesn't support output detection.

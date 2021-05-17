@@ -1,0 +1,37 @@
+.TH "add_changeset_property" 9 "add_changeset_property" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+add_changeset_property \- add @overlay_prop to overlay changeset
+.SH SYNOPSIS
+.B "int" add_changeset_property
+.BI "(struct overlay_changeset *ovcs "  ","
+.BI "struct target *target "  ","
+.BI "struct property *overlay_prop "  ","
+.BI "bool is_symbols_prop "  ");"
+.SH ARGUMENTS
+.IP "ovcs" 12
+overlay changeset
+.IP "target" 12
+where \fIoverlay_prop\fP will be placed
+.IP "overlay_prop" 12
+property to add or update, from overlay tree
+.IP "is_symbols_prop" 12
+1 if \fIoverlay_prop\fP is from node "/__symbols__"
+.SH "DESCRIPTION"
+If \fIoverlay_prop\fP does not already exist in live devicetree, add changeset
+entry to add \fIoverlay_prop\fP in \fItarget\fP, else add changeset entry to update
+value of \fIoverlay_prop\fP.
+
+\fItarget\fP may be either in the live devicetree or in a new subtree that
+is contained in the changeset.
+
+Some special properties are not added or updated (no error returned):
+"name", "phandle", "linux,phandle".
+
+Properties "#address-cells" and "#size-cells" are not updated if they
+are already in the live tree, but if present in the live tree, the values
+in the overlay must match the values in the live tree.
+
+Update of property in symbols node is not allowed.
+
+Returns 0 on success, -ENOMEM if memory allocation failure, or -EINVAL if
+invalid \fIoverlay\fP.

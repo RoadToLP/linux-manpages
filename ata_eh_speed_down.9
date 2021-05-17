@@ -1,0 +1,25 @@
+.TH "ata_eh_speed_down" 9 "ata_eh_speed_down" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_speed_down \- record error and speed down if necessary
+.SH SYNOPSIS
+.B "unsigned int" ata_eh_speed_down
+.BI "(struct ata_device *dev "  ","
+.BI "unsigned int eflags "  ","
+.BI "unsigned int err_mask "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Failed device
+.IP "eflags" 12
+mask of ATA_EFLAG_* flags
+.IP "err_mask" 12
+err_mask of the error
+
+Record error and examine error history to determine whether
+adjusting transmission speed is necessary.  It also sets
+transmission limits appropriately if such adjustment is
+necessary.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+Determined recovery action.

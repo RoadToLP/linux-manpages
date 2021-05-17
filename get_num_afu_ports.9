@@ -1,0 +1,20 @@
+.TH "get_num_afu_ports" 9 "get_num_afu_ports" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_num_afu_ports \- determines and configures the number of AFU ports
+.SH SYNOPSIS
+.B "void" get_num_afu_ports
+.BI "(struct cxlflash_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.SH "DESCRIPTION"
+This routine determines the number of AFU ports by converting the global
+port selection mask. The converted value is only valid following an AFU
+reset (explicit or power-on). This routine must be invoked shortly after
+mapping as other routines are dependent on the number of ports during the
+initialization sequence.
+
+To support legacy AFUs that might not have reflected an initial global
+port mask (value read is 0), default to the number of ports originally
+supported by the cxlflash driver (2) before hardware with other port
+offerings was introduced.

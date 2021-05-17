@@ -1,0 +1,27 @@
+.TH "drm_atomic_helper_damage_iter_init" 9 "drm_atomic_helper_damage_iter_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_damage_iter_init \- Initialize the damage iterator.
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_damage_iter_init
+.BI "(struct drm_atomic_helper_damage_iter *iter "  ","
+.BI "const struct drm_plane_state *old_state "  ","
+.BI "const struct drm_plane_state *state "  ");"
+.SH ARGUMENTS
+.IP "iter" 12
+The iterator to initialize.
+.IP "old_state" 12
+Old plane state for validation.
+.IP "state" 12
+Plane state from which to iterate the damage clips.
+.SH "DESCRIPTION"
+Initialize an iterator, which clips plane damage
+\fIdrm_plane_state.fb_damage_clips\fP to plane \fIdrm_plane_state.src\fP. This iterator
+returns full plane src in case damage is not present because either
+user-space didn't sent or driver discarded it (it want to do full plane
+update). Currently this iterator returns full plane src in case plane src
+changed but that can be changed in future to return damage.
+
+For the case when plane is not visible or plane update should not happen the
+first call to iter_next will return false. Note that this helper use clipped
+\fIdrm_plane_state.src\fP, so driver calling this helper should have called
+\fBdrm_atomic_helper_check_plane_state\fP earlier.

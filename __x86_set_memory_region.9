@@ -1,0 +1,32 @@
+.TH "__x86_set_memory_region" 9 "__x86_set_memory_region" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__x86_set_memory_region \- Setup KVM internal memory slot
+.SH SYNOPSIS
+.B "void __user *" __x86_set_memory_region
+.BI "(struct kvm *kvm "  ","
+.BI "int id "  ","
+.BI "gpa_t gpa "  ","
+.BI "u32 size "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+the kvm pointer to the VM.
+.IP "id" 12
+the slot ID to setup.
+.IP "gpa" 12
+the GPA to install the slot (unused when \fIsize\fP == 0).
+.IP "size" 12
+the size of the slot. Set to zero to uninstall a slot.
+.SH "DESCRIPTION"
+This function helps to setup a KVM internal memory slot.  Specify
+\fIsize\fP > 0 to install a new slot, while \fIsize\fP == 0 to uninstall a
+slot.  The return code can be one of the following:
+
+HVA:           on success (uninstall will return a bogus HVA)
+-errno:        on error
+
+The caller should always use \fBIS_ERR\fP to check the return value
+before use.  Note, the KVM internal memory slots are guaranteed to
+remain valid and unchanged until the VM is destroyed, i.e., the
+GPA->HVA translation will not change.  However, the HVA is a user
+address, i.e. its accessibility is not guaranteed, and must be
+accessed via __copy_{to,from}\fB_user\fP.

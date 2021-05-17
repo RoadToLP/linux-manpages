@@ -1,0 +1,15 @@
+.TH "inode_io_list_del_locked" 9 "inode_io_list_del_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_io_list_del_locked \- remove an inode from its bdi_writeback IO list
+.SH SYNOPSIS
+.B "void" inode_io_list_del_locked
+.BI "(struct inode *inode "  ","
+.BI "struct bdi_writeback *wb "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode to be removed
+.IP "wb" 12
+bdi_writeback \fIinode\fP is being removed from
+.SH "DESCRIPTION"
+Remove \fIinode\fP which may be on one of \fIwb->b_\fP{dirty|io|more_io} lists and
+clear WB_has_dirty_io if all are empty afterwards.

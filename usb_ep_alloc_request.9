@@ -1,0 +1,21 @@
+.TH "usb_ep_alloc_request" 9 "usb_ep_alloc_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_ep_alloc_request \- allocate a request object to use with this endpoint
+.SH SYNOPSIS
+.B "struct usb_request *" usb_ep_alloc_request
+.BI "(struct usb_ep *ep "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "ep" 12
+the endpoint to be used with with the request
+.IP "gfp_flags" 12
+GFP_* flags to use
+.SH "DESCRIPTION"
+Request objects must be allocated with this call, since they normally
+need controller-specific setup and may even need endpoint-specific
+resources such as allocation of DMA descriptors.
+Requests may be submitted with \fBusb_ep_queue\fP, and receive a single
+completion callback.  Free requests with \fBusb_ep_free_request\fP, when
+they are no longer needed.
+
+Returns the request, or null if one could not be allocated.

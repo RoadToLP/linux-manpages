@@ -1,0 +1,16 @@
+.TH "device_to_dev_kobj" 9 "device_to_dev_kobj" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_to_dev_kobj \- select a /sys/dev/ directory for the device
+.SH SYNOPSIS
+.B "struct kobject *" device_to_dev_kobj
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device
+.SH "DESCRIPTION"
+By default we select char/ for new entries.  Setting class->dev_obj
+to NULL prevents an entry from being created.  class->dev_kobj must
+be set (or cleared) before any devices are registered to the class
+otherwise \fBdevice_create_sys_dev_entry\fP and
+\fBdevice_remove_sys_dev_entry\fP will disagree about the presence of
+the link.

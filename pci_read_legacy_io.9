@@ -1,0 +1,27 @@
+.TH "pci_read_legacy_io" 9 "pci_read_legacy_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_read_legacy_io \- read byte(s) from legacy I/O port space
+.SH SYNOPSIS
+.B "ssize_t" pci_read_legacy_io
+.BI "(struct file *filp "  ","
+.BI "struct kobject *kobj "  ","
+.BI "struct bin_attribute *bin_attr "  ","
+.BI "char *buf "  ","
+.BI "loff_t off "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "filp" 12
+open sysfs file
+.IP "kobj" 12
+kobject corresponding to file to read from
+.IP "bin_attr" 12
+struct bin_attribute for this file
+.IP "buf" 12
+buffer to store results
+.IP "off" 12
+offset into legacy I/O port space
+.IP "count" 12
+number of bytes to read
+.SH "DESCRIPTION"
+Reads 1, 2, or 4 bytes from legacy I/O port space using an arch specific
+callback routine (pci_legacy_read).

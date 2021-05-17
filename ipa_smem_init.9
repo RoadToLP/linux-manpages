@@ -1,0 +1,26 @@
+.TH "ipa_smem_init" 9 "ipa_smem_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ipa_smem_init \- Initialize SMEM memory used by the IPA
+.SH SYNOPSIS
+.B "int" ipa_smem_init
+.BI "(struct ipa *ipa "  ","
+.BI "u32 item "  ","
+.BI "size_t size "  ");"
+.SH ARGUMENTS
+.IP "ipa" 12
+IPA pointer
+.IP "item" 12
+Item ID of SMEM memory
+.IP "size" 12
+Size (bytes) of SMEM memory region
+.SH "DESCRIPTION"
+SMEM is a managed block of shared DRAM, from which numbered "items"
+can be allocated.  One item is designated for use by the IPA.
+
+The modem accesses SMEM memory directly, but the IPA accesses it
+via the IOMMU, using the AP's credentials.
+
+If size provided is non-zero, we allocate it and map it for
+access through the IOMMU.
+.SH "NOTE"
+\fIsize\fP and the item address are is not guaranteed to be page-aligned.

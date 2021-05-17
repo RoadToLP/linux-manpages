@@ -1,0 +1,25 @@
+.TH "drm_crtc_vblank_count_and_time" 9 "drm_crtc_vblank_count_and_time" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_crtc_vblank_count_and_time \- retrieve "cooked" vblank counter value and the system timestamp corresponding to that vblank counter value
+.SH SYNOPSIS
+.B "u64" drm_crtc_vblank_count_and_time
+.BI "(struct drm_crtc *crtc "  ","
+.BI "ktime_t *vblanktime "  ");"
+.SH ARGUMENTS
+.IP "crtc" 12
+which counter to retrieve
+.IP "vblanktime" 12
+Pointer to time to receive the vblank timestamp.
+.SH "DESCRIPTION"
+Fetches the "cooked" vblank count value that represents the number of
+vblank events since the system was booted, including lost events due to
+modesetting activity. Returns corresponding system timestamp of the time
+of the vblank interval that corresponds to the current vblank counter value.
+
+Note that for a given vblank counter value \fBdrm_crtc_handle_vblank\fP
+and \fBdrm_crtc_vblank_count\fP or \fBdrm_crtc_vblank_count_and_time\fP
+provide a barrier: Any writes done before calling
+\fBdrm_crtc_handle_vblank\fP will be visible to callers of the later
+functions, iff the vblank count is the same or a later one.
+
+See also \fIdrm_vblank_crtc.count\fP.

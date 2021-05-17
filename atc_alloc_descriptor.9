@@ -1,0 +1,17 @@
+.TH "atc_alloc_descriptor" 9 "atc_alloc_descriptor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+atc_alloc_descriptor \- allocate and return an initialized descriptor
+.SH SYNOPSIS
+.B "struct at_desc *" atc_alloc_descriptor
+.BI "(struct dma_chan *chan "  ","
+.BI "gfp_t gfp_flags "  ");"
+.SH ARGUMENTS
+.IP "chan" 12
+the channel to allocate descriptors for
+.IP "gfp_flags" 12
+GFP allocation flags
+.SH "NOTE"
+The ack-bit is positioned in the descriptor flag at creation time
+to make initial allocation more convenient. This bit will be cleared
+and control will be given to client at usage time (during
+preparation functions).

@@ -1,0 +1,27 @@
+.TH "acpi_device_sleep_wake" 9 "acpi_device_sleep_wake" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_device_sleep_wake \- execute _DSW (Device Sleep Wake) or (deprecated in ACPI 3.0) _PSW (Power State Wake)
+.SH SYNOPSIS
+.B "int" acpi_device_sleep_wake
+.BI "(struct acpi_device *dev "  ","
+.BI "int enable "  ","
+.BI "int sleep_state "  ","
+.BI "int dev_state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Device to handle.
+.IP "enable" 12
+0 - disable, 1 - enable the wake capabilities of the device.
+.IP "sleep_state" 12
+Target sleep state of the system.
+.IP "dev_state" 12
+Target power state of the device.
+.SH "DESCRIPTION"
+Execute _DSW (Device Sleep Wake) or (deprecated in ACPI 3.0) _PSW (Power
+State Wake) for the device, if present.  On failure reset the device's
+wakeup.flags.valid flag.
+
+RETURN VALUE:
+0 if either _DSW or _PSW has been successfully executed
+0 if neither _DSW nor _PSW has been found
+-ENODEV if the execution of either _DSW or _PSW has failed

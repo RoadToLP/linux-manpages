@@ -1,0 +1,13 @@
+.TH "dccp_determine_ccmps" 9 "dccp_determine_ccmps" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dccp_determine_ccmps \- Find out about CCID-specific packet-size limits
+.SH SYNOPSIS
+.B "u32" dccp_determine_ccmps
+.BI "(const struct dccp_sock *dp "  ");"
+.SH ARGUMENTS
+.IP "dp" 12
+socket to find packet size limits of
+.SH "DESCRIPTION"
+We only consider the HC-sender CCID for setting the CCMPS (RFC 4340, 14.),
+since the RX CCID is restricted to feedback packets (Acks), which are small
+in comparison with the data traffic. A value of 0 means "no current CCMPS".

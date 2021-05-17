@@ -1,0 +1,26 @@
+.TH "rescuer_thread" 9 "rescuer_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rescuer_thread \- the rescuer thread function
+.SH SYNOPSIS
+.B "int" rescuer_thread
+.BI "(void *__rescuer "  ");"
+.SH ARGUMENTS
+.IP "__rescuer" 12
+self
+.SH "DESCRIPTION"
+Workqueue rescuer thread function.  There's one rescuer for each
+workqueue which has WQ_MEM_RECLAIM set.
+
+Regular work processing on a pool may block trying to create a new
+worker which uses GFP_KERNEL allocation which has slight chance of
+developing into deadlock if some works currently on the same queue
+need to be processed to satisfy the GFP_KERNEL allocation.  This is
+the problem rescuer solves.
+
+When such condition is possible, the pool summons rescuers of all
+workqueues which have works queued on the pool and let them process
+those works so that forward progress can be guaranteed.
+
+This should happen rarely.
+.SH "RETURN"
+0

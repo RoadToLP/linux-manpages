@@ -1,0 +1,20 @@
+.TH "regmap_reinit_cache" 9 "regmap_reinit_cache" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_reinit_cache \- Reinitialise the current register cache
+.SH SYNOPSIS
+.B "int" regmap_reinit_cache
+.BI "(struct regmap *map "  ","
+.BI "const struct regmap_config *config "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to operate on.
+.IP "config" 12
+New configuration.  Only the cache data will be used.
+.SH "DESCRIPTION"
+Discard any existing register cache for the map and initialize a
+new cache.  This can be used to restore the cache to defaults or to
+update the cache configuration to reflect runtime discovery of the
+hardware.
+
+No explicit locking is done here, the user needs to ensure that
+this function will not race with other calls to regmap.

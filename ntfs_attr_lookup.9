@@ -1,0 +1,58 @@
+.TH "ntfs_attr_lookup" 9 "ntfs_attr_lookup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_attr_lookup \- find an attribute in an ntfs inode
+.SH SYNOPSIS
+.B "int" ntfs_attr_lookup
+.BI "(const ATTR_TYPE type "  ","
+.BI "const ntfschar *name "  ","
+.BI "const u32 name_len "  ","
+.BI "const IGNORE_CASE_BOOL ic "  ","
+.BI "const VCN lowest_vcn "  ","
+.BI "const u8 *val "  ","
+.BI "const u32 val_len "  ","
+.BI "ntfs_attr_search_ctx *ctx "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+attribute type to find
+.IP "name" 12
+attribute name to find (optional, i.e. NULL means don't care)
+.IP "name_len" 12
+attribute name length (only needed if \fIname\fP present)
+.IP "ic" 12
+IGNORE_CASE or CASE_SENSITIVE (ignored if \fIname\fP not present)
+.IP "lowest_vcn" 12
+lowest vcn to find (optional, non-resident attributes only)
+.IP "val" 12
+attribute value to find (optional, resident attributes only)
+.IP "val_len" 12
+attribute value length
+.IP "ctx" 12
+search context with mft record and attribute to search from
+.SH "DESCRIPTION"
+Find an attribute in an ntfs inode.  On first search \fIctx->ntfs_ino\fP must
+be the base mft record and \fIctx\fP must have been obtained from a call to
+\fBntfs_attr_get_search_ctx\fP.
+
+This function transparently handles attribute lists and \fIctx\fP is used to
+continue searches where they were left off at.
+
+After finishing with the attribute/mft record you need to call
+\fBntfs_attr_put_search_ctx\fP to cleanup the search context (unmapping any
+mapped inodes, etc).
+
+Return 0 if the search was successful and -errno if not.
+
+When 0, \fIctx->attr\fP is the found attribute and it is in mft record
+\fIctx->mrec\fP.  If an attribute list attribute is present, \fIctx->al_entry\fP is
+the attribute list entry of the found attribute.
+
+When -ENOENT, \fIctx->attr\fP is the attribute which collates just after the
+attribute being searched for, i.e. if one wants to add the attribute to the
+mft record this is the correct place to insert it into.  If an attribute
+list attribute is present, \fIctx->al_entry\fP is the attribute list entry which
+collates just after the attribute list entry of the attribute being searched
+for, i.e. if one wants to add the attribute to the mft record this is the
+correct place to insert its attribute list entry into.
+
+When -errno != -ENOENT, an error occurred during the lookup.  \fIctx->attr\fP is
+then undefined and in particular you should not rely on it not changing.

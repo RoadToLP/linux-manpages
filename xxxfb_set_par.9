@@ -1,0 +1,44 @@
+.TH "xxxfb_set_par" 9 "xxxfb_set_par" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xxxfb_set_par \- Optional function. Alters the hardware state.
+.SH SYNOPSIS
+.B "int" xxxfb_set_par
+.BI "(struct fb_info *info "  ");"
+.SH ARGUMENTS
+.IP "info" 12
+frame buffer structure that represents a single frame buffer
+
+Using the fb_var_screeninfo in fb_info we set the resolution of the
+this particular framebuffer. This function alters the par AND the
+fb_fix_screeninfo stored in fb_info. It doesn't not alter var in 
+fb_info since we are using that data. This means we depend on the
+data in var inside fb_info to be supported by the hardware. 
+
+This function is also used to recover/restore the hardware to a
+known working state.
+
+xxxfb_check_var is always called before xxxfb_set_par to ensure that
+the contents of var is always valid.
+
+Again if you can't change the resolution you don't need this function.
+
+However, even if your hardware does not support mode changing,
+a set_par might be needed to at least initialize the hardware to
+a known working state, especially if it came back from another
+process that also modifies the same hardware, such as X.
+
+If this is the case, a combination such as the following should work:
+
+static int xxxfb_check_var(struct fb_var_screeninfo *var,
+struct fb_info *info)
+{
+*var = info->var;
+return 0;
+}
+
+static int xxxfb_set_par(struct fb_info *info)
+{
+init your hardware here
+}
+
+Returns negative errno on error, or zero on success.

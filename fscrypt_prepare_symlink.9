@@ -1,0 +1,36 @@
+.TH "fscrypt_prepare_symlink" 9 "fscrypt_prepare_symlink" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fscrypt_prepare_symlink \- prepare to create a possibly-encrypted symlink
+.SH SYNOPSIS
+.B "int" fscrypt_prepare_symlink
+.BI "(struct inode *dir "  ","
+.BI "const char *target "  ","
+.BI "unsigned int len "  ","
+.BI "unsigned int max_len "  ","
+.BI "struct fscrypt_str *disk_link "  ");"
+.SH ARGUMENTS
+.IP "dir" 12
+directory in which the symlink is being created
+.IP "target" 12
+plaintext symlink target
+.IP "len" 12
+length of \fItarget\fP excluding null terminator
+.IP "max_len" 12
+space the filesystem has available to store the symlink target
+.IP "disk_link" 12
+(out) the on-disk symlink target being prepared
+.SH "DESCRIPTION"
+This function computes the size the symlink target will require on-disk,
+stores it in \fIdisk_link->len\fP, and validates it against \fImax_len\fP.  An
+encrypted symlink may be longer than the original.
+
+Additionally, \fIdisk_link->name\fP is set to \fItarget\fP if the symlink will be
+unencrypted, but left NULL if the symlink will be encrypted.  For encrypted
+symlinks, the filesystem must call \fBfscrypt_encrypt_symlink\fP to create the
+on-disk target later.  (The reason for the two-step process is that some
+filesystems need to know the size of the symlink target before creating the
+inode, e.g. to determine whether it will be a "fast" or "slow" symlink.)
+.SH "RETURN"
+0 on success, -ENAMETOOLONG if the symlink target is too long,
+-ENOKEY if the encryption key is missing, or another -errno code if a problem
+occurred while setting up the encryption key.

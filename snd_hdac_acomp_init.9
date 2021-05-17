@@ -1,0 +1,30 @@
+.TH "snd_hdac_acomp_init" 9 "snd_hdac_acomp_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_acomp_init \- Initialize audio component
+.SH SYNOPSIS
+.B "int" snd_hdac_acomp_init
+.BI "(struct hdac_bus *bus "  ","
+.BI "const struct drm_audio_component_audio_ops *aops "  ","
+.BI "int (*match_master)(struct device *, int, void *) "  ","
+.BI "size_t extra_size "  ");"
+.SH ARGUMENTS
+.IP "bus" 12
+HDA core bus
+.IP "aops" 12
+audio component ops
+.IP "match_master" 12
+match function for finding components
+.IP "extra_size" 12
+Extra bytes to allocate
+.SH "DESCRIPTION"
+This function is supposed to be used only by a HD-audio controller
+driver that needs the interaction with graphics driver.
+
+This function initializes and sets up the audio component to communicate
+with graphics driver.
+
+Unlike \fBsnd_hdac_i915_init\fP, this function doesn't synchronize with the
+binding with the DRM component.  Each caller needs to sync via master_bind
+audio_ops.
+
+Returns zero for success or a negative error code.

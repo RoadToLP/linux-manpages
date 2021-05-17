@@ -1,0 +1,18 @@
+.TH "xcan_rx" 9 "xcan_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xcan_rx \- Is called from CAN isr to complete the received frame processing
+.SH SYNOPSIS
+.B "int" xcan_rx
+.BI "(struct net_device *ndev "  ","
+.BI "int frame_base "  ");"
+.SH ARGUMENTS
+.IP "ndev" 12
+Pointer to net_device structure
+.IP "frame_base" 12
+Register offset to the frame to be read
+.SH "DESCRIPTION"
+This function is invoked from the CAN isr(poll) to process the Rx frames. It
+does minimal processing and invokes "netif_receive_skb" to complete further
+processing.
+.SH "RETURN"
+1 on success and 0 on failure.

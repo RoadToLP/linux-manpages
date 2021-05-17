@@ -1,0 +1,24 @@
+.TH "lpfc_issue_els_rdf" 9 "lpfc_issue_els_rdf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_issue_els_rdf \- Register for diagnostic functions from the fabric.
+.SH SYNOPSIS
+.B "int" lpfc_issue_els_rdf
+.BI "(struct lpfc_vport *vport "  ","
+.BI "uint8_t retry "  ");"
+.SH ARGUMENTS
+.IP "vport" 12
+pointer to a host virtual N_Port data structure.
+.IP "retry" 12
+retry counter for the command IOCB.
+.SH "DESCRIPTION"
+This routine issues an ELS RDF to the Fabric Controller to register
+for diagnostic functions.
+
+Note that, in \fBlpfc_prep_els_iocb\fP routine, the reference count of ndlp
+will be incremented by 1 for holding the ndlp and the reference to ndlp
+will be stored into the context1 field of the IOCB for the completion
+callback function to the RDF ELS command.
+
+Return code
+0 - Successfully issued rdf command
+1 - Failed to issue rdf command

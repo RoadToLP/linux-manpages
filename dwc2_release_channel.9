@@ -1,0 +1,23 @@
+.TH "dwc2_release_channel" 9 "dwc2_release_channel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_release_channel \- Releases a host channel for use by other transfers
+.SH SYNOPSIS
+.B "void" dwc2_release_channel
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ","
+.BI "struct dwc2_qtd *qtd "  ","
+.BI "enum dwc2_halt_status halt_status "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure
+.IP "chan" 12
+The host channel to release
+.IP "qtd" 12
+The QTD associated with the host channel. This QTD may be
+freed if the transfer is complete or an error has occurred.
+.IP "halt_status" 12
+Reason the channel is being released. This status
+determines the actions taken by this function.
+.SH "DESCRIPTION"
+Also attempts to select and queue more transactions since at least one host
+channel is available.

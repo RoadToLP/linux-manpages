@@ -1,0 +1,24 @@
+.TH "ahci_platform_init_host" 9 "ahci_platform_init_host" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ahci_platform_init_host \- Bring up an ahci-platform host
+.SH SYNOPSIS
+.B "int" ahci_platform_init_host
+.BI "(struct platform_device *pdev "  ","
+.BI "struct ahci_host_priv *hpriv "  ","
+.BI "const struct ata_port_info *pi_template "  ","
+.BI "struct scsi_host_template *sht "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+platform device pointer for the host
+.IP "hpriv" 12
+ahci-host private data for the host
+.IP "pi_template" 12
+template for the ata_port_info to use
+.IP "sht" 12
+scsi_host_template to use when registering
+.SH "DESCRIPTION"
+This function does all the usual steps needed to bring up an
+ahci-platform host, note any necessary resources (ie clks, phys, etc.)
+must be initialized / enabled before calling this.
+.SH "RETURN"
+0 on success otherwise a negative error code

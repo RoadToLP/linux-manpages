@@ -1,0 +1,48 @@
+.TH "of_parse_clkspec" 9 "of_parse_clkspec" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+of_parse_clkspec \- Parse a DT clock specifier for a given device node
+.SH SYNOPSIS
+.B "int" of_parse_clkspec
+.BI "(const struct device_node *np "  ","
+.BI "int index "  ","
+.BI "const char *name "  ","
+.BI "struct of_phandle_args *out_args "  ");"
+.SH ARGUMENTS
+.IP "np" 12
+device node to parse clock specifier from
+.IP "index" 12
+index of phandle to parse clock out of. If index < 0, \fIname\fP is used
+.IP "name" 12
+clock name to find and parse. If name is NULL, the index is used
+.IP "out_args" 12
+Result of parsing the clock specifier
+.SH "DESCRIPTION"
+Parses a device node's "clocks" and "clock-names" properties to find the
+phandle and cells for the index or name that is desired. The resulting clock
+specifier is placed into \fIout_args\fP, or an errno is returned when there's a
+parsing error. The \fIindex\fP argument is ignored if \fIname\fP is non-NULL.
+
+phandle1: clock-controller\fI1\fP {
+#clock-cells = <2>;
+}
+
+phandle2: clock-controller\fI2\fP {
+#clock-cells = <1>;
+}
+
+clock-consumer\fI3\fP {
+clocks = <\fIphandle1\fP 1 2 \fIphandle2\fP 3>;
+clock-names = "name1", "name2";
+}
+
+To get a device_node for `clock-controller\fI2\fP' node you may call this
+function a few different ways:
+
+of_parse_clkspec(clock-consumer\fI3\fP, -1, "name2", \fIargs\fP);
+of_parse_clkspec(clock-consumer\fI3\fP, 1, NULL, \fIargs\fP);
+of_parse_clkspec(clock-consumer\fI3\fP, 1, "name2", \fIargs\fP);
+.SH "EXAMPLE"
+.SH "RETURN"
+0 upon successfully parsing the clock specifier. Otherwise, -ENOENT
+if \fIname\fP is NULL or -EINVAL if \fIname\fP is non-NULL and it can't be found in
+the "clock-names" property of \fInp\fP.

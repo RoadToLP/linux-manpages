@@ -1,0 +1,26 @@
+.TH "drm_atomic_add_affected_planes" 9 "drm_atomic_add_affected_planes" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_add_affected_planes \- add planes for CRTC
+.SH SYNOPSIS
+.B "int" drm_atomic_add_affected_planes
+.BI "(struct drm_atomic_state *state "  ","
+.BI "struct drm_crtc *crtc "  ");"
+.SH ARGUMENTS
+.IP "state" 12
+atomic state
+.IP "crtc" 12
+DRM CRTC
+.SH "DESCRIPTION"
+This function walks the current configuration and adds all planes
+currently used by \fIcrtc\fP to the atomic configuration \fIstate\fP. This is useful
+when an atomic commit also needs to check all currently enabled plane on
+\fIcrtc\fP, e.g. when changing the mode. It's also useful when re-enabling a CRTC
+to avoid special code to force-enable all planes.
+
+Since acquiring a plane state will always also acquire the w/w mutex of the
+current CRTC for that plane (if there is any) adding all the plane states for
+a CRTC will not reduce parallism of atomic updates.
+.SH "RETURN"
+0 on success or can fail with -EDEADLK or -ENOMEM. When the error is EDEADLK
+then the w/w mutex code has detected a deadlock and the entire atomic
+sequence must be restarted. All other errors are fatal.

@@ -1,0 +1,15 @@
+.TH "kill_orphans" 9 "kill_orphans" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kill_orphans \- remove all orphan inodes from the index.
+.SH SYNOPSIS
+.B "int" kill_orphans
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+If recovery is required, then orphan inodes recorded during the previous
+session (which ended with an unclean unmount) must be deleted from the index.
+This is done by updating the TNC, but since the index is not updated until
+the next commit, the LEBs where the orphan information is recorded are not
+erased until the next commit.

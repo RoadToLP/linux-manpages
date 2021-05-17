@@ -1,0 +1,18 @@
+.TH "efi_free" 9 "efi_free" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_free \- free memory pages
+.SH SYNOPSIS
+.B "void" efi_free
+.BI "(unsigned long size "  ","
+.BI "unsigned long addr "  ");"
+.SH ARGUMENTS
+.IP "size" 12
+size of the memory area to free in bytes
+.IP "addr" 12
+start of the memory area to free (must be EFI_PAGE_SIZE
+aligned)
+.SH "DESCRIPTION"
+\fIsize\fP is rounded up to a multiple of EFI_ALLOC_ALIGN which is an
+architecture specific multiple of EFI_PAGE_SIZE. So this function should
+only be used to return pages allocated with \fBefi_allocate_pages\fP or
+\fBefi_low_alloc_above\fP.

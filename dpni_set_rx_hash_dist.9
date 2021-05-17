@@ -1,0 +1,21 @@
+.TH "dpni_set_rx_hash_dist" 9 "dpni_set_rx_hash_dist" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dpni_set_rx_hash_dist \- Set Rx hash distribution
+.SH SYNOPSIS
+.B "int" dpni_set_rx_hash_dist
+.BI "(struct fsl_mc_io *mc_io "  ","
+.BI "u32 cmd_flags "  ","
+.BI "u16 token "  ","
+.BI "const struct dpni_rx_dist_cfg *cfg "  ");"
+.SH ARGUMENTS
+.IP "mc_io" 12
+Pointer to MC portal's I/O object
+.IP "cmd_flags" 12
+Command flags; one or more of 'MC_CMD_FLAG_'
+.IP "token" 12
+Token of DPNI object
+.IP "cfg" 12
+Distribution configuration
+If cfg.enable is set to 1 the packets will be classified using a hash
+function based on the key received in cfg.key_cfg_iova parameter.
+If cfg.enable is set to 0 the packets will be sent to the default queue

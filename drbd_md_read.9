@@ -1,0 +1,18 @@
+.TH "drbd_md_read" 9 "drbd_md_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_md_read \- Reads in the meta data super block
+.SH SYNOPSIS
+.B "int" drbd_md_read
+.BI "(struct drbd_device *device "  ","
+.BI "struct drbd_backing_dev *bdev "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "bdev" 12
+Device from which the meta data should be read in.
+.SH "DESCRIPTION"
+Return NO_ERROR on success, and an enum drbd_ret_code in case
+something goes wrong.
+
+Called exactly once during \fBdrbd_adm_attach\fP, while still being D_DISKLESS,
+even before \fIbdev\fP is assigned to \fIdevice->ldev\fP.

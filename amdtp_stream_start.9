@@ -1,0 +1,29 @@
+.TH "amdtp_stream_start" 9 "amdtp_stream_start" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+amdtp_stream_start \- start transferring packets
+.SH SYNOPSIS
+.B "int" amdtp_stream_start
+.BI "(struct amdtp_stream *s "  ","
+.BI "int channel "  ","
+.BI "int speed "  ","
+.BI "int start_cycle "  ","
+.BI "unsigned int queue_size "  ","
+.BI "unsigned int idle_irq_interval "  ");"
+.SH ARGUMENTS
+.IP "s" 12
+the AMDTP stream to start
+.IP "channel" 12
+the isochronous channel on the bus
+.IP "speed" 12
+firewire speed code
+.IP "start_cycle" 12
+the isochronous cycle to start the context. Start immediately
+if negative value is given.
+.IP "queue_size" 12
+The number of packets in the queue.
+.IP "idle_irq_interval" 12
+the interval to queue packet during initial state.
+.SH "DESCRIPTION"
+The stream cannot be started until it has been configured with
+\fBamdtp_stream_set_parameters\fP and it must be started before any PCM or MIDI
+device can be started.

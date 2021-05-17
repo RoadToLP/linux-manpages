@@ -1,0 +1,26 @@
+.TH "argv_split" 9 "argv_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+argv_split \- split a string at whitespace, returning an argv
+.SH SYNOPSIS
+.B "char **" argv_split
+.BI "(gfp_t gfp "  ","
+.BI "const char *str "  ","
+.BI "int *argcp "  ");"
+.SH ARGUMENTS
+.IP "gfp" 12
+the GFP mask used to allocate memory
+.IP "str" 12
+the string to be split
+.IP "argcp" 12
+returned argument count
+.SH "DESCRIPTION"
+Returns an array of pointers to strings which are split out from
+\fIstr\fP.  This is performed by strictly splitting on white-space; no
+quote processing is performed.  Multiple whitespace characters are
+considered to be a single argument separator.  The returned array
+is always NULL-terminated.  Returns NULL on memory allocation
+failure.
+
+The source string at `str' may be undergoing concurrent alteration via
+userspace sysctl activity (at least).  The \fBargv_split\fP implementation
+attempts to handle this gracefully by taking a local copy to work on.

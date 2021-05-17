@@ -1,0 +1,21 @@
+.TH "insn_get_addr_ref" 9 "insn_get_addr_ref" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+insn_get_addr_ref \- Obtain the linear address referred by instruction
+.SH SYNOPSIS
+.B "void __user *" insn_get_addr_ref
+.BI "(struct insn *insn "  ","
+.BI "struct pt_regs *regs "  ");"
+.SH ARGUMENTS
+.IP "insn" 12
+Instruction structure containing ModRM byte and displacement
+.IP "regs" 12
+Structure with register values as seen when entering kernel mode
+.SH "DESCRIPTION"
+Obtain the linear address referred by the instruction's ModRM, SIB and
+displacement bytes, and segment base, as applicable. In protected mode,
+segment limits are enforced.
+
+Linear address referenced by instruction and registers on success.
+
+-1L on error.
+.SH "RETURN"

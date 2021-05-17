@@ -1,0 +1,28 @@
+.TH "rds_page_remainder_alloc" 9 "rds_page_remainder_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rds_page_remainder_alloc \- build up regions of a message.
+.SH SYNOPSIS
+.B "int" rds_page_remainder_alloc
+.BI "(struct scatterlist *scat "  ","
+.BI "unsigned long bytes "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "scat" 12
+Scatter list for message
+.IP "bytes" 12
+the number of bytes needed.
+.IP "gfp" 12
+the waiting behaviour of the allocation
+.SH "DESCRIPTION"
+\fIgfp\fP is always ored with __GFP_HIGHMEM.  Callers must be prepared to
+kmap the pages, etc.
+
+If \fIbytes\fP is at least a full page then this just returns a page from
+\fBalloc_page\fP.
+
+If \fIbytes\fP is a partial page then this stores the unused region of the
+page in a per-cpu structure.  Future partial-page allocations may be
+satisfied from that cached region.  This lets us waste less memory on
+small allocations with minimal complexity.  It works because the transmit
+path passes read-only page regions down to devices.  They hold a page
+reference until they are done with the region.

@@ -1,0 +1,30 @@
+.TH "regmap_noinc_write" 9 "regmap_noinc_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regmap_noinc_write \- Write data from a register without incrementing the register number
+.SH SYNOPSIS
+.B "int" regmap_noinc_write
+.BI "(struct regmap *map "  ","
+.BI "unsigned int reg "  ","
+.BI "const void *val "  ","
+.BI "size_t val_len "  ");"
+.SH ARGUMENTS
+.IP "map" 12
+Register map to write to
+.IP "reg" 12
+Register to write to
+.IP "val" 12
+Pointer to data buffer
+.IP "val_len" 12
+Length of output buffer in bytes.
+.SH "DESCRIPTION"
+The regmap API usually assumes that bulk bus write operations will write a
+range of registers. Some devices have certain registers for which a write
+operation can write to an internal FIFO.
+
+The target register must be volatile but registers after it can be
+completely unrelated cacheable registers.
+
+This will attempt multiple writes as required to write val_len bytes.
+
+A value of zero will be returned on success, a negative errno will be
+returned in error cases.

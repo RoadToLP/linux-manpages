@@ -1,0 +1,23 @@
+.TH "lpfc_io_slot_reset_s3" 9 "lpfc_io_slot_reset_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_io_slot_reset_s3 \- Method for restarting PCI SLI-3 device from scratch.
+.SH SYNOPSIS
+.B "pci_ers_result_t" lpfc_io_slot_reset_s3
+.BI "(struct pci_dev *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+pointer to PCI device.
+.SH "DESCRIPTION"
+This routine is called from the PCI subsystem for error handling to
+device with SLI-3 interface spec. This is called after PCI bus has been
+reset to restart the PCI card from scratch, as if from a cold-boot.
+During the PCI subsystem error recovery, after driver returns
+PCI_ERS_RESULT_NEED_RESET, the PCI subsystem will perform proper error
+recovery and then call this routine before calling the .resume method
+to recover the device. This function will initialize the HBA device,
+enable the interrupt, but it will just put the HBA to offline state
+without passing any I/O traffic.
+
+Return codes
+PCI_ERS_RESULT_RECOVERED - the device has been recovered
+PCI_ERS_RESULT_DISCONNECT - device could not be recovered

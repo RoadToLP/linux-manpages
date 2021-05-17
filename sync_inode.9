@@ -1,0 +1,18 @@
+.TH "sync_inode" 9 "sync_inode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sync_inode \- write an inode and its pages to disk.
+.SH SYNOPSIS
+.B "int" sync_inode
+.BI "(struct inode *inode "  ","
+.BI "struct writeback_control *wbc "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to sync
+.IP "wbc" 12
+controls the writeback mode
+.SH "DESCRIPTION"
+\fBsync_inode\fP will write an inode and its pages to disk.  It will also
+correctly update the inode on its superblock's dirty inode lists and will
+update inode->i_state.
+
+The caller must have a ref on the inode.

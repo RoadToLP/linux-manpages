@@ -1,0 +1,20 @@
+.TH "usb_autopm_put_interface" 9 "usb_autopm_put_interface" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_autopm_put_interface \- decrement a USB interface's PM-usage counter
+.SH SYNOPSIS
+.B "void" usb_autopm_put_interface
+.BI "(struct usb_interface *intf "  ");"
+.SH ARGUMENTS
+.IP "intf" 12
+the usb_interface whose counter should be decremented
+.SH "DESCRIPTION"
+This routine should be called by an interface driver when it is
+finished using \fIintf\fP and wants to allow it to autosuspend.  A typical
+example would be a character-device driver when its device file is
+closed.
+
+The routine decrements \fIintf\fP's usage counter.  When the counter reaches
+0, a delayed autosuspend request for \fIintf\fP's device is attempted.  The
+attempt may fail (see \fBautosuspend_check\fP).
+
+This routine can run only in process context.

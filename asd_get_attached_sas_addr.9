@@ -1,0 +1,19 @@
+.TH "asd_get_attached_sas_addr" 9 "asd_get_attached_sas_addr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+asd_get_attached_sas_addr \- - extract/generate attached SAS address
+.SH SYNOPSIS
+.B "void" asd_get_attached_sas_addr
+.BI "(struct asd_phy *phy "  ","
+.BI "u8 *sas_addr "  ");"
+.SH ARGUMENTS
+.IP "phy" 12
+pointer to asd_phy
+.IP "sas_addr" 12
+pointer to buffer where the SAS address is to be written
+.SH "DESCRIPTION"
+This function extracts the SAS address from an IDENTIFY frame
+received.  If OOB is SATA, then a SAS address is generated from the
+HA tables.
+
+LOCKING: the frame_rcvd_lock needs to be held since this parses the frame
+buffer.

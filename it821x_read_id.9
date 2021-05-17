@@ -1,0 +1,20 @@
+.TH "it821x_read_id" 9 "it821x_read_id" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+it821x_read_id \- Hack identify data up
+.SH SYNOPSIS
+.B "unsigned int" it821x_read_id
+.BI "(struct ata_device *adev "  ","
+.BI "struct ata_taskfile *tf "  ","
+.BI "u16 *id "  ");"
+.SH ARGUMENTS
+.IP "adev" 12
+device to read
+.IP "tf" 12
+proposed taskfile
+.IP "id" 12
+buffer for returned ident data
+
+Query the devices on this firmware driven port and slightly
+mash the identify data to stop us and common tools trying to
+use features not firmware supported. The firmware itself does
+some masking (eg SMART) but not enough.

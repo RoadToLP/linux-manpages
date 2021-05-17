@@ -1,0 +1,22 @@
+.TH "lpfc_scan_finished" 9 "lpfc_scan_finished" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_scan_finished \- method for SCSI layer to detect whether scan is done
+.SH SYNOPSIS
+.B "int" lpfc_scan_finished
+.BI "(struct Scsi_Host *shost "  ","
+.BI "unsigned long time "  ");"
+.SH ARGUMENTS
+.IP "shost" 12
+pointer to SCSI host data structure.
+.IP "time" 12
+elapsed time of the scan in jiffies.
+.SH "DESCRIPTION"
+This routine is called by the SCSI layer with a SCSI host to determine
+whether the scan host is finished.
+
+Return codes
+0 - SCSI host scan is not over yet.
+1 - SCSI host scan is over.
+.SH "NOTE"
+there is no scan_start function as adapter initialization will have
+asynchronously kicked off the link initialization.

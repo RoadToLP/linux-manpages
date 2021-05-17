@@ -1,0 +1,28 @@
+.TH "clocks_calc_max_nsecs" 9 "clocks_calc_max_nsecs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+clocks_calc_max_nsecs \- Returns maximum nanoseconds that can be converted
+.SH SYNOPSIS
+.B "u64" clocks_calc_max_nsecs
+.BI "(u32 mult "  ","
+.BI "u32 shift "  ","
+.BI "u32 maxadj "  ","
+.BI "u64 mask "  ","
+.BI "u64 *max_cyc "  ");"
+.SH ARGUMENTS
+.IP "mult" 12
+cycle to nanosecond multiplier
+.IP "shift" 12
+cycle to nanosecond divisor (power of two)
+.IP "maxadj" 12
+maximum adjustment value to mult (~11%)
+.IP "mask" 12
+bitmask for two's complement subtraction of non 64 bit counters
+.IP "max_cyc" 12
+maximum cycle value before potential overflow (does not include
+any safety margin)
+.SH "NOTE"
+This function includes a safety margin of 50%, in other words, we
+return half the number of nanoseconds the hardware counter can technically
+cover. This is done so that we can potentially detect problems caused by
+delayed timers or bad hardware, which might result in time intervals that
+are larger than what the math used can handle without overflows.

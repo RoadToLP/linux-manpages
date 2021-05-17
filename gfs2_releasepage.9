@@ -1,0 +1,17 @@
+.TH "gfs2_releasepage" 9 "gfs2_releasepage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_releasepage \- free the metadata associated with a page
+.SH SYNOPSIS
+.B "int" gfs2_releasepage
+.BI "(struct page *page "  ","
+.BI "gfp_t gfp_mask "  ");"
+.SH ARGUMENTS
+.IP "page" 12
+the page that's being released
+.IP "gfp_mask" 12
+passed from Linux VFS, ignored by us
+.SH "DESCRIPTION"
+Calls \fBtry_to_free_buffers\fP to free the buffers and put the page if the
+buffers can be released.
+.SH "RETURN"
+1 if the page was put or else 0

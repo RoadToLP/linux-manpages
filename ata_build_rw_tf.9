@@ -1,0 +1,37 @@
+.TH "ata_build_rw_tf" 9 "ata_build_rw_tf" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_build_rw_tf \- Build ATA taskfile for given read/write request
+.SH SYNOPSIS
+.B "int" ata_build_rw_tf
+.BI "(struct ata_taskfile *tf "  ","
+.BI "struct ata_device *dev "  ","
+.BI "u64 block "  ","
+.BI "u32 n_block "  ","
+.BI "unsigned int tf_flags "  ","
+.BI "unsigned int tag "  ","
+.BI "int class "  ");"
+.SH ARGUMENTS
+.IP "tf" 12
+Target ATA taskfile
+.IP "dev" 12
+ATA device \fItf\fP belongs to
+.IP "block" 12
+Block address
+.IP "n_block" 12
+Number of blocks
+.IP "tf_flags" 12
+RW/FUA etc...
+.IP "tag" 12
+tag
+.IP "class" 12
+IO priority class
+
+LOCKING:
+None.
+
+Build ATA taskfile \fItf\fP for read/write request described by
+\fIblock\fP, \fIn_block\fP, \fItf_flags\fP and \fItag\fP on \fIdev\fP.
+.SH "RETURN"
+
+0 on success, -ERANGE if the request is too large for \fIdev\fP,
+-EINVAL if the request is invalid.

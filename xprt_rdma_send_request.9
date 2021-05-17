@@ -1,0 +1,20 @@
+.TH "xprt_rdma_send_request" 9 "xprt_rdma_send_request" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xprt_rdma_send_request \- marshal and send an RPC request
+.SH SYNOPSIS
+.B "int" xprt_rdma_send_request
+.BI "(struct rpc_rqst *rqst "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+RPC message in rq_snd_buf
+.SH "DESCRIPTION"
+Caller holds the transport's write lock.
+.SH "RETURN"
+0 if the RPC message has been sent
+-ENOTCONN if the caller should reconnect and call again
+-EAGAIN if the caller should call again
+-ENOBUFS if the caller should call again after a delay
+-EMSGSIZE if encoding ran out of buffer space. The request
+was not sent. Do not try to send this message again.
+-EIO if an I/O error occurred. The request was not sent.
+Do not try to send this message again.

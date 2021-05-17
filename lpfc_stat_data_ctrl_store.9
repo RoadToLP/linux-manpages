@@ -1,0 +1,31 @@
+.TH "lpfc_stat_data_ctrl_store" 9 "lpfc_stat_data_ctrl_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_stat_data_ctrl_store \- write call back for lpfc_stat_data_ctrl sysfs file
+.SH SYNOPSIS
+.B "ssize_t" lpfc_stat_data_ctrl_store
+.BI "(struct device *dev "  ","
+.BI "struct device_attribute *attr "  ","
+.BI "const char *buf "  ","
+.BI "size_t count "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+Pointer to class device.
+.IP "attr" 12
+Unused.
+.IP "buf" 12
+Data buffer.
+.IP "count" 12
+Size of the data buffer.
+.SH "DESCRIPTION"
+This function get called when a user write to the lpfc_stat_data_ctrl
+sysfs file. This function parse the command written to the sysfs file
+and take appropriate action. These commands are used for controlling
+driver statistical data collection.
+Following are the command this function handles.
+
+setbucket <bucket_type> <base> <step>
+= Set the latency buckets.
+destroybucket            = destroy all the buckets.
+start                    = start data collection
+stop                     = stop data collection
+reset                    = reset the collected data

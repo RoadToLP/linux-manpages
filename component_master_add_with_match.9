@@ -1,0 +1,21 @@
+.TH "component_master_add_with_match" 9 "component_master_add_with_match" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+component_master_add_with_match \- register an aggregate driver
+.SH SYNOPSIS
+.B "int" component_master_add_with_match
+.BI "(struct device *dev "  ","
+.BI "const struct component_master_ops *ops "  ","
+.BI "struct component_match *match "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device with the aggregate driver
+.IP "ops" 12
+callbacks for the aggregate driver
+.IP "match" 12
+component match list for the aggregate driver
+.SH "DESCRIPTION"
+Registers a new aggregate driver consisting of the components added to \fImatch\fP
+by calling one of the \fBcomponent_match_add\fP functions. Once all components in
+\fImatch\fP are available, it will be assembled by calling
+\fIcomponent_master_ops.bind\fP from \fIops\fP. Must be unregistered by calling
+\fBcomponent_master_del\fP.

@@ -1,0 +1,17 @@
+.TH "batadv_nc_process_nc_paths" 9 "batadv_nc_process_nc_paths" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+batadv_nc_process_nc_paths \- traverse given nc packet pool and free timed out nc packets
+.SH SYNOPSIS
+.B "void" batadv_nc_process_nc_paths
+.BI "(struct batadv_priv *bat_priv "  ","
+.BI "struct batadv_hashtable *hash "  ","
+.BI "bool (*process_fn)(struct batadv_priv *, struct batadv_nc_path *, struct batadv_nc_packet *) "  ");"
+.SH ARGUMENTS
+.IP "bat_priv" 12
+the bat priv with all the soft interface information
+.IP "hash" 12
+to be processed hash table
+.IP "process_fn" 12
+Function called to process given nc packet. Should return true
+to encourage this function to proceed with the next packet.
+Otherwise the rest of the current queue is skipped.

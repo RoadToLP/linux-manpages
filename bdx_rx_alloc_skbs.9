@@ -1,0 +1,17 @@
+.TH "bdx_rx_alloc_skbs" 9 "bdx_rx_alloc_skbs" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_rx_alloc_skbs \- fill rxf fifo with new skbs
+.SH SYNOPSIS
+.B "void" bdx_rx_alloc_skbs
+.BI "(struct bdx_priv *priv "  ","
+.BI "struct rxf_fifo *f "  ");"
+.SH ARGUMENTS
+.IP "priv" 12
+nic's private structure
+.IP "f" 12
+RXF fifo that needs skbs
+.SH "DESCRIPTION"
+It allocates skbs, build rxf descs and push it (rxf descr) into rxf fifo.
+skb's virtual and physical addresses are stored in skb db.
+To calculate free space, func uses cached values of RPTR and WPTR
+When needed, it also updates RPTR and WPTR.

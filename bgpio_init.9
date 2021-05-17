@@ -1,0 +1,48 @@
+.TH "bgpio_init" 9 "bgpio_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bgpio_init \- Initialize generic GPIO accessor functions
+.SH SYNOPSIS
+.B "int" bgpio_init
+.BI "(struct gpio_chip *gc "  ","
+.BI "struct device *dev "  ","
+.BI "unsigned long sz "  ","
+.BI "void __iomem *dat "  ","
+.BI "void __iomem *set "  ","
+.BI "void __iomem *clr "  ","
+.BI "void __iomem *dirout "  ","
+.BI "void __iomem *dirin "  ","
+.BI "unsigned long flags "  ");"
+.SH ARGUMENTS
+.IP "gc" 12
+the GPIO chip to set up
+.IP "dev" 12
+the parent device of the new GPIO chip (compulsory)
+.IP "sz" 12
+the size (width) of the MMIO registers in bytes, typically 1, 2 or 4
+.IP "dat" 12
+MMIO address for the register to READ the value of the GPIO lines, it
+is expected that a 1 in the corresponding bit in this register means the
+line is asserted
+.IP "set" 12
+MMIO address for the register to SET the value of the GPIO lines, it is
+expected that we write the line with 1 in this register to drive the GPIO line
+high.
+.IP "clr" 12
+MMIO address for the register to CLEAR the value of the GPIO lines, it is
+expected that we write the line with 1 in this register to drive the GPIO line
+low. It is allowed to leave this address as NULL, in that case the SET register
+will be assumed to also clear the GPIO lines, by actively writing the line
+with 0.
+.IP "dirout" 12
+MMIO address for the register to set the line as OUTPUT. It is assumed
+that setting a line to 1 in this register will turn that line into an
+output line. Conversely, setting the line to 0 will turn that line into
+an input.
+.IP "dirin" 12
+MMIO address for the register to set this line as INPUT. It is assumed
+that setting a line to 1 in this register will turn that line into an
+input line. Conversely, setting the line to 0 will turn that line into
+an output.
+.IP "flags" 12
+Different flags that will affect the behaviour of the device, such as
+endianness etc.

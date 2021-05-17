@@ -1,0 +1,19 @@
+.TH "sata_pmp_eh_recover" 9 "sata_pmp_eh_recover" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_pmp_eh_recover \- recover PMP-enabled port
+.SH SYNOPSIS
+.B "int" sata_pmp_eh_recover
+.BI "(struct ata_port *ap "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port to recover
+
+Drive EH recovery operation for PMP enabled port \fIap\fP.  This
+function recovers host and PMP ports with proper retrials and
+fallbacks.  Actual recovery operations are performed using
+\fBata_eh_recover\fP and \fBsata_pmp_eh_recover_pmp\fP.
+
+LOCKING:
+Kernel thread context (may sleep).
+.SH "RETURN"
+0 on success, -errno on failure.

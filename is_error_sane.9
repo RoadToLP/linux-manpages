@@ -1,0 +1,24 @@
+.TH "is_error_sane" 9 "is_error_sane" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_error_sane \- check whether a read error is sane.
+.SH SYNOPSIS
+.B "int" is_error_sane
+.BI "(int err "  ");"
+.SH ARGUMENTS
+.IP "err" 12
+code of the error happened during reading
+.SH "DESCRIPTION"
+This is a helper function for '\fBubi_eba_copy_leb\fP' which is called when we
+cannot read data from the target PEB (an error \fIerr\fP happened). If the error
+code is sane, then we treat this error as non-fatal. Otherwise the error is
+fatal and UBI will be switched to R/O mode later.
+
+The idea is that we try not to switch to R/O mode if the read error is
+something which suggests there was a real read problem. E.g., -EIO. Or a
+memory allocation failed (-ENOMEM). Otherwise, it is safer to switch to R/O
+mode, simply because we do not know what happened at the MTD level, and we
+cannot handle this. E.g., the underlying driver may have become crazy, and
+it is safer to switch to R/O mode to preserve the data.
+
+And bear in mind, this is about reading from the target PEB, i.e. the PEB
+which we have just written.

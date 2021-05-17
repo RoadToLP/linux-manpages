@@ -1,0 +1,30 @@
+.TH "ring_buffer_read_prepare" 9 "ring_buffer_read_prepare" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ring_buffer_read_prepare \- Prepare for a non consuming read of the buffer
+.SH SYNOPSIS
+.B "struct ring_buffer_iter *" ring_buffer_read_prepare
+.BI "(struct trace_buffer *buffer "  ","
+.BI "int cpu "  ","
+.BI "gfp_t flags "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+The ring buffer to read from
+.IP "cpu" 12
+The cpu buffer to iterate over
+.IP "flags" 12
+gfp flags to use for memory allocation
+.SH "DESCRIPTION"
+This performs the initial preparations necessary to iterate
+through the buffer.  Memory is allocated, buffer recording
+is disabled, and the iterator pointer is returned to the caller.
+
+Disabling buffer recording prevents the reading from being
+corrupted. This is not a consuming read, so a producer is not
+expected.
+
+After a sequence of ring_buffer_read_prepare calls, the user is
+expected to make at least one call to ring_buffer_read_prepare_sync.
+Afterwards, ring_buffer_read_start is invoked to get things going
+for real.
+
+This overall must be paired with ring_buffer_read_finish.

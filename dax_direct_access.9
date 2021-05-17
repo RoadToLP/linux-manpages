@@ -1,0 +1,24 @@
+.TH "dax_direct_access" 9 "dax_direct_access" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dax_direct_access \- translate a device pgoff to an absolute pfn
+.SH SYNOPSIS
+.B "long" dax_direct_access
+.BI "(struct dax_device *dax_dev "  ","
+.BI "pgoff_t pgoff "  ","
+.BI "long nr_pages "  ","
+.BI "void **kaddr "  ","
+.BI "pfn_t *pfn "  ");"
+.SH ARGUMENTS
+.IP "dax_dev" 12
+a dax_device instance representing the logical memory range
+.IP "pgoff" 12
+offset in pages from the start of the device to translate
+.IP "nr_pages" 12
+number of consecutive pages caller can handle relative to \fIpfn\fP
+.IP "kaddr" 12
+output parameter that returns a virtual address mapping of pfn
+.IP "pfn" 12
+output parameter that returns an absolute pfn translation of \fIpgoff\fP
+.SH "RETURN"
+negative errno if an error occurs, otherwise the number of
+pages accessible at the device relative \fIpgoff\fP.

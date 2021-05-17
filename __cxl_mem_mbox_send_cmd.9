@@ -1,0 +1,30 @@
+.TH "__cxl_mem_mbox_send_cmd" 9 "__cxl_mem_mbox_send_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__cxl_mem_mbox_send_cmd \- Execute a mailbox command
+.SH SYNOPSIS
+.B "int" __cxl_mem_mbox_send_cmd
+.BI "(struct cxl_mem *cxlm "  ","
+.BI "struct mbox_cmd *mbox_cmd "  ");"
+.SH ARGUMENTS
+.IP "cxlm" 12
+The CXL memory device to communicate with.
+.IP "mbox_cmd" 12
+Command to send to the memory device.
+.SH "CONTEXT"
+Any context. Expects mbox_mutex to be held.
+.SH "RETURN"
+-ETIMEDOUT if timeout occurred waiting for completion. 0 on success.
+Caller should check the return code in \fImbox_cmd\fP to make sure it
+succeeded.
+.SH "DESCRIPTION"
+This is a generic form of the CXL mailbox send command thus only using the
+registers defined by the mailbox capability ID - CXL 2.0 8.2.8.4. Memory
+devices, and perhaps other types of CXL devices may have further information
+available upon error conditions. Driver facilities wishing to send mailbox
+commands should use the wrapper command.
+
+The CXL spec allows for up to two mailboxes. The intention is for the primary
+mailbox to be OS controlled and the secondary mailbox to be used by system
+firmware. This allows the OS and firmware to communicate with the device and
+not need to coordinate with each other. The driver only uses the primary
+mailbox.

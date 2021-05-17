@@ -1,0 +1,24 @@
+.TH "efi_capsule_supported" 9 "efi_capsule_supported" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+efi_capsule_supported \- does the firmware support the capsule?
+.SH SYNOPSIS
+.B "int" efi_capsule_supported
+.BI "(efi_guid_t guid "  ","
+.BI "u32 flags "  ","
+.BI "size_t size "  ","
+.BI "int *reset "  ");"
+.SH ARGUMENTS
+.IP "guid" 12
+vendor guid of capsule
+.IP "flags" 12
+capsule flags
+.IP "size" 12
+size of capsule data
+.IP "reset" 12
+the reset type required for this capsule
+.SH "DESCRIPTION"
+Check whether a capsule with \fIflags\fP is supported by the firmware
+and that \fIsize\fP doesn't exceed the maximum size for a capsule.
+
+No attempt is made to check \fIreset\fP against the reset type required
+by any pending capsules because of the races involved.

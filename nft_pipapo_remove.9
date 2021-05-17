@@ -1,0 +1,20 @@
+.TH "nft_pipapo_remove" 9 "nft_pipapo_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_pipapo_remove \- Remove element given key, commit
+.SH SYNOPSIS
+.B "void" nft_pipapo_remove
+.BI "(const struct net *net "  ","
+.BI "const struct nft_set *set "  ","
+.BI "const struct nft_set_elem *elem "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+Network namespace
+.IP "set" 12
+nftables API set representation
+.IP "elem" 12
+nftables API element representation containing key data
+.SH "DESCRIPTION"
+Similarly to \fBnft_pipapo_activate\fP, this is used as commit operation by the
+API, but it's called once per element in the pending transaction, so we can't
+implement this as a single commit operation. Closest we can get is to remove
+the matched element here, if any, and commit the updated matching data.

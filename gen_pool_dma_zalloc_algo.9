@@ -1,0 +1,27 @@
+.TH "gen_pool_dma_zalloc_algo" 9 "gen_pool_dma_zalloc_algo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gen_pool_dma_zalloc_algo \- allocate special zeroed memory from the pool for DMA usage with the given pool algorithm
+.SH SYNOPSIS
+.B "void *" gen_pool_dma_zalloc_algo
+.BI "(struct gen_pool *pool "  ","
+.BI "size_t size "  ","
+.BI "dma_addr_t *dma "  ","
+.BI "genpool_algo_t algo "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool to allocate from
+.IP "size" 12
+number of bytes to allocate from the pool
+.IP "dma" 12
+DMA-view physical address return value. Use NULL if unneeded.
+.IP "algo" 12
+algorithm passed from caller
+.IP "data" 12
+data passed to algorithm
+.SH "DESCRIPTION"
+Allocate the requested number of zeroed bytes from the specified pool. Uses
+the given pool allocation function. Can not be used in NMI handler on
+architectures without NMI-safe cmpxchg implementation.
+.SH "RETURN"
+virtual address of the allocated zeroed memory, or NULL on failure

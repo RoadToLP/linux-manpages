@@ -1,0 +1,18 @@
+.TH "bio_endio" 9 "bio_endio" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bio_endio \- end I/O on a bio
+.SH SYNOPSIS
+.B "void" bio_endio
+.BI "(struct bio *bio "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+bio
+.SH "DESCRIPTION"
+\fBbio_endio\fP will end I/O on the whole bio. \fBbio_endio\fP is the preferred
+way to end I/O on a bio. No one should call \fBbi_end_io\fP directly on a
+bio unless they own it and thus know that it has an end_io function.
+
+\fBbio_endio\fP can be called several times on a bio that has been chained
+using \fBbio_chain\fP.  The ->\fBbi_end_io\fP function will only be called the
+last time.  At this point the BLK_TA_COMPLETE tracing event will be
+generated if BIO_TRACE_COMPLETION is set.

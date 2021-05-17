@@ -1,0 +1,23 @@
+.TH "ubi_leb_map" 9 "ubi_leb_map" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_leb_map \- map logical eraseblock to a physical eraseblock.
+.SH SYNOPSIS
+.B "int" ubi_leb_map
+.BI "(struct ubi_volume_desc *desc "  ","
+.BI "int lnum "  ");"
+.SH ARGUMENTS
+.IP "desc" 12
+volume descriptor
+.IP "lnum" 12
+logical eraseblock number
+.SH "DESCRIPTION"
+This function maps an un-mapped logical eraseblock \fIlnum\fP to a physical
+eraseblock. This means, that after a successful invocation of this
+function the logical eraseblock \fIlnum\fP will be empty (contain only 0xFF
+bytes) and be mapped to a physical eraseblock, even if an unclean reboot
+happens.
+
+This function returns zero in case of success, -EBADF if the volume is
+damaged because of an interrupted update, -EBADMSG if the logical
+eraseblock is already mapped, and other negative error codes in case of
+other failures.

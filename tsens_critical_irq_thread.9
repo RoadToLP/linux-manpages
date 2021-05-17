@@ -1,0 +1,22 @@
+.TH "tsens_critical_irq_thread" 9 "tsens_critical_irq_thread" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tsens_critical_irq_thread \- Threaded handler for critical interrupts
+.SH SYNOPSIS
+.B "irqreturn_t" tsens_critical_irq_thread
+.BI "(int irq "  ","
+.BI "void *data "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+irq number
+.IP "data" 12
+tsens controller private data
+.SH "DESCRIPTION"
+Check FSM watchdog bark status and clear if needed.
+Check all sensors to find ones that violated their critical threshold limits.
+Clear and then re-enable the interrupt.
+
+The level-triggered interrupt might deassert if the temperature returned to
+within the threshold limits by the time the handler got scheduled. We
+consider the irq to have been handled in that case.
+.SH "RETURN"
+IRQ_HANDLED

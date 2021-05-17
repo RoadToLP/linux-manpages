@@ -1,0 +1,15 @@
+.TH "drm_is_current_master" 9 "drm_is_current_master" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_is_current_master \- checks whether @priv is the current master
+.SH SYNOPSIS
+.B "bool" drm_is_current_master
+.BI "(struct drm_file *fpriv "  ");"
+.SH ARGUMENTS
+.IP "fpriv" 12
+DRM file private
+.SH "DESCRIPTION"
+Checks whether \fIfpriv\fP is current master on its device. This decides whether a
+client is allowed to run DRM_MASTER IOCTLs.
+
+Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+- the current master is assumed to own the non-shareable display hardware.

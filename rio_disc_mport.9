@@ -1,0 +1,19 @@
+.TH "rio_disc_mport" 9 "rio_disc_mport" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rio_disc_mport \- Start discovery through a master port
+.SH SYNOPSIS
+.B "int" rio_disc_mport
+.BI "(struct rio_mport *mport "  ","
+.BI "u32 flags "  ");"
+.SH ARGUMENTS
+.IP "mport" 12
+Master port to send transactions
+.IP "flags" 12
+discovery control flags
+.SH "DESCRIPTION"
+Starts the discovery process. If we have an active link,
+then wait for the signal that enumeration is complete (if wait
+is allowed).
+When enumeration completion is signaled, start recursive
+peer discovery. Returns 0 if discovery succeeds or -EBUSY
+on failure.

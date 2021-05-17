@@ -1,0 +1,45 @@
+.TH "__scsi_execute" 9 "__scsi_execute" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__scsi_execute \- insert request and wait for the result
+.SH SYNOPSIS
+.B "int" __scsi_execute
+.BI "(struct scsi_device *sdev "  ","
+.BI "const unsigned char *cmd "  ","
+.BI "int data_direction "  ","
+.BI "void *buffer "  ","
+.BI "unsigned bufflen "  ","
+.BI "unsigned char *sense "  ","
+.BI "struct scsi_sense_hdr *sshdr "  ","
+.BI "int timeout "  ","
+.BI "int retries "  ","
+.BI "u64 flags "  ","
+.BI "req_flags_t rq_flags "  ","
+.BI "int *resid "  ");"
+.SH ARGUMENTS
+.IP "sdev" 12
+scsi device
+.IP "cmd" 12
+scsi command
+.IP "data_direction" 12
+data direction
+.IP "buffer" 12
+data buffer
+.IP "bufflen" 12
+len of buffer
+.IP "sense" 12
+optional sense buffer
+.IP "sshdr" 12
+optional decoded sense header
+.IP "timeout" 12
+request timeout in seconds
+.IP "retries" 12
+number of times to retry request
+.IP "flags" 12
+flags for ->cmd_flags
+.IP "rq_flags" 12
+flags for ->rq_flags
+.IP "resid" 12
+optional residual length
+.SH "DESCRIPTION"
+Returns the scsi_cmnd result field if a command was executed, or a negative
+Linux error code if we didn't get that far.

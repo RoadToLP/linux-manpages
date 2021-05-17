@@ -1,0 +1,27 @@
+.TH "parse_hex_sentence" 9 "parse_hex_sentence" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+parse_hex_sentence \- Convert a ascii hex representation into byte array.
+.SH SYNOPSIS
+.B "int" parse_hex_sentence
+.BI "(const char *in "  ","
+.BI "int isize "  ","
+.BI "u8 *out "  ","
+.BI "int osize "  ");"
+.SH ARGUMENTS
+.IP "in" 12
+Input buffer of ascii.
+.IP "isize" 12
+Length of input buffer.
+.IP "out" 12
+Output buffer.
+.IP "osize" 12
+Length of output buffer, e.g. max number of bytes to parse.
+.SH "DESCRIPTION"
+An valid input is a series of ascii hexadecimal numbers, separated by spaces.
+An example valid input is
+"   00 f2 0    000076 6 0  ff"
+
+If an individual "word" within the hex sentence is longer than MAX_WORD_SIZE,
+then the sentence is illegal, and parsing will fail.
+.SH "RETURN"
+Number of bytes parsed, or negative error code on failure.

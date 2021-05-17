@@ -1,0 +1,16 @@
+.TH "kthread_bind" 9 "kthread_bind" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kthread_bind \- bind a just-created kthread to a cpu.
+.SH SYNOPSIS
+.B "void" kthread_bind
+.BI "(struct task_struct *p "  ","
+.BI "unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "p" 12
+thread created by \fBkthread_create\fP.
+.IP "cpu" 12
+cpu (might not be online, must be possible) for \fIk\fP to run on.
+.SH "DESCRIPTION"
+This function is equivalent to \fBset_cpus_allowed\fP,
+except that \fIcpu\fP doesn't need to be online, and the thread must be
+stopped (i.e., just returned from \fBkthread_create\fP).

@@ -1,0 +1,24 @@
+.TH "percpu_ref_kill_and_confirm" 9 "percpu_ref_kill_and_confirm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+percpu_ref_kill_and_confirm \- drop the initial ref and schedule confirmation
+.SH SYNOPSIS
+.B "void" percpu_ref_kill_and_confirm
+.BI "(struct percpu_ref *ref "  ","
+.BI "percpu_ref_func_t *confirm_kill "  ");"
+.SH ARGUMENTS
+.IP "ref" 12
+percpu_ref to kill
+.IP "confirm_kill" 12
+optional confirmation callback
+.SH "DESCRIPTION"
+Equivalent to \fBpercpu_ref_kill\fP but also schedules kill confirmation if
+\fIconfirm_kill\fP is not NULL.  \fIconfirm_kill\fP, which may not block, will be
+called after \fIref\fP is seen as dead from all CPUs at which point all
+further invocations of \fBpercpu_ref_tryget_live\fP will fail.  See
+\fBpercpu_ref_tryget_live\fP for details.
+
+This function normally doesn't block and can be called from any context
+but it may block if \fIconfirm_kill\fP is specified and \fIref\fP is in the
+process of switching to atomic mode by \fBpercpu_ref_switch_to_atomic\fP.
+
+There are no implied RCU grace periods between kill and release.

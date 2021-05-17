@@ -1,0 +1,30 @@
+.TH "i40iw_qhash_ctrl" 9 "i40iw_qhash_ctrl" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40iw_qhash_ctrl \- enable/disable qhash for list
+.SH SYNOPSIS
+.B "void" i40iw_qhash_ctrl
+.BI "(struct i40iw_device *iwdev "  ","
+.BI "struct i40iw_cm_listener *parent_listen_node "  ","
+.BI "struct i40iw_cm_info *nfo "  ","
+.BI "u32 *ipaddr "  ","
+.BI "bool ipv4 "  ","
+.BI "bool ifup "  ");"
+.SH ARGUMENTS
+.IP "iwdev" 12
+device pointer
+.IP "parent_listen_node" 12
+parent listen node
+.IP "nfo" 12
+cm info node
+.IP "ipaddr" 12
+Pointer to IPv4 or IPv6 address
+.IP "ipv4" 12
+flag indicating IPv4 when true
+.IP "ifup" 12
+flag indicating interface up when true
+.SH "DESCRIPTION"
+Enables or disables the qhash for the node in the child
+listen list that matches ipaddr. If no matching IP was found
+it will allocate and add a new child listen node to the
+parent listen node. The listen_list_lock is assumed to be
+held when called.

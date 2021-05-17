@@ -1,0 +1,21 @@
+.TH "jbd2_journal_stop" 9 "jbd2_journal_stop" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+jbd2_journal_stop \- complete a transaction
+.SH SYNOPSIS
+.B "int" jbd2_journal_stop
+.BI "(handle_t *handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+transaction to complete.
+.SH "DESCRIPTION"
+All done for a particular handle.
+
+There is not much action needed here.  We just return any remaining
+buffer credits to the transaction and remove the handle.  The only
+complication is that we need to start a commit operation if the
+filesystem is marked for synchronous update.
+
+jbd2_journal_stop itself will not usually return an error, but it may
+do so in unusual circumstances.  In particular, expect it to
+return -EIO if a jbd2_journal_abort has been executed since the
+transaction began.

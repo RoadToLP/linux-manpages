@@ -1,0 +1,15 @@
+.TH "locks_end_grace" 9 "locks_end_grace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+locks_end_grace \- 
+.SH SYNOPSIS
+.B "void" locks_end_grace
+.BI "(struct lock_manager *lm "  ");"
+.SH ARGUMENTS
+.IP "lm" 12
+who this grace period is for
+.SH "DESCRIPTION"
+Call this function to state that the given lock manager is ready to
+resume regular locking.  The grace period will not end until all lock
+managers that called \fBlocks_start_grace\fP also call \fBlocks_end_grace\fP.
+Note that callers count on it being safe to call this more than once,
+and the second call should be a no-op.

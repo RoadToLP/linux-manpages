@@ -1,0 +1,45 @@
+.TH "epf_ntb_db_mw_bar_clear" 9 "epf_ntb_db_mw_bar_clear" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+epf_ntb_db_mw_bar_clear \- Clear doorbell and memory BAR
+.SH SYNOPSIS
+.B "void" epf_ntb_db_mw_bar_clear
+.BI "(struct epf_ntb_epc *ntb_epc "  ");"
+.SH ARGUMENTS
+.IP "ntb_epc" 12
+EPC associated with one of the HOST which holds peer's outbound
+address
+.SH "DESCRIPTION"
++-----------------+    +---->+----------------+-----------+-----------------+
+|       BAR0      |    |     |   Doorbell 1   +-----------> MSI|X ADDRESS 1 |
++-----------------+    |     +----------------+           +-----------------+
+|       BAR1      |    |     |   Doorbell 2   +---------+ |                 |
++-----------------+----+     +----------------+         | |                 |
+|       BAR2      |          |   Doorbell 3   +-------+ | +-----------------+
++-----------------+----+     +----------------+       | +-> MSI|X ADDRESS 2 |
+|       BAR3      |    |     |   Doorbell 4   +-----+ |   +-----------------+
++-----------------+    |     |----------------+     | |   |                 |
+|       BAR4      |    |     |                |     | |   +-----------------+
++-----------------+    |     |      MW1       +---+ | +-->+ MSI|X ADDRESS 3||
+|       BAR5      |    |     |                |   | |     +-----------------+
++-----------------+    +---->-----------------+   | |     |                 |
+EP CONTROLLER 1            |                |   | |     +-----------------+
+|                |   | +---->+ MSI|X ADDRESS 4 |
++----------------+   |       +-----------------+
+(A)      EP CONTROLLER 2     |       |                 |
+(OB SPACE)        |       |                 |
++------->      MW1        |
+|                 |
+|                 |
+(B)     +-----------------+
+|                 |
+|                 |
+|                 |
+|                 |
+|                 |
++-----------------+
+PCI Address Space
+(Managed by HOST2)
+
+Clear doorbell and memory BARs (remove inbound ATU configuration). In the above
+diagram it clears BAR2 TO BAR5 of EP CONTROLLER 1 (Doorbell BAR, MW1 BAR, MW2
+BAR, MW3 BAR and MW4 BAR).

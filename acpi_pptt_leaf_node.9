@@ -1,0 +1,18 @@
+.TH "acpi_pptt_leaf_node" 9 "acpi_pptt_leaf_node" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+acpi_pptt_leaf_node \- Given a processor node, determine if its a leaf
+.SH SYNOPSIS
+.B "int" acpi_pptt_leaf_node
+.BI "(struct acpi_table_header *table_hdr "  ","
+.BI "struct acpi_pptt_processor *node "  ");"
+.SH ARGUMENTS
+.IP "table_hdr" 12
+Pointer to the head of the PPTT table
+.IP "node" 12
+passed node is checked to see if its a leaf
+.SH "DESCRIPTION"
+Determine if the *node parameter is a leaf node by iterating the
+PPTT table, looking for nodes which reference it.
+.SH "RETURN"
+0 if we find a node referencing the passed node (or table error),
+or 1 if we don't.

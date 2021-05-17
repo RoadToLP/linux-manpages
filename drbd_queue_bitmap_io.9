@@ -1,0 +1,29 @@
+.TH "drbd_queue_bitmap_io" 9 "drbd_queue_bitmap_io" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drbd_queue_bitmap_io \- Queues an IO operation on the whole bitmap
+.SH SYNOPSIS
+.B "void" drbd_queue_bitmap_io
+.BI "(struct drbd_device *device "  ","
+.BI "int (*io_fn)(struct drbd_device *) "  ","
+.BI "void (*done)(struct drbd_device *, int) "  ","
+.BI "char *why "  ","
+.BI "enum bm_flag flags "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+DRBD device.
+.IP "io_fn" 12
+IO callback to be called when bitmap IO is possible
+.IP "done" 12
+callback to be called after the bitmap IO was performed
+.IP "why" 12
+Descriptive text of the reason for doing the IO
+.IP "flags" 12
+-- undescribed --
+.SH "DESCRIPTION"
+While IO on the bitmap happens we freeze application IO thus we ensure
+that \fBdrbd_set_out_of_sync\fP can not be called. This function MAY ONLY be
+called from worker context. It MUST NOT be used while a previous such
+work is still pending!
+
+Its worker function encloses the call of \fBio_fn\fP by \fBget_ldev\fP and
+\fBput_ldev\fP.

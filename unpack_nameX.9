@@ -1,0 +1,25 @@
+.TH "unpack_nameX" 9 "unpack_nameX" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+unpack_nameX \- check is the next element is of type X with a name of @name
+.SH SYNOPSIS
+.B "bool" unpack_nameX
+.BI "(struct aa_ext *e "  ","
+.BI "enum aa_code code "  ","
+.BI "const char *name "  ");"
+.SH ARGUMENTS
+.IP "e" 12
+serialized data extent information  (NOT NULL)
+.IP "code" 12
+type code
+.IP "name" 12
+name to match to the serialized element.  (MAYBE NULL)
+.SH "DESCRIPTION"
+check that the next serialized data element is of type X and has a tag
+name \fIname\fP.  If \fIname\fP is specified then there must be a matching
+name element in the stream.  If \fIname\fP is NULL any name element will be
+skipped and only the typecode will be tested.
+
+Returns true on success (both type code and name tests match) and the read
+head is advanced past the headers
+.SH "RETURN"
+false if either match fails, the read head does not move

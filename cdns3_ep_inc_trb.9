@@ -1,0 +1,20 @@
+.TH "cdns3_ep_inc_trb" 9 "cdns3_ep_inc_trb" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+cdns3_ep_inc_trb \- increment a trb index.
+.SH SYNOPSIS
+.B "void" cdns3_ep_inc_trb
+.BI "(int *index "  ","
+.BI "u8 *cs "  ","
+.BI "int trb_in_seg "  ");"
+.SH ARGUMENTS
+.IP "index" 12
+Pointer to the TRB index to increment.
+.IP "cs" 12
+Cycle state
+.IP "trb_in_seg" 12
+number of TRBs in segment
+.SH "DESCRIPTION"
+The index should never point to the link TRB. After incrementing,
+if it is point to the link TRB, wrap around to the beginning and revert
+cycle state bit The
+link TRB is always at the last TRB entry.

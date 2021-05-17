@@ -1,0 +1,29 @@
+.TH "tb_xdomain_enable_paths" 9 "tb_xdomain_enable_paths" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_xdomain_enable_paths \- Enable DMA paths for XDomain connection
+.SH SYNOPSIS
+.B "int" tb_xdomain_enable_paths
+.BI "(struct tb_xdomain *xd "  ","
+.BI "u16 transmit_path "  ","
+.BI "u16 transmit_ring "  ","
+.BI "u16 receive_path "  ","
+.BI "u16 receive_ring "  ");"
+.SH ARGUMENTS
+.IP "xd" 12
+XDomain connection
+.IP "transmit_path" 12
+HopID of the transmit path the other end is using to
+send packets
+.IP "transmit_ring" 12
+DMA ring used to receive packets from the other end
+.IP "receive_path" 12
+HopID of the receive path the other end is using to
+receive packets
+.IP "receive_ring" 12
+DMA ring used to send packets to the other end
+.SH "DESCRIPTION"
+The function enables DMA paths accordingly so that after successful
+return the caller can send and receive packets using high-speed DMA
+path.
+.SH "RETURN"
+0 in case of success and negative errno in case of error

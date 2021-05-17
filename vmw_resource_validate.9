@@ -1,0 +1,23 @@
+.TH "vmw_resource_validate" 9 "vmw_resource_validate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vmw_resource_validate \- Make a resource up-to-date and visible to the device.
+.SH SYNOPSIS
+.B "int" vmw_resource_validate
+.BI "(struct vmw_resource *res "  ","
+.BI "bool intr "  ","
+.BI "bool dirtying "  ");"
+.SH ARGUMENTS
+.IP "res" 12
+The resource to make visible to the device.
+.IP "intr" 12
+Perform waits interruptible if possible.
+.IP "dirtying" 12
+Pending GPU operation will dirty the resource
+.SH "DESCRIPTION"
+On succesful return, any backup DMA buffer pointed to by \fIres->backup\fP will
+be reserved and validated.
+On hardware resource shortage, this function will repeatedly evict
+resources of the same type until the validation succeeds.
+.SH "RETURN"
+Zero on success, -ERESTARTSYS if interrupted, negative error code
+on failure.

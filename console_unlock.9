@@ -1,0 +1,21 @@
+.TH "console_unlock" 9 "console_unlock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+console_unlock \- unlock the console system
+.SH SYNOPSIS
+.B "void" console_unlock
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+Releases the console_lock which the caller holds on the console system
+and the console driver list.
+
+While the console_lock was held, console output may have been buffered
+by \fBprintk\fP.  If this is the case, \fBconsole_unlock\fP; emits
+the output prior to releasing the lock.
+
+If there is output waiting, we wake /dev/kmsg and \fBsyslog\fP users.
+
+\fBconsole_unlock\fP; may be called from any context.

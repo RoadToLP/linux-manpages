@@ -1,0 +1,25 @@
+.TH "uclogic_params_get_str_desc" 9 "uclogic_params_get_str_desc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+uclogic_params_get_str_desc \- retrieve a string descriptor from a HID device interface, putting it into a kmalloc-allocated buffer as is, without character encoding conversion.
+.SH SYNOPSIS
+.B "int" uclogic_params_get_str_desc
+.BI "(__u8 **pbuf "  ","
+.BI "struct hid_device *hdev "  ","
+.BI "__u8 idx "  ","
+.BI "size_t len "  ");"
+.SH ARGUMENTS
+.IP "pbuf" 12
+Location for the kmalloc-allocated buffer pointer containing
+the retrieved descriptor. Not modified in case of error.
+Can be NULL to have retrieved descriptor discarded.
+.IP "hdev" 12
+The HID device of the tablet interface to retrieve the string
+descriptor from. Cannot be NULL.
+.IP "idx" 12
+Index of the string descriptor to request from the device.
+.IP "len" 12
+Length of the buffer to allocate and the data to retrieve.
+.SH "RETURN"
+number of bytes retrieved (<= len),
+-EPIPE, if the descriptor was not found, or
+another negative errno code in case of other error.

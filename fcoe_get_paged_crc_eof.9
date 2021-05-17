@@ -1,0 +1,23 @@
+.TH "fcoe_get_paged_crc_eof" 9 "fcoe_get_paged_crc_eof" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fcoe_get_paged_crc_eof \- Allocate a page to be used for the trailer CRC
+.SH SYNOPSIS
+.B "int" fcoe_get_paged_crc_eof
+.BI "(struct sk_buff *skb "  ","
+.BI "int tlen "  ","
+.BI "struct fcoe_percpu_s *fps "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+The packet to be transmitted
+.IP "tlen" 12
+The total length of the trailer
+.IP "fps" 12
+The fcoe context
+.SH "DESCRIPTION"
+This routine allocates a page for frame trailers. The page is re-used if
+there is enough room left on it for the current trailer. If there isn't
+enough buffer left a new page is allocated for the trailer. Reference to
+the page from this function as well as the skbs using the page fragments
+ensure that the page is freed at the appropriate time.
+.SH "RETURN"
+0 for success

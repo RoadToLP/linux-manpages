@@ -1,0 +1,26 @@
+.TH "pnfs_mark_matching_lsegs_invalid" 9 "pnfs_mark_matching_lsegs_invalid" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pnfs_mark_matching_lsegs_invalid \- tear down lsegs or mark them for later
+.SH SYNOPSIS
+.B "int" pnfs_mark_matching_lsegs_invalid
+.BI "(struct pnfs_layout_hdr *lo "  ","
+.BI "struct list_head *tmp_list "  ","
+.BI "const struct pnfs_layout_range *recall_range "  ","
+.BI "u32 seq "  ");"
+.SH ARGUMENTS
+.IP "lo" 12
+layout header containing the lsegs
+.IP "tmp_list" 12
+list head where doomed lsegs should go
+.IP "recall_range" 12
+optional recall range argument to match (may be NULL)
+.IP "seq" 12
+only invalidate lsegs obtained prior to this sequence (may be 0)
+.SH "DESCRIPTION"
+Walk the list of lsegs in the layout header, and tear down any that should
+be destroyed. If "recall_range" is specified then the segment must match
+that range. If "seq" is non-zero, then only match segments that were handed
+out at or before that sequence.
+
+Returns number of matching invalid lsegs remaining in list after scanning
+it and purging them.

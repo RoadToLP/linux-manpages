@@ -1,0 +1,24 @@
+.TH "ntfs_check_logfile" 9 "ntfs_check_logfile" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_check_logfile \- check the journal for consistency
+.SH SYNOPSIS
+.B "bool" ntfs_check_logfile
+.BI "(struct inode *log_vi "  ","
+.BI "RESTART_PAGE_HEADER **rp "  ");"
+.SH ARGUMENTS
+.IP "log_vi" 12
+struct inode of loaded journal $LogFile to check
+.IP "rp" 12
+[OUT] on success this is a copy of the current restart page
+.SH "DESCRIPTION"
+Check the $LogFile journal for consistency and return 'true' if it is
+consistent and 'false' if not.  On success, the current restart page is
+returned in *\fIrp\fP.  Caller must call ntfs_free(*\fIrp\fP) when finished with it.
+
+At present we only check the two restart pages and ignore the log record
+pages.
+
+Note that the MstProtected flag is not set on the $LogFile inode and hence
+when reading pages they are not deprotected.  This is because we do not know
+if the $LogFile was created on a system with a different page size to ours
+yet and mst deprotection would fail if our page size is smaller.

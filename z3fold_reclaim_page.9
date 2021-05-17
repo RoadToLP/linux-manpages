@@ -1,0 +1,43 @@
+.TH "z3fold_reclaim_page" 9 "z3fold_reclaim_page" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+z3fold_reclaim_page \- evicts allocations from a pool page and frees it
+.SH SYNOPSIS
+.B "int" z3fold_reclaim_page
+.BI "(struct z3fold_pool *pool "  ","
+.BI "unsigned int retries "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool from which a page will attempt to be evicted
+.IP "retries" 12
+number of pages on the LRU list for which eviction will
+be attempted before failing
+.SH "DESCRIPTION"
+z3fold reclaim is different from normal system reclaim in that it is done
+from the bottom, up. This is because only the bottom layer, z3fold, has
+information on how the allocations are organized within each z3fold page.
+This has the potential to create interesting locking situations between
+z3fold and the user, however.
+
+To avoid these, this is how \fBz3fold_reclaim_page\fP should be called:
+
+The user detects a page should be reclaimed and calls \fBz3fold_reclaim_page\fP.
+\fBz3fold_reclaim_page\fP will remove a z3fold page from the pool LRU list and
+call the user-defined eviction handler with the pool and handle as
+arguments.
+
+If the handle can not be evicted, the eviction handler should return
+non-zero. \fBz3fold_reclaim_page\fP will add the z3fold page back to the
+appropriate list and try the next z3fold page on the LRU up to
+a user defined number of retries.
+
+If the handle is successfully evicted, the eviction handler should
+return 0 _and_ should have called \fBz3fold_free\fP on the handle. \fBz3fold_free\fP
+contains logic to delay freeing the page if the page is under reclaim,
+as indicated by the setting of the PG_reclaim flag on the underlying page.
+
+If all buddies in the z3fold page are successfully evicted, then the
+z3fold page can be freed.
+.SH "RETURN"
+0 if page is successfully freed, otherwise -EINVAL if there are
+no pages to evict or an eviction handler is not registered, -EAGAIN if
+the retry limit was hit.

@@ -1,0 +1,18 @@
+.TH "usb_hcd_msp_remove" 9 "usb_hcd_msp_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+usb_hcd_msp_remove \- shutdown processing for PMC MSP-based HCDs
+.SH SYNOPSIS
+.B "void" usb_hcd_msp_remove
+.BI "(struct usb_hcd *hcd "  ");"
+.SH ARGUMENTS
+.IP "hcd" 12
+USB Host Controller being removed
+.SH "CONTEXT"
+task context, might sleep
+.SH "DESCRIPTION"
+Reverses the effect of \fBusb_hcd_msp_probe\fP, first invoking
+the HCD's \fBstop\fP method.  It is always called from a thread
+context, normally "rmmod", "apmd", or something similar.
+
+may be called without controller electrically present
+may be called with controller, bus, and devices active

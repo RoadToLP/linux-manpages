@@ -1,0 +1,27 @@
+.TH "vfio_ap_verify_queue_reserved" 9 "vfio_ap_verify_queue_reserved" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vfio_ap_verify_queue_reserved \- 
+.SH SYNOPSIS
+.B "int" vfio_ap_verify_queue_reserved
+.BI "(unsigned long *apid "  ","
+.BI "unsigned long *apqi "  ");"
+.SH ARGUMENTS
+.IP "apid" 12
+an AP adapter ID
+.IP "apqi" 12
+an AP queue index
+.SH "DESCRIPTION"
+Verifies that the AP queue with \fIapid\fP/\fIapqi\fP is reserved by the VFIO AP device
+driver according to the following rules:
+
+- If both \fIapid\fP and \fIapqi\fP are not NULL, then there must be an AP queue
+device bound to the vfio_ap driver with the APQN identified by \fIapid\fP and
+\fIapqi\fP
+
+- If only \fIapid\fP is not NULL, then there must be an AP queue device bound
+to the vfio_ap driver with an APQN containing \fIapid\fP
+
+- If only \fIapqi\fP is not NULL, then there must be an AP queue device bound
+to the vfio_ap driver with an APQN containing \fIapqi\fP
+
+Returns 0 if the AP queue is reserved; otherwise, returns -EADDRNOTAVAIL.

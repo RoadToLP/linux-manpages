@@ -1,0 +1,23 @@
+.TH "sata_sff_hardreset" 9 "sata_sff_hardreset" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sata_sff_hardreset \- reset host port via SATA phy reset
+.SH SYNOPSIS
+.B "int" sata_sff_hardreset
+.BI "(struct ata_link *link "  ","
+.BI "unsigned int *class "  ","
+.BI "unsigned long deadline "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link to reset
+.IP "class" 12
+resulting class of attached device
+.IP "deadline" 12
+deadline jiffies for the operation
+
+SATA phy-reset host port using DET bits of SControl register,
+wait for !BSY and classify the attached device.
+
+LOCKING:
+Kernel thread context (may sleep)
+.SH "RETURN"
+0 on success, -errno otherwise.

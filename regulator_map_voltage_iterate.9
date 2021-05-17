@@ -1,0 +1,20 @@
+.TH "regulator_map_voltage_iterate" 9 "regulator_map_voltage_iterate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+regulator_map_voltage_iterate \- map_voltage() based on list_voltage()
+.SH SYNOPSIS
+.B "int" regulator_map_voltage_iterate
+.BI "(struct regulator_dev *rdev "  ","
+.BI "int min_uV "  ","
+.BI "int max_uV "  ");"
+.SH ARGUMENTS
+.IP "rdev" 12
+Regulator to operate on
+.IP "min_uV" 12
+Lower bound for voltage
+.IP "max_uV" 12
+Upper bound for voltage
+.SH "DESCRIPTION"
+Drivers implementing \fBset_voltage_sel\fP and \fBlist_voltage\fP can use
+this as their \fBmap_voltage\fP operation.  It will find a suitable
+voltage by calling \fBlist_voltage\fP until it gets something in bounds
+for the requested voltages.

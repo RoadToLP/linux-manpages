@@ -1,0 +1,20 @@
+.TH "it821x_program_udma" 9 "it821x_program_udma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+it821x_program_udma \- program the UDMA registers
+.SH SYNOPSIS
+.B "void" it821x_program_udma
+.BI "(struct ata_port *ap "  ","
+.BI "struct ata_device *adev "  ","
+.BI "u16 timing "  ");"
+.SH ARGUMENTS
+.IP "ap" 12
+ATA port
+.IP "adev" 12
+ATA device to update
+.IP "timing" 12
+Timing bits. Top 8 are for 66Mhz bottom for 50Mhz
+
+Program the UDMA timing for this drive according to the
+current clock. Handles the dual clocks and also knows about
+the errata on the 0x10 revision. The UDMA errata is partly handled
+here and partly in start_dma.

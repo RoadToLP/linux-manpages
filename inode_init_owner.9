@@ -1,0 +1,24 @@
+.TH "inode_init_owner" 9 "inode_init_owner" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+inode_init_owner \- Init uid,gid,mode for new inode according to posix standards
+.SH SYNOPSIS
+.B "void" inode_init_owner
+.BI "(struct user_namespace *mnt_userns "  ","
+.BI "struct inode *inode "  ","
+.BI "const struct inode *dir "  ","
+.BI "umode_t mode "  ");"
+.SH ARGUMENTS
+.IP "mnt_userns" 12
+User namespace of the mount the inode was created from
+.IP "inode" 12
+New inode
+.IP "dir" 12
+Directory inode
+.IP "mode" 12
+mode of the new inode
+.SH "DESCRIPTION"
+If the inode has been created through an idmapped mount the user namespace of
+the vfsmount must be passed through \fImnt_userns\fP. This function will then take
+care to map the inode according to \fImnt_userns\fP before checking permissions
+and initializing i_uid and i_gid. On non-idmapped mounts or if permission
+checking is to be performed on the raw inode simply passs init_user_ns.

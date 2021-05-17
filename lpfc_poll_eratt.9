@@ -1,0 +1,15 @@
+.TH "lpfc_poll_eratt" 9 "lpfc_poll_eratt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_poll_eratt \- Error attention polling timer timeout handler
+.SH SYNOPSIS
+.B "void" lpfc_poll_eratt
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+Context to fetch pointer to address of HBA context object from.
+.SH "DESCRIPTION"
+This function is invoked by the Error Attention polling timer when the
+timer times out. It will check the SLI Error Attention register for
+possible attention events. If so, it will post an Error Attention event
+and wake up worker thread to process it. Otherwise, it will set up the
+Error Attention polling timer for the next poll.

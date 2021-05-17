@@ -1,0 +1,18 @@
+.TH "sge_timer_rx" 9 "sge_timer_rx" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sge_timer_rx \- perform periodic maintenance of an SGE qset
+.SH SYNOPSIS
+.B "void" sge_timer_rx
+.BI "(struct timer_list *t "  ");"
+.SH ARGUMENTS
+.IP "t" 12
+the timer list containing the SGE queue set to maintain
+
+a) Replenishes Rx queues that have run out due to memory shortage.
+Normally new Rx buffers are added when existing ones are consumed but
+when out of memory a queue can become empty.  We try to add only a few
+buffers here, the queue will be replenished fully as these new buffers
+are used up if memory shortage has subsided.
+
+b) Return coalesced response queue credits in case a response queue is
+starved.

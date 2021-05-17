@@ -1,0 +1,16 @@
+.TH "__afu_port_enable" 9 "__afu_port_enable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__afu_port_enable \- enable a port by clear reset
+.SH SYNOPSIS
+.B "void" __afu_port_enable
+.BI "(struct platform_device *pdev "  ");"
+.SH ARGUMENTS
+.IP "pdev" 12
+port platform device.
+.SH "DESCRIPTION"
+Enable Port by clear the port soft reset bit, which is set by default.
+The AFU is unable to respond to any MMIO access while in reset.
+__afu_port_enable function should only be used after __afu_port_disable
+function.
+
+The caller needs to hold lock for protection.

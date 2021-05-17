@@ -1,0 +1,37 @@
+.TH "nilfs_ioctl_get_info" 9 "nilfs_ioctl_get_info" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_get_info \- wrapping function of get metadata info
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_get_info
+.BI "(struct inode *inode "  ","
+.BI "struct file *filp "  ","
+.BI "unsigned int cmd "  ","
+.BI "void __user *argp "  ","
+.BI "size_t membsz "  ","
+.BI "ssize_t (*dofunc)(struct the_nilfs *, __u64 *, int, void *, size_t, size_t) "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+inode object
+.IP "filp" 12
+file object
+.IP "cmd" 12
+ioctl's request code
+.IP "argp" 12
+pointer on argument from userspace
+.IP "membsz" 12
+size of an item in bytes
+.IP "dofunc" 12
+concrete function of getting metadata info
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_get_info\fP gets metadata info by means of
+calling \fBdofunc\fP function.
+
+Return Value: On success, 0 is returned and requested metadata info
+is copied into userspace. On error, one of the following
+negative error codes is returned.
+
+-EINVAL - Invalid arguments from userspace.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-EFAULT - Failure during execution of requested operation.

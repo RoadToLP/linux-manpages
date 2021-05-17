@@ -1,0 +1,16 @@
+.TH "mctime_update_needed" 9 "mctime_update_needed" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mctime_update_needed \- check if mtime or ctime update is needed.
+.SH SYNOPSIS
+.B "int" mctime_update_needed
+.BI "(const struct inode *inode "  ","
+.BI "const struct timespec64 *now "  ");"
+.SH ARGUMENTS
+.IP "inode" 12
+the inode to do the check for
+.IP "now" 12
+current time
+.SH "DESCRIPTION"
+This helper function checks if the inode mtime/ctime should be updated or
+not. If current values of the time-stamps are within the UBIFS inode time
+granularity, they are not updated. This is an optimization.

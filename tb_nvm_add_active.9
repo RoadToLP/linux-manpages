@@ -1,0 +1,21 @@
+.TH "tb_nvm_add_active" 9 "tb_nvm_add_active" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tb_nvm_add_active \- Adds active NVMem device to NVM
+.SH SYNOPSIS
+.B "int" tb_nvm_add_active
+.BI "(struct tb_nvm *nvm "  ","
+.BI "size_t size "  ","
+.BI "nvmem_reg_read_t reg_read "  ");"
+.SH ARGUMENTS
+.IP "nvm" 12
+NVM structure
+.IP "size" 12
+Size of the active NVM in bytes
+.IP "reg_read" 12
+Pointer to the function to read the NVM (passed directly to the
+NVMem device)
+.SH "DESCRIPTION"
+Registers new active NVmem device for \fInvm\fP. The \fIreg_read\fP is called
+directly from NVMem so it must handle possible concurrent access if
+needed. The first parameter passed to \fIreg_read\fP is \fInvm\fP structure.
+Returns 0 in success and negative errno otherwise.

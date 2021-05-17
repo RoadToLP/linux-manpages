@@ -1,0 +1,22 @@
+.TH "encrypt_blob" 9 "encrypt_blob" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+encrypt_blob \- Encrypt data using an asymmetric key
+.SH SYNOPSIS
+.B "int" encrypt_blob
+.BI "(struct kernel_pkey_params *params "  ","
+.BI "const void *data "  ","
+.BI "void *enc "  ");"
+.SH ARGUMENTS
+.IP "params" 12
+Various parameters
+.IP "data" 12
+Data blob to be encrypted, length params->data_len
+.IP "enc" 12
+Encrypted data buffer, length params->enc_len
+.SH "DESCRIPTION"
+Encrypt the specified data blob using the private key specified by
+params->key.  The encrypted data is wrapped in an encoding if
+params->encoding is specified (eg. "pkcs1").
+
+Returns the length of the data placed in the encrypted data buffer or an
+error.

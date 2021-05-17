@@ -1,0 +1,18 @@
+.TH "snd_ctl_remove" 9 "snd_ctl_remove" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_ctl_remove \- remove the control from the card and release it
+.SH SYNOPSIS
+.B "int" snd_ctl_remove
+.BI "(struct snd_card *card "  ","
+.BI "struct snd_kcontrol *kcontrol "  ");"
+.SH ARGUMENTS
+.IP "card" 12
+the card instance
+.IP "kcontrol" 12
+the control instance to remove
+.SH "DESCRIPTION"
+Removes the control from the card and then releases the instance.
+You don't need to call \fBsnd_ctl_free_one\fP. You must be in
+the write lock - down_write(\fIcard->controls_rwsem\fP).
+.SH "RETURN"
+0 if successful, or a negative error code on failure.

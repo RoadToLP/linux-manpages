@@ -1,0 +1,16 @@
+.TH "reset_psn" 9 "reset_psn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+reset_psn \- reset the QP state to send starting from PSN
+.SH SYNOPSIS
+.B "void" reset_psn
+.BI "(struct rvt_qp *qp "  ","
+.BI "u32 psn "  ");"
+.SH ARGUMENTS
+.IP "qp" 12
+the QP
+.IP "psn" 12
+the packet sequence number to restart at
+.SH "DESCRIPTION"
+This is called from \fBhfi1_rc_rcv\fP to process an incoming RC ACK
+for the given QP.
+Called at interrupt level with the QP s_lock held.

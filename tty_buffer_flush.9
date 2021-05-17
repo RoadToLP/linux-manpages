@@ -1,0 +1,18 @@
+.TH "tty_buffer_flush" 9 "tty_buffer_flush" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_buffer_flush \- flush full tty buffers
+.SH SYNOPSIS
+.B "void" tty_buffer_flush
+.BI "(struct tty_struct *tty "  ","
+.BI "struct tty_ldisc *ld "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty to flush
+.IP "ld" 12
+optional ldisc ptr (must be referenced)
+
+flush all the buffers containing receive data. If ld != NULL,
+flush the ldisc input buffer.
+
+Locking: takes buffer lock to ensure single-threaded flip buffer
+'consumer'

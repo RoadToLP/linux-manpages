@@ -1,0 +1,25 @@
+.TH "ice_erase_nvm_module" 9 "ice_erase_nvm_module" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_erase_nvm_module \- Erase an NVM module and await firmware completion
+.SH SYNOPSIS
+.B "int" ice_erase_nvm_module
+.BI "(struct ice_pf *pf "  ","
+.BI "u16 module "  ","
+.BI "const char *component "  ","
+.BI "struct netlink_ext_ack *extack "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+the PF data structure
+.IP "module" 12
+the module to erase
+.IP "component" 12
+name of the component being updated
+.IP "extack" 12
+netlink extended ACK structure
+.SH "DESCRIPTION"
+Erase the inactive NVM bank associated with this module, and await for
+a completion response message from firmware.
+
+Note this function assumes the caller has acquired the NVM resource.
+.SH "RETURN"
+zero on success, or a negative error code on failure.

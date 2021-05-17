@@ -1,0 +1,31 @@
+.TH "write_tag_1_packet" 9 "write_tag_1_packet" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+write_tag_1_packet \- Write an RFC2440-compatible tag 1 (public key) packet
+.SH SYNOPSIS
+.B "int" write_tag_1_packet
+.BI "(char *dest "  ","
+.BI "size_t *remaining_bytes "  ","
+.BI "struct key *auth_tok_key "  ","
+.BI "struct ecryptfs_auth_tok *auth_tok "  ","
+.BI "struct ecryptfs_crypt_stat *crypt_stat "  ","
+.BI "struct ecryptfs_key_record *key_rec "  ","
+.BI "size_t *packet_size "  ");"
+.SH ARGUMENTS
+.IP "dest" 12
+Buffer into which to write the packet
+.IP "remaining_bytes" 12
+Maximum number of bytes that can be writtn
+.IP "auth_tok_key" 12
+The authentication token key to unlock and put when done with
+\fIauth_tok\fP
+.IP "auth_tok" 12
+The authentication token used for generating the tag 1 packet
+.IP "crypt_stat" 12
+The cryptographic context
+.IP "key_rec" 12
+The key record struct for the tag 1 packet
+.IP "packet_size" 12
+This function will write the number of bytes that end
+up constituting the packet; set to zero on error
+.SH "DESCRIPTION"
+Returns zero on success; non-zero on error.

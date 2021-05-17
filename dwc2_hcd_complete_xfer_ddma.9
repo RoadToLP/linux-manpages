@@ -1,0 +1,25 @@
+.TH "dwc2_hcd_complete_xfer_ddma" 9 "dwc2_hcd_complete_xfer_ddma" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dwc2_hcd_complete_xfer_ddma \- Scans the descriptor list, updates URB's status and calls completion routine for the URB if it's done. Called from interrupt handlers.
+.SH SYNOPSIS
+.B "void" dwc2_hcd_complete_xfer_ddma
+.BI "(struct dwc2_hsotg *hsotg "  ","
+.BI "struct dwc2_host_chan *chan "  ","
+.BI "int chnum "  ","
+.BI "enum dwc2_halt_status halt_status "  ");"
+.SH ARGUMENTS
+.IP "hsotg" 12
+The HCD state structure for the DWC OTG controller
+.IP "chan" 12
+Host channel the transfer is completed on
+.IP "chnum" 12
+Index of Host channel registers
+.IP "halt_status" 12
+Reason the channel is being halted or just XferComplete
+for isochronous transfers
+.SH "DESCRIPTION"
+Releases the channel to be used by other transfers.
+In case of Isochronous endpoint the channel is not halted until the end of
+the session, i.e. QTD list is empty.
+If periodic channel released the FrameList is updated accordingly.
+Calls transaction selection routines to activate pending transfers.

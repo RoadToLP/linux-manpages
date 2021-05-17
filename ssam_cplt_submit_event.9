@@ -1,0 +1,19 @@
+.TH "ssam_cplt_submit_event" 9 "ssam_cplt_submit_event" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssam_cplt_submit_event \- Submit an event to the completion system.
+.SH SYNOPSIS
+.B "int" ssam_cplt_submit_event
+.BI "(struct ssam_cplt *cplt "  ","
+.BI "struct ssam_event_item *item "  ");"
+.SH ARGUMENTS
+.IP "cplt" 12
+The completion system.
+.IP "item" 12
+The event item to submit.
+.SH "DESCRIPTION"
+Submits the event to the completion system by queuing it on the event item
+queue and queuing the respective event queue work item on the completion
+workqueue, which will eventually complete the event.
+.SH "RETURN"
+Returns zero on success, -EINVAL if there is no event queue that
+can handle the given event item.

@@ -1,0 +1,16 @@
+.TH "fc_seq_assign" 9 "fc_seq_assign" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fc_seq_assign \- Assign exchange and sequence for incoming request
+.SH SYNOPSIS
+.B "struct fc_seq *" fc_seq_assign
+.BI "(struct fc_lport *lport "  ","
+.BI "struct fc_frame *fp "  ");"
+.SH ARGUMENTS
+.IP "lport" 12
+The local port that received the request
+.IP "fp" 12
+The request frame
+.SH "DESCRIPTION"
+On success, the sequence pointer will be returned and also in fr_seq(\fIfp\fP).
+A reference will be held on the exchange/sequence for the caller, which
+must call \fBfc_seq_release\fP.

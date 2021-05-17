@@ -1,0 +1,31 @@
+.TH "ethnl_update_bitset32" 9 "ethnl_update_bitset32" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ethnl_update_bitset32 \- Apply a bitset nest to a u32 based bitmap
+.SH SYNOPSIS
+.B "int" ethnl_update_bitset32
+.BI "(u32 *bitmap "  ","
+.BI "unsigned int nbits "  ","
+.BI "const struct nlattr *attr "  ","
+.BI "ethnl_string_array_t names "  ","
+.BI "struct netlink_ext_ack *extack "  ","
+.BI "bool *mod "  ");"
+.SH ARGUMENTS
+.IP "bitmap" 12
+bitmap to update
+.IP "nbits" 12
+size of the updated bitmap in bits
+.IP "attr" 12
+nest attribute to parse and apply
+.IP "names" 12
+array of bit names; may be null for compact format
+.IP "extack" 12
+extack for error reporting
+.IP "mod" 12
+set this to true if bitmap is modified, leave as it is if not
+.SH "DESCRIPTION"
+Apply bitset netsted attribute to a bitmap. If the attribute represents
+a bit list, \fIbitmap\fP is set to its contents; otherwise, bits in mask are
+set to values from value. Bitmaps in the attribute may be longer than
+\fInbits\fP but the message must not request modifying any bits past \fInbits\fP.
+.SH "RETURN"
+negative error code on failure, 0 on success

@@ -1,0 +1,20 @@
+.TH "compute_effective_cpumask" 9 "compute_effective_cpumask" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+compute_effective_cpumask \- Compute the effective cpumask of the cpuset
+.SH SYNOPSIS
+.B "void" compute_effective_cpumask
+.BI "(struct cpumask *new_cpus "  ","
+.BI "struct cpuset *cs "  ","
+.BI "struct cpuset *parent "  ");"
+.SH ARGUMENTS
+.IP "new_cpus" 12
+the temp variable for the new effective_cpus mask
+.IP "cs" 12
+the cpuset the need to recompute the new effective_cpus mask
+.IP "parent" 12
+the parent cpuset
+.SH "DESCRIPTION"
+If the parent has subpartition CPUs, include them in the list of
+allowable CPUs in computing the new effective_cpus mask. Since offlined
+CPUs are not removed from subparts_cpus, we have to use cpu_active_mask
+to mask those out.

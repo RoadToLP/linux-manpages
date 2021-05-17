@@ -1,0 +1,37 @@
+.TH "ibmvmc_rem_buffer" 9 "ibmvmc_rem_buffer" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ibmvmc_rem_buffer \- Remove Buffer
+.SH SYNOPSIS
+.B "int" ibmvmc_rem_buffer
+.BI "(struct crq_server_adapter *adapter "  ","
+.BI "struct ibmvmc_crq_msg *crq "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+crq_server_adapter struct
+.IP "crq" 12
+ibmvmc_crq_msg struct
+.SH "DESCRIPTION"
+This message requests an HMC buffer to be transferred from management
+partition ownership to hypervisor ownership. The management partition may
+not be able to satisfy the request at a particular point in time if all its
+buffers are in use. The management partition requires a depth of at least
+one inbound buffer to allow management application commands to flow to the
+hypervisor. It is, therefore, an interface error for the hypervisor to
+attempt to remove the management partition's last buffer.
+
+The hypervisor is expected to manage buffer usage with the management
+application directly and inform the management partition when buffers may be
+removed. The typical flow for removing buffers:
+
+1. The management application no longer needs a communication path to a
+particular hypervisor function. That function is closed.
+2. The hypervisor and the management application quiesce all traffic to that
+function. The hypervisor requests a reduction in buffer pool size.
+3. The management application acknowledges the reduction in buffer pool size.
+4. The hypervisor sends a Remove Buffer message to the management partition,
+informing it of the reduction in buffers.
+5. The management partition verifies it can remove the buffer. This is
+possible if buffers have been quiesced.
+.SH "RETURN"
+0 - Success
+Non-zero - Failure

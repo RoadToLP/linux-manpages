@@ -1,0 +1,18 @@
+.TH "attribute_container_trigger" 9 "attribute_container_trigger" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+attribute_container_trigger \- trigger a function for each matching container
+.SH SYNOPSIS
+.B "void" attribute_container_trigger
+.BI "(struct device *dev "  ","
+.BI "int (*fn)(struct attribute_container *, struct device *) "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The generic device to activate the trigger for
+.IP "fn" 12
+the function to trigger
+.SH "DESCRIPTION"
+This routine triggers a function that only needs to know the
+matching containers (not the classdev) associated with a device.
+It is more lightweight than attribute_container_device_trigger, so
+should be used in preference unless the triggering function
+actually needs to know the classdev.

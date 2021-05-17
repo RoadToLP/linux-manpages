@@ -1,0 +1,23 @@
+.TH "__devlink_region_snapshot_id_get" 9 "__devlink_region_snapshot_id_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__devlink_region_snapshot_id_get \- get snapshot ID
+.SH SYNOPSIS
+.B "int" __devlink_region_snapshot_id_get
+.BI "(struct devlink *devlink "  ","
+.BI "u32 *id "  ");"
+.SH ARGUMENTS
+.IP "devlink" 12
+devlink instance
+.IP "id" 12
+storage to return snapshot id
+
+Allocates a new snapshot id. Returns zero on success, or a negative
+error on failure. Must be called while holding the devlink instance
+lock.
+
+Snapshot IDs are tracked using an xarray which stores the number of
+users of the snapshot id.
+
+Note that the caller of this function counts as a 'user', in order to
+avoid race conditions. The caller must release its hold on the
+snapshot by using devlink_region_snapshot_id_put.

@@ -1,0 +1,19 @@
+.TH "rt_mutex_init_proxy_locked" 9 "rt_mutex_init_proxy_locked" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rt_mutex_init_proxy_locked \- initialize and lock a rt_mutex on behalf of a proxy owner
+.SH SYNOPSIS
+.B "void" rt_mutex_init_proxy_locked
+.BI "(struct rt_mutex *lock "  ","
+.BI "struct task_struct *proxy_owner "  ");"
+.SH ARGUMENTS
+.IP "lock" 12
+the rt_mutex to be locked
+.IP "proxy_owner" 12
+the task to set as owner
+.SH "DESCRIPTION"
+No locking. Caller has to do serializing itself
+
+Special API call for PI-futex support. This initializes the rtmutex and
+assigns it to \fIproxy_owner\fP. Concurrent operations on the rtmutex are not
+possible at this point because the pi_state which contains the rtmutex
+is not yet visible to other tasks.

@@ -1,0 +1,25 @@
+.TH "ata_eh_set_lpm" 9 "ata_eh_set_lpm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_set_lpm \- configure SATA interface power management
+.SH SYNOPSIS
+.B "int" ata_eh_set_lpm
+.BI "(struct ata_link *link "  ","
+.BI "enum ata_lpm_policy policy "  ","
+.BI "struct ata_device **r_failed_dev "  ");"
+.SH ARGUMENTS
+.IP "link" 12
+link to configure power management
+.IP "policy" 12
+the link power management policy
+.IP "r_failed_dev" 12
+out parameter for failed device
+
+Enable SATA Interface power management.  This will enable
+Device Interface Power Management (DIPM) for min_power and
+medium_power_with_dipm policies, and then call driver specific
+callbacks for enabling Host Initiated Power management.
+
+LOCKING:
+EH context.
+.SH "RETURN"
+0 on success, -errno on failure.

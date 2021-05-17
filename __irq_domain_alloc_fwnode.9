@@ -1,0 +1,26 @@
+.TH "__irq_domain_alloc_fwnode" 9 "__irq_domain_alloc_fwnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__irq_domain_alloc_fwnode \- Allocate a fwnode_handle suitable for identifying an irq domain
+.SH SYNOPSIS
+.B "struct fwnode_handle *" __irq_domain_alloc_fwnode
+.BI "(unsigned int type "  ","
+.BI "int id "  ","
+.BI "const char *name "  ","
+.BI "phys_addr_t *pa "  ");"
+.SH ARGUMENTS
+.IP "type" 12
+Type of irqchip_fwnode. See linux/irqdomain.h
+.IP "id" 12
+Optional user provided id if name != NULL
+.IP "name" 12
+Optional user provided domain name
+.IP "pa" 12
+Optional user-provided physical address
+.SH "DESCRIPTION"
+Allocate a struct irqchip_fwid, and return a poiner to the embedded
+fwnode_handle (or NULL on failure).
+.SH "NOTE"
+The types IRQCHIP_FWNODE_NAMED and IRQCHIP_FWNODE_NAMED_ID are
+solely to transport name information to irqdomain creation code. The
+node is not stored. For other types the pointer is kept in the irq
+domain struct.

@@ -1,0 +1,18 @@
+.TH "fm10k_mbx_update_max_size" 9 "fm10k_mbx_update_max_size" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fm10k_mbx_update_max_size \- Update the max_size and drop any large messages
+.SH SYNOPSIS
+.B "void" fm10k_mbx_update_max_size
+.BI "(struct fm10k_mbx_info *mbx "  ","
+.BI "u16 size "  ");"
+.SH ARGUMENTS
+.IP "mbx" 12
+pointer to mailbox
+.IP "size" 12
+new value for max_size
+
+This function updates the max_size value and drops any outgoing messages
+at the head of the Tx FIFO if they are larger than max_size. It does not
+drop all messages, as this is too difficult to parse and remove them from
+the FIFO. Instead, rely on the checking to ensure that messages larger
+than max_size aren't pushed into the memory buffer.

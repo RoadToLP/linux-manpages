@@ -1,0 +1,14 @@
+.TH "vgic_v4_init" 9 "vgic_v4_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+vgic_v4_init \- Initialize the GICv4 data structures
+.SH SYNOPSIS
+.B "int" vgic_v4_init
+.BI "(struct kvm *kvm "  ");"
+.SH ARGUMENTS
+.IP "kvm" 12
+Pointer to the VM being initialized
+.SH "DESCRIPTION"
+We may be called each time a vITS is created, or when the
+vgic is initialized. This relies on kvm->lock to be
+held. In both cases, the number of vcpus should now be
+fixed.

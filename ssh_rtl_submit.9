@@ -1,0 +1,20 @@
+.TH "ssh_rtl_submit" 9 "ssh_rtl_submit" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ssh_rtl_submit \- Submit a request to the transport layer.
+.SH SYNOPSIS
+.B "int" ssh_rtl_submit
+.BI "(struct ssh_rtl *rtl "  ","
+.BI "struct ssh_request *rqst "  ");"
+.SH ARGUMENTS
+.IP "rtl" 12
+The request transport layer.
+.IP "rqst" 12
+The request to submit.
+.SH "DESCRIPTION"
+Submits a request to the transport layer. A single request may not be
+submitted multiple times without reinitializing it.
+.SH "RETURN"
+Returns zero on success, -EINVAL if the request type is invalid or
+the request has been canceled prior to submission, -EALREADY if the
+request has already been submitted, or -ESHUTDOWN in case the request
+transport layer has been shut down.

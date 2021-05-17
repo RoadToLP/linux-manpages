@@ -1,0 +1,21 @@
+.TH "update_if_frozen" 9 "update_if_frozen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+update_if_frozen \- update whether a cgroup finished freezing
+.SH SYNOPSIS
+.B "void" update_if_frozen
+.BI "(struct cgroup_subsys_state *css "  ");"
+.SH ARGUMENTS
+.IP "css" 12
+css of interest
+.SH "DESCRIPTION"
+Once FREEZING is initiated, transition to FROZEN is lazily updated by
+calling this function.  If the current state is FREEZING but not FROZEN,
+this function checks whether all tasks of this cgroup and the descendant
+cgroups finished freezing and, if so, sets FROZEN.
+
+The caller is responsible for grabbing RCU read lock and calling
+\fBupdate_if_frozen\fP on all descendants prior to invoking this function.
+
+Task states and freezer state might disagree while tasks are being
+migrated into or out of \fIcss\fP, so we can't verify task states against
+\fIfreezer\fP state here.  See \fBfreezer_attach\fP for details.

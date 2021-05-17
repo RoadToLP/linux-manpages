@@ -1,0 +1,22 @@
+.TH "ppc4xx_edac_register_irq" 9 "ppc4xx_edac_register_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ppc4xx_edac_register_irq \- setup and register controller interrupts
+.SH SYNOPSIS
+.B "int" ppc4xx_edac_register_irq
+.BI "(struct platform_device *op "  ","
+.BI "struct mem_ctl_info *mci "  ");"
+.SH ARGUMENTS
+.IP "op" 12
+A pointer to the OpenFirmware device tree node associated
+with the controller this EDAC instance is bound to.
+.IP "mci" 12
+A pointer to the EDAC memory controller instance
+associated with the ibm,sdram-4xx-ddr2 controller for which
+interrupts are being registered.
+.SH "DESCRIPTION"
+This routine parses the correctable (CE) and uncorrectable error (UE)
+interrupts from the device tree node and maps and assigns them to
+the associated EDAC memory controller instance.
+
+Returns 0 if OK; otherwise, -ENODEV if the interrupts could not be
+mapped and assigned.

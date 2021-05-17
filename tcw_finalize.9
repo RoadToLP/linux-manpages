@@ -1,0 +1,20 @@
+.TH "tcw_finalize" 9 "tcw_finalize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tcw_finalize \- finalize tcw length fields and tidaw list
+.SH SYNOPSIS
+.B "void" tcw_finalize
+.BI "(struct tcw *tcw "  ","
+.BI "int num_tidaws "  ");"
+.SH ARGUMENTS
+.IP "tcw" 12
+pointer to the tcw
+.IP "num_tidaws" 12
+the number of tidaws used to address input/output data or zero
+if no tida is used
+.SH "DESCRIPTION"
+Calculate the input-/output-count and tccbl field in the tcw, add a
+tcat the tccb and terminate the data tidaw list if used.
+.SH "NOTE"
+in case input- or output-tida is used, the tidaw-list must be stored
+in contiguous storage (no ttic). The tcal field in the tccb must be
+up-to-date.

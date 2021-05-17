@@ -1,0 +1,15 @@
+.TH "halt_fast_timekeeper" 9 "halt_fast_timekeeper" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+halt_fast_timekeeper \- Prevent fast timekeeper from accessing clocksource.
+.SH SYNOPSIS
+.B "void" halt_fast_timekeeper
+.BI "(const struct timekeeper *tk "  ");"
+.SH ARGUMENTS
+.IP "tk" 12
+Timekeeper to snapshot.
+.SH "DESCRIPTION"
+It generally is unsafe to access the clocksource after timekeeping has been
+suspended, so take a snapshot of the readout base of \fItk\fP and use it as the
+fast timekeeper's readout base while suspended.  It will return the same
+number of cycles every time until timekeeping is resumed at which time the
+proper readout base for the fast timekeeper will be restored automatically.

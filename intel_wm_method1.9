@@ -1,0 +1,38 @@
+.TH "intel_wm_method1" 9 "intel_wm_method1" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_wm_method1 \- Method 1 / "small buffer" watermark formula
+.SH SYNOPSIS
+.B "unsigned int" intel_wm_method1
+.BI "(unsigned int pixel_rate "  ","
+.BI "unsigned int cpp "  ","
+.BI "unsigned int latency "  ");"
+.SH ARGUMENTS
+.IP "pixel_rate" 12
+Pipe pixel rate in kHz
+.IP "cpp" 12
+Plane bytes per pixel
+.IP "latency" 12
+Memory wakeup latency in 0.1us units
+.SH "DESCRIPTION"
+Compute the watermark using the method 1 or "small buffer"
+formula. The caller may additonally add extra cachelines
+to account for TLB misses and clock crossings.
+
+This method is concerned with the short term drain rate
+of the FIFO, ie. it does not account for blanking periods
+which would effectively reduce the average drain rate across
+a longer period. The name "small" refers to the fact the
+FIFO is relatively small compared to the amount of data
+fetched.
+
+The FIFO level vs. time graph might look something like:
+
+|\   | *   | \  |  * __---__---__ (- plane active, _ blanking)
+-> time
+
+or perhaps like this:
+
+|\|\  |\| * __----__----__ (- plane active, _ blanking)
+-> time
+.SH "RETURN"
+The watermark in bytes

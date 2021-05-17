@@ -1,0 +1,27 @@
+.TH "eth_header" 9 "eth_header" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eth_header \- create the Ethernet header
+.SH SYNOPSIS
+.B "int" eth_header
+.BI "(struct sk_buff *skb "  ","
+.BI "struct net_device *dev "  ","
+.BI "unsigned short type "  ","
+.BI "const void *daddr "  ","
+.BI "const void *saddr "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "skb" 12
+buffer to alter
+.IP "dev" 12
+source device
+.IP "type" 12
+Ethernet type field
+.IP "daddr" 12
+destination address (NULL leave destination address)
+.IP "saddr" 12
+source address (NULL use device source address)
+.IP "len" 12
+packet length (<= skb->len)
+.SH "DESCRIPTION"
+Set the protocol type. For a packet of type ETH_P_802_3/2 we put the length
+in here instead.

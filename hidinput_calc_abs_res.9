@@ -1,0 +1,22 @@
+.TH "hidinput_calc_abs_res" 9 "hidinput_calc_abs_res" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+hidinput_calc_abs_res \- calculate an absolute axis resolution
+.SH SYNOPSIS
+.B "__s32" hidinput_calc_abs_res
+.BI "(const struct hid_field *field "  ","
+.BI "__u16 code "  ");"
+.SH ARGUMENTS
+.IP "field" 12
+the HID report field to calculate resolution for
+.IP "code" 12
+axis code
+.SH "DESCRIPTION"
+The formula is:
+(logical_maximum - logical_minimum)
+resolution = ----------------------------------------------------------
+(physical_maximum - physical_minimum) * 10 ^ unit_exponent
+
+as seen in the HID specification v1.11 6.2.2.7 Global Items.
+
+Only exponent 1 length units are processed. Centimeters and inches are
+converted to millimeters. Degrees are converted to radians.

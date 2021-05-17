@@ -1,0 +1,29 @@
+.TH "rpcrdma_inline_fixup" 9 "rpcrdma_inline_fixup" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpcrdma_inline_fixup \- Scatter inline received data into rqst's iovecs
+.SH SYNOPSIS
+.B "unsigned long" rpcrdma_inline_fixup
+.BI "(struct rpc_rqst *rqst "  ","
+.BI "char *srcp "  ","
+.BI "int copy_len "  ","
+.BI "int pad "  ");"
+.SH ARGUMENTS
+.IP "rqst" 12
+controlling RPC request
+.IP "srcp" 12
+points to RPC message payload in receive buffer
+.IP "copy_len" 12
+remaining length of receive buffer content
+.IP "pad" 12
+Write chunk pad bytes needed (zero for pure inline)
+.SH "DESCRIPTION"
+The upper layer has set the maximum number of bytes it can
+receive in each component of rq_rcv_buf. These values are set in
+the head.iov_len, page_len, tail.iov_len, and buflen fields.
+
+Unlike the TCP equivalent (xdr_partial_copy_from_skb), in
+many cases this function simply updates iov_base pointers in
+rq_rcv_buf to point directly to the received reply data, to
+avoid copying reply data.
+
+Returns the count of bytes which had to be memcopied.

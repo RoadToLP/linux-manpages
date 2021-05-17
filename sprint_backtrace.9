@@ -1,0 +1,21 @@
+.TH "sprint_backtrace" 9 "sprint_backtrace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+sprint_backtrace \- Look up a backtrace symbol and return it in a text buffer
+.SH SYNOPSIS
+.B "int" sprint_backtrace
+.BI "(char *buffer "  ","
+.BI "unsigned long address "  ");"
+.SH ARGUMENTS
+.IP "buffer" 12
+buffer to be stored
+.IP "address" 12
+address to lookup
+.SH "DESCRIPTION"
+This function is for stack backtrace and does the same thing as
+\fBsprint_symbol\fP but with modified/decreased \fIaddress\fP. If there is a
+tail-call to the function marked "noreturn", gcc optimized out code after
+the call so that the stack-saved return address could point outside of the
+caller. This function ensures that kallsyms will find the original caller
+by decreasing \fIaddress\fP.
+
+This function returns the number of bytes stored in \fIbuffer\fP.

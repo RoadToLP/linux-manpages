@@ -1,0 +1,39 @@
+.TH "ntfs_collate_names" 9 "ntfs_collate_names" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ntfs_collate_names \- collate two Unicode names
+.SH SYNOPSIS
+.B "int" ntfs_collate_names
+.BI "(const ntfschar *name1 "  ","
+.BI "const u32 name1_len "  ","
+.BI "const ntfschar *name2 "  ","
+.BI "const u32 name2_len "  ","
+.BI "const int err_val "  ","
+.BI "const IGNORE_CASE_BOOL ic "  ","
+.BI "const ntfschar *upcase "  ","
+.BI "const u32 upcase_len "  ");"
+.SH ARGUMENTS
+.IP "name1" 12
+first Unicode name to compare
+.IP "name1_len" 12
+-- undescribed --
+.IP "name2" 12
+second Unicode name to compare
+.IP "name2_len" 12
+-- undescribed --
+.IP "err_val" 12
+if \fIname1\fP contains an invalid character return this value
+.IP "ic" 12
+either CASE_SENSITIVE or IGNORE_CASE
+.IP "upcase" 12
+upcase table (ignored if \fIic\fP is CASE_SENSITIVE)
+.IP "upcase_len" 12
+upcase table size (ignored if \fIic\fP is CASE_SENSITIVE)
+.SH "DESCRIPTION"
+ntfs_collate_names collates two Unicode names and returns:
+
+-1 if the first name collates before the second one,
+0 if the names match,
+1 if the second name collates before the first one, or
+\fIerr_val\fP if an invalid character is found in \fIname1\fP during the comparison.
+
+The following characters are considered invalid: '"', '*', '<', '>' and '?'.

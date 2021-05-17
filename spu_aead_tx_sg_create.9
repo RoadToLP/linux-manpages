@@ -1,0 +1,51 @@
+.TH "spu_aead_tx_sg_create" 9 "spu_aead_tx_sg_create" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+spu_aead_tx_sg_create \- Build up the scatterlist of buffers used to send a SPU request message for an AEAD request. Includes SPU message headers and the request data.
+.SH SYNOPSIS
+.B "int" spu_aead_tx_sg_create
+.BI "(struct brcm_message *mssg "  ","
+.BI "struct iproc_reqctx_s *rctx "  ","
+.BI "u8 tx_frag_num "  ","
+.BI "u32 spu_hdr_len "  ","
+.BI "struct scatterlist *assoc "  ","
+.BI "unsigned int assoc_len "  ","
+.BI "int assoc_nents "  ","
+.BI "unsigned int aead_iv_len "  ","
+.BI "unsigned int chunksize "  ","
+.BI "u32 aad_pad_len "  ","
+.BI "u32 pad_len "  ","
+.BI "bool incl_icv "  ");"
+.SH ARGUMENTS
+.IP "mssg" 12
+mailbox message containing the transmit sg
+.IP "rctx" 12
+crypto request context
+.IP "tx_frag_num" 12
+number of scatterlist elements required to construct the
+SPU request message
+.IP "spu_hdr_len" 12
+length of SPU message header in bytes
+.IP "assoc" 12
+crypto API associated data scatterlist
+.IP "assoc_len" 12
+length of associated data
+.IP "assoc_nents" 12
+number of scatterlist entries containing assoc data
+.IP "aead_iv_len" 12
+length of AEAD IV, if included
+.IP "chunksize" 12
+Number of bytes of request data
+.IP "aad_pad_len" 12
+Number of bytes of padding at end of AAD. For GCM/CCM.
+.IP "pad_len" 12
+Number of pad bytes
+.IP "incl_icv" 12
+If true, write separate ICV buffer after data and
+any padding
+.SH "DESCRIPTION"
+The scatterlist that gets allocated here is freed in \fBspu_chunk_cleanup\fP
+when the request completes, whether the request is handled successfully or
+there is an error.
+.SH "RETURN"
+0 if successful
+< 0 if an error

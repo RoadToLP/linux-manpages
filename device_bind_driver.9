@@ -1,0 +1,18 @@
+.TH "device_bind_driver" 9 "device_bind_driver" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+device_bind_driver \- bind a driver to one device.
+.SH SYNOPSIS
+.B "int" device_bind_driver
+.BI "(struct device *dev "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+device.
+.SH "DESCRIPTION"
+Allow manual attachment of a driver to a device.
+Caller must have already set \fIdev->driver\fP.
+
+Note that this does not modify the bus reference count.
+Please verify that is accounted for before calling this.
+(It is ok to call with no other effort from a driver's \fBprobe\fP method.)
+
+This function must be called with the device lock held.

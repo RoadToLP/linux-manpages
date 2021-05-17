@@ -1,0 +1,18 @@
+.TH "tracing_snapshot_alloc" 9 "tracing_snapshot_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tracing_snapshot_alloc \- allocate and take a snapshot of the current buffer.
+.SH SYNOPSIS
+.B "void" tracing_snapshot_alloc
+.BI "(void "  ");"
+.SH ARGUMENTS
+.IP "void" 12
+no arguments
+.SH "DESCRIPTION"
+
+This is similar to \fBtracing_snapshot\fP, but it will allocate the
+snapshot buffer if it isn't already allocated. Use this only
+where it is safe to sleep, as the allocation may sleep.
+
+This causes a swap between the snapshot buffer and the current live
+tracing buffer. You can use this to take snapshots of the live
+trace when some condition is triggered, but continue to trace.

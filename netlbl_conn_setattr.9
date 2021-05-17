@@ -1,0 +1,19 @@
+.TH "netlbl_conn_setattr" 9 "netlbl_conn_setattr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlbl_conn_setattr \- Label a connected socket using the correct protocol
+.SH SYNOPSIS
+.B "int" netlbl_conn_setattr
+.BI "(struct sock *sk "  ","
+.BI "struct sockaddr *addr "  ","
+.BI "const struct netlbl_lsm_secattr *secattr "  ");"
+.SH ARGUMENTS
+.IP "sk" 12
+the socket to label
+.IP "addr" 12
+the destination address
+.IP "secattr" 12
+the security attributes
+.SH "DESCRIPTION"
+Attach the correct label to the given connected socket using the security
+attributes specified in \fIsecattr\fP.  The caller is responsible for ensuring
+that \fIsk\fP is locked.  Returns zero on success, negative values on failure.

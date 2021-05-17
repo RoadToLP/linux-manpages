@@ -1,0 +1,32 @@
+.TH "svc_rdma_process_read_list" 9 "svc_rdma_process_read_list" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+svc_rdma_process_read_list \- Pull list of Read chunks from the client
+.SH SYNOPSIS
+.B "int" svc_rdma_process_read_list
+.BI "(struct svcxprt_rdma *rdma "  ","
+.BI "struct svc_rqst *rqstp "  ","
+.BI "struct svc_rdma_recv_ctxt *head "  ");"
+.SH ARGUMENTS
+.IP "rdma" 12
+controlling RDMA transport
+.IP "rqstp" 12
+set of pages to use as Read sink buffers
+.IP "head" 12
+pages under I/O collect here
+.SH "DESCRIPTION"
+The RPC/RDMA protocol assumes that the upper layer's XDR decoders
+pull each Read chunk as they decode an incoming RPC message.
+
+On Linux, however, the server needs to have a fully-constructed RPC
+message in rqstp->rq_arg when there is a positive return code from
+->xpo_recvfrom. So the Read list is safety-checked immediately when
+it is received, then here the whole Read list is pulled all at once.
+The ingress RPC message is fully reconstructed once all associated
+RDMA Reads have completed.
+
+Return values:
+1: all needed RDMA Reads were posted successfully,
+-EINVAL: client provided too many chunks or segments,
+-ENOMEM: rdma_rw context pool was exhausted,
+-ENOTCONN: posting failed (connection is lost),
+-EIO: rdma_rw initialization failed (DMA mapping, etc).

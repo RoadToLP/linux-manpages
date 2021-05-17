@@ -1,0 +1,16 @@
+.TH "mce_threshold_create_device" 9 "mce_threshold_create_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mce_threshold_create_device \- Create the per-CPU MCE threshold device
+.SH SYNOPSIS
+.B "int" mce_threshold_create_device
+.BI "(unsigned int cpu "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+The plugged in CPU
+.SH "DESCRIPTION"
+Create directories and files for all valid threshold banks.
+
+This is invoked from the CPU hotplug callback which was installed in
+\fBmcheck_init_device\fP. The invocation happens in context of the hotplug
+thread running on \fIcpu\fP.  The callback is invoked on all CPUs which are
+online when the callback is installed or during a real hotplug event.

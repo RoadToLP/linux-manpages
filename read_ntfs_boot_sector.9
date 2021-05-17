@@ -1,0 +1,26 @@
+.TH "read_ntfs_boot_sector" 9 "read_ntfs_boot_sector" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+read_ntfs_boot_sector \- read the NTFS boot sector of a device
+.SH SYNOPSIS
+.B "struct buffer_head *" read_ntfs_boot_sector
+.BI "(struct super_block *sb "  ","
+.BI "const int silent "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+super block of device to read the boot sector from
+.IP "silent" 12
+if true, suppress all output
+.SH "DESCRIPTION"
+Reads the boot sector from the device and validates it. If that fails, tries
+to read the backup boot sector, first from the end of the device a-la NT4 and
+later and then from the middle of the device a-la NT3.51 and before.
+
+If a valid boot sector is found but it is not the primary boot sector, we
+repair the primary boot sector silently (unless the device is read-only or
+the primary boot sector is not accessible).
+
+Return the unlocked buffer head containing the boot sector or NULL on error.
+.SH "NOTE"
+To call this function, \fIsb\fP must have the fields s_dev, the ntfs super
+block (u.ntfs_sb), nr_blocks and the device flags (s_flags) initialized
+to their respective values.

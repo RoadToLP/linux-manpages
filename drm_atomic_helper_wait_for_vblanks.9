@@ -1,0 +1,22 @@
+.TH "drm_atomic_helper_wait_for_vblanks" 9 "drm_atomic_helper_wait_for_vblanks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+drm_atomic_helper_wait_for_vblanks \- wait for vblank on CRTCs
+.SH SYNOPSIS
+.B "void" drm_atomic_helper_wait_for_vblanks
+.BI "(struct drm_device *dev "  ","
+.BI "struct drm_atomic_state *old_state "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+DRM device
+.IP "old_state" 12
+atomic state object with old state structures
+.SH "DESCRIPTION"
+Helper to, after atomic commit, wait for vblanks on all affected
+CRTCs (ie. before cleaning up old framebuffers using
+\fBdrm_atomic_helper_cleanup_planes\fP). It will only wait on CRTCs where the
+framebuffers have actually changed to optimize for the legacy cursor and
+plane update use-case.
+
+Drivers using the nonblocking commit tracking support initialized by calling
+\fBdrm_atomic_helper_setup_commit\fP should look at
+\fBdrm_atomic_helper_wait_for_flip_done\fP as an alternative.

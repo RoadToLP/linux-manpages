@@ -1,0 +1,22 @@
+.TH "netlink_policy_dump_add_policy" 9 "netlink_policy_dump_add_policy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+netlink_policy_dump_add_policy \- add a policy to the dump
+.SH SYNOPSIS
+.B "int" netlink_policy_dump_add_policy
+.BI "(struct netlink_policy_dump_state **pstate "  ","
+.BI "const struct nla_policy *policy "  ","
+.BI "unsigned int maxtype "  ");"
+.SH ARGUMENTS
+.IP "pstate" 12
+state to add to, may be reallocated, must be NULL the first time
+.IP "policy" 12
+the new policy to add to the dump
+.IP "maxtype" 12
+the new policy's max attr type
+.SH "RETURN"
+0 on success, a negative error code otherwise.
+.SH "DESCRIPTION"
+Call this to allocate a policy dump state, and to add policies to it. This
+should be called from the dump \fBstart\fP callback.
+.SH "NOTE"
+on failures, any previously allocated state is freed.

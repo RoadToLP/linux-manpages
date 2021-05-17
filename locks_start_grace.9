@@ -1,0 +1,19 @@
+.TH "locks_start_grace" 9 "locks_start_grace" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+locks_start_grace \- 
+.SH SYNOPSIS
+.B "void" locks_start_grace
+.BI "(struct net *net "  ","
+.BI "struct lock_manager *lm "  ");"
+.SH ARGUMENTS
+.IP "net" 12
+net namespace that this lock manager belongs to
+.IP "lm" 12
+who this grace period is for
+.SH "DESCRIPTION"
+A grace period is a period during which locks should not be given
+out.  Currently grace periods are only enforced by the two lock
+managers (lockd and nfsd), using the \fBlocks_in_grace\fP function to
+check when they are in a grace period.
+
+This function is called to start a grace period.

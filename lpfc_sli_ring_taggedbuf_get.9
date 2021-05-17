@@ -1,0 +1,24 @@
+.TH "lpfc_sli_ring_taggedbuf_get" 9 "lpfc_sli_ring_taggedbuf_get" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_ring_taggedbuf_get \- find HBQ buffer associated with given tag
+.SH SYNOPSIS
+.B "struct lpfc_dmabuf *" lpfc_sli_ring_taggedbuf_get
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ","
+.BI "uint32_t tag "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.IP "tag" 12
+Buffer tag.
+.SH "DESCRIPTION"
+Buffers posted using CMD_QUE_XRI64_CX iocb are in pring->postbufq
+list. After HBA DMA data to these buffers, CMD_IOCB_RET_XRI64_CX
+iocb is posted to the response ring with the tag of the buffer.
+This function searches the pring->postbufq list using the tag
+to find buffer associated with CMD_IOCB_RET_XRI64_CX
+iocb. If the buffer is found then lpfc_dmabuf object of the
+buffer is returned to the caller else NULL is returned.
+This function is called with no lock held.

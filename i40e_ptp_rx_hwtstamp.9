@@ -1,0 +1,21 @@
+.TH "i40e_ptp_rx_hwtstamp" 9 "i40e_ptp_rx_hwtstamp" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+i40e_ptp_rx_hwtstamp \- Utility function which checks for an Rx timestamp
+.SH SYNOPSIS
+.B "void" i40e_ptp_rx_hwtstamp
+.BI "(struct i40e_pf *pf "  ","
+.BI "struct sk_buff *skb "  ","
+.BI "u8 index "  ");"
+.SH ARGUMENTS
+.IP "pf" 12
+Board private structure
+.IP "skb" 12
+Particular skb to send timestamp with
+.IP "index" 12
+Index into the receive timestamp registers for the timestamp
+.SH "DESCRIPTION"
+The XL710 receives a notification in the receive descriptor with an offset
+into the set of RXTIME registers where the timestamp is for that skb. This
+function goes and fetches the receive timestamp from that offset, if a valid
+one exists. The RXTIME registers are in ns, so we must convert the result
+first.

@@ -1,0 +1,33 @@
+.TH "tty_register_device_attr" 9 "tty_register_device_attr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+tty_register_device_attr \- register a tty device
+.SH SYNOPSIS
+.B "struct device *" tty_register_device_attr
+.BI "(struct tty_driver *driver "  ","
+.BI "unsigned index "  ","
+.BI "struct device *device "  ","
+.BI "void *drvdata "  ","
+.BI "const struct attribute_group **attr_grp "  ");"
+.SH ARGUMENTS
+.IP "driver" 12
+the tty driver that describes the tty device
+.IP "index" 12
+the index in the tty driver for this tty device
+.IP "device" 12
+a struct device that is associated with this tty device.
+This field is optional, if there is no known struct device
+for this tty device it can be set to NULL safely.
+.IP "drvdata" 12
+Driver data to be set to device.
+.IP "attr_grp" 12
+Attribute group to be set on device.
+
+Returns a pointer to the struct device for this tty device
+(or ERR_PTR(-EFOO) on error).
+
+This call is required to be made to register an individual tty device
+if the tty driver's flags have the TTY_DRIVER_DYNAMIC_DEV bit set.  If
+that bit is not set, this function should not be called by a tty
+driver.
+
+Locking: ??

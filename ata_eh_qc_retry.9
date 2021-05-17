@@ -1,0 +1,16 @@
+.TH "ata_eh_qc_retry" 9 "ata_eh_qc_retry" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_eh_qc_retry \- Tell midlayer to retry an ATA command after EH
+.SH SYNOPSIS
+.B "void" ata_eh_qc_retry
+.BI "(struct ata_queued_cmd *qc "  ");"
+.SH ARGUMENTS
+.IP "qc" 12
+Command to retry
+
+Indicate to the mid and upper layers that an ATA command
+should be retried.  To be used from EH.
+
+SCSI midlayer limits the number of retries to scmd->allowed.
+scmd->allowed is incremented for commands which get retried
+due to unrelated failures (qc->err_mask is zero).

@@ -1,0 +1,22 @@
+.TH "nilfs_ioctl_move_blocks" 9 "nilfs_ioctl_move_blocks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_ioctl_move_blocks \- move valid inode's blocks during garbage collection
+.SH SYNOPSIS
+.B "int" nilfs_ioctl_move_blocks
+.BI "(struct super_block *sb "  ","
+.BI "struct nilfs_argv *argv "  ","
+.BI "void *buf "  ");"
+.SH ARGUMENTS
+.IP "sb" 12
+superblock object
+.IP "argv" 12
+vector of arguments from userspace
+.IP "buf" 12
+array of nilfs_vdesc structures
+.SH "DESCRIPTION"
+\fBnilfs_ioctl_move_blocks\fP function reads valid data/node
+blocks that garbage collector specified with the array of nilfs_vdesc
+structures and stores them into page caches of GC inodes.
+
+Return Value: Number of processed nilfs_vdesc structures or
+error code, otherwise.

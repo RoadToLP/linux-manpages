@@ -1,0 +1,25 @@
+.TH "ucb1x00_adc_read" 9 "ucb1x00_adc_read" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ucb1x00_adc_read \- read the specified ADC channel
+.SH SYNOPSIS
+.B "unsigned int" ucb1x00_adc_read
+.BI "(struct ucb1x00 *ucb "  ","
+.BI "int adc_channel "  ","
+.BI "int sync "  ");"
+.SH ARGUMENTS
+.IP "ucb" 12
+UCB1x00 structure describing chip
+.IP "adc_channel" 12
+ADC channel mask
+.IP "sync" 12
+wait for syncronisation pulse.
+
+Start an ADC conversion and wait for the result.  Note that
+synchronised ADC conversions (via the ADCSYNC pin) must wait
+until the trigger is asserted and the conversion is finished.
+
+This function currently spins waiting for the conversion to
+complete (2 frames max without sync).
+
+If called for a synchronised ADC conversion, it may sleep
+with the ADC mutex held.

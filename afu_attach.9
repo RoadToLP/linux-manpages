@@ -1,0 +1,18 @@
+.TH "afu_attach" 9 "afu_attach" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+afu_attach \- attach a context to the AFU
+.SH SYNOPSIS
+.B "int" afu_attach
+.BI "(struct cxlflash_cfg *cfg "  ","
+.BI "struct ctx_info *ctxi "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.IP "ctxi" 12
+Context to attach.
+.SH "DESCRIPTION"
+Upon setting the context capabilities, they must be confirmed with
+a read back operation as the context might have been closed since
+the mailbox was unlocked. When this occurs, registration is failed.
+.SH "RETURN"
+0 on success, -errno on failure

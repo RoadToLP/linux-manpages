@@ -1,0 +1,38 @@
+.TH "intel_hpd_irq_storm_detect" 9 "intel_hpd_irq_storm_detect" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+intel_hpd_irq_storm_detect \- gather stats and detect HPD IRQ storm on a pin
+.SH SYNOPSIS
+.B "bool" intel_hpd_irq_storm_detect
+.BI "(struct drm_i915_private *dev_priv "  ","
+.BI "enum hpd_pin pin "  ","
+.BI "bool long_hpd "  ");"
+.SH ARGUMENTS
+.IP "dev_priv" 12
+private driver data pointer
+.IP "pin" 12
+the pin to gather stats on
+.IP "long_hpd" 12
+whether the HPD IRQ was long or short
+.SH "DESCRIPTION"
+Gather stats about HPD IRQs from the specified \fIpin\fP, and detect IRQ
+storms. Only the pin specific stats and state are changed, the caller is
+responsible for further action.
+
+The number of IRQs that are allowed within \fIHPD_STORM_DETECT_PERIOD\fP is
+stored in \fIdev_priv->hotplug.hpd_storm_threshold\fP which defaults to
+\fIHPD_STORM_DEFAULT_THRESHOLD\fP. Long IRQs count as +10 to this threshold, and
+short IRQs count as +1. If this threshold is exceeded, it's considered an
+IRQ storm and the IRQ state is set to \fIHPD_MARK_DISABLED\fP.
+
+By default, most systems will only count long IRQs towards
+\fIdev_priv->hotplug\fP.hpd_storm_threshold. However, some older systems also
+suffer from short IRQ storms and must also track these. Because short IRQ
+storms are naturally caused by sideband interactions with DP MST devices,
+short IRQ detection is only enabled for systems without DP MST support.
+Systems which are new enough to support DP MST are far less likely to
+suffer from IRQ storms at all, so this is fine.
+
+The HPD threshold can be controlled through i915_hpd_storm_ctl in debugfs,
+and should only be adjusted for automated hotplug testing.
+
+Return true if an IRQ storm was detected on \fIpin\fP.

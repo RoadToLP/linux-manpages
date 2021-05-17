@@ -1,0 +1,24 @@
+.TH "snd_hdac_get_connections" 9 "snd_hdac_get_connections" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_get_connections \- get a widget connection list
+.SH SYNOPSIS
+.B "int" snd_hdac_get_connections
+.BI "(struct hdac_device *codec "  ","
+.BI "hda_nid_t nid "  ","
+.BI "hda_nid_t *conn_list "  ","
+.BI "int max_conns "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the codec object
+.IP "nid" 12
+NID
+.IP "conn_list" 12
+the array to store the results, can be NULL
+.IP "max_conns" 12
+the max size of the given array
+.SH "DESCRIPTION"
+Returns the number of connected widgets, zero for no connection, or a
+negative error code.  When the number of elements don't fit with the
+given array size, it returns -ENOSPC.
+
+When \fIconn_list\fP is NULL, it just checks the number of connections.

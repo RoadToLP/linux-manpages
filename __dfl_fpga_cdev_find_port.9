@@ -1,0 +1,22 @@
+.TH "__dfl_fpga_cdev_find_port" 9 "__dfl_fpga_cdev_find_port" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__dfl_fpga_cdev_find_port \- find a port under given container device
+.SH SYNOPSIS
+.B "struct platform_device *" __dfl_fpga_cdev_find_port
+.BI "(struct dfl_fpga_cdev *cdev "  ","
+.BI "void *data "  ","
+.BI "int (*match)(struct platform_device *, void *) "  ");"
+.SH ARGUMENTS
+.IP "cdev" 12
+container device
+.IP "data" 12
+data passed to match function
+.IP "match" 12
+match function used to find specific port from the port device list
+.SH "DESCRIPTION"
+Find a port device under container device. This function needs to be
+invoked with lock held.
+.SH "RETURN"
+pointer to port's platform device if successful, NULL otherwise.
+.SH "NOTE"
+you will need to drop the device reference with \fBput_device\fP after use.

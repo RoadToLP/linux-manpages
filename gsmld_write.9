@@ -1,0 +1,24 @@
+.TH "gsmld_write" 9 "gsmld_write" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gsmld_write \- write function for tty
+.SH SYNOPSIS
+.B "ssize_t" gsmld_write
+.BI "(struct tty_struct *tty "  ","
+.BI "struct file *file "  ","
+.BI "const unsigned char *buf "  ","
+.BI "size_t nr "  ");"
+.SH ARGUMENTS
+.IP "tty" 12
+tty device
+.IP "file" 12
+file object
+.IP "buf" 12
+userspace buffer pointer
+.IP "nr" 12
+size of I/O
+
+Called when the owner of the device wants to send a frame
+itself (or some other control data). The data is transferred
+as-is and must be properly framed and checksummed as appropriate
+by userspace. Frames are either sent whole or not at all as this
+avoids pain user side.

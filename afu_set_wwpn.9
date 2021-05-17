@@ -1,0 +1,24 @@
+.TH "afu_set_wwpn" 9 "afu_set_wwpn" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+afu_set_wwpn \- configures the WWPN for the specified host FC port
+.SH SYNOPSIS
+.B "void" afu_set_wwpn
+.BI "(struct afu *afu "  ","
+.BI "int port "  ","
+.BI "__be64 __iomem *fc_regs "  ","
+.BI "u64 wwpn "  ");"
+.SH ARGUMENTS
+.IP "afu" 12
+AFU associated with the host that owns the specified FC port.
+.IP "port" 12
+Port number being configured.
+.IP "fc_regs" 12
+Top of MMIO region defined for specified port.
+.IP "wwpn" 12
+The world-wide-port-number previously discovered for port.
+.SH "DESCRIPTION"
+The provided MMIO region must be mapped prior to call. As part of the
+sequence to configure the WWPN, the port is toggled offline and then back
+online. This toggling action can cause this routine to delay up to a few
+seconds. When configured to use the internal LUN feature of the AFU, a
+failure to come online is overridden.

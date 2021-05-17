@@ -1,0 +1,21 @@
+.TH "rx_osm_handler" 9 "rx_osm_handler" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rx_osm_handler \- To perform some OS related operations on SKB.
+.SH SYNOPSIS
+.B "int" rx_osm_handler
+.BI "(struct ring_info *ring_data "  ","
+.BI "struct RxD_t * rxdp "  ");"
+.SH ARGUMENTS
+.IP "ring_data" 12
+the ring from which this RxD was extracted.
+.IP "rxdp" 12
+descriptor
+.SH "DESCRIPTION"
+This function is called by the Rx interrupt serivce routine to perform
+some OS related operations on the SKB before passing it to the upper
+layers. It mainly checks if the checksum is OK, if so adds it to the
+SKBs cksum variable, increments the Rx packet count and passes the SKB
+to the upper layer. If the checksum is wrong, it increments the Rx
+packet error count, frees the SKB and returns error.
+Return value:
+SUCCESS on success and -1 on failure.

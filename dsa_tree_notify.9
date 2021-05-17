@@ -1,0 +1,19 @@
+.TH "dsa_tree_notify" 9 "dsa_tree_notify" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+dsa_tree_notify \- Execute code for all switches in a DSA switch tree.
+.SH SYNOPSIS
+.B "int" dsa_tree_notify
+.BI "(struct dsa_switch_tree *dst "  ","
+.BI "unsigned long e "  ","
+.BI "void *v "  ");"
+.SH ARGUMENTS
+.IP "dst" 12
+collection of struct dsa_switch devices to notify.
+.IP "e" 12
+event, must be of type DSA_NOTIFIER_*
+.IP "v" 12
+event-specific value.
+.SH "DESCRIPTION"
+Given a struct dsa_switch_tree, this can be used to run a function once for
+each member DSA switch. The other alternative of traversing the tree is only
+through its ports list, which does not uniquely list the switches.

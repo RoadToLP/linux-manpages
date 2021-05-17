@@ -1,0 +1,19 @@
+.TH "xdr_restrict_buflen" 9 "xdr_restrict_buflen" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_restrict_buflen \- decrease available buffer space
+.SH SYNOPSIS
+.B "int" xdr_restrict_buflen
+.BI "(struct xdr_stream *xdr "  ","
+.BI "int newbuflen "  ");"
+.SH ARGUMENTS
+.IP "xdr" 12
+pointer to xdr_stream
+.IP "newbuflen" 12
+new maximum number of bytes available
+.SH "DESCRIPTION"
+Adjust our idea of how much space is available in the buffer.
+If we've already used too much space in the buffer, returns -1.
+If the available space is already smaller than newbuflen, returns 0
+and does nothing.  Otherwise, adjusts xdr->buf->buflen to newbuflen
+and ensures xdr->end is set at most offset newbuflen from the start
+of the buffer.

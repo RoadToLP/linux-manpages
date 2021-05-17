@@ -1,0 +1,25 @@
+.TH "igbvf_update_itr" 9 "igbvf_update_itr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+igbvf_update_itr \- update the dynamic ITR value based on statistics
+.SH SYNOPSIS
+.B "enum latency_range" igbvf_update_itr
+.BI "(struct igbvf_adapter *adapter "  ","
+.BI "enum latency_range itr_setting "  ","
+.BI "int packets "  ","
+.BI "int bytes "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+pointer to adapter
+.IP "itr_setting" 12
+current adapter->itr
+.IP "packets" 12
+the number of packets during this measurement interval
+.IP "bytes" 12
+the number of bytes during this measurement interval
+.SH "DESCRIPTION"
+Stores a new ITR value based on packets and byte counts during the last
+interrupt.  The advantage of per interrupt computation is faster updates
+and more accurate ITR for the current traffic pattern.  Constants in this
+function were computed based on theoretical maximum wire speed and thresholds
+were set based on testing data as well as attempting to minimize response
+time while increasing bulk throughput.

@@ -1,0 +1,17 @@
+.TH "stm32h7_spi_disable" 9 "stm32h7_spi_disable" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+stm32h7_spi_disable \- Disable SPI controller
+.SH SYNOPSIS
+.B "void" stm32h7_spi_disable
+.BI "(struct stm32_spi *spi "  ");"
+.SH ARGUMENTS
+.IP "spi" 12
+pointer to the spi controller data structure
+.SH "DESCRIPTION"
+RX-Fifo is flushed when SPI controller is disabled. To prevent any data
+loss, use stm32h7_spi_read_rxfifo(flush) to read the remaining bytes in
+RX-Fifo.
+Normally, if TSIZE has been configured, we should relax the hardware at the
+reception of the EOT interrupt. But in case of error, EOT will not be
+raised. So the subsystem unprepare_message call allows us to properly
+complete the transfer from an hardware point of view.

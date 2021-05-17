@@ -1,0 +1,24 @@
+.TH "kvm_reset_vcpu" 9 "kvm_reset_vcpu" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+kvm_reset_vcpu \- sets core registers and sys_regs to reset value
+.SH SYNOPSIS
+.B "int" kvm_reset_vcpu
+.BI "(struct kvm_vcpu *vcpu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+The VCPU pointer
+.SH "DESCRIPTION"
+This function finds the right table above and sets the registers on
+the virtual CPU struct to their architecturally defined reset
+values, except for registers whose reset is deferred until
+\fBkvm_arm_vcpu_finalize\fP.
+.SH "NOTE"
+This function can be called from two paths: The KVM_ARM_VCPU_INIT
+ioctl or as part of handling a request issued by another VCPU in the PSCI
+handling code.  In the first case, the VCPU will not be loaded, and in the
+second case the VCPU will be loaded.  Because this function operates purely
+on the memory-backed values of system registers, we want to do a full put if
+we were loaded (handling a request) and load the values back at the end of
+the function.  Otherwise we leave the state alone.  In both cases, we
+disable preemption around the vcpu reset as we would otherwise race with
+preempt notifiers which also call put/load.

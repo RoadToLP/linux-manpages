@@ -1,0 +1,20 @@
+.TH "rdma_rw_mr_factor" 9 "rdma_rw_mr_factor" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_rw_mr_factor \- return number of MRs required for a payload
+.SH SYNOPSIS
+.B "unsigned int" rdma_rw_mr_factor
+.BI "(struct ib_device *device "  ","
+.BI "u8 port_num "  ","
+.BI "unsigned int maxpages "  ");"
+.SH ARGUMENTS
+.IP "device" 12
+device handling the connection
+.IP "port_num" 12
+port num to which the connection is bound
+.IP "maxpages" 12
+maximum payload pages per rdma_rw_ctx
+.SH "DESCRIPTION"
+Returns the number of MRs the device requires to move \fImaxpayload\fP
+bytes. The returned value is used during transport creation to
+compute max_rdma_ctxts and the size of the transport's Send and
+Send Completion Queues.

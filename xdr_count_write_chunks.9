@@ -1,0 +1,22 @@
+.TH "xdr_count_write_chunks" 9 "xdr_count_write_chunks" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+xdr_count_write_chunks \- Count number of Write chunks in Write list
+.SH SYNOPSIS
+.B "bool" xdr_count_write_chunks
+.BI "(struct svc_rdma_recv_ctxt *rctxt "  ","
+.BI "__be32 *p "  ");"
+.SH ARGUMENTS
+.IP "rctxt" 12
+Received header and decoding state
+.IP "p" 12
+start of an un-decoded Write list
+.SH "DESCRIPTION"
+Before allocating anything, ensure the ingress Write list is
+safe to use.
+
+Return values:
+true: Write list is valid. \fIrctxt\fP's xdr_stream is updated
+to point to the first byte past the Write list, and
+the number of Write chunks is in rc_write_pcl.cl_count.
+false: Write list is corrupt. \fIrctxt\fP's xdr_stream is left
+in an indeterminate state.

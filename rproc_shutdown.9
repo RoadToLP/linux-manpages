@@ -1,0 +1,23 @@
+.TH "rproc_shutdown" 9 "rproc_shutdown" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rproc_shutdown \- power off the remote processor
+.SH SYNOPSIS
+.B "void" rproc_shutdown
+.BI "(struct rproc *rproc "  ");"
+.SH ARGUMENTS
+.IP "rproc" 12
+the remote processor
+.SH "DESCRIPTION"
+Power off a remote processor (previously booted with \fBrproc_boot\fP).
+
+In case \fIrproc\fP is still being used by an additional user(s), then
+this function will just decrement the power refcount and exit,
+without really powering off the device.
+
+Every call to \fBrproc_boot\fP must (eventually) be accompanied by a call
+to \fBrproc_shutdown\fP. Calling \fBrproc_shutdown\fP redundantly is a bug.
+.SH "NOTES"
+- we're not decrementing the rproc's refcount, only the power refcount.
+which means that the \fIrproc\fP handle stays valid even after \fBrproc_shutdown\fP
+returns, and users can still use it with a subsequent \fBrproc_boot\fP, if
+needed.

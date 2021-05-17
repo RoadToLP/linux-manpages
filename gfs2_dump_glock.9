@@ -1,0 +1,25 @@
+.TH "gfs2_dump_glock" 9 "gfs2_dump_glock" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+gfs2_dump_glock \- print information about a glock
+.SH SYNOPSIS
+.B "void" gfs2_dump_glock
+.BI "(struct seq_file *seq "  ","
+.BI "struct gfs2_glock *gl "  ","
+.BI "bool fsid "  ");"
+.SH ARGUMENTS
+.IP "seq" 12
+The seq_file struct
+.IP "gl" 12
+the glock
+.IP "fsid" 12
+If true, also dump the file system id
+.SH "DESCRIPTION"
+The file format is as follows:
+One line per object, capital letters are used to indicate objects
+G = glock, I = Inode, R = rgrp, H = holder. Glocks are not indented,
+other objects are indented by a single space and follow the glock to
+which they are related. Fields are indicated by lower case letters
+followed by a colon and the field value, except for strings which are in
+[] so that its possible to see if they are composed of spaces for
+example. The field's are n = number (id of the object), f = flags,
+t = type, s = state, r = refcount, e = error, p = pid.

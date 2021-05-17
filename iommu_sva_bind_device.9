@@ -1,0 +1,25 @@
+.TH "iommu_sva_bind_device" 9 "iommu_sva_bind_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_sva_bind_device \- Bind a process address space to a device
+.SH SYNOPSIS
+.B "struct iommu_sva *" iommu_sva_bind_device
+.BI "(struct device *dev "  ","
+.BI "struct mm_struct *mm "  ","
+.BI "void *drvdata "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+the device
+.IP "mm" 12
+the mm to bind, caller must hold a reference to it
+.IP "drvdata" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Create a bond between device and address space, allowing the device to access
+the mm using the returned PASID. If a bond already exists between \fIdevice\fP and
+\fImm\fP, it is returned and an additional reference is taken. Caller must call
+\fBiommu_sva_unbind_device\fP to release each reference.
+
+iommu_dev_enable_feature(dev, IOMMU_DEV_FEAT_SVA) must be called first, to
+initialize the required SVA features.
+
+On error, returns an ERR_PTR value.

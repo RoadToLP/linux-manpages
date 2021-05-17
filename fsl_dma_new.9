@@ -1,0 +1,25 @@
+.TH "fsl_dma_new" 9 "fsl_dma_new" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+fsl_dma_new \- initialize this PCM driver.
+.SH SYNOPSIS
+.B "int" fsl_dma_new
+.BI "(struct snd_soc_component *component "  ","
+.BI "struct snd_soc_pcm_runtime *rtd "  ");"
+.SH ARGUMENTS
+.IP "component" 12
+-- undescribed --
+.IP "rtd" 12
+-- undescribed --
+.SH "DESCRIPTION"
+
+This function is called when the codec driver calls \fBsnd_soc_new_pcms\fP,
+once for each .dai_link in the machine driver's snd_soc_card
+structure.
+
+\fBsnd_dma_alloc_pages\fP is just a front-end to \fBdma_alloc_coherent\fP, which
+(currently) always allocates the DMA buffer in lowmem, even if GFP_HIGHMEM
+is specified. Therefore, any DMA buffers we allocate will always be in low
+memory, but we support for 36-bit physical addresses anyway.
+
+Regardless of where the memory is actually allocated, since the device can
+technically DMA to any 36-bit address, we do need to set the DMA mask to 36.

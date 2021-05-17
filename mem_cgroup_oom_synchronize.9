@@ -1,0 +1,22 @@
+.TH "mem_cgroup_oom_synchronize" 9 "mem_cgroup_oom_synchronize" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mem_cgroup_oom_synchronize \- complete memcg OOM handling
+.SH SYNOPSIS
+.B "bool" mem_cgroup_oom_synchronize
+.BI "(bool handle "  ");"
+.SH ARGUMENTS
+.IP "handle" 12
+actually kill/wait or just clean up the OOM state
+.SH "DESCRIPTION"
+This has to be called at the end of a page fault if the memcg OOM
+handler was enabled.
+
+Memcg supports userspace OOM handling where failed allocations must
+sleep on a waitqueue until the userspace task resolves the
+situation.  Sleeping directly in the charge context with all kinds
+of locks held is not a good idea, instead we remember an OOM state
+in the task and \fBmem_cgroup_oom_synchronize\fP has to be called at
+the end of the page fault to complete the OOM handling.
+
+Returns true if an ongoing memcg OOM situation was detected and
+completed, false otherwise.

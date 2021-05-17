@@ -1,0 +1,16 @@
+.TH "panic_nand_wait" 9 "panic_nand_wait" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+panic_nand_wait \- [GENERIC] wait until the command is done
+.SH SYNOPSIS
+.B "void" panic_nand_wait
+.BI "(struct nand_chip *chip "  ","
+.BI "unsigned long timeo "  ");"
+.SH ARGUMENTS
+.IP "chip" 12
+NAND chip structure
+.IP "timeo" 12
+timeout
+.SH "DESCRIPTION"
+Wait for command done. This is a helper function for nand_wait used when
+we are in interrupt context. May happen when in panic and trying to write
+an oops through mtdoops.

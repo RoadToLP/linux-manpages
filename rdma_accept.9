@@ -1,0 +1,25 @@
+.TH "rdma_accept" 9 "rdma_accept" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rdma_accept \- Called to accept a connection request or response.
+.SH SYNOPSIS
+.B "int" rdma_accept
+.BI "(struct rdma_cm_id *id "  ","
+.BI "struct rdma_conn_param *conn_param "  ");"
+.SH ARGUMENTS
+.IP "id" 12
+Connection identifier associated with the request.
+.IP "conn_param" 12
+Information needed to establish the connection.  This must be
+provided if accepting a connection request.  If accepting a connection
+response, this parameter must be NULL.
+.SH "DESCRIPTION"
+Typically, this routine is only called by the listener to accept a connection
+request.  It must also be called on the active side of a connection if the
+user is performing their own QP transitions.
+
+In the case of error, a reject message is sent to the remote side and the
+state of the qp associated with the id is modified to error, such that any
+previously posted receive buffers would be flushed.
+
+This function is for use by kernel ULPs and must be called from under the
+handler callback.

@@ -1,0 +1,23 @@
+.TH "pci_free_irq" 9 "pci_free_irq" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pci_free_irq \- free an interrupt allocated with pci_request_irq
+.SH SYNOPSIS
+.B "void" pci_free_irq
+.BI "(struct pci_dev *dev "  ","
+.BI "unsigned int nr "  ","
+.BI "void *dev_id "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+PCI device to operate on
+.IP "nr" 12
+device-relative interrupt vector index (0-based).
+.IP "dev_id" 12
+Device identity to free
+.SH "DESCRIPTION"
+Remove an interrupt handler. The handler is removed and if the interrupt
+line is no longer in use by any driver it is disabled.  The caller must
+ensure the interrupt is disabled on the device before calling this function.
+The function does not return until any executing interrupts for this IRQ
+have completed.
+
+This function must not be called from interrupt context.

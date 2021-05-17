@@ -1,0 +1,20 @@
+.TH "work_on_cpu_safe" 9 "work_on_cpu_safe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+work_on_cpu_safe \- run a function in thread context on a particular cpu
+.SH SYNOPSIS
+.B "long" work_on_cpu_safe
+.BI "(int cpu "  ","
+.BI "long (*fn)(void *) "  ","
+.BI "void *arg "  ");"
+.SH ARGUMENTS
+.IP "cpu" 12
+the cpu to run on
+.IP "fn" 12
+the function to run
+.IP "arg" 12
+the function argument
+.SH "DESCRIPTION"
+Disables CPU hotplug and calls \fBwork_on_cpu\fP. The caller must not hold
+any locks which would prevent \fIfn\fP from completing.
+.SH "RETURN"
+The value \fIfn\fP returns.

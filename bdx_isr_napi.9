@@ -1,0 +1,20 @@
+.TH "bdx_isr_napi" 9 "bdx_isr_napi" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+bdx_isr_napi \- Interrupt Service Routine for Bordeaux NIC
+.SH SYNOPSIS
+.B "irqreturn_t" bdx_isr_napi
+.BI "(int irq "  ","
+.BI "void *dev "  ");"
+.SH ARGUMENTS
+.IP "irq" 12
+interrupt number
+.IP "dev" 12
+network device
+.SH "DESCRIPTION"
+Return IRQ_NONE if it was not our interrupt, IRQ_HANDLED - otherwise
+
+It reads ISR register to know interrupt reasons, and proceed them one by one.
+Reasons of interest are:
+RX_DESC - new packet has arrived and RXD fifo holds its descriptor
+RX_FREE - number of free Rx buffers in RXF fifo gets low
+TX_FREE - packet was transmited and RXF fifo holds its descriptor

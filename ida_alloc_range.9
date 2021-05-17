@@ -1,0 +1,27 @@
+.TH "ida_alloc_range" 9 "ida_alloc_range" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ida_alloc_range \- Allocate an unused ID.
+.SH SYNOPSIS
+.B "int" ida_alloc_range
+.BI "(struct ida *ida "  ","
+.BI "unsigned int min "  ","
+.BI "unsigned int max "  ","
+.BI "gfp_t gfp "  ");"
+.SH ARGUMENTS
+.IP "ida" 12
+IDA handle.
+.IP "min" 12
+Lowest ID to allocate.
+.IP "max" 12
+Highest ID to allocate.
+.IP "gfp" 12
+Memory allocation flags.
+.SH "DESCRIPTION"
+Allocate an ID between \fImin\fP and \fImax\fP, inclusive.  The allocated ID will
+not exceed INT_MAX, even if \fImax\fP is larger.
+.SH "CONTEXT"
+Any context. It is safe to call this function without
+locking in your code.
+.SH "RETURN"
+The allocated ID, or -ENOMEM if memory could not be allocated,
+or -ENOSPC if there are no free IDs.

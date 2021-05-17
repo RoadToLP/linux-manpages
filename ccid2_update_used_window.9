@@ -1,0 +1,17 @@
+.TH "ccid2_update_used_window" 9 "ccid2_update_used_window" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ccid2_update_used_window \- Track how much of cwnd is actually used
+.SH SYNOPSIS
+.B "void" ccid2_update_used_window
+.BI "(struct ccid2_hc_tx_sock *hc "  ","
+.BI "u32 new_wnd "  ");"
+.SH ARGUMENTS
+.IP "hc" 12
+socket to update window
+.IP "new_wnd" 12
+new window values to add into the filter
+.SH "DESCRIPTION"
+This is done in addition to CWV. The sender needs to have an idea of how many
+packets may be in flight, to set the local Sequence Window value accordingly
+(RFC 4340, 7.5.2). The CWV mechanism is exploited to keep track of the
+maximum-used window. We use an EWMA low-pass filter to filter out noise.

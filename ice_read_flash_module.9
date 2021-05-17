@@ -1,0 +1,32 @@
+.TH "ice_read_flash_module" 9 "ice_read_flash_module" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ice_read_flash_module \- Read a word from one of the main NVM modules
+.SH SYNOPSIS
+.B "enum ice_status" ice_read_flash_module
+.BI "(struct ice_hw *hw "  ","
+.BI "enum ice_bank_select bank "  ","
+.BI "u16 module "  ","
+.BI "u32 offset "  ","
+.BI "u8 *data "  ","
+.BI "u32 length "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+.IP "bank" 12
+which bank of the module to read
+.IP "module" 12
+the module to read
+.IP "offset" 12
+the offset into the module in bytes
+.IP "data" 12
+storage for the word read from the flash
+.IP "length" 12
+bytes of data to read
+.SH "DESCRIPTION"
+Read data from the specified flash module. The bank parameter indicates
+whether or not to read from the active bank or the inactive bank of that
+module.
+
+The word will be read using flat NVM access, and relies on the
+hw->flash.banks data being setup by \fBice_determine_active_flash_banks\fP
+during initialization.

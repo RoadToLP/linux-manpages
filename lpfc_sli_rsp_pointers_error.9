@@ -1,0 +1,17 @@
+.TH "lpfc_sli_rsp_pointers_error" 9 "lpfc_sli_rsp_pointers_error" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli_rsp_pointers_error \- Response ring pointer error handler
+.SH SYNOPSIS
+.B "void" lpfc_sli_rsp_pointers_error
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_sli_ring *pring "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "pring" 12
+Pointer to driver SLI ring object.
+.SH "DESCRIPTION"
+This function is called from the iocb ring event handlers when
+put pointer is ahead of the get pointer for a ring. This function signal
+an error attention condition to the worker thread and the worker
+thread will transition the HBA to offline state.

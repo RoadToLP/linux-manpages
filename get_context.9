@@ -1,0 +1,26 @@
+.TH "get_context" 9 "get_context" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+get_context \- obtains a validated and locked context reference
+.SH SYNOPSIS
+.B "struct ctx_info *" get_context
+.BI "(struct cxlflash_cfg *cfg "  ","
+.BI "u64 rctxid "  ","
+.BI "void *arg "  ","
+.BI "enum ctx_ctrl ctx_ctrl "  ");"
+.SH ARGUMENTS
+.IP "cfg" 12
+Internal structure associated with the host.
+.IP "rctxid" 12
+Desired context (raw, un-decoded format).
+.IP "arg" 12
+LUN information or file associated with request.
+.IP "ctx_ctrl" 12
+Control information to 'steer' desired lookup.
+.SH "NOTE"
+despite the name pid, in linux, current->pid actually refers
+to the lightweight process id (tid) and can change if the process is
+multi threaded. The tgid remains constant for the process and only changes
+when the process of fork. For all intents and purposes, think of tgid
+as a pid in the traditional sense.
+.SH "RETURN"
+Validated context on success, NULL on failure

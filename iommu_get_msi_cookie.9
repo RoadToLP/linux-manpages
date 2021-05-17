@@ -1,0 +1,19 @@
+.TH "iommu_get_msi_cookie" 9 "iommu_get_msi_cookie" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iommu_get_msi_cookie \- Acquire just MSI remapping resources
+.SH SYNOPSIS
+.B "int" iommu_get_msi_cookie
+.BI "(struct iommu_domain *domain "  ","
+.BI "dma_addr_t base "  ");"
+.SH ARGUMENTS
+.IP "domain" 12
+IOMMU domain to prepare
+.IP "base" 12
+Start address of IOVA region for MSI mappings
+.SH "DESCRIPTION"
+Users who manage their own IOVA allocation and do not want DMA API support,
+but would still like to take advantage of automatic MSI remapping, can use
+this to initialise their own domain appropriately. Users should reserve a
+contiguous IOVA region, starting at \fIbase\fP, large enough to accommodate the
+number of PAGE_SIZE mappings necessary to cover every MSI doorbell address
+used by the devices attached to \fIdomain\fP.

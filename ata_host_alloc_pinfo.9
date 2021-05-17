@@ -1,0 +1,24 @@
+.TH "ata_host_alloc_pinfo" 9 "ata_host_alloc_pinfo" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ata_host_alloc_pinfo \- alloc host and init with port_info array
+.SH SYNOPSIS
+.B "struct ata_host *" ata_host_alloc_pinfo
+.BI "(struct device *dev "  ","
+.BI "const struct ata_port_info * const * ppi "  ","
+.BI "int n_ports "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+generic device this host is associated with
+.IP "ppi" 12
+array of ATA port_info to initialize host with
+.IP "n_ports" 12
+number of ATA ports attached to this host
+
+Allocate ATA host and initialize with info from \fIppi\fP.  If NULL
+terminated, \fIppi\fP may contain fewer entries than \fIn_ports\fP.  The
+last entry will be used for the remaining ports.
+.SH "RETURN"
+Allocate ATA host on success, NULL on failure.
+
+LOCKING:
+Inherited from calling layer (may sleep).

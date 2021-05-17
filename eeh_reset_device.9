@@ -1,0 +1,22 @@
+.TH "eeh_reset_device" 9 "eeh_reset_device" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+eeh_reset_device \- Perform actual reset of a pci slot
+.SH SYNOPSIS
+.B "int" eeh_reset_device
+.BI "(struct eeh_pe *pe "  ","
+.BI "struct pci_bus *bus "  ","
+.BI "struct eeh_rmv_data *rmv_data "  ","
+.BI "bool driver_eeh_aware "  ");"
+.SH ARGUMENTS
+.IP "pe" 12
+EEH PE
+.IP "bus" 12
+PCI bus corresponding to the isolcated slot
+.IP "rmv_data" 12
+Optional, list to record removed devices
+.IP "driver_eeh_aware" 12
+Does the device's driver provide EEH support?
+.SH "DESCRIPTION"
+This routine must be called to do reset on the indicated PE.
+During the reset, udev might be invoked because those affected
+PCI devices will be removed and then added.

@@ -1,0 +1,21 @@
+.TH "rxrpc_kernel_set_tx_length" 9 "rxrpc_kernel_set_tx_length" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rxrpc_kernel_set_tx_length \- Set the total Tx length on a call
+.SH SYNOPSIS
+.B "void" rxrpc_kernel_set_tx_length
+.BI "(struct socket *sock "  ","
+.BI "struct rxrpc_call *call "  ","
+.BI "s64 tx_total_len "  ");"
+.SH ARGUMENTS
+.IP "sock" 12
+The socket the call is on
+.IP "call" 12
+The call to be informed
+.IP "tx_total_len" 12
+The amount of data to be transmitted for this call
+.SH "DESCRIPTION"
+Allow a kernel service to set the total transmit length on a call.  This
+allows buffer-to-packet encrypt-and-copy to be performed.
+
+This function is primarily for use for setting the reply length since the
+request length can be set when beginning the call.

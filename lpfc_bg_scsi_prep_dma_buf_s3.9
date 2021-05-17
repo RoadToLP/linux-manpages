@@ -1,0 +1,19 @@
+.TH "lpfc_bg_scsi_prep_dma_buf_s3" 9 "lpfc_bg_scsi_prep_dma_buf_s3" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_bg_scsi_prep_dma_buf_s3 \- DMA mapping for scsi buffer to SLI3 IF spec
+.SH SYNOPSIS
+.B "int" lpfc_bg_scsi_prep_dma_buf_s3
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_io_buf *lpfc_cmd "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+The Hba for which this call is being executed.
+.IP "lpfc_cmd" 12
+The scsi buffer which is going to be prep'ed.
+.SH "DESCRIPTION"
+This is the protection/DIF aware version of
+\fBlpfc_scsi_prep_dma_buf\fP. It may be a good idea to combine the
+two functions eventually, but for now, it's here.
+RETURNS 0 - SUCCESS,
+1 - Failed DMA map, retry.
+2 - Invalid scsi cmd or prot-type. Do not rety.

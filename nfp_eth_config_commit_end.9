@@ -1,0 +1,18 @@
+.TH "nfp_eth_config_commit_end" 9 "nfp_eth_config_commit_end" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nfp_eth_config_commit_end \- perform recorded configuration changes
+.SH SYNOPSIS
+.B "int" nfp_eth_config_commit_end
+.BI "(struct nfp_nsp *nsp "  ");"
+.SH ARGUMENTS
+.IP "nsp" 12
+NFP NSP handle returned from \fBnfp_eth_config_start\fP
+.SH "DESCRIPTION"
+Perform the configuration which was requested with __nfp_eth_set_*()
+helpers and recorded in \fInsp\fP state.  If device was already configured
+as requested or no __nfp_eth_set_*() operations were made no NSP command
+will be performed.
+.SH "RETURN"
+0 - configuration successful;
+1 - no changes were needed;
+-ERRNO - configuration failed.

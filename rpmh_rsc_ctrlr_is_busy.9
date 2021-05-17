@@ -1,0 +1,19 @@
+.TH "rpmh_rsc_ctrlr_is_busy" 9 "rpmh_rsc_ctrlr_is_busy" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmh_rsc_ctrlr_is_busy \- Check if any of the AMCs are busy.
+.SH SYNOPSIS
+.B "bool" rpmh_rsc_ctrlr_is_busy
+.BI "(struct rsc_drv *drv "  ");"
+.SH ARGUMENTS
+.IP "drv" 12
+The controller
+.SH "DESCRIPTION"
+Checks if any of the AMCs are busy in handling ACTIVE sets.
+This is called from the last cpu powering down before flushing
+SLEEP and WAKE sets. If AMCs are busy, controller can not enter
+power collapse, so deny from the last cpu's pm notification.
+.SH "CONTEXT"
+Must be called with the drv->lock held.
+.SH "RETURN"
+* False              - AMCs are idle
+* True               - AMCs are busy

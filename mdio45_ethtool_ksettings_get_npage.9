@@ -1,0 +1,25 @@
+.TH "mdio45_ethtool_ksettings_get_npage" 9 "mdio45_ethtool_ksettings_get_npage" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+mdio45_ethtool_ksettings_get_npage \- get settings for ETHTOOL_GLINKSETTINGS
+.SH SYNOPSIS
+.B "void" mdio45_ethtool_ksettings_get_npage
+.BI "(const struct mdio_if_info *mdio "  ","
+.BI "struct ethtool_link_ksettings *cmd "  ","
+.BI "u32 npage_adv "  ","
+.BI "u32 npage_lpa "  ");"
+.SH ARGUMENTS
+.IP "mdio" 12
+MDIO interface
+.IP "cmd" 12
+Ethtool request structure
+.IP "npage_adv" 12
+Modes currently advertised on next pages
+.IP "npage_lpa" 12
+Modes advertised by link partner on next pages
+.SH "DESCRIPTION"
+The \fIcmd\fP parameter is expected to have been cleared before calling
+\fBmdio45_ethtool_ksettings_get_npage\fP.
+
+Since the CSRs for auto-negotiation using next pages are not fully
+standardised, this function does not attempt to decode them.  The
+caller must pass them in.

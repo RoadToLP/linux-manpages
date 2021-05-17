@@ -1,0 +1,19 @@
+.TH "throttlectl_cpu_level_select" 9 "throttlectl_cpu_level_select" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+throttlectl_cpu_level_select \- program CPU pulse skipper config
+.SH SYNOPSIS
+.B "void" throttlectl_cpu_level_select
+.BI "(struct tegra_soctherm *ts "  ","
+.BI "enum soctherm_throttle_id throt "  ");"
+.SH ARGUMENTS
+.IP "ts" 12
+pointer to a struct tegra_soctherm
+.IP "throt" 12
+the LIGHT/HEAVY of throttle event id
+.SH "DESCRIPTION"
+Pulse skippers are used to throttle clock frequencies.  This
+function programs the pulse skippers based on \fIthrot\fP and platform
+data.  This function is used on SoCs which have CPU-local pulse
+skipper control, such as T13x. It programs soctherm's interface to
+Denver:CCROC NV_THERM in terms of Low, Medium and HIGH throttling
+vectors. PSKIP_BYPASS mode is set as required per HW spec.

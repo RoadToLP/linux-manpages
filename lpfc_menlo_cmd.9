@@ -1,0 +1,14 @@
+.TH "lpfc_menlo_cmd" 9 "lpfc_menlo_cmd" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_menlo_cmd \- send an ioctl for menlo hardware
+.SH SYNOPSIS
+.B "int" lpfc_menlo_cmd
+.BI "(struct bsg_job *job "  ");"
+.SH ARGUMENTS
+.IP "job" 12
+fc_bsg_job to handle
+.SH "DESCRIPTION"
+This function issues a gen request 64 CR ioctl for all menlo cmd requests,
+all the command completions will return the xri for the command.
+For menlo data requests a gen request 64 CX is used to continue the exchange
+supplied in the menlo request header xri field.

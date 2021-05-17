@@ -1,0 +1,44 @@
+.TH "ecryptfs_write_headers_virt" 9 "ecryptfs_write_headers_virt" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ecryptfs_write_headers_virt \- 
+.SH SYNOPSIS
+.B "int" ecryptfs_write_headers_virt
+.BI "(char *page_virt "  ","
+.BI "size_t max "  ","
+.BI "size_t *size "  ","
+.BI "struct ecryptfs_crypt_stat *crypt_stat "  ","
+.BI "struct dentry *ecryptfs_dentry "  ");"
+.SH ARGUMENTS
+.IP "page_virt" 12
+The virtual address to write the headers to
+.IP "max" 12
+The size of memory allocated at page_virt
+.IP "size" 12
+Set to the number of bytes written by this function
+.IP "crypt_stat" 12
+The cryptographic context
+.IP "ecryptfs_dentry" 12
+The eCryptfs dentry
+.SH "DESCRIPTION"
+Format version: 1
+
+Header Extent:
+Octets 0-7:        Unencrypted file size (big-endian)
+Octets 8-15:       eCryptfs special marker
+Octets 16-19:      Flags
+Octet 16:         File format version number (between 0 and 255)
+Octets 17-18:     Reserved
+Octet 19:         Bit 1 (lsb): Reserved
+Bit 2: Encrypted?
+Bits 3-8: Reserved
+Octets 20-23:      Header extent size (big-endian)
+Octets 24-25:      Number of header extents at front of file
+(big-endian)
+Octet  26:         Begin RFC 2440 authentication token packet set
+Data Extent 0:
+Lower data (CBC encrypted)
+Data Extent 1:
+Lower data (CBC encrypted)
+\&...
+
+Returns zero on success

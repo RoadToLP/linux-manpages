@@ -1,0 +1,21 @@
+.TH "_add_initiator_dep" 9 "_add_initiator_dep" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_add_initiator_dep \- prevent @oh from smart-idling while @init_oh is active
+.SH SYNOPSIS
+.B "int" _add_initiator_dep
+.BI "(struct omap_hwmod *oh "  ","
+.BI "struct omap_hwmod *init_oh "  ");"
+.SH ARGUMENTS
+.IP "oh" 12
+struct omap_hwmod *
+.IP "init_oh" 12
+-- undescribed --
+.SH "DESCRIPTION"
+Prevent the hardware module \fIoh\fP from entering idle while the
+hardare module initiator \fIinit_oh\fP is active.  Useful when a module
+will be accessed by a particular initiator (e.g., if a module will
+be accessed by the IVA, there should be a sleepdep between the IVA
+initiator and the module).  Only applies to modules in smart-idle
+mode.  If the clockdomain is marked as not needing autodeps, return
+0 without doing anything.  Otherwise, returns -EINVAL upon error or
+passes along \fBclkdm_add_sleepdep\fP value upon success.

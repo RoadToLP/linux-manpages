@@ -1,0 +1,23 @@
+.TH "maybe_create_worker" 9 "maybe_create_worker" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+maybe_create_worker \- create a new worker if necessary
+.SH SYNOPSIS
+.B "void" maybe_create_worker
+.BI "(struct worker_pool *pool "  ");"
+.SH ARGUMENTS
+.IP "pool" 12
+pool to create a new worker for
+.SH "DESCRIPTION"
+Create a new worker for \fIpool\fP if necessary.  \fIpool\fP is guaranteed to
+have at least one idle worker on return from this function.  If
+creating a new worker takes longer than MAYDAY_INTERVAL, mayday is
+sent to all rescuers with works scheduled on \fIpool\fP to resolve
+possible allocation deadlock.
+
+On return, \fBneed_to_create_worker\fP is guaranteed to be false and
+\fBmay_start_working\fP true.
+
+LOCKING:
+raw_spin_lock_irq(pool->lock) which may be released and regrabbed
+multiple times.  Does GFP_KERNEL allocations.  Called only from
+manager.

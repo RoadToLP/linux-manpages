@@ -1,0 +1,17 @@
+.TH "e1000_get_cfg_done_ich8lan" 9 "e1000_get_cfg_done_ich8lan" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+e1000_get_cfg_done_ich8lan \- Read config done bit after Full or PHY reset
+.SH SYNOPSIS
+.B "s32" e1000_get_cfg_done_ich8lan
+.BI "(struct e1000_hw *hw "  ");"
+.SH ARGUMENTS
+.IP "hw" 12
+pointer to the HW structure
+
+Read appropriate register for the config done bit for completion status
+and configure the PHY through s/w for EEPROM-less parts.
+.SH "NOTE"
+some silicon which is EEPROM-less will fail trying to read the
+config done bit, so only an error is logged and continues.  If we were
+to return with error, EEPROM-less silicon would not be able to be reset
+or change link.

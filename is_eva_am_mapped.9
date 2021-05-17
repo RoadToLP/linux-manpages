@@ -1,0 +1,21 @@
+.TH "is_eva_am_mapped" 9 "is_eva_am_mapped" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+is_eva_am_mapped \- Find whether an access mode is mapped.
+.SH SYNOPSIS
+.B "bool" is_eva_am_mapped
+.BI "(struct kvm_vcpu *vcpu "  ","
+.BI "unsigned int am "  ","
+.BI "bool eu "  ");"
+.SH ARGUMENTS
+.IP "vcpu" 12
+KVM VCPU state.
+.IP "am" 12
+3-bit encoded access mode.
+.IP "eu" 12
+Segment becomes unmapped and uncached when Status.ERL=1.
+.SH "DESCRIPTION"
+Decode \fIam\fP to find whether it encodes a mapped segment for the current VCPU
+state. Where necessary \fIeu\fP and the actual instruction causing the fault are
+taken into account to make the decision.
+.SH "RETURN"
+Whether the VCPU faulted on a TLB mapped address.

@@ -1,0 +1,16 @@
+.TH "consolidate" 9 "consolidate" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+consolidate \- consolidate the orphan area.
+.SH SYNOPSIS
+.B "int" consolidate
+.BI "(struct ubifs_info *c "  ");"
+.SH ARGUMENTS
+.IP "c" 12
+UBIFS file-system description object
+.SH "DESCRIPTION"
+This function enables consolidation by putting all the orphans into the list
+to commit. The list is in the order that the orphans were added, and the
+LEBs are written atomically in order, so at no time can orphans be lost by
+an unclean unmount.
+
+This function returns 0 on success and a negative error code on failure.

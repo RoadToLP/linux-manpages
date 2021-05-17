@@ -1,0 +1,28 @@
+.TH "iscsi_tcp_segment_recv" 9 "iscsi_tcp_segment_recv" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+iscsi_tcp_segment_recv \- copy data to segment
+.SH SYNOPSIS
+.B "int" iscsi_tcp_segment_recv
+.BI "(struct iscsi_tcp_conn *tcp_conn "  ","
+.BI "struct iscsi_segment *segment "  ","
+.BI "const void *ptr "  ","
+.BI "unsigned int len "  ");"
+.SH ARGUMENTS
+.IP "tcp_conn" 12
+the iSCSI TCP connection
+.IP "segment" 12
+the buffer to copy to
+.IP "ptr" 12
+data pointer
+.IP "len" 12
+amount of data available
+.SH "DESCRIPTION"
+This function copies up to \fIlen\fP bytes to the
+given buffer, and returns the number of bytes
+consumed, which can actually be less than \fIlen\fP.
+
+If hash digest is enabled, the function will update the
+hash while copying.
+Combining these two operations doesn't buy us a lot (yet),
+but in the future we could implement combined copy+crc,
+just way we do for network layer checksums.

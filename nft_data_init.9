@@ -1,0 +1,27 @@
+.TH "nft_data_init" 9 "nft_data_init" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nft_data_init \- parse nf_tables data netlink attributes
+.SH SYNOPSIS
+.B "int" nft_data_init
+.BI "(const struct nft_ctx *ctx "  ","
+.BI "struct nft_data *data "  ","
+.BI "unsigned int size "  ","
+.BI "struct nft_data_desc *desc "  ","
+.BI "const struct nlattr *nla "  ");"
+.SH ARGUMENTS
+.IP "ctx" 12
+context of the expression using the data
+.IP "data" 12
+destination struct nft_data
+.IP "size" 12
+maximum data length
+.IP "desc" 12
+data description
+.IP "nla" 12
+netlink attribute containing data
+
+Parse the netlink data attributes and initialize a struct nft_data.
+The type and length of data are returned in the data description.
+
+The caller can indicate that it only wants to accept data of type
+NFT_DATA_VALUE by passing NULL for the ctx argument.

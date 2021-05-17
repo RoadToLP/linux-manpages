@@ -1,0 +1,24 @@
+.TH "nilfs_sufile_alloc" 9 "nilfs_sufile_alloc" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+nilfs_sufile_alloc \- allocate a segment
+.SH SYNOPSIS
+.B "int" nilfs_sufile_alloc
+.BI "(struct inode *sufile "  ","
+.BI "__u64 *segnump "  ");"
+.SH ARGUMENTS
+.IP "sufile" 12
+inode of segment usage file
+.IP "segnump" 12
+pointer to segment number
+.SH "DESCRIPTION"
+\fBnilfs_sufile_alloc\fP allocates a clean segment.
+
+Return Value: On success, 0 is returned and the segment number of the
+allocated segment is stored in the place pointed by \fIsegnump\fP. On error, one
+of the following negative error codes is returned.
+
+-EIO - I/O error.
+
+-ENOMEM - Insufficient amount of memory available.
+
+-ENOSPC - No clean segment left.

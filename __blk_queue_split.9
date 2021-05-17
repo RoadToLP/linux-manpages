@@ -1,0 +1,19 @@
+.TH "__blk_queue_split" 9 "__blk_queue_split" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__blk_queue_split \- split a bio and submit the second half
+.SH SYNOPSIS
+.B "void" __blk_queue_split
+.BI "(struct bio **bio "  ","
+.BI "unsigned int *nr_segs "  ");"
+.SH ARGUMENTS
+.IP "bio" 12
+[in, out] bio to be split
+.IP "nr_segs" 12
+[out] number of segments in the first bio
+.SH "DESCRIPTION"
+Split a bio into two bios, chain the two bios, submit the second half and
+store a pointer to the first half in *\fIbio\fP. If the second bio is still too
+big it will be split by a recursive call to this function. Since this
+function may allocate a new bio from q->bio_split, it is the responsibility
+of the caller to ensure that q->bio_split is only released after processing
+of the split bio has finished.

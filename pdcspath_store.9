@@ -1,0 +1,17 @@
+.TH "pdcspath_store" 9 "pdcspath_store" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+pdcspath_store \- This function writes a path to stable storage.
+.SH SYNOPSIS
+.B "void" pdcspath_store
+.BI "(struct pdcspath_entry *entry "  ");"
+.SH ARGUMENTS
+.IP "entry" 12
+A pointer to an allocated pdcspath_entry.
+.SH "DESCRIPTION"
+It can be used in two ways: either by passing it a preset devpath struct
+containing an already computed hardware path, or by passing it a device
+pointer, from which it'll find out the corresponding hardware path.
+For now we do not handle the case where there's an error in writing to the
+Stable Storage area, so you'd better not mess up the data :P
+
+This function expects to be called with \fIentry->rw_lock\fP write-hold.

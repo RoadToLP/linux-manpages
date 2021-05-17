@@ -1,0 +1,16 @@
+.TH "snd_hdac_power_up_pm" 9 "snd_hdac_power_up_pm" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+snd_hdac_power_up_pm \- power up the codec
+.SH SYNOPSIS
+.B "int" snd_hdac_power_up_pm
+.BI "(struct hdac_device *codec "  ");"
+.SH ARGUMENTS
+.IP "codec" 12
+the codec object
+.SH "DESCRIPTION"
+This function can be called in a recursive code path like init code
+which may be called by PM suspend/resume again.  OTOH, if a power-up
+call must wake up the sleeper (e.g. in a kctl callback), use
+\fBsnd_hdac_power_up\fP instead.
+
+Returns zero if successful, or a negative error code.

@@ -1,0 +1,13 @@
+.TH "klist_prev" 9 "klist_prev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+klist_prev \- Ante up prev node in list.
+.SH SYNOPSIS
+.B "struct klist_node *" klist_prev
+.BI "(struct klist_iter *i "  ");"
+.SH ARGUMENTS
+.IP "i" 12
+Iterator structure.
+.SH "DESCRIPTION"
+First grab list lock. Decrement the reference count of the previous
+node, if there was one. Grab the prev node, increment its reference
+count, drop the lock, and return that prev node.

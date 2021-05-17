@@ -1,0 +1,20 @@
+.TH "ubi_detach_mtd_dev" 9 "ubi_detach_mtd_dev" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+ubi_detach_mtd_dev \- detach an MTD device.
+.SH SYNOPSIS
+.B "int" ubi_detach_mtd_dev
+.BI "(int ubi_num "  ","
+.BI "int anyway "  ");"
+.SH ARGUMENTS
+.IP "ubi_num" 12
+UBI device number to detach from
+.IP "anyway" 12
+detach MTD even if device reference count is not zero
+.SH "DESCRIPTION"
+This function destroys an UBI device number \fIubi_num\fP and detaches the
+underlying MTD device. Returns zero in case of success and -EBUSY if the
+UBI device is busy and cannot be destroyed, and -EINVAL if it does not
+exist.
+
+Note, the invocations of this function has to be serialized by the
+\fIubi_devices_mutex\fP.

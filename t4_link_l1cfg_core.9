@@ -1,0 +1,32 @@
+.TH "t4_link_l1cfg_core" 9 "t4_link_l1cfg_core" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+t4_link_l1cfg_core \- apply link configuration to MAC/PHY
+.SH SYNOPSIS
+.B "int" t4_link_l1cfg_core
+.BI "(struct adapter *adapter "  ","
+.BI "unsigned int mbox "  ","
+.BI "unsigned int port "  ","
+.BI "struct link_config *lc "  ","
+.BI "u8 sleep_ok "  ","
+.BI "int timeout "  ");"
+.SH ARGUMENTS
+.IP "adapter" 12
+the adapter
+.IP "mbox" 12
+the Firmware Mailbox to use
+.IP "port" 12
+the Port ID
+.IP "lc" 12
+the Port's Link Configuration
+.IP "sleep_ok" 12
+if true we may sleep while awaiting command completion
+.IP "timeout" 12
+time to wait for command to finish before timing out
+(negative implies \fIsleep_ok\fP=false)
+
+Set up a port's MAC and PHY according to a desired link configuration.
+- If the PHY can auto-negotiate first decide what to advertise, then
+enable/disable auto-negotiation as desired, and reset.
+- If the PHY does not auto-negotiate just reset it.
+- If auto-negotiation is off set the MAC to the proper speed/duplex/FC,
+otherwise do it later based on the outcome of auto-negotiation.

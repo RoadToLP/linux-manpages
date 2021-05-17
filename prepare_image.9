@@ -1,0 +1,22 @@
+.TH "prepare_image" 9 "prepare_image" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+prepare_image \- Make room for loading hibernation image.
+.SH SYNOPSIS
+.B "int" prepare_image
+.BI "(struct memory_bitmap *new_bm "  ","
+.BI "struct memory_bitmap *bm "  ");"
+.SH ARGUMENTS
+.IP "new_bm" 12
+Unitialized memory bitmap structure.
+.IP "bm" 12
+Memory bitmap with unsafe pages marked.
+.SH "DESCRIPTION"
+Use \fIbm\fP to mark the pages that will be overwritten in the process of
+restoring the system memory state from the suspend image ("unsafe" pages)
+and allocate memory for the image.
+
+The idea is to allocate a new memory bitmap first and then allocate
+as many pages as needed for image data, but without specifying what those
+pages will be used for just yet.  Instead, we mark them all as allocated and
+create a lists of "safe" pages to be used later.  On systems with high
+memory a list of "safe" highmem pages is created too.

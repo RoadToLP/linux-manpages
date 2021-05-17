@@ -1,0 +1,20 @@
+.TH "__clocksource_register_scale" 9 "__clocksource_register_scale" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+__clocksource_register_scale \- Used to install new clocksources
+.SH SYNOPSIS
+.B "int" __clocksource_register_scale
+.BI "(struct clocksource *cs "  ","
+.BI "u32 scale "  ","
+.BI "u32 freq "  ");"
+.SH ARGUMENTS
+.IP "cs" 12
+clocksource to be registered
+.IP "scale" 12
+Scale factor multiplied against freq to get clocksource hz
+.IP "freq" 12
+clocksource frequency (cycles per second) divided by scale
+.SH "DESCRIPTION"
+Returns -EBUSY if registration fails, zero otherwise.
+
+This *SHOULD NOT* be called directly! Please use the
+\fBclocksource_register_hz\fP or clocksource_register_khz helper functions.

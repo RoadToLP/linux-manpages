@@ -1,0 +1,39 @@
+.TH "binder_validate_ptr" 9 "binder_validate_ptr" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+binder_validate_ptr \- validates binder_buffer_object in a binder_buffer.
+.SH SYNOPSIS
+.B "struct binder_buffer_object *" binder_validate_ptr
+.BI "(struct binder_proc *proc "  ","
+.BI "struct binder_buffer *b "  ","
+.BI "struct binder_object *object "  ","
+.BI "binder_size_t index "  ","
+.BI "binder_size_t start_offset "  ","
+.BI "binder_size_t *object_offsetp "  ","
+.BI "binder_size_t num_valid "  ");"
+.SH ARGUMENTS
+.IP "proc" 12
+binder_proc owning the buffer
+.IP "b" 12
+binder_buffer containing the object
+.IP "object" 12
+struct binder_object to read into
+.IP "index" 12
+index in offset array at which the binder_buffer_object is
+located
+.IP "start_offset" 12
+points to the start of the offset array
+.IP "object_offsetp" 12
+offset of \fIobject\fP read from \fIb\fP
+.IP "num_valid" 12
+the number of valid offsets in the offset array
+.SH "RETURN"
+If \fIindex\fP is within the valid range of the offset array
+described by \fIstart\fP and \fInum_valid\fP, and if there's a valid
+binder_buffer_object at the offset found in index \fIindex\fP
+of the offset array, that object is returned. Otherwise,
+NULL is returned.
+Note that the offset found in index \fIindex\fP itself is not
+verified; this function assumes that \fInum_valid\fP elements
+from \fIstart\fP were previously verified to have valid offsets.
+If \fIobject_offsetp\fP is non-NULL, then the offset within
+\fIb\fP is written to it.

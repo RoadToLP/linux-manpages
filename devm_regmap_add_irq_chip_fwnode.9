@@ -1,0 +1,35 @@
+.TH "devm_regmap_add_irq_chip_fwnode" 9 "devm_regmap_add_irq_chip_fwnode" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+devm_regmap_add_irq_chip_fwnode \- Resource managed regmap_add_irq_chip_fwnode()
+.SH SYNOPSIS
+.B "int" devm_regmap_add_irq_chip_fwnode
+.BI "(struct device *dev "  ","
+.BI "struct fwnode_handle *fwnode "  ","
+.BI "struct regmap *map "  ","
+.BI "int irq "  ","
+.BI "int irq_flags "  ","
+.BI "int irq_base "  ","
+.BI "const struct regmap_irq_chip *chip "  ","
+.BI "struct regmap_irq_chip_data **data "  ");"
+.SH ARGUMENTS
+.IP "dev" 12
+The device pointer on which irq_chip belongs to.
+.IP "fwnode" 12
+The firmware node where the IRQ domain should be added to.
+.IP "map" 12
+The regmap for the device.
+.IP "irq" 12
+The IRQ the device uses to signal interrupts
+.IP "irq_flags" 12
+The IRQF_ flags to use for the primary interrupt.
+.IP "irq_base" 12
+Allocate at specific IRQ number if irq_base > 0.
+.IP "chip" 12
+Configuration for the interrupt controller.
+.IP "data" 12
+Runtime data structure for the controller, allocated on success
+.SH "DESCRIPTION"
+Returns 0 on success or an errno on failure.
+
+The \fIregmap_irq_chip_data\fP will be automatically released when the device is
+unbound.

@@ -1,0 +1,21 @@
+.TH "lpfc_sli4_sp_handle_mcqe" 9 "lpfc_sli4_sp_handle_mcqe" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+lpfc_sli4_sp_handle_mcqe \- Process a mailbox completion queue entry
+.SH SYNOPSIS
+.B "bool" lpfc_sli4_sp_handle_mcqe
+.BI "(struct lpfc_hba *phba "  ","
+.BI "struct lpfc_queue *cq "  ","
+.BI "struct lpfc_cqe *cqe "  ");"
+.SH ARGUMENTS
+.IP "phba" 12
+Pointer to HBA context object.
+.IP "cq" 12
+Pointer to associated CQ
+.IP "cqe" 12
+Pointer to mailbox completion queue entry.
+.SH "DESCRIPTION"
+This routine process a mailbox completion queue entry, it invokes the
+proper mailbox complete handling or asynchronous event handling routine
+according to the MCQE's async bit.
+.SH "RETURN"
+true if work posted to worker thread, otherwise false.

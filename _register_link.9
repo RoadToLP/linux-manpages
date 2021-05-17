@@ -1,0 +1,18 @@
+.TH "_register_link" 9 "_register_link" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+_register_link \- register a struct omap_hwmod_ocp_if
+.SH SYNOPSIS
+.B "int" _register_link
+.BI "(struct omap_hwmod_ocp_if *oi "  ");"
+.SH ARGUMENTS
+.IP "oi" 12
+struct omap_hwmod_ocp_if *
+.SH "DESCRIPTION"
+Registers the omap_hwmod_ocp_if record \fIoi\fP.  Returns -EEXIST if it
+has already been registered; -EINVAL if \fIoi\fP is NULL or if the
+record pointed to by \fIoi\fP is missing required fields; or 0 upon
+success.
+
+XXX The data should be copied into bootmem, so the original data
+should be marked __initdata and freed after init.  This would allow
+unneeded omap_hwmods to be freed on multi-OMAP configurations.

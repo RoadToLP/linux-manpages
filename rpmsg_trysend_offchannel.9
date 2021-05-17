@@ -1,0 +1,32 @@
+.TH "rpmsg_trysend_offchannel" 9 "rpmsg_trysend_offchannel" "May 2021" "Kernel Hacker's Manual" LINUX
+.SH NAME
+rpmsg_trysend_offchannel \- send a message using explicit src/dst addresses
+.SH SYNOPSIS
+.B "int" rpmsg_trysend_offchannel
+.BI "(struct rpmsg_endpoint *ept "  ","
+.BI "u32 src "  ","
+.BI "u32 dst "  ","
+.BI "void *data "  ","
+.BI "int len "  ");"
+.SH ARGUMENTS
+.IP "ept" 12
+the rpmsg endpoint
+.IP "src" 12
+source address
+.IP "dst" 12
+destination address
+.IP "data" 12
+payload of message
+.IP "len" 12
+length of payload
+.SH "DESCRIPTION"
+This function sends \fIdata\fP of length \fIlen\fP to the remote \fIdst\fP address,
+and uses \fIsrc\fP as the source address.
+The message will be sent to the remote processor which the \fIept\fP
+endpoint belongs to.
+In case there are no TX buffers available, the function will immediately
+return -ENOMEM without waiting until one becomes available.
+
+Can only be called from process context (for now).
+
+Returns 0 on success and an appropriate error value on failure.
